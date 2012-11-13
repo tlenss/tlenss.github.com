@@ -1,0 +1,338 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Cache data with Zend Framework and Memcached - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Last week i had the chance to work with memcache. Something i hadn&#8217;t done before. For caching i mostly rely on APC for bytecode. And file based &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tlenss.github.com/blog/2010/01/29/cache-data-with-zend-framework-and-memcached/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tlenss.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Cache Data With Zend Framework and Memcached</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-01-29T13:26:19+01:00" pubdate data-updated="true">Jan 29<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Last week i had the chance to work with memcache. Something i hadn&#8217;t done before. For caching i mostly rely on APC for bytecode. And file based caching for content. Using memecache extension for PHP and de memcached service gives a whole range of features for caching data. And an easy way to manage all this cached data.</p>
+
+<p>The project i am working on is based on Zend Framework. And there for this post will reflect working with memcache in ZF only. With ZF and memcache it&#8217;s possible to do frontend and backend caching. I will focuse on the backend side for now. But will setup the frontend as well.</p>
+
+<p>If you don&#8217;t have memcache installed do it now. It&#8217;s not that hard. On my debian box it went somethign like this:</p>
+
+<blockquote><p>$ aptitude install memcached
+$ aptitude install php5-memcache</p></blockquote>
+
+<p>Now a days evrything seems to go automatic. So no need to edit the php.ini or anyhting. To check if PHP loaded the memcache extension you can do:</p>
+
+<blockquote><p>$ php -m | grep memcache
+memcache</p></blockquote>
+
+<p>Memached is automatically started after install. So let&#8217;s check if everything went ok.</p>
+
+<blockquote><p>$ ps -aux | grep memcached
+nobody   20965  0.0  0.5  42900 23072 ?        S    Jan28   0:01 /usr/bin/memcached -m 64 -p 11211 -u nobody -l 127.0.0.1
+root     22393  0.0  0.0  87940   776 pts/0    R+   12:06   0:00 grep memcached</p>
+
+<p>$ netstat -an | grep 11211
+tcp        0      0 127.0.0.1:11211         0.0.0.0:*               LISTEN</p></blockquote>
+
+<p>Looking good. Now it&#8217;s time to do some configuration in ZF.</p>
+
+<p>First of the frontend settings. With &#8216;type&#8217; we set the cache method for the frontend. We chose the standard Core class for this. With &#8216;lifetime&#8217; we set the time for which a cached entity is valid. The &#8216;cache_id_prefix&#8217; is a nice way to group for instnace cache data by controller. So just give it a name.</p>
+
+<blockquote><p>cache.frontend.type = Core
+cache.frontend.options.lifetime = 600
+cache.frontend.options.automatic_serialization = true
+cache.frontend.options.cache_id_prefix = [some string]
+cache.frontend.options.cache = true</p></blockquote>
+
+<p>Now it&#8217;s the backends turn to get configured. For &#8216;type&#8217; we choose Memcached. More types are available. For more info read the ZF manual. The rest of the settings are basic memcached settings like host, port and persitance.</p>
+
+<blockquote><p>cache.backend.type = Memcached
+cache.backend.options.servers.1.host = 127.0.0.1
+cache.backend.options.servers.1.port = 11211
+cache.backend.options.servers.1.persistent = true
+cache.backend.options.servers.1.weight = 1
+cache.backend.options.servers.1.timeout = 5
+cache.backend.options.servers.1.retry_interval = 15</p></blockquote>
+
+<p>Finally we can do some PHP code. To get the cache instance setup we add a _initCache() method to the bootstrap class. Inside this method we retrieve the config options by calling getOptions(). And setup the cache object. Which is then stored in the Registry for later use.</p>
+
+<pre><code>protected function _initCache()
+{
+        $options = $this-&gt;getOptions();
+
+        if (isset($options['cache'])) {
+            $cache = Zend_Cache::factory(
+                $options['cache']['frontend']['type'],
+                $options['cache']['backend']['type'],
+                $options['cache']['frontend']['options'],
+                $options['cache']['backend']['options']
+            );
+
+            Zend_Registry::set('cache', $cache);
+            return $cache;
+        }
+}
+</code></pre>
+
+<p>That&#8217;s all set. I used the caching for some REST service responses. So i will stick to that in this post as well. The class has a method for adding a cache object.</p>
+
+<pre><code>public function setCache(Zend_Cache_Core $cache) {
+    $this-&gt;cache = $cache;
+}
+</code></pre>
+
+<p>So fetching the cache instance and passing it to the REST client will look something like this:</p>
+
+<pre><code>$cache = Zend_Registry::get('cache');
+$cache-&gt;setLifetime(86400);
+
+$client = new Client();
+$client-&gt;setCache($cache);
+</code></pre>
+
+<p>The first thing we do inside the calling method is set a unique key for the cache entry.</p>
+
+<pre><code>$cache_id = 'getPage_' . $this-&gt;getDomain()
+            . $this-&gt;getPageName()
+            . $this-&gt;getCountry();
+</code></pre>
+
+<p>Then we check if the cache object is set. If that&#8217;s the case we check to see if the unique key is already available in the cache.</p>
+
+<pre><code>if (!isset($this-&gt;cache) || !($ret = $this-&gt;cache-&gt;load($cache_id))) {
+</code></pre>
+
+<p>If a value is returned from the cahce we will return it. If not then we will do the webservice call and store the return data in cache.</p>
+
+<pre><code> $ret = $this-&gt;restClient-&gt;call('getPage', array());
+
+if (isset($this-&gt;cache)) {
+    $this-&gt;cache-&gt;save($ret, $cache_id);
+}
+</code></pre>
+
+<p>The complete method looks something like this.</p>
+
+<pre><code>protected function getPageFromWebservice()
+{
+        $cache_id = 'getPage_' . $this-&gt;getDomain()
+            . $this-&gt;getPageName()
+            . $this-&gt;getCountry();
+
+        if (!isset($this-&gt;cache) || !($ret = $this-&gt;cache-&gt;load($cache_id))) {
+            $ret = $this-&gt;restClient-&gt;call('getPage', array());
+
+            if (isset($this-&gt;cache)) {
+                $this-&gt;cache-&gt;save($ret, $cache_id);
+            }
+        }
+        return $ret;
+}
+</code></pre>
+
+<p>That&#8217;s all. It&#8217;s pretty basic stuff. But so cool!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-01-29T13:26:19+01:00" pubdate data-updated="true">Jan 29<span>th</span>, 2010</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/code/'>Code</a>, <a class='category' href='/blog/categories/php/'>PHP</a>, <a class='category' href='/blog/categories/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tlenss.github.com/blog/2010/01/29/cache-data-with-zend-framework-and-memcached/" data-via="" data-counturl="http://tlenss.github.com/blog/2010/01/29/cache-data-with-zend-framework-and-memcached/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2010/01/25/drag-drop-uploads-with-xmlhttprequest2-and-php/" title="Previous Post: Drag & drop Uploads with XMLHttpRequest2 and PHP">&laquo; Drag & drop Uploads with XMLHttpRequest2 and PHP</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2010/01/30/fixing-wp-e-commerce-for-ideal-payments/" title="Next Post: Fixing wp-e-commerce for iDEAL payments">Fixing wp-e-commerce for iDEAL payments &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/11/07/publish-google-reader-shared-items/">Publish Google Reader shared items</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/29/long-running-php-script-and-mysql-server-gone-away/">Long running PHP script and MySQL server gone away</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/25/git-rebase-on-pull-by-default/">Git: Rebase on pull by default</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/">Workaround Ubuntu 12.04 mysterious system freezes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/24/fixing-character-replacement-in-wordpress/">Fixing character replacement in Wordpress</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,256 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Google mod_pagespeed - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Yesterday Google released a beta version of their upcoming Apache module mod_pagespeed. And this seems like a very promising project indeed. It &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tlenss.github.com/blog/2010/11/04/google-mod_pagespeed/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tlenss.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Google Mod_pagespeed</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-11-04T23:05:42+01:00" pubdate data-updated="true">Nov 4<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Yesterday Google <a href="http://googlewebmastercentral.blogspot.com/2010/11/make-your-websites-run-faster.html">released</a> a <strong>beta</strong> version of their upcoming Apache module <a href="http://code.google.com/speed/page-speed/docs/using_mod.html">mod_pagespeed</a>.</p>
+
+<p>And this seems like a very promising project indeed. It mainly is a suite that provides web optimisation features to make your sites run faster. Right now 15 of such features are available.</p>
+
+<blockquote><p>including optimising caching, minimising client-server round trips and minimising payload size.</p></blockquote>
+
+<p>So no more manual image compressing and javascript, html and css minifying.</p>
+
+<p>It uses the Apache <em>SetOutputFilter</em> to register the output filter. And from thereon you can use <em>ModPagespeedEnableFilters</em> to enable certain filters.</p>
+
+<p>Filters like:</p>
+
+<blockquote><p><strong>add_head</strong>
+<em>Add the head section if missing</em></p></blockquote>
+
+<p><strong>move_css_to_head</strong>
+<em>Moves CSS into the head of the page (needs add_head)</em></p>
+
+<p><strong>combine_css</strong>
+<em>Combine multiple CSS tags into one.</em></p>
+
+<p><strong>rewrite_css,rewrite_javascript</strong>
+<em>Remove comments and white spaces</em></p>
+
+<p><strong>rewrite_images</strong>
+<em>Compress / re encode images</em></p>
+
+<p>More info about the filters can be found <a href="http://code.google.com/speed/page-speed/docs/filters.html">here</a></p>
+
+<p>So i went ahead and <a href="http://code.google.com/speed/page-speed/download.html">downloaded</a> the Debian version to give it a try. And as always it&#8217;s straight forward from here.</p>
+
+<blockquote><p>dpkg -i mod-pagespeed-beta_current_i386.deb</p></blockquote>
+
+<p>It hooks nicely into Apache and creates the .load and .conf files in <em>/etc/apache2/mods-available</em>. After a Apache restart everything looked fine. And the pages did seem to load faster. Google also offers a <a href="http://www.modpagespeed.com/">test suite</a> to see the result of this module in action.</p>
+
+<p>Running the tests showed a small speed increase. But at the moment my daytime hours are spend behind a horrible firewall that really screws with web output. So i have to redo those for more accurate results. Never the less. This is a module to keep an eye on.</p>
+
+<p>It&#8217;s still a very young project. And i did have some server issues today. So related or not. Be careful :)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-11-04T23:05:42+01:00" pubdate data-updated="true">Nov 4<span>th</span>, 2010</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/code/'>Code</a>, <a class='category' href='/blog/categories/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tlenss.github.com/blog/2010/11/04/google-mod_pagespeed/" data-via="" data-counturl="http://tlenss.github.com/blog/2010/11/04/google-mod_pagespeed/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2010/11/01/jquery-php-doing-simple-image-slicing/" title="Previous Post: Jquery & PHP doing simple image slicing">&laquo; Jquery & PHP doing simple image slicing</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2010/11/08/changing-mysql-for-mariadb/" title="Next Post: Changing Mysql for MariaDB">Changing Mysql for MariaDB &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/11/07/publish-google-reader-shared-items/">Publish Google Reader shared items</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/29/long-running-php-script-and-mysql-server-gone-away/">Long running PHP script and MySQL server gone away</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/25/git-rebase-on-pull-by-default/">Git: Rebase on pull by default</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/">Workaround Ubuntu 12.04 mysterious system freezes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/24/fixing-character-replacement-in-wordpress/">Fixing character replacement in Wordpress</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

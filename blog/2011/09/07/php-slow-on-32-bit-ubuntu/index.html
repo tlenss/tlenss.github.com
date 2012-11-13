@@ -1,0 +1,260 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>PHP slow on 32-bit Ubuntu - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="My last post was about the 32-bit integer issue i was having with PHP. And besides setting up a 64-bit server one of the solutions is to compile PHP &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tlenss.github.com/blog/2011/09/07/php-slow-on-32-bit-ubuntu/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tlenss.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">PHP Slow on 32-bit Ubuntu</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-07T14:09:44+02:00" pubdate data-updated="true">Sep 7<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>My last <a href="http://lenss.nl/2011/08/php5-filesize-limit-on-32-bit-system/">post</a> was about the 32-bit integer issue i was having with PHP. And besides setting up a 64-bit server one of the solutions is to compile PHP with the CFLAGS mentioned in my previous post.</p>
+
+<p>Intrigued by the fact that my 32-bit Ubuntu installation did not suffer from the same issue. I started to read the PHP5 changelog for Ubuntu.</p>
+
+<blockquote><p>CFLAGS=”-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64″ ./configure</p></blockquote>
+
+<p>But this has a negative side effect. Namely PHP running 50% slower then it should be. And to my surprise Ubuntu applies the CFLAGS above when compiling PHP5 for a 32-bit platform. So that would mean PHP on Ubuntu is always running 50% slower? Well according to <a href="https://bugs.php.net/bug.php?id=45942">this</a> is should be the case.</p>
+
+<p>I downloaded <a href="http://nl.php.net/get/php-5.3.8.tar.gz/from/a/mirror">php-5.3.8</a> from php.net and compiled two versions. One with the CFLAGS set for large files. And one normal without any changes. After that i downloaded the benchmark script from <a href="http://www.php-benchmark-script.com">php-benchmark-script.com</a>. And did a couple of runs on each of the two installs. The results are stunning.</p>
+
+<p><strong>PHP-5.3.8 compiled with large file support:</strong></p>
+
+<blockquote><p>test_math                 : 4.414 sec.
+test_stringmanipulation   : 4.968 sec.
+test_loops                : 3.529 sec.</p>
+
+<h2>test_ifelse               : 2.344 sec.</h2>
+
+<p>Total time:               : 15.255 sec.</p></blockquote>
+
+<p><strong>PHP-5.3.8 compiled without large file support:</strong></p>
+
+<blockquote><p>test_math                 : 2.274 sec.
+test_stringmanipulation   : 2.286 sec.
+test_loops                : 1.619 sec.</p>
+
+<h2>test_ifelse               : 1.228 sec.</h2>
+
+<p>Total time:               : 7.407 sec.</p></blockquote>
+
+<p>That&#8217;s pretty much a 50% speed decrease. One more thing i tried is adding the &#8216;AC_SYS_LARGEFILE&#8217; macro to configure.in and rebuild the configure script. But this had no effect at all.</p>
+
+<blockquote><p>$ cd php-5.3.8
+$ vi configure.in (add AC_SYS_LARGEFILE somewhere)
+$ export PHP_AUTOCONF=/usr/share/autoconf2.59
+$ ./buildconf &#8211;force</p></blockquote>
+
+<p>I then tried two things. First i build without the CFLAGS. But this didn&#8217;t seem to do much. Then i used the same configure script with the CFLAGS for large file support. But there was no speed increase measurable.</p>
+
+<p>So why would Ubuntu have made the choice to compile PHP with the large file support on a 32-bit platform? Are there really that much developers that work on large files in web / cli applications written in PHP? Enough to sacrifice a 50% speed decrease?</p>
+
+<p>I don&#8217;t really know the answer to that. But i will do my large file processing on 64-bit machines. And will compile PHP from scratch from now on. Until i have upgraded my aging hardware.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-07T14:09:44+02:00" pubdate data-updated="true">Sep 7<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/code/'>Code</a>, <a class='category' href='/blog/categories/php/'>PHP</a>, <a class='category' href='/blog/categories/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tlenss.github.com/blog/2011/09/07/php-slow-on-32-bit-ubuntu/" data-via="" data-counturl="http://tlenss.github.com/blog/2011/09/07/php-slow-on-32-bit-ubuntu/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/08/31/php5-filesize-limit-on-32-bit-system/" title="Previous Post: PHP5 filesize limit on 32-bit system">&laquo; PHP5 filesize limit on 32-bit system</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/09/12/the-current-state-of-ssl-and-the-future-of-authenticity/" title="Next Post: The current state of SSL And The Future Of Authenticity">The current state of SSL And The Future Of Authenticity &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/11/07/publish-google-reader-shared-items/">Publish Google Reader shared items</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/29/long-running-php-script-and-mysql-server-gone-away/">Long running PHP script and MySQL server gone away</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/25/git-rebase-on-pull-by-default/">Git: Rebase on pull by default</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/">Workaround Ubuntu 12.04 mysterious system freezes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/24/fixing-character-replacement-in-wordpress/">Fixing character replacement in Wordpress</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

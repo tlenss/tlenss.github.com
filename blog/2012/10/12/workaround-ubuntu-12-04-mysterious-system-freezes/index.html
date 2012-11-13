@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Workaround Ubuntu 12.04 mysterious system freezes - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="I have two machines running Ubuntu 12.04. One of them is very stable. And hardly ever gets rebooted. The other machine is displaying some odd &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tlenss.github.com/blog/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tlenss.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Workaround Ubuntu 12.04 Mysterious System Freezes</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-12T15:43:46+02:00" pubdate data-updated="true">Oct 12<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I have two machines running <a href="http://releases.ubuntu.com/12.04/">Ubuntu 12.04</a>. One of them is very stable. And hardly ever gets rebooted. The other machine is displaying some odd behavior every now and then. And with odd behavior i mean. It just completely freezing up. The only thing functioning at that moment is the mouse.</p>
+
+<p>I use this machine daily. And i can&#8217;t afford to lose work due to system crashes. So i could spend numerous hours trying to figure out what&#8217;s going on. But that&#8217;s probably something better left for the Ubuntu devs them selfs. Besides that there are plenty of bug reports floating around that describe this behavior. And one of those <a href="https://bugs.launchpad.net/ubuntu/+source/linux/+bug/999910">posts</a> seemed to resolve the issue for me.</p>
+
+<p>Apparently the bug that causes these crashes is fixed in 12.10. But the changes will only be backported when 12.10 is released. So that leaves me in quite a pickle. But according to the thread. Upgrading the kernel should do the trick. So that&#8217;s exactly what i did. The kernel packages i used can be found here <a href="http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/">http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/</a></p>
+
+<blockquote><p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-headers-3.4.0-030400_3.4.0-030400.201205210521_all.deb
+$ sudo dpkg -i linux-headers-3.4.0-030400_3.4.0-030400.201205210521_all.deb</p>
+
+<p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-headers-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb
+$ sudo dpkg -i linux-headers-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb</p>
+
+<p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-image-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb
+$ sudo dpkg -i linux-image-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb</p></blockquote>
+
+<p>This comes with a downside of course. All modules compiled for the current kernel need to be recompiled. And i haven&#8217;t figured out how to rebuild all of them at once. So i just ran the command below for <a href="https://www.virtualbox.org/">VirtualBox</a> and the <a href="http://www.nvidia.com">NVidia</a> drivers.</p>
+
+<blockquote><p>$ sudo dpkg-reconfigure package-name</p></blockquote>
+
+<p>It&#8217;s probably a better idea to keep the stable kernel for now. But if system crashes are really bugging you. Then this might resolve the issue. Just be careful.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-12T15:43:46+02:00" pubdate data-updated="true">Oct 12<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/-home/'>/home</a>, <a class='category' href='/blog/categories/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tlenss.github.com/blog/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/" data-via="" data-counturl="http://tlenss.github.com/blog/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/09/24/fixing-character-replacement-in-wordpress/" title="Previous Post: Fixing character replacement in Wordpress">&laquo; Fixing character replacement in Wordpress</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/10/25/git-rebase-on-pull-by-default/" title="Next Post: Git: Rebase on pull by default">Git: Rebase on pull by default &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/11/07/publish-google-reader-shared-items/">Publish Google Reader shared items</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/29/long-running-php-script-and-mysql-server-gone-away/">Long running PHP script and MySQL server gone away</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/25/git-rebase-on-pull-by-default/">Git: Rebase on pull by default</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/">Workaround Ubuntu 12.04 mysterious system freezes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/24/fixing-character-replacement-in-wordpress/">Fixing character replacement in Wordpress</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

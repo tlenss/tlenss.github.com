@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>PHP's current trend status - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Kevin Schroeder has a nice post about the current state of PHP in the TIOBE index. And i have seen this TIOBE index pop up every now and then in blog &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tlenss.github.com/blog/2011/03/06/phps-current-trend-status/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tlenss.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">PHP's Current Trend Status</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-06T18:09:32+01:00" pubdate data-updated="true">Mar 6<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Kevin Schroeder has a nice <a href="http://www.eschrade.com/page/what-to-make-of-tiobe-php/">post</a> about the current state of PHP in the <a href="http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html">TIOBE index</a>. And i have seen this TIOBE index pop up every now and then in blog posts. It never really interested me. I am not a big fan of trend statistics and certainly don&#8217;t care for what is the hottest language of the moment. But reading Kevin&#8217;s article got me interested. He mentions the fact that if you do manual searches on different search engine with a query like <a href="http://www.google.nl/search?source=ig&amp;hl=nl&amp;rlz=&amp;=&amp;q=%2B%22PHP+programming%22&amp;btnG=Google+zoeken&amp;aq=f&amp;aqi=&amp;aql=&amp;oq=">+&#8221;PHP programming&#8221;</a> vs <a href="http://www.google.nl/search?hl=nl&amp;q=%2B%22Python+programming%22&amp;btnG=Zoeken&amp;aq=f&amp;aqi=&amp;aql=&amp;oq=">+&#8221;Python programming&#8221;</a> you will get a different view then what the TIOBE index is displaying. And this is true. So let&#8217;s give that a try.</p>
+
+<blockquote><p>+&#8221;PHP programming&#8221;
+Google : 1.460.000
+Yahoo  : 132,000,000
+Bing    : 133.000.000
+Baidu  : 100,000,000</p></blockquote>
+
+<p>Let&#8217;s do the same for Python.</p>
+
+<blockquote><p>+&#8221;Python programming&#8221;
+Google : 952.000
+Yahoo  : 22,700,000
+Bing    : 27.200.000
+Baidu  : 1,860,000</p></blockquote>
+
+<p>But this only displays the fact that there is way more content about PHP on the web then there is about Python. It does not reflect the current request and interest in the two subjects. Plus i know some Python programmers. And i also know for a fact that the demand for Python developers has been growing slowly. More <a href="http://www.djangocon.eu/">conferences</a> are popping up. So the community is live and kicking. So how about the PHP community? There is still a steady flow of fresh content, <a href="http://www.phpdeveloper.org/">blog posts</a>, new and old conferences, activity in <a href="http://news.php.net/php.general">php.general</a> (dropped a little), new versions are delivered, <a href="http://news.php.net/php.internals">php.internals</a> is busy as always and the demand for PHP developers is at an all time high. At least here it is. So this community is live and kicking as well.</p>
+
+<p>So this got me reading the <a href="http://www.tiobe.com/index.php/content/paperinfo/tpci/tpci_definition.htm">TIOBE Programming Community Index Definition</a> to see if i could figure out how they calculate the final result. I am by no means a mathematics person. But the formula seems straight forward. What happens inside the hits() and hits50() function is not clear however. So matching their findings against mine is not really possible.</p>
+
+<blockquote><p>((hits(PL,SE1)/hits50(SE1) + &#8230; + hits(PL,SEn)/hits50(SEn))/n</p></blockquote>
+
+<p>So how else can we see the current state of PHP then. Let&#8217;s try Google trends. That&#8217;s what it&#8217;s there for.</p>
+
+<p><strong>Compare search requests for <a href="http://www.google.com/trends?q=PHP%2C+Python">&#8220;PHP&#8221; vs &#8220;Python&#8221;</a></strong></p>
+
+<p>Interesting results. This shows that the interest for PHP has been steadily dropping since somewhere around 2004. When people started getting scared of PHP5 i assume. Python on the other hand is nearly visible but steady.</p>
+
+<p><a href="http://lenss.nl/wp-content/uploads/2011/03/php-python.png"><img src="http://lenss.nl/wp-content/uploads/2011/03/php-python.png" alt="" /></a></p>
+
+<p><strong>Let&#8217;s try a more precise query <a href="http://www.google.com/trends?q=PHP+programming%2C+Python+programming&amp;ctab=0&amp;geo=all&amp;date=all&amp;sort=0">&#8220;PHP programming&#8221; vs &#8220;Python programming&#8221;</a></strong></p>
+
+<p>That will display something i did not hope for. But something i was expecting non the less. The interest for Python programming has risen over the past years.</p>
+
+<p><a href="http://lenss.nl/wp-content/uploads/2011/03/phppro-pythonpro.png"><img src="http://lenss.nl/wp-content/uploads/2011/03/phppro-pythonpro.png" alt="" /></a></p>
+
+<p><strong>One more comparison for the road <a href="http://www.google.com/trends?q=PHP+developer%2C+Python+developer&amp;ctab=0&amp;geo=all&amp;date=all&amp;sort=0">&#8220;PHP developer&#8221; vs &#8220;Python developer&#8221;</a></strong></p>
+
+<p>Well that&#8217;s kind of a relieve. It shows the demand for Python developers is growing. But they have a long way to go to catch up on PHP :)</p>
+
+<p><a href="http://lenss.nl/wp-content/uploads/2011/03/phpdev-pythondev.png"><img src="http://lenss.nl/wp-content/uploads/2011/03/phpdev-pythondev.png" alt="" /></a></p>
+
+<p>Conclusion for me is. I still have no clue what the TIOBE index does. Google trend shows a drop in PHP&#8217;s popularity and a rise in Pythons Popularity. Personally i don&#8217;t see much change in the PHP community compared to resent years. And i have no real opinion of what is going on inside the Python community. But i am happy to stick with PHP anyway.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-06T18:09:32+01:00" pubdate data-updated="true">Mar 6<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/code/'>Code</a>, <a class='category' href='/blog/categories/google/'>Google</a>, <a class='category' href='/blog/categories/php/'>PHP</a>, <a class='category' href='/blog/categories/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tlenss.github.com/blog/2011/03/06/phps-current-trend-status/" data-via="" data-counturl="http://tlenss.github.com/blog/2011/03/06/phps-current-trend-status/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/02/24/apache-ssl-client-side-certificate-data-in-php/" title="Previous Post: Apache SSL client side certificate data in PHP">&laquo; Apache SSL client side certificate data in PHP</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/03/15/vmware-workstation-listen-to-voice-of-the-customer/" title="Next Post: VMware Workstation Listen to voice of the customer">VMware Workstation Listen to voice of the customer &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/11/07/publish-google-reader-shared-items/">Publish Google Reader shared items</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/29/long-running-php-script-and-mysql-server-gone-away/">Long running PHP script and MySQL server gone away</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/25/git-rebase-on-pull-by-default/">Git: Rebase on pull by default</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/">Workaround Ubuntu 12.04 mysterious system freezes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/24/fixing-character-replacement-in-wordpress/">Fixing character replacement in Wordpress</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

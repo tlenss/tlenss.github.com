@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Google | My Octopress Blog]]></title>
+  <link href="http://tlenss.github.com/blog/categories/google/atom.xml" rel="self"/>
+  <link href="http://tlenss.github.com/"/>
+  <updated>2012-11-13T13:49:34+01:00</updated>
+  <id>http://tlenss.github.com/</id>
+  <author>
+    <name><![CDATA[Your Name]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Publish Google Reader shared items]]></title>
+    <link href="http://tlenss.github.com/blog/2012/11/07/publish-google-reader-shared-items/"/>
+    <updated>2012-11-07T15:55:26+01:00</updated>
+    <id>http://tlenss.github.com/blog/2012/11/07/publish-google-reader-shared-items</id>
+    <content type="html"><![CDATA[<p>A lot of people are using the shared items feature in <a href="http://www.google.nl/reader/">Google Reader</a> to publish what they are reading on a blog. It's like having a live blogroll widget on your website. And gives your readers a good impression of what you are actually interested in.</p>
+
+<p>I never bothered adding this to my blog. But i do like to share. So last night i was trying to figure out how to integrate this with my current blog. I was hoping for an easy implementation. But the information is scarce. So i had to do some digging. I did find a couple of <a href="https://www.google.nl/search?q=wordpress+plugin+google+reader">Wordpress plugins</a>. But most of them were not updated for at least a year. And i am not putting code like that life on my website.</p>
+
+<p>After some Googling i came across a couple of feed URL's that seem to share their <strong>shared</strong> items in feed form. Using the Google Reader URL and a user id. So the URL for my shared items would look like the one below. Getting your user id by the way is easy. Go to your Google reader page. Click all <strong>All items</strong> and the <strong>UID</strong> will show up in the address bar.</p>
+
+<blockquote><p>http://www.google.com/reader/shared/16525759780220726764</p></blockquote>
+
+<p>The problem with this however. Non of my shared posts show up on this page. And i have not figured out a way to populate it just yet. So i came up with an other path to get this data on my server.</p>
+
+<p>In the Google Reader pages it's possible to add sharing functionality. This is done by going to the <strong>Send To</strong> tab</p>
+
+<p><a href="http://lenss.nl/wp-content/uploads/2012/11/Send-To.png"><img src="http://lenss.nl/wp-content/uploads/2012/11/Send-To-300x22.png" alt="" /></a></p>
+
+<p>From here it's possible to select a service to share data with. Non of these services are any good for what i am trying to do. But the great thing about this page is. You can provide custom URL's for sharing data. Just incorporate the specified parameters in the URL and your done.</p>
+
+<p><a href="http://lenss.nl/wp-content/uploads/2012/11/Custom-Site.png"><img src="http://lenss.nl/wp-content/uploads/2012/11/Custom-Site-300x178.png" alt="" /></a></p>
+
+<p>Once configured and saved a custom URL is visible in the <strong>Send To</strong> panel</p>
+
+<p><a href="http://lenss.nl/wp-content/uploads/2012/11/Favorite-Site.png"><img src="http://lenss.nl/wp-content/uploads/2012/11/Favorite-Site-300x125.png" alt="" /></a></p>
+
+<p>That's it for this part. Actually sharing items is quite easy now. When back in the Google Reader under each post there is Send to link. If you click this link the newly created custom URL will show up. And you can share the post.</p>
+
+<p><a href="http://lenss.nl/wp-content/uploads/2012/11/Tag-Article.png"><img src="http://lenss.nl/wp-content/uploads/2012/11/Tag-Article-300x41.png" alt="" /></a></p>
+
+<p>The only thing left to do is write some code to process the incoming data. To get you started. Some of the code i used while testing this is posted below</p>
+
+<pre><code>Class GoogleReaderShare
+{
+    const GOOGLE_REMOTE_IP = '95.97.54.3';
+
+    const GOOGLE_REFERER = 'http://www.google.nl/reader/view/';
+
+    protected static $_whitelist = array('source', 'title', 'url', 'short');
+
+    public static function CheckSource($remoteAddr, $referer) 
+    {
+        if (($remoteAddr == self::GOOGLE_REMOTE_IP) 
+                &amp;&amp; ($referer == self::GOOGLE_REFERER)) {
+            return true;
+        }
+        return false;
+    }
+
+    protected static function _CheckIncomingData($data)
+    {
+        if (!is_array($data)) {
+            return false;
+        }
+
+        foreach ($data as $key =&gt; $value) {
+            if (!in_array($key, self::$_whitelist)) {
+                return false;
+            }
+        }
+    }
+
+    public static function Process($data) 
+    {
+        if (!self::_CheckIncomingData($data)) {
+            throw new Exception("Unrecognized or no incoming data");
+        }
+
+        // process the data
+    }
+}
+
+if (GoogleReaderShare::CheckSource($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_REFERER'])) {
+    GoogleReaderShare::Process($_GET);
+}
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[PHP's current trend status]]></title>
+    <link href="http://tlenss.github.com/blog/2011/03/06/phps-current-trend-status/"/>
+    <updated>2011-03-06T18:09:32+01:00</updated>
+    <id>http://tlenss.github.com/blog/2011/03/06/phps-current-trend-status</id>
+    <content type="html"><![CDATA[<p>Kevin Schroeder has a nice <a href="http://www.eschrade.com/page/what-to-make-of-tiobe-php/">post</a> about the current state of PHP in the <a href="http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html">TIOBE index</a>. And i have seen this TIOBE index pop up every now and then in blog posts. It never really interested me. I am not a big fan of trend statistics and certainly don't care for what is the hottest language of the moment. But reading Kevin's article got me interested. He mentions the fact that if you do manual searches on different search engine with a query like <a href="http://www.google.nl/search?source=ig&amp;hl=nl&amp;rlz=&amp;=&amp;q=%2B%22PHP+programming%22&amp;btnG=Google+zoeken&amp;aq=f&amp;aqi=&amp;aql=&amp;oq=">+"PHP programming"</a> vs <a href="http://www.google.nl/search?hl=nl&amp;q=%2B%22Python+programming%22&amp;btnG=Zoeken&amp;aq=f&amp;aqi=&amp;aql=&amp;oq=">+"Python programming"</a> you will get a different view then what the TIOBE index is displaying. And this is true. So let's give that a try.</p>
+
+<blockquote><p>+"PHP programming"
+Google : 1.460.000
+Yahoo  : 132,000,000
+Bing    : 133.000.000
+Baidu  : 100,000,000</p></blockquote>
+
+<p>Let's do the same for Python.</p>
+
+<blockquote><p>+"Python programming"
+Google : 952.000
+Yahoo  : 22,700,000
+Bing    : 27.200.000
+Baidu  : 1,860,000</p></blockquote>
+
+<p>But this only displays the fact that there is way more content about PHP on the web then there is about Python. It does not reflect the current request and interest in the two subjects. Plus i know some Python programmers. And i also know for a fact that the demand for Python developers has been growing slowly. More <a href="http://www.djangocon.eu/">conferences</a> are popping up. So the community is live and kicking. So how about the PHP community? There is still a steady flow of fresh content, <a href="http://www.phpdeveloper.org/">blog posts</a>, new and old conferences, activity in <a href="http://news.php.net/php.general">php.general</a> (dropped a little), new versions are delivered, <a href="http://news.php.net/php.internals">php.internals</a> is busy as always and the demand for PHP developers is at an all time high. At least here it is. So this community is live and kicking as well.</p>
+
+<p>So this got me reading the <a href="http://www.tiobe.com/index.php/content/paperinfo/tpci/tpci_definition.htm">TIOBE Programming Community Index Definition</a> to see if i could figure out how they calculate the final result. I am by no means a mathematics person. But the formula seems straight forward. What happens inside the hits() and hits50() function is not clear however. So matching their findings against mine is not really possible.</p>
+
+<blockquote><p>((hits(PL,SE1)/hits50(SE1) + ... + hits(PL,SEn)/hits50(SEn))/n</p></blockquote>
+
+<p>So how else can we see the current state of PHP then. Let's try Google trends. That's what it's there for.</p>
+
+<p><strong>Compare search requests for <a href="http://www.google.com/trends?q=PHP%2C+Python">"PHP" vs "Python"</a></strong></p>
+
+<p>Interesting results. This shows that the interest for PHP has been steadily dropping since somewhere around 2004. When people started getting scared of PHP5 i assume. Python on the other hand is nearly visible but steady.</p>
+
+<p><a href="http://lenss.nl/wp-content/uploads/2011/03/php-python.png"><img src="http://lenss.nl/wp-content/uploads/2011/03/php-python.png" alt="" /></a></p>
+
+<p><strong>Let's try a more precise query <a href="http://www.google.com/trends?q=PHP+programming%2C+Python+programming&amp;ctab=0&amp;geo=all&amp;date=all&amp;sort=0">"PHP programming" vs "Python programming"</a></strong></p>
+
+<p>That will display something i did not hope for. But something i was expecting non the less. The interest for Python programming has risen over the past years.</p>
+
+<p><a href="http://lenss.nl/wp-content/uploads/2011/03/phppro-pythonpro.png"><img src="http://lenss.nl/wp-content/uploads/2011/03/phppro-pythonpro.png" alt="" /></a></p>
+
+<p><strong>One more comparison for the road <a href="http://www.google.com/trends?q=PHP+developer%2C+Python+developer&amp;ctab=0&amp;geo=all&amp;date=all&amp;sort=0">"PHP developer" vs "Python developer"</a></strong></p>
+
+<p>Well that's kind of a relieve. It shows the demand for Python developers is growing. But they have a long way to go to catch up on PHP :)</p>
+
+<p><a href="http://lenss.nl/wp-content/uploads/2011/03/phpdev-pythondev.png"><img src="http://lenss.nl/wp-content/uploads/2011/03/phpdev-pythondev.png" alt="" /></a></p>
+
+<p>Conclusion for me is. I still have no clue what the TIOBE index does. Google trend shows a drop in PHP's popularity and a rise in Pythons Popularity. Personally i don't see much change in the PHP community compared to resent years. And i have no real opinion of what is going on inside the Python community. But i am happy to stick with PHP anyway.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Google mod_pagespeed continued]]></title>
+    <link href="http://tlenss.github.com/blog/2010/11/11/google-mod_pagespeed-continued/"/>
+    <updated>2010-11-11T12:08:45+01:00</updated>
+    <id>http://tlenss.github.com/blog/2010/11/11/google-mod_pagespeed-continued</id>
+    <content type="html"><![CDATA[<p>Last week i <a href="http://lenss.nl/2010/11/google-mod_pagespeed/">toyed</a> with <a href="http://code.google.com/p/modpagespeed/">mod_pagespeed</a> a bit. But just couldn't get the hang of it. So the last two days permitted me to play some more with this great Apache module. Only this time i choose to <a href="http://code.google.com/p/modpagespeed/wiki/HowToBuild">build from source</a> and ignore the binaries for a while.</p>
+
+<p>For me the main problem was. As soon as i enabled the module. It was active for all sites running on this server. And that should not be a problem. But some of these sites are Wordpress monsters. That are ready to take any server down with a bit of high load.</p>
+
+<p>So after a bit of trail and error. I figured out i could just disable mod_pagespeed globally by altering the main config file. After Apache reloaded mod_pagespeed was not active for the running sites.</p>
+
+<p>in /etc/apache2/mods-available/pagespeed.conf make sure ModPagespeed is set to 'off'</p>
+
+<blockquote><p>ModPagespeed off</p></blockquote>
+
+<p>So now i can simply enable settings i need on a per vhost basis. For this site end some other sites i used the following config section in my vhost.</p>
+
+<blockquote><h1>MOD-pagespeed</h1></blockquote>
+
+<pre><code>        SetOutputFilter MOD_PAGESPEED_OUTPUT_FILTER
+        ModPagespeed on
+
+        ModPagespeedUrlPrefix                "http://lenss.nl"
+
+        ModPagespeedFileCachePath            "/var/mod_pagespeed/cache/"
+        ModPagespeedGeneratedFilePrefix      "/var/mod_pagespeed/files/"
+
+        #ModPagespeedRewriteLevel CoreFilters
+        ModPagespeedRewriteLevel PassThrough
+
+        ModPagespeedEnableFilters add_head
+        ModPagespeedEnableFilters collapse_whitespace
+        ModPagespeedEnableFilters elide_attributes
+        ModPagespeedEnableFilters remove_comments
+        ModPagespeedEnableFilters rewrite_css
+        ModPagespeedEnableFilters rewrite_javascript
+        ModPagespeedEnableFilters move_css_to_head
+</code></pre>
+
+<p>First of we enable mod_pagespeed of course. And then we set the current domain for this instance. After that we set the file paths for the altered and cached files. And we use 'PassThrough' instead of 'CoreFilters'. So we can decide our self's what filters we will be using.</p>
+
+<p>This had a much better result then my previous attempts. The server was still happily serving pages. And the load was OK. So let's check the sites if mod_pagespeed is actually running.</p>
+
+<blockquote><p>$ wget -O /dev/null --server-response http://lenss.nl 2>&amp;1| grep -i 'X-Mod-Pagespeed'
+  X-Mod-Pagespeed: 0.9.0.0-172</p></blockquote>
+
+<p>Well that looks good. So now it's time to do some testing. And this leaves me with a bit of a pickle. As i don't have the required wget v 1.12 (i have a small patch for wget v1.11). Besides that i have some other problems running the tests</p>
+
+<blockquote><p>TEST: 404s are served and properly recorded.</p>
+
+<pre><code>  wget -O /dev/null http://lenss.nl/mod_pagespeed/ic.a.bad.css 2&gt;&amp;1| grep -q '404 Not Found'
+  wget -q -O - --save-headers http://localhost:80/mod_pagespeed_statistics | grep -q 'resource_404_count: 1'
+</code></pre>
+
+<p>FAIL.</p></blockquote>
+
+<p>This fails because the statistics page requested is not available because this site uses rewrites. And i haven't found a way to go around this yet besides disabling them in .htaccess with mod_rewrite. So shortly disabling this made it possible to run the biggest part of the test suite without problems.</p>
+
+<blockquote><p>resource_fetches: 2
+total_page_load_ms: 0
+page_load_count: 0
+cache_extensions: 0
+not_cacheable: 0
+css_file_count_reduction: 0
+css_filter_files_minified: 13
+css_filter_minified_bytes_saved: 5082
+css_filter_parse_failures: 0
+css_elements: 0
+image_inline: 0
+image_rewrite_saved_bytes: 0
+image_rewrites: 0
+javascript_blocks_minified: 15
+javascript_bytes_saved: 380
+javascript_minification_failures: 0
+javascript_total_blocks: 15
+resource_url_domain_rejections: 0
+url_trims: 0
+url_trim_saved_bytes: 0
+resource_404_count: 2
+slurp_404_count: 0
+serf_fetch_request_count: 0
+serf_fetch_bytes_count: 0
+serf_fetch_time_duration_ms: 0
+serf_fetch_cancel_count: 0</p></blockquote>
+
+<p>It fails on the image compression part and that's fine. Because i will leave that for later. So let's run the site through the pagespeed browser extension with mod_pagespeed disabled:</p>
+
+<blockquote><p>load time without : 2.193
+firebug/pagespeed score : 68</p></blockquote>
+
+<p>Now the same thing but with mod_pagespeed enabled:</p>
+
+<blockquote><p>Load time with : 1.284
+firebug/pagespeed score : 90</p></blockquote>
+
+<p>That looks pretty good. And the other sites i have tested preform way better with the mod_pagespeed module enabled.</p>
+
+<p>I still have some Javascript issues. Some things need further inspection because i have seen error like these coming along:</p>
+
+<blockquote><p>Permission denied for  to call method Location.toString on .</p></blockquote>
+
+<p>Besides that. This morning my site was down due to Apache spitting segfaults. I disabled the 'rewrite_javascript' filter for now. And it seems to run a bit more stable.</p>
+
+<blockquote><p>[Thu Nov 11 07:38:24 2010] [notice] child pid 23608 exit signal Segmentation fault (11)</p></blockquote>
+
+<p>So besides it being a beta i am pretty impressed by the current state of this module. And after running it for a couple of weeks the statistics are pretty impressive.</p>
+
+<p><img src="http://lenss.nl/wp-content/uploads/2010/12/page-speed.jpg" alt="" /></p>
+
+<p>Manuel Lemos also wrote a nice article about <a href="http://www.phpclasses.org/blog/post/135-Accelerate-Web-Pages-Automatically-using-Google-ModPageSpeed-Unusual-Site-Speedup-Techniques-Part-4.html">mod_pagespeed</a> which is worth reading.</p>
+]]></content>
+  </entry>
+  
+</feed>

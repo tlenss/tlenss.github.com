@@ -1,0 +1,408 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Just something funny - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="I cam across this page today and it made me laugh :) With thanks to the GNU jokes archive. How the way people code &#8220;Hello World&#8221; varies &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tlenss.github.com/blog/2010/11/01/just-something-funny/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tlenss.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Just Something Funny</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-11-01T10:32:09+01:00" pubdate data-updated="true">Nov 1<span>st</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I cam across this page today and it made me laugh :) With thanks to the <a href="http://www.gnu.org/fun/jokes/">GNU jokes archive</a>.</p>
+
+<p>How the way people code &#8220;Hello World&#8221; varies depending on their age and job:</p>
+
+<p><strong>High School/Jr. High</strong></p>
+
+<pre><code>10 PRINT "HELLO WORLD"
+ 20 END
+</code></pre>
+
+<p><strong>First year in College</strong></p>
+
+<blockquote><p>program Hello(input, output)
+ begin
+ writeln(&#8216;Hello World&#8217;)
+ end.</p></blockquote>
+
+<p>Senior year in College</p>
+
+<blockquote><p>(defun hello
+ (print
+ (cons &#8216;Hello (list &#8216;World))))</p></blockquote>
+
+<p><strong>New professional</strong></p>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+ void main(void)
+ {
+  char *message[] = {"Hello ", "World"};
+  int i;
+  for(i = 0; i &lt; 2; ++i)
+  printf("%s", message[i]);
+  printf("\n");
+ }
+</code></pre>
+
+<p><strong>Seasoned professional</strong></p>
+
+<pre><code>#include &lt;iostream.h&gt;
+ #include &lt;string.h&gt;
+ class string
+ {
+  private:
+   int size;
+   char *ptr;
+  public:
+   string() : size(0), ptr(new char('\0')) {}
+   string(const string &amp;s;) : size(s.size)
+   {
+     ptr = new char[size + 1];
+     strcpy(ptr, s.ptr);
+   }
+   ~string()
+   {
+     delete [] ptr;
+   }
+   friend ostream &amp;operator; &lt;&lt;(ostream &amp;, const string &amp;);
+   string &amp;operator;=(const char *);
+ };
+
+ ostream &amp;operator;&lt;&lt;(ostream &amp;stream;, const string &amp;s;)
+ {
+   return(stream &lt;&lt; s.ptr);
+ }
+ string &amp;string;::operator=(const char *chrs)
+ {
+   if (this != &amp;chrs;)
+   {
+     delete [] ptr;
+     size = strlen(chrs);
+     ptr = new char[size + 1];
+     strcpy(ptr, chrs);
+   }
+   return(*this);
+ }
+ int main()
+ {
+   string str;
+   str = "Hello World";
+   cout &lt;&lt; str &lt;&lt; endl;
+   return(0);
+ }
+</code></pre>
+
+<p><strong>System Administrator</strong></p>
+
+<pre><code>#include &lt;stdio.h&gt;
+ #include &lt;stdlib.h&gt;
+ main()
+ {
+  char *tmp;
+  int i=0;
+  /* on y va bourin */
+  tmp=(char *)malloc(1024*sizeof(char));
+  while (tmp[i]="Hello Wolrd"[i++]);
+  /* Ooopps y'a une infusion ! */
+  i=(int)tmp[8];
+  tmp[8]=tmp[9];
+  tmp[9]=(char)i;
+  printf("%s\n",tmp);
+ }
+</code></pre>
+
+<p><strong>Apprentice Hacker</strong></p>
+
+<pre><code>#!/usr/local/bin/perl
+ $msg="Hello, world.\n";
+ if ($#ARGV &gt;= 0) {
+     while(defined($arg=shift(@ARGV))) {
+     $outfilename = $arg;
+     open(FILE, "&gt;" . $outfilename) || die "Can't write $arg: $!\n";
+     print (FILE $msg);
+     close(FILE) || die "Can't close $arg: $!\n";
+     }
+ } else {
+     print ($msg);
+ }
+ 1;
+</code></pre>
+
+<p><strong>Experienced Hacker</strong></p>
+
+<pre><code> #include &lt;stdio.h&gt;
+ #include &lt;string.h&gt;
+ #define S "Hello, World\n"
+ main(){exit(printf(S) == strlen(S) ? 0 : 1);}
+</code></pre>
+
+<p><strong>Seasoned Hacker</strong></p>
+
+<pre><code> % cc -o a.out ~/src/misc/hw/hw.c
+ % a.out
+ Hello, world.
+</code></pre>
+
+<p><strong>Guru Hacker</strong></p>
+
+<blockquote><p>% cat
+ Hello, world.</p></blockquote>
+
+<p><strong>New Manager (do you remember?)</strong></p>
+
+<pre><code> 10 PRINT "HELLO WORLD"
+ 20 END
+</code></pre>
+
+<p><strong>Middle Manager</strong></p>
+
+<pre><code> mail -s "Hello, world." bob@b12
+ Bob, could you please write me a program that prints "Hello, world."?
+ I need it by tomorrow.
+ ^D
+</code></pre>
+
+<p><strong>Senior Manager</strong></p>
+
+<pre><code> % zmail jim
+ I need a "Hello, world." program by this afternoon.
+</code></pre>
+
+<p><strong>Chief Executive</strong></p>
+
+<pre><code>% letter
+ letter: Command not found.
+ % mail
+ To: ^X ^F ^C
+ % help mail
+ help: Command not found.
+ % damn!
+ !: Event unrecognized
+ % logout
+</code></pre>
+
+<p><strong>Research Scientist</strong></p>
+
+<blockquote><p>PROGRAM HELLO</p>
+
+<pre><code>PRINT *, 'Hello World'
+END
+</code></pre></blockquote>
+
+<p><strong>Older research Scientist</strong></p>
+
+<blockquote><p>WRITE (6, 100)</p>
+
+<pre><code>100 FORMAT (1H ,11HHELLO WORLD)
+CALL EXIT
+END
+</code></pre></blockquote>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-11-01T10:32:09+01:00" pubdate data-updated="true">Nov 1<span>st</span>, 2010</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/-home/'>/home</a>, <a class='category' href='/blog/categories/code/'>Code</a>, <a class='category' href='/blog/categories/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tlenss.github.com/blog/2010/11/01/just-something-funny/" data-via="" data-counturl="http://tlenss.github.com/blog/2010/11/01/just-something-funny/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2010/09/27/zend-studio-goes-virtual/" title="Previous Post: Zend Studio goes virtual">&laquo; Zend Studio goes virtual</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2010/11/01/jquery-php-doing-simple-image-slicing/" title="Next Post: Jquery & PHP doing simple image slicing">Jquery & PHP doing simple image slicing &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/11/07/publish-google-reader-shared-items/">Publish Google Reader shared items</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/29/long-running-php-script-and-mysql-server-gone-away/">Long running PHP script and MySQL server gone away</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/25/git-rebase-on-pull-by-default/">Git: Rebase on pull by default</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/">Workaround Ubuntu 12.04 mysterious system freezes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/24/fixing-character-replacement-in-wordpress/">Fixing character replacement in Wordpress</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,288 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Publish Google Reader shared items - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="A lot of people are using the shared items feature in Google Reader to publish what they are reading on a blog. It&#8217;s like having a live &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tlenss.github.com/blog/2012/11/07/publish-google-reader-shared-items/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tlenss.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Publish Google Reader Shared Items</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-07T15:55:26+01:00" pubdate data-updated="true">Nov 7<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>A lot of people are using the shared items feature in <a href="http://www.google.nl/reader/">Google Reader</a> to publish what they are reading on a blog. It&#8217;s like having a live blogroll widget on your website. And gives your readers a good impression of what you are actually interested in.</p>
+
+<p>I never bothered adding this to my blog. But i do like to share. So last night i was trying to figure out how to integrate this with my current blog. I was hoping for an easy implementation. But the information is scarce. So i had to do some digging. I did find a couple of <a href="https://www.google.nl/search?q=wordpress+plugin+google+reader">Wordpress plugins</a>. But most of them were not updated for at least a year. And i am not putting code like that life on my website.</p>
+
+<p>After some Googling i came across a couple of feed URL&#8217;s that seem to share their <strong>shared</strong> items in feed form. Using the Google Reader URL and a user id. So the URL for my shared items would look like the one below. Getting your user id by the way is easy. Go to your Google reader page. Click all <strong>All items</strong> and the <strong>UID</strong> will show up in the address bar.</p>
+
+<blockquote><p>http://www.google.com/reader/shared/16525759780220726764</p></blockquote>
+
+<p>The problem with this however. Non of my shared posts show up on this page. And i have not figured out a way to populate it just yet. So i came up with an other path to get this data on my server.</p>
+
+<p>In the Google Reader pages it&#8217;s possible to add sharing functionality. This is done by going to the <strong>Send To</strong> tab</p>
+
+<p><a href="http://lenss.nl/wp-content/uploads/2012/11/Send-To.png"><img src="http://lenss.nl/wp-content/uploads/2012/11/Send-To-300x22.png" alt="" /></a></p>
+
+<p>From here it&#8217;s possible to select a service to share data with. Non of these services are any good for what i am trying to do. But the great thing about this page is. You can provide custom URL&#8217;s for sharing data. Just incorporate the specified parameters in the URL and your done.</p>
+
+<p><a href="http://lenss.nl/wp-content/uploads/2012/11/Custom-Site.png"><img src="http://lenss.nl/wp-content/uploads/2012/11/Custom-Site-300x178.png" alt="" /></a></p>
+
+<p>Once configured and saved a custom URL is visible in the <strong>Send To</strong> panel</p>
+
+<p><a href="http://lenss.nl/wp-content/uploads/2012/11/Favorite-Site.png"><img src="http://lenss.nl/wp-content/uploads/2012/11/Favorite-Site-300x125.png" alt="" /></a></p>
+
+<p>That&#8217;s it for this part. Actually sharing items is quite easy now. When back in the Google Reader under each post there is Send to link. If you click this link the newly created custom URL will show up. And you can share the post.</p>
+
+<p><a href="http://lenss.nl/wp-content/uploads/2012/11/Tag-Article.png"><img src="http://lenss.nl/wp-content/uploads/2012/11/Tag-Article-300x41.png" alt="" /></a></p>
+
+<p>The only thing left to do is write some code to process the incoming data. To get you started. Some of the code i used while testing this is posted below</p>
+
+<pre><code>Class GoogleReaderShare
+{
+    const GOOGLE_REMOTE_IP = '95.97.54.3';
+
+    const GOOGLE_REFERER = 'http://www.google.nl/reader/view/';
+
+    protected static $_whitelist = array('source', 'title', 'url', 'short');
+
+    public static function CheckSource($remoteAddr, $referer) 
+    {
+        if (($remoteAddr == self::GOOGLE_REMOTE_IP) 
+                &amp;&amp; ($referer == self::GOOGLE_REFERER)) {
+            return true;
+        }
+        return false;
+    }
+
+    protected static function _CheckIncomingData($data)
+    {
+        if (!is_array($data)) {
+            return false;
+        }
+
+        foreach ($data as $key =&gt; $value) {
+            if (!in_array($key, self::$_whitelist)) {
+                return false;
+            }
+        }
+    }
+
+    public static function Process($data) 
+    {
+        if (!self::_CheckIncomingData($data)) {
+            throw new Exception("Unrecognized or no incoming data");
+        }
+
+        // process the data
+    }
+}
+
+if (GoogleReaderShare::CheckSource($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_REFERER'])) {
+    GoogleReaderShare::Process($_GET);
+}
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-07T15:55:26+01:00" pubdate data-updated="true">Nov 7<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/-home/'>/home</a>, <a class='category' href='/blog/categories/code/'>Code</a>, <a class='category' href='/blog/categories/google/'>Google</a>, <a class='category' href='/blog/categories/php/'>PHP</a>, <a class='category' href='/blog/categories/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tlenss.github.com/blog/2012/11/07/publish-google-reader-shared-items/" data-via="" data-counturl="http://tlenss.github.com/blog/2012/11/07/publish-google-reader-shared-items/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/10/29/long-running-php-script-and-mysql-server-gone-away/" title="Previous Post: Long running PHP script and MySQL server gone away">&laquo; Long running PHP script and MySQL server gone away</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/11/07/publish-google-reader-shared-items/">Publish Google Reader shared items</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/29/long-running-php-script-and-mysql-server-gone-away/">Long running PHP script and MySQL server gone away</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/25/git-rebase-on-pull-by-default/">Git: Rebase on pull by default</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/">Workaround Ubuntu 12.04 mysterious system freezes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/24/fixing-character-replacement-in-wordpress/">Fixing character replacement in Wordpress</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

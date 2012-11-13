@@ -1,0 +1,280 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Dark theme for Zend Studio 8 - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Because i was so happy with my new 3 monitor configuration. I decided to refresh my development environment as well. Normally all my files would &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tlenss.github.com/blog/2011/02/20/dark-theme-for-zend-studio-8/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tlenss.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Dark Theme for Zend Studio 8</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-20T22:11:58+01:00" pubdate data-updated="true">Feb 20<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Because i was so happy with my new <a href="http://lenss.nl/2011/02/extending-my-desktop/">3 monitor configuration</a>. I decided to refresh my development environment as well. Normally all my files would reside in the Devspace older in my user folder under the /home directory. Now i used a new 500 GB <em>SATA</em> drive and formatted it <em>EXT3</em>. Moving your workspace in <a href="http://www.zend.com/en/products/studio/">Zend Studio</a> has the minor inconvenience that the local settings like fonts / syntax colours are lost. <del>I still haven&#8217;t found a way to export this. So i decided to take this opportunity to create a nice new dark theme.</del>. My friend Bart (still no blog?) was friendly enough to let me know how to export the theme related data in ZS. And was nice enough to send me his zenburn theme.</p>
+
+<blockquote><p>File > Export > General > Preferences</p>
+
+<p>File > Import > General > Preferences</p></blockquote>
+
+<p>Bart&#8217;s zenburn theme:
+<a href="http://lenss.nl/wp-content/uploads/2011/03/zenburn.png"><img src="http://lenss.nl/wp-content/uploads/2011/03/zenburn-300x225.png" alt="" /></a></p>
+
+<p>Most developers i know don&#8217;t seem to care much about the colour of their screen and the font they use. But considering the fact that i spend an insanely amount of time behind a screen. It would be nice if this environment i am in all day put the least amount of constrained on my eyes as possible. So i choose to take time and configure this for optimal viewing pleasure. This starts with the font. For years i have been using the <a href="http://damieng.com/blog/2008/05/26/envy-code-r-preview-7-coding-font-released">Envy Code</a> font by <a href="http://damieng.com/">Damien Guard</a> inside my <a href="http://en.wikipedia.org/wiki/Integrated_development_environment">IDE</a>. This all started i think with a <a href="http://www.codinghorror.com/blog/2007/10/revisiting-programming-fonts.html">post</a> by <a href="http://www.codinghorror.com/">Jeff Atwood</a> It&#8217;s a great font that is extremely easy to read even for terminals. Although still in beta. I advice people to use it when possible.</p>
+
+<p>The second thing i configure are the colour schemes my IDE uses. The standard colour always has a white background. White makes sure things are clear. But staring at a white screen for more then 6 hours always resulted in headaches for me. So the darker the better. And with a dark background you are forced to change the rest as well.</p>
+
+<p><strong>Changing the font is first</strong></p>
+
+<blockquote><p>General > Appearance > Colors and Fonts
+Font : Envy Code R Bold (11 pt)</p></blockquote>
+
+<p><strong>Second up are some general text editor colours</strong></p>
+
+<blockquote><p>General > Editors > Text Editors
+Line number foreground : #787878 (120, 120, 120)
+Current line highlight : #35353D (53, 53, 61)
+Background color : #25252D (37, 37, 45)</p></blockquote>
+
+<p><strong>And finally the PHP syntax coloring</strong></p>
+
+<blockquote><p>PHP > Editor > Syntax Coloring
+Decprecated : #000 (0, 0, 0)
+Fields : #FFFFFF (255, 255, 255)
+Heredoc     : #008282 (0, 130, 130)
+Keyword     : #DE5727 (222, 87, 39)
+Multi-line comment : #557F5F (85, 127, 95)
+Normal : #FFF (255, 255, 255)
+Number : #FFCECE (255, 206, 206)
+PHP tags : #DE5727 (222, 87, 39)
+PHP Doc : #FEC601 (254, 198, 1)
+PHPDoc Comment : #FEC601 (254, 198, 1)
+single line comment : #FEC601 (254, 198, 1)
+static fields : #FFFFFF (255, 255, 255)
+static methods : #FFFFFF (255, 255, 255)
+String : #B3C0C8 (179, 192, 200)
+Task Tags : #FEC601 (254, 198, 1)
+Variable : #0B91B7 (11, 145, 183)</p></blockquote>
+
+<p>The result can be viewed below</p>
+
+<p><a href="http://lenss.nl/wp-content/uploads/2011/02/Screenshot-ide-dark.png"><img src="http://lenss.nl/wp-content/uploads/2011/02/Screenshot-ide-dark-300x182.png" alt="" /></a></p>
+
+<p>There are much more configuration options to do but for now this is what i came up with. Setting up the theme is a since in ZS. But one thing bothered me. The function / property name highlighting when you select an element inside the IDE. Was a very light colour. And this made it impossible to read the contents of the selection.</p>
+
+<p><a href="http://lenss.nl/wp-content/uploads/2011/02/occurrences_on.png"><img src="http://lenss.nl/wp-content/uploads/2011/02/occurrences_on-300x20.png" alt="" /></a></p>
+
+<p>So after searching for a while and setting every possible setting in the configuration tabs. I finally figured out how the set the colour for these two actions. This is done from the Annotations setting in the Text editors panel under the general tab. The two options to change are <em>PHP elements read / write occurrences</em>.</p>
+
+<p><a href="http://lenss.nl/wp-content/uploads/2011/02/Screenshot-change-bg.png"><img src="http://lenss.nl/wp-content/uploads/2011/02/Screenshot-change-bg-300x157.png" alt="" /></a></p>
+
+<p>For now i settled with a dark colour. But maybe i will change this in the future since it is not very readable</p>
+
+<p><a href="http://lenss.nl/wp-content/uploads/2011/02/occurrences_off.png"><img src="http://lenss.nl/wp-content/uploads/2011/02/occurrences_off-300x20.png" alt="" /></a></p>
+
+<p>That&#8217;s it for now. This of course only sets up the PHP environment. The syntax colours for XML, HTML, CSS and Javascript still have to be changed. But i will leave it at this.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-20T22:11:58+01:00" pubdate data-updated="true">Feb 20<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/-home/'>/home</a>, <a class='category' href='/blog/categories/code/'>Code</a>, <a class='category' href='/blog/categories/php/'>PHP</a>, <a class='category' href='/blog/categories/tech/'>Tech</a>, <a class='category' href='/blog/categories/zend/'>Zend</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tlenss.github.com/blog/2011/02/20/dark-theme-for-zend-studio-8/" data-via="" data-counturl="http://tlenss.github.com/blog/2011/02/20/dark-theme-for-zend-studio-8/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/02/20/extending-my-desktop/" title="Previous Post: Extending my desktop">&laquo; Extending my desktop</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/02/21/voices-of-the-elephpant/" title="Next Post: Voices of the ElePHPant">Voices of the ElePHPant &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/11/07/publish-google-reader-shared-items/">Publish Google Reader shared items</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/29/long-running-php-script-and-mysql-server-gone-away/">Long running PHP script and MySQL server gone away</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/25/git-rebase-on-pull-by-default/">Git: Rebase on pull by default</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/">Workaround Ubuntu 12.04 mysterious system freezes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/24/fixing-character-replacement-in-wordpress/">Fixing character replacement in Wordpress</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

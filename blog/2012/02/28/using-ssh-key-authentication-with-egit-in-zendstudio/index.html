@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Using SSH key authentication with EGit in ZendStudio - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="For the past few months i have been switching some projects over to git from Subversion. And have been trying to get the hang of all the command line &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tlenss.github.com/blog/2012/02/28/using-ssh-key-authentication-with-egit-in-zendstudio/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tlenss.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Using SSH Key Authentication With EGit in ZendStudio</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-28T16:17:19+01:00" pubdate data-updated="true">Feb 28<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>For the past few months i have been switching some projects over to <a href="http://git-scm.com/">git</a> from <a href="http://subversion.tigris.org/">Subversion</a>. And have been trying to get the hang of all the command line options available. And i will be doing that for a while longer until i get completely comfortable. And for communication to the remote git server i have been using SSH key authentication. Which works smoothly just like it did with Subversion.</p>
+
+<p>But i wanted to check out the GIT support available in <a href="http://www.zend.com/products/studio/">Zend Studio 9</a>. And hit a problem pretty quickly. But i will describe that below. First i will create a local clone of my git project.</p>
+
+<blockquote><p>$ git clone ssh://[somehost]/~/git/project.git</p></blockquote>
+
+<p>To test if everything is working i do a test commit. If that succeeds if push it out to the remote master.</p>
+
+<blockquote><p>$ cd project.git
+$ touch TEST
+$ git commit
+$ git push origin master</p></blockquote>
+
+<p>So that works fine. Now time to see how Zen Studio handles this. To create a project i use the <strong>Create from Git</strong> option. And select the local checkout i just created. This will read the whole repository configuration. And you are basically done from here. But as i mentioned earlier, i had some difficulties getting things running smoothly. I discovered that when it was time to push changes to the master repository.</p>
+
+<p>When i used the <strong>Push to Upstream</strong> option. I was greeted by a login panel that seemed to have selected the correct SSH key and user to perform the login. But when i typed the password, it just kept asking for the password. Again and again. Hmm. That sucks! The password was correct. I tried with a newly created key. No luck either. The last thing i tried was updating to a nightly build of <a href="http://www.eclipse.org/egit/">Egit</a> found <a href="http://www.eclipse.org/egit/download/">here</a>. But this offered no solution either.</p>
+
+<p>After reading a couple of complaints i found this <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=326526">bug</a> report for the EGit eclipse plugin. The thread contains a solution for the login issue i was having. Gotta love Google!</p>
+
+<p>Apparently the problem has to do with the encryption algorithm used to create the SSH keys. In this case the EGit plugin (which uses <a href="http://www.jcraft.com/jsch/">Jsch</a> to do the SSH communication) was having problems with <a href="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES</a> encrypted keys. And to solve the problem the Jsch library should be replaced with a newer version to make things work again.</p>
+
+<p>So lets download this JSch library and update it manually. The library (JSch v 0.1.46) can be found <a href="http://www.jcraft.com/jsch/">here</a>.</p>
+
+<blockquote><p>$ cd ZendStudio9
+$ find . -name &#8217;<em>jsch</em>&#8217; -type f</p></blockquote>
+
+<p>Found it <strong>plugins/com.jcraft.jsch_0.1.41.v201101211617.jar</strong>. So let&#8217;s try to update that.</p>
+
+<blockquote><p>$ cp plugins/com.jcraft.jsch_0.1.41.v201101211617.jar plugins/com.jcraft.jsch_0.1.41.v201101211617.jar.backup
+$ wget http://sourceforge.net/projects/jsch/files/jsch.jar/0.1.46/jsch-0.1.46.jar/download
+$ mv jsch-0.1.46.jar plugins/com.jcraft.jsch_0.1.41.v201101211617.jar</p></blockquote>
+
+<p>After restarting ZS everything worked fine again. Another problem solved! Thanks to the guys who posted in the EGit bug thread. Some good community Karma here! Time for other things. Hope it helps!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-28T16:17:19+01:00" pubdate data-updated="true">Feb 28<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/-home/'>/home</a>, <a class='category' href='/blog/categories/code/'>Code</a>, <a class='category' href='/blog/categories/php/'>PHP</a>, <a class='category' href='/blog/categories/tech/'>Tech</a>, <a class='category' href='/blog/categories/zend/'>Zend</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tlenss.github.com/blog/2012/02/28/using-ssh-key-authentication-with-egit-in-zendstudio/" data-via="" data-counturl="http://tlenss.github.com/blog/2012/02/28/using-ssh-key-authentication-with-egit-in-zendstudio/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/02/21/recruiter-rant/" title="Previous Post: Recruiter rant">&laquo; Recruiter rant</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/03/26/php-only-variables-should-be-passed-by-reference/" title="Next Post: PHP: Only variables should be passed by reference">PHP: Only variables should be passed by reference &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/11/07/publish-google-reader-shared-items/">Publish Google Reader shared items</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/29/long-running-php-script-and-mysql-server-gone-away/">Long running PHP script and MySQL server gone away</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/25/git-rebase-on-pull-by-default/">Git: Rebase on pull by default</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/">Workaround Ubuntu 12.04 mysterious system freezes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/24/fixing-character-replacement-in-wordpress/">Fixing character replacement in Wordpress</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

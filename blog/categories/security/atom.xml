@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Security | My Octopress Blog]]></title>
+  <link href="http://tlenss.github.com/blog/categories/security/atom.xml" rel="self"/>
+  <link href="http://tlenss.github.com/"/>
+  <updated>2012-11-13T13:49:34+01:00</updated>
+  <id>http://tlenss.github.com/</id>
+  <author>
+    <name><![CDATA[Your Name]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Wordpress install compromised]]></title>
+    <link href="http://tlenss.github.com/blog/2012/02/06/wordpress-install-compromised/"/>
+    <updated>2012-02-06T22:37:10+01:00</updated>
+    <id>http://tlenss.github.com/blog/2012/02/06/wordpress-install-compromised</id>
+    <content type="html"><![CDATA[<p>Last week i got an email from the Dutch <a href="https://www.ncsc.nl/">NCSC</a> (Nationaal Cyber Security Centrum). Apparently one of the nodes i manage for a customer was part of a <a href="http://en.wikipedia.org/wiki/Botnet">botnet</a>. There were no further demands. They just informed me about the issue. Damn cool! Being part of a <a href="http://en.wikipedia.org/wiki/Botnet">botnet</a> however. Not so cool!</p>
+
+<p>With the email came a small excerpt of a IRC channel log. I recognized the node. So SSH'ed into that specific node. And used <a href="http://linux.die.net/man/8/netstat">netstat</a> to check for any strange connections. A connection on port 20 to the C&C; node of the <a href="http://en.wikipedia.org/wiki/Botnet">botnet</a>. Thats not good.</p>
+
+<blockquote><p>$ netstat -an
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State
+tcp        0      0 xxx.xxx.xxx.xx:20       69.162.80.62:20         ESTABLISHED</p></blockquote>
+
+<p>In the email from NCSC it was mentioned to look for files called <strong>wp-rss3.php</strong>. But a search for this file did not return any hits. Hmmm. And i still  had no idea which site it concerned. Since a couple were running on this particular node. The only thing certain. It's <a href="http://wordpress.org">Wordpress</a> related. So i started searching for recent <a href="http://wordpress.org">Wordpress</a> compromises. And found a lot of hits on Google for the <a href="http://code.google.com/p/timthumb/">timThumb</a> and <a href="http://code.google.com/p/wps3slider/">wps3slider</a> plugins. But checking the log files for these plugins revealed nothing. And for some weird reason i just cleaned up the log partition a couple of days before. So not much luck there.</p>
+
+<p>Some more Googling <a href="http://markmaunder.com/2011/08/01/zero-day-vulnerability-in-many-wordpress-themes/">told</a> me to do a search on the Wordpress installs for the PHP function <a href="http://php.net/manual/en/function.base64-decode.php">base64_decode()</a>. O well. Lets give it a try. Some suspicious files did show up instantly.</p>
+
+<blockquote><p>$ find . -type f -exec grep -l 'base64_decode' {} \;
+./uploads/2010/06/wp-rss4.php (<a href="http://pastebin.com/rWD1Tfxk">source</a>)
+./uploads/2011/05/alienee.php (<a href="http://pastebin.com/LwDaSFUK">source</a>)
+./plugins/wps3slider/temp/34e3a3a74f6e2d0f236bdd3ba70c0c03.php (<a href="http://pastebin.com/fG6pDWC2">source</a>)
+./plugins/wps3slider/temp/cf2cdb3ad3249b9692de07290f16f287.php (<a href="http://pastebin.com/pRSwG7Ud">encoded</a>) (<a href="http://pastebin.com/0qQ3Qeut">decoded</a>)
+./plugins/wps3slider/temp/771b821c974131c67e34c83d8d2db725.php (<a href="http://pastebin.com/KUP8xBEQ">encoded</a>) (<a href="http://pastebin.com/Z77iMH1X">decoded</a>)
+./plugins/wps3slider/temp/2b3753ea4769084f2e571737b695b03a.php (<a href="http://pastebin.com/RLgsTerk">encoded</a>) (<a href="http://pastebin.com/KwgqCS8R">decoded</a>)
+./plugins/wps3slider/temp/7228f168d9692eafeafc54dbc3a1ab49.php (<a href="http://pastebin.com/HeE3PdnJ">encoded</a>) (<a href="http://pastebin.com/FzCqSfg6">decoded</a>)
+./plugins/wps3slider/uploads/1.php (<a href="http://pastebin.com/YJ17ygSL">source</a>)
+/var/tmp/dc.pl (<a href="http://pastebin.com/YTusrVZk">encoded</a>) (<a href="http://pastebin.com/0WfqZt0R">decoded</a>)</p></blockquote>
+
+<p>Interesting. A quick look at the files showed that most of them were obfuscated. But not all. Two of the files were IRC bots written in <a href="http://www.php.net/">PHP</a>. At this moment i couldn't resist but crack a little smile. But its also a reminder of how fragile the web really is. I quickly moved the files out of the way. And rebooted the machine. When it  came back online i monitored all connections for a while. But the connection to the C&C; node was not restored. So i informed NCSC. And went back to bed!</p>
+
+<p>The Wordpress admin should have kept the sites up to date. Lesson learned i hope! of course i could not resist to come back to it later. And so i did. I started by searching the Apache log files for <strong>wp-rss4.php</strong>. And found a couple of instances where this file was directly called. From a total of 4 different IP addresses.</p>
+
+<blockquote><p>69.162.80.62</p></blockquote>
+
+<p>This is the IP address of the C&C; server.</p>
+
+<blockquote><p>186.241.16.25
+201.8.237.18
+201.8.226.109</p></blockquote>
+
+<p>These IP addresses are all originating from Brasil. No further information is available at this moment. After that i started poking around the trojans / IRC bots found earlier. And as mentioned earlier. There were two bots installed on the server, One was running. The other wasn't. This is configuration snippet from both bots.</p>
+
+<p>The first bot. And the one i was informed about.</p>
+
+<pre><code>var $config = array("server"=&gt;"antesedepois.servegame.com",^M
+                     "port"=&gt;20,^M
+                     "pass"=&gt;"depois",^M
+                     "prefix"=&gt;"depois",^M
+                     "maxrand"=&gt;8,^M
+                     "chan"=&gt;"#depoiswp",^M
+                     "key"=&gt;"",^M
+                     "modes"=&gt;"+iB-x",^M
+                     "password"=&gt;"depois",^M
+                     "trigger"=&gt;".",^M
+                     "hostauth"=&gt;"*" // * for any hostname^M
+</code></pre>
+
+<p>And the second one</p>
+
+<pre><code>var $config = array("server"=&gt;"58.225.75.155",
+                     "port"=&gt;9999,
+                     "pass"=&gt;"",
+                     "prefix"=&gt;"animal",
+                     "maxrand"=&gt;8,
+                     "chan"=&gt;"#animal",
+                     "key"=&gt;"",
+                     "modes"=&gt;"+iB-x",
+                     "password"=&gt;"oishi",
+                     "trigger"=&gt;".",
+                     "hostauth"=&gt;"*!*@The.Black.Cat" // * for any hostname
+                     );
+</code></pre>
+
+<p>Notice the **<sup>M**</sup> characters at the end. Seems like somebody is using windows. So now we have login details for two C&C; servers. Why not take a look.</p>
+
+<blockquote><p>$ ircii
+/server antesedepois.servegame.com:20</p></blockquote>
+
+<p>Some standard IRC stuff</p>
+
+<blockquote><p><strong><em> Connecting to port 20 of server antesedepois.servegame.com
+</em></strong> Welcome to the Internet Relay Chat Network, root (from IRCPRIVATE)
+<strong><em> /etc/irc/script/local V0.5 for Debian finished. Welcome to ircII.
+</em></strong> If you have not already done so, please read the new user information with /HELP NEWUSER
+<strong><em> Your host is IRCPRIVATE, running version 1.2.1546
+</em></strong> This server was created jan 27 2012 at 06: 29:02 HodB (Serial # 00-00-00)
+<strong><em> channel modes available abdefghijklmnopqrstuvwxyzACEFIKLMOPT
+</em></strong> IRCX
+<strong><em> There are 6 users and 362 invisible on 1 servers
+</em></strong> 7 channels have been formed
+<strong><em> This server has 368 clients and 0 servers connected
+</em></strong> Current local users:  368  Max: 989
+<strong><em> Current global users:  368  Max: 989
+</em></strong> MOTD Not Present</p></blockquote>
+
+<p>So let's check the channels on this thing</p>
+
+<blockquote><p>/list</p></blockquote>
+
+<p><strong><em> Channel    Users  Topic
+</em></strong> #depoiswp  360    Entrou = Ban :)
+<strong><em> #grmteam   6    <br/>
+</em></strong> #depoisSca 4      Entrou = Ban :)
+<strong><em> #depoisSca 4      Entrou = Ban :)
+</em></strong> #depoisVul 6      Entrou = Ban :)
+<strong><em> #rfi       3    <br/>
+</em></strong> #sql       1</p>
+
+<p>I entered all of the channels and waited for a while. But no activity took place. The only really interested channel is #depoiswp. This is the channel where all the bots connect. At the time i logged in there were about 360 of them  available. I immediately recognized the log excerpt send to me by the NCSC.</p>
+
+<blockquote><p><strong><em> Topic for #depoiswp: Entrou = Ban :)
+</em></strong> #depoiswp SYSTEM 1327945185
+(#depoiswp/#depoiswp) Entrou = Ban :)
+<strong><em> [A]depois88802849 (~depois48170648@68.233.238.XX) has joined channel #depoiswp
+</em></strong> #depoiswp 1327653297
+<strong><em> [A]depois13436992 (~depois92951214@212.227.114.XX) has joined channel #depoiswp
+</em></strong> [A]depois18833547 (~depois69088341@184.154.130.XX) has joined channel #depoiswp
+<strong><em> [A]depois80116634 (~depois13242297@213.251.189.XXX) has joined channel #depoiswp
+</em></strong> [A]depois31855907 (~depois23946193@82.85.28.XXX) has joined channel #depoiswp
+<strong><em> [A]depois25458508 (~depois64120008@87.106.214.XX) has joined channel #depoiswp
+</em></strong> [A]depois17803105 (~depois55004207@74.208.16.XX) has joined channel #depoiswp
+<strong><em> [A]depois96800217 (~depois89042073@174.121.216.XXX) has joined channel #depoiswp
+</em></strong> [A]depois17108432 (~depois51961332@209.68.1.XXX) has joined channel #depoiswp
+<strong><em> [A]depois95432403 (~depois13925479@209.68.1.XXX) has joined channel #depoiswp
+</em></strong> [A]depois96515275 (~depois10767943@195.74.38.XXX) has joined channel #depoiswp
+<strong><em> [A]depois73596561 (~depois90562179@69.89.31.XXX) has joined channel #depoiswp
+</em></strong> [A]depois85357227 (~depois31697723@64.191.115.XX) has joined channel #depoiswp
+<strong><em> [A]depois07993697 (~depois40240585@79.96.128.XX) has joined channel #depoiswp
+</em></strong> [A]depois97441253 (~depois19633359@193.189.74.XX) has joined channel #depoiswp
+<strong><em> [A]depois76843389 (~depois55419325@176.9.34.XXX) has joined channel #depoiswp
+</em></strong> [I]depois16679788 (~depois28004829@213.171.218.XXX) has joined channel #depoiswp
+*** [A]depois88178285 (~depois05296405@74.220.215.XXX) has joined channel #depoiswp</p>
+
+<p>&lt;[A]depois16231776> [Attack Finalizado!]: 1749605 MB enviados / Pacotes enviados: 14580 MB/s
+&lt;[I]depois60130568> [Attack Finalizado!]: 75 MB enviados / Pacotes enviados: 1 MB/s
+&lt;[I]depois48664304> [Attack Finalizado!]: 75 MB enviados / Pacotes enviados: 1 MB/s
+&lt;[I]depois65415449> [Attack Finalizado!]: 75 MB enviados / Pacotes enviados: 1 MB/s
+&lt;[I]depois11325010> [Attack Finalizado!]: 75 MB enviados / Pacotes enviados: 1 MB/s
+<strong><em> [A]depois40994506 (~depois72760562@79.98.28.XX) has joined channel #depoiswp
+&lt;[A]depois07568398> [Attack Finalizado!]: 2187317 MB enviados / Pacotes enviados: 18228 MB/s
+&lt;[A]depois55402758> [Attack Finalizado!]: 11425 MB enviados / Pacotes enviados: 95 MB/s
+</em></strong> [A]depois03383512 (~depois52457929@74.220.215.XX) has joined channel #depoiswp
+&lt;[A]depois37064023> [Attack Finalizado!]: 1264043 MB enviados / Pacotes enviados: 10534 MB/s
+&lt;[A]depois69234369> [Attack Finalizado!]: 2205504 MB enviados / Pacotes enviados: 18379 MB/s
+<strong><em> [A]depois74911768 (~depois04730096@74.220.215.XX) has joined channel #depoiswp
+</em></strong> Signoff: [A]depois31575043 (Connection reset by peer)
+&lt;[I]depois17710498> [Attack Finalizado!]: 81 MB enviados / Pacotes enviados: 1 MB/s
+&lt;[I]depois28464134> [Attack Finalizado!]: 81 MB enviados / Pacotes enviados: 1 MB/s</p></blockquote>
+
+<p>Thats fine and all. I disconnected shortly after that. I really have no reason  to be poking around there now do i ;) Besides who want to  interfere with an ongoing investigation. So poking around the files a bit more didnot  reveal  all that information.Except for the fact that besides a IRC bot a backdoor was also installed in the form of a perl script dc.pl installed in /var/tmp. So who knows. The server might be rooted at this point.</p>
+
+<p>I spend some more time on decoding the bot and trojan contents. And posted them on pastebin if you are interested. The server is going to be  decommissioned soon. So i am not going to pay much more attention to it.</p>
+
+<blockquote><p>1.php and b2dabd0e2c42b55fabf741bcac29f857.php</p></blockquote>
+
+<p>Web Shell by boff</p>
+
+<blockquote><p>2b3753ea4769084f2e571737b695b03a.php</p></blockquote>
+
+<p>This file was base64 encoded but once decoded reveled to be a simple script by v0pCr3w and nob0dyCr3w to run system commands on the server. Also included was a simple upload form.</p>
+
+<blockquote><p>34e3a3a74f6e2d0f236bdd3ba70c0c03.php</p></blockquote>
+
+<p> c99 injector v1</p>
+
+<blockquote><p>771b821c974131c67e34c83d8d2db725.php</p></blockquote>
+
+<p>This script was rot13 and base64 encoded and was trying to cleanup after the hacker. And install a second back door.</p>
+
+<blockquote><p>7228f168d9692eafeafc54dbc3a1ab49.php and cce0a37ffc138a8908da05977639bed1.php</p></blockquote>
+
+<p>Again rot13 and base64 encoded.But this script contained something that looks like a control panel. The page title was 'Hacked by Sherif #oishi @ ALLnet'</p>
+
+<blockquote><p>alienee.php</p></blockquote>
+
+<p>Still working on this one</p>
+
+<blockquote><p>cf2cdb3ad3249b9692de07290f16f287.php and ded3244749701c4eb5a29b959ad56736.php</p></blockquote>
+
+<p>These files contained a second bot that was connecting to a whole different server. Probably exploited by another crew?</p>
+
+<blockquote><p>dc.pl</p></blockquote>
+
+<p>This Perl backdoor was created by one  of the IRC bot scripts. And was hiding in /var/tmp after creation.</p>
+
+<p>And some links i found useful while working on this issue.
+<a href="http://eromang.zataz.com/2012/01/08/gangbang-mytijn-org-malware-spreader-down/">
+http://eromang.zataz.com/2012/01/08/gangbang-mytijn-org-malware-spreader-down/</a>
+<a href="http://www.madirish.net/content/hookworm-stealth-php-backdoor">http://www.madirish.net/content/hookworm-stealth-php-backdoor</a>
+<a href="http://markmaunder.com/2011/08/01/zero-day-vulnerability-in-many-wordpress-themes/">http://markmaunder.com/2011/08/01/zero-day-vulnerability-in-many-wordpress-themes/</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[PHP critical bug CVE-2012-0830]]></title>
+    <link href="http://tlenss.github.com/blog/2012/02/05/php-critical-bug-cve-2012-0830/"/>
+    <updated>2012-02-05T13:39:43+01:00</updated>
+    <id>http://tlenss.github.com/blog/2012/02/05/php-critical-bug-cve-2012-0830</id>
+    <content type="html"><![CDATA[<p>Ok it's a bit late But i have been laying under a rock for the last week. And i guess it can't hurt!</p>
+
+<p>Last week a critical bug was discovered in PHP. Which affects versions 5.3.9 and 5.2.17. The bug could be exploited to run arbitrary code on a remote PHP system. So upgrade your systems. And of course Stefan Esser <a href="http://news.php.net/php.internals/57655">popped up</a> with some wise words :)... O well i still think the guy does great work.</p>
+
+<p>More info about the issue can be found on packetstorm (<a href="http://packetstormsecurity.org/files/cve/CVE-2012-0830">CVE-2012-0830</a>)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[PHP getting strict sessions]]></title>
+    <link href="http://tlenss.github.com/blog/2011/11/30/php-getting-strict-sessions/"/>
+    <updated>2011-11-30T15:38:28+01:00</updated>
+    <id>http://tlenss.github.com/blog/2011/11/30/php-getting-strict-sessions</id>
+    <content type="html"><![CDATA[<p>For years <a href="http://php.net/">PHP</a> has been vulnerable to session adoption which can enable <a href="http://en.wikipedia.org/wiki/Session_fixation">session fixation</a>. And since sessions are a major part of web applications now a days. A lot of platforms are open and waiting for an attack to happen.</p>
+
+<p><strong>session adoption &amp; session fixation</strong></p>
+
+<p>The problem exists because the current session module does not validate the session id that comes in from a cookie. This means uninitialized session id's can be passed by the client. This happens due to the fact that browsers overwrite cookie if multiple cookies are send per request.
+Some people would say this is solvable by implementing <a href="http://nl3.php.net/manual/en/function.session-regenerate-id.php">session_regenerate_id()</a>. But this is not the case.</p>
+
+<p>Because session fixation can be used to take over control of web applications. Validation is required when multiple cookies are send per request. When multiple cookie are send with a request. Browsers send multiple cookies without domain / path information. This way it's impossible to tell which cookie belongs to which domain.</p>
+
+<p><strong>So how do we fix this?</strong></p>
+
+<p>There is some userland code that does offer the ability to validate session data. But this has not been widely adopted by other developers.</p>
+
+<p>Code that adds the session ID as a validation key:</p>
+
+<pre><code>session_destory();
+session_regenerate_id();
+$_SESSION['valid_id'] = session_id(); 
+</code></pre>
+
+<p>And the code to check if the session was properly initialized:</p>
+
+<pre><code>if ($_SESSION['valid_id'] !== session_id()) {
+  die('Invalid use of session ID');
+}
+</code></pre>
+
+<p>Thank god the internal developer know this. And are working to fix this. For the past days there has been an interesting discussion going on on the <a href="http://news.php.net/php.internals">internals</a> list. About applying a patch that will fix this. The patch will add some new php.ini features and a new method validate_id() for the session save handler. Hopefully this will be available in version 5.4.</p>
+
+<p>To not break BC strict_mode will be disabled by default. But can be enabled by setting the following setting in php.ini. When enabled uninitialized session ID will be discarded.</p>
+
+<blockquote><p>session.use_strict_mode=0</p></blockquote>
+
+<p>To prevent a DoS instead of session fixation. An new feature has been added that deletes possible malicious cookies that prevent new session ID.</p>
+
+<blockquote><p>session.safe_session_cookie=1</p></blockquote>
+
+<p>You can read more about session fixation and the upcoming patch on the <a href="https://wiki.php.net/rfc/strict_sessions">PHP-Wiki</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The current state of SSL And The Future Of Authenticity]]></title>
+    <link href="http://tlenss.github.com/blog/2011/09/12/the-current-state-of-ssl-and-the-future-of-authenticity/"/>
+    <updated>2011-09-12T02:13:33+02:00</updated>
+    <id>http://tlenss.github.com/blog/2011/09/12/the-current-state-of-ssl-and-the-future-of-authenticity</id>
+    <content type="html"><![CDATA[<p><a href="http://convergence.io/"><img src="http://lenss.nl/wp-content/uploads/2011/09/convergence.png" alt="" /></a> Last week i had a blast while listening to <a href="http://www.thoughtcrime.org/">Moxie Marlinspike's</a> Blackhat talk <a href="http://www.youtube.com/watch?v=Z7Wl2FW2TcA">the past and future of SSL</a>. The video is an absolute must see if you have any concern about the current state of SSL or the whole web for that matter.</p>
+
+<p>As many know. There has been quite the turmoil in the SSL world lately with some big CA's (<a href="http://www.comodo.com">Comodo</a>, <a href="http://www.startcom.org/">StartCom</a>, <a href="http://www.diginotar.com/">Diginotar</a>, <a href="http://www.globalsign.com/">GlobalSign</a>) getting hacked. And rogue certificates being generated for major domains like microsoft.com, google.com, etc for who knows what type of malicious purpose. The real problem here are the centralized CA's. For SSL to work you need to explicitly trust the major CA's. And if one gets hacked. Well.. we know the deal by now. And the funny thing is that Moxie mentions in his talk. The whole CA wasn't even part of the original SSL protocol. As the creator of SSL said "It's something we through in at the end".</p>
+
+<p>But instead of only bashing the CA's. Moxie comes with a solution to the problem. In the form of a new protocol <a href="http://convergence.io/">Convergence</a>, Which exists of a client and a server package. The client right now is a simple Firefox extension. And when installed it disables the current CA system in the browser. And will use one or more of the selected notaries instead. It even works with self signed certificates. And the back-end is a modular one. And the standard CA verification can be swapped with for instance <a href="http://www.dnssec.net/">DNSSEC</a> based verification.</p>
+
+<p>There is still a level of trust involved. But you won't lay all your trust in one specific CA. Convergence uses notaries. Notaries are anonymous nodes that can be picked at will and can be used to verify the requested certificate. And like i said the notaries are anonymous. No more browser leakage at this point. One of th notaries will act as a bounce node to which a SSL connection is made. All other notaries are contacted through this secure connection.</p>
+
+<p>I am probably not the best person to explain this all. So go ahead and listen/watch <a href="http://www.youtube.com/watch?v=Z7Wl2FW2TcA">Moxie's talk</a> and form your own opinion. But i think everybody should install <a href="http://convergence.io/">this</a> Firefox plugin. And forget about the whole CA system. I went ahead and installed a notary node myself. Which can be found <a href="http://lenss.nl/lenssnl.notary">here</a>. More information about setting up a notary node yourself can be found <a href="https://github.com/moxie0/Convergence/wiki/Running-a-Notary">here</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Apache SSL client side certificate data in PHP]]></title>
+    <link href="http://tlenss.github.com/blog/2011/02/24/apache-ssl-client-side-certificate-data-in-php/"/>
+    <updated>2011-02-24T01:55:03+01:00</updated>
+    <id>http://tlenss.github.com/blog/2011/02/24/apache-ssl-client-side-certificate-data-in-php</id>
+    <content type="html"><![CDATA[<p>What should have been a simple assignment turned out to be a hair pulling endeavour. The ultimate goal was to read the client side certificate data in PHP. I am by no means a system administrator. And the SSL part will probably be done by somebody more experienced. And the certificates will be signed by real CA's. But for developing locally i need something functioning.</p>
+
+<p>So i spend the last hours trying to get client side certificates working. With absolutely no luck. I found a bunch of posts by doing Google searches. But none of them seem to offer the proper information for creating good client side certificates. Creating the CA and the server certificate is no problem at all. But creating a client side certificate seems impossible. Some of the post i tried:</p>
+
+<p><a href="http://www.modssl.org/docs/2.7/ssl_faq.html">http://www.modssl.org/docs/2.7/ssl_faq.html</a>
+<a href="http://www.vanemery.com/Linux/Apache/apache-SSL.html">http://www.vanemery.com/Linux/Apache/apache-SSL.html</a>
+<a href="http://www.linuxconfig.org/apache-web-server-ssl-authentication">http://www.linuxconfig.org/apache-web-server-ssl-authentication</a>
+<a href="https://help.ubuntu.com/community/OpenSSL">https://help.ubuntu.com/community/OpenSSL</a>
+<a href="https://help.ubuntu.com/8.04/serverguide/C/httpd.html">https://help.ubuntu.com/8.04/serverguide/C/httpd.html</a>
+<a href="http://it.toolbox.com/blogs/securitymonkey/howto-securing-a-website-with-client-ssl-certificates-11500">http://it.toolbox.com/blogs/securitymonkey/howto-securing-a-website-with-client-ssl-certificates-11500</a></p>
+
+<p>You would have thought that something like this would have been documented pretty well by now. But no luck for me. This only resulted in</p>
+
+<blockquote><p>[debug] ssl_engine_kernel.c(1879): OpenSSL: Read: SSLv3 read client certificate A
+[debug] ssl_engine_kernel.c(1898): OpenSSL: Exit: failed in SSLv3 read client certificate A
+[info] [client xxx.xxx.xxx.xx] SSL library error 1 in handshake (server lab:443)
+[info] SSL Library Error: 336151570 error:14094412:SSL routines:SSL3_READ_BYTES:sslv3 alert bad certificate Subject CN in certificate not server name or identical to CA!?</p></blockquote>
+
+<p>So after almost giving up i found the <em>CA.sh</em> script hidden in <em>/usr/lib/ssl/misc</em> this little sucker seems to do the job pretty well. Creating a CA, server certificate and client side certificate is extremely easy. So i settled for that.</p>
+
+<p><strong>Creating the CA</strong></p>
+
+<blockquote><p>$ cd /usr/lib/ssl/misc
+$ /CA.sh -newca
+CA certificate filename (or enter to create)</p></blockquote>
+
+<p>Making CA certificate ...
+Generating a 1024 bit RSA private key
+.......................++++++
+....................................++++++
+writing new private key to './demoCA/private/./cakey.pem'
+Enter PEM pass phrase:
+Verifying - Enter PEM pass phrase:</p>
+
+<p>And fill out some basic certificate data</p>
+
+<blockquote><p>Country Name (2 letter code) [AU]:NL
+State or Province Name (full name) [Some-State]:NH
+Locality Name (eg, city) []:Purmerend
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:Bluesignal
+Organizational Unit Name (eg, section) []:lab
+Common Name (eg, YOUR name) []:lab
+Email Address []:my@email.tld</p></blockquote>
+
+<p><strong>Creating the server certificates</strong></p>
+
+<blockquote><p>$ ./CA.sh -newreq
+Generating a 1024 bit RSA private key
+.++++++
+....................................................................................++++++
+writing new private key to 'newkey.pem'
+Enter PEM pass phrase:
+Verifying - Enter PEM pass phrase:</p></blockquote>
+
+<p>Fill out the same basic certificate data</p>
+
+<blockquote><p>Country Name (2 letter code) [AU]:NL
+State or Province Name (full name) [Some-State]:NH
+Locality Name (eg, city) []:Purmerend
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:Bluesignal
+Organizational Unit Name (eg, section) []:lab
+Common Name (eg, YOUR name) []:lab
+Email Address []:my@email.tld</p></blockquote>
+
+<p><strong>Sign the sucker</strong></p>
+
+<blockquote><p>$ ./CA.sh -sign
+Using configuration from /etc/ssl/openssl.cnf
+Enter pass phrase for ./demoCA/private/cakey.pem:
+Check that the request matches the signature
+Signature ok</p></blockquote>
+
+<p>The only thing left to do is creating the client side certificate</p>
+
+<blockquote><p>openssl pkcs12 -export -in newcert.pem -inkey newkey.key -out username.p12 -name "Client Certificate"</p></blockquote>
+
+<p>Time to configure Apache2. I used the standard default-ssl virtual host and just reconfigured it</p>
+
+<blockquote><p>SSLEngine on
+SSLProtocol -all +TLSv1 +SSLv3
+SSLCipherSuite HIGH:MEDIUM
+SSLProxyEngine off
+SSLOptions +StrictRequire +OptRenegotiate +StdEnvVars +ExportCertData</p></blockquote>
+
+<p>SSLCertificateFile /usr/lib/ssl/misc/newcert.pem
+SSLCertificateKeyFile /usr/lib/ssl/misc/newkey.pem
+SSLVerifyClient require
+SSLVerifyDepth 1</p>
+
+<p>SSLCertificateChainFile /usr/lib/ssl/misc/demoCA/cacert.pem
+SSLCACertificatePath /usr/lib/ssl/misc/demoCA/certs
+SSLCACertificateFile /usr/lib/ssl/misc/demoCA/cacert.pem</p>
+
+<p>reboot Apache2</p>
+
+<blockquote><p>$ /etc/init.d/apache2 restart</p></blockquote>
+
+<p>The server side is ready. But it is still impossible to connect at this moment. We need to install the client certificate inside Firefox</p>
+
+<blockquote><p>Edit > Preferences > Advanced > View Certificates</p></blockquote>
+
+<p>Choose import and browse to the newly created *.p12 certificate file.</p>
+
+<p>Now i can finally connect based on my client side certificate and read the pieces of data i was looking for. Which can easily found by doing</p>
+
+<pre><code>print_r($_SERVER);
+</code></pre>
+
+<p>Some of the stuff i was looking for</p>
+
+<blockquote><p>[SSL_CLIENT_S_DN_C] => NL
+[SSL_CLIENT_S_DN_ST] => NH
+[SSL_CLIENT_S_DN_L] => Purmerend
+[SSL_CLIENT_S_DN_O] => Bluesignal
+[SSL_CLIENT_S_DN_OU] => lab
+[SSL_CLIENT_S_DN_CN] => lab
+[SSL_CLIENT_S_DN_Email] => my@email.tld
+[SSL_CLIENT_I_DN_C] => NL
+[SSL_CLIENT_I_DN_ST] => NH
+[SSL_CLIENT_I_DN_O] => Bluesignal
+[SSL_CLIENT_I_DN_OU] => lab
+[SSL_CLIENT_I_DN_CN] => lab
+[SSL_CLIENT_I_DN_Email] => my@email.tld</p></blockquote>
+
+<p>Now it's time for the fun part.</p>
+]]></content>
+  </entry>
+  
+</feed>

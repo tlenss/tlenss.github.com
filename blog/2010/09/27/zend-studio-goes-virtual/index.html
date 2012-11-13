@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Zend Studio goes virtual - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Zend Studio added a new great feature to there already impressive stack of features. The IDE just keeps growing in the right direction. So the new 8 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tlenss.github.com/blog/2010/09/27/zend-studio-goes-virtual/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tlenss.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Zend Studio Goes Virtual</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-09-27T13:25:17+02:00" pubdate data-updated="true">Sep 27<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Zend Studio added a new great <a href="http://www.zend.com/en/products/studio/vmware-workstation-deployment#discount">feature</a> to there already impressive stack of features. The IDE just keeps growing in the right direction.</p>
+
+<p>So the new 8 version which at the time of writing is in Beta added VMWare support. This is a feature i was looking forward to. And couldn&#8217;t wait to give this a try. So when i got a email that the new beta is out. I didn&#8217;t wait and downloaded the behemoth.</p>
+
+<p>Adding VMWare support to the IDE seems like a logical thing to do. Specially since everything is virtualized now a days. I thought about this a while. But you can use it in different setups. For me it is an extra on my development environment. I&#8217;m a big Linux enthusiast. But at the office i work on windows. So now i can develop in my own virtual Linux environment. But it&#8217;s also a great solution for running Unit Test on a production VM. Or just to test on a production VM.</p>
+
+<p>My first try was on my OS of choice which is Ubuntu. That however didn&#8217;t go to well. As soon as i started the &#8220;Run as VMWare application&#8221; my IDE would die on me. I quickly gave up on this mainly because i am running Maverick which is not considered stable. And VMWare already had some problems building the kernel modules. If anybody is interested in the crash logs. I still have some.</p>
+
+<p>So back to windows. Windows 7 in particular. I always keep a Windows partition laying around. For games and stuff. So i downloaded the following files.</p>
+
+<blockquote><ul>
+<li>Ubuntu-Server</li>
+<li>Zend Studio 8 Beta (<a href="http://www.zend.com/en/products/studio/download-8-beta">trial</a>)</li>
+<li>VMWare 7.1.2        (<a href="http://downloads.vmware.com/d/info/desktop_downloads/vmware_workstation/7_0">trial</a>)</li>
+</ul>
+</blockquote>
+
+<p>Installing VMWare and Zend Studio is a since. Nothing to make note off here. After that was done i installed Ubuntu 10.04 Server edition. And installed Zend Server inside of it. That should be all.. right? So let&#8217;s launch the IDE and give it a shot. Well it launched but i got back an error like below.</p>
+
+<p><a href="http://lenss.nl/wp-content/uploads/2010/09/zend-server-vm-noconnect.png"><img src="http://lenss.nl/wp-content/uploads/2010/09/zend-server-vm-noconnect_s.jpg" alt="" /></a></p>
+
+<p>At first i had no clue what was going on. But i had the feeling there was something wrong with the VMWare client tools. After digging through the Zend Studio manual i found the <a href="http://files.zend.com/help/Beta/Zend_Studio_8_0/zend-studio.htm#integrating_with_vmware_workstation.htm">answer</a> The &#8216;hgfs&#8217; was not mounted on teh client OS. And this was because the vmware tools did not have enough libraries to build everything. To build the complete VMWare tools on the client OS we need</p>
+
+<blockquote><ul>
+<li>gcc</li>
+<li>make</li>
+<li>build-essential</li>
+<li>linux-headers-(current version)</li>
+</ul>
+</blockquote>
+
+<p>When that&#8217;s done it necessary to attach the linux version of the VMWare tools to the virtual CDRom drive. So we can mount it inside the VM.</p>
+
+<blockquote><p>/usr/lib/vmware/isoimages/linux.iso</p>
+
+<p>mount /dev/cdrom /mnt</p></blockquote>
+
+<p>Copy the file somewhere and unmount the /mnt or the build will fail. Unpack the VMWare tools and run the perl script inside to install. Once that&#8217;s done follow the VMWare instructions. Or reboot the VM.</p>
+
+<p>Now we are all set. Now it&#8217;s just a matter of writing code. And running it on the VM. When running an application as a VMWare application the IDE syncs the files with the shared folder on the VM. After that the internal browser is launched to see the result.</p>
+
+<p>The first time you will be asked for the VM to use. Just point it to the VM image created by VMWare.</p>
+
+<p><a href="http://lenss.nl/wp-content/uploads/2010/09/selectvm.png"><img src="http://lenss.nl/wp-content/uploads/2010/09/selectvm_s.jpg" alt="" /></a></p>
+
+<p>When no VM is active when launching the application. Zend Studio will trigger VMWare to launch the VM.</p>
+
+<p><a href="http://lenss.nl/wp-content/uploads/2010/09/launchvm.png"><img src="http://lenss.nl/wp-content/uploads/2010/09/launchvm_s.jpg" alt="" /></a></p>
+
+<p>Some output in Zend Studio</p>
+
+<p><a href="http://lenss.nl/wp-content/uploads/2010/09/resultvm.png"><img src="http://lenss.nl/wp-content/uploads/2010/09/resultvm_s.jpg" alt="" /></a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-09-27T13:25:17+02:00" pubdate data-updated="true">Sep 27<span>th</span>, 2010</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/code/'>Code</a>, <a class='category' href='/blog/categories/php/'>PHP</a>, <a class='category' href='/blog/categories/tech/'>Tech</a>, <a class='category' href='/blog/categories/zend/'>Zend</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tlenss.github.com/blog/2010/09/27/zend-studio-goes-virtual/" data-via="" data-counturl="http://tlenss.github.com/blog/2010/09/27/zend-studio-goes-virtual/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2010/09/22/drag-drop-uploads-with-xmlhttprequest2-and-php-revised/" title="Previous Post: Drag & drop Uploads with XMLHttpRequest2 and PHP Revised">&laquo; Drag & drop Uploads with XMLHttpRequest2 and PHP Revised</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2010/11/01/just-something-funny/" title="Next Post: Just something funny">Just something funny &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/11/07/publish-google-reader-shared-items/">Publish Google Reader shared items</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/29/long-running-php-script-and-mysql-server-gone-away/">Long running PHP script and MySQL server gone away</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/25/git-rebase-on-pull-by-default/">Git: Rebase on pull by default</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/">Workaround Ubuntu 12.04 mysterious system freezes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/24/fixing-character-replacement-in-wordpress/">Fixing character replacement in Wordpress</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

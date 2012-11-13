@@ -1,0 +1,227 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+
+  <meta charset="utf-8" />
+  <!--[if IE]><![endif]-->
+
+  <title>Dutch PHP Conference 2012</title>
+  <meta name="description" content="the Dutch PHP Conference 2012" />
+  <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
+
+  <link rel="shortcut icon" href="/img/favicon.ico">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+  <link href='http://fonts.googleapis.com/css?family=Bevan' rel='stylesheet' type='text/css'>
+  <link href="/styles/style.css?v=6" rel="stylesheet" type="text/css" media="screen" />
+  <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-3857229-3']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>      
+  
+  
+  <script type="text/javascript" src="/website/var/tmp/minified_javascript_53d11f4a13ef961588da3e87d3a8ae9e.js"></script>
+
+  
+  <script type="text/javascript">
+    //<!--
+
+      $(function(){
+        if (($.browser.mozilla) && (parseInt($.browser.version) < 2)) {
+          $('body').addClass('ff3');
+        }
+      });
+                    //-->
+</script>
+</head>
+
+<body>
+
+  <div id="page">
+
+    <p class="ie6-message">Browsers like Internet Explorer 6 are very, very out of date.<br/>
+    Please upgrade, or download <a href="http://www.apple.com/safari/">Safari</a>, <a href="http://www.mozilla.org/">Firefox</a>, <a href="http://www.google.com/chrome">Google Chrome</a> or <a href="http://www.microsoft.com/ie">Internet Explorer 9</a>.</p>
+
+    <div id="container">
+<div class="canvas" id="defaultpage">
+    <header id="top">
+  <nav role="navigation">
+
+      <ul>
+    <li class="first"><a href="/">Home</a></li>
+            <li class="">
+            <a href="/schedule" target="_parent">
+                schedule            </a>
+        </li>
+            <li class="">
+            <a href="/speakers">
+                Speakers            </a>
+        </li>
+            <li class="">
+            <a href="/talks">
+                Talks            </a>
+        </li>
+            <li class="">
+            <a href="/tutorials">
+                Tutorials            </a>
+        </li>
+            <li class="">
+            <a href="/location">
+                Location            </a>
+        </li>
+            <li class="">
+            <a href="/social">
+                Social            </a>
+        </li>
+            <li class="">
+            <a href="/sponsors">
+                Sponsors            </a>
+        </li>
+            <li class="">
+            <a href="/contact">
+                Contact            </a>
+        </li>
+    </ul>
+  </nav>
+  <div id="headergroup">
+    <span class="mill"></span>
+    <hgroup>
+      <h1 id="logo"><a href="/">Dutch PHP Conference</a></h1>
+      <h2>Join us in Amsterdam for the PHP community's most exciting event!</h2>
+      <h3 class="date">7, 8 &amp; 9 june 2012, RAI, Amsterdam, NL</h3>
+    </hgroup>
+    <span id="registerPanel">
+      <a href="http://dpc12.paydro.net" class="button"><span>Register</span></a>
+                      </span>
+  </div>
+</header>
+
+    <div id="content" class="clearfix">
+
+        <div id="primaryContent">
+            <article>
+                <h1>Page not found</h1>
+                <p>
+	The page you're looking for could not be found.</p>
+<p>
+	<a href="/">Return to the homepage</a></p>
+            </article>
+        </div><!-- /primaryContent -->
+
+                  <div id="sideBar">
+
+            <h3 class="date">7, 8 &amp; 9 june 2012, Amsterdam, NL</h3>
+
+            <a href="http://www.mobileconference.nl/" target="_blank"><span class="ticketbanner">New! Free access to the Dutch Mobile Conference with your DPC ticket!</span></a>
+
+            <div id="widgets">
+              
+              <div id="ibuildings" class="panel">
+                <a href="http://www.ibuildings.com" title="Ibuildings - Web &amp; Mobile App Development" class="ibuildings" target="_blank"><img src="/img/ibuildings.png?v=2" alt="Ibuildings - Web &amp; Mobile App Development"></a>                <p>Ibuildings is proud to organise the sixth Dutch PHP Conference on June 8 and 9, plus a pre-conference tutorial day on June 7. Both programs will be completely in English so the only Dutch thing about it is the location. Keywords for these days: Know-how, Technology, Best Practices, Networking, Tips & Tricks.</p>
+                <nav>
+                  <a href="http://www.ibuildings.com" target="_blank">Ibuildings website</a><br/>
+                  <a href="http://www.ibuildings.com/careers" target="_blank">Ibuildings vacancies</a>
+                </nav>
+              </div>
+
+                                    <div class="panel">
+    <div id="twitterbox">
+        <h3>From @DPCon</h3>
+        <div class="footnote">Content from Twitter</div>
+        <div class="tweets">
+                                <ul>
+                <li>
+                    <div>The next DPC radio session is published. <a href="http://twitter.com/auroraeosrose">@auroraeosrose</a> will get your SPL skills up to speed! http://t.co/0wZ79B3Y</div>
+                    <img src="/img/bird_16_gray.png" alt="Twitter" /> <a href="http://twitter.com/#!/dpcon/status/267975981137031168">Nov 12th, 2:03 PM CET</a>
+                </li>
+            </ul>
+            
+        
+        </div>
+        Follow us: <a href="http://twitter.com/dpcon" class="follow" target="_blank">@dpcon</a>
+        or <a href="http://twitter.com/search?q=%23dpc12" class="follow" target="_blank">#dpc12</a>
+    </div>
+</div>                                                </div>
+
+          </div><!-- /#sidebar -->
+
+    </div><!-- /#content -->
+
+    <section id="sponsors">
+  <div class="wrapper">
+    <h3>Sponsors</h3>
+    <ul>
+     
+      <li class="default"><a href="http://www.engineyard.com/" target="_blank" title="Engine Yard"><img src="/img/sponsors/engineyard.jpg" alt="Engine Yard"><span></span></a></li>
+
+      <li class="default"><a href="http://www.verzekeringssite.nl/over-ons/vacatures/ID/1404/Vacature:-Webdeveloper" target="_blank" title="Verzekeringssite.nl"><img src="/img/sponsors/verzekeringssite.jpg" alt="Verzekeringssite.nl"><span></span></a></li>
+      
+      <li class="default"><a href="http://www.engineyard.com/products/orchestra" target="_blank" title="Orchestra"><img src="/img/sponsors/orchestra.jpg" alt="Orchestra"><span></span></a></li>
+      
+      <li class="default"><a href="http://www.jetbrains.com/phpstorm/" target="_blank" title="PHPStorm by Jetbrains"><img src="/img/sponsors/phpstorm.jpg" alt="PHPStorm by Jetbrains"><span></span></a></li>
+
+      <li class="default"><a href="http://www.phparch.com" target="_blank" title="PHP Architect"><img src="/img/sponsors/phparchitect.jpg" alt="PHP Architect"><span></span></a></li>
+
+      <li class="default"><a href="http://www.zend.com/" target="_blank" title="Zend - the PHP Company"><img src="/img/sponsors/zend.jpg" alt="Zend - the PHP Company"><span></span></a></li>
+
+    </ul>
+  </div>
+</section>
+
+</div><!-- /#canvas -->
+
+
+    </div><!-- /#container -->
+
+    <footer id="footerContainer">
+      <div id="footerDetails">
+        <nav>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/schedule">Schedule</a></li>
+            <li><a href="/speakers">Speakers</a></li>
+            <li><a href="/talks">Talks</a></li>
+            <li><a href="/tutorials">Tutorials</a></li>
+          </ul>
+          <ul>
+            <li><a href="http://dpc12.paydro.net/" target="_blank">Register</a></li>
+            <li><a href="/travel-and-venue">Venue &amp; Travel</a></li>
+                        <li><a href="/contact">Contact</a></li>
+          </ul>
+        </nav>
+        <div id="socialmedia">
+  <!-- twitter button -->
+  <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.phpconference.nl" data-text="Dutch PHP Conference 2012" data-lang="en">Tweet</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>    
+
+  <!-- facebook button -->              
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>           
+
+  <div class="fb-like" data-href="http://www.phpconference.nl" data-send="false" data-layout="button_count" data-width="150" data-show-faces="false"></div>
+</div>                    
+        <div id="copy">Copyright &copy; 2006 - 2012 <a href="http://www.ibuildings.com" title="Ibuildings - the PHP Professionals" target="_blank">Ibuildings BV</a></div>
+      </div>
+    </footer>
+
+  </div><!-- /#page -->
+  <script type="text/javascript" src="http://webplayer.yahooapis.com/player.js"></script> 
+</body>
+</html>

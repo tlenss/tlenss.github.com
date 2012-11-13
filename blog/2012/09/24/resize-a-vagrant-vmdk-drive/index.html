@@ -1,0 +1,316 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Resize a Vagrant VMDK drive - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Using Vagrant as a development environment is great. But you have to watch the available disk space when doing some funky database benchmarking. Last &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tlenss.github.com/blog/2012/09/24/resize-a-vagrant-vmdk-drive/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tlenss.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Resize a Vagrant VMDK Drive</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-24T14:17:00+02:00" pubdate data-updated="true">Sep 24<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Using <a href="http://vagrantup.com/">Vagrant</a> as a development environment is great. But you have to watch the available disk space when doing some funky database benchmarking. Last Friday i wrote a script to populate a test database with over 60 million records. And left it running over the weekend. With the idea it would be finished when i returned to the office on Monday. Well it actually was still running. But the Vagrant instance was out of disk space when i logged in. Damn. Should have made sure i had a big disk attached to this instance.</p>
+
+<p>O well. My first idea was to just drop the database that i wanted to use for testing. But due to no space available on the system. I could not drop it. I really couldn&#8217;t do anything on the system. Even writing config files failed. So where did all the disk space go?</p>
+
+<blockquote><p>$ df -h
+Filesystem            Size    Used    Avail    Use%    Mounted on
+/dev/mapper/debian-605-root    10G    9.8G    0.2G    99%    /</p></blockquote>
+
+<p>That&#8217;s really not that much space left. And /var/mysql/ibdata1 for the <a href="http://www.innodb.com/">InnoDB</a> tables was taking up 7 GB. And since i have a couple of InnoDB tables i can&#8217;t just delete this file. So need to come up with something else. And after a bit of Googling. I came across <a href="http://jjperezaguinaga.wordpress.com/2012/04/03/a-happy-ending-story-with-vagrant-resizing-a-lucid32-vmdk-box/">this</a> post. Which seemed promising. But the most important part is left out. And instead linked to some horrible garbled page. That is completely unreadable. So i had to do some digging to figure this out on my own. For cloning the disks i followed the steps in the article however. The Virtual Box files are located in the user folder in the following path</p>
+
+<blockquote><p>$ cd ~/VirtualBox VMs/development_*</p></blockquote>
+
+<p>The first thing i did was convert the <a href="http://sanbarrow.com/vmdk-handbook.html">VMDK</a> image to a <a href="http://en.wikipedia.org/wiki/VDI_(file_format">VDI</a>) image so we can actually do some partition resizing.</p>
+
+<blockquote><p>$ VBoxManage clonehd box-disk1.vmdk box-disk1.vdi &#8211;format VDI</p></blockquote>
+
+<p>So now we have a new VDI image. And we need to resize it so it has sufficient space for what we are trying to do. In my case 20 GB is sufficient.</p>
+
+<blockquote><p>$ VBoxManage modifyhd box-disk1.vdi &#8211;resize 20000</p></blockquote>
+
+<p>Now that the new disk is created it needs to be attached to the vagrant virtual machine. This is easily achieved by doing right click on the VM in <a href="https://www.virtualbox.org/">VirtualBox</a> and select Settings</p>
+
+<blockquote><p>Storage > SATA Controller > Add hard disk (select existing and point to the new VDI image)</p></blockquote>
+
+<p>Now boot the Vagrant image in VirtualBox so we have a screen to work with. When it has booted up. Login.</p>
+
+<p>First create a new Primary partition in the unused space of type Linux LVM (8e) with <a href="http://linux.die.net/man/8/cfdisk">cfdisk</a>.</p>
+
+<blockquote><p>$ cfdisk /dev/sda</p></blockquote>
+
+<p>When the partition table has been written. It&#8217;s time to create a new physical volume on the new partition with the help of <a href="http://linux.about.com/library/cmd/blcmdl8_pvcreate.htm">pvcreate</a></p>
+
+<blockquote><p>$ pvcreate /dev/sda3
+  successfully created</p></blockquote>
+
+<p>For the next steps we will be needing the Volume Group name. We will get this by running <a href="http://linux.about.com/library/cmd/blcmdl8_pvdisplay.htm">pvdisplay</a></p>
+
+<blockquote><p>$ pvdisplay | grep &#8220;VG Name&#8221;
+ VG Name    debian-605</p></blockquote>
+
+<p>So now we have all the bits ready. And its time to extend the root partition with the newly created partition.</p>
+
+<blockquote><p>$ vgextend debian-605 /dev/sda3
+ Volume group &#8220;debian-605&#8221; successfully extended</p></blockquote>
+
+<p>Awesome! next step extending the logical partition</p>
+
+<blockquote><p>$ lvextend /dev/debian-605/root /dev/sda3
+ Extending logical volume root to 18.84 GiB
+ Logical volume root successfully resized</p></blockquote>
+
+<p>Almost there. The last thing left to do is resize the filesystem to make all space available.</p>
+
+<blockquote><p>$ resize2fs /dev/debian-605/root
+ resize2fs 1.41.12 (17-May-2010)
+Filesystem at /dev/debian-605/root is mounted on /; on-line resizing required old desc_blocks = 1, new_desc_blocks = 2
+Performing an on-line resize of /dev/debian-605/root to 4937728 (4k) blocks.
+The filesystem on /dev/debian-605/root is now 4937728 blocks long.</p></blockquote>
+
+<p>It&#8217;s that simple really. So let&#8217;s check.</p>
+
+<blockquote><p>$ df -h
+Filesystem            Size    Used    Avail    Use%    Mounted on
+/dev/mapper/debian-605-root    19G    8.6G    9.1G    49%    /</p></blockquote>
+
+<p>After this i did not bother to convert the VDI image back to a VDMK image. But if you have to for some reason. You could do that with the commands below. And some manual editing of the VirtualBox xml config.</p>
+
+<blockquote><p>$ VBoxManage internalcommands sethduuid box-disk1.vdi
+$ VBoxManage clonehd box-disk1.vdi box-disk1.vmdk &#8211;format VMDK</p></blockquote>
+
+<p>So that&#8217;s it really for resizing the Vagrant hard drive. The only thing left for me was to cleanup the large ibdata1 file. And setup Mysql to use separate ibdata files for InnoDB table.</p>
+
+<blockquote><p>$ vi /etc/mysql/my.cnf
+[mysqld]
+innodb_file_per_table</p></blockquote>
+
+<p>Restart Mysql and dump all needed databases except the system tables like (mysql, information_schema).</p>
+
+<blockquote><p>$ /etc/init.d/mysql restart
+$ echo &#8216;show databases;&#8217; | mysql -uroot -p | grep -v ^Database$ | grep -v ^information_schema$ | grep -v ^mysql$ | xargs mysqldump -uroot -p  &#8211;databases > dump.sql</p></blockquote>
+
+<p>When that&#8217;s done. Drop all InnoDB database tables. Remove the ibdata and in_log files from /var/lib/mysql.</p>
+
+<blockquote><p>$ /etc/init.d/mysql stop
+$ rm /var/mysql/ibdata1<em> /var/mysql/ib_log</em></p></blockquote>
+
+<p>Now we restart Mysql. And reimport the databases.</p>
+
+<blockquote><p>$ /etc/init.d/mysql start
+$ mysql -uroot -p &lt; dump.sql</p></blockquote>
+
+<p>Some of the resources i used for solving this issue:</p>
+
+<p>[1] <a href="http://www.turnkeylinux.org/blog/extending-lvm">http://www.turnkeylinux.org/blog/extending-lvm</a>
+[2] <a href="http://unix.stackexchange.com/questions/37900/gparted-live-cd-cant-resize-a-partition">http://unix.stackexchange.com/questions/37900/gparted-live-cd-cant-resize-a-partition</a>
+[3] <a href="http://www.my-guides.net/en/guides/general-software/122-how-to-resize-a-virtualbox-disk-partition">http://www.my-guides.net/en/guides/general-software/122-how-to-resize-a-virtualbox-disk-partition</a>
+[4] <a href="http://www.virtualbox.org/manual/ch08.html#vboxmanage-modifyvdi">http://www.virtualbox.org/manual/ch08.html#vboxmanage-modifyvdi</a>
+[6] <a href="http://stackoverflow.com/questions/3456159/how-to-shrink-purge-ibdata1-file-in-mysql">http://stackoverflow.com/questions/3456159/how-to-shrink-purge-ibdata1-file-in-mysql</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-24T14:17:00+02:00" pubdate data-updated="true">Sep 24<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/code/'>Code</a>, <a class='category' href='/blog/categories/sql/'>SQL</a>, <a class='category' href='/blog/categories/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tlenss.github.com/blog/2012/09/24/resize-a-vagrant-vmdk-drive/" data-via="" data-counturl="http://tlenss.github.com/blog/2012/09/24/resize-a-vagrant-vmdk-drive/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/09/12/git-coming-up-with-a-good-workflow/" title="Previous Post: GIT:  Coming up with a good workflow">&laquo; GIT:  Coming up with a good workflow</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/09/24/fixing-character-replacement-in-wordpress/" title="Next Post: Fixing character replacement in Wordpress">Fixing character replacement in Wordpress &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/11/07/publish-google-reader-shared-items/">Publish Google Reader shared items</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/29/long-running-php-script-and-mysql-server-gone-away/">Long running PHP script and MySQL server gone away</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/25/git-rebase-on-pull-by-default/">Git: Rebase on pull by default</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/">Workaround Ubuntu 12.04 mysterious system freezes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/24/fixing-character-replacement-in-wordpress/">Fixing character replacement in Wordpress</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
