@@ -105,7 +105,7 @@
   </header>
 
 
-  <div class="entry-content"><p><a href="http://www.vim.org/"><img src="http://lenss.nl/wp-content/uploads/2011/04/vim_logo.png" alt="" /></a>For my coding work i mostly use <a href="http://www.zend.com/en/products/studio/">Zend Studio</a>. And i am a big fan of this IDE. But i also do a lot of work in the shell. And that asks for at least basic <a href="http://www.vim.org/">vim</a> knowledge. My colleague is a big vim fan. And does most of his work in vim. So last week i was compiling a cheat-sheet for my self. And came across a <a href="http://www.slideshare.net/ZendCon/vim-for-php-programmers-presentation">slideshow</a> of one of <a href="http://zmievski.org/">Andrei Zmievski</a>&#8217;s talks. This slide show got me inspired enough to start playing around with vim a bit. And this is the result of it.</p>
+  <div class="entry-content"><p><a href="http://www.vim.org/"><img src="http://lenss.nl/images/2011/04/vim_logo.png" alt="" /></a>For my coding work i mostly use <a href="http://www.zend.com/en/products/studio/">Zend Studio</a>. And i am a big fan of this IDE. But i also do a lot of work in the shell. And that asks for at least basic <a href="http://www.vim.org/">vim</a> knowledge. My colleague is a big vim fan. And does most of his work in vim. So last week i was compiling a cheat-sheet for my self. And came across a <a href="http://www.slideshare.net/ZendCon/vim-for-php-programmers-presentation">slideshow</a> of one of <a href="http://zmievski.org/">Andrei Zmievski</a>&#8217;s talks. This slide show got me inspired enough to start playing around with vim a bit. And this is the result of it.</p>
 
 <p>We need to have vim installed of course.</p>
 
@@ -128,9 +128,9 @@ $ mkdir ~/.vim/{syntax,colors,plugin}</p></blockquote>
 
 <blockquote><p>$ mv wombat256mod.vim ~/.vim/colors</p></blockquote>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2011/04/wombat-html.png"><img src="http://lenss.nl/wp-content/uploads/2011/04/wombat-html-300x60.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2011/04/wombat-html.png"><img src="http://lenss.nl/images/2011/04/wombat-html-300x60.png" alt="" /></a></p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2011/04/wombat-php.png"><img src="http://lenss.nl/wp-content/uploads/2011/04/wombat-php-300x128.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2011/04/wombat-php.png"><img src="http://lenss.nl/images/2011/04/wombat-php-300x128.png" alt="" /></a></p>
 
 <p>That&#8217;s starting to look like a pretty nice setup. Time to make some settings permanent and to enable some other features.</p>
 
@@ -179,9 +179,9 @@ set tags=tags;~/.vim/tags/filename</p></blockquote>
 <blockquote><p>$ vim
 :Project</p></blockquote>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2011/04/vim-project-1.png"><img src="http://lenss.nl/wp-content/uploads/2011/04/vim-project-1-300x175.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2011/04/vim-project-1.png"><img src="http://lenss.nl/images/2011/04/vim-project-1-300x175.png" alt="" /></a></p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2011/04/vim-project-2.png"><img src="http://lenss.nl/wp-content/uploads/2011/04/vim-project-2-300x174.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2011/04/vim-project-2.png"><img src="http://lenss.nl/images/2011/04/vim-project-2-300x174.png" alt="" /></a></p>
 
 <p>The project plugin took some time to get used to. But it&#8217;s a very convenient plugin. And easy to get the hang of. It&#8217;s possible to create the project settings by hand. But the plugin comes with a build in tool for this. While in <em>:Project</em> mode and hitting <em>\C</em> will make it easy to create new projects.</p>
 
@@ -227,7 +227,7 @@ Enter the File Filter: [ file filter : *.php ]</p></blockquote>
 
 <p>Testing auto-complete is just as easy. Type some php core function name partly _str__ and hit <strong>CTRL + x</strong> and <strong>CTRL + o</strong>. This will display the following scrollable drop down..</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2011/04/vim-autocomplete.png"><img src="http://lenss.nl/wp-content/uploads/2011/04/vim-autocomplete-300x134.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2011/04/vim-autocomplete.png"><img src="http://lenss.nl/images/2011/04/vim-autocomplete-300x134.png" alt="" /></a></p>
 
 <p>That&#8217;s about it. I had good fun exploring all the features and possibilities. And have only scratched the surface. One more thing i found on Matthew&#8217;s blog was a way to test and run PHP script from vim. Awesome stuff. You can read about it <a href="http://weierophinney.net/matthew/archives/164-Vim-Productivity-Tips-for-PHP-Developers.html">here</a>. Although i like vim. I don&#8217;t think i will be leaving ZS any time soon.</p>
 </div>
@@ -271,11 +271,11 @@ Enter the File Filter: [ file filter : *.php ]</p></blockquote>
 
 <p>The logs weren&#8217;t showing anything. No errors, nothing. Time to enable the <a href="http://www.xdebug.org/">XDebug</a> profiler. And after doing a few requests and loading them up in <a href="http://kcachegrind.sourceforge.net/html/Home.html">KCachegrind</a> i found the root of the problem quite fast. A call to the mkDom method was causing the slow load.</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2011/03/php-dom_1.png"><img src="http://lenss.nl/wp-content/uploads/2011/03/php-dom_1-300x59.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2011/03/php-dom_1.png"><img src="http://lenss.nl/images/2011/03/php-dom_1-300x59.png" alt="" /></a></p>
 
 <p>But because there are no errors or other indications something is wrong. I added some debug statements to the code in question. And found out that it was PHP&#8217;s native DOMDocument::load() that was taking two minutes to load a 200k XML template. That&#8217;s not good. So what&#8217;s going on here?</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2011/03/php-dom_2.png"><img src="http://lenss.nl/wp-content/uploads/2011/03/php-dom_2-300x41.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2011/03/php-dom_2.png"><img src="http://lenss.nl/images/2011/03/php-dom_2-300x41.png" alt="" /></a></p>
 
 <p>First let&#8217;s check why there are no errors. Turns out that for some specific reason <a href="http://nl2.php.net/manual/en/libxml.constants.php">LIBXML_NOERROR</a> is set. And after disabling this i was presented with an error.</p>
 
@@ -286,7 +286,7 @@ Entity &#8216;nbsp&#8217; not defined in /some/file.tal.html, line: 363</p></blo
 
 <p>Reloaded the page and everything is fast again. This solved my problem. But i wasn&#8217;t happy yet. Nobody else was experiencing this issue in the office. So there had to be some other issue. That&#8217;s when Geoff notified me about the fact that DTD checks are disabled by using <a href="http://nl2.php.net/manual/en/libxml.constants.php">LIBXML_NONET</a>. For this to work however there needs to be an extra W3C package installed.</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2011/03/php-dom_3.png"><img src="http://lenss.nl/wp-content/uploads/2011/03/php-dom_3-300x7.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2011/03/php-dom_3.png"><img src="http://lenss.nl/images/2011/03/php-dom_3-300x7.png" alt="" /></a></p>
 
 <p>This was one of those hard to track errors. But it&#8217;s fixed and everything is running smooth again.</p>
 </div>
@@ -326,7 +326,7 @@ Entity &#8216;nbsp&#8217; not defined in /some/file.tal.html, line: 363</p></blo
   </header>
 
 
-  <div class="entry-content"><p><img src="http://lenss.nl/wp-content/uploads/2011/03/wordpress.jpg" alt="" /> In the spirit of <a href="http://lenss.nl/2011/03/ideas-of-march/">Ideas for March</a> i should really be blogging more. Somehow i just can&#8217;t think of anything interesting at the moment. Will give it a shot anyway.</p>
+  <div class="entry-content"><p><img src="http://lenss.nl/images/2011/03/wordpress.jpg" alt="" /> In the spirit of <a href="http://lenss.nl/2011/03/ideas-of-march/">Ideas for March</a> i should really be blogging more. Somehow i just can&#8217;t think of anything interesting at the moment. Will give it a shot anyway.</p>
 
 <p>Last week i created my first ever <a href="http://wordpress.org/">Wordpress</a> <a href="http://codex.wordpress.org/Writing_a_Plugin">plugin</a>. It&#8217;s an extremely simple one. And for sure nothing new or special. But it was a fun experience. I have always dreaded the WP code base. The mixture of OO and procedural programming just looks plain ugly to me. But i don&#8217;t want to be bash WP. I use it myself. So i took the dive and spend a few hours hacking and <a href="http://codex.wordpress.org/Plugin_API">reading</a>. And the result is my <strong>DWOTD</strong> (Dutch Word Of The Day) plugin.</p>
 
@@ -456,12 +456,12 @@ Class DWOTD_Plugin
 
 <p>After copying the files to the plugin folder login to <em>wp-admin</em> and browse to <em>Plugins/Plugins</em>. Search for the plugin and click activate.</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2011/03/widget-install.png"><img src="http://lenss.nl/wp-content/uploads/2011/03/widget-install-300x38.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2011/03/widget-install.png"><img src="http://lenss.nl/images/2011/03/widget-install-300x38.png" alt="" /></a></p>
 
 <p>Enabling the widget from the admin panel is easy. Browse to <em>Appearance/Widgets</em>. And drag the widget from the left to the sidebar panel on the right.</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2011/03/widget-drag.png"><img src="http://lenss.nl/wp-content/uploads/2011/03/widget-drag-300x68.png" alt="" /></a>
-<a href="http://lenss.nl/wp-content/uploads/2011/03/widget-sidebar.png"><img src="http://lenss.nl/wp-content/uploads/2011/03/widget-sidebar.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2011/03/widget-drag.png"><img src="http://lenss.nl/images/2011/03/widget-drag-300x68.png" alt="" /></a>
+<a href="http://lenss.nl/images/2011/03/widget-sidebar.png"><img src="http://lenss.nl/images/2011/03/widget-sidebar.png" alt="" /></a></p>
 
 <p>Enabling it the manual way is also easy. But required a bit more work. For this to work the correct theme file needs to be edited somewhere in <em>wp-content/themes</em>. And the following code needs to be added in the spot the widget should appear.</p>
 
@@ -573,7 +573,7 @@ It&#8217;s also a great exercise platform. I myself are not native English speak
   </header>
 
 
-  <div class="entry-content"><p><a href="http://aws.amazon.com/"><img src="http://lenss.nl/wp-content/uploads/2011/03/logo_aws.gif" alt="" /></a> Finally back online again. Somewhere today the site went down. And i couldn&#8217;t reach the server. Which resulted in me jumping the gun and write an pissed off <a href="http://twitter.com/m0s/status/48089219616354304">tweet</a> about Amazon&#8217;s EC2 service. Which turned out to be false. After i noticed i tried to login to the AWS dashboard. But instead of my running instance i was presented with a validation screen. I had to validate my account by phone. That&#8217;s weird. I came to conclusion to early and thought Amazon had suspended my account for what whatever reason possible. It turns out it&#8217;s the annoying Amazon password bug that bit my ass. After poking around i came to the conclusion i have two Amazon accounts on the same email address but with different passwords. One has EC2 enabled the other doesn&#8217;t. Good to know. But the site was still down. So on my way home i missed a call from the Amazon support desk (really more companies should act like Amazon does). But got into an email conversation with them later on. After i apologised for the tweet. The Dev at Amazon figured out the server was running out of resources and was swapping. And just couldn&#8217;t do much more then that. Only a reboot resolved the issue. Hey! It&#8217;s not a micro instance for nothing.</p>
+  <div class="entry-content"><p><a href="http://aws.amazon.com/"><img src="http://lenss.nl/images/2011/03/logo_aws.gif" alt="" /></a> Finally back online again. Somewhere today the site went down. And i couldn&#8217;t reach the server. Which resulted in me jumping the gun and write an pissed off <a href="http://twitter.com/m0s/status/48089219616354304">tweet</a> about Amazon&#8217;s EC2 service. Which turned out to be false. After i noticed i tried to login to the AWS dashboard. But instead of my running instance i was presented with a validation screen. I had to validate my account by phone. That&#8217;s weird. I came to conclusion to early and thought Amazon had suspended my account for what whatever reason possible. It turns out it&#8217;s the annoying Amazon password bug that bit my ass. After poking around i came to the conclusion i have two Amazon accounts on the same email address but with different passwords. One has EC2 enabled the other doesn&#8217;t. Good to know. But the site was still down. So on my way home i missed a call from the Amazon support desk (really more companies should act like Amazon does). But got into an email conversation with them later on. After i apologised for the tweet. The Dev at Amazon figured out the server was running out of resources and was swapping. And just couldn&#8217;t do much more then that. Only a reboot resolved the issue. Hey! It&#8217;s not a micro instance for nothing.</p>
 
 <p>I might as well write a post about the move to the Amazon Cloud late last year. Ever since this website went up in 2008. It has been running on one of my own servers. And this has done the job well for two years. Some people would say if it ain&#8217;t broke don&#8217;t try to fix it. But i like to try out new things. And running a server isn&#8217;t cheap. So if i can find a more affordable way of hosting this site i may be interested enough to move. So where do i move this site too. Some other hosting provider? Let&#8217;s try something different and host it from the cloud. I didn&#8217;t really want to go over the whole hassle of finding a suitable hosting provider. And i was doing some small project with Amazon Web-services. So my choice was made quite easy. Let&#8217;s try the wide array of options Amazon&#8217;s Web-services have to offer.</p>
 
@@ -600,23 +600,23 @@ It&#8217;s also a great exercise platform. I myself are not native English speak
 
 <p>Make sure the right region is set in the region box. I logged in after creating my first image and couldn&#8217;t find it anywhere. Because the default region was not the one i used. From the dashboard i can just click the launch instance button and it gives me a list of different images to use as a virtual instance. There is plenty of flavour to choose from. I picked a community Debian instance.</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2011/03/request-instance2.png"><img src="http://lenss.nl/wp-content/uploads/2011/03/request-instance2-300x195.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2011/03/request-instance2.png"><img src="http://lenss.nl/images/2011/03/request-instance2-300x195.png" alt="" /></a></p>
 
 <p>The next screen is important because it sets the instance type to use. The Micro (t1.micro) is what i am looking for this time.</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2011/03/request-instance-micro.png"><img src="http://lenss.nl/wp-content/uploads/2011/03/request-instance-micro-300x204.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2011/03/request-instance-micro.png"><img src="http://lenss.nl/images/2011/03/request-instance-micro-300x204.png" alt="" /></a></p>
 
 <p>The rest of the install is quite self explanatory. At the end somewhere download the private key that will be used for setting up an SSH connection to the instance.</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2011/03/request-instance-key.png"><img src="http://lenss.nl/wp-content/uploads/2011/03/request-instance-key-300x204.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2011/03/request-instance-key.png"><img src="http://lenss.nl/images/2011/03/request-instance-key-300x204.png" alt="" /></a></p>
 
 <p>The next thing i did was setup a EBS storage volume for .. well .. storage. I made the choice for the EBS volume simply because it scales well. From the ec2 dashboard go to EBS instance and then create instance. Simply select the size and / or load it up with an image.</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2011/03/ebs-volume.png"><img src="http://lenss.nl/wp-content/uploads/2011/03/ebs-volume-300x128.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2011/03/ebs-volume.png"><img src="http://lenss.nl/images/2011/03/ebs-volume-300x128.png" alt="" /></a></p>
 
 <p>That pretty much does it. For the ec2 dashboard. The only thing left to do here is setup an elastic IP address so the instance is reachable from the outside world. This is basically assigning a ipv4 address to the instance. Click the elastic IP link and then allocate new address.</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2011/03/allocatenewaddress.png"><img src="http://lenss.nl/wp-content/uploads/2011/03/allocatenewaddress-300x163.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2011/03/allocatenewaddress.png"><img src="http://lenss.nl/images/2011/03/allocatenewaddress-300x163.png" alt="" /></a></p>
 
 <p>If all is well i should be able to login by SSH.</p>
 
@@ -663,11 +663,11 @@ $ sudo bash</p></blockquote>
   </header>
 
 
-  <div class="entry-content"><p><a href="http://www.zend.com/en/products/studio/vmware-workstation-deployment"><img src="http://lenss.nl/wp-content/uploads/2011/03/zend-vmware.gif" alt="" /></a>A while back i was contacted by <a href="http://twitter.com/vlaxmi">Vijay Laxmi</a>. Vijay is a Sr Partner Marketing Manager over at Zend Technologies. And she was interested in doing a podcast like interview about the brand new and shiny <a href="http://www.zend.com/en/products/studio/vmware-workstation-deployment">VMWare &amp; Zend Studio</a> integration. And because i am a big fan of this feature. I didn&#8217;t see why not. So we had a few chat sessions. Along the way <a href="http://twitter.com/jsolomin">Joshua Solomin</a> from Zend and Michael Paiko from VMWare joined the party. And after some preparation we recorded the session. Considering i have never been much of a speaker. This was quite fun to do.</p>
+  <div class="entry-content"><p><a href="http://www.zend.com/en/products/studio/vmware-workstation-deployment"><img src="http://lenss.nl/images/2011/03/zend-vmware.gif" alt="" /></a>A while back i was contacted by <a href="http://twitter.com/vlaxmi">Vijay Laxmi</a>. Vijay is a Sr Partner Marketing Manager over at Zend Technologies. And she was interested in doing a podcast like interview about the brand new and shiny <a href="http://www.zend.com/en/products/studio/vmware-workstation-deployment">VMWare &amp; Zend Studio</a> integration. And because i am a big fan of this feature. I didn&#8217;t see why not. So we had a few chat sessions. Along the way <a href="http://twitter.com/jsolomin">Joshua Solomin</a> from Zend and Michael Paiko from VMWare joined the party. And after some preparation we recorded the session. Considering i have never been much of a speaker. This was quite fun to do.</p>
 
 <p>Michael send me the end result. And everybody seemed happy with it. After that life resumed and i have been incredibly busy every since. So i kinda forgot about the whole thing. Till Vijay mailed me today (ty! Vijay). VMWare put the <a href="http://blogs.vmware.com/workstation/">recording</a> on their website. And a customer mailing has been transmitted over the wire.  Cool stuff!</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2011/03/2011-02-07-VMware-Zend-VOC-Podcast.mp3">2011-02-07 VMware-Zend VOC Podcast</a></p>
+<p><a href="http://lenss.nl/images/2011/03/2011-02-07-VMware-Zend-VOC-Podcast.mp3">2011-02-07 VMware-Zend VOC Podcast</a></p>
 </div>
   
   
@@ -733,19 +733,19 @@ Baidu  : 1,860,000</p></blockquote>
 
 <p>Interesting results. This shows that the interest for PHP has been steadily dropping since somewhere around 2004. When people started getting scared of PHP5 i assume. Python on the other hand is nearly visible but steady.</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2011/03/php-python.png"><img src="http://lenss.nl/wp-content/uploads/2011/03/php-python.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2011/03/php-python.png"><img src="http://lenss.nl/images/2011/03/php-python.png" alt="" /></a></p>
 
 <p><strong>Let&#8217;s try a more precise query <a href="http://www.google.com/trends?q=PHP+programming%2C+Python+programming&amp;ctab=0&amp;geo=all&amp;date=all&amp;sort=0">&#8220;PHP programming&#8221; vs &#8220;Python programming&#8221;</a></strong></p>
 
 <p>That will display something i did not hope for. But something i was expecting non the less. The interest for Python programming has risen over the past years.</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2011/03/phppro-pythonpro.png"><img src="http://lenss.nl/wp-content/uploads/2011/03/phppro-pythonpro.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2011/03/phppro-pythonpro.png"><img src="http://lenss.nl/images/2011/03/phppro-pythonpro.png" alt="" /></a></p>
 
 <p><strong>One more comparison for the road <a href="http://www.google.com/trends?q=PHP+developer%2C+Python+developer&amp;ctab=0&amp;geo=all&amp;date=all&amp;sort=0">&#8220;PHP developer&#8221; vs &#8220;Python developer&#8221;</a></strong></p>
 
 <p>Well that&#8217;s kind of a relieve. It shows the demand for Python developers is growing. But they have a long way to go to catch up on PHP :)</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2011/03/phpdev-pythondev.png"><img src="http://lenss.nl/wp-content/uploads/2011/03/phpdev-pythondev.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2011/03/phpdev-pythondev.png"><img src="http://lenss.nl/images/2011/03/phpdev-pythondev.png" alt="" /></a></p>
 
 <p>Conclusion for me is. I still have no clue what the TIOBE index does. Google trend shows a drop in PHP&#8217;s popularity and a rise in Pythons Popularity. Personally i don&#8217;t see much change in the PHP community compared to resent years. And i have no real opinion of what is going on inside the Python community. But i am happy to stick with PHP anyway.</p>
 </div>
@@ -947,7 +947,7 @@ SSLCACertificateFile /usr/lib/ssl/misc/demoCA/cacert.pem</p>
   </header>
 
 
-  <div class="entry-content"><p><a href="http://lenss.nl/wp-content/uploads/2011/02/elephpant-small.png"><img src="http://lenss.nl/wp-content/uploads/2011/02/elephpant-small.png" alt="" /></a> Just found this nice little project <a href="http://blog.calevans.com/">Cal Evans</a> is doing. It&#8217;s called <a href="http://voicesoftheelephpant.com/">Voices of the ElePHPant</a>. The name i guess is dedicated to <a href="http://www.elroubio.net/">Vincent Pontier</a> the creator of the elePHPant. The goal is to shine a light on a special PHP community person. And the kick of is done by <a href="http://www.jeremykendall.net/">Jeremy Kendall</a>. Be sure to check back often for new updates. Or nominate somebody.</p>
+  <div class="entry-content"><p><a href="http://lenss.nl/images/2011/02/elephpant-small.png"><img src="http://lenss.nl/images/2011/02/elephpant-small.png" alt="" /></a> Just found this nice little project <a href="http://blog.calevans.com/">Cal Evans</a> is doing. It&#8217;s called <a href="http://voicesoftheelephpant.com/">Voices of the ElePHPant</a>. The name i guess is dedicated to <a href="http://www.elroubio.net/">Vincent Pontier</a> the creator of the elePHPant. The goal is to shine a light on a special PHP community person. And the kick of is done by <a href="http://www.jeremykendall.net/">Jeremy Kendall</a>. Be sure to check back often for new updates. Or nominate somebody.</p>
 </div>
   
   
@@ -992,7 +992,7 @@ SSLCACertificateFile /usr/lib/ssl/misc/demoCA/cacert.pem</p>
 <p>File > Import > General > Preferences</p></blockquote>
 
 <p>Bart&#8217;s zenburn theme:
-<a href="http://lenss.nl/wp-content/uploads/2011/03/zenburn.png"><img src="http://lenss.nl/wp-content/uploads/2011/03/zenburn-300x225.png" alt="" /></a></p>
+<a href="http://lenss.nl/images/2011/03/zenburn.png"><img src="http://lenss.nl/images/2011/03/zenburn-300x225.png" alt="" /></a></p>
 
 <p>Most developers i know don&#8217;t seem to care much about the colour of their screen and the font they use. But considering the fact that i spend an insanely amount of time behind a screen. It would be nice if this environment i am in all day put the least amount of constrained on my eyes as possible. So i choose to take time and configure this for optimal viewing pleasure. This starts with the font. For years i have been using the <a href="http://damieng.com/blog/2008/05/26/envy-code-r-preview-7-coding-font-released">Envy Code</a> font by <a href="http://damieng.com/">Damien Guard</a> inside my <a href="http://en.wikipedia.org/wiki/Integrated_development_environment">IDE</a>. This all started i think with a <a href="http://www.codinghorror.com/blog/2007/10/revisiting-programming-fonts.html">post</a> by <a href="http://www.codinghorror.com/">Jeff Atwood</a> It&#8217;s a great font that is extremely easy to read even for terminals. Although still in beta. I advice people to use it when possible.</p>
 
@@ -1032,19 +1032,19 @@ Variable : #0B91B7 (11, 145, 183)</p></blockquote>
 
 <p>The result can be viewed below</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2011/02/Screenshot-ide-dark.png"><img src="http://lenss.nl/wp-content/uploads/2011/02/Screenshot-ide-dark-300x182.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2011/02/Screenshot-ide-dark.png"><img src="http://lenss.nl/images/2011/02/Screenshot-ide-dark-300x182.png" alt="" /></a></p>
 
 <p>There are much more configuration options to do but for now this is what i came up with. Setting up the theme is a since in ZS. But one thing bothered me. The function / property name highlighting when you select an element inside the IDE. Was a very light colour. And this made it impossible to read the contents of the selection.</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2011/02/occurrences_on.png"><img src="http://lenss.nl/wp-content/uploads/2011/02/occurrences_on-300x20.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2011/02/occurrences_on.png"><img src="http://lenss.nl/images/2011/02/occurrences_on-300x20.png" alt="" /></a></p>
 
 <p>So after searching for a while and setting every possible setting in the configuration tabs. I finally figured out how the set the colour for these two actions. This is done from the Annotations setting in the Text editors panel under the general tab. The two options to change are <em>PHP elements read / write occurrences</em>.</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2011/02/Screenshot-change-bg.png"><img src="http://lenss.nl/wp-content/uploads/2011/02/Screenshot-change-bg-300x157.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2011/02/Screenshot-change-bg.png"><img src="http://lenss.nl/images/2011/02/Screenshot-change-bg-300x157.png" alt="" /></a></p>
 
 <p>For now i settled with a dark colour. But maybe i will change this in the future since it is not very readable</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2011/02/occurrences_off.png"><img src="http://lenss.nl/wp-content/uploads/2011/02/occurrences_off-300x20.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2011/02/occurrences_off.png"><img src="http://lenss.nl/images/2011/02/occurrences_off-300x20.png" alt="" /></a></p>
 
 <p>That&#8217;s it for now. This of course only sets up the PHP environment. The syntax colours for XML, HTML, CSS and Javascript still have to be changed. But i will leave it at this.</p>
 </div>

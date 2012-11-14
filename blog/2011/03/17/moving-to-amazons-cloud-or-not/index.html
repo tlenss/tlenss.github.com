@@ -102,7 +102,7 @@
   </header>
 
 
-<div class="entry-content"><p><a href="http://aws.amazon.com/"><img src="http://lenss.nl/wp-content/uploads/2011/03/logo_aws.gif" alt="" /></a> Finally back online again. Somewhere today the site went down. And i couldn&#8217;t reach the server. Which resulted in me jumping the gun and write an pissed off <a href="http://twitter.com/m0s/status/48089219616354304">tweet</a> about Amazon&#8217;s EC2 service. Which turned out to be false. After i noticed i tried to login to the AWS dashboard. But instead of my running instance i was presented with a validation screen. I had to validate my account by phone. That&#8217;s weird. I came to conclusion to early and thought Amazon had suspended my account for what whatever reason possible. It turns out it&#8217;s the annoying Amazon password bug that bit my ass. After poking around i came to the conclusion i have two Amazon accounts on the same email address but with different passwords. One has EC2 enabled the other doesn&#8217;t. Good to know. But the site was still down. So on my way home i missed a call from the Amazon support desk (really more companies should act like Amazon does). But got into an email conversation with them later on. After i apologised for the tweet. The Dev at Amazon figured out the server was running out of resources and was swapping. And just couldn&#8217;t do much more then that. Only a reboot resolved the issue. Hey! It&#8217;s not a micro instance for nothing.</p>
+<div class="entry-content"><p><a href="http://aws.amazon.com/"><img src="http://lenss.nl/images/2011/03/logo_aws.gif" alt="" /></a> Finally back online again. Somewhere today the site went down. And i couldn&#8217;t reach the server. Which resulted in me jumping the gun and write an pissed off <a href="http://twitter.com/m0s/status/48089219616354304">tweet</a> about Amazon&#8217;s EC2 service. Which turned out to be false. After i noticed i tried to login to the AWS dashboard. But instead of my running instance i was presented with a validation screen. I had to validate my account by phone. That&#8217;s weird. I came to conclusion to early and thought Amazon had suspended my account for what whatever reason possible. It turns out it&#8217;s the annoying Amazon password bug that bit my ass. After poking around i came to the conclusion i have two Amazon accounts on the same email address but with different passwords. One has EC2 enabled the other doesn&#8217;t. Good to know. But the site was still down. So on my way home i missed a call from the Amazon support desk (really more companies should act like Amazon does). But got into an email conversation with them later on. After i apologised for the tweet. The Dev at Amazon figured out the server was running out of resources and was swapping. And just couldn&#8217;t do much more then that. Only a reboot resolved the issue. Hey! It&#8217;s not a micro instance for nothing.</p>
 
 <p>I might as well write a post about the move to the Amazon Cloud late last year. Ever since this website went up in 2008. It has been running on one of my own servers. And this has done the job well for two years. Some people would say if it ain&#8217;t broke don&#8217;t try to fix it. But i like to try out new things. And running a server isn&#8217;t cheap. So if i can find a more affordable way of hosting this site i may be interested enough to move. So where do i move this site too. Some other hosting provider? Let&#8217;s try something different and host it from the cloud. I didn&#8217;t really want to go over the whole hassle of finding a suitable hosting provider. And i was doing some small project with Amazon Web-services. So my choice was made quite easy. Let&#8217;s try the wide array of options Amazon&#8217;s Web-services have to offer.</p>
 
@@ -129,23 +129,23 @@
 
 <p>Make sure the right region is set in the region box. I logged in after creating my first image and couldn&#8217;t find it anywhere. Because the default region was not the one i used. From the dashboard i can just click the launch instance button and it gives me a list of different images to use as a virtual instance. There is plenty of flavour to choose from. I picked a community Debian instance.</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2011/03/request-instance2.png"><img src="http://lenss.nl/wp-content/uploads/2011/03/request-instance2-300x195.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2011/03/request-instance2.png"><img src="http://lenss.nl/images/2011/03/request-instance2-300x195.png" alt="" /></a></p>
 
 <p>The next screen is important because it sets the instance type to use. The Micro (t1.micro) is what i am looking for this time.</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2011/03/request-instance-micro.png"><img src="http://lenss.nl/wp-content/uploads/2011/03/request-instance-micro-300x204.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2011/03/request-instance-micro.png"><img src="http://lenss.nl/images/2011/03/request-instance-micro-300x204.png" alt="" /></a></p>
 
 <p>The rest of the install is quite self explanatory. At the end somewhere download the private key that will be used for setting up an SSH connection to the instance.</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2011/03/request-instance-key.png"><img src="http://lenss.nl/wp-content/uploads/2011/03/request-instance-key-300x204.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2011/03/request-instance-key.png"><img src="http://lenss.nl/images/2011/03/request-instance-key-300x204.png" alt="" /></a></p>
 
 <p>The next thing i did was setup a EBS storage volume for .. well .. storage. I made the choice for the EBS volume simply because it scales well. From the ec2 dashboard go to EBS instance and then create instance. Simply select the size and / or load it up with an image.</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2011/03/ebs-volume.png"><img src="http://lenss.nl/wp-content/uploads/2011/03/ebs-volume-300x128.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2011/03/ebs-volume.png"><img src="http://lenss.nl/images/2011/03/ebs-volume-300x128.png" alt="" /></a></p>
 
 <p>That pretty much does it. For the ec2 dashboard. The only thing left to do here is setup an elastic IP address so the instance is reachable from the outside world. This is basically assigning a ipv4 address to the instance. Click the elastic IP link and then allocate new address.</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2011/03/allocatenewaddress.png"><img src="http://lenss.nl/wp-content/uploads/2011/03/allocatenewaddress-300x163.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2011/03/allocatenewaddress.png"><img src="http://lenss.nl/images/2011/03/allocatenewaddress-300x163.png" alt="" /></a></p>
 
 <p>If all is well i should be able to login by SSH.</p>
 

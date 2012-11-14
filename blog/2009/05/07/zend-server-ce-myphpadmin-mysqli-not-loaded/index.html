@@ -106,11 +106,11 @@
 
 <p>After the install i walked through all pages of the ZS GUI. And all seemed to work great. So i checked the repository if there were anymore packages i could add to the ZS setup. And found the <a href="http://www.phpmyadmin.net/">myphpadmin</a> package. Just what i needed. And as i remember this was missing from the previous version. So i installed the package. And the GUI now showed a link to the phpmyadmin application. But when triggering the page i was confronted with an error message.</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2009/05/mysqli_error_zs.jpg"><img src="http://lenss.nl/wp-content/uploads/2009/05/mysqli_error_zs-300x14.jpg" alt="mysqli_error_zs" /></a></p>
+<p><a href="http://lenss.nl/images/2009/05/mysqli_error_zs.jpg"><img src="http://lenss.nl/images/2009/05/mysqli_error_zs-300x14.jpg" alt="mysqli_error_zs" /></a></p>
 
 <p>So mysqli was not loaded. Well that&#8217;s possible of course. But the repository showed it was installed. And so did the <a href="http://www.php.net/phpinfo">phpinfo()</a> page.</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2009/05/phpinfo_mysqli_zs.jpg"><img src="http://lenss.nl/wp-content/uploads/2009/05/phpinfo_mysqli_zs-220x300.jpg" alt="phpinfo_mysqli_zs" /></a></p>
+<p><a href="http://lenss.nl/images/2009/05/phpinfo_mysqli_zs.jpg"><img src="http://lenss.nl/images/2009/05/phpinfo_mysqli_zs-220x300.jpg" alt="phpinfo_mysqli_zs" /></a></p>
 
 <p>So after looking around the config files for a while. It hit me. The ZS GUI is running on <a href="http://www.lighttpd.net/">lighttpd</a> and not apache. And just as i expected. Apache loaded the mysqli extension. But lighttpd didn&#8217;t.</p>
 

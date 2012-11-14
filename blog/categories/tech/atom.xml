@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tech | Thijs Lensselink's Blog]]></title>
   <link href="http://tlenss.github.com/blog/categories/tech/atom.xml" rel="self"/>
   <link href="http://tlenss.github.com/"/>
-  <updated>2012-11-14T11:12:03+01:00</updated>
+  <updated>2012-11-14T11:39:26+01:00</updated>
   <id>http://tlenss.github.com/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -30,19 +30,19 @@
 
 <p>In the Google Reader pages it's possible to add sharing functionality. This is done by going to the <strong>Send To</strong> tab</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2012/11/Send-To.png"><img src="http://lenss.nl/wp-content/uploads/2012/11/Send-To-300x22.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2012/11/Send-To.png"><img src="http://lenss.nl/images/2012/11/Send-To-300x22.png" alt="" /></a></p>
 
 <p>From here it's possible to select a service to share data with. Non of these services are any good for what i am trying to do. But the great thing about this page is. You can provide custom URL's for sharing data. Just incorporate the specified parameters in the URL and your done.</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2012/11/Custom-Site.png"><img src="http://lenss.nl/wp-content/uploads/2012/11/Custom-Site-300x178.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2012/11/Custom-Site.png"><img src="http://lenss.nl/images/2012/11/Custom-Site-300x178.png" alt="" /></a></p>
 
 <p>Once configured and saved a custom URL is visible in the <strong>Send To</strong> panel</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2012/11/Favorite-Site.png"><img src="http://lenss.nl/wp-content/uploads/2012/11/Favorite-Site-300x125.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2012/11/Favorite-Site.png"><img src="http://lenss.nl/images/2012/11/Favorite-Site-300x125.png" alt="" /></a></p>
 
 <p>That's it for this part. Actually sharing items is quite easy now. When back in the Google Reader under each post there is Send to link. If you click this link the newly created custom URL will show up. And you can share the post.</p>
 
-<p><a href="http://lenss.nl/wp-content/uploads/2012/11/Tag-Article.png"><img src="http://lenss.nl/wp-content/uploads/2012/11/Tag-Article-300x41.png" alt="" /></a></p>
+<p><a href="http://lenss.nl/images/2012/11/Tag-Article.png"><img src="http://lenss.nl/images/2012/11/Tag-Article-300x41.png" alt="" /></a></p>
 
 <p>The only thing left to do is write some code to process the incoming data. To get you started. Some of the code i used while testing this is posted below</p>
 

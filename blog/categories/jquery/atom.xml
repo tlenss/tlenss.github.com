@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Jquery | Thijs Lensselink's Blog]]></title>
   <link href="http://tlenss.github.com/blog/categories/jquery/atom.xml" rel="self"/>
   <link href="http://tlenss.github.com/"/>
-  <updated>2012-11-14T11:12:03+01:00</updated>
+  <updated>2012-11-14T11:39:26+01:00</updated>
   <id>http://tlenss.github.com/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -124,7 +124,7 @@ imagedestroy($dest);
 imagedestroy($src);
 </code></pre>
 
-<p>That's all. All files can be downloaded <a href="http://lenss.nl/wp-content/uploads/2010/11/imageSlice.tar.gz">here</a></p>
+<p>That's all. All files can be downloaded <a href="http://lenss.nl/images/2010/11/imageSlice.tar.gz">here</a></p>
 ]]></content>
   </entry>
   

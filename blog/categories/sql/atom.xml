@@ -4,7 +4,7 @@
   <title><![CDATA[Category: SQL | Thijs Lensselink's Blog]]></title>
   <link href="http://tlenss.github.com/blog/categories/sql/atom.xml" rel="self"/>
   <link href="http://tlenss.github.com/"/>
-  <updated>2012-11-14T11:12:03+01:00</updated>
+  <updated>2012-11-14T11:39:26+01:00</updated>
   <id>http://tlenss.github.com/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -192,7 +192,7 @@ $ mysql -uroot -p &lt; dump.sql</p></blockquote>
     <link href="http://tlenss.github.com/blog/2011/11/22/abbywinters-com-is-hiring/"/>
     <updated>2011-11-22T14:46:51+01:00</updated>
     <id>http://tlenss.github.com/blog/2011/11/22/abbywinters-com-is-hiring</id>
-    <content type="html"><![CDATA[<p><a href="http://careers.abbywinters.com/job-opportunities/senior-php-developer/"><img src="http://lenss.nl/wp-content/uploads/2011/11/aw-logo-roundel-blue.png" alt="" /></a> If you're looking for a new challenging and exiting Senior Webdeveloper position. Don't look any further. If you already think you have the job of your dreams. Think again!</p>
+    <content type="html"><![CDATA[<p><a href="http://careers.abbywinters.com/job-opportunities/senior-php-developer/"><img src="http://lenss.nl/images/2011/11/aw-logo-roundel-blue.png" alt="" /></a> If you're looking for a new challenging and exiting Senior Webdeveloper position. Don't look any further. If you already think you have the job of your dreams. Think again!</p>
 
 <p><em><a href="http://www.abbywinters.com">abbywinters.com</a> <strong>(NSFW)</strong> is one of the largest and most ethical, highly rated, well designed, and successful erotic websites in the world today. abbywinters.com is the WINNER of the AVN 2011 Awards for Best Membership site!</em></p>
 
@@ -301,7 +301,7 @@ $ mysql -uroot -p &lt; dump.sql</p></blockquote>
     <link href="http://tlenss.github.com/blog/2011/05/23/dutch-php-conference-2011/"/>
     <updated>2011-05-23T12:51:39+02:00</updated>
     <id>http://tlenss.github.com/blog/2011/05/23/dutch-php-conference-2011</id>
-    <content type="html"><![CDATA[<p><a href="http://lenss.nl/wp-content/uploads/2011/05/dpc11.jpg"><img src="http://lenss.nl/wp-content/uploads/2011/05/dpc11.jpg" alt="" /></a> Last week was the 5th <a href="http://www.phpconference.nl">DPC</a> (Dutch PHP Conference) in the <a href="http://www.rai.nl/">Amsterdam Rai</a>. And thanks to my awesome employer i once again had the chance to be there. This year with a full conference ticket (including the tutorial days). And i had a blast. I wanted to do this post earlier this weekend but due to some current injury i wasn't able to. So here goes.</p>
+    <content type="html"><![CDATA[<p><a href="http://lenss.nl/images/2011/05/dpc11.jpg"><img src="http://lenss.nl/images/2011/05/dpc11.jpg" alt="" /></a> Last week was the 5th <a href="http://www.phpconference.nl">DPC</a> (Dutch PHP Conference) in the <a href="http://www.rai.nl/">Amsterdam Rai</a>. And thanks to my awesome employer i once again had the chance to be there. This year with a full conference ticket (including the tutorial days). And i had a blast. I wanted to do this post earlier this weekend but due to some current injury i wasn't able to. So here goes.</p>
 
 <p>The kick off for the DPC11 were the tutorial days. And they had some pretty cool tutorial lined up for this year. But as always you have to choose. So me and Geoff chose to visit two of the tutorials we would benefit from the most. Since we are in pretty heavy database driven environment. We chose:</p>
 
