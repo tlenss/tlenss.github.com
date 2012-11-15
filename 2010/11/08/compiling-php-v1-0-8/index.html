@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Nov 8th, 2010 /home, Code, PHP, Tech Tweet &laquo; Changing Mysql for MariaDB &hellip;">
+  <meta name="description" content="Compiling PHP v1.0.8 Today Rasmus posted on twitter that he just compiled PHP v 1.0.8. And it actually worked. Is that great? :) He was in need of &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,65 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Compiling PHP v1.0.8</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>Today <a href="http://lerdorf.com/bio.php">Rasmus</a> posted on <a href="http://twitter.com/#!/rasmus">twitter</a> that he just compiled PHP v 1.0.8. And it actually worked. Is that great? :) He was in need of this for his upcoming talk this week in Paris. But i couldn&#8217;t resist and try to compile this ancient piece of work ;)</p>
+
+<blockquote><p>$ wget http://museum.php.net/php1/php-108.tar.gz
+$ tar xfvz php-108.tar.gz
+$ cd php</p></blockquote>
+
+<p>If you need to change any config setting do it now. And hit make!</p>
+
+<blockquote><p>$ vi config.h
+$ make</p></blockquote>
+
+<p>This creates a few .cgi files. So it actually does still build</p>
+
+<blockquote><p>phpf.cgi
+phpl.cgi
+phplmon.cgi
+phplview.cgi</p></blockquote>
+
+<p>Let&#8217;s copy that to my cgi-bin and run it through Apache.</p>
+
+<p><a href="http://lenss.nl/images/2010/11/php-1.0.8.jpg"><img src="http://lenss.nl/images/2010/11/php-1.0.8-300x263.jpg" alt="" /></a></p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-11-08T18:47:58+01:00" pubdate data-updated="true">Nov 8<span>th</span>, 2010</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

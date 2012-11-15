@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Sep 12th, 2011 Code, Security, Tech Tweet &laquo; PHP slow on 32-bit Ubuntu Lack &hellip;">
+  <meta name="description" content="The Current State of SSL and the Future of Authenticity Last week i had a blast while listening to Moxie Marlinspike&#8217;s Blackhat talk the past &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,53 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">The Current State of SSL and the Future of Authenticity</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p><a href="http://convergence.io/"><img src="http://lenss.nl/images/2011/09/convergence.png" alt="" /></a> Last week i had a blast while listening to <a href="http://www.thoughtcrime.org/">Moxie Marlinspike&#8217;s</a> Blackhat talk <a href="http://www.youtube.com/watch?v=Z7Wl2FW2TcA">the past and future of SSL</a>. The video is an absolute must see if you have any concern about the current state of SSL or the whole web for that matter.</p>
+
+<p>As many know. There has been quite the turmoil in the SSL world lately with some big CA&#8217;s (<a href="http://www.comodo.com">Comodo</a>, <a href="http://www.startcom.org/">StartCom</a>, <a href="http://www.diginotar.com/">Diginotar</a>, <a href="http://www.globalsign.com/">GlobalSign</a>) getting hacked. And rogue certificates being generated for major domains like microsoft.com, google.com, etc for who knows what type of malicious purpose. The real problem here are the centralized CA&#8217;s. For SSL to work you need to explicitly trust the major CA&#8217;s. And if one gets hacked. Well.. we know the deal by now. And the funny thing is that Moxie mentions in his talk. The whole CA wasn&#8217;t even part of the original SSL protocol. As the creator of SSL said &#8220;It&#8217;s something we through in at the end&#8221;.</p>
+
+<p>But instead of only bashing the CA&#8217;s. Moxie comes with a solution to the problem. In the form of a new protocol <a href="http://convergence.io/">Convergence</a>, Which exists of a client and a server package. The client right now is a simple Firefox extension. And when installed it disables the current CA system in the browser. And will use one or more of the selected notaries instead. It even works with self signed certificates. And the back-end is a modular one. And the standard CA verification can be swapped with for instance <a href="http://www.dnssec.net/">DNSSEC</a> based verification.</p>
+
+<p>There is still a level of trust involved. But you won&#8217;t lay all your trust in one specific CA. Convergence uses notaries. Notaries are anonymous nodes that can be picked at will and can be used to verify the requested certificate. And like i said the notaries are anonymous. No more browser leakage at this point. One of th notaries will act as a bounce node to which a SSL connection is made. All other notaries are contacted through this secure connection.</p>
+
+<p>I am probably not the best person to explain this all. So go ahead and listen/watch <a href="http://www.youtube.com/watch?v=Z7Wl2FW2TcA">Moxie&#8217;s talk</a> and form your own opinion. But i think everybody should install <a href="http://convergence.io/">this</a> Firefox plugin. And forget about the whole CA system. I went ahead and installed a notary node myself. Which can be found <a href="http://lenss.nl/lenssnl.notary">here</a>. More information about setting up a notary node yourself can be found <a href="https://github.com/moxie0/Convergence/wiki/Running-a-Notary">here</a></p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-12T02:13:33+02:00" pubdate data-updated="true">Sep 12<span>th</span>, 2011</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

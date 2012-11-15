@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Aug 21st, 2008 Code, Tech Tweet &laquo; Zend_Filter_Inflector and the &hellip;">
+  <meta name="description" content="SVN Over SSH in Zend Studio for Eclipse This should be pretty damn straight forward. However i ran into some problems while setting this up. At my &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,86 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">SVN Over SSH in Zend Studio for Eclipse</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>This should be pretty damn straight forward. However i ran into some problems while setting this up. At my daily work spot we use <a href="http://subversion.tigris.org/">SVN</a> over <a href="http://nl.wikipedia.org/wiki/Hypertext_Transfer_Protocol">HTTP</a> so we can do <a href="http://en.wikipedia.org/wiki/NTLM">NTLM</a> authentication. This sucks in many ways. But most of all it&#8217;s slow. And i mean really slow. Last week i tried to retrieve the log information for a project in the repository. This took my IDE 30 minutes. At first i thought my IDE was just being lame on me. But it turns out it&#8217;s SVN over HTTP that&#8217;s the culprit.</p>
+
+<p>So i started to do some testing over the standard svn:// protocol. And retrieving the logs on the same repository took about 2 seconds. Amazing. That&#8217;s enough reason to switch to the svn:// protocol. This however was not possible. Because our network policy doesn&#8217;t allow for multiple log ins. All is centrally stored on some M$ domain controllers. That&#8217;s why SVN over HTTP was used in the first place. End of story i thought.</p>
+
+<p>But i couldn&#8217;t let go of this. The situation becomes less workable every day. So i decided to look around for other options. When i notice some log ins were merged to the <em>nix boxes. i immediately thought about using SSH in combination with SVN. Logging in on the </em>nix box was no problem. So let&#8217;s try that with SVN.</p>
+
+<blockquote><p>svn+ssh://location/of/repo</p></blockquote>
+
+<p>This gives an error about a mismatched handshake. And i just couldn&#8217;t get this to work until i found a post made by <a href="http://www.woodwardweb.com/java/000155.html">Martin Woodward</a>. He explains how to setup an environment variable on my local windows machine. To the tortoise PLink executable.</p>
+
+<blockquote><p>Set the environment variable (by right-clicking on My Computer, Properties, Advanced, Environment Variables, New):-
+Variable name: SVN_SSH
+Variable value: C:\Program Files\TortoiseSVN\bin\TortoisePlink.exe</p></blockquote>
+
+<p>This seemed to work i thought. i was presented with a login box. But no matter how i tried i couldn&#8217;t login. It just kept giving me the login box. So i opened a SSH session to the server and tried to do the same from there.</p>
+
+<blockquote><p>svn list svn+ssh://location/of/repo</p></blockquote>
+
+<p>After hitting enter i typed my password and got the following message.</p>
+
+<blockquote><p>bash: line 1: svnserve: command not found
+svn: Connection closed unexpectedly</p></blockquote>
+
+<p>Now we&#8217;re getting somewhere. So svnserve could not be found. Probably because it&#8217;s not in the $PATH variable. So let&#8217;s add it there.</p>
+
+<blockquote><p>vi .bashrc
+PATH=$PATH:/usr/local/bin</p></blockquote>
+
+<p>So let&#8217;s try to get a listing of the repo.</p>
+
+<blockquote><p>svn list svn+ssh://location/of/repo</p></blockquote>
+
+<p>This gave me the following message:</p>
+
+<blockquote><p>svn: No repository found in &#8216;svn+ssh://location/of/repo&#8217;</p></blockquote>
+
+<p>Seems that when you use SVN over SSH you need to give the full location to the repository. Not the web server path but the complete file system path. After changing the webserver path for the file system path everything worked out. From here on adding the repository to eclipse is easy.
+I always open the repository view. From there i right click > New > repository Location. The URL to add will look something like</p>
+
+<blockquote><p>svn+ssh://file/system/location/of/repository</p></blockquote>
+
+<p>So now we can enjoy the speed of the svn:// protocol. And the security of SSH. So let&#8217;s do some coding :)</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-08-21T07:13:18+02:00" pubdate data-updated="true">Aug 21<span>st</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

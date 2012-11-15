@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Mar 13th, 2009 Code, PHP Tweet &laquo; ElePHPants CentOS PHP5 and mcrypt &raquo &hellip;">
+  <meta name="description" content="PHP CLI Bad Interpreter: Permission Denied This question came up on the php.general list today. And i have seen it before when writing an shell &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,56 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">PHP CLI Bad Interpreter: Permission Denied</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>This question came up on the php.general list today. And i have seen it before when writing an shell script in PHP.</p>
+
+<pre><code>#!/usr/local/bin/php
+passthru("printenv");
+</code></pre>
+
+<p>If you are sure the PHP executable can be found in that location. And the file is executable. But it still returns this error:</p>
+
+<blockquote><p>/usr/local/bin/php: bad interpreter: Permission denied</p></blockquote>
+
+<p>Big change the file you are trying to execute is on a filesystem with the noexec flag set.
+To fix this either set the exec flag for the filesystem or move the script to a place where it can be executed.</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-03-13T16:59:02+01:00" pubdate data-updated="true">Mar 13<span>th</span>, 2009</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

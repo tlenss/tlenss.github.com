@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Aug 16th, 2011 Code, PHP, Tech Tweet &laquo; Memcached telnet interface commands &hellip;">
+  <meta name="description" content="PHP Locale Dates Adventure About a week ago i was working on a twitter widget for a website. This required some dates to be displayed in Dutch. And &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,114 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">PHP Locale Dates Adventure</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>About a week ago i was working on a twitter widget for a website. This required some dates to be displayed in Dutch. And i found out the hard way my knowledge on this has faded away over time.</p>
+
+<p>So the code i was working on. Did something like this.</p>
+
+<pre><code>$date = date('D M d H:i:s Y', strtotime($someVar));
+</code></pre>
+
+<p>My thought was that by setting the correct locale the dates would appear in the correct language. Wrong!</p>
+
+<pre><code>date_default_timezone_set('Europe/Amsterdam');
+setlocale(LC_ALL, 'nl_NL.utf8');
+</code></pre>
+
+<p>After a reload i was greeted by the same dates as before. In plain English. Oke no worries. Let&#8217;s see what setlocale returns.</p>
+
+<pre><code>var_dump(setlocale(LC_ALL, 'nl_NL.utf8'));
+</code></pre>
+
+<blockquote><p>bool(false)</p></blockquote>
+
+<p>That&#8217;s not good. Seems like we are missing some locales on the server. Let&#8217;s check.</p>
+
+<blockquote><p>locale -a</p>
+
+<p>en_AG
+en_AG.utf8
+en_AU.utf8
+en_BW.utf8
+en_CA.utf8
+en_DK.utf8
+en_GB.utf8
+en_HK.utf8
+en_IE.utf8
+en_IN
+en_IN.utf8
+en_NG
+en_NG.utf8
+en_NZ.utf8
+en_PH.utf8
+en_SG.utf8
+en_US.utf8
+en_ZA.utf8
+en_ZW.utf8
+&#8230;</p></blockquote>
+
+<p>And some more output after that. But not the one i am looking for. But thankfully aptitude was kind enough to provide the missing language packages.</p>
+
+<blockquote><p>nl_NL
+nl_NL@euro
+nl_NL.iso88591
+nl_NL.iso885915@euro
+nl_NL.utf8</p></blockquote>
+
+<p>So let&#8217;s set the correct locale for this script.</p>
+
+<pre><code>setlocale(LC_ALL, 'nl_NL.utf8');
+</code></pre>
+
+<p>But still no changes. I must be missing something&#8230;.. Let&#8217;s consult the <a href="http://www.php.net/manual/en/function.date.php">manual</a>. The last line in the <strong>examples</strong> section is what i was looking for</p>
+
+<blockquote><p>To format dates in other languages, you should use the <a href="http://www.php.net/manual/en/function.setlocale.php">setlocale()</a> and <a href="http://www.php.net/manual/en/function.strftime.php">strftime()</a> functions instead of date().</p></blockquote>
+
+<p>Duuh! Completely forgot about <a href="http://www.php.net/manual/en/function.strftime.php">strftime</a>. Let&#8217;s change the code.</p>
+
+<pre><code>strftime('%a %b %d %H:%M:%S %Y', strtotime($somevar));
+</code></pre>
+
+<blockquote><p>ma aug 15 14:55:06 2011</p></blockquote>
+
+<p>Perfect. That did it.</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-08-16T00:54:46+02:00" pubdate data-updated="true">Aug 16<span>th</span>, 2011</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

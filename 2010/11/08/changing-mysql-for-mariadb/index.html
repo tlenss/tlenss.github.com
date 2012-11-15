@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Nov 8th, 2010 Code, PHP, SQL, Tech Tweet &laquo; Google mod_pagespeed Compiling &hellip;">
+  <meta name="description" content="Changing Mysql for MariaDB Ok so i quit smoking 4 days ago now. And i am having some serious sleep issues at the moment. i have been up half the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,121 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Changing Mysql for MariaDB</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p><a href="http://mariadb.org/"><img src="http://lenss.nl/images/2010/11/mariadb.png" alt="" /></a>Ok so i quit smoking 4 days ago now. And i am having some serious sleep issues at the moment. i have been up half the night sitting here staring at my screen. But nothing really productive comes out of my hands. So while doing a bit of browsing i hit the <a href="http://mariadb.org/">MariaDB</a> page. And has been while since i was here. The last time there was no real downloadable package yet. But this has all changed.</p>
+
+<p>So that made me think about last week. I think it was on Friday. but there was some up stirring about <a href="http://www.mysql.com/products/">MySQL</a> (Oracle) asking a license fee for using the <a href="http://www.innodb.com/">InnoDB</a> storage engine. And quite a big fee if you ask me :) This really sucks. I love the InnoDB engine. What would we do without it&#8230;? That&#8217;s where MariaDB comes into play. It uses the <a href="https://launchpad.net/percona-xtradb">XtraDB</a> storage engine which is basically InnoDB on steroids. XtraDB is developed and maintained by <a href="http://www.percona.com/">Percona</a>. Some really smart MySQL guys :) At the moment it&#8217;s under the <a href="http://www.gnu.org/licenses/gpl.html">GPL</a> license. And i can only hope it will be freely available for a long time.</p>
+
+<p>So i went ahead and took a look at how hard / easy it is to change MySQL for MariaDB. I tried this on a Debian Lenny machine which made the process quite easy i have to mention.</p>
+
+<p>First get the PGP key from the server and import the repository locations. After that hit update to refresh the local database.</p>
+
+<blockquote><p>$ wget -O- http://ourdelta.org/deb/ourdelta.gpg | sudo apt-key add -
+$ cd /etc/apt/sources.list.d; wget http://mirror.ourdelta.org/deb/sources/lenny-mariadb-ourdelta.list
+$ aptitude update</p></blockquote>
+
+<p>As we can see we have some new packages</p>
+
+<p>Get:8 http://mirror.ourdelta.org lenny/mariadb-ourdelta Sources [864B]
+Current status: 3 updates [+3], 232 new [+11].</p>
+
+<p>Searching for &#8216;mariadb&#8217; gives the following packages</p>
+
+<blockquote><p>$ aptitude search mariadb</p></blockquote>
+
+<p>p   libmariadbclient-dev              - MariaDB database development files
+p   libmariadbclient16                - MariaDB database client library
+v   libmariadbclient16-dev            - MariaDB embedded database development files
+p   mariadb-client                    - MariaDB database client (metapackage depending on the latest version)
+p   mariadb-client-5.1                - MariaDB database client binaries
+p   mariadb-client-core-5.1           - MariaDB database core client binaries
+v   mariadb-common
+p   mariadb-server                    - MariaDB database server (metapackage depending on the latest version)
+p   mariadb-server-5.1                - MariaDB database server binaries
+p   mariadb-test                      - MariaDB database regression test suite (metapackage depending on the latest version)
+p   mariadb-test-5.1                  - MariaDB database regression test suite</p>
+
+<p>So let&#8217;s go ahead and install the server and see what happens.</p>
+
+<blockquote><p>$ aptitude install mariadb-server</p></blockquote>
+
+<p>Some mysql files get removed the mysql-common package gets updated and the new MariaDB packages get installed.</p>
+
+<blockquote><p><strong>The following NEW packages will be installed:</strong>
+  libmariadbclient16{a}
+  libmysqlclient16{a}
+  mariadb-client-5.1{a}
+  mariadb-client-core-5.1{a}
+  mariadb-server
+  mariadb-server-5.1{a}</p>
+
+<p><strong>The following packages will be REMOVED:</strong>
+  mysql-client-5.0{a}
+  mysql-server{a}
+  mysql-server-5.0{a}</p>
+
+<p><strong>The following packages will be upgraded:</strong>
+  mysql-common</p></blockquote>
+
+<p>Now that&#8217;s done. Let&#8217;s check MySQL&#8217;s output</p>
+
+<blockquote><p>$ mysql &#8211;version
+mysql  Ver 14.16 Distrib 5.1.49-MariaDB, for debian-linux-gnu (i486) using readline 5.1</p></blockquote>
+
+<p>Just as i expected. Nothing really changed here. The whole MySQL API is till available for calling. Only the base system is now replaced by MariaDB. So let&#8217;s see what storage engines are available.</p>
+
+<blockquote><p>$ mysql -uroot -p</p></blockquote>
+
+<p>MariaDB [(none)]> show engines;
+<strong>BLACKHOLE</strong>     <em>/dev/null storage engine (anything you write to it disappears) _
+<strong>MRG_MYISAM</strong>  </em>Collection of identical MyISAM tables _
+<strong>FEDERATED</strong>     <em>FederatedX pluggable storage engine  _
+<strong>MARIA</strong>            </em>Crash-safe tables with MyISAM heritage _
+<strong>CSV </strong>              _ CSV storage engine _
+<strong>MEMORY </strong>        <em>Hash based, stored in memory, useful for temporary tables  _
+<strong>ARCHIVE </strong>        </em>Archive storage engine  _
+<strong>MyISAM</strong>          <em>Default engine as of MySQL 3.23 with great performance  _
+<strong>InnoDB</strong>           </em>Supports transactions, row-level locking, and foreign keys _
+<strong>PBXT</strong>              <em>High performance, multi-versioning transactional engine</em></p>
+
+<p>And because the MySQL APi is still in tact. From PHP we can keep using the mysql and mysqli interfaces. This is great stuff!</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-11-08T07:19:45+01:00" pubdate data-updated="true">Nov 8<span>th</span>, 2010</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

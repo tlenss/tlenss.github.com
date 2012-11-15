@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink May 21st, 2011 Tech Tweet &laquo; VIM for a PHP developer Dutch PHP Conference &hellip;">
+  <meta name="description" content="Downtime So lenss.nl was offline Thursday for about 5 hours. When i was getting ready for the DPC11 tutorial day i got a notification that one of my &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,53 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Downtime</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>So lenss.nl was offline Thursday for about 5 hours. When i was getting ready for the <a href="http://www.phpconference.nl/">DPC11</a> tutorial day i got a notification that one of my servers was down. So i quickly setup a ssh connection. And that still seemed to work. The only thing off was. Apache wasn&#8217;t running anymore. So tried a restart. And was unpleasantly surprised by the result. Which looked something like this.</p>
+
+<blockquote><p>/usr/sbin/apache2ctl line 82 (core dumped) $HTTPD ${APACHE_ARGUMENTS} -k $ARGV</p></blockquote>
+
+<p>Googling didn&#8217;t provide any useful information about the issue. So i contacted support and asked them to take a look at it. So i could move in the direction of the DPC11. After some horrible traffic and a closed road due to an accident. I finally made it to the DPC 2 hours late. But when i plugged my laptop in i noticed apache was still not running. Contacted support again. They couldn&#8217;t find any serious issues. I already missed the first part of &#8221;<a href="http://www.phpconference.nl/tutorials#optimizing-mysql-essentials">Optimizing MySQL Essentials</a>&#8221;. So decided to do the tutorial first.</p>
+
+<p>While i was sitting there i got the idea of disabling the apache modules. Which turned out to be a good idea. So after the tutorial session finished i logged in to the server. Disabled all apache modules and got apache working again. After some testing the cause of the problem seemed to be the Google <a href="http://code.google.com/p/modpagespeed/">mod_pagespeed</a> apache module. That&#8217;s the second time this happened after a upgrade. Will leave it disabled for now.</p>
+
+<p>On a side note.. Where is all the direct traffic coming from all of the sudden?</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-21T12:06:40+02:00" pubdate data-updated="true">May 21<span>st</span>, 2011</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

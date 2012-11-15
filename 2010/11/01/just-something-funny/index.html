@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Nov 1st, 2010 /home, Code, Tech Tweet &laquo; Zend Studio goes virtual Jquery & &hellip;">
+  <meta name="description" content="Just Something Funny I cam across this page today and it made me laugh :) With thanks to the GNU jokes archive. How the way people code &#8220;Hello &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,234 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Just Something Funny</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>I cam across this page today and it made me laugh :) With thanks to the <a href="http://www.gnu.org/fun/jokes/">GNU jokes archive</a>.</p>
+
+<p>How the way people code &#8220;Hello World&#8221; varies depending on their age and job:</p>
+
+<p><strong>High School/Jr. High</strong></p>
+
+<pre><code>10 PRINT "HELLO WORLD"
+ 20 END
+</code></pre>
+
+<p><strong>First year in College</strong></p>
+
+<blockquote><p>program Hello(input, output)
+ begin
+ writeln(&#8216;Hello World&#8217;)
+ end.</p></blockquote>
+
+<p>Senior year in College</p>
+
+<blockquote><p>(defun hello
+ (print
+ (cons &#8216;Hello (list &#8216;World))))</p></blockquote>
+
+<p><strong>New professional</strong></p>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+ void main(void)
+ {
+  char *message[] = {"Hello ", "World"};
+  int i;
+  for(i = 0; i &lt; 2; ++i)
+  printf("%s", message[i]);
+  printf("\n");
+ }
+</code></pre>
+
+<p><strong>Seasoned professional</strong></p>
+
+<pre><code>#include &lt;iostream.h&gt;
+ #include &lt;string.h&gt;
+ class string
+ {
+  private:
+   int size;
+   char *ptr;
+  public:
+   string() : size(0), ptr(new char('\0')) {}
+   string(const string &amp;s;) : size(s.size)
+   {
+     ptr = new char[size + 1];
+     strcpy(ptr, s.ptr);
+   }
+   ~string()
+   {
+     delete [] ptr;
+   }
+   friend ostream &amp;operator; &lt;&lt;(ostream &amp;, const string &amp;);
+   string &amp;operator;=(const char *);
+ };
+
+ ostream &amp;operator;&lt;&lt;(ostream &amp;stream;, const string &amp;s;)
+ {
+   return(stream &lt;&lt; s.ptr);
+ }
+ string &amp;string;::operator=(const char *chrs)
+ {
+   if (this != &amp;chrs;)
+   {
+     delete [] ptr;
+     size = strlen(chrs);
+     ptr = new char[size + 1];
+     strcpy(ptr, chrs);
+   }
+   return(*this);
+ }
+ int main()
+ {
+   string str;
+   str = "Hello World";
+   cout &lt;&lt; str &lt;&lt; endl;
+   return(0);
+ }
+</code></pre>
+
+<p><strong>System Administrator</strong></p>
+
+<pre><code>#include &lt;stdio.h&gt;
+ #include &lt;stdlib.h&gt;
+ main()
+ {
+  char *tmp;
+  int i=0;
+  /* on y va bourin */
+  tmp=(char *)malloc(1024*sizeof(char));
+  while (tmp[i]="Hello Wolrd"[i++]);
+  /* Ooopps y'a une infusion ! */
+  i=(int)tmp[8];
+  tmp[8]=tmp[9];
+  tmp[9]=(char)i;
+  printf("%s\n",tmp);
+ }
+</code></pre>
+
+<p><strong>Apprentice Hacker</strong></p>
+
+<pre><code>#!/usr/local/bin/perl
+ $msg="Hello, world.\n";
+ if ($#ARGV &gt;= 0) {
+     while(defined($arg=shift(@ARGV))) {
+     $outfilename = $arg;
+     open(FILE, "&gt;" . $outfilename) || die "Can't write $arg: $!\n";
+     print (FILE $msg);
+     close(FILE) || die "Can't close $arg: $!\n";
+     }
+ } else {
+     print ($msg);
+ }
+ 1;
+</code></pre>
+
+<p><strong>Experienced Hacker</strong></p>
+
+<pre><code> #include &lt;stdio.h&gt;
+ #include &lt;string.h&gt;
+ #define S "Hello, World\n"
+ main(){exit(printf(S) == strlen(S) ? 0 : 1);}
+</code></pre>
+
+<p><strong>Seasoned Hacker</strong></p>
+
+<pre><code> % cc -o a.out ~/src/misc/hw/hw.c
+ % a.out
+ Hello, world.
+</code></pre>
+
+<p><strong>Guru Hacker</strong></p>
+
+<blockquote><p>% cat
+ Hello, world.</p></blockquote>
+
+<p><strong>New Manager (do you remember?)</strong></p>
+
+<pre><code> 10 PRINT "HELLO WORLD"
+ 20 END
+</code></pre>
+
+<p><strong>Middle Manager</strong></p>
+
+<pre><code> mail -s "Hello, world." bob@b12
+ Bob, could you please write me a program that prints "Hello, world."?
+ I need it by tomorrow.
+ ^D
+</code></pre>
+
+<p><strong>Senior Manager</strong></p>
+
+<pre><code> % zmail jim
+ I need a "Hello, world." program by this afternoon.
+</code></pre>
+
+<p><strong>Chief Executive</strong></p>
+
+<pre><code>% letter
+ letter: Command not found.
+ % mail
+ To: ^X ^F ^C
+ % help mail
+ help: Command not found.
+ % damn!
+ !: Event unrecognized
+ % logout
+</code></pre>
+
+<p><strong>Research Scientist</strong></p>
+
+<blockquote><p>PROGRAM HELLO</p>
+
+<pre><code>PRINT *, 'Hello World'
+END
+</code></pre></blockquote>
+
+<p><strong>Older research Scientist</strong></p>
+
+<blockquote><p>WRITE (6, 100)</p>
+
+<pre><code>100 FORMAT (1H ,11HHELLO WORLD)
+CALL EXIT
+END
+</code></pre></blockquote>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-11-01T10:32:09+01:00" pubdate data-updated="true">Nov 1<span>st</span>, 2010</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

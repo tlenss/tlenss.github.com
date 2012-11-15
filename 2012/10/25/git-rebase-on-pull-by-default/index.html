@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Oct 25th, 2012 Code, PHP, Tech Tweet &laquo; Workaround Ubuntu 12.04 mysterious &hellip;">
+  <meta name="description" content="Git: Rebase on Pull by Default I was a bit surprised today when git presented me a merge message window after i did a pull. This should not happen &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,64 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Git: Rebase on Pull by Default</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>I was a bit surprised today when <a href="http://git-scm.com/">git</a> presented me a merge message window after i did a pull. This should not happen as the normal behavior here should be to <a href="http://git-scm.com/book/en/Git-Branching-Rebasing">rebase</a> the changes. But apparently that didn&#8217;t happen this time. When i asked one of the other <a href="http://www.scriptorama.nl/">dev</a> &#8216;s what could be the issue. We quickly figured out i was just missing some <strong>config</strong> entry in <strong>.git/config</strong>. This probably happened some time ago when i did a fresh checkout.</p>
+
+<p>So to make sure rebasing is done by default. You can run a simple git command or modify the <strong>.git/config</strong> file manually.</p>
+
+<blockquote><p>$ git config branch.autosetuprebase always</p></blockquote>
+
+<p>or do</p>
+
+<blockquote><p>$ vi .git/config</p></blockquote>
+
+<p>Make sure <strong>[branch &#8220;master&#8221;]</strong> has <strong>rebase</strong> set to true. It should look like the snippet below.</p>
+
+<blockquote><p>[branch &#8220;master&#8221;]</p>
+
+<pre><code>remote = origin
+merge = refs/heads/master
+rebase = true
+</code></pre></blockquote>
+
+<p>Starting to really like git. A couple of more quirks and things will be running fine.</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-25T14:20:22+02:00" pubdate data-updated="true">Oct 25<span>th</span>, 2012</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

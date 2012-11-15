@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Nov 7th, 2011 /home, Tech Tweet &laquo; Lack of better content Abbywinters.com &hellip;">
+  <meta name="description" content="Ubuntu 11.10 Issues After Fresh Install Update: 13-11-2011 I decided to give Ubuntu another try. After downloading and burning a fresh image. I did &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,102 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Ubuntu 11.10 Issues After Fresh Install</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p><strong>Update: 13-11-2011</strong></p>
+
+<p>I decided to give Ubuntu another try. After downloading and burning a fresh image. I did a clean install. And this time the result was a lot better then the first time. Maybe i just had a bad disk.</p>
+
+<p>Unity still caused me issues. Mainly because i am running a dual monitor setup. And i wan to use a TwinView setup. This just does not seem to work at the moment. So i install GNOME Shell. And that seems to work a lot smoother with two screens. Even my sound issues have been resolved magically. Maybe i should stick with Ubuntu a bit longer.</p>
+
+<p><del>This weekend i decided to finally try to upgrade Ubuntu to the latest version (11.10). And since the upgrade process was not working out for me. I had no other choice but to do a clean install. No problem. It was time for a clean install anyway.</del></p>
+
+<p><del>After fighting my way through a pile of bad rewritable DVDs i finally managed to write to disc that didn&#8217;t halt in the middle of the install process. And finished the install quite quickly. No problem there.</del></p>
+
+<p><del>The <a href="https://launchpad.net/lightdm">Lightgdm</a> greeting instead of the old <a href="http://projects.gnome.org/gdm/">GDM</a> interface was nice. I logged in. And then it hit me. O shit they hooked Ubuntu up with the <a href="http://unity.ubuntu.com/">Unity</a> interface. The last time i upgraded Ubuntu that was the first thing i disabled. But my second screen wasn&#8217;t activated. So i decided to install the Nvidia drivers first. And then did a reboot.</del></p>
+
+<p><del>After the system came back up. The desktop environment didn&#8217;t load anymore. And if i waited long enough the whole system would crawl to a halt. Damn! At this point i was getting sleepy. And didn&#8217;t want to spend the whole night poking around the system trying to fix this. So a bit of Google magic later i found <a href="http://blog.al4.co.nz/2011/10/slow-desktop-performance-on-ubuntu-11-10-with-nvidia-graphics-cards/">this</a>. Some issues related to the current Nvidia driver. So i upgraded to the 285.05 version</del></p>
+
+<p><del></p>
+
+<blockquote><p>$ sudo bash
+$ add-apt-repository ppa:ubuntu-x-swat/x-updates
+$ apt-get update &amp;&amp; apt-get upgrade
+$ reboot</p></blockquote>
+
+<p></del></p>
+
+<p><del>And after a reboot the desktop was fine again. Nice!</del></p>
+
+<p><strong>World of Warcraft</strong></p>
+
+<p>After that i installed wine and copied back the old files i already had installed previously. But World of Warcraft didn&#8217;t want to start anymore. And although i planned not to play for a while. This got me poking around. And of course couldn&#8217;t find a solution. So i downloaded a new game client from battle.net. And started a fresh install. But when the launcher came up. It crashed just like before. Tried it a couple more times. When i noticed it was crashing starting the download. SO i started poking around in the download settings. And disabled peer-to peer. And voila! It started working for me again.</p>
+
+<blockquote><p>Options > Downloader Preferences
+(uncheck ¨Enable peer-to-peer Transfer¨)</p></blockquote>
+
+<p><del><strong>Lets remove Unity!</strong></del></p>
+
+<p><del>Although i kind alike the <a href="http://unity.ubuntu.com/">Unity</a> interface. It wasn&#8217;t running smoothly. And i was having some serious CPU load issues. So i decided to remove it once again. This time. It wasn&#8217;t as easy though. I followed the steps in <a href="http://linux-software-news-tutorials.blogspot.com/2011/10/ubuntu-1110-oneiric-remove-unity-and.html">this</a> post. Only to come to the realization that its <a href="http://www.gnome.org/gnome-3/">Gnome 3</a> i´m dealing with and not Gnome2. O well lets give it a try. </del></p>
+
+<p><del>So after messing with the themes a bit. I got the normal look back. Now the only thing annoying left is the bottom bar. That has to go. And preferably moved to the second screen. This was surprisingly easy for a change. Start up DConfig Editor from the Applications menu. And navigate to.</del></p>
+
+<p><del></p>
+
+<blockquote><p>org > gnome > gnome-panel > layout > toplevels</p></blockquote>
+
+<p></del></p>
+
+<p><del>(then change)</p>
+
+<blockquote><p>monitor : 1
+orientation : top</p></blockquote>
+
+<p></del></p>
+
+<p><del>And fix the freaking <a href="http://askubuntu.com/questions/69306/tilde-and-double-quote-keys-dont-work-on-the-command-line">keyboard</a></del></p>
+
+<p><del>Sound still makes a crackling noise!</del></p>
+
+<p><del>But at least i have a desktop that looks reasonably the same as my old and trusted Gnome2 one did. </del></p>
+
+<p><a href="http://lenss.nl/images/2011/11/Screenshot-at-2011-11-06-231619.png"><img src="http://lenss.nl/images/2011/11/Screenshot-at-2011-11-06-231619-300x93.png" alt="" /></a></p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-07T00:26:27+01:00" pubdate data-updated="true">Nov 7<span>th</span>, 2011</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

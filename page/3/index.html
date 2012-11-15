@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag &#8216;endif&#8217; Liquid syntax error: Unknown tag &#8216;endif&#8217; Liquid syntax error: Unknown tag &#8216; &hellip;">
+  <meta name="description" content="Lack of Better Content Just something funny for a change ;) on Oct 8th, 2011 Comments The Current State of SSL and the Future of Authenticity Last &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -58,52 +58,908 @@
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2011/10/08/lack-of-better-content/">Lack of Better Content</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>Just something funny for a change ;)</p>
+
+<p><a href="http://lenss.nl/images/2011/10/Screenshot.png"><img src="http://lenss.nl/images/2011/10/Screenshot-300x235.png" alt="" /></a></p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-08T12:58:14+02:00" pubdate data-updated="true">Oct 8<span>th</span>, 2011</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2011/10/08/lack-of-better-content/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2011/09/12/the-current-state-of-ssl-and-the-future-of-authenticity/">The Current State of SSL and the Future of Authenticity</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p><a href="http://convergence.io/"><img src="http://lenss.nl/images/2011/09/convergence.png" alt="" /></a> Last week i had a blast while listening to <a href="http://www.thoughtcrime.org/">Moxie Marlinspike&#8217;s</a> Blackhat talk <a href="http://www.youtube.com/watch?v=Z7Wl2FW2TcA">the past and future of SSL</a>. The video is an absolute must see if you have any concern about the current state of SSL or the whole web for that matter.</p>
+
+<p>As many know. There has been quite the turmoil in the SSL world lately with some big CA&#8217;s (<a href="http://www.comodo.com">Comodo</a>, <a href="http://www.startcom.org/">StartCom</a>, <a href="http://www.diginotar.com/">Diginotar</a>, <a href="http://www.globalsign.com/">GlobalSign</a>) getting hacked. And rogue certificates being generated for major domains like microsoft.com, google.com, etc for who knows what type of malicious purpose. The real problem here are the centralized CA&#8217;s. For SSL to work you need to explicitly trust the major CA&#8217;s. And if one gets hacked. Well.. we know the deal by now. And the funny thing is that Moxie mentions in his talk. The whole CA wasn&#8217;t even part of the original SSL protocol. As the creator of SSL said &#8220;It&#8217;s something we through in at the end&#8221;.</p>
+
+<p>But instead of only bashing the CA&#8217;s. Moxie comes with a solution to the problem. In the form of a new protocol <a href="http://convergence.io/">Convergence</a>, Which exists of a client and a server package. The client right now is a simple Firefox extension. And when installed it disables the current CA system in the browser. And will use one or more of the selected notaries instead. It even works with self signed certificates. And the back-end is a modular one. And the standard CA verification can be swapped with for instance <a href="http://www.dnssec.net/">DNSSEC</a> based verification.</p>
+
+<p>There is still a level of trust involved. But you won&#8217;t lay all your trust in one specific CA. Convergence uses notaries. Notaries are anonymous nodes that can be picked at will and can be used to verify the requested certificate. And like i said the notaries are anonymous. No more browser leakage at this point. One of th notaries will act as a bounce node to which a SSL connection is made. All other notaries are contacted through this secure connection.</p>
+
+<p>I am probably not the best person to explain this all. So go ahead and listen/watch <a href="http://www.youtube.com/watch?v=Z7Wl2FW2TcA">Moxie&#8217;s talk</a> and form your own opinion. But i think everybody should install <a href="http://convergence.io/">this</a> Firefox plugin. And forget about the whole CA system. I went ahead and installed a notary node myself. Which can be found <a href="http://lenss.nl/lenssnl.notary">here</a>. More information about setting up a notary node yourself can be found <a href="https://github.com/moxie0/Convergence/wiki/Running-a-Notary">here</a></p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-12T02:13:33+02:00" pubdate data-updated="true">Sep 12<span>th</span>, 2011</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2011/09/12/the-current-state-of-ssl-and-the-future-of-authenticity/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2011/09/07/php-slow-on-32-bit-ubuntu/">PHP Slow on 32-bit Ubuntu</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>My last <a href="http://lenss.nl/2011/08/php5-filesize-limit-on-32-bit-system/">post</a> was about the 32-bit integer issue i was having with PHP. And besides setting up a 64-bit server one of the solutions is to compile PHP with the CFLAGS mentioned in my previous post.</p>
+
+<p>Intrigued by the fact that my 32-bit Ubuntu installation did not suffer from the same issue. I started to read the PHP5 changelog for Ubuntu.</p>
+
+<blockquote><p>CFLAGS=”-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64″ ./configure</p></blockquote>
+
+<p>But this has a negative side effect. Namely PHP running 50% slower then it should be. And to my surprise Ubuntu applies the CFLAGS above when compiling PHP5 for a 32-bit platform. So that would mean PHP on Ubuntu is always running 50% slower? Well according to <a href="https://bugs.php.net/bug.php?id=45942">this</a> is should be the case.</p>
+
+<p>I downloaded <a href="http://nl.php.net/get/php-5.3.8.tar.gz/from/a/mirror">php-5.3.8</a> from php.net and compiled two versions. One with the CFLAGS set for large files. And one normal without any changes. After that i downloaded the benchmark script from <a href="http://www.php-benchmark-script.com">php-benchmark-script.com</a>. And did a couple of runs on each of the two installs. The results are stunning.</p>
+
+<p><strong>PHP-5.3.8 compiled with large file support:</strong></p>
+
+<blockquote><p>test_math                 : 4.414 sec.
+test_stringmanipulation   : 4.968 sec.
+test_loops                : 3.529 sec.</p>
+
+<h2>test_ifelse               : 2.344 sec.</h2>
+
+<p>Total time:               : 15.255 sec.</p></blockquote>
+
+<p><strong>PHP-5.3.8 compiled without large file support:</strong></p>
+
+<blockquote><p>test_math                 : 2.274 sec.
+test_stringmanipulation   : 2.286 sec.
+test_loops                : 1.619 sec.</p>
+
+<h2>test_ifelse               : 1.228 sec.</h2>
+
+<p>Total time:               : 7.407 sec.</p></blockquote>
+
+<p>That&#8217;s pretty much a 50% speed decrease. One more thing i tried is adding the &#8216;AC_SYS_LARGEFILE&#8217; macro to configure.in and rebuild the configure script. But this had no effect at all.</p>
+
+<blockquote><p>$ cd php-5.3.8
+$ vi configure.in (add AC_SYS_LARGEFILE somewhere)
+$ export PHP_AUTOCONF=/usr/share/autoconf2.59
+$ ./buildconf &#8211;force</p></blockquote>
+
+<p>I then tried two things. First i build without the CFLAGS. But this didn&#8217;t seem to do much. Then i used the same configure script with the CFLAGS for large file support. But there was no speed increase measurable.</p>
+
+<p>So why would Ubuntu have made the choice to compile PHP with the large file support on a 32-bit platform? Are there really that much developers that work on large files in web / cli applications written in PHP? Enough to sacrifice a 50% speed decrease?</p>
+
+<p>I don&#8217;t really know the answer to that. But i will do my large file processing on 64-bit machines. And will compile PHP from scratch from now on. Until i have upgraded my aging hardware.</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-07T14:09:44+02:00" pubdate data-updated="true">Sep 7<span>th</span>, 2011</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2011/09/07/php-slow-on-32-bit-ubuntu/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2011/08/31/php5-filesize-limit-on-32-bit-system/">PHP5 Filesize Limit on 32-bit System</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>So we have a PHP based importer script that does some heavy duty media processing at the office. And i had to import some new media today. But for some reason a couple of files weren&#8217;t picked up without a message. So i cleaned up the upload folder. The only files left were the files not being processed. And when i started the importer. The result was.</p>
+
+<blockquote><p>Importer found (0) files to import!</p></blockquote>
+
+<p>Hmmm. That&#8217;s not right. So i had a look at the code behind the importer. Which basically is a loop using a <a href="http://nl2.php.net/manual/en/class.directoryiterator.php">DirectoryIterator</a> object. And some var_dump calls revealed the issue. For some reason <a href="http://nl2.php.net/manual/en/splfileinfo.isfile.php">->isFile()</a> was returning <em>(false)</em> for regular files. WTF! Let&#8217;s test that on the command line.</p>
+
+<blockquote><p>$ php -r &#8220;var_dump(is_file(&#8216;/some/file.ext&#8217;));&#8221;;
+<em>bool(false)</em></p></blockquote>
+
+<p>Ok so we have an issue here. How big are these files really. A inspection revealed they are all over 2GB. Maybe some 32 bit issue? As the platform the code is running on is a 32 bit server. So i asked my colleagues, Googled a bit and read through php.net. To find out that there is an issue with PHP and files larger then 2GB.</p>
+
+<blockquote><p><a href="https://bugs.php.net/bug.php?id=27792">https://bugs.php.net/bug.php?id=27792</a>
+<a href="https://bugs.php.net/bug.php?id=48886">https://bugs.php.net/bug.php?id=48886</a>
+<a href="http://nl.php.net/manual/en/function.filesize.php">http://nl.php.net/manual/en/function.filesize.php</a></p></blockquote>
+
+<p>Those however all seem related to filesize. The filesize function manual page even has a note about it. Maybe it&#8217;s related?</p>
+
+<blockquote><p>   <strong>Note:</strong> Because PHP&#8217;s integer type is signed and many platforms use 32bit integers, <strong>filesize() </strong> may return unexpected results for files which are larger than <strong>2GB</strong>. For files between 2GB and 4GB in size this can usually be overcome by using <strong>sprintf(&#8220;%u&#8221;, filesize($file))</strong>.</p></blockquote>
+
+<p>But i can&#8217;t apply that patch on a production server. So i came up with a simple solution for now. I extended the <a href="http://nl2.php.net/manual/en/class.directoryiterator.php">DirectoryIterator</a> class and have overwritten the <em>isFile</em> method. Which works for now (don&#8217;t think this will work on windows).</p>
+
+<pre><code>Class MyDirectoryIterator extends DirectoryIterator {
+    public function isFile() {
+        return (integer) exec("[ -f {$this-&gt;getPathname()} ] &amp;&amp; echo 1 || echo 0");
+    }
+}
+</code></pre>
+
+<p>Convinced it was a 32 bit issue. I came home later that day. And wanted to try it out on my own desktop. That is a 32 bit system and runs Ubuntu 11.04. To my surprise the result was different then i expected.</p>
+
+<blockquote><p>$ php -r &#8220;var_dump(is_file(&#8216;/some/file.ext&#8217;));&#8221;;
+<em>bool(true)</em></p></blockquote>
+
+<p>I used the same files as before. And tested some more big files. But the result was the same. Weird. Let&#8217;s try some other 32 bit machines.</p>
+
+<blockquote><p>Ubuntu 11.04: bool(true)</p></blockquote>
+
+<p>CentOS release 5.6 (Final): bool(false)
+Debian 6.0.2 (squeeze): bool(false)</p>
+
+<p>Only my desktop at home seems to have a good result. Ubuntu must have some patch somewhere to fix this issue? To confirm i compiled PHP 5.3.8 from source. And did the same test again on Ubuntu 11.04. And this time it was <em>(false)</em>.</p>
+
+<blockquote><p>$ php -r &#8220;var_dump(is_file(&#8216;/some/file.ext&#8217;));&#8221;;
+<em>bool(false)</em></p></blockquote>
+
+<p>I am not really in the mood to search the Ubuntu <a href="http://changelogs.ubuntu.com/changelogs/pool/main/p/php5/">changelog</a>. And for now the work around will do. But i really would like to know what patch is applied to resolve the issue.</p>
+
+<p><strong>[ update ]</strong></p>
+
+<p>While applying the patch for the is_file issue. I was confronted with the fact that way more function calls cause issues. So while waiting for PHP to get patched i had to create some workarounds for the time being.</p>
+
+<p>Getting the filesize:</p>
+
+<pre><code>(integer) exec("stat -c%s {$file-&gt;getFilename()}");
+</code></pre>
+
+<p>Calculate a MD5 checksum:</p>
+
+<pre><code>$md5 = exec("md5sum {$file-&gt;getFilename()}");
+$expl = explode('\t', $md5);
+return (string) $expl[0];
+</code></pre>
+
+<p>Calculate the CRC32 checksum:</p>
+
+<pre><code>$hash = exec("cksum {$this-&gt;path}");
+$expl = explode(' ', $hash);
+return $expl[0];
+</code></pre>
+
+<p>Get the modified time:</p>
+
+<pre><code>$stat = explode('.', exec("stat -c%y {$this-&gt;path}"));
+$timestamp = strtotime($stat[0]);
+return $timestamp;
+</code></pre>
+
+<p>Hopefully that will do for now. On a side note the issue is solvable by setting certain <strong>CFLAGS</strong> when compiling PHP. I have no idea what the impact of that will be on the PHP binary. But it does seem to solve the issue. Not sure how one would apply that when PHP is installed from the distro&#8217;s repository though.</p>
+
+<blockquote><p>CFLAGS=&#8221;-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64&#8221; ./configure</p></blockquote>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-08-31T01:38:00+02:00" pubdate data-updated="true">Aug 31<span>st</span>, 2011</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2011/08/31/php5-filesize-limit-on-32-bit-system/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2011/08/20/jquery-unrecognized-expression-error/">Jquery Unrecognized Expression Error</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>While doing some front end work yesterday. I got trapped by a <a href="http://jquery.com/">jQuery</a> issue. Well not JQuery specific. The issue was actually triggered by some other hand crafted code. Every time i would click a link inside my grid view firebug would throw an error.</p>
+
+<blockquote><p>uncaught exception: Syntax error, unrecognized expression: .</p></blockquote>
+
+<p>And the markup that triggered the error was</p>
+
+<pre><code>&lt;a href="" class="zipDownload"&gt;&lt;span class="icon_zipSmall"&gt;&lt;/span&gt;&lt;/a&gt;
+</code></pre>
+
+<p>Nothing wrong there right? And it actually took my quite some time to figure this one out. It would be nice to have a tool that can tell you there are multiple click events assigned to a element? But for now it was just some manual searching and testing.</p>
+
+<p>The issue was caused by an other snippet of Javascript code inside another .js file. This piece of code attached a click event to every div inside a grid td. Which may be a bit to greedy.</p>
+
+<pre><code>$('.admin .gridbg tr td span').click(function() {
+</code></pre>
+
+<p>And my link was in a nested td inside the grid. And also contained a span tag. So it was actually firing off two click events. From which one failed. Fixing it after that was easy. Either make the first click binding less greedy. Or change the markup of my second grid. I choose the last one.</p>
+
+<pre><code>&lt;a href="http://lenss.nl" class="zipDownload icon_zipSmall"&gt;&lt;/a&gt;
+</code></pre>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-08-20T13:20:59+02:00" pubdate data-updated="true">Aug 20<span>th</span>, 2011</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2011/08/20/jquery-unrecognized-expression-error/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2011/08/16/php-locale-dates-adventure/">PHP Locale Dates Adventure</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>About a week ago i was working on a twitter widget for a website. This required some dates to be displayed in Dutch. And i found out the hard way my knowledge on this has faded away over time.</p>
+
+<p>So the code i was working on. Did something like this.</p>
+
+<pre><code>$date = date('D M d H:i:s Y', strtotime($someVar));
+</code></pre>
+
+<p>My thought was that by setting the correct locale the dates would appear in the correct language. Wrong!</p>
+
+<pre><code>date_default_timezone_set('Europe/Amsterdam');
+setlocale(LC_ALL, 'nl_NL.utf8');
+</code></pre>
+
+<p>After a reload i was greeted by the same dates as before. In plain English. Oke no worries. Let&#8217;s see what setlocale returns.</p>
+
+<pre><code>var_dump(setlocale(LC_ALL, 'nl_NL.utf8'));
+</code></pre>
+
+<blockquote><p>bool(false)</p></blockquote>
+
+<p>That&#8217;s not good. Seems like we are missing some locales on the server. Let&#8217;s check.</p>
+
+<blockquote><p>locale -a</p>
+
+<p>en_AG
+en_AG.utf8
+en_AU.utf8
+en_BW.utf8
+en_CA.utf8
+en_DK.utf8
+en_GB.utf8
+en_HK.utf8
+en_IE.utf8
+en_IN
+en_IN.utf8
+en_NG
+en_NG.utf8
+en_NZ.utf8
+en_PH.utf8
+en_SG.utf8
+en_US.utf8
+en_ZA.utf8
+en_ZW.utf8
+&#8230;</p></blockquote>
+
+<p>And some more output after that. But not the one i am looking for. But thankfully aptitude was kind enough to provide the missing language packages.</p>
+
+<blockquote><p>nl_NL
+nl_NL@euro
+nl_NL.iso88591
+nl_NL.iso885915@euro
+nl_NL.utf8</p></blockquote>
+
+<p>So let&#8217;s set the correct locale for this script.</p>
+
+<pre><code>setlocale(LC_ALL, 'nl_NL.utf8');
+</code></pre>
+
+<p>But still no changes. I must be missing something&#8230;.. Let&#8217;s consult the <a href="http://www.php.net/manual/en/function.date.php">manual</a>. The last line in the <strong>examples</strong> section is what i was looking for</p>
+
+<blockquote><p>To format dates in other languages, you should use the <a href="http://www.php.net/manual/en/function.setlocale.php">setlocale()</a> and <a href="http://www.php.net/manual/en/function.strftime.php">strftime()</a> functions instead of date().</p></blockquote>
+
+<p>Duuh! Completely forgot about <a href="http://www.php.net/manual/en/function.strftime.php">strftime</a>. Let&#8217;s change the code.</p>
+
+<pre><code>strftime('%a %b %d %H:%M:%S %Y', strtotime($somevar));
+</code></pre>
+
+<blockquote><p>ma aug 15 14:55:06 2011</p></blockquote>
+
+<p>Perfect. That did it.</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-08-16T00:54:46+02:00" pubdate data-updated="true">Aug 16<span>th</span>, 2011</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2011/08/16/php-locale-dates-adventure/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2011/07/12/memcached-telnet-interface-commands/">Memcached Telnet Interface Commands</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p><del>I was looking for the list of <a href="http://memcached.org/">Memcached</a> telnet commands. And couldn&#8217;t find much in the docs. So after some Google searching i finally found the list. And will keep it here for future reference.</del></p>
+
+<p>So i did a bit of reading while working on a memcache tool in PHP. I found some good <a href="https://github.com/memcached/memcached/blob/master/doc/protocol.txt">documentation</a> on the <a href="http://memcached.org/">memcached.org</a> website.</p>
+
+<p>Command
+Description
+Example</p>
+
+<p>get</p>
+
+<p>Reads a value</p>
+
+<p>get mykey</p>
+
+<p>set</p>
+
+<p>Set a key unconditionally</p>
+
+<p>set mykey 0 60 5</p>
+
+<p>add</p>
+
+<p>Add a new key</p>
+
+<p>add newkey 0 60 5</p>
+
+<p>replace</p>
+
+<p>Overwrite existing key</p>
+
+<p>replace key 0 60 5</p>
+
+<p>append</p>
+
+<p>Append data to existing key</p>
+
+<p>append key 0 60 15</p>
+
+<p>prepend</p>
+
+<p>Prepend data to existing key</p>
+
+<p>prepend key 0 60 15</p>
+
+<p>incr</p>
+
+<p>Increments numerical key value by given number</p>
+
+<p>incr mykey 2</p>
+
+<p>decr</p>
+
+<p>Decrements numerical key value by given number</p>
+
+<p>decr mykey 5</p>
+
+<p>delete</p>
+
+<p>Deletes an existing key</p>
+
+<p>delete mykey</p>
+
+<p>flush_all</p>
+
+<p>Invalidate specific items immediately</p>
+
+<p>flush_all</p>
+
+<p>Invalidate all items in n seconds</p>
+
+<p>flush_all 900</p>
+
+<p>stats</p>
+
+<p>Prints general statistics</p>
+
+<p>stats</p>
+
+<p>Prints memory statistics</p>
+
+<p>stats slabs</p>
+
+<p>Prints memory statistics</p>
+
+<p>stats malloc</p>
+
+<p>Print higher level allocation statistics</p>
+
+<p>stats items</p>
+
+<p>stats detail</p>
+
+<p>stats sizes</p>
+
+<p>Resets statistics</p>
+
+<p>stats reset</p>
+
+<p>version</p>
+
+<p>Prints server version.</p>
+
+<p>version</p>
+
+<p>verbosity</p>
+
+<p>Increases log level</p>
+
+<p>verbosity</p>
+
+<p>quit</p>
+
+<p>Terminate telnet session</p>
+
+<p>quit</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-12T11:02:50+02:00" pubdate data-updated="true">Jul 12<span>th</span>, 2011</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2011/07/12/memcached-telnet-interface-commands/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2011/06/21/reserved-keywords_corrupt-cache-and-stack-errors/">Reserved Keywords, Corrupt Cache and Stack Errors</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>What a day. Every now and then there are such days where you wished you stayed in bed. Today was one of them. And i was confronted by two weird errors with very non descriptive error message or no error message at all. In both cases the issue was solved without a real solution. This post is just to vent my frustration of the day. And now that i take the time to write this down i might as well add the issue i ran into last week. Will save that one for last.</p>
+
+<p><strong>Reserved keyword</strong></p>
+
+<p>So i have been banging my head over this issue for way to long today. And had to find out the hard way it was a simple little thing as usual. But <a href="http://www.doctrine-project.org/">Doctrine</a> (version 1 if anybody asks) didn&#8217;t offer me any good info with the error message it was displaying. Nor did <a href="http://www.php.net/">PHP</a> or <a href="http://www.mysql.com/">MySQL</a> (should be <a href="http://mariadb.org/">MariaDB</a> if you ask me).</p>
+
+<p>While working on a very heavy Doctrine based project. I ran into a at first glance weird error. Yesterday i created a class structure. All good and well. The class i was working on was called <em>Shows</em>. But it represented a single <em>Show</em> entity and therefore should have been called <strong>Show</strong>. So i decided to do a rename action. Pretty complex because of different dependencies. But after a few tries i got it right. Except Doctrine was failing with a syntax error. After a code inspection i still couldn&#8217;t spot the issue. The only thing i didn&#8217;t do yet was output the query and run it from a shell. And this failed with the same syntax error message. Damn!</p>
+
+<blockquote><p>INNER JOIN show s ON &#8230;</p></blockquote>
+
+<p>Checked the whole query. Still couldn&#8217;t spot the issue. Then for some weird reason i decided to escape the table name with <a href="http://en.wikipedia.org/wiki/Grave_accent">backticks</a> <strong><code>Show</code></strong>. Everything worked again. Wow! So Doctrine doesn&#8217;t escape table names. But why did it fail in the first place? By now i had the feeling i was using a reserved keyword. And a check <a href="http://dev.mysql.com/doc/mysqld-version-reference/en/mysqld-version-reference-reservedwords-5-6.html">confirmed</a> this. An error would have been helpful here. I had a bit of luck though. As it turned out the table should have been named different anyway. I made a small workaround for it in my code. But decided that was not the way to go  So the lesson of the day for me was don&#8217;t use reserved words for class / table names. A good thread on the issue can be found <a href="http://www.doctrine-project.org/jira/browse/DBAL-40">here</a>.</p>
+
+<p><strong>APC object corruption</strong></p>
+
+<p>The second issue to bite my ass was a nice one as well. And this time no indication of an error at all. While working on the same classes discusses shortly above. I renamed the class names and the file names on disk. And after a page reload in the browser. The framework was complaining it couldn&#8217;t load the changed class. I checked the class and file names and all were correct. After toying with it for 20 minutes i decided to ask my colleague. And he suggested to restart Apache. for the second time today i was stumped. Everything worked again. Turns out that APC couldn&#8217;t find the already in memory loaded class. After renaming the corresponding filename (seems logical now that i think of it). A restart of Apache flushed the APC cache and therefore the issue. This sounds like a bug though. And requires some further inspection or a bug report. We will see.</p>
+
+<p><strong>PHP Fatal error</strong></p>
+
+<p>Last week while setting up <a href="https://github.com/sebastianbergmann/phpunit/">PHPUnit</a> i ran into a weird issue while testing PHPUnit from a shell on my local desktop. The whole test suite would run from start to end. But at the end would display the following not so descriptive error message.</p>
+
+<blockquote><p>PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0</p></blockquote>
+
+<p>This kept me busy for some hours. This happened somewhere in a large framework. And there was no clear sign of what was causing the issue. Some <a href="http://www.google.com/search?client=ubuntu&amp;channel=fs&amp;q=Exception+thrown+without+a+stack+frame+in+Unknown+on+line+0&amp;ie=utf-8&amp;oe=utf-8">googling</a> did reveal some cases in which this error may occur.</p>
+
+<blockquote><ul>
+<li><p>There was an exception while handling an exception</p></li>
+<li><p>There was an exception while running a destructor</p></li>
+<li><p>There was an exception while closing the session</p></li>
+<li><p>There was an exception while running a shutdown function</p></li>
+<li><p>There was an exception while running a autoload function</p></li>
+</ul>
+</blockquote>
+
+<p>The issue in my case was the fact that the configuration file wasn&#8217;t loaded yet. And therefore the log file location was not set correctly. Logging in this framework is done in a plugin system which is pretty cool. We can basically assign plugins for certain log levels (and more). This was the FileLogger. This all still does not explain why it failed with this particular error message. But a bit of digging in the Log/Plugin system revealed the issue.</p>
+
+<pre><code>register_shutdown_function(array(__CLASS__, 'Shutdown'));
+</code></pre>
+
+<p>Message are stored in a queue and written to file in a register shutdown function. Which was failing because the logfile location was not set correctly. This was causing an exception to be thrown inside the registered shutdown function. And therefore triggering this horrible error message. Be careful with <a href="http://nl.php.net/manual/en/function.register-shutdown-function.php">register_shutdown</a> functions.</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-06-21T15:22:36+02:00" pubdate data-updated="true">Jun 21<span>st</span>, 2011</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2011/06/21/reserved-keywords_corrupt-cache-and-stack-errors/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2011/05/23/dutch-php-conference-2011/">Dutch PHP Conference 2011</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p><a href="http://lenss.nl/images/2011/05/dpc11.jpg"><img src="http://lenss.nl/images/2011/05/dpc11.jpg" alt="" /></a> Last week was the 5th <a href="http://www.phpconference.nl">DPC</a> (Dutch PHP Conference) in the <a href="http://www.rai.nl/">Amsterdam Rai</a>. And thanks to my awesome employer i once again had the chance to be there. This year with a full conference ticket (including the tutorial days). And i had a blast. I wanted to do this post earlier this weekend but due to some current injury i wasn&#8217;t able to. So here goes.</p>
+
+<p>The kick off for the DPC11 were the tutorial days. And they had some pretty cool tutorial lined up for this year. But as always you have to choose. So me and Geoff chose to visit two of the tutorials we would benefit from the most. Since we are in pretty heavy database driven environment. We chose:</p>
+
+<p><strong>Optimizing <a href="http://www.mysql.com/">MySQL</a> Essentials</strong></p>
+
+<p>This session was presented by <a href="http://www.khankennels.com/blog/">Ligaya Turmelle</a> &amp; Raymond DeRoo, And these two have a great chemistry between them. All the ingredients for a good sessions. And a good session it was. Even though i missed the larges part of the first 1.5 hours because i got stuck in traffic.</p>
+
+<p>The second part of the tutorial was aimed at profiling and optimizing slow queries. It was Ligaya time to talk and Raymond took his stand on the soapbox a few times to makes things more clear. Or to interact with the audience in his special way. The session mainly describe how to enable and configure the MySQL slow query log. And what to look for once that is up and running. Ligaya continued with a real world example from joined.in. And show how the medium sized queries could be optimized quite a bit. Although not completely finished. The result was quite nice.</p>
+
+<p>After talking about the slow query log we went into a bit more detail as to how to do query optimization. And what tools to use for the job. MySQl comes with some nice features that can be used in this process. The basics to get more information about your queries</p>
+
+<blockquote><ul>
+<li>show create</li>
+<li>table status</li>
+<li>show indexes</li>
+<li>explain [ extended ]</li>
+</ul>
+</blockquote>
+
+<p>I made quite a few notes during this sessions. And learned some cool new things. Some of the main items for me were</p>
+
+<p>If possible move where clauses inside the join statements
+Don&#8217;t use subselects. But if you really have to use them in the <code>AS</code> form</p>
+
+<blockquote><p>SELECT
+  t.id,
+  (SELECT t2foo FROM table t2 WHERE t2foo = t.bar) AS foo
+FROM table t</p></blockquote>
+
+<p>Indexing key order is very important
+Use a sequence table to generate date based reports</p>
+
+<p><strong>Doctrine 2</strong></p>
+
+<p>I was really looking forward to the <a href="http://www.doctrine-project.org/">Doctrine 2</a> session with <a href="http://dev.juokaz.com/">Juozas Kaziukėnas</a>. And it was a good session as well. Although a bit fast. And i had some issues getting Doctrine to work on my laptop. But because we make very heavy use of Doctrine 1. I was very interested in what version two has to offer over version 1. And i think Juozas did a great job in explaining the structure of Doctrine 2 and the most basic inner workings.</p>
+
+<p>I was very happy to see the new Doctrine 2 models are completely decoupled from the Doctrine base classes. This is awesome. And makes for a way more portable application then with the Doctrine 1 base. Which basically ties you into using Doctrine forever.</p>
+
+<p><strong>That was tutorial day</strong>
+That was day one. I had fun although quit painful with my current injury. I really enjoyed the sessions. And on our way out we were presented with a nice surprise. A copy of &#8221;<a href="http://qualityassuranceinphpprojects.com/">Real-World Solutions for Developing High-Quality PHP Frameworks and Applications</a>&#8221; by Sebastian Bergmann and Stefan Priebsch. A great addition to my private library. And to top things of we all got a 20% discount on the 5.3 <a href="http://www.zend.com/services/certification/">ZCE</a> exam.</p>
+
+<p><strong>Next up, Day 2</strong></p>
+
+<p>I missed the opening talk by <a href="http://www.harrieverveer.nl/">Harry Verveer</a> which is a shame. Geoff told me it was a very good inspiring and energetic talk. It got people enthusiastic. That&#8217;s what we need. At arrival it was visible that there were quite some developers here. It&#8217;s always a big difference with the tutorial day. Like the first day i missed a big part of the morning due.. to well you know. But i attended 4 cool sessions non the less.</p>
+
+<p><strong>Cooking up your Development Environment</strong> by <a href="http://www.designdisclosure.com/">Alistair Stead</a></p>
+
+<p>This session was a bit different then what i envisioned. But it turned out to be a gem. Most of the talk was aimed at explaining how to setup and work with the <a href="https://github.com/opscode/chef">Chef</a> application. Before going into explaining chef. Alistair mentioned some other solutions like Capistrano, Puppet or a mix of Bash scripts.</p>
+
+<p>And then he continued about explaining his day to day work day. And how he would setup his virtual work environment each morning by running a simple command that generates a fresh virtual machine to work with. Then he went into detail how Chef Solo (Distributed infrastructure management) and Chef Server (Centralized infrastructure management) work together. And how you can setup and deploy packages on the virtual machines and basically how to manage your instances from a cool and simple web GUI.</p>
+
+<p>He went on explaining this hooks into Amazone&#8217;s AWS and Rackspace cloud services as well. So skies the limit. An awesome tool.</p>
+
+<p><strong>Simplify your External Dependency Management</strong> by <a href="http://blog.bitexpert.de/author/stephan-hochdoerfer/">Stephan Hochdörfer</a></p>
+
+<p>This session was aimed at working better with project dependencies. I was quite interested in this talk. Since we work with svn:externals. Which at times can be quite a pain. Specially when the amount of applications build on a single framework tend to grow. And BC breakage is a sin.</p>
+
+<p>I was a bit sad to see that this session didn&#8217;t really target managing the local dependencies. But was more aimed at handling the dependencies when deploying packages on servers. Until now this has never been an issues. Even though i was a bit disappointed. The sessions did have some valuable information.</p>
+
+<p>And went into some detail how to setup an own PEAR channel to deploy packages but also touched the Java system Maven. Which i did work whit a few years back.</p>
+
+<p><strong>Clean PHP</strong> by <a href="http://sebastian-bergmann.de/">Sebastian Bergmann</a></p>
+
+<p>I expected more from this sessions. And i had the feeling Sebastian was blasting through the talk as if he was out of time. It went very fast. And basically was run down of all the developer principles, acronyms, etc. A good talk. But i expected more from the father of <a href="http://www.phpunit.de">PHPUnit</a>.</p>
+
+<p><strong>Advanced OO patterns</strong> by <a href="http://schlitt.info/">Tobias Schlitt</a></p>
+
+<p>The best session of the day. Tobias is a real speaker. One that say the right things. And makes the audience laugh. I really enjoyed listening to to him talk. But a subject like Advanced OO patterns can only be cool. So i guess i he chose the right talk to give. Like most talkers he gave some props to Martin Fowler and the Gang of Four. For writing on patterns and refactoring. And basically it&#8217;s a refreshment of studying design patterns. Which i do an a daily basis.</p>
+
+<p>There was one real gem however in this session that i hadn&#8217;t come across yet. Which basically is a way to do lazy loading with objects. This is nothing new. But the framework he used for the talk. Used the new 5.3 closures for this. And i really liked that. So besides the fact that i learned a cool pattern. I also learned a new way of using closures in PHP 5.3.</p>
+
+<p><strong>A great conference</strong></p>
+
+<p>That basically was the conference for me. I really was looking forward to listing in on <a href="http://derickrethans.nl/">Derick&#8217;s</a> talk about profiling PHP applications. But due to my condition i had to stay home the last day and miss this talk. A bit sad. Thankfully he has pretty detailed <a href="http://derickrethans.nl/talks/profiling-dpc11.pdf">PDF</a> up on his site about the talk.</p>
+
+<p>Once again <a href="http://www.ibuildings.nl/">IBuildings</a> did a great job in organizing this event. Thanks guys. You once again did an awesome job. I do have some small notes however. During the sessions i heard a lot of speakers say. This is a sessions for 60 minutes. And i only have 45 minutes. So i have to skip some stuff. I mean come on how long was it known that this event was going to happen. Either give the speakers more time. Or speakers adjust your talks.</p>
+
+<p>Besides the fact that i sometimes had the feeling i was visiting the IBuildings headquarters. It was a great event. Hope to see you there next year.</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-23T12:51:39+02:00" pubdate data-updated="true">May 23<span>rd</span>, 2011</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2011/05/23/dutch-php-conference-2011/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2011/05/21/downtime/">Downtime</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>So lenss.nl was offline Thursday for about 5 hours. When i was getting ready for the <a href="http://www.phpconference.nl/">DPC11</a> tutorial day i got a notification that one of my servers was down. So i quickly setup a ssh connection. And that still seemed to work. The only thing off was. Apache wasn&#8217;t running anymore. So tried a restart. And was unpleasantly surprised by the result. Which looked something like this.</p>
+
+<blockquote><p>/usr/sbin/apache2ctl line 82 (core dumped) $HTTPD ${APACHE_ARGUMENTS} -k $ARGV</p></blockquote>
+
+<p>Googling didn&#8217;t provide any useful information about the issue. So i contacted support and asked them to take a look at it. So i could move in the direction of the DPC11. After some horrible traffic and a closed road due to an accident. I finally made it to the DPC 2 hours late. But when i plugged my laptop in i noticed apache was still not running. Contacted support again. They couldn&#8217;t find any serious issues. I already missed the first part of &#8221;<a href="http://www.phpconference.nl/tutorials#optimizing-mysql-essentials">Optimizing MySQL Essentials</a>&#8221;. So decided to do the tutorial first.</p>
+
+<p>While i was sitting there i got the idea of disabling the apache modules. Which turned out to be a good idea. So after the tutorial session finished i logged in to the server. Disabled all apache modules and got apache working again. After some testing the cause of the problem seemed to be the Google <a href="http://code.google.com/p/modpagespeed/">mod_pagespeed</a> apache module. That&#8217;s the second time this happened after a upgrade. Will leave it disabled for now.</p>
+
+<p>On a side note.. Where is all the direct traffic coming from all of the sudden?</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-21T12:06:40+02:00" pubdate data-updated="true">May 21<span>st</span>, 2011</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2011/05/21/downtime/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   <div class="pagination">

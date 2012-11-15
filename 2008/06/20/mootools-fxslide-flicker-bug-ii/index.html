@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Jun 20th, 2008 Code Tweet &laquo; PHP 5.2.6-Win32 unable to load mysql & pgsql &hellip;">
+  <meta name="description" content="Mootools FX.Slide Flicker Bug II Today i got a question from Richard. About the flicker bug and how to implement the fix. The problem that he had &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,51 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Mootools FX.Slide Flicker Bug II</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>Today i got a question from <a href="http://www.usablenet.co.uk/">Richard</a>. About the flicker bug and how to implement the fix. The problem that he had with Javascript throwing an illegal character error was because of copy pasting from this blog. I&#8217;m not sure why the single quotes get screwed up. But i will have a look at it. I also didn&#8217;t state which version of <a href="http://mootools.net/">mootools</a> i was using. It was 1.1 at the time. And i was using the full uncompressed version.</p>
+
+<p>But since then version 1.2 of <a href="http://mootools.net/">mootools</a> came out. And id didn&#8217;t really had time yet to look into it. But this version also has the same annoying bug. So i looked at the code. The <a href="http://docs.mootools.net/Plugins/Fx.Slide">FX.Slide</a> class changed a bit. And the core and  plugins are split up into separate files now. But the fix remains the same. And since i don&#8217;t really want to write a whole article about it right now. I decided to create two sets of archives. One with the fix for version 1.1 and one for version 1.2. The changes i made are explained in the previous article. But for 1.1 they are around line 4453 and 4458. For 1.2 if you only use the FX.Slide plugin it&#8217;s around line 17 and 29.</p>
+
+<p>You can download the archives here:
+<a href="http://we.designandco.de/code/mootools.1.1.slide.flickerbug.tar.gz">version 1.1</a>
+<a href="http://we.designandco.de/code/mootools.1.2.slide.flickerbug.tar.gz">version 1.2</a></p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-06-20T16:39:19+02:00" pubdate data-updated="true">Jun 20<span>th</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

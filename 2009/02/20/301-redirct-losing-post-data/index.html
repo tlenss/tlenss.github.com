@@ -9,7 +9,8 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Feb 20th, 2009 Code, Tech Tweet &laquo; Forcing a trailing slash with &hellip;">
+  <meta name="description" content="301 Redirect Losing POST Data Earlier this week i implemented the forcing of trailing slashes for some websites. And this worked out great.
+But &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +56,60 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">301 Redirect Losing POST Data</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>Earlier this week i implemented the forcing of trailing slashes for some websites. And this worked out great.
+But today one of the ladies here at the office noticed the contact form on one site wasn&#8217;t functioning properly anymore.</p>
+
+<p>So i did some debugging and quickly came to the conclusion the POST data array was empty after a submit of the form. That&#8217;s weird i thought. And didn&#8217;t really have a clue where to start looking. The code wasn&#8217;t touched for a couple of weeks. Bu then i remembered adding the forcing of the trailing slash.</p>
+
+<p>So i browsed to the contact form and did a view source. And there was the problem. The form submitted to</p>
+
+<blockquote><p>/contact/verstuurd</p></blockquote>
+
+<p>A URL without a trailing slash. This causes apache to rewrite the url to</p>
+
+<blockquote><p>/contact/verstuurd/</p></blockquote>
+
+<p>And this also seems to turn the POST into a GET request.</p>
+
+<p>So to fix it just changed to URL in the form to reflect the correct end point. But i have to say i didn&#8217;t expect this to happen. I understand why it happens. And it&#8217;s pretty logical. But i wonder if there&#8217;s a way around this behavior?</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-02-20T10:47:23+01:00" pubdate data-updated="true">Feb 20<span>th</span>, 2009</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

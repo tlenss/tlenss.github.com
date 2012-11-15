@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Mar 18th, 2009 Code, Javascript Tweet &laquo; CentOS PHP5 and mcrypt Checking &hellip;">
+  <meta name="description" content="Animated Loader on Form Submit In one of our sites we load content of a third party travel organization. And some of these calls can take some time &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,62 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Animated Loader on Form Submit</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>In one of our sites we load content of a third party travel organization. And some of these calls can take some time. But when the pages are loading nothing really happens to the browser state. This is confusing for the users of the website. So i decided to add some animated preloader images. Just to show the users the site is still doing stuff.</p>
+
+<p>This however confronted me with a small problem. The preloader images are supposed to show up when a form is submitted. And this is exactly what&#8217;s causing the problem. In my first attempt i created the image object when the form was submitted. On submit a JavaScript function was called. This function created the image object and displayed it.</p>
+
+<pre><code>function loader() {
+    var loaderImg = new Image();    
+        loaderImg.src = 'some/image/url/';
+}
+</code></pre>
+
+<p>This however resulted in an image displayed that had no active animation. This happens i think because the image is not fully loaded when the user hits submit on the form. So to fix this i had to load the images before the page was completely rendered.</p>
+
+<pre><code>var loaderImg = new Image();
+
+window.onload = function() {
+        loaderImg.src = 'some/image/url';
+}
+</code></pre>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-03-18T18:03:15+01:00" pubdate data-updated="true">Mar 18<span>th</span>, 2009</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

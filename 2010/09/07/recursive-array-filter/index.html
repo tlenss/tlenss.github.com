@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Sep 7th, 2010 Code, PHP, Tech Tweet &laquo; PHP Community Spirit T-Shirt Design &hellip;">
+  <meta name="description" content="Recursive Array Filtering note to self .. a nice clean way to do recursive array filters in PHP $arr = array( 'teSt', 'The quick BroWn ...', 'foO', &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,65 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Recursive Array Filtering</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>note to self .. a nice clean way to do recursive array filters in PHP</p>
+
+<pre><code>$arr = array(
+    'teSt',
+    'The quick BroWn ...',
+    'foO',
+    array(
+       'Test sTring'
+    )
+);
+
+$filter = function(&amp;$input) use (&amp;$filter) {
+    if (is_array($input)) $input = array_map($filter, $input);
+    else if (is_string($input)) $input = strtolower($input);
+
+    return $input;
+};
+
+$filter($arr);
+var_dump($arr);
+</code></pre>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-09-07T00:15:26+02:00" pubdate data-updated="true">Sep 7<span>th</span>, 2010</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

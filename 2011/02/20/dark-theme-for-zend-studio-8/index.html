@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Feb 20th, 2011 /home, Code, PHP, Tech, Zend Tweet &laquo; Extending my desktop &hellip;">
+  <meta name="description" content="Dark Theme for Zend Studio 8 Because i was so happy with my new 3 monitor configuration. I decided to refresh my development environment as well. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,106 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Dark Theme for Zend Studio 8</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>Because i was so happy with my new <a href="http://lenss.nl/2011/02/extending-my-desktop/">3 monitor configuration</a>. I decided to refresh my development environment as well. Normally all my files would reside in the Devspace older in my user folder under the /home directory. Now i used a new 500 GB <em>SATA</em> drive and formatted it <em>EXT3</em>. Moving your workspace in <a href="http://www.zend.com/en/products/studio/">Zend Studio</a> has the minor inconvenience that the local settings like fonts / syntax colours are lost. <del>I still haven&#8217;t found a way to export this. So i decided to take this opportunity to create a nice new dark theme.</del>. My friend Bart (still no blog?) was friendly enough to let me know how to export the theme related data in ZS. And was nice enough to send me his zenburn theme.</p>
+
+<blockquote><p>File > Export > General > Preferences</p>
+
+<p>File > Import > General > Preferences</p></blockquote>
+
+<p>Bart&#8217;s zenburn theme:
+<a href="http://lenss.nl/images/2011/03/zenburn.png"><img src="http://lenss.nl/images/2011/03/zenburn-300x225.png" alt="" /></a></p>
+
+<p>Most developers i know don&#8217;t seem to care much about the colour of their screen and the font they use. But considering the fact that i spend an insanely amount of time behind a screen. It would be nice if this environment i am in all day put the least amount of constrained on my eyes as possible. So i choose to take time and configure this for optimal viewing pleasure. This starts with the font. For years i have been using the <a href="http://damieng.com/blog/2008/05/26/envy-code-r-preview-7-coding-font-released">Envy Code</a> font by <a href="http://damieng.com/">Damien Guard</a> inside my <a href="http://en.wikipedia.org/wiki/Integrated_development_environment">IDE</a>. This all started i think with a <a href="http://www.codinghorror.com/blog/2007/10/revisiting-programming-fonts.html">post</a> by <a href="http://www.codinghorror.com/">Jeff Atwood</a> It&#8217;s a great font that is extremely easy to read even for terminals. Although still in beta. I advice people to use it when possible.</p>
+
+<p>The second thing i configure are the colour schemes my IDE uses. The standard colour always has a white background. White makes sure things are clear. But staring at a white screen for more then 6 hours always resulted in headaches for me. So the darker the better. And with a dark background you are forced to change the rest as well.</p>
+
+<p><strong>Changing the font is first</strong></p>
+
+<blockquote><p>General > Appearance > Colors and Fonts
+Font : Envy Code R Bold (11 pt)</p></blockquote>
+
+<p><strong>Second up are some general text editor colours</strong></p>
+
+<blockquote><p>General > Editors > Text Editors
+Line number foreground : #787878 (120, 120, 120)
+Current line highlight : #35353D (53, 53, 61)
+Background color : #25252D (37, 37, 45)</p></blockquote>
+
+<p><strong>And finally the PHP syntax coloring</strong></p>
+
+<blockquote><p>PHP > Editor > Syntax Coloring
+Decprecated : #000 (0, 0, 0)
+Fields : #FFFFFF (255, 255, 255)
+Heredoc     : #008282 (0, 130, 130)
+Keyword     : #DE5727 (222, 87, 39)
+Multi-line comment : #557F5F (85, 127, 95)
+Normal : #FFF (255, 255, 255)
+Number : #FFCECE (255, 206, 206)
+PHP tags : #DE5727 (222, 87, 39)
+PHP Doc : #FEC601 (254, 198, 1)
+PHPDoc Comment : #FEC601 (254, 198, 1)
+single line comment : #FEC601 (254, 198, 1)
+static fields : #FFFFFF (255, 255, 255)
+static methods : #FFFFFF (255, 255, 255)
+String : #B3C0C8 (179, 192, 200)
+Task Tags : #FEC601 (254, 198, 1)
+Variable : #0B91B7 (11, 145, 183)</p></blockquote>
+
+<p>The result can be viewed below</p>
+
+<p><a href="http://lenss.nl/images/2011/02/Screenshot-ide-dark.png"><img src="http://lenss.nl/images/2011/02/Screenshot-ide-dark-300x182.png" alt="" /></a></p>
+
+<p>There are much more configuration options to do but for now this is what i came up with. Setting up the theme is a since in ZS. But one thing bothered me. The function / property name highlighting when you select an element inside the IDE. Was a very light colour. And this made it impossible to read the contents of the selection.</p>
+
+<p><a href="http://lenss.nl/images/2011/02/occurrences_on.png"><img src="http://lenss.nl/images/2011/02/occurrences_on-300x20.png" alt="" /></a></p>
+
+<p>So after searching for a while and setting every possible setting in the configuration tabs. I finally figured out how the set the colour for these two actions. This is done from the Annotations setting in the Text editors panel under the general tab. The two options to change are <em>PHP elements read / write occurrences</em>.</p>
+
+<p><a href="http://lenss.nl/images/2011/02/Screenshot-change-bg.png"><img src="http://lenss.nl/images/2011/02/Screenshot-change-bg-300x157.png" alt="" /></a></p>
+
+<p>For now i settled with a dark colour. But maybe i will change this in the future since it is not very readable</p>
+
+<p><a href="http://lenss.nl/images/2011/02/occurrences_off.png"><img src="http://lenss.nl/images/2011/02/occurrences_off-300x20.png" alt="" /></a></p>
+
+<p>That&#8217;s it for now. This of course only sets up the PHP environment. The syntax colours for XML, HTML, CSS and Javascript still have to be changed. But i will leave it at this.</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-20T22:11:58+01:00" pubdate data-updated="true">Feb 20<span>th</span>, 2011</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

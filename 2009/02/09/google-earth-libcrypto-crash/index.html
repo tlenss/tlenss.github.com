@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Feb 9th, 2009 /home Tweet &laquo; Making PHP mail work on Ubuntu through Postfix &hellip;">
+  <meta name="description" content="Google Earth Libcrypto Crash I was reading up on some new features the guys at google pushed into google-earth. And i was curious enough to give it &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,61 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Google Earth Libcrypto Crash</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>I was reading up on some new features the guys at google pushed into <a href="http://earth.google.nl/">google-earth</a>. And i was curious enough to give it a try. So i downloaded the installer for Linux and installed the application without any errors. But when i tried launching it from a command line. I was surprised to see the application crash and burn with the following message:</p>
+
+<blockquote><p>Warning: Unable to create prefs directory &#8216;/home/user/.googleearth&#8217;. File exists.
+./googleearth-bin: relocation error: /usr/lib/i686/cmov/libssl.so.0.9.8: symbol BIO_test_flags, version OPENSSL_0.9.8 not defined in file libcrypto.so.0.9.8 with link time reference</p></blockquote>
+
+<p>Seems the libcrypto.so is linked against some wrong libraries. Thankfully this is pretty easy to fix. Just browse to the google-earth install directory and run the following commands:</p>
+
+<blockquote><p>$ rm libcrypto.so.0.9.8
+$ ln -s /usr/lib/libcrypto.so libcrypto.so.0.9.8</p></blockquote>
+
+<p>The main reason i installed google-earth was to check out the new ocean view feature. So i selected a piece of coastline near the Netherlands.</p>
+
+<p><img src="http://lenss.nl/images/2009/02/nl_coast.jpg" alt="nl_coast" /></p>
+
+<p>Although i was looking for some ocean life. The first thing i found was an airplane :)</p>
+
+<p><img src="http://lenss.nl/images/2009/02/plane.jpg" alt="plane" /></p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-02-09T07:50:26+01:00" pubdate data-updated="true">Feb 9<span>th</span>, 2009</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

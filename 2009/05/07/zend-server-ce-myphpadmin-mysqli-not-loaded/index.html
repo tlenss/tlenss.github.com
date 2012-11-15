@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink May 7th, 2009 Code, PHP Tweet &laquo; Move GNOME panels in Ubuntu 9.04 &hellip;">
+  <meta name="description" content="Zend Server CE MyPHPAdmin Mysqli Not Loaded The last time i installed Zend Server i did it from source. Now it was time for the Ubuntu package &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,62 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Zend Server CE MyPHPAdmin Mysqli Not Loaded</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>The last time i installed <a href="http://www.zend.com/products/server/">Zend Server</a> i did it from source. Now it was time for the Ubuntu package manager to do it for me. I&#8217;ll spare you the install process. Since it&#8217;s <a href="http://files.zend.com/help/Zend-Server/zend-server.htm#deb_installation.htm">documented</a> well by the Zend team.</p>
+
+<p>After the install i walked through all pages of the ZS GUI. And all seemed to work great. So i checked the repository if there were anymore packages i could add to the ZS setup. And found the <a href="http://www.phpmyadmin.net/">myphpadmin</a> package. Just what i needed. And as i remember this was missing from the previous version. So i installed the package. And the GUI now showed a link to the phpmyadmin application. But when triggering the page i was confronted with an error message.</p>
+
+<p><a href="http://lenss.nl/images/2009/05/mysqli_error_zs.jpg"><img src="http://lenss.nl/images/2009/05/mysqli_error_zs-300x14.jpg" alt="mysqli_error_zs" /></a></p>
+
+<p>So mysqli was not loaded. Well that&#8217;s possible of course. But the repository showed it was installed. And so did the <a href="http://www.php.net/phpinfo">phpinfo()</a> page.</p>
+
+<p><a href="http://lenss.nl/images/2009/05/phpinfo_mysqli_zs.jpg"><img src="http://lenss.nl/images/2009/05/phpinfo_mysqli_zs-220x300.jpg" alt="phpinfo_mysqli_zs" /></a></p>
+
+<p>So after looking around the config files for a while. It hit me. The ZS GUI is running on <a href="http://www.lighttpd.net/">lighttpd</a> and not apache. And just as i expected. Apache loaded the mysqli extension. But lighttpd didn&#8217;t.</p>
+
+<p>A work around for this problem would be to leave of the :10081 port number in the GUI URL. So it points to 127.0.0.1/myphpadmin/. Or add the extensions to the lighthttpd setup. But adding a single line to the php-fcgi.ini file.</p>
+
+<blockquote><p>$ vi /usr/local/zend/gui/lighttpd/etc/php-fcgi.ini
+$ extension=mysqli.so</p></blockquote>
+
+<p>This makes it possible to load phpmyadmin from the GUI. But the mysqli missing error is still displayed. So it&#8217;s probably better to load it over Apache. I tried to find a bug report link or something for the ZS project but couldn&#8217;t find any&#8230;&#8230;</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-05-07T12:57:49+02:00" pubdate data-updated="true">May 7<span>th</span>, 2009</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

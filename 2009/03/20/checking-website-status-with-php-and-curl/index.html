@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Mar 20th, 2009 Code, PHP, Tech Tweet &laquo; Animated loader on form submit XSS &hellip;">
+  <meta name="description" content="Checking Website Status With PHP and Curl I have to admit this is probably not the best way to things like this. But it was fun to write the small &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,216 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Checking Website Status With PHP and Curl</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>I have to admit this is probably not the best way to things like this. But it was fun to write the small bit of code. And it&#8217;s useful as well. For one of my sites i use a small script to check the status every 30 minutes. I&#8217;m doing this because the server the site is running on sometimes chooses to stop serving web pages. It&#8217;s a managed server so not much i can do about it.</p>
+
+<p>So to check the status of the website / web server i wrote a small class that is triggered from a CRON job that runs every 30 minutes.</p>
+
+<p>The CRON script looks like this:</p>
+
+<pre><code>require_once "/full/path/to/class/siteStatus.php";
+
+try {
+    siteStatus::check(array(
+        'sites' =&gt; array(
+            'http://siteurl1.tld',
+            'http://siteurl2.tld'
+        ),
+        'agent' =&gt; 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)',
+        'email' =&gt; 'some+email.address'
+    ));
+} catch (Exception $e) {
+    echo $e-&gt;getMessage();
+}
+</code></pre>
+
+<p>And the class that does the actual checking:</p>
+
+<pre><code>/**
+ * siteStatus
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license
+ *
+ * @package    siteStatus
+ * @copyright  Copyright (c) 2009 Thijs Lensselink. (http://lenss.nl)
+ * @license    http://lenss.nl/license/bsd.txt     New BSD License
+ */
+
+/**
+ * Class for checking the status of a website
+ *
+ * @package    siteStatus
+ * @copyright  Copyright (c) 2009 Thijs Lensselink. (http://lenss.nl)
+ * @license    http://lenss.nl/license/bsd.txt     New BSD License
+ */
+Class siteStatus
+{
+    /**
+     * @var resource
+     */
+    static private $_curl;
+
+    /**
+     * @var string
+     */
+    static private $_reportEmail;
+
+    /**
+     * @var string
+     */
+    static private $_curlErrors;
+
+    /**
+     * This method loops through the lis tof sites provided by the
+     * config array. And calls self::checkSite to do the actual checking.
+     *
+     * A config array will look something like this:
+     * 
+     * array(
+     *  'sites' =&gt; array(
+     *      'http://siteurl1.tld',
+     *      'http://siteurl2.tld'
+     *  ),
+     *  'agent' =&gt; 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)',
+     *  'email' =&gt; 'report+email.tld'
+     * ); 
+     *
+     * @param  array  $config   The config array
+     * @return void
+     */
+    static public function check(array $config)
+    {
+        self::setReportAddress($config);
+        self::createCurlResource();
+
+        foreach ($config['sites'] as $site) {
+            $checkDateTime = date('Y-m-d H:i:s');
+            if (!self::checkSite($site, $config['agent'])) {
+                self::sendReport($site, $checkDateTime);
+            }
+        }
+
+        curl_close(self::$_curl);
+    }
+
+    /**
+     * Sets the address to which the report has to be emailed.
+     *
+     * @param  array  $config   The config array
+     * @return void
+     */
+    static private function setReportAddress(array $config)
+    {
+        if (!isset($config['email']) || (strlen($config['email']) &lt;= 4)) {
+            throw new Exception("No report email address is set in the config.");
+        }
+
+        self::$_reportEmail = $config['email'];
+    }
+
+    /**
+     * Try to create a curl resource.
+     *
+     * @return void
+     */
+    static private function createCurlResource()
+    {
+        self::$_curl = curl_init();
+        if (!self::$_curl) {
+            throw new Exception("Could not create a curl resource.");
+        }
+    }
+
+    /**
+     * Preform a call to the webserver. And check the status code provided by it.
+     *
+     * @param  string  $siteUrl   The site URL.
+     * @param  string  $agent     Browser agent string.
+     * @return boolean
+     */
+    static private function checkSite($siteUrl, $agent)
+    {
+        curl_setopt(self::$_curl, CURLOPT_URL,            $siteUrl);
+        curl_setopt(self::$_curl, CURLOPT_USERAGENT,      $agent);
+        curl_setopt(self::$_curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt(self::$_curl, CURLOPT_VERBOSE,        false);
+        curl_setopt(self::$_curl, CURLOPT_TIMEOUT,        5);
+
+        if (curl_exec(self::$_curl) === false) {
+            self::$_curlErrors = curl_error(self::$_curl);
+        }
+        $httpcode = curl_getinfo(self::$_curl, CURLINFO_HTTP_CODE);
+
+        if($httpcode &gt;= 200 &amp;&amp; $httpcode &lt; 300) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Send a report after checking sites is done.
+     *
+     * @param  string $site     Site URL.
+     * @param  string $dateTime DateTime the check was preformed.
+     * @return void
+     */
+    static private function sendReport($site, $dateTime)
+    {
+        $reportSubject = "Status report for {$site}\n\n";
+
+        $reportBody = "Site : {$site}\n";
+        $reportBody .= "Date : {$dateTime}\n";
+
+        if (strlen(self::$_curlErrors) &gt; 0) {
+            $reportBody .= "Errors : " . self::$_curlErrors . "\n";
+        }
+
+        mail(self::$_reportEmail, $reportSubject, $reportBody);
+    }
+}
+</code></pre>
+
+<p>Like i said this is probably not the best way of doing this. To make it more solid it&#8217;s probably better to use some sort of SMS gateway to send out reports. But for now this suits my needs. It&#8217;s runs from my local workstation. Which is on 24/7 anyway.</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-03-20T10:56:03+01:00" pubdate data-updated="true">Mar 20<span>th</span>, 2009</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

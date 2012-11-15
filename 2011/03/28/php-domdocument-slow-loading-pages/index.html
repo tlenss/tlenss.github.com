@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Mar 28th, 2011 Code, PHP, Tech Tweet &laquo; Writing a simple Wordpress plugin &hellip;">
+  <meta name="description" content="PHP & DOMDocument Slow Loading Pages While trying to load a very basic XML template with DOMDocument::load() i ran into some issues last Friday. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,66 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">PHP & DOMDocument Slow Loading Pages</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>While trying to load a very basic XML template with <a href="http://nl.php.net/manual/en/domdocument.load.php">DOMDocument::load()</a> i ran into some issues last Friday. During the weekend i completely forgot about this. Thank god :) But since it&#8217;s Monday i have no other option then to solve it. The problem i was experiencing was page loads took about 2 minutes for every controller action in the application. My first thought was that it would be related to permissions. The application not being able to write certain files. But after checking all permissions the problems still remained.</p>
+
+<p>The logs weren&#8217;t showing anything. No errors, nothing. Time to enable the <a href="http://www.xdebug.org/">XDebug</a> profiler. And after doing a few requests and loading them up in <a href="http://kcachegrind.sourceforge.net/html/Home.html">KCachegrind</a> i found the root of the problem quite fast. A call to the mkDom method was causing the slow load.</p>
+
+<p><a href="http://lenss.nl/images/2011/03/php-dom_1.png"><img src="http://lenss.nl/images/2011/03/php-dom_1-300x59.png" alt="" /></a></p>
+
+<p>But because there are no errors or other indications something is wrong. I added some debug statements to the code in question. And found out that it was PHP&#8217;s native DOMDocument::load() that was taking two minutes to load a 200k XML template. That&#8217;s not good. So what&#8217;s going on here?</p>
+
+<p><a href="http://lenss.nl/images/2011/03/php-dom_2.png"><img src="http://lenss.nl/images/2011/03/php-dom_2-300x41.png" alt="" /></a></p>
+
+<p>First let&#8217;s check why there are no errors. Turns out that for some specific reason <a href="http://nl2.php.net/manual/en/libxml.constants.php">LIBXML_NOERROR</a> is set. And after disabling this i was presented with an error.</p>
+
+<blockquote><p>Caught exception: ErrorException: DOMDocument::load()
+Entity &#8216;nbsp&#8217; not defined in /some/file.tal.html, line: 363</p></blockquote>
+
+<p>WTF? HTML entities inside a XML template. O well. So i changed the  &#8216;s inside the template to their XML equivalent</p>
+
+<p>Reloaded the page and everything is fast again. This solved my problem. But i wasn&#8217;t happy yet. Nobody else was experiencing this issue in the office. So there had to be some other issue. That&#8217;s when Geoff notified me about the fact that DTD checks are disabled by using <a href="http://nl2.php.net/manual/en/libxml.constants.php">LIBXML_NONET</a>. For this to work however there needs to be an extra W3C package installed.</p>
+
+<p><a href="http://lenss.nl/images/2011/03/php-dom_3.png"><img src="http://lenss.nl/images/2011/03/php-dom_3-300x7.png" alt="" /></a></p>
+
+<p>This was one of those hard to track errors. But it&#8217;s fixed and everything is running smooth again.</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-28T14:53:45+02:00" pubdate data-updated="true">Mar 28<span>th</span>, 2011</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

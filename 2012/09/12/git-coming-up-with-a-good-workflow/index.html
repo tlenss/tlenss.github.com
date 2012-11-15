@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Sep 12th, 2012 Code, Tech Tweet &laquo; Workaround for running WoW with patch 5. &hellip;">
+  <meta name="description" content="GIT: Coming Up With a Good Workflow A new environment to work in always brings new challenges. And this one is no exception. And i will be working &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,82 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">GIT: Coming Up With a Good Workflow</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>A new environment to work in always brings new challenges. And this one is no exception. And i will be working with <a href="http://git-scm.com/">git</a> from now on. I tried switching before. But always went back to subversion. Because of my job. And for somebody who worked with <a href="http://subversion.apache.org/">subversion</a> solely for the past&#8230; say 5 to 7 years it&#8217;s kind of a new concept and takes some time to get a grasp on. Ok ok. It&#8217;s just another version control system. But it takes some getting used to.</p>
+
+<p>And two days ago i kinda got stuck in <a href="http://git-scm.com/docs/git-rebase">rebase</a> hell. And had to take some time to figure this all out without doing any damage. Which resulted in another problem. There simply is no revert command like in subversion. But git is pretty smart about this kinda things. So getting the branch full of failed merges back to it&#8217;s original state can easily be achieved with two commands and some concentration.</p>
+
+<p>First check the <strong>reflog</strong> for a point where to start from</p>
+
+<blockquote><p>$ git reflog</p></blockquote>
+
+<p>From the output pick the point where to revert back to. Which looks something like HEAD{2}. And run</p>
+
+<blockquote><p>$ git reset &#8211;hard HEAD{2}</p></blockquote>
+
+<p>So back to square one. My main problem was that i had not kept my branch up to date with the remote repository. Which you can do with the pull command while on the master branch. Or with the <strong>rebase</strong> command while working on a local branch. <strong>Rebase</strong> is git&#8217;s alternative way of bringing changes together. So the idea behind it is that when your local branch is up to date. The final merge will become as straight forward as possible.</p>
+
+<p>I finally managed to get my changes merged in to master. But did not feel very confident about the whole process. So I  need to come up with a steady work flow. And stick to it. To not waste time and run into these <strong>rebase</strong> disasters.</p>
+
+<p>This is what i have so far. And seems to be a solid routine. Start with a nice new checkout of the project at hand. And branch it for the changes to be done.</p>
+
+<blockquote><p>$ git clone git://some.repository.url:repos.git
+$ git branch dev-branch</p></blockquote>
+
+<p>After working on the newly created branch for a while. Some changes are bound to be ready to be pulled into master. Keeping an eye on the build logs or commit messages should work fine. When this happens it&#8217;s time to bring those changes into the dev-branch. After pulling them into master.</p>
+
+<blockquote><p>$ git checkout master
+$ git pull
+$ git checkout dev-branch</p></blockquote>
+
+<p>If there is a need to <strong>rebase</strong> the branch with for instance master. This is the moment. This might cause <a href="http://stackoverflow.com/questions/559917/git-rebase-and-git-push-non-fast-forward-why-use">non-fast-forward issues</a>. But i have not completely figured out why i run into these issues every now and then. A way to solve this might be to use the <em>&#8211;force</em> switch when pushing to remote. But i am not a big fan of forcing things like this.</p>
+
+<blockquote><p>$ git rebase</p></blockquote>
+
+<p>If everything is fine some more work can be done on the dev branch. Until a new change in master is ready to be pulled in. In which case it&#8217;s rinse and repeat the previous part. When the changeset is ready to be merged back into master. Switch to master bring it up up o date with a pull. And merge the changes from the dev-branch.</p>
+
+<blockquote><p>$ git checkout master
+$ git pull
+$ git push dev-branch</p></blockquote>
+
+<p>Again when all is fine all changes will be available in master. If something goes wrong during git-rebase and / or merging. Git will kindly state so. And some manual merging with git&#8217;s <a href="http://git-scm.com/docs/git-mergetool">mergetool</a> will have to be done. But that&#8217;s something for another day.</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-12T09:09:37+02:00" pubdate data-updated="true">Sep 12<span>th</span>, 2012</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

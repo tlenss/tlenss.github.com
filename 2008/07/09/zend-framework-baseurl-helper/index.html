@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Jul 9th, 2008 Code Tweet &laquo; Firefox add-ons Help a MySQL support engineer &hellip;">
+  <meta name="description" content="Zend Framework BaseUrl Helper Today i was working with the Zend Framework. And needed the baseUrl to set the correct path for stylesheets and &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,81 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Zend Framework BaseUrl Helper</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>Today i was working with the <a href="http://framework.zend.com">Zend Framework</a>. And needed the baseUrl to set the correct path for stylesheets and external javascript files. To include stylesheets and javascript files there are methods available in ZF. In your controller you can set:</p>
+
+<pre><code>$this-&gt;view-&gt;headLink()-&gt;appendStylesheet('/css/tester.css');
+</code></pre>
+
+<p>In your view or layout you can then call</p>
+
+<pre><code>$this-&gt;headLink();
+</code></pre>
+
+<p>This works great. But the current development structure lacks some good rewrite rules. And having the baseUrl is always a good thing. So i did some searching on Google. To figure out if somebody already has a solution for this problem. After a few minutes i found a post written by <a href="http://www.spotsec.com/blog/archive/2007/12/14/zend-framework-baseurl-view-helper/">Yusak Setiawan</a> from <a href="http://www.zendindonesia.com/">zendindonesia</a> (which is defaced by the way) explaining how to add a placeholder in the bootstrap file. Now this is a good solution. But i like to keep my bootstrap file as clean as possible. So i decided to add a Helper that would do the trick.</p>
+
+<p>Create a file called &#8216;BaseUrl.php&#8217; inside the Helper directory. And fill it with the following code.</p>
+
+<pre><code>class Zend_View_Helper_BaseUrl
+{
+    function baseUrl()
+    {
+        $base_url = substr($_SERVER['PHP_SELF'], 0, -9);
+        return $base_url;
+    }
+}
+</code></pre>
+
+<p>After that it&#8217;s extremly easy to get the baseUrl in your views, layouts or controllers.</p>
+
+<p>Inside the view or layout you can call:</p>
+
+<pre><code>$this-&gt;baseUrl();
+</code></pre>
+
+<p>And inside the controller you can call it like this.</p>
+
+<pre><code>$this-&gt;view-&gt;baseUrl();
+</code></pre>
+
+<p><a href="http://blog.motane.lu/2009/01/31/zend-framework-base-url/">Tudor Barbu</a> wrote a great article on this subject.</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-07-09T12:42:36+02:00" pubdate data-updated="true">Jul 9<span>th</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

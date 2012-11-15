@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Feb 24th, 2009 Code, Tech Tweet &laquo; elePHPants ElePHPants &raquo; Comments &hellip;">
+  <meta name="description" content="Speed Up and Save Traffic With Apache and Mod_deflate One of our sites was loading pretty slow. This is mostly caused by a very heavy design. But i &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,75 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Speed Up and Save Traffic With Apache and Mod_deflate</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>One of our sites was loading pretty slow. This is mostly caused by a very heavy design. But i still wanted to speed things up a bit.</p>
+
+<p>The first step was compressing all JavaScript files with the <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI compressor</a>. The next step was to activate mod_deflate and compress all text, XML, and media files (JavaScript, CSS).</p>
+
+<p>When the mod_deflate module is loaded in apache this is a pretty easy thing to do. Just add the following lines to a .htaccess file in the root of the web site / application.</p>
+
+<blockquote><p>AddOutputFilterByType DEFLATE text/html text/plain text/xml text/javascript text/css
+BrowserMatch ^Mozilla/4 gzip-only-text/html
+BrowserMatch ^Mozilla/4.0[678] no-gzip
+BrowserMatch \bMSIE !no-gzip !gzip-only-text/html</p></blockquote>
+
+<p>The first line enables mod_deflate for the specified extensions. And the other three lines are there because of the way some older browsers handle gzipped data.</p>
+
+<p>To test if the the content is transmitted over the line in gzipped format i used the <a href="https://addons.mozilla.org/en-US/firefox/addon/3829">Live HTTP Header</a> Firefox extensions. This let&#8217;s you watch the Live HTTP headers as the fly by.</p>
+
+<p>Check the HTTP/ 1.x 200 OK response from the webserver for the following line</p>
+
+<blockquote><p>Content-Encoding: gzip</p></blockquote>
+
+<p>And to test what happens if a browser doesn&#8217;t support gzipped data. You can set a configuration parameter in Firefox <a href="http://kb.mozillazine.org/Firefox_:_FAQs_:_About:config_Entries">about:config</a>.</p>
+
+<p>gzip, deflate enabled:</p>
+
+<blockquote><p>network.http.accept-encoding = gzip,deflate</p></blockquote>
+
+<p>gzip, deflate disabled:</p>
+
+<blockquote><p>network.http.accept-encoding =</p></blockquote>
+
+<p>References :
+<a href="http://www.howtoforge.com/apache2_mod_deflate">http://www.howtoforge.com/apache2_mod_deflate</a></p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-02-24T05:59:53+01:00" pubdate data-updated="true">Feb 24<span>th</span>, 2009</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

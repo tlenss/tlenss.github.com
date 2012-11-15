@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag &#8216;endif&#8217; Liquid syntax error: Unknown tag &#8216;endif&#8217; Liquid syntax error: Unknown tag &#8216; &hellip;">
+  <meta name="description" content="Rewriting Blocks in Magento The last few days i have been toying with Magento. and mainly trying to wrap my head around the file structure. It takes &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -58,52 +58,974 @@
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2010/06/25/rewriting-blocks-in-magento/">Rewriting Blocks in Magento</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>The last few days i have been toying with <a href="http://www.magentocommerce.com/">Magento</a>. and mainly trying to wrap my head around the file structure. It takes quite some time to find all files. So i will be making notes here to keep track of my own progress :)</p>
+
+<p>Today i wanted to add a tab in the customer section of the admin. I am working on a new module and this should be configurable on a per user basis. There for i needed an extra tab to the customer > Manage customers > [customer x] page.</p>
+
+<p>The first challenge was to figure out where Magento stores the tab menu data. I was hoping this came from a database. But after some searching i couldn&#8217;t find any reference. It seems to be hard coded in tab files. The customer tab in question can be found here:</p>
+
+<blockquote><p>app/code/core/Mage/Adminhtml/Block/Customer/Edit/tabs.php</p></blockquote>
+
+<p>We could of course edit this class. But that&#8217;s not according the Magento way. We need to create a local copy of this class. preferably under my own namespace.</p>
+
+<p>To make this happen we first need to tell Magento we are rewriting core modules. So we start of by creating the following file</p>
+
+<blockquote><p>app/etc/modules/[namespace]_All.xml</p></blockquote>
+
+<p>And we add the following lines</p>
+
+<pre><code>&lt;config&gt;
+    &lt;modules&gt;
+        &lt;strawberries_core&gt;
+            &lt;active&gt;true&lt;/active&gt;
+            &lt;codepool&gt;local&lt;/codepool&gt;
+            &lt;depends&gt;
+                &lt;mage_core&gt;&lt;/mage_core&gt;
+            &lt;/depends&gt;
+        &lt;/strawberries_core&gt;
+    &lt;/modules&gt;
+&lt;/config&gt;
+</code></pre>
+
+<p>This will tell Magento we have a Core folder under our own namespace. But it still depends on the Mage_Core classes if they are not available in the namespaced location.</p>
+
+<p>Next we need to setup the [namespace]_Core module. We create the folder structure under our own namspace</p>
+
+<blockquote><p>app/code/local/[namespace]/Core/etc</p></blockquote>
+
+<p>And we create a new config file here (config.xml) where we will do the actual class rewriting.</p>
+
+<pre><code>&lt;config&gt;
+    &lt;modules&gt;
+        &lt;[namespace]_Core&gt;
+            &lt;version&gt;0.1.0&lt;/version&gt;
+
+    &lt;/modules&gt;
+    &lt;global&gt;
+        &lt;blocks&gt;
+            &lt;adminhtml&gt;
+                &lt;rewrite&gt;
+                    &lt;customer_edit_tabs&gt;[namespace]_Adminhtml_Block_Customer_Edit_Tabs&lt;/customer_edit_tabs&gt;
+                &lt;/rewrite&gt;
+            &lt;/adminhtml&gt;
+        &lt;/blocks&gt;
+    &lt;/global&gt;
+&lt;/config&gt;
+</code></pre>
+
+<p>We use the  tag to tell Magento we are rewriting a Block class. And then we setup the actual rewrite.</p>
+
+<blockquote><p>Mage_Adminhtml_Block_Customer_Edit_Tabs is now rewritten too [namespace]_Adminhtml_Block_Customer_Edit_Tabs</p></blockquote>
+
+<p>The only thing left now is to create the Block class which is located in</p>
+
+<blockquote><p>app/code/local/[namespace]/Adminhtml/Block/Customer/Edit/Tabs.php</p></blockquote>
+
+<pre><code>class [namespace]_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Customer_Edit_Tabs
+{
+    protected function _beforeToHtml()
+    {
+    $this-&gt;addTab('modulename', array(
+            'label'     =&gt; Mage::helper('customer')-&gt;__('Modulename'),
+            'class'     =&gt; 'ajax',
+            'url'       =&gt; $this-&gt;getUrl('*/*/modulename', array('_current' =&gt; true)),
+        ));
+
+        $this-&gt;_updateActiveTab();
+        return parent::_beforeToHtml();
+    }
+}
+</code></pre>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-06-25T17:20:42+02:00" pubdate data-updated="true">Jun 25<span>th</span>, 2010</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2010/06/25/rewriting-blocks-in-magento/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2010/05/21/nerdiness/">Nerdiness</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>Ok so i had nothing todo for a few minutes and found a <a href="http://www.nerdtests.com/ft_nq.php">link</a> to this page. I am never really into this stuff. But it looked funny and i had nothing to do. So i walked through the questions&#8230; and the result :)</p>
+
+<p><strong>Supreme Nerd. Apply for a professorship at MIT now!!!.</strong></p>
+
+<p><a href="http://www.nerdtests.com/ft_nq.php">
+<img src="http://www.nerdtests.com/images/ft/nq/bfcfa5649e.gif" alt="I am nerdier than 91% of all people. Are you a nerd? Click here to take the Nerd Test, get nerdy images and jokes, and write on the nerd forum!" /></a></p>
+
+<p>Another nerdy thing i picked up was that Ilia Alshanetsky&#8217;s <a href="http://ilia.ws/archives/217-Scalar-Type-Hints-are-Here!.html">scalar type hints</a> patch has been merged with the PHP trunk. Great stuff. Have been waiting for this for a while.</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-05-21T10:01:18+02:00" pubdate data-updated="true">May 21<span>st</span>, 2010</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2010/05/21/nerdiness/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2010/04/04/a-new-look-for-lenss-nl/">A New Look for lenss.nl</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>This long Easter weekend gave me some time to create a new theme for this blog. So after a day of work this is the result. I was a bit tired of the dark unreadable format. At the moment i am still tweaking here and there but it looks fine!</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-04-04T22:17:30+02:00" pubdate data-updated="true">Apr 4<span>th</span>, 2010</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2010/04/04/a-new-look-for-lenss-nl/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2010/03/09/month-of-php-security-2010/">Month of PHP Security 2010</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>After a successful experiment a while back <a href="http://blog.php-security.org/archives/71-Month-of-PHP-Bugs-and-PHP-5.2.1.html">Month of the PHP Bugs</a>. Stefan Esser and <a href="http://www.sektioneins.com/">SektionEins</a> is at it again. This time with Month of PHP Security. A gathering for PHP and security gurus a like. The call for papers is <a href="http://www.php-security.org/">open for submission</a>.</p>
+
+<p>There are some nice prices to walk away with. So what you waiting for?</p>
+
+<ul>
+<li><p>New vulnerability in PHP [1] (not simple safe_mode, open_basedir bypass vulnerabilities)</p></li>
+<li><p>New vulnerability in PHP related software [1] (popular 3rd party PHP extensions/patches)</p></li>
+<li><p>Explain a single topic of PHP application security in detail (such as guidelines on how to store passwords)</p></li>
+<li><p>Explain a complicated vulnerability in/attack against a PHP widespread application [1]</p></li>
+<li><p>Explain a complicated topic of attacking PHP (e.g. explain how to exploit heap overflows in PHP&#8217;s heap implementation)</p></li>
+<li><p>Explain how to attack encrypted PHP applications</p></li>
+<li><p>Release of a new open source PHP security tool</p></li>
+<li><p>Other topics related to PHP or PHP application security</p></li>
+</ul>
+
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-03-09T13:42:38+01:00" pubdate data-updated="true">Mar 9<span>th</span>, 2010</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2010/03/09/month-of-php-security-2010/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2010/02/06/zend-framework-bootstrapping-modules/">Zend Framework Bootstrapping Modules</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>I am working on a small API for my own backend and i wanted a modular architecture. I have done this before using the Zend Framework. But this time i wanted a bit more control while loading the modules. And adding a <a href="http://framework.zend.com/manual/1.10/en/zend.application.quick-start.html">Bootstrap</a> class would seem like a good option. The only example i could find involved loading all bootstraps on every request. Which doesn&#8217;t seem like a good idea. So after reading through the Manual and some blog posts. I decided to give it s shot my self.</p>
+
+<p>The structure i want looks like this.</p>
+
+<p><a href="http://lenss.nl/images/2010/02/module-based.jpg"><img src="http://lenss.nl/images/2010/02/module-based.jpg" alt="" /></a></p>
+
+<p>The application.ini file has the following contents:</p>
+
+<blockquote><p>includePaths.library = APPLICATION_PATH &#8220;/../library&#8221;
+bootstrap.path = APPLICATION_PATH &#8220;/Bootstrap.php&#8221;
+bootstrap.class = &#8220;Bootstrap&#8221;
+resources.frontController.moduleDirectory = APPLICATION_PATH &#8220;/modules&#8221;
+resources.modules[] = &#8220;default&#8221;
+resources.modules[] = &#8220;admin&#8221;</p></blockquote>
+
+<p><strong>includePaths</strong>
+This sets the applications local library location. Any shared code for this application goes here.</p>
+
+<p><strong>bootstrap.path &amp; class</strong>
+Define the location and type of the Bootstrap class.</p>
+
+<p><strong>resources</strong>
+Define the modules location and create a list of modules.</p>
+
+<p>The main Bootstrap class</p>
+
+<p><strong>application/Bootstrap.php</strong></p>
+
+<pre><code>class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
+{
+</code></pre>
+
+<p>Load the config parameters for this application and set some debugging settings if needed.</p>
+
+<pre><code>    protected function _initConfiguration()
+    {
+        $app = $this-&gt;getApplication();
+        $config = $app-&gt;getOptions();
+
+        if (APPLICATION_ENV == 'development') {
+                error_reporting(E_ALL &amp; E_STRICT);
+                if (isset($config['phpsettings'])) {
+                        foreach ($config['phpsettings'] as $setting =&gt; $value) {
+                            ini_set($setting, $value);
+                        }  
+                }
+        }
+    }
+</code></pre>
+
+<p>We need autoloading here because we are using a class from the application library. Right now this causes a problem. A notice is thrown</p>
+
+<blockquote><p>Warning: include_once(FrontController.php) [function.include-once]: failed to open stream: No such file or directory in Zend/Loader.php  on line 147</p></blockquote>
+
+<p>The application responds fine. And this problem seems to be a recurring issue (<a href="http://framework.zend.com/issues/browse/ZF-7224">ZF-7224</a>, <a href="http://framework.zend.com/issues/browse/ZF-7550">ZF-7550</a>) for the framework. Until now i have not find a graceful fix for this. besides a small <a href="http://framework.zend.com/issues/secure/attachment/12131/BootstrapAbstract.patch">patch</a> reversion.</p>
+
+<pre><code>    protected function _initAutoload()
+    {
+            $autoloader = Zend_Loader_Autoloader::getInstance();
+            $autoloader-&gt;setFallbackAutoloader(true);
+
+            return $autoloader;
+    }
+</code></pre>
+
+<p>Setup the controller to register the <strong>Bluess_Modules_Loader</strong> plug-in. And set the <strong>prefixDefaultModule</strong> parameter so we can prefix the default module controllers as well. Just for the sake of consistency. The <strong>Bluess_</strong> namespace is part of my API. And can be changed at will.</p>
+
+<pre><code>   protected function _initController()
+    {
+        $this-&gt;bootstrap('FrontController'); 
+        $controller = $this-&gt;getResource('FrontController');
+       $modules = $controller-&gt;getControllerDirectory();
+       $controller-&gt;setParam('prefixDefaultModule', true);
+
+        $controller-&gt;registerPlugin(
+               new Bluess_Modules_Loader($modules)
+        );
+
+        return $controller;
+    }
+</code></pre>
+
+<p>Now the last method. which is a bit weird. And i am probably missing a key factor here. But if this method <strong>resource</strong> is not declared only the default module functions. When declared empty all modules function as they should. This would indicate that this method could be used to load the modules. But i haven&#8217;t found a way to achieve this yet. Except for loading all modules in a row. Which makes no sense for this purpose. So we leave it empty.</p>
+
+<pre><code>protected function _initModules()
+    {
+        // Call to prevent ZF from loading all modules
+    }
+</code></pre>
+
+<p>The most important part here is the controller plug-in. This will be the place where module bootstraps are called from.</p>
+
+<p><strong>application/../library/Bluess/Modules/Loader.php</strong></p>
+
+<pre><code>class Bluess_Modules_Loader extends Zend_Controller_Plugin_Abstract
+{
+    protected $_modules;
+</code></pre>
+
+<p>Setup the plug-in by passing the applications module list.</p>
+
+<pre><code>    public function __construct(array $modulesList) 
+    {
+        $this-&gt;_modules = $modulesList;
+    }
+</code></pre>
+
+<p>The <strong>dispatchLoopStartup</strong> method will be called on every request and will do the magic. Based on the current module name we create a new <strong>Zend_Application</strong> with the current modules config file <strong>module.ini</strong>. And we bootstrap it.</p>
+
+<pre><code>    public function dispatchLoopStartup(Zend_Controller_Request_Abstract $request)
+    {
+        $module = $request-&gt;getModuleName();
+
+        if (!isset($this-&gt;_modules[$module])) {
+            throw new Exception("Module does not exist!");
+        }
+
+        $bootstrapPath = $this-&gt;_modules[$module];
+
+        $bootstrapFile = dirname($bootstrapPath) . '/Bootstrap.php';
+        $class         = ucfirst($module) . '_Bootstrap';
+        $application   = new Zend_Application(
+            APPLICATION_ENV,
+            APPLICATION_PATH . '/modules/' . $module . '/configs/module.ini'
+        );  
+
+        if (Zend_Loader::loadFile('Bootstrap.php', dirname($bootstrapPath)) 
+            &amp;&amp; class_exists($class)) {
+            $bootstrap = new $class($application);
+            $bootstrap-&gt;bootstrap();
+        }
+    }
+}
+</code></pre>
+
+<p>Now setup the default module. Once this is done it&#8217;s a nice example for further modules. Make sure the module has it&#8217;s own layout set.</p>
+
+<p><strong>application/modules/default/configs/module.ini</strong></p>
+
+<blockquote><p>default.resources.layout.layout = &#8220;default&#8221;
+default.resources.layout.layoutPath = APPLICATION_PATH &#8220;/modules/default/layout&#8221;</p></blockquote>
+
+<p>Setup the modules bootstrap and use it to set the modules model location.</p>
+
+<p><strong>application/modules/default/Bootstrap.php</strong></p>
+
+<pre><code>class Default_Bootstrap extends Zend_Application_Module_Bootstrap 
+{
+    protected $_moduleName = 'default';
+
+    protected function _initConfiguration()
+    {
+        $options = $this-&gt;getApplication()-&gt;getOptions();
+
+        set_include_path(implode(PATH_SEPARATOR, array(
+            realpath(APPLICATION_PATH . '/modules/' . $this-&gt;_moduleName . '/models'),
+            get_include_path(),
+        )));
+
+        return $options;
+    }
+}
+</code></pre>
+
+<p>That&#8217;s all. Now make sure your layout is set correctly and the controllers are prefixed</p>
+
+<p><strong>application/modules/default/layout/default.phtml</strong></p>
+
+<pre><code>echo $this-&gt;layout()-&gt;content;
+</code></pre>
+
+<p><strong>application/modules/default/controllers/IndexController.php</strong></p>
+
+<pre><code>class Default_IndexController extends Zend_Controller_Action
+{
+</code></pre>
+
+<p>It took me a while to get this working like i had it in my mind. But it&#8217;s going the right way. If your interested in a working copy. You can download one <a href="http://lenss.nl/code/ZFBootstrappedModules.tar.gz">here</a>.</p>
+
+<p><strong>UPDATE</strong></p>
+
+<p>Matthew has a nice <a href="http://weierophinney.net/matthew/archives/234-Module-Bootstraps-in-Zend-Framework-Dos-and-Donts.html#extended">post </a>about some do&#8217;s and don&#8217;ts concerning module based applications</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-02-06T22:04:38+01:00" pubdate data-updated="true">Feb 6<span>th</span>, 2010</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2010/02/06/zend-framework-bootstrapping-modules/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2010/02/01/finally-no-more-ie6/">Finally No More IE6</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>Something all Web developers wish for is the fact that Internet Explorer 6.0 disappears from the face of this planet. And after some good initiatives like <a href="http://www.ie6nomore.com/">IE6 no more</a> It now seems the <a href="http://www.google.com">biggest</a> in the field is phasing out support for older browsers. Sometimes its good to have so much influence i guess? :)</p>
+
+<p>Good move!</p>
+
+<p><a href="http://googleenterprise.blogspot.com/2010/01/modern-browsers-for-modern-applications.html">http://googleenterprise.blogspot.com/2010/01/modern-browsers-for-modern-applications.html</a></p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-02-01T21:36:44+01:00" pubdate data-updated="true">Feb 1<span>st</span>, 2010</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2010/02/01/finally-no-more-ie6/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2010/01/30/fixing-wp-e-commerce-for-ideal-payments/">Fixing Wp-e-commerce for iDEAL Payments</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext">
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-01-30T17:03:02+01:00" pubdate data-updated="true">Jan 30<span>th</span>, 2010</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2010/01/30/fixing-wp-e-commerce-for-ideal-payments/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2010/01/29/cache-data-with-zend-framework-and-memcached/">Cache Data With Zend Framework and Memcached</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>Last week i had the chance to work with memcache. Something i hadn&#8217;t done before. For caching i mostly rely on APC for bytecode. And file based caching for content. Using memecache extension for PHP and de memcached service gives a whole range of features for caching data. And an easy way to manage all this cached data.</p>
+
+<p>The project i am working on is based on Zend Framework. And there for this post will reflect working with memcache in ZF only. With ZF and memcache it&#8217;s possible to do frontend and backend caching. I will focuse on the backend side for now. But will setup the frontend as well.</p>
+
+<p>If you don&#8217;t have memcache installed do it now. It&#8217;s not that hard. On my debian box it went somethign like this:</p>
+
+<blockquote><p>$ aptitude install memcached
+$ aptitude install php5-memcache</p></blockquote>
+
+<p>Now a days evrything seems to go automatic. So no need to edit the php.ini or anyhting. To check if PHP loaded the memcache extension you can do:</p>
+
+<blockquote><p>$ php -m | grep memcache
+memcache</p></blockquote>
+
+<p>Memached is automatically started after install. So let&#8217;s check if everything went ok.</p>
+
+<blockquote><p>$ ps -aux | grep memcached
+nobody   20965  0.0  0.5  42900 23072 ?        S    Jan28   0:01 /usr/bin/memcached -m 64 -p 11211 -u nobody -l 127.0.0.1
+root     22393  0.0  0.0  87940   776 pts/0    R+   12:06   0:00 grep memcached</p>
+
+<p>$ netstat -an | grep 11211
+tcp        0      0 127.0.0.1:11211         0.0.0.0:*               LISTEN</p></blockquote>
+
+<p>Looking good. Now it&#8217;s time to do some configuration in ZF.</p>
+
+<p>First of the frontend settings. With &#8216;type&#8217; we set the cache method for the frontend. We chose the standard Core class for this. With &#8216;lifetime&#8217; we set the time for which a cached entity is valid. The &#8216;cache_id_prefix&#8217; is a nice way to group for instnace cache data by controller. So just give it a name.</p>
+
+<blockquote><p>cache.frontend.type = Core
+cache.frontend.options.lifetime = 600
+cache.frontend.options.automatic_serialization = true
+cache.frontend.options.cache_id_prefix = [some string]
+cache.frontend.options.cache = true</p></blockquote>
+
+<p>Now it&#8217;s the backends turn to get configured. For &#8216;type&#8217; we choose Memcached. More types are available. For more info read the ZF manual. The rest of the settings are basic memcached settings like host, port and persitance.</p>
+
+<blockquote><p>cache.backend.type = Memcached
+cache.backend.options.servers.1.host = 127.0.0.1
+cache.backend.options.servers.1.port = 11211
+cache.backend.options.servers.1.persistent = true
+cache.backend.options.servers.1.weight = 1
+cache.backend.options.servers.1.timeout = 5
+cache.backend.options.servers.1.retry_interval = 15</p></blockquote>
+
+<p>Finally we can do some PHP code. To get the cache instance setup we add a _initCache() method to the bootstrap class. Inside this method we retrieve the config options by calling getOptions(). And setup the cache object. Which is then stored in the Registry for later use.</p>
+
+<pre><code>protected function _initCache()
+{
+        $options = $this-&gt;getOptions();
+
+        if (isset($options['cache'])) {
+            $cache = Zend_Cache::factory(
+                $options['cache']['frontend']['type'],
+                $options['cache']['backend']['type'],
+                $options['cache']['frontend']['options'],
+                $options['cache']['backend']['options']
+            );
+
+            Zend_Registry::set('cache', $cache);
+            return $cache;
+        }
+}
+</code></pre>
+
+<p>That&#8217;s all set. I used the caching for some REST service responses. So i will stick to that in this post as well. The class has a method for adding a cache object.</p>
+
+<pre><code>public function setCache(Zend_Cache_Core $cache) {
+    $this-&gt;cache = $cache;
+}
+</code></pre>
+
+<p>So fetching the cache instance and passing it to the REST client will look something like this:</p>
+
+<pre><code>$cache = Zend_Registry::get('cache');
+$cache-&gt;setLifetime(86400);
+
+$client = new Client();
+$client-&gt;setCache($cache);
+</code></pre>
+
+<p>The first thing we do inside the calling method is set a unique key for the cache entry.</p>
+
+<pre><code>$cache_id = 'getPage_' . $this-&gt;getDomain()
+            . $this-&gt;getPageName()
+            . $this-&gt;getCountry();
+</code></pre>
+
+<p>Then we check if the cache object is set. If that&#8217;s the case we check to see if the unique key is already available in the cache.</p>
+
+<pre><code>if (!isset($this-&gt;cache) || !($ret = $this-&gt;cache-&gt;load($cache_id))) {
+</code></pre>
+
+<p>If a value is returned from the cahce we will return it. If not then we will do the webservice call and store the return data in cache.</p>
+
+<pre><code> $ret = $this-&gt;restClient-&gt;call('getPage', array());
+
+if (isset($this-&gt;cache)) {
+    $this-&gt;cache-&gt;save($ret, $cache_id);
+}
+</code></pre>
+
+<p>The complete method looks something like this.</p>
+
+<pre><code>protected function getPageFromWebservice()
+{
+        $cache_id = 'getPage_' . $this-&gt;getDomain()
+            . $this-&gt;getPageName()
+            . $this-&gt;getCountry();
+
+        if (!isset($this-&gt;cache) || !($ret = $this-&gt;cache-&gt;load($cache_id))) {
+            $ret = $this-&gt;restClient-&gt;call('getPage', array());
+
+            if (isset($this-&gt;cache)) {
+                $this-&gt;cache-&gt;save($ret, $cache_id);
+            }
+        }
+        return $ret;
+}
+</code></pre>
+
+<p>That&#8217;s all. It&#8217;s pretty basic stuff. But so cool!</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-01-29T13:26:19+01:00" pubdate data-updated="true">Jan 29<span>th</span>, 2010</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2010/01/29/cache-data-with-zend-framework-and-memcached/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2010/01/25/drag-drop-uploads-with-xmlhttprequest2-and-php/">Drag & Drop Uploads With XMLHttpRequest2 and PHP</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>I finally had some time to read through my ever growing list must read items and play with some new software. While reading up on the new Firefox 3.6 i noticed it came with the new <a href="http://www.ideal.nl/">XMLHttpRequest</a> [<a href="http://www.w3.org/TR/XMLHttpRequest2/">2</a>] object based on the new <a href="http://dev.w3.org/2006/webapi/FileAPI/">file API</a>. And according to the new <a href="http://dev.w3.org/2006/webapi/FileAPI/">specs</a>. This would allow for easy file uploads. Now there&#8217;s been some <a href="http://hacks.mozilla.org/2009/12/uploading-files-with-xmlhttprequest/">examples</a> [<a href="http://arstechnica.com/open-source/news/2009/11/w3c-publishes-draft-of-new-file-api-spec.ars">2</a>] on the web already. But i just wanted to get my hands dirty.</p>
+
+<p>The new XMLHttpRequest object makes is possible to send files in a few different formats. The most important being the binary format. The code for sending a request with XMLHttpRequest2 looks the same as the previous version. Except for sendAsBinary() in this case.</p>
+
+<pre><code>var xhr = new XMLHttpRequest();
+
+fileUpload = xhr.upload,
+fileUpload.onload = function() {
+    console.log("Sent!");
+}
+
+xhr.open("POST", "upload.php", true);           
+xhr.sendAsBinary(file.getAsBinary());
+</code></pre>
+
+<p>So let&#8217;s set things up for drag &amp; drop. We need a div that will be the main drop point. And we need some event listeners to catch the drag * drop events. Let start by creating the drop zone. For this we use two simple divs. The outer div will listen for the drag &amp; drop events. And the inner will catch the files.</p>
+
+<pre><code>&lt;div id="container"&gt;
+    &lt;div id="drop"&gt;&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>Now let&#8217;s create our upload code.</p>
+
+<pre><code>var upload = {
+    setup : function() {},
+    uploadFiles : function() {event}
+}
+window.addEventListener("load", upload.setup, false);
+</code></pre>
+
+<p>The setup method will set all event listeners for drag &amp; drop. And register the upload handler.</p>
+
+<pre><code>var container = document.getElementById('container');
+var drop = document.getElementById('drop');
+
+container.addEventListener("dragenter", function(event) {
+        drop.innerHTML = '';
+        event.stopPropagation();
+        event.preventDefault();
+    }, 
+    false
+);
+
+container.addEventListener("dragover", function(event) {
+        event.stopPropagation(); 
+    event.preventDefault();
+    }, 
+    false
+);
+
+container.addEventListener("drop", upload.uploadFiles, false);
+</code></pre>
+
+<p>As you could see above. the uploadFiles() method gets a event returned from the drag &amp; drop action. This is where the new <a href="http://dev.w3.org/2006/webapi/FileAPI/">file APi</a> comes in play. To get to the file property we access the dataTransfer object.</p>
+
+<pre><code>var files = event.dataTransfer.files;
+</code></pre>
+
+<p>The actual uploading is easy as cake.</p>
+
+<pre><code>for (var x = 0; x &lt; files.length; x++) {
+
+    var file = files.item(x);
+    var xhr = new XMLHttpRequest();
+
+     fileUpload = xhr.upload,
+     fileUpload.onload = function() {
+         console.log("Sent!");
+    }
+
+    xhr.open("POST", "upload.php", true);
+
+    xhr.setRequestHeader("Cache-Control", "no-cache");
+    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    xhr.setRequestHeader("X-File-Name", file.fileName);
+    xhr.setRequestHeader("X-File-Size", file.fileSize);
+    xhr.setRequestHeader("Content-Type", "multipart/form-data");
+
+    xhr.sendAsBinary(file.getAsBinary());
+}
+</code></pre>
+
+<p>That&#8217;s it for the client side. There is however a small problem on the receiving side. When handling uploaded files in PHP we expect the <strong>$_FILES</strong> array to be populated. This is not the case when streaming files from the client to the server. To get the needed file information we set some headers on the client side <strong>X-File-Name</strong> and <strong>X-File-Size</strong>. And since the <strong>$_FILES</strong> are is empty. We need an other way to get the file contents. So we will use php://input streams for that.</p>
+
+<p>The contents of upload.php look like this:</p>
+
+<pre><code>require_once('Streamer.php');
+
+$ft = new File_Streamer();
+$ft-&gt;setDestination('data/');
+$ft-&gt;receive();
+</code></pre>
+
+<p>With setDestination() the destination path for the uploaded files is set. And recieve() listens for any incoming files. Most of the magic is done in the recieve() method. So here&#8217;s the code.</p>
+
+<pre><code>public function receive()
+{
+    if (!$this-&gt;isValid()) {
+        throw new Exception('No file uploaded!');
+    }
+
+    file_put_contents(
+        $this-&gt;_destination . $this-&gt;_fileName, 
+        file_get_contents("php://input")
+    );
+
+    return true;
+}
+</code></pre>
+
+<p>I am impressed! This promises a lot of good. And offers some interesting options. Let&#8217;s hope all browsers implement this gem. I still have one issue though. I can&#8217;t get this to work in firefox under linux. The drag &amp; drop events do not seem to function properly with files being dragged from the desktop. anybody know why?</p>
+
+<p>If you interested in the complete code. you can find it <a href="http://lenss.nl/code/dragDropUpload.tar.gz">here</a></p>
+
+<p><strong><strong>Small update</strong></strong>
+<a href="http://lenss.nl/2010/09/drag-drop-uploads-with-xmlhttprequest2-and-php-revised/">http://lenss.nl/2010/09/drag-drop-uploads-with-xmlhttprequest2-and-php-revised/</a></p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-01-25T01:02:38+01:00" pubdate data-updated="true">Jan 25<span>th</span>, 2010</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2010/01/25/drag-drop-uploads-with-xmlhttprequest2-and-php/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2009/12/31/end-year-notice/">End Year Notice</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>Have been working hard this week on <a href="http://kremermakelaars.nl">kremermakelaars.nl</a>. And managed to finish it right before the end of this year. The old website was one of those left overs from the early 90&#8217;s. The only thing missing was a spinning @ sign. But i think i managed to give it a nice visual boost. For the back-end i created s nice CMS to manage all objects and page content. The whole thing is build with ZF, Mysql, and some javascript libraries.</p>
+
+<p>The customer is happy. I&#8217;m happy. Now it&#8217;s time for some fun!</p>
+
+<p>So that&#8217;s all for 2009. I wish everybody a good and happy new year.</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-12-31T11:38:33+01:00" pubdate data-updated="true">Dec 31<span>st</span>, 2009</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2009/12/31/end-year-notice/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   <div class="pagination">

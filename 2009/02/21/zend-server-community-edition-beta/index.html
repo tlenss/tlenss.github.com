@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Feb 21st, 2009 Code, Tech Tweet &laquo; Search indexing and duplicate content &hellip;">
+  <meta name="description" content="Zend Server Community Edition Beta! This week Zend released a Beta version of the new Zend Server and Zend Zerver CE (Community Edition). So last &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,90 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Zend Server Community Edition Beta!</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>This week <a href="http://www.zend.com/">Zend</a> released a Beta version of the new <a href="http://www.zend.com/en/products/server/">Zend Server</a> and <a href="http://www.zend.com/en/community/zend-server-ce">Zend Zerver CE</a> (Community Edition). So last night i couldn&#8217;t sleep and decided to take a look at the CE version of the two.</p>
+
+<p><strong>Zend Server CE</strong>
+The package is a nice stack of applications / components that build up a solid PHP development environment. The package consists of the following main parts. And of course some 3rd party libraries to support the PHP extensions.</p>
+
+<p><a href="http://www.php.net/">PHP v5.2.8</a>
+<a href="http://httpd.apache.org/">Apache v2.2.10</a>
+<a href="http://files.zend.com/help/Zend-Server-Community-Edition/zend-server-community-edition.htm">Zend Data Cache v4.0.32</a>
+<a href="http://downloads.zend.com/pdt/server-debugger/">Zend Debugger v5.2.17</a>
+<a href="http://www.zend.com/en/products/guard/">Zend Guard Loader v3.3.5</a>
+<a href="http://www.zend.com/en/products/platform/product-comparison/java-bridge">Zend Java Bridge v3.1.21</a>
+<a href="http://www.zend.com/en/products/guard/optimizer/">Zend Optimizer+ v4.0.27</a>
+<a href="http://framework.zend.com/">Zend Framework v1.7.4</a></p>
+
+<p>Like i said it&#8217;s a great stack of applications and components that gives you a solid PHP development environment up and running in seconds. On top of that it provides the nice looking web GUI in which you can easily configure most of the suite. It&#8217;s a breeze to activate or deactivate PHP extensions and Zend components. And almost all PHP ini settings can be configured here as well. There&#8217;s some logging functionality that&#8217;s always handy.</p>
+
+<p><del>Although it would have been nice if there would be some way to configure the web server from the interface as well. And maybe some integration with <a href="http://pear.php.net">PEAR</a>?</del> It would have been nice if the web interface had some configuration options for Apache and <a href="http://pear.php.net">PEAR</a> as well. But besides that. I like the package and think Zend did a great job on this one. The application is pretty self explanatory so i will not spend more words on it. Besides Zend did a great job at documenting it all.</p>
+
+<p><a href="http://www.zend.com/en/products/server/getting-started/?zsp=gettingstarted">http://www.zend.com/en/products/server/getting-started/?zsp=gettingstarted</a>
+<a href="http://files.zend.com/help/Zend-Server/zend-server.htm">http://files.zend.com/help/Zend-Server/zend-server.htm</a></p>
+
+<p>Below i posted some screen shots of Zend Server CE in action:</p>
+
+<p>[caption id=&#8221;attachment_291&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Zend Server Dashboard&#8221;]<a href="http://lenss.nl/images/2009/02/zs_dash.png"><img src="http://lenss.nl/images/2009/02/zs_dash-300x154.png" alt="Zend Server Dashboard" /></a>[/caption]</p>
+
+<p>After logging in we are greeted with a nice dashboard screen. That provides shortcuts to the rest of the application.</p>
+
+<p>[caption id=&#8221;attachment_310&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Zend Server info&#8221;]<a href="http://lenss.nl/images/2009/02/zs_server.png"><img src="http://lenss.nl/images/2009/02/zs_server-300x154.png" alt="Zend Server info" /></a>[/caption]</p>
+
+<p>The Server info page shows everything running under the hood of Zend Server CE.</p>
+
+<p>[caption id=&#8221;attachment_297&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Zend Server PHP extensions&#8221;]<a href="http://lenss.nl/images/2009/02/zs_extensions.png"><img src="http://lenss.nl/images/2009/02/zs_extensions-300x155.png" alt="Zend Server PHP extensions" /></a>[/caption]</p>
+
+<p>[caption id=&#8221;attachment_299&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Zend Server turn off extensions&#8221;]<a href="http://lenss.nl/images/2009/02/zs_extension_turnoff.png"><img src="http://lenss.nl/images/2009/02/zs_extension_turnoff-300x154.png" alt="Zend Server turn off extensions" /></a>[/caption]</p>
+
+<p>Configuring and activating or deactivating PHP extension sis a breeze.</p>
+
+<p>[caption id=&#8221;attachment_287&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Zend Server application components&#8221;]<a href="http://lenss.nl/images/2009/02/zs_components.png"><img src="http://lenss.nl/images/2009/02/zs_components-300x155.png" alt="Zend Server application components" /></a>[/caption]</p>
+
+<p>[caption id=&#8221;attachment_289&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Zend Server turn off components&#8221;]<a href="http://lenss.nl/images/2009/02/zs_components_turnoff.png"><img src="http://lenss.nl/images/2009/02/zs_components_turnoff-300x154.png" alt="Zend Server turn off components" /></a>[/caption]</p>
+
+<p>The same counts for the Zend components which can be configured and activated or deactivated at will.</p>
+
+<p>[caption id=&#8221;attachment_301&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Zend Server PHP directives&#8221;]<a href="http://lenss.nl/images/2009/02/zs_ini.png"><img src="http://lenss.nl/images/2009/02/zs_ini-300x155.png" alt="Zend Server PHP directives" /></a>[/caption]</p>
+
+<p>Configuring PHP ini settings has never been this easy</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-02-21T05:30:11+01:00" pubdate data-updated="true">Feb 21<span>st</span>, 2009</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Oct 29th, 2012 Code, PHP, SQL, Tech, Zend Tweet &laquo; Git: Rebase on pull by &hellip;">
+  <meta name="description" content="Long Running PHP Script and MySQL Server Gone Away At the moment i am writing some workers that interact with a beanstalk server. When data gets &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,104 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Long Running PHP Script and MySQL Server Gone Away</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>At the moment i am writing some workers that interact with a <a href="http://kr.github.com/beanstalkd/">beanstalk</a> server. When data gets pushed into the beanstalk server. My workers will be triggered to process this data. So the workers are sitting idle for most of the time. And just wait for some data to process. No rocket science there. But during testing i kept running into <a href="http://www.mysql.com/">MySQL</a> issues. The script seemed to lose connection to the MySQL server when it was idle for longer then a minute. And would respond with a</p>
+
+<blockquote><p>Warning: <a href="http://php.net/mysql_query">mysql_query</a>(): MySQL server has gone away in /path/to/some/mysql4/class.php on line xxx</p></blockquote>
+
+<p>So whats going on here? Well actually it&#8217;s quite simple. When my script initializes the database connection it doesn&#8217;t use it. It just sits there waiting for incoming data. Once received it will process it and try to store it in the database. But when the waiting period exceeds the time for PHP to keep the MySQL connection open it responds with the warning mentioned above. Now in previous versions of PHP this would not be a big issue. As PHP would just initiate a reconnect when the connection is lost. But from PHP 5.0.3 and up this functionality has been disabled by default. For MySQLI this is no problem at all.</p>
+
+<p>MySQLi:</p>
+
+<blockquote><p>mysqli.reconnect = Off to On</p></blockquote>
+
+<p>Unfortunately i am working with PHP&#8217;s core mysql_* functions (don&#8217;t get me started) and there doesn&#8217;t seem to be an easy way to resolve this. According to the MySQL documentation</p>
+
+<pre><code>mysql_options(&amp;mysql;, MYSQL_OPT_RECONNECT, &amp;reconnect;);
+</code></pre>
+
+<p>Should do the trick. But passing <strong>MYSQL_OPT_RECONNECT</strong> in anyway to <a href="http://php.net/mysql_connect">mysql_connect</a> didn&#8217;t result in the result i was looking for. So what now? Porting the database code to make use of the newer and better PDO or MySQLi is no option. As it would consume way to much time. Fortunately the mysql_* core functions come with mysql_ping. I never had to use this before. But in this case it comes in quite handy.</p>
+
+<p><strong>From the PHP manual:</strong></p>
+
+<pre><code>bool mysql_ping ([ resource $link_identifier = NULL ] )
+</code></pre>
+
+<blockquote><p>Checks whether or not the connection to the server is working. If it has gone down, an automatic reconnection is attempted. This function can be used by scripts that remain idle for a long while, to check whether or not the server has closed the connection and reconnect if necessary.</p></blockquote>
+
+<p>Note:
+<strong>Automatic reconnection is disabled by default in versions of MySQL >= 5.0.3.</strong></p>
+
+<p>Adding the mysql_ping function call was rather straight forward. And didn&#8217;t require all that much work to be done. I extended the database class to include a ping method. That would simply throw an exception when it failed to reconnect.</p>
+
+<pre><code>public function ping()
+{
+    if (!mysql_ping($this-&gt;db_connect_id)) {
+        throw new Mollie_Database_Exception("Connection was lost");
+    }   
+    return true;
+}
+</code></pre>
+
+<p>And after that i started poking around the userland implementation. The worker is running inside a <strong>while(true)</strong> loop. A first test with <strong>->ping()</strong> being called inside this loop proved to resolve the issue at hand. But running the ping function that often is overkill. And who knows it might actually result in <strong>DoS</strong> of the database server. So i decided to ping the server every one minute or so.</p>
+
+<pre><code>$start = time();
+while (true) 
+{
+    $this-&gt;_keepConnectionAlive($start);
+</code></pre>
+
+<p>And the keepConnectionAlive method looks something like this</p>
+
+<pre><code>protected function _keepConnectionAlive(&amp;$start)
+{
+    $passed = (time() - $start);
+    if ($passed &gt; 60)
+    {
+        $start = time();
+        $this-&gt;_db-&gt;ping();
+    }
+}
+</code></pre>
+
+<p>I&#8217;m not a big fan of this solution. And would rather be implementing MySQLi functions. But this functions well. And will do for now.</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-29T14:39:26+01:00" pubdate data-updated="true">Oct 29<span>th</span>, 2012</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

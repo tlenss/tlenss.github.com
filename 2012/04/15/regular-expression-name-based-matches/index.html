@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Apr 15th, 2012 Code, PHP, Tech Tweet &laquo; PHP: Only variables should be &hellip;">
+  <meta name="description" content="Regular Expression Name Based Matches Normally when i write regular expressions with for instance PHP´s preg_match. I will use the standard $matches &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,70 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Regular Expression Name Based Matches</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>Normally when i write regular expressions with for instance <a href="http://php.net">PHP</a>´s <a href="http://php.net/preg_match">preg_match</a>. I will use the standard $matches array to catch the result of pattern matches. This array has a normal numeric index for each match found. And looks something like</p>
+
+<pre><code>$matches = array();
+preg_match("/^Get(.+)Repository$/", "GetFooBarRepository", $matches);
+var_dump($matches);
+</code></pre>
+
+<blockquote><p>array(2) {
+  [0] => string(19) &#8220;GetFooBarRepository&#8221;
+  [1] => string(6) &#8220;FooBar&#8221;
+}</p></blockquote>
+
+<p>And there is nothing wrong with that. Except for the fact that numeric indexes are not always easy to work with. And it does not look all that clean in the code itself. SO last week my LD pointed out the fact that the likes using name based indexes for the matched patterns. And this is pretty sweet. I have seen it before but never bothered to adopt it myself. And the result looks like</p>
+
+<pre><code>$matches = array();
+preg_match("/^Get(?&lt;repositoryname&gt;.+)Repository$/", "GetFooBarRepository", $matches);
+var_dump($matches);
+</code></pre>
+
+<blockquote><p>array(3) {
+  [0] => string(19) &#8220;GetFooBarRepository&#8221;
+  &#8216;repositoryName&#8217; => string(6) &#8220;FooBar&#8221;
+  [1] => string(6) &#8220;FooBar&#8221;
+}</p></blockquote>
+
+<p>And i have to say. It looks a lot cleaner. So i added this to my bag of tricks. And will be using it from now on.</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-15T21:14:49+02:00" pubdate data-updated="true">Apr 15<span>th</span>, 2012</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

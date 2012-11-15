@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Aug 20th, 2008 Code Tweet &laquo; Is PHP an Application Zend_Filter_Inflector &hellip;">
+  <meta name="description" content="SVN Repository and Project Structure When i first started out as a web developer. i didn&#8217;t really mind about structure. Almost every project &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,116 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">SVN Repository and Project Structure</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>When i first started out as a web developer. i didn&#8217;t really mind about structure. Almost every project had different directory structure. And <a href="http://en.wikipedia.org/wiki/Namespace">namespaces</a> i never heard off. I noticed that the longer i write code. The more I&#8217;m looking for a basic structure to start from. This can be the structure of a web application / site. but also the structure inside the <a href="http://subversion.tigris.org/">SVN</a> repository.</p>
+
+<p>So today i took a bit of time to think about a good structure for our new SVN repository here at the office. After a bit of browsing the web. Looking at other proposals. And looking around our old SVN repository. I came up with a new structure.</p>
+
+<p>Our SVN repository will start off with three directories.</p>
+
+<blockquote><p>&#8211; Development
+&#8211; Design
+&#8211; ??</p></blockquote>
+
+<p>The Development directory is what i will be talking about. I can&#8217;t talk for the designers. Because.. well i&#8217;m not one of them. Although i did a lot of design work in the past. The ?? directory is for another part of our department. So let&#8217;s see what i came up with.</p>
+
+<p>Inside the Development directory we start of with two directories.</p>
+
+<blockquote><p>&#8211; Projects
+&#8211; Library</p></blockquote>
+
+<p><strong>Projects:</strong>
+This directory will contain all projects. With projects i mean web applications / sites. All these projects will adhere to a basic structure. Which i will talk about a bit later. Besides the same basic structure. Every projects has the trunk, tags and branches sub directories. If a project contains &#8220;sub&#8221; projects. The trunk, tags and branches will shift one level deeper in the tree. Below is a small example.</p>
+
+<blockquote><p>&#8211; Project_1
+&#8212;- trunk
+&#8212;- tags
+&#8212;- branches
+&#8211; Project_2
+&#8212;- www
+&#8212;&#8212; trunk
+&#8212;&#8212; tags
+&#8212;&#8212; branches
+&#8212;- intranet
+&#8212;&#8212; trunk
+&#8212;&#8212; tags
+&#8212;&#8212; branches</p></blockquote>
+
+<p><strong>Library:</strong>
+The library directory will contain all shared libraries. This can be third party libraries or internally developed libraries that will be used in multiple applications. Below is a small example. I&#8217;m not sure about the trunk, tags, branches directories yet. For the internally developed libraries we will implement this structure. For the third party libraries we won&#8217;t. I think :)</p>
+
+<blockquote><p>&#8211; Zend
+&#8211; DB
+&#8212;- trunk
+&#8212;- tags
+&#8212;- branches</p></blockquote>
+
+<p>Now this will cover most of the project parts. What&#8217;s left now is defining a basic structure for the projects that will ive inside the repository and on the web servers. For a basic structure i&#8217;m inspired by the layout of an <a href="http://framework.zend.com">Zend Framework</a> <a href="http://nl.wikipedia.org/wiki/Model-View-Controller-model">MVC</a> style project. Why? i already work with this structure for a while now. outside and inside the Zend Framework projects. It separates the code from the views / templates. It makes sure the code is outside the web root. And it just looks clean.</p>
+
+<p>So for our projects i came up with this structure.</p>
+
+<p>The structure really consists of three parts. The first is &#8220;public&#8221;. This directory contains all data that should be globally accessible. We can think about images, stylesheetes, javascript libraries, etc.</p>
+
+<blockquote><p>&#8211; public
+&#8212;- images
+&#8212;- css
+&#8212;- scripts
+&#8212;- index.*</p></blockquote>
+
+<p>The application directory contains all the real code and views / templates. All views / templates will be stored in the views directory. All project specific code will be placed in the library directory. And if the project is MVC based. It will use the controllers directory to store the application controllers.</p>
+
+<blockquote><p>&#8211; application
+&#8212;- controllers
+&#8212;- library
+&#8212;- views</p></blockquote>
+
+<p>The final part of the structure is a collection of directories that can but are not always used in a project.</p>
+
+<p>The logs directory can be handy for logging data of the application. But can also be used to store php error logs or maybe even Apache logs. The cache directory is there to store cached files. The structure inside this directory will depend on the cache mechanism used in the project. The files directory contains files that are somehow linked to the project but have no place in any other directories. Some test scripts or tools can be placed there. And last but not least the docs directory. Which will contain all project documentation.</p>
+
+<blockquote><p>&#8211; logs
+&#8211; cache
+&#8211; files
+&#8211; docs</p></blockquote>
+
+<p>I wanted to post this yesterday. But i just couldn&#8217;t find any time for it. Yesterday i showed the initial proposal to the rest of the team. But we didn&#8217;t decide yet. What the final structure will be.</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-08-20T07:54:06+02:00" pubdate data-updated="true">Aug 20<span>th</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

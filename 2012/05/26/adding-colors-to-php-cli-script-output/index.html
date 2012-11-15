@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink May 26th, 2012 Code, PHP, Tech Tweet &laquo; abbywinters is looking for new &hellip;">
+  <meta name="description" content="Adding Colors to PHP CLI Script Output I always loved writing CLI scripts. And in PHP this is no different. I write a lot of CLI importers, scrapers &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,76 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Adding Colors to PHP CLI Script Output</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>I always loved writing CLI scripts. And in <a href="http://php.net/manual/en/features.commandline.php">PHP</a> this is no different. I write a lot of CLI importers, scrapers, reporters, etc. And sometimes i want a bit more funk in my output then the standard black and white. When output is important i will add some colors to make things more clear. And this is not hard at all.</p>
+
+<p>First of it&#8217;s probably a good thing to gather some of the available colors. A good resource is available <a href="https://wiki.archlinux.org/index.php/Color_Bash_Prompt">here</a>. Some of the colors and their corresponding codes can be found below.</p>
+
+<blockquote><p>Black         0;30
+Blue          0;34
+Green         0;32
+Cyan          0;36
+Red           0;31
+Purple        0;35
+Brown         0;33
+Light Gray    0;37
+Dark Gray     1;30
+Light Blue    1;34
+Light Green   1;32
+Light Cyan    1;36
+Light Red     1;31
+Light Purple  1;35
+Yellow        1;33
+White         1;37</p></blockquote>
+
+<p>So how do i output colors you ask? Well that&#8217;s just plain easy. It&#8217;s a bit like setting up colors in your linux PS1 env variable.</p>
+
+<p>Display a line in red for instance can be simply done by &#8216;echoing&#8217; from the script with some extra formatting for bash to pickup. I will try to explain everything in the line below a bit later.</p>
+
+<pre><code>echo "\033[31m some colored text \033[31m"; // red
+echo "\033[37m some colored text \033[37m"; // green
+</code></pre>
+
+<p>So what&#8217;s going on here. First we use an escape character so we can actually define a output color. This is done with <strong>\033</strong> (\e). Then we open the color statement with <strong>[31m</strong>. Red in this case. The &#8220;some colored text&#8221; will be the text outputted in a different color. And after that we have to close the color statement the same way.</p>
+
+<p>Easy as cake&#8230; that&#8217;s all!</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-26T11:14:33+02:00" pubdate data-updated="true">May 26<span>th</span>, 2012</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

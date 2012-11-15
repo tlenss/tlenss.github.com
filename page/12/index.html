@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag &#8216;endif&#8217; Liquid syntax error: Unknown tag &#8216;endif&#8217; Liquid syntax error: Unknown tag &#8216; &hellip;">
+  <meta name="description" content="Subversion Cross Platform Errors Yesterday my colleague was complaining he couldn&#8217;t do a normal check out of one of the projects in Subversion &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -58,52 +58,793 @@
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2008/11/27/subversion-cross-platform-errors/">Subversion Cross Platform Errors</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>Yesterday my colleague was complaining he couldn&#8217;t do a normal check out of one of the projects in Subversion. At first i thought it was just something wrong with his local settings. Because i could do the check out just fine. Today when i was thinking about this problem. I quickly realized we are on two different platforms. He works on Windows while I&#8217;m on Linux.</p>
+
+<p>And since i had to do some Photoshop work today. I took the chance to install Subversion on my Windows partition. When i did a checkout of the failing project. I ran into the same problems as my colleague did before. Two different errors were preventing me from making a complete checkout. The first error:</p>
+
+<blockquote><p><em>svn: In directory &#8216;path/to/some/images&#8217;
+svn: Can&#8217;t copy &#8216;path/to/some/images/image.JPG.svn-base&#8217; to &#8216;path/to/some/image.JPG.tmp&#8217;: No such file or directory</em></p></blockquote>
+
+<p>Is caused by multiple files with the same name. At  least to windows it looks like this. Because image.jpg and image.JPG are two different files on Linux. On windows however these two files are one and the same. This causes Subversion to choke. After manually deleting all duplicates from the repositorie it self the problem dissapeared.</p>
+
+<p>The second error was something like:</p>
+
+<blockquote><p>svn: Working copy &#8216;/some/path/\ &#8217; is missing or not locked</p></blockquote>
+
+<p>This one was actually pretty obvious. A file name with an illigal character. I wonder how it got in the repository. The folder name causeing the problems was a folder called &#8216;\ &#8216;. Which was empty. After removing this. I could do a complete checkout again.</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-11-27T16:52:18+01:00" pubdate data-updated="true">Nov 27<span>th</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2008/11/27/subversion-cross-platform-errors/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2008/11/27/making-permanent-changes-to-resolvconf-under-ubuntu/">Making Permanent Changes to resolv.conf Under Ubuntu.</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>At work we have a local dev box. This box is running <a href="http://www.ubuntu.com/">Ubuntu</a> 8.04 and some tools we need for developing. Nothing special. This box get&#8217;s it&#8217;s IP address from the <a href="http://nl.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol">DHCP</a> server that runs on the router. And this caused some problems because we are running a local <a href="http://nl.wikipedia.org/wiki/Domain_Name_System">DNS</a> server for the dev box. Mainly to use internal domains for testing.</p>
+
+<p>To make this work we changed the resolv.conf to use the new local DNS server. This works fine wouldn&#8217;t it be for Ubuntu changing the file back to it&#8217;s original settings on every DHCP request. So every 900 sec the file gets overwritten. To solve this the first time i simply made the file read only. This however caused some problems with the DHCP client requesting an IP address over and over again. This caused the load on the dev box to rise&#8230;.</p>
+
+<p>Further inspection showed that it&#8217;s the dhclient-script the overwrites the resolv.conf file. I tried commenting out parts of the dhclient-script. But this just created more problems. So i did a search on the Ubuntu package list. And found a promising program called <a href="http://packages.ubuntu.com/source/dapper/resolvconf">resolvconf</a>. This program takes over from resolv.conf. And with this program installed it&#8217;s possible to make permanent changes without creating any problems.</p>
+
+<p>After installing the package and doing a search for resolvconf. I found a directory in /etc which had a resolv.conf inside. This seemed to be the template used for overwriting the original resolv.conf. After changing this file all problems were resolved.</p>
+
+<blockquote><p>/etc/resolvconf/run/resolv.conf</p></blockquote>
+
+<h1>Dynamic resolv.conf(5) file for glibc resolver(3) generated by resolvconf(8)</h1>
+
+<h1>DO NOT EDIT THIS FILE BY HAND &#8211; YOUR CHANGES WILL BE OVERWRITTEN</h1>
+
+<p>search example.com
+domain example.com
+nameserver xxx.xxx.x.xx</p>
+
+<p><strong>*Update</strong></p>
+
+<p>After googling some <a href="http://ubuntuforums.org/showthread.php?t=445753">more</a>. I think i found a better way to solve this problem. And probably the only way to solve this. No need to install any extra software. Just edit the dhclient config file.</p>
+
+<p>change the following lines in /etc/dhcp3/dhclient.conf</p>
+
+<blockquote><p>supersede domain-name &#8220;example.com&#8221;
+prepend domain-name-server xxx.xxx.xxx.1, xxx.xxx.xxx.2</p></blockquote>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-11-27T07:51:03+01:00" pubdate data-updated="true">Nov 27<span>th</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2008/11/27/making-permanent-changes-to-resolvconf-under-ubuntu/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2008/11/17/ubuntu-810-nvidia-driver-trickery/">Ubuntu 8.10 NVidia Driver Trickery</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>I was up early last Sunday. just couldn&#8217;t sleep anymore. So i decided to do a fresh OS install on my main workstation. One or two weeks ago i updated my Ubuntu 8.04 to the latest 8.10 Interpid. This went without real big problems. And the system was running stable. Besides at the office i did some clean installs of Ubuntu 8.10. And there were no real problems to name.</p>
+
+<p>So i thought what the hell. Let&#8217;s do a clean install here at home also. I created a backup of my important files. and downloaded the new .iso image (couldn&#8217;t find the previous downloaded one). And started of the install. It was nice weather and i thought if i finish this fast. I can go and enjoy a nice Sunday.</p>
+
+<p>The install went without problems. And after rebooting it booted up fine. First thing i did was run an update through synaptic. Installed the new kernel and a whole lot of other packages. Did a reboot. And everything was still fine and dandy. Now it was time to install the Nvidia driver. I used the Restricted Hardware manager in Ubuntu to select the NVidia 177 driver. Which did the job before the install. And rebooted the machine after the install was complete.</p>
+
+<p>When it booted backup. I was surprised to see a tty screen. and not the GDM i expected :). The error message on the screen stated no screens found. So i logged in and checked the xorg.conf file. Which had a pretty default setup. So i thought running nvidia-xconfig would solve the problem. This generated the same xorg.conf. After rebooting a few times and trying to change the xorg.conf file. I was getting a bit frustrated.</p>
+
+<p>In my hurry i by accident removed my backup partition. So i was getting more frustrated every minute. I do have to say i have a dual Head system. With two PCI-e video cards. And for some strange reason nvidia-xconfig didn&#8217;t find the correct hardware. And running nvidia-settings from command line is not possible. So i was stuck. Removing the nvidia-glx driver and the rest of the nvidia-177 files. Got me back in X. Running a very low resolution.</p>
+
+<p>Googling revealed i was not the only one with this problem. But there were no real solutions. At least none that worked on my system. So i decided to reinstall Ubuntu 8.04. Updated the whole damn system. Installed the nvidia-glx-new driver. And got everything to work. After this i did a distupdate to 8.10. And everything kept working. This was weird. I was happy the system is up and running again. But i wasn&#8217;t satisfied.</p>
+
+<p>I made a backup of my xorg.conf file. And again did a complete new install of Ubuntu 8.10. After the install i updated to the new kernel. And after a reboot installed the nvidia-177 driver. But this time before i rebooted i copied my old xorg.conf file over the one generated by nvidia-xconfig. Rebooted the machine. Everything worked.</p>
+
+<p>Conclusion. nvidia-xconfig doesn&#8217;t create a correct xorg.conf file. I got two different errors from the nvidia driver at boot up. One saying &#8220;no screens found&#8217; The other one saying &#8220;Device is not PCI&#8221; or something like that.</p>
+
+<p>I&#8217;ll add my xorg.conf file here. Maybe it&#8217;s of any use</p>
+
+<blockquote><h1>nvidia-settings: X configuration file generated by nvidia-settings</h1>
+
+<h1>nvidia-settings:  version 1.0  (buildd@vernadsky)  Thu Jun  5 09:26:53 UTC 2008</h1></blockquote>
+
+<h1>xorg.conf (X.Org X Window System server configuration file)</h1>
+
+<p>#</p>
+
+<h1>This file was generated by dexconf, the Debian X Configuration tool, using</h1>
+
+<h1>values from the debconf database.</h1>
+
+<p>#</p>
+
+<h1>Edit this file with caution, and see the xorg.conf manual page.</h1>
+
+<h1>(Type &#8220;man xorg.conf&#8221; at the shell prompt.)</h1>
+
+<p>#</p>
+
+<h1>This file is automatically updated on xserver-xorg package upgrades <em>only</em></h1>
+
+<h1>if it has not been modified since the last upgrade of the xserver-xorg</h1>
+
+<h1>package.</h1>
+
+<p>#</p>
+
+<h1>If you have edited this file but would like it to be automatically updated</h1>
+
+<h1>again, run the following command:</h1>
+
+<h1>sudo dpkg-reconfigure -phigh xserver-xorg</h1>
+
+<p>Section &#8220;ServerLayout&#8221;</p>
+
+<pre><code>Identifier     "Default Layout"
+Screen      0  "Screen0" 0 0
+</code></pre>
+
+<p>EndSection</p>
+
+<p>Section &#8220;Module&#8221;</p>
+
+<pre><code>Load           "glx"
+</code></pre>
+
+<p>EndSection</p>
+
+<p>Section &#8220;ServerFlags&#8221;</p>
+
+<pre><code>Option         "Xinerama" "0"
+</code></pre>
+
+<p>EndSection</p>
+
+<h1>commented out by update-manager, HAL is now used</h1>
+
+<h1>Section &#8220;InputDevice&#8221;</h1>
+
+<h1>Identifier     &#8220;Generic Keyboard&#8221;</h1>
+
+<h1>Driver         &#8220;kbd&#8221;</h1>
+
+<h1>Option         &#8220;XkbRules&#8221; &#8220;xorg&#8221;</h1>
+
+<h1>Option         &#8220;XkbModel&#8221; &#8220;pc105&#8221;</h1>
+
+<h1>Option         &#8220;XkbLayout&#8221; &#8220;us&#8221;</h1>
+
+<h1>EndSection</h1>
+
+<h1>commented out by update-manager, HAL is now used</h1>
+
+<h1>Section &#8220;InputDevice&#8221;</h1>
+
+<h1>Identifier     &#8220;Configured Mouse&#8221;</h1>
+
+<h1>Driver         &#8220;mouse&#8221;</h1>
+
+<h1>Option         &#8220;CorePointer&#8221;</h1>
+
+<h1>EndSection</h1>
+
+<p>Section &#8220;Monitor&#8221;</p>
+
+<pre><code>Identifier     "Configured Monitor"
+</code></pre>
+
+<p>EndSection</p>
+
+<p>Section &#8220;Monitor&#8221;</p>
+
+<pre><code>Identifier     "Monitor0"
+VendorName     "Unknown"
+ModelName      "Iiyama PL2201W"
+HorizSync       30.0 - 80.0
+VertRefresh     55.0 - 75.0
+</code></pre>
+
+<p>EndSection</p>
+
+<p>Section &#8220;Device&#8221;</p>
+
+<pre><code>Identifier     "Configured Video Device"
+Driver         "nvidia"
+Option         "NoLogo" "True"
+</code></pre>
+
+<p>EndSection</p>
+
+<p>Section &#8220;Device&#8221;</p>
+
+<pre><code>Identifier     "Videocard0"
+Driver         "nvidia"
+VendorName     "NVIDIA Corporation"
+BoardName      "GeForce 8600 GT"
+BusID          "PCI:1:0:0"
+</code></pre>
+
+<p>EndSection</p>
+
+<p>Section &#8220;Screen&#8221;</p>
+
+<pre><code>Identifier     "Default Screen"
+Device         "Configured Video Device"
+Monitor        "Configured Monitor"
+DefaultDepth    24
+</code></pre>
+
+<p>EndSection</p>
+
+<p>Section &#8220;Screen&#8221;</p>
+
+<pre><code>Identifier     "Screen0"
+Device         "Videocard0"
+Monitor        "Monitor0"
+DefaultDepth    24
+Option         "TwinView" "1"
+Option         "TwinViewXineramaInfoOrder" "DFP-0"
+Option         "metamodes" "DFP-0: nvidia-auto-select +0+0, DFP-1: nvidia-auto-select +1680+0"
+</code></pre>
+
+<p>EndSection</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-11-17T05:42:29+01:00" pubdate data-updated="true">Nov 17<span>th</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2008/11/17/ubuntu-810-nvidia-driver-trickery/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2008/11/17/still-here/">Still Here</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>It&#8217;s been a while since i blogged last time. But i&#8217;m still here. And still planning to continue this blog. I just need to make some time to write. And time is not something that comes cheap latley :)</p>
+
+<p>Some months ago i move to my new appartment. But i&#8217;m still working on it. It probably would have been better if i completed it completly befor emoving there. But it has to be done. So it takes up a lot of my time.</p>
+
+<p>And besides that two weeks ago i started my new job here in Amsterdam. And this takes up the rest of my time. Trying to read into a new code base. And trying to understand everything that goes on around the office. It&#8217;s a hectic place. But it feels great so far.</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-11-17T05:16:45+01:00" pubdate data-updated="true">Nov 17<span>th</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2008/11/17/still-here/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2008/10/10/parsing-xml-cdata-with-simplexml/">Parsing XML CDATA With SimpleXML</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>I was quite amazed today. When loading a SOAP response into a SimpleXMLElement i noticed some fields were left blank. I should have checked the SOAP response first. But instead told our Delphi guy that the response was not filled correctly. This was not the case :)</p>
+
+<p>When we both saw the SOAP response was in perfect shape. We started to poke around on the PHP side. The strange thing was all tag names were taken from the response correctly. It was just the data that was missing.  Then we noticed the data missing was inside <a href="http://en.wikipedia.org/wiki/CDATA">CDATA</a> tags.</p>
+
+<p>From a first glance at the PHP manual it it wasn&#8217;t clear what was going on. So i did some googleing. And found a good <a href="http://blog.agoraproduction.com/index.php?/archives/53-Quick-Tip-PHP,-SimpleXML-and-CDATA.html">post</a> by <a href="http://blog.agoraproduction.com/">David Coallier</a>. This post solved the problem. The example showed how to add an extra <a href="http://xmlsoft.org/">LIBXML</a> options to the <a href="http://nl2.php.net/manual/en/function.simplexml-load-string.php">simplexml_load_String</a> method. Although David provided the solution. I still wanted to make post. Maybe it will help somebody.</p>
+
+<pre><code>    // parsing with CDATA tags using the *_load_string method
+    $xml = simplexml_load_string($string, 'SimpleXMLElement', LIBXML_NOCDATA);
+
+    // parsing with CDATA tags using the OO way
+    $xml = new SimpleXMLElement($string, LIBXML_NOCDATA);
+</code></pre>
+
+<p>The LIBXML options that can be passed to the *_load methods and constructor can be found in the <a href="http://nl2.php.net/manual/en/libxml.constants.php">php documentation</a>.</p>
+
+<p>It&#8217;s pretty damn weird though. I want to parse the CDATA tags inside my XML. And can only do so by providing the NOCDATA option.</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-10-10T11:19:19+02:00" pubdate data-updated="true">Oct 10<span>th</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2008/10/10/parsing-xml-cdata-with-simplexml/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2008/10/03/load-moodalboxes-without-clicking-links/">Load MOOdalBoxes Without Clicking Links</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>The MOOdalBox script is a great addition to the <a href="http://mootools.net/">mootools</a> library. The interface is pretty slick. And easy to style with just CSS. <a href="http://www.e-magine.ro/">Răzvan Brateş</a> did a great job here. And every now and then i have to implement one of those MOOdalBoxes in a web application. No problem here.</p>
+
+<p>Until today all MOOdalBoxes i used were triggered by simply clicking a link on a page. But today i needed to load a MOOdalBox window on page load. The screen represented some sort of QuickStart menu. Which can be disabled. I had no idea how to trigger the MOOdalBox from javascript. But once i read through the source. It became clear that it should be as easy as calling:</p>
+
+<pre><code>MOOdalBox.open(url, title, sizes);
+</code></pre>
+
+<p>This kept giving me the following error:</p>
+
+<p>this.overlay is undefined</p>
+
+<p>Looking through the MOOdalBox source. I noticed the this.overlay property was set inside the init() method. So let&#8217;s try that before we call the open() method.</p>
+
+<pre><code>MOOdalBox.init();
+MOOdalBox.open(url, title, sizes);
+</code></pre>
+
+<p>This actually worked. I was pretty happy with the result. untill i opened IE 7 to test the same page. Nothing happened. No error&#8217;s and no MOOdalBox. Let&#8217;s try something else. Whenever i need to load something on page load in IE i use the window.onload method.</p>
+
+<pre><code>window.onload = function()
+    MOOdalBox.init();
+    MOOdalBox.open(url, title, sizes);
+}
+</code></pre>
+
+<p>Now the overlay was loaded. But still no MOOdalBox on top of it. I figured it had something to do with the DOM not being fully loaded. But i couldn&#8217;t really think of a solution. So of to Google. After a bit of browsing i found somebody with the same problem. And a <a href="http://forum.e-magine.ro/topic/please-help-with-ie">reply</a> from the original author of MOOdalBox. Add a domready event to make it work.</p>
+
+<pre><code>window.addEvent('domready', loadMOOdal);
+function loadMOOdal() {
+    MOOdalBox.open('Quickstart/load', '', '700 500');
+}
+</code></pre>
+
+<p>This did it. And my only goal was to make it function properly inside of IE 7. but this also fixes the same problem for IE 6. So a big thanks to Răzvan for creating MOOdalBox and for supplying the fix.</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-10-03T12:27:45+02:00" pubdate data-updated="true">Oct 3<span>rd</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2008/10/03/load-moodalboxes-without-clicking-links/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2008/10/02/atp-is-seeking-web-developers/">ATP Is Seeking Web Developers</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>For the past three years I&#8217;ve been working as a web developer for ATP in the Netherlands. This has been a great experience. And still is. I have the pleasure of working with some really smart people here. Who are always eager to work with the newest technologies. This offers a great learning ground for all of us. The projects have evolved over the years. From simple websites to complex web applications.</p>
+
+<p>Right now we are looking for some experienced web developers to strengthen the team. we are looking for somebody who master the following skills.</p>
+
+<ul>
+<li><p>PHP Specialist (a minimum of 3 years experience)</p></li>
+<li><p>Object oriented experience</p></li>
+<li><p>Good knowledge of XML, SQL, JavaScript en CSS</p></li>
+<li><p>Experienced with web services (SOAP, XML-RPC)</p></li>
+<li><p>You are flexible, pro-active, pragmatic and eager to learn</p></li>
+<li><p>You can work alone or in a team</p></li>
+<li><p>You have good communicative skills in Dutch and English</p></li>
+<li><p>You are able to prioritize in hectic situations</p></li>
+</ul>
+
+
+<p>We offer a great working environment. Good secondary working conditions. A year contract with the intention to prolong.</p>
+
+<p>If you are located in the Schiphol / Amsterdam area. And are looking for a good job. take your chance. For more information take a look at <a href="http://www.atp.nl/home/vacatures.php">atp.nl</a>. If you are interested drop me a line.</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-10-02T07:15:40+02:00" pubdate data-updated="true">Oct 2<span>nd</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2008/10/02/atp-is-seeking-web-developers/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2008/09/05/dutch-php-group-meeting/">Dutch PHP Group Meeting</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>I didn&#8217;t post for some time now. Been working on my new house. And it just takes up every free minute i</p>
+
+<p><a href="http://www.phpgg.nl/node/864"><img src="http://www.phpgg.nl/files/images/phpgglogo.png" alt="" /></a>
+have. But today when i was reading through my RSS feeds i noticed the Dutch PHP Group (PHPGG) is</p>
+
+<p>organizing a meetup in Amsterdam at the end of this month. So if you are in or near Amsterdam on 23 of September drop by and have some fun.</p>
+
+<p>You can register through the upcomming.com website. Or just by sending a personal email to the PHPGG group. For more info head over to the <a href="http://www.phpgg.nl/node/864">PHPGG</a> website (Dutch).</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-09-05T07:45:16+02:00" pubdate data-updated="true">Sep 5<span>th</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2008/09/05/dutch-php-group-meeting/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2008/08/21/svn-over-ssh-in-zend-studio-for-eclipse/">SVN Over SSH in Zend Studio for Eclipse</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>This should be pretty damn straight forward. However i ran into some problems while setting this up. At my daily work spot we use <a href="http://subversion.tigris.org/">SVN</a> over <a href="http://nl.wikipedia.org/wiki/Hypertext_Transfer_Protocol">HTTP</a> so we can do <a href="http://en.wikipedia.org/wiki/NTLM">NTLM</a> authentication. This sucks in many ways. But most of all it&#8217;s slow. And i mean really slow. Last week i tried to retrieve the log information for a project in the repository. This took my IDE 30 minutes. At first i thought my IDE was just being lame on me. But it turns out it&#8217;s SVN over HTTP that&#8217;s the culprit.</p>
+
+<p>So i started to do some testing over the standard svn:// protocol. And retrieving the logs on the same repository took about 2 seconds. Amazing. That&#8217;s enough reason to switch to the svn:// protocol. This however was not possible. Because our network policy doesn&#8217;t allow for multiple log ins. All is centrally stored on some M$ domain controllers. That&#8217;s why SVN over HTTP was used in the first place. End of story i thought.</p>
+
+<p>But i couldn&#8217;t let go of this. The situation becomes less workable every day. So i decided to look around for other options. When i notice some log ins were merged to the <em>nix boxes. i immediately thought about using SSH in combination with SVN. Logging in on the </em>nix box was no problem. So let&#8217;s try that with SVN.</p>
+
+<blockquote><p>svn+ssh://location/of/repo</p></blockquote>
+
+<p>This gives an error about a mismatched handshake. And i just couldn&#8217;t get this to work until i found a post made by <a href="http://www.woodwardweb.com/java/000155.html">Martin Woodward</a>. He explains how to setup an environment variable on my local windows machine. To the tortoise PLink executable.</p>
+
+<blockquote><p>Set the environment variable (by right-clicking on My Computer, Properties, Advanced, Environment Variables, New):-
+Variable name: SVN_SSH
+Variable value: C:\Program Files\TortoiseSVN\bin\TortoisePlink.exe</p></blockquote>
+
+<p>This seemed to work i thought. i was presented with a login box. But no matter how i tried i couldn&#8217;t login. It just kept giving me the login box. So i opened a SSH session to the server and tried to do the same from there.</p>
+
+<blockquote><p>svn list svn+ssh://location/of/repo</p></blockquote>
+
+<p>After hitting enter i typed my password and got the following message.</p>
+
+<blockquote><p>bash: line 1: svnserve: command not found
+svn: Connection closed unexpectedly</p></blockquote>
+
+<p>Now we&#8217;re getting somewhere. So svnserve could not be found. Probably because it&#8217;s not in the $PATH variable. So let&#8217;s add it there.</p>
+
+<blockquote><p>vi .bashrc
+PATH=$PATH:/usr/local/bin</p></blockquote>
+
+<p>So let&#8217;s try to get a listing of the repo.</p>
+
+<blockquote><p>svn list svn+ssh://location/of/repo</p></blockquote>
+
+<p>This gave me the following message:</p>
+
+<blockquote><p>svn: No repository found in &#8216;svn+ssh://location/of/repo&#8217;</p></blockquote>
+
+<p>Seems that when you use SVN over SSH you need to give the full location to the repository. Not the web server path but the complete file system path. After changing the webserver path for the file system path everything worked out. From here on adding the repository to eclipse is easy.
+I always open the repository view. From there i right click > New > repository Location. The URL to add will look something like</p>
+
+<blockquote><p>svn+ssh://file/system/location/of/repository</p></blockquote>
+
+<p>So now we can enjoy the speed of the svn:// protocol. And the security of SSH. So let&#8217;s do some coding :)</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-08-21T07:13:18+02:00" pubdate data-updated="true">Aug 21<span>st</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2008/08/21/svn-over-ssh-in-zend-studio-for-eclipse/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   
     <article>
-      Liquid syntax error: Unknown tag &#8216;endif&#8217;
+      
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2008/08/20/zend_filter_inflector-and-the-camelcasetounderscore-filter/">Zend_Filter_Inflector and the CamelCaseToUnderscore Filter</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>I was thinking about how to add theme support to an application that makes use of the Zend_Layout component. When i came across the Zend_Filter_Inflector class. This looks interesting. From teh ZF manual:</p>
+
+<blockquote><p>Zend_Filter_Inflector is a general purpose tool for rules-based inflection of strings to a given target.</p></blockquote>
+
+<p>This little class makes it easy to convert string to for instance paths. Anyway. i was trying to configure this class in my Bootstrap class. And run into some problems. I was testing the example in the manual. which makes use of the Zend_Filter CalemCaseToUnderscore. But when i reloaded my page instead of the usual output i was treated by an error.</p>
+
+<pre><code>$inflector = new Zend_Filter_Inflector(':script.:suffix');
+$inflector-&gt;setRules(array(
+    ':script' =&gt; array('CamelCaseToUnderscore'),
+    'suffix' =&gt; 'html'
+));
+</code></pre>
+
+<blockquote><p>Zend_Loader_PluginLoader_Exception: Plugin by name CamelCaseToUnderscore was not found in the registry. in Zend\Loader\PluginLoader.php on line 370</p></blockquote>
+
+<p>When i looked at the structure of the Zend folder. I noticed the CamelCaseToUnderscore filter was not available in the root of the Filter directory. Instead it&#8217;s placed inside the Filter/Word directory. So i prefixed the class name with Word_. And this works fine. The code now looks like this.</p>
+
+<pre><code>$inflector = new Zend_Filter_Inflector(':script.:suffix');
+$inflector-&gt;setRules(array(
+    ':script' =&gt; array('Word_CamelCaseToUnderscore'),
+    'suffix' =&gt; 'html'
+));
+</code></pre>
+
+<p>it&#8217;s a minor issue but i reported <a href="http://framework.zend.com/issues/browse/ZF-4011">it</a> anyway.</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-08-20T11:23:14+02:00" pubdate data-updated="true">Aug 20<span>th</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2008/08/20/zend_filter_inflector-and-the-camelcasetounderscore-filter/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
     </article>
   
   <div class="pagination">

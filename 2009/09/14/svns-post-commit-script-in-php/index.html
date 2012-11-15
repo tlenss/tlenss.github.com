@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Sep 14th, 2009 PHP, Tech Tweet &laquo; Mayflower's Zend Framework Poster Firefox &hellip;">
+  <meta name="description" content="SVN's Post-commit Script in PHP I was kinda bored yesterday. And was poking around the SVN hooks scripts. When i noticed the post-commit script i &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,123 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">SVN's Post-commit Script in PHP</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>I was kinda bored yesterday. And was poking around the SVN hooks scripts. When i noticed the post-commit script i was using was written in Python. Nothing wrong with that. I just wondered how hard it would be to do the same in PHP. So i came up with a little test. Which at this moment lacks error checking and just looks plain ugly. But it does the job. and i only needed a working PHP CLI executable to make it work.</p>
+
+<p>First we set the email address and the location of svnlook.</p>
+
+<pre><code>#!/usr/bin/php
+&lt;?php
+error_reporting(E_ALL | E_STRICT); 
+
+$address = 'some email address';
+$svnlook = '/usr/bin/svnlook';
+</code></pre>
+
+<p>Use the argv array to get to the commandline parameters and build up a SVN statement to get some basic info.</p>
+
+<pre><code>$repository = $_SERVER['argv'][1];
+$revision = $_SERVER['argv'][2];
+
+$cmdInfo = "${svnlook} info ${repository} -r ${revision}";
+
+$output = array();
+exec($cmdInfo, $output);
+
+$author = $output[0];
+$date = $output[1];
+$comment = $output[3];
+</code></pre>
+
+<p>Now let&#8217;s get the changes made in this revisions.</p>
+
+<pre><code>$output = array();
+$cmdChanges ="${svnlook} diff ${repository} -r ${revision}";
+exec($cmdChanges, $output);
+</code></pre>
+
+<p>Once we have the diff contents we can loop through the lines and use some simple regex to highlight the changes. I&#8217;ve added a bit more code to add pre tags for a better visual effect.</p>
+
+<pre><code>$patch = '&lt;pre class="codeBlock"&gt;';
+$lineCount = count($output);
+for ($x=0; $x&lt;=$lineCount; $x++) {
+
+    if ($x &gt; 0 &amp;&amp; strstr($output[$x], 'Modified:')) {
+        $patch .= '&lt;/pre&gt;&lt;pre class="codeBlock"&gt;';
+    }
+
+    $textColor = 'normal';
+    if (preg_match('/^\+/', $output[$x])) {
+        $textColor = 'positive';
+    }
+    else if (preg_match('/^-/', $output[$x])) {
+        $textColor = 'negative';
+    }
+
+    $patch .= '&lt;span class="' . $textColor . '"&gt;' . htmlentities($output[$x]) . "&lt;/span&gt;&lt;br&gt;";
+
+    if ($x == $lineCount) {
+        $patch .= "&lt;/pre&gt;";
+    }
+}
+</code></pre>
+
+<p>Now we can build the body for the email that will be generated.</p>
+
+<pre><code>$body .= "Author : " . $author . "&lt;br&gt;";
+$body .= "Date : " . $date . "&lt;br&gt;";
+$body .= "Comment : " . $comment . "&lt;br&gt;&lt;br&gt;";
+
+$body .= $patch;
+</code></pre>
+
+<p>Add a MIME header so my mail client displays it properly. And send it of through the build in mail() function.</p>
+
+<pre><code>$headers  = 'MIME-Version: 1.0' . "\r\n";
+$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+
+$bodyHTML = file_get_contents("/path/to/some/HTML/template");
+$bodyHTML = str_replace('{EMAIL}', $body, $bodyHTML);
+
+mail($address, 'SVN post-commit', $bodyHTML, $headers);
+</code></pre>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-09-14T11:07:42+02:00" pubdate data-updated="true">Sep 14<span>th</span>, 2009</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Jul 15th, 2009 Tech Tweet &laquo; Zend Framework v1.8x Zend_Loader replacement &hellip;">
+  <meta name="description" content="Linux, Samba Spaces in Share Names Yesterday i had to reconfigure the samba server at the office. And at the same time change some of the share &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,63 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Linux, Samba Spaces in Share Names</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>Yesterday i had to reconfigure the samba server at the office. And at the same time change some of the share names we&#8217;ve been using. One of the new names contained a space. And while setting this up on all Windows boxes i noticed no problem.</p>
+
+<p>After all was finished i went to edit my fstab file so i get the new shares at boot. And after making changes to fstab i always do a simple test</p>
+
+<blockquote><p>sudo mount -a</p></blockquote>
+
+<p>This resulted in a syntax error from the fstab file</p>
+
+<blockquote><p>[mntent]: line 13 in /etc/fstab is bad</p></blockquote>
+
+<p>That&#8217;s nice. So Linux doesn&#8217;t like spaces in the share names. How strange :) So i tried a few escaping sequences.</p>
+
+<blockquote><p>&#8216;samba share&#8217;
+&#8220;samba share&#8221;
+samba\ share</p></blockquote>
+
+<p>Non of that seemed to work. So after a bit of searching found the solution. You can use an octal number format to express the ASCII symbol. In this case that&#8217;s &#8216;040&#8217;. And escape it with a slash.</p>
+
+<blockquote><p>samba\040share</p></blockquote>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-07-15T11:23:13+02:00" pubdate data-updated="true">Jul 15<span>th</span>, 2009</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

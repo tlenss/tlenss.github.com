@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Sep 7th, 2011 Code, PHP, Tech Tweet &laquo; PHP5 filesize limit on 32-bit system &hellip;">
+  <meta name="description" content="PHP Slow on 32-bit Ubuntu My last post was about the 32-bit integer issue i was having with PHP. And besides setting up a 64-bit server one of the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,86 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">PHP Slow on 32-bit Ubuntu</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>My last <a href="http://lenss.nl/2011/08/php5-filesize-limit-on-32-bit-system/">post</a> was about the 32-bit integer issue i was having with PHP. And besides setting up a 64-bit server one of the solutions is to compile PHP with the CFLAGS mentioned in my previous post.</p>
+
+<p>Intrigued by the fact that my 32-bit Ubuntu installation did not suffer from the same issue. I started to read the PHP5 changelog for Ubuntu.</p>
+
+<blockquote><p>CFLAGS=”-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64″ ./configure</p></blockquote>
+
+<p>But this has a negative side effect. Namely PHP running 50% slower then it should be. And to my surprise Ubuntu applies the CFLAGS above when compiling PHP5 for a 32-bit platform. So that would mean PHP on Ubuntu is always running 50% slower? Well according to <a href="https://bugs.php.net/bug.php?id=45942">this</a> is should be the case.</p>
+
+<p>I downloaded <a href="http://nl.php.net/get/php-5.3.8.tar.gz/from/a/mirror">php-5.3.8</a> from php.net and compiled two versions. One with the CFLAGS set for large files. And one normal without any changes. After that i downloaded the benchmark script from <a href="http://www.php-benchmark-script.com">php-benchmark-script.com</a>. And did a couple of runs on each of the two installs. The results are stunning.</p>
+
+<p><strong>PHP-5.3.8 compiled with large file support:</strong></p>
+
+<blockquote><p>test_math                 : 4.414 sec.
+test_stringmanipulation   : 4.968 sec.
+test_loops                : 3.529 sec.</p>
+
+<h2>test_ifelse               : 2.344 sec.</h2>
+
+<p>Total time:               : 15.255 sec.</p></blockquote>
+
+<p><strong>PHP-5.3.8 compiled without large file support:</strong></p>
+
+<blockquote><p>test_math                 : 2.274 sec.
+test_stringmanipulation   : 2.286 sec.
+test_loops                : 1.619 sec.</p>
+
+<h2>test_ifelse               : 1.228 sec.</h2>
+
+<p>Total time:               : 7.407 sec.</p></blockquote>
+
+<p>That&#8217;s pretty much a 50% speed decrease. One more thing i tried is adding the &#8216;AC_SYS_LARGEFILE&#8217; macro to configure.in and rebuild the configure script. But this had no effect at all.</p>
+
+<blockquote><p>$ cd php-5.3.8
+$ vi configure.in (add AC_SYS_LARGEFILE somewhere)
+$ export PHP_AUTOCONF=/usr/share/autoconf2.59
+$ ./buildconf &#8211;force</p></blockquote>
+
+<p>I then tried two things. First i build without the CFLAGS. But this didn&#8217;t seem to do much. Then i used the same configure script with the CFLAGS for large file support. But there was no speed increase measurable.</p>
+
+<p>So why would Ubuntu have made the choice to compile PHP with the large file support on a 32-bit platform? Are there really that much developers that work on large files in web / cli applications written in PHP? Enough to sacrifice a 50% speed decrease?</p>
+
+<p>I don&#8217;t really know the answer to that. But i will do my large file processing on 64-bit machines. And will compile PHP from scratch from now on. Until i have upgraded my aging hardware.</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-07T14:09:44+02:00" pubdate data-updated="true">Sep 7<span>th</span>, 2011</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

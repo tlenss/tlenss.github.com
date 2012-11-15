@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Nov 11th, 2010 /home, Code, Google, Tech Tweet &laquo; Compiling PHP v1.0.8 NSD &hellip;">
+  <meta name="description" content="Google Mod_pagespeed Continued Last week i toyed with mod_pagespeed a bit. But just couldn&#8217;t get the hang of it. So the last two days &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,149 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Google Mod_pagespeed Continued</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>Last week i <a href="http://lenss.nl/2010/11/google-mod_pagespeed/">toyed</a> with <a href="http://code.google.com/p/modpagespeed/">mod_pagespeed</a> a bit. But just couldn&#8217;t get the hang of it. So the last two days permitted me to play some more with this great Apache module. Only this time i choose to <a href="http://code.google.com/p/modpagespeed/wiki/HowToBuild">build from source</a> and ignore the binaries for a while.</p>
+
+<p>For me the main problem was. As soon as i enabled the module. It was active for all sites running on this server. And that should not be a problem. But some of these sites are Wordpress monsters. That are ready to take any server down with a bit of high load.</p>
+
+<p>So after a bit of trail and error. I figured out i could just disable mod_pagespeed globally by altering the main config file. After Apache reloaded mod_pagespeed was not active for the running sites.</p>
+
+<p>in /etc/apache2/mods-available/pagespeed.conf make sure ModPagespeed is set to &#8216;off&#8217;</p>
+
+<blockquote><p>ModPagespeed off</p></blockquote>
+
+<p>So now i can simply enable settings i need on a per vhost basis. For this site end some other sites i used the following config section in my vhost.</p>
+
+<blockquote><h1>MOD-pagespeed</h1></blockquote>
+
+<pre><code>        SetOutputFilter MOD_PAGESPEED_OUTPUT_FILTER
+        ModPagespeed on
+
+        ModPagespeedUrlPrefix                "http://lenss.nl"
+
+        ModPagespeedFileCachePath            "/var/mod_pagespeed/cache/"
+        ModPagespeedGeneratedFilePrefix      "/var/mod_pagespeed/files/"
+
+        #ModPagespeedRewriteLevel CoreFilters
+        ModPagespeedRewriteLevel PassThrough
+
+        ModPagespeedEnableFilters add_head
+        ModPagespeedEnableFilters collapse_whitespace
+        ModPagespeedEnableFilters elide_attributes
+        ModPagespeedEnableFilters remove_comments
+        ModPagespeedEnableFilters rewrite_css
+        ModPagespeedEnableFilters rewrite_javascript
+        ModPagespeedEnableFilters move_css_to_head
+</code></pre>
+
+<p>First of we enable mod_pagespeed of course. And then we set the current domain for this instance. After that we set the file paths for the altered and cached files. And we use &#8216;PassThrough&#8217; instead of &#8216;CoreFilters&#8217;. So we can decide our self&#8217;s what filters we will be using.</p>
+
+<p>This had a much better result then my previous attempts. The server was still happily serving pages. And the load was OK. So let&#8217;s check the sites if mod_pagespeed is actually running.</p>
+
+<blockquote><p>$ wget -O /dev/null &#8211;server-response http://lenss.nl 2>&amp;1| grep -i &#8216;X-Mod-Pagespeed&#8217;
+  X-Mod-Pagespeed: 0.9.0.0-172</p></blockquote>
+
+<p>Well that looks good. So now it&#8217;s time to do some testing. And this leaves me with a bit of a pickle. As i don&#8217;t have the required wget v 1.12 (i have a small patch for wget v1.11). Besides that i have some other problems running the tests</p>
+
+<blockquote><p>TEST: 404s are served and properly recorded.</p>
+
+<pre><code>  wget -O /dev/null http://lenss.nl/mod_pagespeed/ic.a.bad.css 2&gt;&amp;1| grep -q '404 Not Found'
+  wget -q -O - --save-headers http://localhost:80/mod_pagespeed_statistics | grep -q 'resource_404_count: 1'
+</code></pre>
+
+<p>FAIL.</p></blockquote>
+
+<p>This fails because the statistics page requested is not available because this site uses rewrites. And i haven&#8217;t found a way to go around this yet besides disabling them in .htaccess with mod_rewrite. So shortly disabling this made it possible to run the biggest part of the test suite without problems.</p>
+
+<blockquote><p>resource_fetches: 2
+total_page_load_ms: 0
+page_load_count: 0
+cache_extensions: 0
+not_cacheable: 0
+css_file_count_reduction: 0
+css_filter_files_minified: 13
+css_filter_minified_bytes_saved: 5082
+css_filter_parse_failures: 0
+css_elements: 0
+image_inline: 0
+image_rewrite_saved_bytes: 0
+image_rewrites: 0
+javascript_blocks_minified: 15
+javascript_bytes_saved: 380
+javascript_minification_failures: 0
+javascript_total_blocks: 15
+resource_url_domain_rejections: 0
+url_trims: 0
+url_trim_saved_bytes: 0
+resource_404_count: 2
+slurp_404_count: 0
+serf_fetch_request_count: 0
+serf_fetch_bytes_count: 0
+serf_fetch_time_duration_ms: 0
+serf_fetch_cancel_count: 0</p></blockquote>
+
+<p>It fails on the image compression part and that&#8217;s fine. Because i will leave that for later. So let&#8217;s run the site through the pagespeed browser extension with mod_pagespeed disabled:</p>
+
+<blockquote><p>load time without : 2.193
+firebug/pagespeed score : 68</p></blockquote>
+
+<p>Now the same thing but with mod_pagespeed enabled:</p>
+
+<blockquote><p>Load time with : 1.284
+firebug/pagespeed score : 90</p></blockquote>
+
+<p>That looks pretty good. And the other sites i have tested preform way better with the mod_pagespeed module enabled.</p>
+
+<p>I still have some Javascript issues. Some things need further inspection because i have seen error like these coming along:</p>
+
+<blockquote><p>Permission denied for  to call method Location.toString on .</p></blockquote>
+
+<p>Besides that. This morning my site was down due to Apache spitting segfaults. I disabled the &#8216;rewrite_javascript&#8217; filter for now. And it seems to run a bit more stable.</p>
+
+<blockquote><p>[Thu Nov 11 07:38:24 2010] [notice] child pid 23608 exit signal Segmentation fault (11)</p></blockquote>
+
+<p>So besides it being a beta i am pretty impressed by the current state of this module. And after running it for a couple of weeks the statistics are pretty impressive.</p>
+
+<p><img src="http://lenss.nl/images/2010/12/page-speed.jpg" alt="" /></p>
+
+<p>Manuel Lemos also wrote a nice article about <a href="http://www.phpclasses.org/blog/post/135-Accelerate-Web-Pages-Automatically-using-Google-ModPageSpeed-Unusual-Site-Speedup-Techniques-Part-4.html">mod_pagespeed</a> which is worth reading.</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-11-11T12:08:45+01:00" pubdate data-updated="true">Nov 11<span>th</span>, 2010</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

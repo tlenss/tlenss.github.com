@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Jul 1st, 2010 Code, Magento, PHP, Tech Tweet &laquo; Error'd New elePHPant :) & &hellip;">
+  <meta name="description" content="Returning Blocks From Controllers Without Layout Attached in Magento When working in the admin environment of Magento i had to add a controller &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,69 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Returning Blocks From Controllers Without Layout Attached in Magento</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>When working in the admin environment of Magento i had to add a controller action that was called by an Ajax request. The problem however is that all layout data is returned as well when calling</p>
+
+<pre><code>$this-&gt;renderLayout();
+</code></pre>
+
+<p>from the controller. So my next attempt was to try to render the block separately and adding it to the layout.</p>
+
+<pre><code>$this-&gt;_initCustomer();
+$this-&gt;getResponse()-&gt;setBody(
+            $this-&gt;getLayout()-&gt;createBlock('block/location')
+            -&gt;setCustomerId(Mage::registry('current_customer')-&gt;getId())
+            -&gt;setData('list', $list)
+            -&gt;setUseAjax(true)
+            -&gt;toHtml()
+);
+</code></pre>
+
+<p>This kinda worked. But now i had no more control over the template used. Or maybe i missed that part. But i don&#8217;t like to specify my Block anyway Magento should pick this up automatically.</p>
+
+<p>Solving this issue is actually quite easy. The only thing we need to do is change the layout structure of the module. We change the name to root. And that&#8217;s it!</p>
+
+<pre><code>&lt;block type="block/location" name="root" template="template/location"&gt;&lt;/block&gt;
+</code></pre>
+
+<p>The name attribute tells Magento it is a root block so no need for the rest of the layout.</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-07-01T11:31:53+02:00" pubdate data-updated="true">Jul 1<span>st</span>, 2010</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

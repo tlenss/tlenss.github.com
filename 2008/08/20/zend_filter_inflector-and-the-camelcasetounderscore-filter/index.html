@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Aug 20th, 2008 Code Tweet &laquo; SVN repository and project structure SVN over &hellip;">
+  <meta name="description" content="Zend_Filter_Inflector and the CamelCaseToUnderscore Filter I was thinking about how to add theme support to an application that makes use of the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,69 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Zend_Filter_Inflector and the CamelCaseToUnderscore Filter</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>I was thinking about how to add theme support to an application that makes use of the Zend_Layout component. When i came across the Zend_Filter_Inflector class. This looks interesting. From teh ZF manual:</p>
+
+<blockquote><p>Zend_Filter_Inflector is a general purpose tool for rules-based inflection of strings to a given target.</p></blockquote>
+
+<p>This little class makes it easy to convert string to for instance paths. Anyway. i was trying to configure this class in my Bootstrap class. And run into some problems. I was testing the example in the manual. which makes use of the Zend_Filter CalemCaseToUnderscore. But when i reloaded my page instead of the usual output i was treated by an error.</p>
+
+<pre><code>$inflector = new Zend_Filter_Inflector(':script.:suffix');
+$inflector-&gt;setRules(array(
+    ':script' =&gt; array('CamelCaseToUnderscore'),
+    'suffix' =&gt; 'html'
+));
+</code></pre>
+
+<blockquote><p>Zend_Loader_PluginLoader_Exception: Plugin by name CamelCaseToUnderscore was not found in the registry. in Zend\Loader\PluginLoader.php on line 370</p></blockquote>
+
+<p>When i looked at the structure of the Zend folder. I noticed the CamelCaseToUnderscore filter was not available in the root of the Filter directory. Instead it&#8217;s placed inside the Filter/Word directory. So i prefixed the class name with Word_. And this works fine. The code now looks like this.</p>
+
+<pre><code>$inflector = new Zend_Filter_Inflector(':script.:suffix');
+$inflector-&gt;setRules(array(
+    ':script' =&gt; array('Word_CamelCaseToUnderscore'),
+    'suffix' =&gt; 'html'
+));
+</code></pre>
+
+<p>it&#8217;s a minor issue but i reported <a href="http://framework.zend.com/issues/browse/ZF-4011">it</a> anyway.</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-08-20T11:23:14+02:00" pubdate data-updated="true">Aug 20<span>th</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

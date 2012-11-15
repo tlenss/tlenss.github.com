@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Jul 21st, 2008 Code, PHP Tweet &laquo; Help a MySQL support engineer. Highjacked &hellip;">
+  <meta name="description" content="PEAR Install Weirdness This morning i wanted to play around with firePHP a bit. And wanted to install the PEAR package. When i found out i didn&# &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,69 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">PEAR Install Weirdness</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>This morning i wanted to play around with <a href="http://www.firephp.org/">firePHP</a> a bit. And wanted to install the PEAR package. When i found out i didn&#8217;t have <a href="http://pear.php.net/">PEAR</a> running on my local (win32 xp) box. So off to the pear install. The first thing i notice was that PEAR now is packaged as a nice <a href="http://nl.php.net/phar">PHAR</a> file (PHP 5.2.6) . So i hoped the install process would be smoother then normally. This was not the case. First thing i did was run the go-pear.bat file. Which resulted in an error.</p>
+
+<blockquote><p>phar &#8220;[path]go-pear.phar&#8221; does not have a signature
+Warning: require_once(phar://go-pear.phar/index.php): failed to open stream: pha
+r &#8220;[path]go-pear.phar&#8221; does not have a signature in [path]\PEAR\go-pear.phar on line 1236</p></blockquote>
+
+<p>Fatal error: require_once(): Failed opening required &#8216;phar://go-pear.phar/index.
+php&#8217; (include_path=&#8217;.;[path][path]\PEAR&#8217;) in [path]\PEAR\go-pear.phar on line 1236</p>
+
+<p>Ok. So that didn&#8217;t work out like i wanted. I checked the go-pear.bat file. And copied the command to windows command line. This resulted in the same error. So i thought. Let&#8217;s try this from the PEAR directory. cd PEAR and let&#8217;s try that again.</p>
+
+<blockquote><p>php.exe -d phar.require_hash=0 go-pear.phar</p></blockquote>
+
+<p>Now the PEAR install runs fine.</p>
+
+<blockquote><p>For more information about PEAR, see:</p></blockquote>
+
+<p>http://pear.php.net/faq.php
+http://pear.php.net/manual/</p>
+
+<p>Thanks for using go-pear!</p>
+
+<p>Update *</p>
+
+<p>Although this solution seems to have resolved the problem for me. Cal Evans has a good <a href="http://blog.calevans.com/2009/07/11/xampp-php-5-3-pear-and-phar-what-a-mess">post</a> how to resolve this issue as well. My workaround didn&#8217;t solve the problem for Cal but his did for me. So here&#8217;s the <a href="http://blog.calevans.com/2009/07/11/xampp-php-5-3-pear-and-phar-what-a-mess/">link</a></p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-07-21T07:11:24+02:00" pubdate data-updated="true">Jul 21<span>st</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

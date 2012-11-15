@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Aug 31st, 2011 Code, PHP, Tech, Zend Tweet &laquo; Jquery unrecognized &hellip;">
+  <meta name="description" content="PHP5 Filesize Limit on 32-bit System So we have a PHP based importer script that does some heavy duty media processing at the office. And i had to &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,124 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">PHP5 Filesize Limit on 32-bit System</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>So we have a PHP based importer script that does some heavy duty media processing at the office. And i had to import some new media today. But for some reason a couple of files weren&#8217;t picked up without a message. So i cleaned up the upload folder. The only files left were the files not being processed. And when i started the importer. The result was.</p>
+
+<blockquote><p>Importer found (0) files to import!</p></blockquote>
+
+<p>Hmmm. That&#8217;s not right. So i had a look at the code behind the importer. Which basically is a loop using a <a href="http://nl2.php.net/manual/en/class.directoryiterator.php">DirectoryIterator</a> object. And some var_dump calls revealed the issue. For some reason <a href="http://nl2.php.net/manual/en/splfileinfo.isfile.php">->isFile()</a> was returning <em>(false)</em> for regular files. WTF! Let&#8217;s test that on the command line.</p>
+
+<blockquote><p>$ php -r &#8220;var_dump(is_file(&#8216;/some/file.ext&#8217;));&#8221;;
+<em>bool(false)</em></p></blockquote>
+
+<p>Ok so we have an issue here. How big are these files really. A inspection revealed they are all over 2GB. Maybe some 32 bit issue? As the platform the code is running on is a 32 bit server. So i asked my colleagues, Googled a bit and read through php.net. To find out that there is an issue with PHP and files larger then 2GB.</p>
+
+<blockquote><p><a href="https://bugs.php.net/bug.php?id=27792">https://bugs.php.net/bug.php?id=27792</a>
+<a href="https://bugs.php.net/bug.php?id=48886">https://bugs.php.net/bug.php?id=48886</a>
+<a href="http://nl.php.net/manual/en/function.filesize.php">http://nl.php.net/manual/en/function.filesize.php</a></p></blockquote>
+
+<p>Those however all seem related to filesize. The filesize function manual page even has a note about it. Maybe it&#8217;s related?</p>
+
+<blockquote><p>   <strong>Note:</strong> Because PHP&#8217;s integer type is signed and many platforms use 32bit integers, <strong>filesize() </strong> may return unexpected results for files which are larger than <strong>2GB</strong>. For files between 2GB and 4GB in size this can usually be overcome by using <strong>sprintf(&#8220;%u&#8221;, filesize($file))</strong>.</p></blockquote>
+
+<p>But i can&#8217;t apply that patch on a production server. So i came up with a simple solution for now. I extended the <a href="http://nl2.php.net/manual/en/class.directoryiterator.php">DirectoryIterator</a> class and have overwritten the <em>isFile</em> method. Which works for now (don&#8217;t think this will work on windows).</p>
+
+<pre><code>Class MyDirectoryIterator extends DirectoryIterator {
+    public function isFile() {
+        return (integer) exec("[ -f {$this-&gt;getPathname()} ] &amp;&amp; echo 1 || echo 0");
+    }
+}
+</code></pre>
+
+<p>Convinced it was a 32 bit issue. I came home later that day. And wanted to try it out on my own desktop. That is a 32 bit system and runs Ubuntu 11.04. To my surprise the result was different then i expected.</p>
+
+<blockquote><p>$ php -r &#8220;var_dump(is_file(&#8216;/some/file.ext&#8217;));&#8221;;
+<em>bool(true)</em></p></blockquote>
+
+<p>I used the same files as before. And tested some more big files. But the result was the same. Weird. Let&#8217;s try some other 32 bit machines.</p>
+
+<blockquote><p>Ubuntu 11.04: bool(true)</p></blockquote>
+
+<p>CentOS release 5.6 (Final): bool(false)
+Debian 6.0.2 (squeeze): bool(false)</p>
+
+<p>Only my desktop at home seems to have a good result. Ubuntu must have some patch somewhere to fix this issue? To confirm i compiled PHP 5.3.8 from source. And did the same test again on Ubuntu 11.04. And this time it was <em>(false)</em>.</p>
+
+<blockquote><p>$ php -r &#8220;var_dump(is_file(&#8216;/some/file.ext&#8217;));&#8221;;
+<em>bool(false)</em></p></blockquote>
+
+<p>I am not really in the mood to search the Ubuntu <a href="http://changelogs.ubuntu.com/changelogs/pool/main/p/php5/">changelog</a>. And for now the work around will do. But i really would like to know what patch is applied to resolve the issue.</p>
+
+<p><strong>[ update ]</strong></p>
+
+<p>While applying the patch for the is_file issue. I was confronted with the fact that way more function calls cause issues. So while waiting for PHP to get patched i had to create some workarounds for the time being.</p>
+
+<p>Getting the filesize:</p>
+
+<pre><code>(integer) exec("stat -c%s {$file-&gt;getFilename()}");
+</code></pre>
+
+<p>Calculate a MD5 checksum:</p>
+
+<pre><code>$md5 = exec("md5sum {$file-&gt;getFilename()}");
+$expl = explode('\t', $md5);
+return (string) $expl[0];
+</code></pre>
+
+<p>Calculate the CRC32 checksum:</p>
+
+<pre><code>$hash = exec("cksum {$this-&gt;path}");
+$expl = explode(' ', $hash);
+return $expl[0];
+</code></pre>
+
+<p>Get the modified time:</p>
+
+<pre><code>$stat = explode('.', exec("stat -c%y {$this-&gt;path}"));
+$timestamp = strtotime($stat[0]);
+return $timestamp;
+</code></pre>
+
+<p>Hopefully that will do for now. On a side note the issue is solvable by setting certain <strong>CFLAGS</strong> when compiling PHP. I have no idea what the impact of that will be on the PHP binary. But it does seem to solve the issue. Not sure how one would apply that when PHP is installed from the distro&#8217;s repository though.</p>
+
+<blockquote><p>CFLAGS=&#8221;-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64&#8221; ./configure</p></blockquote>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-08-31T01:38:00+02:00" pubdate data-updated="true">Aug 31<span>st</span>, 2011</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Mar 17th, 2009 Code, PHP, Tech Tweet &laquo; PHP CLI bad interpreter: Permission &hellip;">
+  <meta name="description" content="CentOS PHP5 and Mcrypt For some strange reason (i didn&#8217;t investigate) CentOS 5 does not come with a pre build mcrypt extension for PHP. This &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,53 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">CentOS PHP5 and Mcrypt</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>For some strange reason (i didn&#8217;t investigate) CentOS 5 does not come with a pre build <a href="http://www.php.net/mcrypt">mcrypt</a> extension for PHP. This is pretty weird if you ask me. And building this extension from source is no option for me. There are way to much dependencies missing. And i don&#8217;t really like installing *dev packages on my server. So how to fix this?</p>
+
+<p>Luckily there are some rpm files floating around the net. So i just used <a href="http://rpmfind.net/linux/rpm2html/search.php?query=php-mcrypt">rpmfind</a> to find a fedora 5.2.6 version of the mcrypt extension. After downloading it&#8217;s a one line command to install. And a apache reboot to get it working.</p>
+
+<blockquote><p>Constantin was so nice to comment on the fact that the mcrypt library needs to be installed before installing the mcrypt PHP extension.</p>
+
+<p>$ wget ftp://rpmfind.net/linux/fedora/updates/7/i386/php-mcrypt-5.2.6-2.fc7.i386.rpm
+$ rpm -ivh &#8211;nodeps php-mcrypt-5.2.6-2.fc7.i386.rpm
+$ /etc/init.d/http restart</p></blockquote>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-03-17T11:40:27+01:00" pubdate data-updated="true">Mar 17<span>th</span>, 2009</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

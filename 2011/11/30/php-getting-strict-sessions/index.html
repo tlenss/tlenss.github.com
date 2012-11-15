@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Nov 30th, 2011 Code, PHP, Security, Tech, Zend Tweet &laquo; Abbywinters.com is &hellip;">
+  <meta name="description" content="PHP Getting Strict Sessions For years PHP has been vulnerable to session adoption which can enable session fixation. And since sessions are a major &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,82 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">PHP Getting Strict Sessions</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>For years <a href="http://php.net/">PHP</a> has been vulnerable to session adoption which can enable <a href="http://en.wikipedia.org/wiki/Session_fixation">session fixation</a>. And since sessions are a major part of web applications now a days. A lot of platforms are open and waiting for an attack to happen.</p>
+
+<p><strong>session adoption &amp; session fixation</strong></p>
+
+<p>The problem exists because the current session module does not validate the session id that comes in from a cookie. This means uninitialized session id&#8217;s can be passed by the client. This happens due to the fact that browsers overwrite cookie if multiple cookies are send per request.
+Some people would say this is solvable by implementing <a href="http://nl3.php.net/manual/en/function.session-regenerate-id.php">session_regenerate_id()</a>. But this is not the case.</p>
+
+<p>Because session fixation can be used to take over control of web applications. Validation is required when multiple cookies are send per request. When multiple cookie are send with a request. Browsers send multiple cookies without domain / path information. This way it&#8217;s impossible to tell which cookie belongs to which domain.</p>
+
+<p><strong>So how do we fix this?</strong></p>
+
+<p>There is some userland code that does offer the ability to validate session data. But this has not been widely adopted by other developers.</p>
+
+<p>Code that adds the session ID as a validation key:</p>
+
+<pre><code>session_destory();
+session_regenerate_id();
+$_SESSION['valid_id'] = session_id(); 
+</code></pre>
+
+<p>And the code to check if the session was properly initialized:</p>
+
+<pre><code>if ($_SESSION['valid_id'] !== session_id()) {
+  die('Invalid use of session ID');
+}
+</code></pre>
+
+<p>Thank god the internal developer know this. And are working to fix this. For the past days there has been an interesting discussion going on on the <a href="http://news.php.net/php.internals">internals</a> list. About applying a patch that will fix this. The patch will add some new php.ini features and a new method validate_id() for the session save handler. Hopefully this will be available in version 5.4.</p>
+
+<p>To not break BC strict_mode will be disabled by default. But can be enabled by setting the following setting in php.ini. When enabled uninitialized session ID will be discarded.</p>
+
+<blockquote><p>session.use_strict_mode=0</p></blockquote>
+
+<p>To prevent a DoS instead of session fixation. An new feature has been added that deletes possible malicious cookies that prevent new session ID.</p>
+
+<blockquote><p>session.safe_session_cookie=1</p></blockquote>
+
+<p>You can read more about session fixation and the upcoming patch on the <a href="https://wiki.php.net/rfc/strict_sessions">PHP-Wiki</a></p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-30T15:38:28+01:00" pubdate data-updated="true">Nov 30<span>th</span>, 2011</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

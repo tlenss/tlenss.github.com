@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Jun 10th, 2008 Code Tweet &laquo; Hide .project files from SVN in Zend Studio &hellip;">
+  <meta name="description" content="Mootools FX.Slide Flicker Bug When my coworker decided to use mootools for a project we are working on. I decided to give it a try also. I decided &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,122 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Mootools FX.Slide Flicker Bug</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>When my coworker decided to use <a href="http://mootools.net/">mootools</a> for a project we are working on. I decided to give it a try also.</p>
+
+<p>I decided to use the <a href="http://docs.mootools.net/Plugins/Fx.Slide">FX.Slide</a> effect on some tab based boxes. This was pretty straight forward. The mootools library is pretty easy in usage. And the documentation is darn good. Bellow i will show how to add the most basic FX.Slide effect. This is directly copied from the mootools <a href="http://docs.mootools.net/">manual</a>.</p>
+
+<p>To create the sliding effect all you need is the following lines of javascript.</p>
+
+<pre><code>window.addEvent('domready', function() {
+
+    // create an instance of the FX.Slide object
+    var mySlide = new Fx.Slide('test');
+
+    // Attach the click event to the wrapper div
+    $('toggle').addEvent('click', function(e) {
+        e = new Event(e);
+    mySlide.toggle();
+    e.stop();
+    });
+});
+</code></pre>
+
+<p>And of course some HTML to represent the sliding elements.</p>
+
+<pre><code>&lt;h3 class="section"&gt;Fx.Slide Vertical&lt;/h3&gt;
+
+&lt;a id="toggle" href="#"&gt;toggle&lt;/a&gt;
+&lt;div id="test"&gt;
+foo
+&lt;/div&gt;
+</code></pre>
+
+<p>And some CSS to cover it all in a nice sauce.</p>
+
+<pre><code>#test {
+    background: #222;
+    color: #fff;
+    padding: 10px;
+    margin: 20px;
+    border: 10px solid pink;
+}
+</code></pre>
+
+<p>So this looks great. It functions well. And the sliding is very smooth. There is one small problem though. When the wrapper contains an element with a style attribute overflow set to &#8220;auto&#8221;. The sliding will cause a flicker effect on the page. This is probably caused by rescaling the wrapper. Witch in it&#8217;s turn rescales the element with attribute overflow set to auto.</p>
+
+<p>I didn&#8217;t really try to figure out why this happens. Maybe that&#8217;s a later project. But i did come up with a small fix. When a slide object is created. FX.Slide wraps a div around the container that will slide in and out. This wrapper has the attribute overflow set to hidden. I couldn&#8217;t figure out why overflow is set to hidden on this wrapper. So i added the ability to set it through the options object. When overflow is set to auto the flicker bug disappears. To add this feature we need to add some small changes to the FX.Slide class.</p>
+
+<pre><code>options: {
+    mode: 'vertical'
+},
+</code></pre>
+
+<p>First we change the code above to reflect the code below:</p>
+
+<pre><code>options: {
+    mode: 'vertical',
+    overflow: 'hidden'
+},
+</code></pre>
+
+<p>Then on the third line of the initialize function we change:</p>
+
+<pre><code>this.wrapper = new Element('div', {'styles': $extend(this.element.getStyles('margin'), {'overflow': "hidden"})}).injectAfter(this.element).adopt(this.element);
+</code></pre>
+
+<p>To:</p>
+
+<pre><code>this.wrapper = new Element('div', {'styles': $extend(this.element.getStyles('margin'), {'overflow': this.options.overflow})}).injectAfter(this.element).adopt(this.element);
+</code></pre>
+
+<p>When all this is done and we want to create a FX.Slide object without the flicker bug. We add the options parameter. The constructor will make sure the right value is used.</p>
+
+<pre><code>var mySlide2 = new Fx.Slide('test', {overflow: 'auto'});
+
+$('toggle').addEvent('click', function(e){
+    e = new Event(e);
+    mySlide2.toggle();
+    e.stop();
+});
+</code></pre>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-06-10T10:43:19+02:00" pubdate data-updated="true">Jun 10<span>th</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

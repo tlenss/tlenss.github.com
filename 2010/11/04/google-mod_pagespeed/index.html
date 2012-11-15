@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Nov 4th, 2010 Code, Tech Tweet &laquo; Jquery & PHP doing simple image slicing &hellip;">
+  <meta name="description" content="Google Mod_pagespeed Yesterday Google released a beta version of their upcoming Apache module mod_pagespeed. And this seems like a very promising &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,82 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Google Mod_pagespeed</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>Yesterday Google <a href="http://googlewebmastercentral.blogspot.com/2010/11/make-your-websites-run-faster.html">released</a> a <strong>beta</strong> version of their upcoming Apache module <a href="http://code.google.com/speed/page-speed/docs/using_mod.html">mod_pagespeed</a>.</p>
+
+<p>And this seems like a very promising project indeed. It mainly is a suite that provides web optimisation features to make your sites run faster. Right now 15 of such features are available.</p>
+
+<blockquote><p>including optimising caching, minimising client-server round trips and minimising payload size.</p></blockquote>
+
+<p>So no more manual image compressing and javascript, html and css minifying.</p>
+
+<p>It uses the Apache <em>SetOutputFilter</em> to register the output filter. And from thereon you can use <em>ModPagespeedEnableFilters</em> to enable certain filters.</p>
+
+<p>Filters like:</p>
+
+<blockquote><p><strong>add_head</strong>
+<em>Add the head section if missing</em></p></blockquote>
+
+<p><strong>move_css_to_head</strong>
+<em>Moves CSS into the head of the page (needs add_head)</em></p>
+
+<p><strong>combine_css</strong>
+<em>Combine multiple CSS tags into one.</em></p>
+
+<p><strong>rewrite_css,rewrite_javascript</strong>
+<em>Remove comments and white spaces</em></p>
+
+<p><strong>rewrite_images</strong>
+<em>Compress / re encode images</em></p>
+
+<p>More info about the filters can be found <a href="http://code.google.com/speed/page-speed/docs/filters.html">here</a></p>
+
+<p>So i went ahead and <a href="http://code.google.com/speed/page-speed/download.html">downloaded</a> the Debian version to give it a try. And as always it&#8217;s straight forward from here.</p>
+
+<blockquote><p>dpkg -i mod-pagespeed-beta_current_i386.deb</p></blockquote>
+
+<p>It hooks nicely into Apache and creates the .load and .conf files in <em>/etc/apache2/mods-available</em>. After a Apache restart everything looked fine. And the pages did seem to load faster. Google also offers a <a href="http://www.modpagespeed.com/">test suite</a> to see the result of this module in action.</p>
+
+<p>Running the tests showed a small speed increase. But at the moment my daytime hours are spend behind a horrible firewall that really screws with web output. So i have to redo those for more accurate results. Never the less. This is a module to keep an eye on.</p>
+
+<p>It&#8217;s still a very young project. And i did have some server issues today. So related or not. Be careful :)</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-11-04T23:05:42+01:00" pubdate data-updated="true">Nov 4<span>th</span>, 2010</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

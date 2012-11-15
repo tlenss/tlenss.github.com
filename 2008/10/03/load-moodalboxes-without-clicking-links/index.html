@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Oct 3rd, 2008 Code Tweet &laquo; ATP is seeking web developers Parsing XML CDATA &hellip;">
+  <meta name="description" content="Load MOOdalBoxes Without Clicking Links The MOOdalBox script is a great addition to the mootools library. The interface is pretty slick. And easy to &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,78 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Load MOOdalBoxes Without Clicking Links</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>The MOOdalBox script is a great addition to the <a href="http://mootools.net/">mootools</a> library. The interface is pretty slick. And easy to style with just CSS. <a href="http://www.e-magine.ro/">Răzvan Brateş</a> did a great job here. And every now and then i have to implement one of those MOOdalBoxes in a web application. No problem here.</p>
+
+<p>Until today all MOOdalBoxes i used were triggered by simply clicking a link on a page. But today i needed to load a MOOdalBox window on page load. The screen represented some sort of QuickStart menu. Which can be disabled. I had no idea how to trigger the MOOdalBox from javascript. But once i read through the source. It became clear that it should be as easy as calling:</p>
+
+<pre><code>MOOdalBox.open(url, title, sizes);
+</code></pre>
+
+<p>This kept giving me the following error:</p>
+
+<p>this.overlay is undefined</p>
+
+<p>Looking through the MOOdalBox source. I noticed the this.overlay property was set inside the init() method. So let&#8217;s try that before we call the open() method.</p>
+
+<pre><code>MOOdalBox.init();
+MOOdalBox.open(url, title, sizes);
+</code></pre>
+
+<p>This actually worked. I was pretty happy with the result. untill i opened IE 7 to test the same page. Nothing happened. No error&#8217;s and no MOOdalBox. Let&#8217;s try something else. Whenever i need to load something on page load in IE i use the window.onload method.</p>
+
+<pre><code>window.onload = function()
+    MOOdalBox.init();
+    MOOdalBox.open(url, title, sizes);
+}
+</code></pre>
+
+<p>Now the overlay was loaded. But still no MOOdalBox on top of it. I figured it had something to do with the DOM not being fully loaded. But i couldn&#8217;t really think of a solution. So of to Google. After a bit of browsing i found somebody with the same problem. And a <a href="http://forum.e-magine.ro/topic/please-help-with-ie">reply</a> from the original author of MOOdalBox. Add a domready event to make it work.</p>
+
+<pre><code>window.addEvent('domready', loadMOOdal);
+function loadMOOdal() {
+    MOOdalBox.open('Quickstart/load', '', '700 500');
+}
+</code></pre>
+
+<p>This did it. And my only goal was to make it function properly inside of IE 7. but this also fixes the same problem for IE 6. So a big thanks to Răzvan for creating MOOdalBox and for supplying the fix.</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-10-03T12:27:45+02:00" pubdate data-updated="true">Oct 3<span>rd</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

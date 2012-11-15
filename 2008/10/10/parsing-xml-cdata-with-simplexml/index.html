@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Oct 10th, 2008 Code Tweet &laquo; Load MOOdalBoxes without clicking links Still &hellip;">
+  <meta name="description" content="Parsing XML CDATA With SimpleXML I was quite amazed today. When loading a SOAP response into a SimpleXMLElement i noticed some fields were left &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,60 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Parsing XML CDATA With SimpleXML</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>I was quite amazed today. When loading a SOAP response into a SimpleXMLElement i noticed some fields were left blank. I should have checked the SOAP response first. But instead told our Delphi guy that the response was not filled correctly. This was not the case :)</p>
+
+<p>When we both saw the SOAP response was in perfect shape. We started to poke around on the PHP side. The strange thing was all tag names were taken from the response correctly. It was just the data that was missing.  Then we noticed the data missing was inside <a href="http://en.wikipedia.org/wiki/CDATA">CDATA</a> tags.</p>
+
+<p>From a first glance at the PHP manual it it wasn&#8217;t clear what was going on. So i did some googleing. And found a good <a href="http://blog.agoraproduction.com/index.php?/archives/53-Quick-Tip-PHP,-SimpleXML-and-CDATA.html">post</a> by <a href="http://blog.agoraproduction.com/">David Coallier</a>. This post solved the problem. The example showed how to add an extra <a href="http://xmlsoft.org/">LIBXML</a> options to the <a href="http://nl2.php.net/manual/en/function.simplexml-load-string.php">simplexml_load_String</a> method. Although David provided the solution. I still wanted to make post. Maybe it will help somebody.</p>
+
+<pre><code>    // parsing with CDATA tags using the *_load_string method
+    $xml = simplexml_load_string($string, 'SimpleXMLElement', LIBXML_NOCDATA);
+
+    // parsing with CDATA tags using the OO way
+    $xml = new SimpleXMLElement($string, LIBXML_NOCDATA);
+</code></pre>
+
+<p>The LIBXML options that can be passed to the *_load methods and constructor can be found in the <a href="http://nl2.php.net/manual/en/libxml.constants.php">php documentation</a>.</p>
+
+<p>It&#8217;s pretty damn weird though. I want to parse the CDATA tags inside my XML. And can only do so by providing the NOCDATA option.</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-10-10T11:19:19+02:00" pubdate data-updated="true">Oct 10<span>th</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

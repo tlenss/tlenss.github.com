@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Jun 29th, 2009 Code, PHP, Tech Tweet &laquo; Zend_Db connects to wrong mysql &hellip;">
+  <meta name="description" content="Zend Framework v1.8x Zend_Loader Replacement Last night i was trying to push a application to my staging) environment. When i noticed an error i &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,64 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Zend Framework v1.8x Zend_Loader Replacement</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>Last night i was trying to push a application to my <a href="http://en.wikipedia.org/wiki/Staging_(websites">staging</a>) environment. When i noticed an error i didn&#8217;t had on my local box.</p>
+
+<blockquote><p>Notice: Zend_Loader::Zend_Loader::registerAutoload is deprecated as of 1.8.0 and will be removed with 2.0.0; use Zend_Loader_Autoloader instead in /path/to/Zend/Loader.php on line 207</p></blockquote>
+
+<p>A quick check revealed that i had a newer version of the <a href="http://framework.zend.com/">Zend Framework</a> loaded on my staging environment. Locally i have 1.7x and on the staging environment i have 1.8x. And according to the documentation the old Zend_Loader is being deprecated in favor of <a href="http://framework.zend.com/manual/en/zend.loader.autoloader.html">Zend_Loader_Autoloader</a>.</p>
+
+<p>So in ZF projects prior to version 1.8x when enabling <a href="http://nl2.php.net/manual/en/language.oop5.autoload.php">autoloading</a> we would do something like this:</p>
+
+<pre><code>require_once 'Zend/Loader.php';
+Zend_Loader::registerAutoload();
+</code></pre>
+
+<p>With the new Zend_Loader_AutoLoader this will look something like this:</p>
+
+<pre><code>require_once 'Zend/Loader/Autoloader.php';
+$loader = Zend_Loader_Autoloader::getInstance();
+$loader-&gt;registerNamespace('Namespace_');
+</code></pre>
+
+<p>Notice the call to &#8216;registerNamespace&#8217;. This is where you set the namespacing for the classes or application libraries. By default the AutoLoader picks up Zend<em> and ZendX</em> namespacing. And we can extend this to use our own classes and libraries.</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-06-29T11:39:14+02:00" pubdate data-updated="true">Jun 29<span>th</span>, 2009</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

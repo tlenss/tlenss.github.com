@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Jul 12th, 2011 Code, Tech Tweet &laquo; Reserved keywords, corrupt cache and &hellip;">
+  <meta name="description" content="Memcached Telnet Interface Commands I was looking for the list of Memcached telnet commands. And couldn&#8217;t find much in the docs. So after some &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,159 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Memcached Telnet Interface Commands</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p><del>I was looking for the list of <a href="http://memcached.org/">Memcached</a> telnet commands. And couldn&#8217;t find much in the docs. So after some Google searching i finally found the list. And will keep it here for future reference.</del></p>
+
+<p>So i did a bit of reading while working on a memcache tool in PHP. I found some good <a href="https://github.com/memcached/memcached/blob/master/doc/protocol.txt">documentation</a> on the <a href="http://memcached.org/">memcached.org</a> website.</p>
+
+<p>Command
+Description
+Example</p>
+
+<p>get</p>
+
+<p>Reads a value</p>
+
+<p>get mykey</p>
+
+<p>set</p>
+
+<p>Set a key unconditionally</p>
+
+<p>set mykey 0 60 5</p>
+
+<p>add</p>
+
+<p>Add a new key</p>
+
+<p>add newkey 0 60 5</p>
+
+<p>replace</p>
+
+<p>Overwrite existing key</p>
+
+<p>replace key 0 60 5</p>
+
+<p>append</p>
+
+<p>Append data to existing key</p>
+
+<p>append key 0 60 15</p>
+
+<p>prepend</p>
+
+<p>Prepend data to existing key</p>
+
+<p>prepend key 0 60 15</p>
+
+<p>incr</p>
+
+<p>Increments numerical key value by given number</p>
+
+<p>incr mykey 2</p>
+
+<p>decr</p>
+
+<p>Decrements numerical key value by given number</p>
+
+<p>decr mykey 5</p>
+
+<p>delete</p>
+
+<p>Deletes an existing key</p>
+
+<p>delete mykey</p>
+
+<p>flush_all</p>
+
+<p>Invalidate specific items immediately</p>
+
+<p>flush_all</p>
+
+<p>Invalidate all items in n seconds</p>
+
+<p>flush_all 900</p>
+
+<p>stats</p>
+
+<p>Prints general statistics</p>
+
+<p>stats</p>
+
+<p>Prints memory statistics</p>
+
+<p>stats slabs</p>
+
+<p>Prints memory statistics</p>
+
+<p>stats malloc</p>
+
+<p>Print higher level allocation statistics</p>
+
+<p>stats items</p>
+
+<p>stats detail</p>
+
+<p>stats sizes</p>
+
+<p>Resets statistics</p>
+
+<p>stats reset</p>
+
+<p>version</p>
+
+<p>Prints server version.</p>
+
+<p>version</p>
+
+<p>verbosity</p>
+
+<p>Increases log level</p>
+
+<p>verbosity</p>
+
+<p>quit</p>
+
+<p>Terminate telnet session</p>
+
+<p>quit</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-12T11:02:50+02:00" pubdate data-updated="true">Jul 12<span>th</span>, 2011</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

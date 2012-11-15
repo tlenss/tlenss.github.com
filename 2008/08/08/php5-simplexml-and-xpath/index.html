@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Aug 8th, 2008 Code Tweet &laquo; Goodbye PHP 4 Dutch PHP testFest results &raquo &hellip;">
+  <meta name="description" content="PHP5 SimpleXML and Xpath Yesterday when working with some rather large XML files i noticed. That it&#8217;s not possible to do ->xpath() calls on &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,84 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">PHP5 SimpleXML and Xpath</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>Yesterday when working with some rather large XML files i noticed. That it&#8217;s not possible to do ->xpath() calls on sub nodes of a SimpleXMLElement. If that&#8217;s not clear. Here is a small example.</p>
+
+<pre><code>$xmlStr = '&lt;root&gt;
+    &lt;fareOption&gt;
+        &lt;fare&gt;
+            &lt;flight&gt;&lt;/flight&gt;
+            &lt;flight&gt;&lt;/flight&gt;
+            &lt;flight&gt;&lt;/flight&gt;
+        &lt;/fare&gt;
+    &lt;/fareOption&gt;
+    &lt;fareOption&gt;
+        &lt;fare&gt;
+            &lt;flight&gt;&lt;/flight&gt;
+            &lt;flight&gt;&lt;/flight&gt;
+            &lt;flight&gt;&lt;/flight&gt;
+        &lt;/fare&gt;
+    &lt;/fareOption&gt;
+&lt;/root&gt;';
+
+$objXML = simplexml_load_string($xmlStr);
+$fareList = $objXML-&gt;xpath('//fareOption');
+
+foreach ($fareList as $fare) {
+    $flightList = $fare-&gt;xpath('//flight');
+    print_r($flightList);
+}
+</code></pre>
+
+<p>So first i try to get all the fareOption elements from the XML structure. And loop through the extracted elements. In the loop i want to do a ->xpath call on $fare which is a instance of SimpleXMLElement. The result however is not what i expected. Instead of extracting all the flights of a $fare node. It extracts all flights from the root of the document. So instead of 3 flight nodes i get 6.</p>
+
+<p>I couldn&#8217;t really find a solution for this problem. And from reading some bug reports i understand this is how the PHP implementation of xpath works at the moment. To solve this problem. There is a small work around though. Instead of running the ->xpath() call on the $fare node directly. We can create a new SimpleXMLElement from the $fare node. And do a ->xpath() call on that. This will look something like this.</p>
+
+<pre><code>foreach ($fareList as $fare) {
+    $tempList = simplexml_load_string($fare-&gt;asXML());
+    $flightList = $tempList-&gt;xpath('//flight');
+    print_r($flightList);
+}
+</code></pre>
+
+<p>This creates the expected output.</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-08-08T10:55:27+02:00" pubdate data-updated="true">Aug 8<span>th</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

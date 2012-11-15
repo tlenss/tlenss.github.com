@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Mar 26th, 2012 Code, PHP, Tech Tweet &laquo; Using SSH key authentication with &hellip;">
+  <meta name="description" content="PHP: Only Variables Should Be Passed by Reference Last week i got this error while doing some coding with a new library. And at first i didn&#8217;t &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,56 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">PHP: Only Variables Should Be Passed by Reference</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>Last week i got this error while doing some coding with a new library. And at first i didn&#8217;t quite get what was causing this. The line in question looked like</p>
+
+<pre><code>$url = reset($file-&gt;getPaths());
+</code></pre>
+
+<p>So how can that throw an error like &#8220;Only variables should be passed by reference&#8221; you might ask? Well as it turns out to be. PHP functions don&#8217;t like arguments returned from another function. As with this case. The ->getPaths() method holds a reference to the returned array. Which it shouldn&#8217;t but that&#8217;s another thing.</p>
+
+<p>So i guess from now i will doing the thing below. Or check for references beforehand!</p>
+
+<pre><code>$paths = $file-&gt;getPaths();
+$url = reset($paths);
+</code></pre>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-26T11:19:20+02:00" pubdate data-updated="true">Mar 26<span>th</span>, 2012</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

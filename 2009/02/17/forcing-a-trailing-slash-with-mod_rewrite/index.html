@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Feb 17th, 2009 Code, Tech Tweet &laquo; New INI's for PHP 301 Redirect losing &hellip;">
+  <meta name="description" content="Forcing a Trailing Slash With Mod_rewrite I&#8217;m doing some SEO optimization for a couple of websites. And one of the small steps is to force a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,62 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Forcing a Trailing Slash With Mod_rewrite</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>I&#8217;m doing some <a href="http://en.wikipedia.org/wiki/Search_engine_optimization">SEO</a> optimization for a couple of websites. And one of the small steps is to force a trailing slash on all URL&#8217;s that do not point to a file on the server. The reason I&#8217;m doing this is to go around the duplicate content problem.</p>
+
+<blockquote><p>/trip/80
+/trip/80/</p></blockquote>
+
+<p>Both point to the same content. But a <a href="http://en.wikipedia.org/wiki/Web_crawler">crawler</a> would see this as two different URL&#8217;s. Which off course is correct. But this can lead to duplicate content being indexed in search engines. Which could result in penalties for the site in question. So to fix this problem we add three simple lines to the main .htaccess file</p>
+
+<blockquote><h1>If a requested file does not exists</h1>
+
+<p>RewriteCond %{REQUEST_FILENAME} !-f</p></blockquote>
+
+<h1>If a requested directory does not exist</h1>
+
+<p>RewriteCond %{REQUEST_FILENAME} !-d</p>
+
+<h1>Force a trailing slash to the request</h1>
+
+<p>RewriteRule [<sup>/]$</sup> %{REQUEST_URI}/ [R=301,L]</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-02-17T08:29:37+01:00" pubdate data-updated="true">Feb 17<span>th</span>, 2009</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Nov 14th, 2010 /home, Tech Tweet &laquo; Google mod_pagespeed continued Moving &hellip;">
+  <meta name="description" content="NSD Unknown Key/algorithm As i was trying to get ready to convert my SVN repository into a GIT repository. I noticed one of my DNS slave servers &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,64 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">NSD Unknown Key/algorithm</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>As i was trying to get ready to convert my SVN repository into a GIT repository. I noticed one of my DNS slave servers wasn&#8217;t responding. A look at the log files showed something was wrong.</p>
+
+<p>The master server showed:</p>
+
+<blockquote><p>[1289693117] nsd[6899]: error: query tsig unknown key/algorithm</p></blockquote>
+
+<p>While the slave displayed the following message</p>
+
+<blockquote><p>[883615032] nsd[6624]: error: xfrd: zone [ domain ] received error code REFUSED from [ ip address ]</p></blockquote>
+
+<p>After an hour of searching Google and not hitting any useful result. I rebooted the machine. And was presented by forced hard disk check. The damn thing seemed to be out of sync. And when rebooted. The date was off by a few centuries.</p>
+
+<p>So after resetting the date and restarting <a href="http://www.nlnetlabs.nl/projects/nsd/">NSD</a>. The problem was resolved.</p>
+
+<blockquote><p>$ date -s &#8216;14 NOV 2010 01:37:00&#8217;
+$ /usr/sbin/nsdc update > /dev/nul 2>%1
+$ /usr/sbin/nsdc patch > /dev/nul 2>%1
+$ /usr/sbin/nsdc rebuild > /dev/nul 2>%1
+$ /usr/sbin/nsdc reload > /dev/nul 2>%1
+$ /usr/sbin/nsdc notify > /dev/nul 2>%1</p></blockquote>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-11-14T02:38:11+01:00" pubdate data-updated="true">Nov 14<span>th</span>, 2010</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

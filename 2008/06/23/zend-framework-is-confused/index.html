@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Jun 23rd, 2008 Code Tweet &laquo; Multiple versions of Internet Explorer on one &hellip;">
+  <meta name="description" content="Zend Framework Is Confused I decided to give the Zend Framework a try. The first attempt to create a simple SOAP based login. In the first few hours &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,67 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Zend Framework Is Confused</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>I decided to give the <a href="http://framework.zend.com/">Zend Framework</a> a try. The first attempt to create a simple SOAP based login.</p>
+
+<p>In the first few hours i had absolutely now problems building my small application. But for some strange reason after a few hours ZF started to throw error&#8217;s. Mainly for files it was trying to include. These files were in the correct location. Nothing changed. The include path was still set correctly. I found a few bug reports with similar problems. Although there were some solutions. I was not satisfied with them. And had the feeling the problems were caused by something else.</p>
+
+<p>So after i read threw all code. I notice a few lines i copied from <a href="http://www.calevans.com/">Cal Evans</a> <a href="http://phparch.com/c/books/id/9780973862157">book</a>. These lines mainly set the include_path for the current application. And it looked something like this:</p>
+
+<pre><code>$lib_paths = array();
+$lib_paths[] = "/path/to/application";
+$lib_paths[] = "/path/to/library";
+$inc_path = implode(PATH_SEPARATOR, $lib_paths);
+set_include_path($inc_path);
+</code></pre>
+
+<p>I noticed the application directory was added first. So this is also the first part where PHP starts looking for it&#8217;s include files. So i decided to switch them. So the code looks like this now:</p>
+
+<pre><code>$lib_paths = array();
+$lib_paths[] = "/path/to/library";
+$lib_paths[] = "/path/to/application";
+$inc_path = implode(PATH_SEPARATOR, $lib_paths);
+set_include_path($inc_path);
+</code></pre>
+
+<p>After this change the problem seems to have been resolved. I still would like to figure out why ZF has problems with finding it&#8217;s own include files. Maybe it&#8217;s a combination of the wrong include order and the .htaccess file not working well together.</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-06-23T12:46:41+02:00" pubdate data-updated="true">Jun 23<span>rd</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       

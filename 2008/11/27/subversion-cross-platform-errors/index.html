@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Liquid syntax error: Unknown tag 'endif' Posted by Thijs Lensselink Nov 27th, 2008 Tech Tweet &laquo; Making permanent changes to resolv.conf under &hellip;">
+  <meta name="description" content="Subversion Cross Platform Errors Yesterday my colleague was complaining he couldn&#8217;t do a normal check out of one of the projects in Subversion &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,58 @@
 	<div class="inner">
         <div>
 <article class="hentry" role="article">
-  Liquid syntax error: Unknown tag 'endif'
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title">Subversion Cross Platform Errors</h1>
+		
+		</header>
+	</header>
+
+	
+	<div class="articletext"><p>Yesterday my colleague was complaining he couldn&#8217;t do a normal check out of one of the projects in Subversion. At first i thought it was just something wrong with his local settings. Because i could do the check out just fine. Today when i was thinking about this problem. I quickly realized we are on two different platforms. He works on Windows while I&#8217;m on Linux.</p>
+
+<p>And since i had to do some Photoshop work today. I took the chance to install Subversion on my Windows partition. When i did a checkout of the failing project. I ran into the same problems as my colleague did before. Two different errors were preventing me from making a complete checkout. The first error:</p>
+
+<blockquote><p><em>svn: In directory &#8216;path/to/some/images&#8217;
+svn: Can&#8217;t copy &#8216;path/to/some/images/image.JPG.svn-base&#8217; to &#8216;path/to/some/image.JPG.tmp&#8217;: No such file or directory</em></p></blockquote>
+
+<p>Is caused by multiple files with the same name. At  least to windows it looks like this. Because image.jpg and image.JPG are two different files on Linux. On windows however these two files are one and the same. This causes Subversion to choke. After manually deleting all duplicates from the repositorie it self the problem dissapeared.</p>
+
+<p>The second error was something like:</p>
+
+<blockquote><p>svn: Working copy &#8216;/some/path/\ &#8217; is missing or not locked</p></blockquote>
+
+<p>This one was actually pretty obvious. A file name with an illigal character. I wonder how it got in the repository. The folder name causeing the problems was a folder called &#8216;\ &#8216;. Which was empty. After removing this. I could do a complete checkout again.</p>
+</div>
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-11-27T16:52:18+01:00" pubdate data-updated="true">Nov 27<span>th</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
   <footer>
     <p class="meta">
       
