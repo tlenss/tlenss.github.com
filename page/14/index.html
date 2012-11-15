@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Seems a lot of people publish their list of most used Firefox add-ons. And since i get this questions regulary. I decided to make a list of the &hellip;">
+  <meta name="description" content="Liquid syntax error: Unknown tag &#8216;endif&#8217; Liquid syntax error: Unknown tag &#8216;endif&#8217; Liquid syntax error: Unknown tag &#8216; &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -21,6 +21,8 @@
   <link rel="canonical" href="http://tlenss.github.com/page/14/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/style.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/libs/jquery-1.8.1.js"></script>
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
@@ -43,628 +45,69 @@
   </script>
 
 
+  <script type="text/javascript">
+	$(document).ready(function() {
+		$('#logo').click(function() {
+			window.location = '/';
+		});
+	});
+  </script>
 </head>
 
 <body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">Thijs Lensselink's Blog</a></h1>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="http://feeds.feedburner.com/ThijsLensselinksBlog" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:tlenss.github.com" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
+<div id="content">
+	<div class="inner">
+        <div class="blog-index">
   
   
   
     <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2008/06/30/firefox-add-ons/">Firefox Add-ons</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-06-30T10:24:27+02:00" pubdate data-updated="true">Jun 30<span>th</span>, 2008</time>
-        
-         | <a href="/2008/06/30/firefox-add-ons/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Seems a lot of people publish their list of most used Firefox add-ons. And since i get this questions regulary. I decided to make a list of the firefox add-ons i mostly use. Although some don&#8217;t have firefox 3 support yet. These tools have made life as a developer easier. And in some cases speed things up :)</p>
-
-<p><a href="https://addons.mozilla.org/en-US/firefox/addon/1843">Firebug</a></p>
-
-<p>This is one of those tools that are indispensable in every web developers toolkit. It&#8217;s a great tool for debugging interfaces. You can actively step through the DOM elements. It also allows for dynamically updating the CSS and HTML. But one of the greatest features for me is the displaying of asynchronous JavaScript calls. This makes debugging Ajax applications a lot easier.</p>
-
-<p><a href="https://addons.mozilla.org/en-US/firefox/addon/6149">FirePHP</a></p>
-
-<p>This tool integrates nicely with firebug. It makes it possible to show PHP debug information on the firebug console. So the debug data doesn&#8217;t interfere with the page your working on. I have to admit. I don&#8217;t use it very often. But it&#8217;s still a great tool.</p>
-
-<p><a href="https://addons.mozilla.org/en-US/firefox/addon/748">Greasemonkey</a></p>
-
-<p>An extremely power full tool. That let&#8217;s you add scripts to automate tasks. Or to trigger certain attack vector&#8217;s :)</p>
-
-<p><a href="https://addons.mozilla.org/en-US/firefox/addon/722">NoScript</a></p>
-
-<p>If you&#8217;re scared of malicious JavaScript or just want to block those annoying ads. Then this is a great tool.</p>
-
-<p><a href="https://addons.mozilla.org/en-US/firefox/addon/5369">YSlow</a></p>
-
-<p>Amazing tool from Yahoo. it let&#8217;s you analyze the page load process. It&#8217;s great to
-track down problems with slow loading pages. Or just a tool to help with optimization.</p>
-
-<p><a href="https://addons.mozilla.org/en-US/firefox/addon/1100">Event Spy</a></p>
-
-<p>A nice tool to track DOM events.</p>
-
-<p><a href="https://addons.mozilla.org/en-US/firefox/addon/4276">Header Spy</a></p>
-
-<p>Want to know what the web server actually sends back? A great tool for analyzing web traffic.</p>
-
-<p><a href="https://addons.mozilla.org/en-US/firefox/addon/3829">Live HTTP Headers</a></p>
-
-<p>Watch HTTP headers send between your browser and the web server.</p>
-
-<p><a href="https://addons.mozilla.org/en-US/firefox/addon/539">Measurit</a></p>
-
-<p>A virtual ruler to use inside your browser. It&#8217;s always good to be able to visually measure something</p>
-
-<p><a href="https://addons.mozilla.org/en-US/firefox/addon/967">Modify Headers</a></p>
-
-<p>Gives the ability to change HTTP headers</p>
-
-<p><a href="https://addons.mozilla.org/en-US/firefox/addon/966">Tamper data</a></p>
-
-<p>A nice tool for editing headers and post data. Great security tool for testing webapplications.</p>
-
-<p><a href="https://addons.mozilla.org/en-US/firefox/addon/4665">Technika</a></p>
-
-<p>This is an awsome tool from the <a href="http://www.gnucitizen.org/">GNUcitizen</a> project. It adds an active scripting envirement to the browsers. In which it is possible to script almost everything. From the current page to the browser chrome. This add-on acts as the base for other tools. For more information head over the <a href="http://www.gnucitizen.org/">GNUcitizen</a>.
-<a href="http://www.zend.com/en/downloads/"></a></p>
-
-<p><a href="http://www.zend.com/en/downloads/">Zend Studio Toolbar</a></p>
-
-<p>The toolbar that comes with Zend Studio or Zend Studio for Eclipse. It add some PHP IDE features to the browser. Like debugging and profiling. Just a shame that it&#8217;s a toolbar and not some status bar icon. The toolbar takes up a lot of space.</p>
-
-<p><a href="https://addons.mozilla.org/en-US/firefox/addon/770">LeetKey</a></p>
-
-<p>This tool adds some text transformation features to the right click menu. When enabled it&#8217;s possible to transform / encrypt text with the following encoding / encryption (L337, ROT13, BASE64, HEX, URL, BIN, DES, AES, Morse code)</p>
-
-<p><a href="https://addons.mozilla.org/en-US/firefox/addon/5235">Unicode Input Tool / Converter</a></p>
-
-<p>Conver hexidecimal || decimal entities or characters to unicode.</p>
-</div>
-  
-  
-
-
+      Liquid syntax error: Unknown tag &#8216;endif&#8217;
     </article>
   
   
     <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2008/06/23/zend-framework-is-confused/">Zend Framework Is Confused</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-06-23T12:46:41+02:00" pubdate data-updated="true">Jun 23<span>rd</span>, 2008</time>
-        
-         | <a href="/2008/06/23/zend-framework-is-confused/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I decided to give the <a href="http://framework.zend.com/">Zend Framework</a> a try. The first attempt to create a simple SOAP based login.</p>
-
-<p>In the first few hours i had absolutely now problems building my small application. But for some strange reason after a few hours ZF started to throw error&#8217;s. Mainly for files it was trying to include. These files were in the correct location. Nothing changed. The include path was still set correctly. I found a few bug reports with similar problems. Although there were some solutions. I was not satisfied with them. And had the feeling the problems were caused by something else.</p>
-
-<p>So after i read threw all code. I notice a few lines i copied from <a href="http://www.calevans.com/">Cal Evans</a> <a href="http://phparch.com/c/books/id/9780973862157">book</a>. These lines mainly set the include_path for the current application. And it looked something like this:</p>
-
-<pre><code>$lib_paths = array();
-$lib_paths[] = "/path/to/application";
-$lib_paths[] = "/path/to/library";
-$inc_path = implode(PATH_SEPARATOR, $lib_paths);
-set_include_path($inc_path);
-</code></pre>
-
-<p>I noticed the application directory was added first. So this is also the first part where PHP starts looking for it&#8217;s include files. So i decided to switch them. So the code looks like this now:</p>
-
-<pre><code>$lib_paths = array();
-$lib_paths[] = "/path/to/library";
-$lib_paths[] = "/path/to/application";
-$inc_path = implode(PATH_SEPARATOR, $lib_paths);
-set_include_path($inc_path);
-</code></pre>
-
-<p>After this change the problem seems to have been resolved. I still would like to figure out why ZF has problems with finding it&#8217;s own include files. Maybe it&#8217;s a combination of the wrong include order and the .htaccess file not working well together.</p>
-</div>
-  
-  
-
-
+      Liquid syntax error: Unknown tag &#8216;endif&#8217;
     </article>
   
   
     <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2008/06/23/multiple-versions-of-internet-explorer-on-one-machine/">Multiple Versions of Internet Explorer on One Machine</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-06-23T07:54:52+02:00" pubdate data-updated="true">Jun 23<span>rd</span>, 2008</time>
-        
-         | <a href="/2008/06/23/multiple-versions-of-internet-explorer-on-one-machine/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>When designing pages for multiple browsers. It&#8217;s pretty much a pain in the ass to get things looking similar cross all browsers. There are many Javascript libraries to help and ease the pain. But it doesn&#8217;t solve all. And hoping people will stop using IE 6 also doesn&#8217;t really help. So we are stuck in getting things work in all those quirky browsers. So a developer / designer probably has multiple browsers installed. On my dev box i only use Firefox.</p>
-
-<p>But when i have to build a design. I need to check al those browsers. So i have Firefox, Opera and Internet Explorer installed. The problem with internet explorer is that you can&#8217;t run multiple versions on the same machine. Well at least not without a long hacking session. To solve this problem most of the time i used something like Virtual Machine or Virtual Desktop. The problem is that applications like that eat memory. And there is always the minor annoyances with losing focus on my <a href="http://www.zend.com/en/products/studio/">IDE</a> because the VM window is still active.</p>
-
-<p>Some time ago. My coworker Bart send a link to a tool called <a href="http://www.my-debugbar.com/wiki/IETester/HomePage">IETester</a>. This nice little (24mb) tool let&#8217;s you run multiple versions of Internet explorer on one machine. It&#8217;s possible to test pages in version 5.5 and up. even the upcomming (still in beta) version 8 is supported. At the time of writing it is still in alpha stage. But it works great. I did have some unexplainable crashes. And there are some known issue&#8217;s like:</p>
-
-<ul>
-<li><p>When resizing, the content may disappear. I am working to correct it on the next version.</p></li>
-<li><p>The Previous/Next buttons are not working properly</p></li>
-<li><p>Focus is not working properly</p></li>
-<li><p>Java applets are not working</p></li>
-<li><p>Flash is not working on IE6 instance.</p></li>
-</ul>
-
-
-<p>Besides that it does what it&#8217;s build for. A nice tool to add to your arsenal.</p>
-</div>
-  
-  
-
-
+      Liquid syntax error: Unknown tag &#8216;endif&#8217;
     </article>
   
   
     <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2008/06/20/mootools-fxslide-flicker-bug-ii/">Mootools FX.Slide Flicker Bug II</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-06-20T16:39:19+02:00" pubdate data-updated="true">Jun 20<span>th</span>, 2008</time>
-        
-         | <a href="/2008/06/20/mootools-fxslide-flicker-bug-ii/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Today i got a question from <a href="http://www.usablenet.co.uk/">Richard</a>. About the flicker bug and how to implement the fix. The problem that he had with Javascript throwing an illegal character error was because of copy pasting from this blog. I&#8217;m not sure why the single quotes get screwed up. But i will have a look at it. I also didn&#8217;t state which version of <a href="http://mootools.net/">mootools</a> i was using. It was 1.1 at the time. And i was using the full uncompressed version.</p>
-
-<p>But since then version 1.2 of <a href="http://mootools.net/">mootools</a> came out. And id didn&#8217;t really had time yet to look into it. But this version also has the same annoying bug. So i looked at the code. The <a href="http://docs.mootools.net/Plugins/Fx.Slide">FX.Slide</a> class changed a bit. And the core and  plugins are split up into separate files now. But the fix remains the same. And since i don&#8217;t really want to write a whole article about it right now. I decided to create two sets of archives. One with the fix for version 1.1 and one for version 1.2. The changes i made are explained in the previous article. But for 1.1 they are around line 4453 and 4458. For 1.2 if you only use the FX.Slide plugin it&#8217;s around line 17 and 29.</p>
-
-<p>You can download the archives here:
-<a href="http://we.designandco.de/code/mootools.1.1.slide.flickerbug.tar.gz">version 1.1</a>
-<a href="http://we.designandco.de/code/mootools.1.2.slide.flickerbug.tar.gz">version 1.2</a></p>
-</div>
-  
-  
-
-
+      Liquid syntax error: Unknown tag &#8216;endif&#8217;
     </article>
   
   
     <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2008/06/19/php-526-win32-wtf-happened-to-the-mysql-extension/">PHP 5.2.6-Win32 Unable to Load Mysql & Pgsql Extension</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-06-19T10:35:38+02:00" pubdate data-updated="true">Jun 19<span>th</span>, 2008</time>
-        
-         | <a href="/2008/06/19/php-526-win32-wtf-happened-to-the-mysql-extension/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Normally i have no problems installing PHP. So when i decided to upgrade 5.2.5 to 5.2.6 on my windows dev box. I was surprised to see that php_mysql.dll and php_pgsql.dll were not loading after a clean install. No matter what i tried. I kept getting the &#8220;PHP Startup: Unable to load dynamic library&#8221; error.</p>
-
-<p>Some years ago this problem was obvious. The problem was always solved by copying the libmysql.dll to windows/system32. But this changed. For the last year i never had to copy this file. So i couldn&#8217;t really believe this was the problem. But after trying for some hours. I gave up. Copied the libmysql.dll file to windows/system32. And voila&#8230;. the mysql extension now loads. But i still have no solution for the pgsql extension. Which i really need by the way. WTF happened here? How is it possible that two of the most used extensions do not load after a clean install?</p>
-
-<p>UPDATE*</p>
-
-<p>The postgres problem is solvable by installing the postgres server. And adding the PostgreSQL\8.3\bin to the PATH variable. Weird stuff&#8230;</p>
-</div>
-  
-  
-
-
+      Liquid syntax error: Unknown tag &#8216;endif&#8217;
     </article>
   
   
     <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2008/06/17/dutch-php-conference-2008-20/">Dutch PHP Conference 2008 :) +20%</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-06-17T10:41:38+02:00" pubdate data-updated="true">Jun 17<span>th</span>, 2008</time>
-        
-         | <a href="/2008/06/17/dutch-php-conference-2008-20/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I wanted to finish this post last weekend, But i was feelings so bad (flew). I haven&#8217;t really been near my computer untill now. So here goes. Last Saturday me, Bart and Robbert headed over to the second edition of the <a href="http://phpconference.nl/">Dutch PHP Conference</a>. After getting the name tags. We headed over to the main room. Where i scored a nice <a href="http://www.phpwomen.org/">PHPWoman</a> t&#8217; shirt for my wife :) Not much later the first keynotes started.</p>
-
-<p>The first keynote was by <a href="http://suraski.net/blog/">Zeev</a>. Which i had high hopes for. It&#8217;s a opportunity to hear one of the guys that made PHP to what it is. Give a talk. It was mainly about the history of PHP. Because nobody in the audience seemed to know about it. Or they just wanted to hear it from the master himself. I don&#8217;t know. I enjoyed the talk.</p>
-
-<p>After Zeev <a href="http://mtabini.blogspot.com/">Marco Tabini</a> hit the stage. Which was pretty funny. This guy has a way of talking. And his slides connect to that perfectly. It was amusing and interesting. Although i had some problems getting comfortable in the main room chairs. the name of the talk was &#8220;PHP and the Taste of Mayo&#8221;. And it was mainly about keeping it simple. And choosing the right tools for the job.</p>
-
-<p>After the keynotes it was time for lunch. Because i was feeling a bit sick i wasn&#8217;t really hungry. But the food was good. All kinds of sandwiches and the tasty <a href="http://nl.wikipedia.org/wiki/Saucijzenbroodje">saucijzenbroodjes</a>. Just good variety. Outside we sniffed some fresh air.. And tried to figure out to which talk we wanted to go. Since we don&#8217;t do anything with unit testing at the moment. We decided to go to <a href="http://sebastian-bergmann.de/authors/1-Sebastian-Bergmann">Sebastian Bergmann</a>&#8217;s talk about <a href="http://sebastian-bergmann.de/archives/795-New-Features-in-PHPUnit-3.3.html">PHPUnit 3.3</a>.</p>
-
-<p>Sebastian quickly skimmed through the basics of PHPUnit. How to create a test class and the use of mock objects. After that he showed some new features in PHPUnit 3.3. One of wich is based on behavior based development. It was a story based testing. With the use of method chaining phrases can be build to execute the execute scenario&#8217;s. I have to say it&#8217;s a strange way. And the code looks kinda weird. I had the feeling Sebastian was also not to happy about it. I guess he tries to keep his users happy. He dropped some words about a new project. I think it was PHP Depend. But i kinda forgot. Couldn&#8217;t find any info about it on the net. So we keep that for another time. I had the feeling Sebastian was rushing a bit. He didn&#8217;t have enough time. But it was good talk. His slides can be found <a href="http://sebastian-bergmann.de/archives/795-New-Features-in-PHPUnit-3.3.html">here</a>.</p>
-
-<p>After the first talk we took something to drink and walked around a bit. Waiting for the next talk to start. We decided to go to <a href="http://mayflower.de/">Mayflower</a> and <a href="http://www.sektioneins.de/">Sektioneins</a> security talk. Which was something different then i expected. It was not as technical as i had hoped. But it touched some nice topics. I had hoped <a href="http://www.hardened-php.net/index.24.html">Stefan Esser</a> would be there also. But Johann-Peter Hartmann did a great job. The talk was mainly was about Risk assessment. How to identify risk points in your application flow. And how to anticipate to those points. The talk also showed some malicious web trends. Some nice graphs that hacking web applications is not for fun anymore.</p>
-
-<p>When the second talk was over we went outside. i was feeling pretty bad. Seems every time when there&#8217;s a conference i come down with the flew. Was thinking about going home. But decided i didn&#8217;t want to miss the last two talks. So we headed back to the main room. After getting a nice cold coke. We picked some nice seats and waited for <a href="http://www.priebsch.de/">Stefan Priebsch</a> to begin his talk about PHP 5.3 and PHP 6. This was one of the best talks i think. it was pretty interesting to hear about some new features. Although i knew about most. There was a bit of e discussion about namespaces. Some guy in the audience was screaming for attention. Although he made some points. I had the feeling i was sitting near a real life troll :) Anyway Stefan&#8217;s talk was good. A bit of irony about the up coming PHP 6 with Unicode support. And some new features in PHP5.3 like, Garbage Collection, SPL, Late static binding which was very interesting. With some nice examples. I ended with a small plug for his new book. Which you can buy over at <a href="http://www.phparch.com/">PHP|Architect</a>. The slides for his talk can be found <a href="http://www.slideshare.net/spriebsch/php-53-and-php-6-a-look-ahead-dpc-2008-amsterdam/">here</a>.</p>
-
-<p>The final talk was given by <a href="http://terrychay.com/">Terry chay</a> (the PHP terrorist). I looked forward to this talk. I heard and read a lot about his way of presenting in front of a crowd. And i can tell you. This guy rocks. The talk was of course not without some <a href="http://www.rubyonrails.org/">Ruby on Rails</a> bashing. I had to say this was one hell of an inspiring talk. The talk was titled The Internet is an Ogre: Finding Art in the internet Architecture. His talk was about what he called the four s&#8217;s (Stability, Scalability, Speed, and Security). How to build an application the right way. From the bottom up. I didn&#8217;t find any slides to the talk yet. They will probably pop up somewhere.</p>
-
-<p>After the last talk ended. All speakers got on stage and received some goodies and a big applause from the audience. The conference was over. And because i wasn&#8217;t feeling to well. I went home immediately. Overall i think it was a great day. I learned some new thing. Witch for me is the main thing about conferences. On our way out we picked up a goody bag. Which had a very nice t&#8217; shirt. And some promotion materials. Thanks to all the people who made this happen. And hope till next year</p>
-
-<p>By now some pictures are apearring on <a href="http://www.flickr.com/photos/tags/dpc08">flickr</a>.</p>
-</div>
-  
-  
-
-
+      Liquid syntax error: Unknown tag &#8216;endif&#8217;
     </article>
   
   
     <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2008/06/13/php-testfest-pays-off/">PHP testFest Pays Off.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-06-13T05:35:50+02:00" pubdate data-updated="true">Jun 13<span>th</span>, 2008</time>
-        
-         | <a href="/2008/06/13/php-testfest-pays-off/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>It&#8217; s been some time ago already. But on May the 10th. I joined some other Dutch PHP Developers in the PHP <a href="http://testfest.php.net/">TestFest</a> in Roosendaal. It was a small group. But it&#8217;s always good to meet fellow developers. I wasn&#8217;t at my best that day. With a big party the day before. But never the less i made it to the testfest. And was half a sleep all day. Still one of my test made it into 5_3. No biggie. Just cool! And looking at the list of added tests. A lot of developers around the world did a great job. A thanks to <a href="http://www.phpgg.nl/blog">phpgg.nl</a> and <a href="http://www.sebastian-bergmann.de/">Sebastian Bergmann</a></p>
-
-<p><a href="http://cvs.php.net/viewvc.cgi/php-src/ext/reflection/tests/reflectionExtension_getClasses_basic.phpt?r1=1.1&amp;r2=1.2&amp;diff_format=u">CVS commit</a></p>
-</div>
-  
-  
-
-
+      Liquid syntax error: Unknown tag &#8216;endif&#8217;
     </article>
   
   
     <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2008/06/12/dutch-php-conference/">Dutch PHP Conference</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-06-12T11:47:29+02:00" pubdate data-updated="true">Jun 12<span>th</span>, 2008</time>
-        
-         | <a href="/2008/06/12/dutch-php-conference/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>In only two days it&#8217;s time for the Dutch <a href="http://php.net/">PHP</a> Conference. The second edition as far as i remember. Last year i also had the intention to go. And the ticket was ready. But two days before the conference i got sick. And stayed in bed for over a week. So this year i have a second chance. Looking at the list of speakers it&#8217;s gonna be a great day. With a lot of information to chew on for a while. For those who didn&#8217;t buy a ticket yet. At the time of writing there are still some <a href="http://phpconference.nl/register/">tickets</a> left. A big thanks to <a href="http://www.ibuildings.nl/">Ibuildings</a> for making this happen.</p>
-
-<p><a href="http://phpconference.nl/"><img src="http://phpconference.nl/img/dpc08/logoDPC08_small.png" alt="" /></a></p>
-</div>
-  
-  
-
-
+      Liquid syntax error: Unknown tag &#8216;endif&#8217;
     </article>
   
   
     <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2008/06/10/mootools-fxslide-flicker-bug/">Mootools FX.Slide Flicker Bug</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-06-10T10:43:19+02:00" pubdate data-updated="true">Jun 10<span>th</span>, 2008</time>
-        
-         | <a href="/2008/06/10/mootools-fxslide-flicker-bug/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>When my coworker decided to use <a href="http://mootools.net/">mootools</a> for a project we are working on. I decided to give it a try also.</p>
-
-<p>I decided to use the <a href="http://docs.mootools.net/Plugins/Fx.Slide">FX.Slide</a> effect on some tab based boxes. This was pretty straight forward. The mootools library is pretty easy in usage. And the documentation is darn good. Bellow i will show how to add the most basic FX.Slide effect. This is directly copied from the mootools <a href="http://docs.mootools.net/">manual</a>.</p>
-
-<p>To create the sliding effect all you need is the following lines of javascript.</p>
-
-<pre><code>window.addEvent('domready', function() {
-
-    // create an instance of the FX.Slide object
-    var mySlide = new Fx.Slide('test');
-
-    // Attach the click event to the wrapper div
-    $('toggle').addEvent('click', function(e) {
-        e = new Event(e);
-    mySlide.toggle();
-    e.stop();
-    });
-});
-</code></pre>
-
-<p>And of course some HTML to represent the sliding elements.</p>
-
-<pre><code>&lt;h3 class="section"&gt;Fx.Slide Vertical&lt;/h3&gt;
-
-&lt;a id="toggle" href="#"&gt;toggle&lt;/a&gt;
-&lt;div id="test"&gt;
-foo
-&lt;/div&gt;
-</code></pre>
-
-<p>And some CSS to cover it all in a nice sauce.</p>
-
-<pre><code>#test {
-    background: #222;
-    color: #fff;
-    padding: 10px;
-    margin: 20px;
-    border: 10px solid pink;
-}
-</code></pre>
-
-<p>So this looks great. It functions well. And the sliding is very smooth. There is one small problem though. When the wrapper contains an element with a style attribute overflow set to &#8220;auto&#8221;. The sliding will cause a flicker effect on the page. This is probably caused by rescaling the wrapper. Witch in it&#8217;s turn rescales the element with attribute overflow set to auto.</p>
-
-<p>I didn&#8217;t really try to figure out why this happens. Maybe that&#8217;s a later project. But i did come up with a small fix. When a slide object is created. FX.Slide wraps a div around the container that will slide in and out. This wrapper has the attribute overflow set to hidden. I couldn&#8217;t figure out why overflow is set to hidden on this wrapper. So i added the ability to set it through the options object. When overflow is set to auto the flicker bug disappears. To add this feature we need to add some small changes to the FX.Slide class.</p>
-
-<pre><code>options: {
-    mode: 'vertical'
-},
-</code></pre>
-
-<p>First we change the code above to reflect the code below:</p>
-
-<pre><code>options: {
-    mode: 'vertical',
-    overflow: 'hidden'
-},
-</code></pre>
-
-<p>Then on the third line of the initialize function we change:</p>
-
-<pre><code>this.wrapper = new Element('div', {'styles': $extend(this.element.getStyles('margin'), {'overflow': "hidden"})}).injectAfter(this.element).adopt(this.element);
-</code></pre>
-
-<p>To:</p>
-
-<pre><code>this.wrapper = new Element('div', {'styles': $extend(this.element.getStyles('margin'), {'overflow': this.options.overflow})}).injectAfter(this.element).adopt(this.element);
-</code></pre>
-
-<p>When all this is done and we want to create a FX.Slide object without the flicker bug. We add the options parameter. The constructor will make sure the right value is used.</p>
-
-<pre><code>var mySlide2 = new Fx.Slide('test', {overflow: 'auto'});
-
-$('toggle').addEvent('click', function(e){
-    e = new Event(e);
-    mySlide2.toggle();
-    e.stop();
-});
-</code></pre>
-</div>
-  
-  
-
-
+      Liquid syntax error: Unknown tag &#8216;endif&#8217;
     </article>
   
   
     <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2008/06/05/hide-project-files-from-svn-in-zend-studio-for-eclipse/">Hide .project Files From SVN in Zend Studio for Eclipse</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-06-05T11:42:54+02:00" pubdate data-updated="true">Jun 5<span>th</span>, 2008</time>
-        
-         | <a href="/2008/06/05/hide-project-files-from-svn-in-zend-studio-for-eclipse/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I&#8217;ve been using <a href="http://www.zend.com/en/products/studio/">Zend Studio for Eclipse</a> (ZendNeon) ever since it came out. I just love this IDE. The fact that i have all tools at my finger tips without needing to switch between applications is just great. Specially when using SVN. But one thing was bothering me. Every time i started a new project. I had to add the svn:ignore for the .project file. There is really no reason to store this in SVN.</p>
-
-<p>Untill yesterday i just added the svn:ignore tag to every project i start. But my eye fell on <a href="http://tech.groups.yahoo.com/group/ZendNeonGroup/message/3058">this</a> post in the yahoo group for ZendNeon. It&#8217;s an old post. But yesterday some guy <a href="http://tech.groups.yahoo.com/group/ZendNeonGroup/message/3093">posted</a> a better way of settings this globally.</p>
-
-<p>So to exclude the .profile file from being committed to SVN do the following:</p>
-
-<p>Window > Preferences > Team > Ignored Resources and click the Add Pattern button.</p>
-</div>
-  
-  
-
-
+      Liquid syntax error: Unknown tag &#8216;endif&#8217;
     </article>
   
   <div class="pagination">
@@ -677,59 +120,88 @@ $('toggle').addEvent('click', function(e){
     
   </div>
 </div>
-<aside class="sidebar">
+
+	</div>
+</div>
+
+<div id="sidebar">
+
+	<div id="logo" class="sidebox">
+		<div id="logo-main">lenss<span class="nl">nl</span></div>
+		<div id="logo-sub"><span class="nl">Thijs Lensselink's blog</span></div>
+	</div>
+
+	<div class="sidebox">
+		<a href="http://www.facebook.com/thijs.lensselink#!/" class="social facebook"></a>
+		<a href="https://plus.google.com/117496548747841671883" class="social google"></a>
+		<a href="http://twitter.com/tlenss" class="social twitter"></a>
+		<a href="http://feeds.feedburner.com/ThijsLensselinksBlog" class="social rss"></a>
+		<div style="clear:both;"></div>
+	</div>
+
+    <div class="sidebox">
+		<h1>Me</h1>
+		<div class="me">
+			<a href="http://www.zend.com/store/education/certification/yellow-pages.php#show-ClientCandidateID=ZEND006598"><img src="http://lenss.nl/wp-content/php5-zce-logo-new.gif" height="58" /></a>
+			<a href="http://stackoverflow.com/users/476697/tlenss">
+				<img src="http://stackoverflow.com/users/flair/476697.png?theme=dark" width="208" height="58" alt="profile for tlenss at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for tlenss at Stack Overflow, Q&amp;A for professional and enthusiast programmers">
+			</a>
+			<a href="https://coderwall.com/tlenss"><img alt="Endorse tlenss on Coderwall" src="http://api.coderwall.com/tlenss/endorsecount.png" /></a>
+			<div class="gpg">
+				Key ID : <a href="http://lenss.nl/6AD79CEF.asc">0x6AD79CEF</a><br/>
+				FP : FB53 B9D6 D7F1 9A16 1456 4DB3 3D35 402F 6AD7 9CEF
+			</div>
+		</div>
+	</div>
+
+	<div class="sidebox ad">
+		<script type="text/javascript"><!--
+		google_ad_client = "ca-pub-0921745317573569";
+		/* nlblue_side */
+		google_ad_slot = "7706621160";
+		google_ad_width = 300;
+		google_ad_height = 250;
+		//-->
+		</script>
+		<script type="text/javascript"
+		src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+		</script>
+	</div>
+
   
     <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/2012/11/07/publish-google-reader-shared-items/">Publish Google Reader shared items</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/10/29/long-running-php-script-and-mysql-server-gone-away/">Long running PHP script and MySQL server gone away</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/10/25/git-rebase-on-pull-by-default/">Git: Rebase on pull by default</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/">Workaround Ubuntu 12.04 mysterious system freezes</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/09/24/fixing-character-replacement-in-wordpress/">Fixing character replacement in Wordpress</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/09/24/resize-a-vagrant-vmdk-drive/">Resize a Vagrant VMDK drive</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/09/12/git-coming-up-with-a-good-workflow/">GIT:  Coming up with a good workflow</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/09/02/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/">Workaround for running WoW with patch 5.0.4 on Ubuntu</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/08/27/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/">Setup a basic PHP development environment with Vagrant and chef-solo</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/05/26/adding-colors-to-php-cli-script-output/">Adding colors to PHP CLI script output</a>
-      </li>
-    
-  </ul>
+  <div class="sidebox">
+	<h1>Recent entries</h1>
+	<ul class="linklist">
+		
+		<li><a href="/2012/11/07/publish-google-reader-shared-items/"><span class="higlight">2012-11-07 15:55:26 +0100</span> Publish Google Reader shared items</a></li>
+		
+		<li><a href="/2012/10/29/long-running-php-script-and-mysql-server-gone-away/"><span class="higlight">2012-10-29 14:39:26 +0100</span> Long running PHP script and MySQL server gone away</a></li>
+		
+		<li><a href="/2012/10/25/git-rebase-on-pull-by-default/"><span class="higlight">2012-10-25 14:20:22 +0200</span> Git: Rebase on pull by default</a></li>
+		
+		<li><a href="/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/"><span class="higlight">2012-10-12 15:43:46 +0200</span> Workaround Ubuntu 12.04 mysterious system freezes</a></li>
+		
+		<li><a href="/2012/09/24/fixing-character-replacement-in-wordpress/"><span class="higlight">2012-09-24 21:39:17 +0200</span> Fixing character replacement in Wordpress</a></li>
+		
+		<li><a href="/2012/09/24/resize-a-vagrant-vmdk-drive/"><span class="higlight">2012-09-24 14:17:00 +0200</span> Resize a Vagrant VMDK drive</a></li>
+		
+		<li><a href="/2012/09/12/git-coming-up-with-a-good-workflow/"><span class="higlight">2012-09-12 09:09:37 +0200</span> GIT:  Coming up with a good workflow</a></li>
+		
+		<li><a href="/2012/09/02/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/"><span class="higlight">2012-09-02 23:48:36 +0200</span> Workaround for running WoW with patch 5.0.4 on Ubuntu</a></li>
+		
+		<li><a href="/2012/08/27/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/"><span class="higlight">2012-08-27 00:47:05 +0200</span> Setup a basic PHP development environment with Vagrant and chef-solo</a></li>
+		
+		<li><a href="/2012/05/26/adding-colors-to-php-cli-script-output/"><span class="higlight">2012-05-26 11:14:33 +0200</span> Adding colors to PHP CLI script output</a></li>
+		
+	</ul>
+</div>
 </section>
 
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   
   <a href="https://github.com/tlenss">@tlenss</a> on GitHub
@@ -759,7 +231,7 @@ $('toggle').addEvent('click', function(e){
 <section>
   <h1>Latest Tweets</h1>
   <ul id="tweets">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   <script type="text/javascript">
     $.domReady(function(){
@@ -786,11 +258,9 @@ $('toggle').addEvent('click', function(e){
 
 
   
-</aside>
+</div>
 
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
+<footer role="contentinfo"><p>
   Copyright &copy; 2012 - Thijs Lensselink -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>

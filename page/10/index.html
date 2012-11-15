@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Last week was the big move for us. We were first located on the Brouwersgracht in Amsterdam. But it was getting to small for us. Besides we wanted to &hellip;">
+  <meta name="description" content="Liquid syntax error: Unknown tag &#8216;endif&#8217; Liquid syntax error: Unknown tag &#8216;endif&#8217; Liquid syntax error: Unknown tag &#8216; &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -21,6 +21,8 @@
   <link rel="canonical" href="http://tlenss.github.com/page/10/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/style.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/libs/jquery-1.8.1.js"></script>
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
@@ -43,698 +45,69 @@
   </script>
 
 
+  <script type="text/javascript">
+	$(document).ready(function() {
+		$('#logo').click(function() {
+			window.location = '/';
+		});
+	});
+  </script>
 </head>
 
 <body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">Thijs Lensselink's Blog</a></h1>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="http://feeds.feedburner.com/ThijsLensselinksBlog" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:tlenss.github.com" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
+<div id="content">
+	<div class="inner">
+        <div class="blog-index">
   
   
   
     <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2009/04/14/getting-used-to-the-new-office/">Getting Used to the New Office</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-04-14T17:25:01+02:00" pubdate data-updated="true">Apr 14<span>th</span>, 2009</time>
-        
-         | <a href="/2009/04/14/getting-used-to-the-new-office/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Last week was the big move for us. We were first located on the <a href="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Brouwersgracht,+Amsterdam&amp;sll=37.0625,-95.677068&amp;sspn=53.300127,114.257812&amp;ie=UTF8&amp;z=16&amp;iwloc=A">Brouwersgracht</a> in Amsterdam. But it was getting to small for us. Besides we wanted to team up with some other smart people. So we decided for a bigger office. This time on the <a href="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Herengracht+416,+Amsterdam&amp;sll=37.0625,-95.677068&amp;sspn=53.300127,114.257812&amp;ie=UTF8&amp;z=16">Herengracht</a> in some old &#8221;<a href="http://nl.wikipedia.org/wiki/Grachtenpand">grachtenpand</a>&#8221;. Right in the center of Amsterdam. What a location. And i am not even speaking of the great nostalgic looks of the office i am in right now. I will try to post some images later this week.</p>
-
-<p>It took us about a week to get ready in the new office. And not everything has it&#8217;s place yet. But that&#8217;s just a matter of time i guess. We are still waiting for a new fast Internet connection. So for the time being we are sharing a line with another office. This of course leads to some security issues. But we will manage until the new connection is delivered.</p>
-</div>
-  
-  
-
-
+      Liquid syntax error: Unknown tag &#8216;endif&#8217;
     </article>
   
   
     <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2009/03/31/disable-skype-icons-on-a-website/">Disable Skype Icons on a Website</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-03-31T16:47:16+02:00" pubdate data-updated="true">Mar 31<span>st</span>, 2009</time>
-        
-         | <a href="/2009/03/31/disable-skype-icons-on-a-website/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>My boss today showed me one of our websites. And the layout was not displayed how it should be. On my development station however there was no problem with viewing the same page. And my boss pointed me to the Skype icon on the contact page. Because he had Skype installed. And with the <a href="https://developer.skype.com/SkypeToolbars">Skype toolbar</a> for browsers enabled a small icon is inserted in pages that have data that looks like a phone number.</p>
-
-<p><a href="http://lenss.nl/images/2009/03/egypte_phone.png"><img src="http://lenss.nl/images/2009/03/egypte_phone.png" alt="egypte_phone" /></a></p>
-
-<p>And although we all like Skype here. This is not what customers should see when they have Skype installed. My boss proposed to create an image instead of a text based phone number. This should work. But i did some Googling first. And found a <a href="http://forum.skype.com/index.php?showtopic=85053">post</a> on the Skype website. There seems to be a meta tag that disabled the Skype icons from being displayed on a website. So that was an easy fix.</p>
-
-<blockquote><p><meta name="SKYPE_TOOLBAR" content ="SKYPE_TOOLBAR_PARSER_COMPATIBLE"></p></blockquote>
-
-<p>I think it&#8217;s great that the Skype people provide a way to disable the icons. But i would like to have a bit more control over this.</p>
-</div>
-  
-  
-
-
+      Liquid syntax error: Unknown tag &#8216;endif&#8217;
     </article>
   
   
     <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2009/03/31/wordpress-and-no-www-rewrite/">Wordpress and NO-WWW Rewrite</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-03-31T11:10:37+02:00" pubdate data-updated="true">Mar 31<span>st</span>, 2009</time>
-        
-         | <a href="/2009/03/31/wordpress-and-no-www-rewrite/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>On almost all of my domains i rewrite the WWW sub domain to the <a href="http://no-www.org/">no-WWW</a> version. This however went wrong on my own site. And i didn&#8217;t even notice it. My friend <a href="http://www.lexternet.nl/">Alex</a> pointed out that he couldn&#8217;t post any comment to the site anymore. So what went wrong?</p>
-
-<p>Normally i use the following lines to do the rewrite.</p>
-
-<blockquote><p>RewriteCond %{HTTP_HOST} ^www.lenss.nl$ [NC]
-RewriteRule ^(.*)$ http://lenss.nl/$1 [R=301,L]</p></blockquote>
-
-<p>My own site however still runs <a href="http://wordpress.org/">Wordpress</a> and this package comes with it&#8217;s own set of rewrite rules. And i just dropped my new lines under the Wordpress rewrite rules.</p>
-
-<blockquote><p>RewriteEngine On
-RewriteBase /
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !<sup>.*[<sup>/]$</sup></sup>
-RewriteCond %{REQUEST_URI} !<sup>.<em>//.</em>$</sup>
-RewriteRule . index.php [L]</p></blockquote>
-
-<p>The result was that the WWW sub domain got rewritten to the no-www version. But everything after the trailing slash got dismissed. So rewrites for blog posts didn&#8217;t work. And all request would land on the main index. So i did some testing and combined the two sets of rewrite rules. This seems to function properly :)</p>
-
-<blockquote><p>RewriteEngine On
-RewriteBase /
-RewriteCond %{HTTP_HOST} ^www.lenss.nl$ [NC]
-RewriteRule ^(.*)$ http://lenss.nl/$1 [R=301,L]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !<sup>.*[<sup>/]$</sup></sup>
-RewriteCond %{REQUEST_URI} !<sup>.<em>//.</em>$</sup>
-RewriteRule . index.php [L]</p></blockquote>
-
-<p>Next time i just need to check my changes more thoroughly. And thank you Alex for point that out to me.</p>
-</div>
-  
-  
-
-
+      Liquid syntax error: Unknown tag &#8216;endif&#8217;
     </article>
   
   
     <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2009/03/20/xss-vulnerability-on-dutch-bank-websites/">XSS Vulnerability on Dutch Bank Websites</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-03-20T14:06:02+01:00" pubdate data-updated="true">Mar 20<span>th</span>, 2009</time>
-        
-         | <a href="/2009/03/20/xss-vulnerability-on-dutch-bank-websites/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>My wife just send me a link to <a href="http://www.security.nl/artikel/28043/1/Hacker_vindt_lek_in_websites_Nederlandse_banken_.html">security.nl</a>. Pointing to an article about <a href="http://ha.ckers.org/xss.html">XSS</a> vulnerability in Dutch banking websites. And since i am from the Netherlands. I thought to check this out a bit.</p>
-
-<p>security.nl states that a &#8221;<a href="http://security.zarco.nl/">security researcher</a>&#8221; found XSS bugs in most of Dutch websites. With a link that seems to point to the &#8220;researchers&#8221; blog. I don&#8217;t know about you. But i personally don&#8217;t trust websites that i never seen before. Let alone &#8220;researchers&#8221; that have absolutely no credibility in the scene. However the XSS bugs are real. But is this really something to write about? Showing an alert box on a screen shot seems very lame to me. I wonder if this is even exploitable at all?</p>
-
-<p>One good point is that at least one bank responded in time and fixed the bug.</p>
-</div>
-  
-  
-
-
+      Liquid syntax error: Unknown tag &#8216;endif&#8217;
     </article>
   
   
     <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2009/03/20/checking-website-status-with-php-and-curl/">Checking Website Status With PHP and Curl</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-03-20T10:56:03+01:00" pubdate data-updated="true">Mar 20<span>th</span>, 2009</time>
-        
-         | <a href="/2009/03/20/checking-website-status-with-php-and-curl/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I have to admit this is probably not the best way to things like this. But it was fun to write the small bit of code. And it&#8217;s useful as well. For one of my sites i use a small script to check the status every 30 minutes. I&#8217;m doing this because the server the site is running on sometimes chooses to stop serving web pages. It&#8217;s a managed server so not much i can do about it.</p>
-
-<p>So to check the status of the website / web server i wrote a small class that is triggered from a CRON job that runs every 30 minutes.</p>
-
-<p>The CRON script looks like this:</p>
-
-<pre><code>require_once "/full/path/to/class/siteStatus.php";
-
-try {
-    siteStatus::check(array(
-        'sites' =&gt; array(
-            'http://siteurl1.tld',
-            'http://siteurl2.tld'
-        ),
-        'agent' =&gt; 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)',
-        'email' =&gt; 'some+email.address'
-    ));
-} catch (Exception $e) {
-    echo $e-&gt;getMessage();
-}
-</code></pre>
-
-<p>And the class that does the actual checking:</p>
-
-<pre><code>/**
- * siteStatus
- *
- * LICENSE
- *
- * This source file is subject to the new BSD license
- *
- * @package    siteStatus
- * @copyright  Copyright (c) 2009 Thijs Lensselink. (http://lenss.nl)
- * @license    http://lenss.nl/license/bsd.txt     New BSD License
- */
-
-/**
- * Class for checking the status of a website
- *
- * @package    siteStatus
- * @copyright  Copyright (c) 2009 Thijs Lensselink. (http://lenss.nl)
- * @license    http://lenss.nl/license/bsd.txt     New BSD License
- */
-Class siteStatus
-{
-    /**
-     * @var resource
-     */
-    static private $_curl;
-
-    /**
-     * @var string
-     */
-    static private $_reportEmail;
-
-    /**
-     * @var string
-     */
-    static private $_curlErrors;
-
-    /**
-     * This method loops through the lis tof sites provided by the
-     * config array. And calls self::checkSite to do the actual checking.
-     *
-     * A config array will look something like this:
-     * 
-     * array(
-     *  'sites' =&gt; array(
-     *      'http://siteurl1.tld',
-     *      'http://siteurl2.tld'
-     *  ),
-     *  'agent' =&gt; 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)',
-     *  'email' =&gt; 'report+email.tld'
-     * ); 
-     *
-     * @param  array  $config   The config array
-     * @return void
-     */
-    static public function check(array $config)
-    {
-        self::setReportAddress($config);
-        self::createCurlResource();
-
-        foreach ($config['sites'] as $site) {
-            $checkDateTime = date('Y-m-d H:i:s');
-            if (!self::checkSite($site, $config['agent'])) {
-                self::sendReport($site, $checkDateTime);
-            }
-        }
-
-        curl_close(self::$_curl);
-    }
-
-    /**
-     * Sets the address to which the report has to be emailed.
-     *
-     * @param  array  $config   The config array
-     * @return void
-     */
-    static private function setReportAddress(array $config)
-    {
-        if (!isset($config['email']) || (strlen($config['email']) &lt;= 4)) {
-            throw new Exception("No report email address is set in the config.");
-        }
-
-        self::$_reportEmail = $config['email'];
-    }
-
-    /**
-     * Try to create a curl resource.
-     *
-     * @return void
-     */
-    static private function createCurlResource()
-    {
-        self::$_curl = curl_init();
-        if (!self::$_curl) {
-            throw new Exception("Could not create a curl resource.");
-        }
-    }
-
-    /**
-     * Preform a call to the webserver. And check the status code provided by it.
-     *
-     * @param  string  $siteUrl   The site URL.
-     * @param  string  $agent     Browser agent string.
-     * @return boolean
-     */
-    static private function checkSite($siteUrl, $agent)
-    {
-        curl_setopt(self::$_curl, CURLOPT_URL,            $siteUrl);
-        curl_setopt(self::$_curl, CURLOPT_USERAGENT,      $agent);
-        curl_setopt(self::$_curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt(self::$_curl, CURLOPT_VERBOSE,        false);
-        curl_setopt(self::$_curl, CURLOPT_TIMEOUT,        5);
-
-        if (curl_exec(self::$_curl) === false) {
-            self::$_curlErrors = curl_error(self::$_curl);
-        }
-        $httpcode = curl_getinfo(self::$_curl, CURLINFO_HTTP_CODE);
-
-        if($httpcode &gt;= 200 &amp;&amp; $httpcode &lt; 300) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Send a report after checking sites is done.
-     *
-     * @param  string $site     Site URL.
-     * @param  string $dateTime DateTime the check was preformed.
-     * @return void
-     */
-    static private function sendReport($site, $dateTime)
-    {
-        $reportSubject = "Status report for {$site}\n\n";
-
-        $reportBody = "Site : {$site}\n";
-        $reportBody .= "Date : {$dateTime}\n";
-
-        if (strlen(self::$_curlErrors) &gt; 0) {
-            $reportBody .= "Errors : " . self::$_curlErrors . "\n";
-        }
-
-        mail(self::$_reportEmail, $reportSubject, $reportBody);
-    }
-}
-</code></pre>
-
-<p>Like i said this is probably not the best way of doing this. To make it more solid it&#8217;s probably better to use some sort of SMS gateway to send out reports. But for now this suits my needs. It&#8217;s runs from my local workstation. Which is on 24/7 anyway.</p>
-</div>
-  
-  
-
-
+      Liquid syntax error: Unknown tag &#8216;endif&#8217;
     </article>
   
   
     <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2009/03/18/animated-loader-on-form-submit/">Animated Loader on Form Submit</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-03-18T18:03:15+01:00" pubdate data-updated="true">Mar 18<span>th</span>, 2009</time>
-        
-         | <a href="/2009/03/18/animated-loader-on-form-submit/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>In one of our sites we load content of a third party travel organization. And some of these calls can take some time. But when the pages are loading nothing really happens to the browser state. This is confusing for the users of the website. So i decided to add some animated preloader images. Just to show the users the site is still doing stuff.</p>
-
-<p>This however confronted me with a small problem. The preloader images are supposed to show up when a form is submitted. And this is exactly what&#8217;s causing the problem. In my first attempt i created the image object when the form was submitted. On submit a JavaScript function was called. This function created the image object and displayed it.</p>
-
-<pre><code>function loader() {
-    var loaderImg = new Image();    
-        loaderImg.src = 'some/image/url/';
-}
-</code></pre>
-
-<p>This however resulted in an image displayed that had no active animation. This happens i think because the image is not fully loaded when the user hits submit on the form. So to fix this i had to load the images before the page was completely rendered.</p>
-
-<pre><code>var loaderImg = new Image();
-
-window.onload = function() {
-        loaderImg.src = 'some/image/url';
-}
-</code></pre>
-</div>
-  
-  
-
-
+      Liquid syntax error: Unknown tag &#8216;endif&#8217;
     </article>
   
   
     <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2009/03/17/centos-php5-and-mcrypt/">CentOS PHP5 and Mcrypt</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-03-17T11:40:27+01:00" pubdate data-updated="true">Mar 17<span>th</span>, 2009</time>
-        
-         | <a href="/2009/03/17/centos-php5-and-mcrypt/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>For some strange reason (i didn&#8217;t investigate) CentOS 5 does not come with a pre build <a href="http://www.php.net/mcrypt">mcrypt</a> extension for PHP. This is pretty weird if you ask me. And building this extension from source is no option for me. There are way to much dependencies missing. And i don&#8217;t really like installing *dev packages on my server. So how to fix this?</p>
-
-<p>Luckily there are some rpm files floating around the net. So i just used <a href="http://rpmfind.net/linux/rpm2html/search.php?query=php-mcrypt">rpmfind</a> to find a fedora 5.2.6 version of the mcrypt extension. After downloading it&#8217;s a one line command to install. And a apache reboot to get it working.</p>
-
-<blockquote><p>Constantin was so nice to comment on the fact that the mcrypt library needs to be installed before installing the mcrypt PHP extension.</p>
-
-<p>$ wget ftp://rpmfind.net/linux/fedora/updates/7/i386/php-mcrypt-5.2.6-2.fc7.i386.rpm
-$ rpm -ivh &#8211;nodeps php-mcrypt-5.2.6-2.fc7.i386.rpm
-$ /etc/init.d/http restart</p></blockquote>
-</div>
-  
-  
-
-
+      Liquid syntax error: Unknown tag &#8216;endif&#8217;
     </article>
   
   
     <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2009/03/13/php-cli-bad-interpreter-permission-denied/">PHP CLI Bad Interpreter: Permission Denied</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-03-13T16:59:02+01:00" pubdate data-updated="true">Mar 13<span>th</span>, 2009</time>
-        
-         | <a href="/2009/03/13/php-cli-bad-interpreter-permission-denied/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This question came up on the php.general list today. And i have seen it before when writing an shell script in PHP.</p>
-
-<pre><code>#!/usr/local/bin/php
-passthru("printenv");
-</code></pre>
-
-<p>If you are sure the PHP executable can be found in that location. And the file is executable. But it still returns this error:</p>
-
-<blockquote><p>/usr/local/bin/php: bad interpreter: Permission denied</p></blockquote>
-
-<p>Big change the file you are trying to execute is on a filesystem with the noexec flag set.
-To fix this either set the exec flag for the filesystem or move the script to a place where it can be executed.</p>
-</div>
-  
-  
-
-
+      Liquid syntax error: Unknown tag &#8216;endif&#8217;
     </article>
   
   
     <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2009/02/25/elephpants-2/">ElePHPants</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-02-25T07:07:13+01:00" pubdate data-updated="true">Feb 25<span>th</span>, 2009</time>
-        
-         | <a href="/2009/02/25/elephpants-2/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Good thing i sometimes use my wife&#8217;s computer for backup. I found my lost pictures again :) Say hi to my blue family.</p>
-
-<p><a href="http://lenss.nl/images/2009/02/img_1364.jpg"><img src="http://lenss.nl/images/2009/02/img_1364-300x225.jpg" alt="img_1364" /></a></p>
-
-<p><a href="http://lenss.nl/images/2009/02/img_1365.jpg"><img src="http://lenss.nl/images/2009/02/img_1365-300x225.jpg" alt="img_1365" /></a></p>
-
-<p><a href="http://lenss.nl/images/2009/02/img_1372.jpg"><img src="http://lenss.nl/images/2009/02/img_1372-300x225.jpg" alt="img_1372" /></a></p>
-</div>
-  
-  
-
-
+      Liquid syntax error: Unknown tag &#8216;endif&#8217;
     </article>
   
   
     <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2009/02/24/speed-up-and-save-traffic-with-apache-and-mod_deflate/">Speed Up and Save Traffic With Apache and Mod_deflate</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-02-24T05:59:53+01:00" pubdate data-updated="true">Feb 24<span>th</span>, 2009</time>
-        
-         | <a href="/2009/02/24/speed-up-and-save-traffic-with-apache-and-mod_deflate/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>One of our sites was loading pretty slow. This is mostly caused by a very heavy design. But i still wanted to speed things up a bit.</p>
-
-<p>The first step was compressing all JavaScript files with the <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI compressor</a>. The next step was to activate mod_deflate and compress all text, XML, and media files (JavaScript, CSS).</p>
-
-<p>When the mod_deflate module is loaded in apache this is a pretty easy thing to do. Just add the following lines to a .htaccess file in the root of the web site / application.</p>
-
-<blockquote><p>AddOutputFilterByType DEFLATE text/html text/plain text/xml text/javascript text/css
-BrowserMatch ^Mozilla/4 gzip-only-text/html
-BrowserMatch ^Mozilla/4.0[678] no-gzip
-BrowserMatch \bMSIE !no-gzip !gzip-only-text/html</p></blockquote>
-
-<p>The first line enables mod_deflate for the specified extensions. And the other three lines are there because of the way some older browsers handle gzipped data.</p>
-
-<p>To test if the the content is transmitted over the line in gzipped format i used the <a href="https://addons.mozilla.org/en-US/firefox/addon/3829">Live HTTP Header</a> Firefox extensions. This let&#8217;s you watch the Live HTTP headers as the fly by.</p>
-
-<p>Check the HTTP/ 1.x 200 OK response from the webserver for the following line</p>
-
-<blockquote><p>Content-Encoding: gzip</p></blockquote>
-
-<p>And to test what happens if a browser doesn&#8217;t support gzipped data. You can set a configuration parameter in Firefox <a href="http://kb.mozillazine.org/Firefox_:_FAQs_:_About:config_Entries">about:config</a>.</p>
-
-<p>gzip, deflate enabled:</p>
-
-<blockquote><p>network.http.accept-encoding = gzip,deflate</p></blockquote>
-
-<p>gzip, deflate disabled:</p>
-
-<blockquote><p>network.http.accept-encoding =</p></blockquote>
-
-<p>References :
-<a href="http://www.howtoforge.com/apache2_mod_deflate">http://www.howtoforge.com/apache2_mod_deflate</a></p>
-</div>
-  
-  
-
-
+      Liquid syntax error: Unknown tag &#8216;endif&#8217;
     </article>
   
   <div class="pagination">
@@ -747,59 +120,88 @@ BrowserMatch \bMSIE !no-gzip !gzip-only-text/html</p></blockquote>
     
   </div>
 </div>
-<aside class="sidebar">
+
+	</div>
+</div>
+
+<div id="sidebar">
+
+	<div id="logo" class="sidebox">
+		<div id="logo-main">lenss<span class="nl">nl</span></div>
+		<div id="logo-sub"><span class="nl">Thijs Lensselink's blog</span></div>
+	</div>
+
+	<div class="sidebox">
+		<a href="http://www.facebook.com/thijs.lensselink#!/" class="social facebook"></a>
+		<a href="https://plus.google.com/117496548747841671883" class="social google"></a>
+		<a href="http://twitter.com/tlenss" class="social twitter"></a>
+		<a href="http://feeds.feedburner.com/ThijsLensselinksBlog" class="social rss"></a>
+		<div style="clear:both;"></div>
+	</div>
+
+    <div class="sidebox">
+		<h1>Me</h1>
+		<div class="me">
+			<a href="http://www.zend.com/store/education/certification/yellow-pages.php#show-ClientCandidateID=ZEND006598"><img src="http://lenss.nl/wp-content/php5-zce-logo-new.gif" height="58" /></a>
+			<a href="http://stackoverflow.com/users/476697/tlenss">
+				<img src="http://stackoverflow.com/users/flair/476697.png?theme=dark" width="208" height="58" alt="profile for tlenss at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for tlenss at Stack Overflow, Q&amp;A for professional and enthusiast programmers">
+			</a>
+			<a href="https://coderwall.com/tlenss"><img alt="Endorse tlenss on Coderwall" src="http://api.coderwall.com/tlenss/endorsecount.png" /></a>
+			<div class="gpg">
+				Key ID : <a href="http://lenss.nl/6AD79CEF.asc">0x6AD79CEF</a><br/>
+				FP : FB53 B9D6 D7F1 9A16 1456 4DB3 3D35 402F 6AD7 9CEF
+			</div>
+		</div>
+	</div>
+
+	<div class="sidebox ad">
+		<script type="text/javascript"><!--
+		google_ad_client = "ca-pub-0921745317573569";
+		/* nlblue_side */
+		google_ad_slot = "7706621160";
+		google_ad_width = 300;
+		google_ad_height = 250;
+		//-->
+		</script>
+		<script type="text/javascript"
+		src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+		</script>
+	</div>
+
   
     <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/2012/11/07/publish-google-reader-shared-items/">Publish Google Reader shared items</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/10/29/long-running-php-script-and-mysql-server-gone-away/">Long running PHP script and MySQL server gone away</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/10/25/git-rebase-on-pull-by-default/">Git: Rebase on pull by default</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/">Workaround Ubuntu 12.04 mysterious system freezes</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/09/24/fixing-character-replacement-in-wordpress/">Fixing character replacement in Wordpress</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/09/24/resize-a-vagrant-vmdk-drive/">Resize a Vagrant VMDK drive</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/09/12/git-coming-up-with-a-good-workflow/">GIT:  Coming up with a good workflow</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/09/02/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/">Workaround for running WoW with patch 5.0.4 on Ubuntu</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/08/27/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/">Setup a basic PHP development environment with Vagrant and chef-solo</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/05/26/adding-colors-to-php-cli-script-output/">Adding colors to PHP CLI script output</a>
-      </li>
-    
-  </ul>
+  <div class="sidebox">
+	<h1>Recent entries</h1>
+	<ul class="linklist">
+		
+		<li><a href="/2012/11/07/publish-google-reader-shared-items/"><span class="higlight">2012-11-07 15:55:26 +0100</span> Publish Google Reader shared items</a></li>
+		
+		<li><a href="/2012/10/29/long-running-php-script-and-mysql-server-gone-away/"><span class="higlight">2012-10-29 14:39:26 +0100</span> Long running PHP script and MySQL server gone away</a></li>
+		
+		<li><a href="/2012/10/25/git-rebase-on-pull-by-default/"><span class="higlight">2012-10-25 14:20:22 +0200</span> Git: Rebase on pull by default</a></li>
+		
+		<li><a href="/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/"><span class="higlight">2012-10-12 15:43:46 +0200</span> Workaround Ubuntu 12.04 mysterious system freezes</a></li>
+		
+		<li><a href="/2012/09/24/fixing-character-replacement-in-wordpress/"><span class="higlight">2012-09-24 21:39:17 +0200</span> Fixing character replacement in Wordpress</a></li>
+		
+		<li><a href="/2012/09/24/resize-a-vagrant-vmdk-drive/"><span class="higlight">2012-09-24 14:17:00 +0200</span> Resize a Vagrant VMDK drive</a></li>
+		
+		<li><a href="/2012/09/12/git-coming-up-with-a-good-workflow/"><span class="higlight">2012-09-12 09:09:37 +0200</span> GIT:  Coming up with a good workflow</a></li>
+		
+		<li><a href="/2012/09/02/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/"><span class="higlight">2012-09-02 23:48:36 +0200</span> Workaround for running WoW with patch 5.0.4 on Ubuntu</a></li>
+		
+		<li><a href="/2012/08/27/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/"><span class="higlight">2012-08-27 00:47:05 +0200</span> Setup a basic PHP development environment with Vagrant and chef-solo</a></li>
+		
+		<li><a href="/2012/05/26/adding-colors-to-php-cli-script-output/"><span class="higlight">2012-05-26 11:14:33 +0200</span> Adding colors to PHP CLI script output</a></li>
+		
+	</ul>
+</div>
 </section>
 
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   
   <a href="https://github.com/tlenss">@tlenss</a> on GitHub
@@ -829,7 +231,7 @@ BrowserMatch \bMSIE !no-gzip !gzip-only-text/html</p></blockquote>
 <section>
   <h1>Latest Tweets</h1>
   <ul id="tweets">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   <script type="text/javascript">
     $.domReady(function(){
@@ -856,11 +258,9 @@ BrowserMatch \bMSIE !no-gzip !gzip-only-text/html</p></blockquote>
 
 
   
-</aside>
+</div>
 
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
+<footer role="contentinfo"><p>
   Copyright &copy; 2012 - Thijs Lensselink -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
