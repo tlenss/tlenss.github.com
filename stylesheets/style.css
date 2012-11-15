@@ -160,14 +160,14 @@ body {
 	height: 54px;
 	margin-left: 20px;
 }
-.sidebox .facebook { background-image: url('images/icons/isometrica-facebook-gr.png'); }
-.sidebox .google { background-image: url('images/icons/isometrica-google-gr.png'); }
-.sidebox .twitter { background-image: url('images/icons/isometrica-twitter-gr.png'); }
-.sidebox .rss { background-image: url('images/icons/isometrica-rss-gr.png'); }
-.sidebox .facebook:hover { background-image: url('images/icons/isometrica-facebook.png'); }
-.sidebox .google:hover { background-image: url('images/icons/isometrica-google.png'); }
-.sidebox .twitter:hover { background-image: url('images/icons/isometrica-twitter.png'); }
-.sidebox .rss:hover { background-image: url('images/icons/isometrica-rss.png'); }
+.sidebox .facebook { background-image: url('/images/icons/isometrica-facebook-gr.png'); }
+.sidebox .google { background-image: url('/images/icons/isometrica-google-gr.png'); }
+.sidebox .twitter { background-image: url('/images/icons/isometrica-twitter-gr.png'); }
+.sidebox .rss { background-image: url('/images/icons/isometrica-rss-gr.png'); }
+.sidebox .facebook:hover { background-image: url('/images/icons/isometrica-facebook.png'); }
+.sidebox .google:hover { background-image: url('/images/icons/isometrica-google.png'); }
+.sidebox .twitter:hover { background-image: url('/images/icons/isometrica-twitter.png'); }
+.sidebox .rss:hover { background-image: url('/images/icons/isometrica-rss.png'); }
 
 #content {
 	float: right;
