@@ -1,0 +1,472 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>VIM for a PHP developer - Thijs Lensselink's Blog</title>
+  <meta name="author" content="Thijs Lensselink">
+
+  
+  <meta name="description" content="For my coding work i mostly use Zend Studio. And i am a big fan of this IDE. But i also do a lot of work in the shell. And that asks for at least &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tlenss.github.com/2011/04/17/vim-for-a-php-developer/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="http://feeds.feedburner.com/ThijsLensselinksBlog" rel="alternate" title="Thijs Lensselink's Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-8003524-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Thijs Lensselink's Blog</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feeds.feedburner.com/ThijsLensselinksBlog" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tlenss.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">VIM for a PHP Developer</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-17T23:04:28+02:00" pubdate data-updated="true">Apr 17<span>th</span>, 2011</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="http://www.vim.org/"><img src="http://lenss.nl/images/2011/04/vim_logo.png" alt="" /></a>For my coding work i mostly use <a href="http://www.zend.com/en/products/studio/">Zend Studio</a>. And i am a big fan of this IDE. But i also do a lot of work in the shell. And that asks for at least basic <a href="http://www.vim.org/">vim</a> knowledge. My colleague is a big vim fan. And does most of his work in vim. So last week i was compiling a cheat-sheet for my self. And came across a <a href="http://www.slideshare.net/ZendCon/vim-for-php-programmers-presentation">slideshow</a> of one of <a href="http://zmievski.org/">Andrei Zmievski</a>&#8217;s talks. This slide show got me inspired enough to start playing around with vim a bit. And this is the result of it.</p>
+
+<p>We need to have vim installed of course.</p>
+
+<blockquote><p>$ sudo aptitude install vim</p></blockquote>
+
+<p>Vim doesn&#8217;t seem to create the user folder automatically. So we need to create these our self. We&#8217;ll start off with a folder for plugins, color schemes and syntax settings.</p>
+
+<blockquote><p>$ mkdir ~/.vim
+$ mkdir ~/.vim/{syntax,colors,plugin}</p></blockquote>
+
+<p>Most of the time i will be editing <strong>.php</strong> files. So i want some good syntax support for that. Vim has a nice plugin system. And there does seem to be a syntax file for PHP <a href="http://www.vim.org/scripts/script.php?script_id=1571">available</a>. It&#8217;s a bit outdated. But will do for now. The only thing to do to enable it is copy it to the plugin directory.</p>
+
+<blockquote><p>$ mv php.vim ~/.vim/syntax</p></blockquote>
+
+<p>Now we have a very powerful but basic PHP editor. That&#8217;s nice and all. I would like to at least have some sort of a project manager. And there is a plugin for that as well. <a href="http://www.vim.org/scripts/script.php?script_id=69">Download</a> &amp; copy!</p>
+
+<blockquote><p>$ mv project.vim ~/.vim/plugin</p></blockquote>
+
+<p>Ok that&#8217;s pretty cool. But it still looks like crap. Time for some theme sugar. It actually took me quite some time to find a theme i like. Guess i am picky. The theme / colour scheme i settled for is called wombat. The <a href="http://dengmao.wordpress.com/2007/01/22/vim-color-scheme-wombat/">original</a> file didn&#8217;t do much for me. But i found a <a href="http://www.vim.org/scripts/script.php?script_id=2465">good</a> 256 colour version.</p>
+
+<blockquote><p>$ mv wombat256mod.vim ~/.vim/colors</p></blockquote>
+
+<p><a href="http://lenss.nl/images/2011/04/wombat-html.png"><img src="http://lenss.nl/images/2011/04/wombat-html-300x60.png" alt="" /></a></p>
+
+<p><a href="http://lenss.nl/images/2011/04/wombat-php.png"><img src="http://lenss.nl/images/2011/04/wombat-php-300x128.png" alt="" /></a></p>
+
+<p>That&#8217;s starting to look like a pretty nice setup. Time to make some settings permanent and to enable some other features.</p>
+
+<blockquote><p>$ vim ~/.vimrc</p></blockquote>
+
+<p>And add some settings</p>
+
+<blockquote><p>set rule
+set wrapscan
+set number
+set backspace=start,indent,eol</p></blockquote>
+
+<p>set t_Co=256
+colorscheme wombat256mod</p>
+
+<p>autocmd FileType php set omnifunc=phpcomplete#CompletePHP</p>
+
+<p>In the meantime i found this interesting post on Matthew Weier O&#8217;Phinney&#8217;s blog about using <a href="http://weierophinney.net/matthew/archives/134-exuberant-ctags-with-PHP-in-Vim.html">ctags , VIM and PHP</a>. That looks like interesting stuff. So let&#8217;s add it. With <a href="http://ctags.sourceforge.net/">ctags</a> it&#8217;s possible to scan a source tree. And compile a sort of index file that vim can use for lookups.</p>
+
+<blockquote><p>$ sudo aptitude install exuberant-ctags
+$ mkdir ~/.vim/tags</p></blockquote>
+
+<p>Creating an index file is a piece of cake. Move to a source directory and issue the following command.</p>
+
+<blockquote><p>$ cd /some/path
+$ ctags-exuberant -R -f ~/.vim/tags/filename -h &#8220;.php&#8221;
+&#8211;exclude=&#8221;.svn&#8221; &#8211;totals=yes
+&#8211;tag-relative=yes &#8211;PHP-kinds=+cf
+&#8211;regex-PHP=&#8217;/abstract class ([^ ]<em>)/\1/c/&#8217;
+&#8211;regex-PHP=&#8217;/interface ([^ ]</em>)/\1/c/&#8217;
+&#8211;regex-PHP=&#8217;/(public |static |abstract |protected |private )+function ([^ (]*)/\2/f/&#8217;</p></blockquote>
+
+<p>This will scan the whole directory structure recursively while using the regular expressions to extract useful information from the source files it finds. When done and when the parameter <em>&#8211;totals=yes</em> is used the following output is displayed. But probably with different numbers.</p>
+
+<blockquote><p>2375 files, 466018 lines (14628 kB) scanned in 11.7 seconds (1246 kB/s)
+199296 tags added to tag file
+199296 tags sorted in 0.00 seconds</p></blockquote>
+
+<p>Time to enable tags. I want to use multiple files. Some standard files for common frameworks / libraries. And a tag file per project.</p>
+
+<blockquote><p>$ vim ~/.vimrc
+set tags=tags;~/.vim/tags/filename</p></blockquote>
+
+<p>So let&#8217;s start vim and have a look at what we have so far. The first thing we do when vim has started is launch the :Project plugin.</p>
+
+<blockquote><p>$ vim
+:Project</p></blockquote>
+
+<p><a href="http://lenss.nl/images/2011/04/vim-project-1.png"><img src="http://lenss.nl/images/2011/04/vim-project-1-300x175.png" alt="" /></a></p>
+
+<p><a href="http://lenss.nl/images/2011/04/vim-project-2.png"><img src="http://lenss.nl/images/2011/04/vim-project-2-300x174.png" alt="" /></a></p>
+
+<p>The project plugin took some time to get used to. But it&#8217;s a very convenient plugin. And easy to get the hang of. It&#8217;s possible to create the project settings by hand. But the plugin comes with a build in tool for this. While in <em>:Project</em> mode and hitting <em>\C</em> will make it easy to create new projects.</p>
+
+<blockquote><p>$ vim
+:Project
+\C</p></blockquote>
+
+<p>This will guide you through the process with a few short and simple questions.</p>
+
+<blockquote><p>Enter the Name of the Entry: [ project name ]
+Enter the Absolute Directory to Load: [ absolute path ]
+Enter the CD parameter: [ path to move into ]
+Enter the File Filter: [ file filter : *.php ]</p></blockquote>
+
+<p>When that&#8217;s done the screen will be in edit mode inside the .vimproject file. Displaying something like this.</p>
+
+<blockquote><p>Project name=/path/to/project CD=/path/to/project filter=&#8221;*.php&#8221; {
+  filename.ext
+  folder&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;-
+}</p></blockquote>
+
+<p>It&#8217;s possible to alter the project setup here. Like adding more files. Or even adding files from other locations outside of the project.</p>
+
+<blockquote><p>Project name=/path/to/project CD=/path/to/project filter=&#8221;*.php&#8221; {
+  filename.ext
+  folder&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;-</p></blockquote>
+
+<p>  External=/some/other/path CD=/some/other/path filter=&#8221;*.php&#8221; {</p>
+
+<pre><code>filename.ext
+</code></pre>
+
+<p>  }
+}</p>
+
+<p>When done editing. Just do like normally in vim.</p>
+
+<blockquote><p>:w</p></blockquote>
+
+<p>Pretty cool we have a project browser on the left. That is easy to navigate with the arrow keys. And a work canvas on the right.</p>
+
+<p>Time to test the ctags created index files. Place the cursor at the beginning of a string that you want to lookup. And hit <strong>CTRL + ]</strong> and <strong>CTRL + T</strong> to get back. Another cool way to open the source file is by using horizontal split windows by using <strong>CTRL + W ]</strong>.</p>
+
+<p>Testing auto-complete is just as easy. Type some php core function name partly _str__ and hit <strong>CTRL + x</strong> and <strong>CTRL + o</strong>. This will display the following scrollable drop down..</p>
+
+<p><a href="http://lenss.nl/images/2011/04/vim-autocomplete.png"><img src="http://lenss.nl/images/2011/04/vim-autocomplete-300x134.png" alt="" /></a></p>
+
+<p>That&#8217;s about it. I had good fun exploring all the features and possibilities. And have only scratched the surface. One more thing i found on Matthew&#8217;s blog was a way to test and run PHP script from vim. Awesome stuff. You can read about it <a href="http://weierophinney.net/matthew/archives/164-Vim-Productivity-Tips-for-PHP-Developers.html">here</a>. Although i like vim. I don&#8217;t think i will be leaving ZS any time soon.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-17T23:04:28+02:00" pubdate data-updated="true">Apr 17<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/categories/code/'>Code</a>, <a class='category' href='/categories/php/'>PHP</a>, <a class='category' href='/categories/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tlenss.github.com/2011/04/17/vim-for-a-php-developer/" data-via="tlenss" data-counturl="http://tlenss.github.com/2011/04/17/vim-for-a-php-developer/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="small"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2011/03/28/php-domdocument-slow-loading-pages/" title="Previous Post: PHP & DOMDocument slow loading pages">&laquo; PHP & DOMDocument slow loading pages</a>
+      
+      
+        <a class="basic-alignment right" href="/2011/05/21/downtime/" title="Next Post: Downtime">Downtime &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2012/11/07/publish-google-reader-shared-items/">Publish Google Reader shared items</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/29/long-running-php-script-and-mysql-server-gone-away/">Long running PHP script and MySQL server gone away</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/25/git-rebase-on-pull-by-default/">Git: Rebase on pull by default</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/">Workaround Ubuntu 12.04 mysterious system freezes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/09/24/fixing-character-replacement-in-wordpress/">Fixing character replacement in Wordpress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/09/24/resize-a-vagrant-vmdk-drive/">Resize a Vagrant VMDK drive</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/09/12/git-coming-up-with-a-good-workflow/">GIT:  Coming up with a good workflow</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/09/02/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/">Workaround for running WoW with patch 5.0.4 on Ubuntu</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/08/27/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/">Setup a basic PHP development environment with Vagrant and chef-solo</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/05/26/adding-colors-to-php-cli-script-output/">Adding colors to PHP CLI script output</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/tlenss">@tlenss</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'tlenss',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("tlenss", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/tlenss" class="twitter-follow-button" data-show-count="false">Follow @tlenss</a>
+  
+</section>
+
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/tl@lenss.nl?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Thijs Lensselink -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'tlenss';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://tlenss.github.com/2011/04/17/vim-for-a-php-developer/';
+        var disqus_url = 'http://tlenss.github.com/2011/04/17/vim-for-a-php-developer/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

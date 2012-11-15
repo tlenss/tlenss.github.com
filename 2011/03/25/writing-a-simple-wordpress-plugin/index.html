@@ -1,0 +1,493 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Writing a simple Wordpress plugin - Thijs Lensselink's Blog</title>
+  <meta name="author" content="Thijs Lensselink">
+
+  
+  <meta name="description" content="In the spirit of Ideas for March i should really be blogging more. Somehow i just can&#8217;t think of anything interesting at the moment. Will give &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tlenss.github.com/2011/03/25/writing-a-simple-wordpress-plugin/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="http://feeds.feedburner.com/ThijsLensselinksBlog" rel="alternate" title="Thijs Lensselink's Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-8003524-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Thijs Lensselink's Blog</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feeds.feedburner.com/ThijsLensselinksBlog" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tlenss.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Writing a Simple Wordpress Plugin</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-25T01:07:38+01:00" pubdate data-updated="true">Mar 25<span>th</span>, 2011</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="http://lenss.nl/images/2011/03/wordpress.jpg" alt="" /> In the spirit of <a href="http://lenss.nl/2011/03/ideas-of-march/">Ideas for March</a> i should really be blogging more. Somehow i just can&#8217;t think of anything interesting at the moment. Will give it a shot anyway.</p>
+
+<p>Last week i created my first ever <a href="http://wordpress.org/">Wordpress</a> <a href="http://codex.wordpress.org/Writing_a_Plugin">plugin</a>. It&#8217;s an extremely simple one. And for sure nothing new or special. But it was a fun experience. I have always dreaded the WP code base. The mixture of OO and procedural programming just looks plain ugly to me. But i don&#8217;t want to be bash WP. I use it myself. So i took the dive and spend a few hours hacking and <a href="http://codex.wordpress.org/Plugin_API">reading</a>. And the result is my <strong>DWOTD</strong> (Dutch Word Of The Day) plugin.</p>
+
+<p>To get some inspiration for this i took a look at some plugin code available on the internet. This gave me a basic understanding of how the plugin system works. Together with the docs writing a plugin wasn&#8217;t that hard. The code that i saw however was pretty bad. And i wanted something that at least looked better then all the global statements swarming around. So i created a small OO wrapper for the plugin. The basic plugin structure looks something like this</p>
+
+<blockquote><p>&#8211; plugin
+&#8212;&#8211; css
+&#8212;&#8212;&#8212;- dwotd.css
+&#8212;&#8211; lib
+&#8212;&#8212;&#8212;- Dwotd.php
+&#8212;&#8212;&#8212;- Widget.php
+&#8212;&#8211; template
+&#8212;&#8212;&#8212;- Widget.php
+&#8211; dwotd.php</p></blockquote>
+
+<p>The file in the root is the bootstrap file. It includes the main plugin class and registers the widget class. The two files in lib contain the plugin and Widget classes. The rest is self explanatory i think.</p>
+
+<p>The first lines of the bootstrap file contain a comment block that is used by WP to show some more information about the plugin inside the admin.</p>
+
+<pre><code>/*
+Plugin Name: DWOTD
+Plugin URI: http://lenss.nl/projects/dwotd-plugin/
+Description: Dutch Word Of The Day including English translation
+Author: Thijs Lensselink
+Author URI: http://lenss.nl/
+Version: 1.2
+*/
+</code></pre>
+
+<p>Then the plugin class file is loaded and the a plugin object instantiated.</p>
+
+<pre><code>require_once(dirname(__FILE__).'/lib/Dwotd.php');
+
+$DWOTD = new DWOTD_Plugin();
+wp_register_style('dwotd', "{$DWOTD-&gt;getPluginDir()}/css/dwotd.css");
+wp_enqueue_style('dwotd', "{$DWOTD-&gt;getPluginDir()}/css/dwotd.css");
+</code></pre>
+
+<p>If the logged in user is a admin hooks for <em>installing</em> and <em>uninstalling</em> the plugin will be activated.</p>
+
+<pre><code>if ( is_admin() ) {
+    register_activation_hook(__FILE__, array($DWOTD, 'install'));
+    register_deactivation_hook(__FILE__, array($DWOTD, 'uninstall'));
+}
+</code></pre>
+
+<p>And finally register the Widget class</p>
+
+<pre><code>add_action('widgets_init', create_function('', 'return register_widget("DWOTD_Widget");'));
+</code></pre>
+
+<p>The Widget class is a simple wrapper around the plugin class. It basically instantiates the Plugin class and after that the <em>widget()</em> method gets called. This method calls the Plugin and finally renders a view for the widget box.</p>
+
+<pre><code>class DWOTD_Widget extends WP_Widget 
+{
+    protected $_dwotd;
+
+    public function DWOTD_Widget() 
+    {
+        $this-&gt;_dwotd = new DWOTD_Plugin();
+        parent::WP_Widget(false, $name = 'DWOTD Plugin');
+    }
+
+    public function widget($args, $instance) 
+    {
+        $result = $this-&gt;_dwotd-&gt;getFromCache();
+        if (!$result || $result-&gt;used_on != date('Y-m-d')) {
+            try {
+                $result = $this-&gt;_dwotd-&gt;fetchRandomWord();
+                $this-&gt;_dwotd-&gt;writeToCache($result);
+            } catch (Exception $e) {
+                return new WP_Error('broke', __($e-&gt;getMessage()));
+            }
+        }
+
+        $this-&gt;_renderView($result);
+    }
+
+    protected function _renderView($data)
+    {
+        ob_start();
+        include $this-&gt;_dwotd-&gt;getTemplate();
+        ob_get_contents();
+    }
+
+    public function update($new_instance, $old_instance) 
+    {
+        $instance = $old_instance;
+        return $instance;
+    }
+}
+</code></pre>
+
+<p>All real work is done inside the the Plugin class. This has all methods for talking to the database instance. But also contains the <a href="http://codex.wordpress.org/Plugin_API">hooks</a> for the WP install and uninstall actions. Some of the contents of this method are listed below.</p>
+
+<pre><code>require_once(ABSPATH.'wp-admin/includes/upgrade.php');
+require_once(dirname(__FILE__).'/Widget.php');
+
+Class DWOTD_Plugin
+{
+    public function __construct()
+    {
+        global $wpdb, $table_prefix;
+                // set some class vars and include some files
+    }
+
+    public function install() 
+    {
+                // create database and insert data
+        add_option('dwotd_quote','1');
+    }   
+
+    public function uninstall() 
+    {
+        $this-&gt;_dbh-&gt;query("DROP TABLE IF EXISTS `{$this-&gt;_dbName}`");
+        delete_option('dwotd_quote');
+    }
+
+    public function getPluginDir()
+    {
+        return $this-&gt;_wpContent.'/plugins/dwotd';
+    }
+}
+</code></pre>
+
+<p>The code is just a small part of the real code. Which you can download <a href="http://lenss.nl/projects/dwotd-plugin/dwotd.tar.gz">here</a>. After that it&#8217;s quite easy. Create a folder for the plugin in <em>wp-content/plugins</em> and copy the files there. Enable it from the plugin manager and enable it in the widget menu (which didn&#8217;t work for me because my theme has no sidebar.. well not the wp one :)). So i had to use a manual approach.</p>
+
+<p>After copying the files to the plugin folder login to <em>wp-admin</em> and browse to <em>Plugins/Plugins</em>. Search for the plugin and click activate.</p>
+
+<p><a href="http://lenss.nl/images/2011/03/widget-install.png"><img src="http://lenss.nl/images/2011/03/widget-install-300x38.png" alt="" /></a></p>
+
+<p>Enabling the widget from the admin panel is easy. Browse to <em>Appearance/Widgets</em>. And drag the widget from the left to the sidebar panel on the right.</p>
+
+<p><a href="http://lenss.nl/images/2011/03/widget-drag.png"><img src="http://lenss.nl/images/2011/03/widget-drag-300x68.png" alt="" /></a>
+<a href="http://lenss.nl/images/2011/03/widget-sidebar.png"><img src="http://lenss.nl/images/2011/03/widget-sidebar.png" alt="" /></a></p>
+
+<p>Enabling it the manual way is also easy. But required a bit more work. For this to work the correct theme file needs to be edited somewhere in <em>wp-content/themes</em>. And the following code needs to be added in the spot the widget should appear.</p>
+
+<pre><code>$args = array ( 'title' =&gt; '' );
+$instance = array ( 'title' =&gt; 'DWOTD', 'number' =&gt; 1 );
+$widget = new DWOTD_Widget();
+$widget-&gt;widget($args,$instance);
+</code></pre>
+
+<p>That&#8217;s all. The result can be viewed on the right top side. I build the plugin for fun and use on an Intranet. So don&#8217;t go blaming me if it breaks something. Besides that everybody is free to do with the code as they please.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-25T01:07:38+01:00" pubdate data-updated="true">Mar 25<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/categories/code/'>Code</a>, <a class='category' href='/categories/php/'>PHP</a>, <a class='category' href='/categories/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tlenss.github.com/2011/03/25/writing-a-simple-wordpress-plugin/" data-via="tlenss" data-counturl="http://tlenss.github.com/2011/03/25/writing-a-simple-wordpress-plugin/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="small"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2011/03/20/ideas-of-march/" title="Previous Post: Ideas of March">&laquo; Ideas of March</a>
+      
+      
+        <a class="basic-alignment right" href="/2011/03/28/php-domdocument-slow-loading-pages/" title="Next Post: PHP & DOMDocument slow loading pages">PHP & DOMDocument slow loading pages &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2012/11/07/publish-google-reader-shared-items/">Publish Google Reader shared items</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/29/long-running-php-script-and-mysql-server-gone-away/">Long running PHP script and MySQL server gone away</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/25/git-rebase-on-pull-by-default/">Git: Rebase on pull by default</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/">Workaround Ubuntu 12.04 mysterious system freezes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/09/24/fixing-character-replacement-in-wordpress/">Fixing character replacement in Wordpress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/09/24/resize-a-vagrant-vmdk-drive/">Resize a Vagrant VMDK drive</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/09/12/git-coming-up-with-a-good-workflow/">GIT:  Coming up with a good workflow</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/09/02/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/">Workaround for running WoW with patch 5.0.4 on Ubuntu</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/08/27/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/">Setup a basic PHP development environment with Vagrant and chef-solo</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/05/26/adding-colors-to-php-cli-script-output/">Adding colors to PHP CLI script output</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/tlenss">@tlenss</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'tlenss',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("tlenss", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/tlenss" class="twitter-follow-button" data-show-count="false">Follow @tlenss</a>
+  
+</section>
+
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/tl@lenss.nl?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Thijs Lensselink -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'tlenss';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://tlenss.github.com/2011/03/25/writing-a-simple-wordpress-plugin/';
+        var disqus_url = 'http://tlenss.github.com/2011/03/25/writing-a-simple-wordpress-plugin/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

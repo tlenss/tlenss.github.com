@@ -1,0 +1,614 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Moving from Subversion to GIT - Thijs Lensselink's Blog</title>
+  <meta name="author" content="Thijs Lensselink">
+
+  
+  <meta name="description" content="Last weekend was a PFZ meeting. And for this day a few interesting workshops were planned. I mainly was looking forward to the GIT (Git for &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tlenss.github.com/2010/11/16/moving-from-subversion-to-git/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="http://feeds.feedburner.com/ThijsLensselinksBlog" rel="alternate" title="Thijs Lensselink's Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-8003524-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Thijs Lensselink's Blog</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feeds.feedburner.com/ThijsLensselinksBlog" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tlenss.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Moving From Subversion to GIT</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-11-16T22:12:50+01:00" pubdate data-updated="true">Nov 16<span>th</span>, 2010</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="http://git-scm.com/"><img src="http://lenss.nl/images/2010/11/git.logo_.gif" alt="" /></a> Last weekend was a <a href="http://pfz.nl">PFZ</a> meeting. And for this day a few interesting <a href="http://www.pfz.nl/activiteit/1-workshopdag-2010/">workshops</a> were planned. I mainly was looking forward to the GIT (Git for Subversion Users) talk by <a href="http://www.leftontheweb.com/">Stefan Koopmanschap</a>. And the Dependency Injection presentation by <a href="http://blog.berryllium.nl/">Berry Langerak</a> I didn&#8217;t make it too the last one. But learned a lot while doing the GIT workshop with Stefan.</p>
+
+<p>For the last few months i have wanted to take a look at git. But it just never really took the time to sit down and do it. So this opportunity was there at the right time. Although my laptop died halfway through the workshop. I still was able to make it through the whole session together with <a href="http://accentinteractive.nl/">Joost van Veen</a>. Thanks man. We had a great time. And it was eye opening. Stefan gave a good talk. Helped out where possible. And besides a small <a href="https://github.com/">Github</a> glitch. It was a successful day.</p>
+
+<p>So successful that i decided to make the switch from <a href="http://subversion.tigris.org/">Subversion</a> to <a href="http://git-scm.com/">GIT</a>. Below are some of the steps i took.</p>
+
+<p>The main reasons for me to make the switch</p>
+
+<ul>
+<li><p>Distributed structure make it easy to work from any place. connected or not.</p></li>
+<li><p>Stashing</p></li>
+<li><p>Speed and cleaner folder / file structure</p></li>
+<li><p>Real tags</p></li>
+</ul>
+
+
+<p>That&#8217;s all for now. but this list will grow. I am sure!</p>
+
+<h2>Setting up a GIT server</h2>
+
+<p>I decided to go for my own GIT server instead of Github. That&#8217;s just the way i like it. Full control.</p>
+
+<blockquote><p><strong>$</strong> aptitude install git-core</p></blockquote>
+
+<p>Now all we have to do is create a user for git operations. And set the correct permissions.</p>
+
+<blockquote><p><strong>$</strong> adduser git
+<strong>$</strong> mkdir /home/git/.ssh
+<strong>$</strong> chown -R git:git /home/git/.ssh
+<strong>$</strong> chmod 700 /home/git</p></blockquote>
+
+<p>If we want to create a new remote repository. We log in on the git server through SSH and setup a new repository like this.</p>
+
+<blockquote><p><strong>$</strong> ssh git@git.domain.tld
+<strong>$</strong> mkdir repository.git
+<strong>$</strong> cd repository.git
+<strong>$</strong> git &#8211;bare init</p></blockquote>
+
+<p>That&#8217;s all. we now have all we need to connect to git remotely and do some work. But now first we need to import the old Subversion repository. I have found two solid methods for getting the job done.</p>
+
+<h2>Import a SVN project into GIT with git-svn</h2>
+
+<p>First of install git-svn</p>
+
+<blockquote><p><strong>$</strong> sudo aptitude install git-svn</p></blockquote>
+
+<p>Before we start the importing. It&#8217;s good practice to create an author mapping file. So the SVN commiter names match the GIT ones. This is done by creating a simple text file like so.</p>
+
+<blockquote><p><strong>$</strong> touch authors.txt
+<strong>$</strong> echo &#8220;m0s = Thijs Lensselink <a href="&#109;&#97;&#105;&#108;&#116;&#x6f;&#58;&#101;&#109;&#x61;&#x69;&#108;&#x40;&#108;&#101;&#110;&#x73;&#115;&#46;&#x6e;&#108;">&#x65;&#x6d;&#97;&#105;&#x6c;&#64;&#x6c;&#101;&#110;&#115;&#115;&#46;&#110;&#108;</a>&#8221; > authors.txt</p></blockquote>
+
+<p>Importing the existing <em>tags</em> and <em>branches</em> is done by adding the <em>&#8211;stdlayout</em> switch</p>
+
+<blockquote><p><strong>$</strong> git svn clone &#8211;stdlayout -A authors.txt svn+ssh://user@svnhost/repository repository.git</p></blockquote>
+
+<p>The problem with this method is that tags and branches are not created properly. I decided to go for the second method down here.</p>
+
+<h2>Import a SVN project into GIT with svn2git</h2>
+
+<p>For this to work we first need ruby and some gems packages.</p>
+
+<blockquote><p><strong>$</strong> apt-get install git-svn ruby rubygems
+<strong>$</strong> gem install svn2git &#8211;source http://gemcutter.org</p></blockquote>
+
+<p>Create the local repository and import the files from SVN</p>
+
+<blockquote><p><strong>$</strong> mkdir repository.git
+<strong>$</strong> cd repository.git
+<strong>$</strong> /var/lib/gems/1.8/bin/svn2git svn+ssh://user@svnhost/repository &#8211;authors ../authors.txt</p></blockquote>
+
+<p>Show the current selected branch</p>
+
+<blockquote><p><strong>$</strong> git branch
+* master</p></blockquote>
+
+<p>Show all branches. Notice the <em>trunk</em> branch</p>
+
+<blockquote><p><strong>$</strong> git branch -a
+* master
+  trunk</p></blockquote>
+
+<p>List all tags</p>
+
+<blockquote><p><strong>$</strong> git tag -l
+v1.0
+v2.0</p></blockquote>
+
+<p>That seemed to work pretty good for almost all projects. Some projects didn&#8217;t have the main trunk in SVN. So to import these just add the <em>&#8211;rootistrunk</em> switch.</p>
+
+<p>And while this info is still available in my brain at the moment. I will write down some of the workshop material for future reference.</p>
+
+<h2>Setup local Development environment</h2>
+
+<p>Create directory somewhere that will serve as the local repository. And run <em>init</em> to create the basic git project structure.</p>
+
+<blockquote><p><strong>$</strong> mkdir [project name]
+<strong>$</strong> cd [project name]
+<strong>$</strong> git init</p></blockquote>
+
+<p>Now we have a fully functional git repository. We can do anything with (add, commit, tag, branch, push, etc.)  The first things to do when starting out is setup the user name and email address of the developer using this repository. This is good when looking though the GIT project logs later on. Also handy to set the core editor to the most convenient editor available.</p>
+
+<blockquote><p><strong>$</strong> git config &#8211;global user.name &#8220;Thijs Lensselink&#8221;
+<strong>$</strong> git config &#8211;global user.email &#8220;email@lenss.nl&#8221;
+<strong>$</strong> git config &#8211;global core.editor vi</p></blockquote>
+
+<p>The repository exists out of a <em>origin</em> and a <em>master</em> branch at this moment. The origin refers to the current repository location. And the master refers to the current repository state. Like HEAD in CVS and SVN. Let&#8217;s add a file for testing.</p>
+
+<blockquote><p><strong>$</strong> touch index.php
+<strong>$</strong> git add index.php (or add *)
+<strong>$</strong> git commit -m &#8220;Commit something&#8221;</p></blockquote>
+
+<p>Working on a local repository is nice. but we want to save it on a server of course. For this we need to set a repository location. We can do this in two ways. We can overwrite the origin or add a new location. Let&#8217;s try the first one.</p>
+
+<blockquote><p><strong>$</strong> git remote add origin git@git.domain.tld:repository.git</p></blockquote>
+
+<h2>Setting up the remote git repository and push the changes</h2>
+
+<p>All changes to this repository are made locally so far. Let&#8217;s try and push them to the git server. The only problem here is. I haven&#8217;t found a way to create repositories remotely. So we have to log in to the server here and create the repository.</p>
+
+<blockquote><p><strong>$</strong> ssh git@git.domain.tld
+<strong>$</strong> mkdir repository.git
+<strong>$</strong> cd repository.git
+<strong>$</strong> git &#8211;bare init
+<strong>$</strong> exit</p></blockquote>
+
+<p>Back on the client side we can now do a push an see what happens.</p>
+
+<blockquote><p><strong>$</strong> git push origin master
+Counting objects: 3, done.
+Writing objects: 100% (3/3), 232 bytes, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To git@192.168.178.24:foo.git
+ * [new branch]      master -> master</p></blockquote>
+
+<p>if you get this error:</p>
+
+<blockquote><p>error: src refspec master does not match any.</p></blockquote>
+
+<p>This means there is no master branch yet. This happens when the repository was created with the &#8211;bare switch. You have to commit a change first before you can push anything to the remote repository server.</p>
+
+<p>That&#8217;s all. We now have a working GIT server and local repository. All that is left is to do some serious development work. On the other hand, before i forget. i will use this space to rehash Stefan&#8217;s workshop for future reference.</p>
+
+<h2>Tagging</h2>
+
+<p>Let start by looking at the way git creates tags. First of there are two types of tags <em>lightweight</em> and <em>annotated</em>. The lightweight version is nothing more then a pointer to a specific commit. It&#8217;s like a branch that doesn&#8217;t change. Annotated tags are a bit different then their lightweight version. And for sure different from the tags in Subversion. A tags in git contains the following data</p>
+
+<ul>
+<li><p>checksum</p></li>
+<li><p>tagger name</p></li>
+<li><p>email + date</p></li>
+<li><p>tag message</p></li>
+<li><p>GPG signed</p></li>
+</ul>
+
+
+<p>Creating an annotated tag for version 1 looks something like this</p>
+
+<blockquote><p><strong>$</strong> git tag -a v1.0 -m &#8220;Creating a tag&#8221;</p></blockquote>
+
+<p>Dispaly a certain tag</p>
+
+<blockquote><p><strong>$</strong> git show v1.0</p></blockquote>
+
+<p>I haven&#8217;t had time to look into working with signing of tags. So maybe i will add an entry about that later on.</p>
+
+<h2>Branching</h2>
+
+<p>A repository can have multiple branches. And switching between branches is a since in git. Branching is much like
+it is in Subversion.</p>
+
+<p>Create a new branch from master called foo</p>
+
+<blockquote><p><strong>$</strong> git branch foo master</p></blockquote>
+
+<p>Display all branches available. The current branch is highlighted by the * sign</p>
+
+<blockquote><p><strong>$</strong> git branch
+* master
+  foo</p></blockquote>
+
+<p>Changing branches in git is a piece of cake.</p>
+
+<blockquote><p><strong>
+$</strong> git checkout foo
+Switched to branch &#8216;foo&#8217;</p></blockquote>
+
+<p>There is not much more to branching.</p>
+
+<h2>diff, merge and delete branches</h2>
+
+<p>When adding a new feature to an existing code base. It&#8217;s good practice to create a branch before you start editing. And after everything is done and the change is stable. The branch can be merged back into the master.</p>
+
+<p>First let&#8217;s check if there is a difference between the newly created branch and the master.</p>
+
+<blockquote><p><strong>$</strong> git diff foo master
+diff &#8211;git a/touch.foo b/touch.foo
+deleted file mode 100644
+index 257cc56..0000000
+&#8212; a/touch.foo
++++ /dev/null
+@@ -1 +0,0 @@
+-foo</p></blockquote>
+
+<p>Some changes have been found so let&#8217;s merge them in the master branch</p>
+
+<blockquote><p><strong>$</strong> git checkout master
+<strong>$</strong> git merge foo master (or git pull foo master)
+Already up-to-date with 12d2f9cebaf71a580b021a8eeddc38f267b69e53
+Trying simple merge with 4d3dff7e0d2a26302a5884e763fd7a48f5ab4437
+Merge made by octopus.
+ touch.foo |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+ create mode 100644 touch.foo</p></blockquote>
+
+<p>with <em>git pull</em> it is possible to import branches from other repositories</p>
+
+<p>When done with the changes. And everything is pushed to the remote git server, we can remove the &#8216;foo&#8217; branch</p>
+
+<blockquote><p><strong>$</strong> git branch -d foo
+Deleted branch foo (was d9a8c76).</p></blockquote>
+
+<p>That&#8217;s all for branching right now.</p>
+
+<h2>Stashing</h2>
+
+<p>One of my personal favorite the stash command. Imagine working on a project. And somebody asks you to make a small change. In subversion i needed to do a new checkout and work on that. This can be quite slow and cumbersome. In git this is solved elegantly by using the stash command.</p>
+
+<blockquote><p><strong>$</strong> git stash
+Saved working directory and index state &#8220;WIP on master: 648f347&#8230; foo&#8221;
+(To restore them type &#8220;git stash apply&#8221;)
+HEAD is now at 648f347 foo</p></blockquote>
+
+<p>This saves a copy of the working state and let&#8217;s you do changes on a fresh base. After your done get back to your work by doing</p>
+
+<blockquote><p><strong>$</strong> git stash pop (or apply)</p></blockquote>
+
+<p>With pop you push the stash back to the master. With apply the changes will first be applied to the master before restoring the work state.</p>
+
+<h2>Working with other repositories</h2>
+
+<p>Clone a repository from a remote GIT server</p>
+
+<blockquote><p><strong>$</strong> git clone git@git.domain.tld:repository.git ./project2</p></blockquote>
+
+<p>Clone a local GIT repository</p>
+
+<blockquote><p><strong>$</strong> git clone ./project ./project2</p></blockquote>
+
+<p>Now it could be possible a friend or a remote community member without write access made a few changes to his / her remote repository. And wants them on the global remote GIT server. This can be done by pulling the code.</p>
+
+<p>First add the new repository location</p>
+
+<blockquote><p><strong>$</strong> git remote add friend git://githubaddress</p></blockquote>
+
+<p>And then fetch the remote changes</p>
+
+<blockquote><p><strong>$</strong> git fetch friend</p></blockquote>
+
+<p>This only fetches the changes. but does not apply them to the master. Apply them</p>
+
+<blockquote><p><strong>$</strong> git pull friend master</p></blockquote>
+
+<p>updating remote repository</p>
+
+<blockquote><p><strong>$</strong> git push friend master</p></blockquote>
+
+<p>That&#8217;s all i can remember right now.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-11-16T22:12:50+01:00" pubdate data-updated="true">Nov 16<span>th</span>, 2010</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/categories/-home/'>/home</a>, <a class='category' href='/categories/code/'>Code</a>, <a class='category' href='/categories/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tlenss.github.com/2010/11/16/moving-from-subversion-to-git/" data-via="tlenss" data-counturl="http://tlenss.github.com/2010/11/16/moving-from-subversion-to-git/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="small"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2010/11/14/nsd-unknown-keyalgorithm/" title="Previous Post: NSD unknown key/algorithm">&laquo; NSD unknown key/algorithm</a>
+      
+      
+        <a class="basic-alignment right" href="/2010/12/31/best-wishes/" title="Next Post: Best wishes">Best wishes &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2012/11/07/publish-google-reader-shared-items/">Publish Google Reader shared items</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/29/long-running-php-script-and-mysql-server-gone-away/">Long running PHP script and MySQL server gone away</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/25/git-rebase-on-pull-by-default/">Git: Rebase on pull by default</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/">Workaround Ubuntu 12.04 mysterious system freezes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/09/24/fixing-character-replacement-in-wordpress/">Fixing character replacement in Wordpress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/09/24/resize-a-vagrant-vmdk-drive/">Resize a Vagrant VMDK drive</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/09/12/git-coming-up-with-a-good-workflow/">GIT:  Coming up with a good workflow</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/09/02/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/">Workaround for running WoW with patch 5.0.4 on Ubuntu</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/08/27/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/">Setup a basic PHP development environment with Vagrant and chef-solo</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/05/26/adding-colors-to-php-cli-script-output/">Adding colors to PHP CLI script output</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/tlenss">@tlenss</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'tlenss',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("tlenss", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/tlenss" class="twitter-follow-button" data-show-count="false">Follow @tlenss</a>
+  
+</section>
+
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/tl@lenss.nl?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Thijs Lensselink -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'tlenss';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://tlenss.github.com/2010/11/16/moving-from-subversion-to-git/';
+        var disqus_url = 'http://tlenss.github.com/2010/11/16/moving-from-subversion-to-git/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

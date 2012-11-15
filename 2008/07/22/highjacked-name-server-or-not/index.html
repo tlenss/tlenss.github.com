@@ -1,0 +1,365 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Highjacked name server or not? - Thijs Lensselink's Blog</title>
+  <meta name="author" content="Thijs Lensselink">
+
+  
+  <meta name="description" content="Yesterday was a weird day. Nothing seemed to go as it should have. My coworker Marius noticed that one of my domains was not responding anymore. We &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tlenss.github.com/2008/07/22/highjacked-name-server-or-not/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="http://feeds.feedburner.com/ThijsLensselinksBlog" rel="alternate" title="Thijs Lensselink's Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-8003524-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Thijs Lensselink's Blog</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feeds.feedburner.com/ThijsLensselinksBlog" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tlenss.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Highjacked Name Server or Not?</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-07-22T09:44:51+02:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2008</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Yesterday was a weird day. Nothing seemed to go as it should have. My coworker Marius noticed that one of my domains was not responding anymore. We tried to ping it. But forgot that our admins block outbound <a href="http://en.wikipedia.org/wiki/Internet_Control_Message_Protocol">ICMP</a> packages. At least we could see the domain resolved to the correct IP address.</p>
+
+<p>So we did a lookup on the domain. No weird things here. Then we decided to ping the name servers to see if they were responding. They were. But there was something strange. The domain in question runs on two name servers. namely ns1.cker.sc and ns2.cker.sc. ns1 was responding correctly. ns2 however was responding with a totally different and unknown IP address. This is weird. The normal settings would be:</p>
+
+<blockquote><p>ns1.cker.sc ( 208.69.125.116 )
+ns2.cker.sc ( 208.69.125.117 )</p></blockquote>
+
+<p>ns2 however responded with 208.69.34.132. The whois database at ripe.net told us it was in the IANA pool of addresses. But we couldn&#8217;t find a whois tool there. So i opened up a browser to go directly to this IP address. This showed a temporary <a href="http://opendns.com/">OpenDNS</a> page. Off to <a href="http://www.domaintools.com/">domaintools.com</a> to do a <a href="http://www.domaintools.com/reverse-ip/">reverse lookup</a> on this IP.</p>
+
+<p>This revealed one domain matching this IP address. Some weird long domain name. At first i was thinking somebody highjacked my DNS server or maybe some DNS cache poisoning. But after looking closely i noticed the domain was actually readable. The domain returned was : <a href="http://whois.domaintools.com/caffefiaschetteriaitaliana.com">Caffefiaschetteriaitaliana.com</a>. A google search returned some italian cafe with almost the same domain. <a href="http://whois.domaintools.com/caffefiaschetteriaitaliana.com"></a><a href="http://www.fiaschetteriaitaliana.it/">fiaschetteriaitaliana.it</a>.</p>
+
+<p>So we decided to do a whois query on the .com domain. This revealed some email addresses with similar domains. And technical contacts from aruba.it. By now we had the feeling somebody made a configuration error. So i decided to send an email to all the addresses matching this domain including OpenDNS. And after about an hour the nameserver was responding correctly again. So they either corrected a mistake or it was just a temporary fluke. I never got a reply from any of the addresses i wrote to.</p>
+
+<p>Although i&#8217;m happy the nameservers are responding properly again. I&#8217;m still stuck with the question. What the hell happened here? The most logical scenario for me is still a configuration error.</p>
+
+<p>UPDATE: 12-08-2008</p>
+
+<p>After some digging. I found out that the ip address &#8220;208.69.34.132&#8221; actually belongs to opendns.com. When a non existing sub -/ domain is quieried. This ip is returned. It&#8217;s just a way to make money from ads. the network i was connected to at that moment uses an opendns.com DNS cache server. That explains that part.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-07-22T09:44:51+02:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2008</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/categories/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tlenss.github.com/2008/07/22/highjacked-name-server-or-not/" data-via="tlenss" data-counturl="http://tlenss.github.com/2008/07/22/highjacked-name-server-or-not/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="small"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2008/07/21/pear-install-weirdness/" title="Previous Post: PEAR install weirdness">&laquo; PEAR install weirdness</a>
+      
+      
+        <a class="basic-alignment right" href="/2008/08/08/goodbye-php-4/" title="Next Post: Goodbye PHP 4">Goodbye PHP 4 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2012/11/07/publish-google-reader-shared-items/">Publish Google Reader shared items</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/29/long-running-php-script-and-mysql-server-gone-away/">Long running PHP script and MySQL server gone away</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/25/git-rebase-on-pull-by-default/">Git: Rebase on pull by default</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/">Workaround Ubuntu 12.04 mysterious system freezes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/09/24/fixing-character-replacement-in-wordpress/">Fixing character replacement in Wordpress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/09/24/resize-a-vagrant-vmdk-drive/">Resize a Vagrant VMDK drive</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/09/12/git-coming-up-with-a-good-workflow/">GIT:  Coming up with a good workflow</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/09/02/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/">Workaround for running WoW with patch 5.0.4 on Ubuntu</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/08/27/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/">Setup a basic PHP development environment with Vagrant and chef-solo</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/05/26/adding-colors-to-php-cli-script-output/">Adding colors to PHP CLI script output</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/tlenss">@tlenss</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'tlenss',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("tlenss", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/tlenss" class="twitter-follow-button" data-show-count="false">Follow @tlenss</a>
+  
+</section>
+
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/tl@lenss.nl?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Thijs Lensselink -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'tlenss';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://tlenss.github.com/2008/07/22/highjacked-name-server-or-not/';
+        var disqus_url = 'http://tlenss.github.com/2008/07/22/highjacked-name-server-or-not/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

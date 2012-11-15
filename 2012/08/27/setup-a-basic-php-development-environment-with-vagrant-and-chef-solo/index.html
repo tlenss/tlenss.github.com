@@ -1,0 +1,528 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Setup a basic PHP development environment with Vagrant and chef-solo - Thijs Lensselink's Blog</title>
+  <meta name="author" content="Thijs Lensselink">
+
+  
+  <meta name="description" content="So there are plenty of posts about this out there already. And this is nothing new i guess. But i am going to post it anyway. This weekend i spend &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tlenss.github.com/2012/08/27/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="http://feeds.feedburner.com/ThijsLensselinksBlog" rel="alternate" title="Thijs Lensselink's Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-8003524-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Thijs Lensselink's Blog</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feeds.feedburner.com/ThijsLensselinksBlog" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tlenss.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Setup a Basic PHP Development Environment With Vagrant and Chef-solo</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-27T00:47:05+02:00" pubdate data-updated="true">Aug 27<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>So there are plenty of posts about this out there already. And this is nothing new i guess. But i am going to post it anyway. This weekend i spend some time playing with vagrant. And every setup guide seemed to be missing some steps the make the whole process a bit of a hassle. So i compiled my own steps in the post below. The goal was to create a basic <a href="http://www.debian.org/">Debian</a> box for my <a href="http://www.php.net/">PHP</a> development. From which i could serve my local development files.</p>
+
+<p>So to start of we need some packages.</p>
+
+<p><strong>Virtualbox</strong></p>
+
+<p>To create the virtual development image</p>
+
+<p><strong>NFS packages</strong></p>
+
+<p>To make sharing files between host and guest easy as pie</p>
+
+<p><strong>Vagrant</strong></p>
+
+<p>To package the virtual image and manage newly created box</p>
+
+<blockquote><p>$ sudo apt-get install virtualbox vagrant nfs-common nfs-kernel-server</p></blockquote>
+
+<p>Now is a good moment to download any Linux distro you want. I chose Debian. As it´s the most common in my day to day work.</p>
+
+<blockquote><p>$ wget <a href="http://cdimage.debian.org/debian-cd/6.0.5/i386/iso-cd/debian-6.0.5-i386-netinst.iso">http://cdimage.debian.org/debian-cd/6.0.5/i386/iso-cd/debian-6.0.5-i386-netinst.iso</a></p></blockquote>
+
+<p>Now launch <a href="https://www.virtualbox.org/">virtualbox</a> and create a new virtual machine. Just do what you normally do when you create a VM. But make sure to choose VMDK `Virtual Machine Disk´ as the format. The rest should be ok. When the VM is created start it up and choose the freshly downloaded Linux ISO to start the installation.</p>
+
+<p>I only installed the base system + the SSH server. And when that&#8217;s all done. And the VM is running. Login as root and install some packages vagrant needs.</p>
+
+<blockquote><p>$ apt-get install sudo ruby ruby-dev libopenssl-ruby rdoc ri irb build-essential ssl-cert curl rubygems puppet</p></blockquote>
+
+<p>I won&#8217;t be setting up a <a href="http://www.opscode.com/chef/">Chef</a> server to manage the vagrant images. But i will be using <a href="http://wiki.opscode.com/display/chef/Installing+Chef+Client+and+Chef+Solo">Chef-Solo</a> to manage installing packages. So let&#8217;s install Chef.</p>
+
+<p><strong>install chef</strong></p>
+
+<p>Setup the opscode package repositories for APT</p>
+
+<blockquote><p>$ echo &#8220;deb http://apt.opscode.com/ <code>lsb_release -cs</code>-0.10 main&#8221; | tee /etc/apt/sources.list.d/opscode.list
+$ gpg &#8211;keyserver keys.gnupg.net &#8211;recv-keys 83EF826A
+$ gpg &#8211;export packages@opscode.com | tee /etc/apt/trusted.gpg.d/opscode-keyring.gpg > /dev/null</p></blockquote>
+
+<p>And finally install the opscode keymanager and and of course Chef.</p>
+
+<blockquote><p>$ apt-get update
+$ apt-get install opscode-keyring
+$ apt-get install chef</p></blockquote>
+
+<p>The installer will ask for the chef URL. I used <strong>none</strong> because i will be using chef solo</p>
+
+<p>Now we need to add a user for <a href="http://vagrantup.com/">vagrant</a> to connect with.</p>
+
+<blockquote><p>$ adduser vagrant
+  passwrd : vagrant
+$ groupadd admin
+$ usermod -a -G admin vagrant</p></blockquote>
+
+<p>Make sure the admin users can <strong>sudo</strong> without a password.</p>
+
+<blockquote><p>$ visudo
+%admin  ALL=(ALL) NOPASSWD: ALL</p></blockquote>
+
+<p>Disable DNS for the SSH server. This should be a performance gain.</p>
+
+<blockquote><p>$ vi /etc/etc/ssh/sshd_config
+UseDNS no</p></blockquote>
+
+<p>Change the MOTD to something nice</p>
+
+<blockquote><p>$ bash -c &#8220;echo &#8216;Sweeet! A Vagrant box cooked by Chef!!&#8217; > /etc/motd&#8221;
+$ chmod 0777 /etc/motd</p></blockquote>
+
+<p>Switch to the vagrant user to setup the <strong>insecure</strong> vagrant public SSH key.</p>
+
+<blockquote><p>$ su vagrant
+mkdir -p ~/.ssh
+chmod 0700 ~/.ssh
+curl -o ~/.ssh/authorized_keys https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub
+chmod 0600 ~/.ssh/authorized_keys</p></blockquote>
+
+<p>That&#8217;s it for the VM. Now it&#8217;s time for vagrant to do some magic. First we need to create a vagrant package from the newly created VM.</p>
+
+<blockquote><p>$ vagrant package &#8211;base devbox
+$ mv package.box devbox.box</p></blockquote>
+
+<p>Done! Let&#8217;s test it.</p>
+
+<blockquote><p>$ vagrant box add devbox devbox.box
+$ mkdir test &amp;&amp; cd test
+$ vagrant init devbox
+$ vagrant up
+$ vagrant ssh</p></blockquote>
+
+<p>Voila ssh&#8217;d into the VM</p>
+
+<blockquote><p>$ exit
+$ vagrant halt
+$ vagrant destroy</p></blockquote>
+
+<p>So that&#8217;s all fine and dandy. But a base system with SSH is not that useful. So that&#8217;s where Chef comes in. Like i mentioned earlier i won&#8217;t be using a Chef-Server. I will be using Chef-Solo. And will be doing a very basic setup.</p>
+
+<p>A Chef install script is called a <a href="http://wiki.opscode.com/display/chef/Cookbooks">cookbook</a>. And they can be found all over the place. But the main repository is over here (find more here https://github.com/opscode/cookbooks). So in our vagrant folder we create a folder called cookbooks.</p>
+
+<blockquote><p>$ mkdir cookbooks
+$ cd cookbooks</p></blockquote>
+
+<p>And we install some basic cookbooks. Plus a very simple one i hacked together to install the latest <a href="http://www.dotdeb.org/">dotdeb</a> package repositories.</p>
+
+<p><a href="https://github.com/tlenss/misc/tree/master/chef/cookbooks/dotdeb">https://github.com/tlenss/misc/tree/master/chef/cookbooks/dotdeb</a></p>
+
+<blockquote><p>$ git clone <a href="https://github.com/opscode/cookbooks">https://github.com/opscode/cookbooks</a></p></blockquote>
+
+<p>This will be enough for now. And will allow for some basic PHP development. To enable these package we have to edit the <strong>Vagrantfile</strong> file.</p>
+
+<blockquote><p>$ vi Vagrantfile</p></blockquote>
+
+<p>Add these lines for apache forwarding and NFS sharing</p>
+
+<blockquote><p>config.vm.share_folder &#8220;www&#8221;, &#8220;/var/www&#8221;, &#8220;/dev/location&#8221;</p></blockquote>
+
+<p>uncomment the :hostonly line so we can acces apache from our local box. And setup a hosts file mapping</p>
+
+<blockquote><p>config.vm.network :hostonly, &#8220;192.168.164.123&#8221;
+$ sudo sed -i &#8216;$ a\
+192.168.164.123 dev.box&#8217; /etc/hosts</p></blockquote>
+
+<p>Configure chef&#8217;s cookbook path and add some recipes from the cloned cookbooks.</p>
+
+<blockquote><p>config.vm.provision :chef_solo do |chef|</p>
+
+<pre><code>chef.json = {
+    "mysql" =&gt; {
+        "server_root_password" =&gt; "somepassword"
+    "bind_address" =&gt; "127.0.0.1"
+    }
+}
+</code></pre></blockquote>
+
+<pre><code>chef.cookbooks_path = "cookbooks"
+chef.add_recipe("dotdeb")
+chef.add_recipe("dotdeb::php54")
+chef.add_recipe("openssl")
+chef.add_recipe("apache2")
+chef.add_recipe("apache2::mod_php5")
+chef.add_recipe("apache2::mod_rewrite")
+chef.add_recipe("mysql")
+chef.add_recipe("mysql::server")
+chef.add_recipe("memcached")
+chef.add_recipe("vim")
+chef.add_recipe("php")
+chef.add_recipe("php::module_curl")
+chef.add_recipe("php::module_mysql")
+chef.add_recipe("php::module_memcache")
+chef.add_recipe("php::module_sqlite3")
+</code></pre>
+
+<p>end</p>
+
+<p>Time to call vagrant again. And this time the startup takes a bit longer. All the selected packages get installed. And once that&#8217;s done. And a fresh development box is waiting.</p>
+
+<blockquote><p>$ vagrant up
+$ vagrant ssh</p></blockquote>
+
+<p>Let&#8217;s check PHP</p>
+
+<blockquote><p>$ php -v
+PHP 5.4.6-1~dotdeb.0 (cli) (built: Aug 19 2012 08:45:58)
+Copyright (c) 1997-2012 The PHP Group
+Zend Engine v2.4.0, Copyright (c) 1998-2012 Zend Technologies</p></blockquote>
+
+<p>What about apache?</p>
+
+<blockquote><p>$ ps -aux | grep apache
+root       790  0.1  0.2   5352  2580 ?        Ss   23:40   0:00 /usr/sbin/apache2 -k start
+www-data   793  0.0  0.1   5124  1764 ?        S    23:40   0:00 /usr/sbin/apache2 -k start
+www-data   797  0.0  0.2 546408  2412 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start
+www-data   798  0.0  0.2 546408  2404 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start
+www-data   811  0.0  0.2 546408  2424 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start</p></blockquote>
+
+<p>Nice! And Pointing the browser to http://localhost:8080 loads the NFS shared folder up through Apache. That&#8217;s it for now. Time to sleep&#8230;</p>
+
+<p>Some sources i used:
+[1] <a href="http://vagrantup.com/v1/docs/base_boxes.html">http://vagrantup.com/v1/docs/base_boxes.html</a>
+[2] <a href="https://github.com/yevgenko/cookbook-dotdeb">https://github.com/yevgenko/cookbook-dotdeb</a>
+[3] <a href="http://vagrantup.com/v1/docs/provisioners/chef_solo.html">http://vagrantup.com/v1/docs/provisioners/chef_solo.html</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-27T00:47:05+02:00" pubdate data-updated="true">Aug 27<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/categories/code/'>Code</a>, <a class='category' href='/categories/php/'>PHP</a>, <a class='category' href='/categories/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tlenss.github.com/2012/08/27/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/" data-via="tlenss" data-counturl="http://tlenss.github.com/2012/08/27/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="small"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2012/05/26/adding-colors-to-php-cli-script-output/" title="Previous Post: Adding colors to PHP CLI script output">&laquo; Adding colors to PHP CLI script output</a>
+      
+      
+        <a class="basic-alignment right" href="/2012/09/02/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/" title="Next Post: Workaround for running WoW with patch 5.0.4 on Ubuntu">Workaround for running WoW with patch 5.0.4 on Ubuntu &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2012/11/07/publish-google-reader-shared-items/">Publish Google Reader shared items</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/29/long-running-php-script-and-mysql-server-gone-away/">Long running PHP script and MySQL server gone away</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/25/git-rebase-on-pull-by-default/">Git: Rebase on pull by default</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/">Workaround Ubuntu 12.04 mysterious system freezes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/09/24/fixing-character-replacement-in-wordpress/">Fixing character replacement in Wordpress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/09/24/resize-a-vagrant-vmdk-drive/">Resize a Vagrant VMDK drive</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/09/12/git-coming-up-with-a-good-workflow/">GIT:  Coming up with a good workflow</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/09/02/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/">Workaround for running WoW with patch 5.0.4 on Ubuntu</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/08/27/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/">Setup a basic PHP development environment with Vagrant and chef-solo</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/05/26/adding-colors-to-php-cli-script-output/">Adding colors to PHP CLI script output</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/tlenss">@tlenss</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'tlenss',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("tlenss", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/tlenss" class="twitter-follow-button" data-show-count="false">Follow @tlenss</a>
+  
+</section>
+
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/tl@lenss.nl?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Thijs Lensselink -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'tlenss';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://tlenss.github.com/2012/08/27/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/';
+        var disqus_url = 'http://tlenss.github.com/2012/08/27/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

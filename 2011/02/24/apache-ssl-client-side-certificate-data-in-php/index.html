@@ -1,0 +1,472 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Apache SSL client side certificate data in PHP - Thijs Lensselink's Blog</title>
+  <meta name="author" content="Thijs Lensselink">
+
+  
+  <meta name="description" content="What should have been a simple assignment turned out to be a hair pulling endeavour. The ultimate goal was to read the client side certificate data &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tlenss.github.com/2011/02/24/apache-ssl-client-side-certificate-data-in-php/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="http://feeds.feedburner.com/ThijsLensselinksBlog" rel="alternate" title="Thijs Lensselink's Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-8003524-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Thijs Lensselink's Blog</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feeds.feedburner.com/ThijsLensselinksBlog" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tlenss.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Apache SSL Client Side Certificate Data in PHP</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-24T01:55:03+01:00" pubdate data-updated="true">Feb 24<span>th</span>, 2011</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>What should have been a simple assignment turned out to be a hair pulling endeavour. The ultimate goal was to read the client side certificate data in PHP. I am by no means a system administrator. And the SSL part will probably be done by somebody more experienced. And the certificates will be signed by real CA&#8217;s. But for developing locally i need something functioning.</p>
+
+<p>So i spend the last hours trying to get client side certificates working. With absolutely no luck. I found a bunch of posts by doing Google searches. But none of them seem to offer the proper information for creating good client side certificates. Creating the CA and the server certificate is no problem at all. But creating a client side certificate seems impossible. Some of the post i tried:</p>
+
+<p><a href="http://www.modssl.org/docs/2.7/ssl_faq.html">http://www.modssl.org/docs/2.7/ssl_faq.html</a>
+<a href="http://www.vanemery.com/Linux/Apache/apache-SSL.html">http://www.vanemery.com/Linux/Apache/apache-SSL.html</a>
+<a href="http://www.linuxconfig.org/apache-web-server-ssl-authentication">http://www.linuxconfig.org/apache-web-server-ssl-authentication</a>
+<a href="https://help.ubuntu.com/community/OpenSSL">https://help.ubuntu.com/community/OpenSSL</a>
+<a href="https://help.ubuntu.com/8.04/serverguide/C/httpd.html">https://help.ubuntu.com/8.04/serverguide/C/httpd.html</a>
+<a href="http://it.toolbox.com/blogs/securitymonkey/howto-securing-a-website-with-client-ssl-certificates-11500">http://it.toolbox.com/blogs/securitymonkey/howto-securing-a-website-with-client-ssl-certificates-11500</a></p>
+
+<p>You would have thought that something like this would have been documented pretty well by now. But no luck for me. This only resulted in</p>
+
+<blockquote><p>[debug] ssl_engine_kernel.c(1879): OpenSSL: Read: SSLv3 read client certificate A
+[debug] ssl_engine_kernel.c(1898): OpenSSL: Exit: failed in SSLv3 read client certificate A
+[info] [client xxx.xxx.xxx.xx] SSL library error 1 in handshake (server lab:443)
+[info] SSL Library Error: 336151570 error:14094412:SSL routines:SSL3_READ_BYTES:sslv3 alert bad certificate Subject CN in certificate not server name or identical to CA!?</p></blockquote>
+
+<p>So after almost giving up i found the <em>CA.sh</em> script hidden in <em>/usr/lib/ssl/misc</em> this little sucker seems to do the job pretty well. Creating a CA, server certificate and client side certificate is extremely easy. So i settled for that.</p>
+
+<p><strong>Creating the CA</strong></p>
+
+<blockquote><p>$ cd /usr/lib/ssl/misc
+$ /CA.sh -newca
+CA certificate filename (or enter to create)</p></blockquote>
+
+<p>Making CA certificate &#8230;
+Generating a 1024 bit RSA private key
+&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;..++++++
+&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;++++++
+writing new private key to &#8216;./demoCA/private/./cakey.pem&#8217;
+Enter PEM pass phrase:
+Verifying - Enter PEM pass phrase:</p>
+
+<p>And fill out some basic certificate data</p>
+
+<blockquote><p>Country Name (2 letter code) [AU]:NL
+State or Province Name (full name) [Some-State]:NH
+Locality Name (eg, city) []:Purmerend
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:Bluesignal
+Organizational Unit Name (eg, section) []:lab
+Common Name (eg, YOUR name) []:lab
+Email Address []:my@email.tld</p></blockquote>
+
+<p><strong>Creating the server certificates</strong></p>
+
+<blockquote><p>$ ./CA.sh -newreq
+Generating a 1024 bit RSA private key
+.++++++
+&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;++++++
+writing new private key to &#8216;newkey.pem&#8217;
+Enter PEM pass phrase:
+Verifying - Enter PEM pass phrase:</p></blockquote>
+
+<p>Fill out the same basic certificate data</p>
+
+<blockquote><p>Country Name (2 letter code) [AU]:NL
+State or Province Name (full name) [Some-State]:NH
+Locality Name (eg, city) []:Purmerend
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:Bluesignal
+Organizational Unit Name (eg, section) []:lab
+Common Name (eg, YOUR name) []:lab
+Email Address []:my@email.tld</p></blockquote>
+
+<p><strong>Sign the sucker</strong></p>
+
+<blockquote><p>$ ./CA.sh -sign
+Using configuration from /etc/ssl/openssl.cnf
+Enter pass phrase for ./demoCA/private/cakey.pem:
+Check that the request matches the signature
+Signature ok</p></blockquote>
+
+<p>The only thing left to do is creating the client side certificate</p>
+
+<blockquote><p>openssl pkcs12 -export -in newcert.pem -inkey newkey.key -out username.p12 -name &#8220;Client Certificate&#8221;</p></blockquote>
+
+<p>Time to configure Apache2. I used the standard default-ssl virtual host and just reconfigured it</p>
+
+<blockquote><p>SSLEngine on
+SSLProtocol -all +TLSv1 +SSLv3
+SSLCipherSuite HIGH:MEDIUM
+SSLProxyEngine off
+SSLOptions +StrictRequire +OptRenegotiate +StdEnvVars +ExportCertData</p></blockquote>
+
+<p>SSLCertificateFile /usr/lib/ssl/misc/newcert.pem
+SSLCertificateKeyFile /usr/lib/ssl/misc/newkey.pem
+SSLVerifyClient require
+SSLVerifyDepth 1</p>
+
+<p>SSLCertificateChainFile /usr/lib/ssl/misc/demoCA/cacert.pem
+SSLCACertificatePath /usr/lib/ssl/misc/demoCA/certs
+SSLCACertificateFile /usr/lib/ssl/misc/demoCA/cacert.pem</p>
+
+<p>reboot Apache2</p>
+
+<blockquote><p>$ /etc/init.d/apache2 restart</p></blockquote>
+
+<p>The server side is ready. But it is still impossible to connect at this moment. We need to install the client certificate inside Firefox</p>
+
+<blockquote><p>Edit > Preferences > Advanced > View Certificates</p></blockquote>
+
+<p>Choose import and browse to the newly created *.p12 certificate file.</p>
+
+<p>Now i can finally connect based on my client side certificate and read the pieces of data i was looking for. Which can easily found by doing</p>
+
+<pre><code>print_r($_SERVER);
+</code></pre>
+
+<p>Some of the stuff i was looking for</p>
+
+<blockquote><p>[SSL_CLIENT_S_DN_C] => NL
+[SSL_CLIENT_S_DN_ST] => NH
+[SSL_CLIENT_S_DN_L] => Purmerend
+[SSL_CLIENT_S_DN_O] => Bluesignal
+[SSL_CLIENT_S_DN_OU] => lab
+[SSL_CLIENT_S_DN_CN] => lab
+[SSL_CLIENT_S_DN_Email] => my@email.tld
+[SSL_CLIENT_I_DN_C] => NL
+[SSL_CLIENT_I_DN_ST] => NH
+[SSL_CLIENT_I_DN_O] => Bluesignal
+[SSL_CLIENT_I_DN_OU] => lab
+[SSL_CLIENT_I_DN_CN] => lab
+[SSL_CLIENT_I_DN_Email] => my@email.tld</p></blockquote>
+
+<p>Now it&#8217;s time for the fun part.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-24T01:55:03+01:00" pubdate data-updated="true">Feb 24<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/categories/code/'>Code</a>, <a class='category' href='/categories/php/'>PHP</a>, <a class='category' href='/categories/security/'>Security</a>, <a class='category' href='/categories/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tlenss.github.com/2011/02/24/apache-ssl-client-side-certificate-data-in-php/" data-via="tlenss" data-counturl="http://tlenss.github.com/2011/02/24/apache-ssl-client-side-certificate-data-in-php/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="small"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2011/02/21/voices-of-the-elephpant/" title="Previous Post: Voices of the ElePHPant">&laquo; Voices of the ElePHPant</a>
+      
+      
+        <a class="basic-alignment right" href="/2011/03/06/phps-current-trend-status/" title="Next Post: PHP's current trend status">PHP's current trend status &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2012/11/07/publish-google-reader-shared-items/">Publish Google Reader shared items</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/29/long-running-php-script-and-mysql-server-gone-away/">Long running PHP script and MySQL server gone away</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/25/git-rebase-on-pull-by-default/">Git: Rebase on pull by default</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/">Workaround Ubuntu 12.04 mysterious system freezes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/09/24/fixing-character-replacement-in-wordpress/">Fixing character replacement in Wordpress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/09/24/resize-a-vagrant-vmdk-drive/">Resize a Vagrant VMDK drive</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/09/12/git-coming-up-with-a-good-workflow/">GIT:  Coming up with a good workflow</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/09/02/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/">Workaround for running WoW with patch 5.0.4 on Ubuntu</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/08/27/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/">Setup a basic PHP development environment with Vagrant and chef-solo</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/05/26/adding-colors-to-php-cli-script-output/">Adding colors to PHP CLI script output</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/tlenss">@tlenss</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'tlenss',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("tlenss", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/tlenss" class="twitter-follow-button" data-show-count="false">Follow @tlenss</a>
+  
+</section>
+
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/tl@lenss.nl?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Thijs Lensselink -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'tlenss';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://tlenss.github.com/2011/02/24/apache-ssl-client-side-certificate-data-in-php/';
+        var disqus_url = 'http://tlenss.github.com/2011/02/24/apache-ssl-client-side-certificate-data-in-php/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
