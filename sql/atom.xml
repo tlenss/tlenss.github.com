@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: SQL | Thijs Lensselink's Blog]]></title>
+  <link href="http://tlenss.github.com//sql/atom.xml" rel="self"/>
+  <link href="http://tlenss.github.com/"/>
+  <updated>2012-11-18T00:10:43+01:00</updated>
+  <id>http://tlenss.github.com/</id>
+  <author>
+    <name><![CDATA[Thijs Lensselink]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Long running PHP script and MySQL server gone away]]></title>
+    <link href="http://tlenss.github.com/2012/10/29/long-running-php-script-and-mysql-server-gone-away/"/>
+    <updated>2012-10-29T14:39:26+01:00</updated>
+    <id>http://tlenss.github.com/2012/10/29/long-running-php-script-and-mysql-server-gone-away</id>
+    <content type="html"><![CDATA[<p>At the moment i am writing some workers that interact with a <a href="http://kr.github.com/beanstalkd/">beanstalk</a> server. When data gets pushed into the beanstalk server. My workers will be triggered to process this data. So the workers are sitting idle for most of the time. And just wait for some data to process. No rocket science there. But during testing i kept running into <a href="http://www.mysql.com/">MySQL</a> issues. The script seemed to lose connection to the MySQL server when it was idle for longer then a minute. And would respond with a</p>
+
+<blockquote><p>Warning: <a href="http://php.net/mysql_query">mysql_query</a>(): MySQL server has gone away in /path/to/some/mysql4/class.php on line xxx</p></blockquote>
+
+<p>So whats going on here? Well actually it's quite simple. When my script initializes the database connection it doesn't use it. It just sits there waiting for incoming data. Once received it will process it and try to store it in the database. But when the waiting period exceeds the time for PHP to keep the MySQL connection open it responds with the warning mentioned above. Now in previous versions of PHP this would not be a big issue. As PHP would just initiate a reconnect when the connection is lost. But from PHP 5.0.3 and up this functionality has been disabled by default. For MySQLI this is no problem at all.</p>
+
+<p>MySQLi:</p>
+
+<blockquote><p>mysqli.reconnect = Off to On</p></blockquote>
+
+<p>Unfortunately i am working with PHP's core mysql_* functions (don't get me started) and there doesn't seem to be an easy way to resolve this. According to the MySQL documentation</p>
+
+<pre><code>mysql_options(&amp;mysql;, MYSQL_OPT_RECONNECT, &amp;reconnect;);
+</code></pre>
+
+<p>Should do the trick. But passing <strong>MYSQL_OPT_RECONNECT</strong> in anyway to <a href="http://php.net/mysql_connect">mysql_connect</a> didn't result in the result i was looking for. So what now? Porting the database code to make use of the newer and better PDO or MySQLi is no option. As it would consume way to much time. Fortunately the mysql_* core functions come with mysql_ping. I never had to use this before. But in this case it comes in quite handy.</p>
+
+<p><strong>From the PHP manual:</strong></p>
+
+<pre><code>bool mysql_ping ([ resource $link_identifier = NULL ] )
+</code></pre>
+
+<blockquote><p>Checks whether or not the connection to the server is working. If it has gone down, an automatic reconnection is attempted. This function can be used by scripts that remain idle for a long while, to check whether or not the server has closed the connection and reconnect if necessary.</p></blockquote>
+
+<p>Note:
+<strong>Automatic reconnection is disabled by default in versions of MySQL >= 5.0.3.</strong></p>
+
+<p>Adding the mysql_ping function call was rather straight forward. And didn't require all that much work to be done. I extended the database class to include a ping method. That would simply throw an exception when it failed to reconnect.</p>
+
+<pre><code>public function ping()
+{
+    if (!mysql_ping($this-&gt;db_connect_id)) {
+        throw new Mollie_Database_Exception("Connection was lost");
+    }   
+    return true;
+}
+</code></pre>
+
+<p>And after that i started poking around the userland implementation. The worker is running inside a <strong>while(true)</strong> loop. A first test with <strong>->ping()</strong> being called inside this loop proved to resolve the issue at hand. But running the ping function that often is overkill. And who knows it might actually result in <strong>DoS</strong> of the database server. So i decided to ping the server every one minute or so.</p>
+
+<pre><code>$start = time();
+while (true) 
+{
+    $this-&gt;_keepConnectionAlive($start);
+</code></pre>
+
+<p>And the keepConnectionAlive method looks something like this</p>
+
+<pre><code>protected function _keepConnectionAlive(&amp;$start)
+{
+    $passed = (time() - $start);
+    if ($passed &gt; 60)
+    {
+        $start = time();
+        $this-&gt;_db-&gt;ping();
+    }
+}
+</code></pre>
+
+<p>I'm not a big fan of this solution. And would rather be implementing MySQLi functions. But this functions well. And will do for now.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Resize a Vagrant VMDK drive]]></title>
+    <link href="http://tlenss.github.com/2012/09/24/resize-a-vagrant-vmdk-drive/"/>
+    <updated>2012-09-24T14:17:00+02:00</updated>
+    <id>http://tlenss.github.com/2012/09/24/resize-a-vagrant-vmdk-drive</id>
+    <content type="html"><![CDATA[<p>Using <a href="http://vagrantup.com/">Vagrant</a> as a development environment is great. But you have to watch the available disk space when doing some funky database benchmarking. Last Friday i wrote a script to populate a test database with over 60 million records. And left it running over the weekend. With the idea it would be finished when i returned to the office on Monday. Well it actually was still running. But the Vagrant instance was out of disk space when i logged in. Damn. Should have made sure i had a big disk attached to this instance.</p>
+
+<p>O well. My first idea was to just drop the database that i wanted to use for testing. But due to no space available on the system. I could not drop it. I really couldn't do anything on the system. Even writing config files failed. So where did all the disk space go?</p>
+
+<blockquote><p>$ df -h
+Filesystem            Size    Used    Avail    Use%    Mounted on
+/dev/mapper/debian-605-root    10G    9.8G    0.2G    99%    /</p></blockquote>
+
+<p>That's really not that much space left. And /var/mysql/ibdata1 for the <a href="http://www.innodb.com/">InnoDB</a> tables was taking up 7 GB. And since i have a couple of InnoDB tables i can't just delete this file. So need to come up with something else. And after a bit of Googling. I came across <a href="http://jjperezaguinaga.wordpress.com/2012/04/03/a-happy-ending-story-with-vagrant-resizing-a-lucid32-vmdk-box/">this</a> post. Which seemed promising. But the most important part is left out. And instead linked to some horrible garbled page. That is completely unreadable. So i had to do some digging to figure this out on my own. For cloning the disks i followed the steps in the article however. The Virtual Box files are located in the user folder in the following path</p>
+
+<blockquote><p>$ cd ~/VirtualBox VMs/development_*</p></blockquote>
+
+<p>The first thing i did was convert the <a href="http://sanbarrow.com/vmdk-handbook.html">VMDK</a> image to a <a href="http://en.wikipedia.org/wiki/VDI_(file_format">VDI</a>) image so we can actually do some partition resizing.</p>
+
+<blockquote><p>$ VBoxManage clonehd box-disk1.vmdk box-disk1.vdi --format VDI</p></blockquote>
+
+<p>So now we have a new VDI image. And we need to resize it so it has sufficient space for what we are trying to do. In my case 20 GB is sufficient.</p>
+
+<blockquote><p>$ VBoxManage modifyhd box-disk1.vdi --resize 20000</p></blockquote>
+
+<p>Now that the new disk is created it needs to be attached to the vagrant virtual machine. This is easily achieved by doing right click on the VM in <a href="https://www.virtualbox.org/">VirtualBox</a> and select Settings</p>
+
+<blockquote><p>Storage > SATA Controller > Add hard disk (select existing and point to the new VDI image)</p></blockquote>
+
+<p>Now boot the Vagrant image in VirtualBox so we have a screen to work with. When it has booted up. Login.</p>
+
+<p>First create a new Primary partition in the unused space of type Linux LVM (8e) with <a href="http://linux.die.net/man/8/cfdisk">cfdisk</a>.</p>
+
+<blockquote><p>$ cfdisk /dev/sda</p></blockquote>
+
+<p>When the partition table has been written. It's time to create a new physical volume on the new partition with the help of <a href="http://linux.about.com/library/cmd/blcmdl8_pvcreate.htm">pvcreate</a></p>
+
+<blockquote><p>$ pvcreate /dev/sda3
+  successfully created</p></blockquote>
+
+<p>For the next steps we will be needing the Volume Group name. We will get this by running <a href="http://linux.about.com/library/cmd/blcmdl8_pvdisplay.htm">pvdisplay</a></p>
+
+<blockquote><p>$ pvdisplay | grep "VG Name"
+ VG Name    debian-605</p></blockquote>
+
+<p>So now we have all the bits ready. And its time to extend the root partition with the newly created partition.</p>
+
+<blockquote><p>$ vgextend debian-605 /dev/sda3
+ Volume group "debian-605" successfully extended</p></blockquote>
+
+<p>Awesome! next step extending the logical partition</p>
+
+<blockquote><p>$ lvextend /dev/debian-605/root /dev/sda3
+ Extending logical volume root to 18.84 GiB
+ Logical volume root successfully resized</p></blockquote>
+
+<p>Almost there. The last thing left to do is resize the filesystem to make all space available.</p>
+
+<blockquote><p>$ resize2fs /dev/debian-605/root
+ resize2fs 1.41.12 (17-May-2010)
+Filesystem at /dev/debian-605/root is mounted on /; on-line resizing required old desc_blocks = 1, new_desc_blocks = 2
+Performing an on-line resize of /dev/debian-605/root to 4937728 (4k) blocks.
+The filesystem on /dev/debian-605/root is now 4937728 blocks long.</p></blockquote>
+
+<p>It's that simple really. So let's check.</p>
+
+<blockquote><p>$ df -h
+Filesystem            Size    Used    Avail    Use%    Mounted on
+/dev/mapper/debian-605-root    19G    8.6G    9.1G    49%    /</p></blockquote>
+
+<p>After this i did not bother to convert the VDI image back to a VDMK image. But if you have to for some reason. You could do that with the commands below. And some manual editing of the VirtualBox xml config.</p>
+
+<blockquote><p>$ VBoxManage internalcommands sethduuid box-disk1.vdi
+$ VBoxManage clonehd box-disk1.vdi box-disk1.vmdk --format VMDK</p></blockquote>
+
+<p>So that's it really for resizing the Vagrant hard drive. The only thing left for me was to cleanup the large ibdata1 file. And setup Mysql to use separate ibdata files for InnoDB table.</p>
+
+<blockquote><p>$ vi /etc/mysql/my.cnf
+[mysqld]
+innodb_file_per_table</p></blockquote>
+
+<p>Restart Mysql and dump all needed databases except the system tables like (mysql, information_schema).</p>
+
+<blockquote><p>$ /etc/init.d/mysql restart
+$ echo 'show databases;' | mysql -uroot -p | grep -v ^Database$ | grep -v ^information_schema$ | grep -v ^mysql$ | xargs mysqldump -uroot -p  --databases > dump.sql</p></blockquote>
+
+<p>When that's done. Drop all InnoDB database tables. Remove the ibdata and in_log files from /var/lib/mysql.</p>
+
+<blockquote><p>$ /etc/init.d/mysql stop
+$ rm /var/mysql/ibdata1<em> /var/mysql/ib_log</em></p></blockquote>
+
+<p>Now we restart Mysql. And reimport the databases.</p>
+
+<blockquote><p>$ /etc/init.d/mysql start
+$ mysql -uroot -p &lt; dump.sql</p></blockquote>
+
+<p>Some of the resources i used for solving this issue:</p>
+
+<p>[1] <a href="http://www.turnkeylinux.org/blog/extending-lvm">http://www.turnkeylinux.org/blog/extending-lvm</a>
+[2] <a href="http://unix.stackexchange.com/questions/37900/gparted-live-cd-cant-resize-a-partition">http://unix.stackexchange.com/questions/37900/gparted-live-cd-cant-resize-a-partition</a>
+[3] <a href="http://www.my-guides.net/en/guides/general-software/122-how-to-resize-a-virtualbox-disk-partition">http://www.my-guides.net/en/guides/general-software/122-how-to-resize-a-virtualbox-disk-partition</a>
+[4] <a href="http://www.virtualbox.org/manual/ch08.html#vboxmanage-modifyvdi">http://www.virtualbox.org/manual/ch08.html#vboxmanage-modifyvdi</a>
+[6] <a href="http://stackoverflow.com/questions/3456159/how-to-shrink-purge-ibdata1-file-in-mysql">http://stackoverflow.com/questions/3456159/how-to-shrink-purge-ibdata1-file-in-mysql</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Abbywinters.com is hiring!]]></title>
+    <link href="http://tlenss.github.com/2011/11/22/abbywinters-com-is-hiring/"/>
+    <updated>2011-11-22T14:46:51+01:00</updated>
+    <id>http://tlenss.github.com/2011/11/22/abbywinters-com-is-hiring</id>
+    <content type="html"><![CDATA[<p><a href="http://careers.abbywinters.com/job-opportunities/senior-php-developer/"><img src="http://lenss.nl/images/2011/11/aw-logo-roundel-blue.png" alt="" /></a> If you're looking for a new challenging and exiting Senior Webdeveloper position. Don't look any further. If you already think you have the job of your dreams. Think again!</p>
+
+<p><em><a href="http://www.abbywinters.com">abbywinters.com</a> <strong>(NSFW)</strong> is one of the largest and most ethical, highly rated, well designed, and successful erotic websites in the world today. abbywinters.com is the WINNER of the AVN 2011 Awards for Best Membership site!</em></p>
+
+<p>And we are looking to hire a new talented webdeveloper to expand our small team. What would you think about joining our small Agile team of highly qualified professionals?</p>
+
+<p>You will be creating sexy, exiting and game changing experiences for the web, work for one of the industry leaders. And just be part of an awesome company. Some of the jobs key elements are:</p>
+
+<ul>
+<li><p>Implementing development projects</p></li>
+<li><p>Leading informal mentoring during day-to-day work</p></li>
+<li><p>Contribute to design of development projects</p></li>
+<li><p>Track, reduce, and prevent technical debt in Web Development projects</p></li>
+</ul>
+
+
+<blockquote><p>Motivated by principles of social responsibility, we deliver provocative media by embracing imagination, creativity and emerging technologies. Our models, customers and business partners are inspired by our fervid passion.</p>
+
+<p>Our experienced staff use state-of-the-art content production facilities to produce 10 shoots a week from concept to finished art, utilizing the most advanced digital capture, post production and delivery systems in the world.</p>
+
+<p>You will be working directly with our Web Dev Manager, Lead developer and colleagues in the web dev team. We need each individual to contribute for us to continue as a pioneer in our industry.</p></blockquote>
+
+<p>If you posses a "Can do" attitude. Would like to work in the center of Amsterdam. And are able to identify your self in the criteria below. You might want to head over to our <a href="http://careers.abbywinters.com/job-opportunities/senior-php-developer/">career portal</a> for a more detailed description.</p>
+
+<p><strong>Technical competencies – Required</strong></p>
+
+<ul>
+<li><p>High level of skill with PHP 5</p></li>
+<li><p>High level of skill with Object Oriented Programming</p></li>
+<li><p>High level of skill with HTML/CSS</p></li>
+<li><p>High level of skill with JavaScript</p></li>
+<li><p>High level of skill with Internet Applications</p></li>
+<li><p>Moderate level of skill with Unit Testing and Test Driven Design</p></li>
+<li><p>Moderate level of skill with MySQL</p></li>
+<li><p>Moderate level of skill with Windows XP operating system</p></li>
+<li><p>Experience with the GNU/Linux operating system</p></li>
+<li><p>Competent with Revision Control systems (Subversion)</p></li>
+<li><p>Bachelor of Science in Computer Science, or equivalent experience</p></li>
+<li><p>Zend Certified Engineer, or equivalent experience</p></li>
+<li><p>At least 5 years experience in Web Application Development</p></li>
+</ul>
+
+
+<p><strong>Technical competencies – Desired</strong></p>
+
+<ul>
+<li><p>Moderate level of skill with the Apache HTTP server</p></li>
+<li><p>Good understanding of the Model-View-Controller pattern</p></li>
+<li><p>Good understanding of the ActiveRecord Object-Relational-Mapping pattern</p></li>
+<li><p>Familiarity with Agile software development practices (Scrum)</p></li>
+<li><p>E-commerce</p></li>
+<li><p>Agile development experience</p></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Reserved keywords, corrupt cache and stack errors]]></title>
+    <link href="http://tlenss.github.com/2011/06/21/reserved-keywords_corrupt-cache-and-stack-errors/"/>
+    <updated>2011-06-21T15:22:36+02:00</updated>
+    <id>http://tlenss.github.com/2011/06/21/reserved-keywords_corrupt-cache-and-stack-errors</id>
+    <content type="html"><![CDATA[<p>What a day. Every now and then there are such days where you wished you stayed in bed. Today was one of them. And i was confronted by two weird errors with very non descriptive error message or no error message at all. In both cases the issue was solved without a real solution. This post is just to vent my frustration of the day. And now that i take the time to write this down i might as well add the issue i ran into last week. Will save that one for last.</p>
+
+<p><strong>Reserved keyword</strong></p>
+
+<p>So i have been banging my head over this issue for way to long today. And had to find out the hard way it was a simple little thing as usual. But <a href="http://www.doctrine-project.org/">Doctrine</a> (version 1 if anybody asks) didn't offer me any good info with the error message it was displaying. Nor did <a href="http://www.php.net/">PHP</a> or <a href="http://www.mysql.com/">MySQL</a> (should be <a href="http://mariadb.org/">MariaDB</a> if you ask me).</p>
+
+<p>While working on a very heavy Doctrine based project. I ran into a at first glance weird error. Yesterday i created a class structure. All good and well. The class i was working on was called <em>Shows</em>. But it represented a single <em>Show</em> entity and therefore should have been called <strong>Show</strong>. So i decided to do a rename action. Pretty complex because of different dependencies. But after a few tries i got it right. Except Doctrine was failing with a syntax error. After a code inspection i still couldn't spot the issue. The only thing i didn't do yet was output the query and run it from a shell. And this failed with the same syntax error message. Damn!</p>
+
+<blockquote><p>INNER JOIN show s ON ...</p></blockquote>
+
+<p>Checked the whole query. Still couldn't spot the issue. Then for some weird reason i decided to escape the table name with <a href="http://en.wikipedia.org/wiki/Grave_accent">backticks</a> <strong><code>Show</code></strong>. Everything worked again. Wow! So Doctrine doesn't escape table names. But why did it fail in the first place? By now i had the feeling i was using a reserved keyword. And a check <a href="http://dev.mysql.com/doc/mysqld-version-reference/en/mysqld-version-reference-reservedwords-5-6.html">confirmed</a> this. An error would have been helpful here. I had a bit of luck though. As it turned out the table should have been named different anyway. I made a small workaround for it in my code. But decided that was not the way to go  So the lesson of the day for me was don't use reserved words for class / table names. A good thread on the issue can be found <a href="http://www.doctrine-project.org/jira/browse/DBAL-40">here</a>.</p>
+
+<p><strong>APC object corruption</strong></p>
+
+<p>The second issue to bite my ass was a nice one as well. And this time no indication of an error at all. While working on the same classes discusses shortly above. I renamed the class names and the file names on disk. And after a page reload in the browser. The framework was complaining it couldn't load the changed class. I checked the class and file names and all were correct. After toying with it for 20 minutes i decided to ask my colleague. And he suggested to restart Apache. for the second time today i was stumped. Everything worked again. Turns out that APC couldn't find the already in memory loaded class. After renaming the corresponding filename (seems logical now that i think of it). A restart of Apache flushed the APC cache and therefore the issue. This sounds like a bug though. And requires some further inspection or a bug report. We will see.</p>
+
+<p><strong>PHP Fatal error</strong></p>
+
+<p>Last week while setting up <a href="https://github.com/sebastianbergmann/phpunit/">PHPUnit</a> i ran into a weird issue while testing PHPUnit from a shell on my local desktop. The whole test suite would run from start to end. But at the end would display the following not so descriptive error message.</p>
+
+<blockquote><p>PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0</p></blockquote>
+
+<p>This kept me busy for some hours. This happened somewhere in a large framework. And there was no clear sign of what was causing the issue. Some <a href="http://www.google.com/search?client=ubuntu&amp;channel=fs&amp;q=Exception+thrown+without+a+stack+frame+in+Unknown+on+line+0&amp;ie=utf-8&amp;oe=utf-8">googling</a> did reveal some cases in which this error may occur.</p>
+
+<blockquote><ul>
+<li><p>There was an exception while handling an exception</p></li>
+<li><p>There was an exception while running a destructor</p></li>
+<li><p>There was an exception while closing the session</p></li>
+<li><p>There was an exception while running a shutdown function</p></li>
+<li><p>There was an exception while running a autoload function</p></li>
+</ul>
+</blockquote>
+
+<p>The issue in my case was the fact that the configuration file wasn't loaded yet. And therefore the log file location was not set correctly. Logging in this framework is done in a plugin system which is pretty cool. We can basically assign plugins for certain log levels (and more). This was the FileLogger. This all still does not explain why it failed with this particular error message. But a bit of digging in the Log/Plugin system revealed the issue.</p>
+
+<pre><code>register_shutdown_function(array(__CLASS__, 'Shutdown'));
+</code></pre>
+
+<p>Message are stored in a queue and written to file in a register shutdown function. Which was failing because the logfile location was not set correctly. This was causing an exception to be thrown inside the registered shutdown function. And therefore triggering this horrible error message. Be careful with <a href="http://nl.php.net/manual/en/function.register-shutdown-function.php">register_shutdown</a> functions.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Dutch PHP Conference 2011]]></title>
+    <link href="http://tlenss.github.com/2011/05/23/dutch-php-conference-2011/"/>
+    <updated>2011-05-23T12:51:39+02:00</updated>
+    <id>http://tlenss.github.com/2011/05/23/dutch-php-conference-2011</id>
+    <content type="html"><![CDATA[<p><a href="http://lenss.nl/images/2011/05/dpc11.jpg"><img src="http://lenss.nl/images/2011/05/dpc11.jpg" alt="" /></a> Last week was the 5th <a href="http://www.phpconference.nl">DPC</a> (Dutch PHP Conference) in the <a href="http://www.rai.nl/">Amsterdam Rai</a>. And thanks to my awesome employer i once again had the chance to be there. This year with a full conference ticket (including the tutorial days). And i had a blast. I wanted to do this post earlier this weekend but due to some current injury i wasn't able to. So here goes.</p>
+
+<p>The kick off for the DPC11 were the tutorial days. And they had some pretty cool tutorial lined up for this year. But as always you have to choose. So me and Geoff chose to visit two of the tutorials we would benefit from the most. Since we are in pretty heavy database driven environment. We chose:</p>
+
+<p><strong>Optimizing <a href="http://www.mysql.com/">MySQL</a> Essentials</strong></p>
+
+<p>This session was presented by <a href="http://www.khankennels.com/blog/">Ligaya Turmelle</a> &amp; Raymond DeRoo, And these two have a great chemistry between them. All the ingredients for a good sessions. And a good session it was. Even though i missed the larges part of the first 1.5 hours because i got stuck in traffic.</p>
+
+<p>The second part of the tutorial was aimed at profiling and optimizing slow queries. It was Ligaya time to talk and Raymond took his stand on the soapbox a few times to makes things more clear. Or to interact with the audience in his special way. The session mainly describe how to enable and configure the MySQL slow query log. And what to look for once that is up and running. Ligaya continued with a real world example from joined.in. And show how the medium sized queries could be optimized quite a bit. Although not completely finished. The result was quite nice.</p>
+
+<p>After talking about the slow query log we went into a bit more detail as to how to do query optimization. And what tools to use for the job. MySQl comes with some nice features that can be used in this process. The basics to get more information about your queries</p>
+
+<blockquote><ul>
+<li>show create</li>
+<li>table status</li>
+<li>show indexes</li>
+<li>explain [ extended ]</li>
+</ul>
+</blockquote>
+
+<p>I made quite a few notes during this sessions. And learned some cool new things. Some of the main items for me were</p>
+
+<p>If possible move where clauses inside the join statements
+Don't use subselects. But if you really have to use them in the <code>AS</code> form</p>
+
+<blockquote><p>SELECT
+  t.id,
+  (SELECT t2foo FROM table t2 WHERE t2foo = t.bar) AS foo
+FROM table t</p></blockquote>
+
+<p>Indexing key order is very important
+Use a sequence table to generate date based reports</p>
+
+<p><strong>Doctrine 2</strong></p>
+
+<p>I was really looking forward to the <a href="http://www.doctrine-project.org/">Doctrine 2</a> session with <a href="http://dev.juokaz.com/">Juozas Kaziukėnas</a>. And it was a good session as well. Although a bit fast. And i had some issues getting Doctrine to work on my laptop. But because we make very heavy use of Doctrine 1. I was very interested in what version two has to offer over version 1. And i think Juozas did a great job in explaining the structure of Doctrine 2 and the most basic inner workings.</p>
+
+<p>I was very happy to see the new Doctrine 2 models are completely decoupled from the Doctrine base classes. This is awesome. And makes for a way more portable application then with the Doctrine 1 base. Which basically ties you into using Doctrine forever.</p>
+
+<p><strong>That was tutorial day</strong>
+That was day one. I had fun although quit painful with my current injury. I really enjoyed the sessions. And on our way out we were presented with a nice surprise. A copy of "<a href="http://qualityassuranceinphpprojects.com/">Real-World Solutions for Developing High-Quality PHP Frameworks and Applications</a>" by Sebastian Bergmann and Stefan Priebsch. A great addition to my private library. And to top things of we all got a 20% discount on the 5.3 <a href="http://www.zend.com/services/certification/">ZCE</a> exam.</p>
+
+<p><strong>Next up, Day 2</strong></p>
+
+<p>I missed the opening talk by <a href="http://www.harrieverveer.nl/">Harry Verveer</a> which is a shame. Geoff told me it was a very good inspiring and energetic talk. It got people enthusiastic. That's what we need. At arrival it was visible that there were quite some developers here. It's always a big difference with the tutorial day. Like the first day i missed a big part of the morning due.. to well you know. But i attended 4 cool sessions non the less.</p>
+
+<p><strong>Cooking up your Development Environment</strong> by <a href="http://www.designdisclosure.com/">Alistair Stead</a></p>
+
+<p>This session was a bit different then what i envisioned. But it turned out to be a gem. Most of the talk was aimed at explaining how to setup and work with the <a href="https://github.com/opscode/chef">Chef</a> application. Before going into explaining chef. Alistair mentioned some other solutions like Capistrano, Puppet or a mix of Bash scripts.</p>
+
+<p>And then he continued about explaining his day to day work day. And how he would setup his virtual work environment each morning by running a simple command that generates a fresh virtual machine to work with. Then he went into detail how Chef Solo (Distributed infrastructure management) and Chef Server (Centralized infrastructure management) work together. And how you can setup and deploy packages on the virtual machines and basically how to manage your instances from a cool and simple web GUI.</p>
+
+<p>He went on explaining this hooks into Amazone's AWS and Rackspace cloud services as well. So skies the limit. An awesome tool.</p>
+
+<p><strong>Simplify your External Dependency Management</strong> by <a href="http://blog.bitexpert.de/author/stephan-hochdoerfer/">Stephan Hochdörfer</a></p>
+
+<p>This session was aimed at working better with project dependencies. I was quite interested in this talk. Since we work with svn:externals. Which at times can be quite a pain. Specially when the amount of applications build on a single framework tend to grow. And BC breakage is a sin.</p>
+
+<p>I was a bit sad to see that this session didn't really target managing the local dependencies. But was more aimed at handling the dependencies when deploying packages on servers. Until now this has never been an issues. Even though i was a bit disappointed. The sessions did have some valuable information.</p>
+
+<p>And went into some detail how to setup an own PEAR channel to deploy packages but also touched the Java system Maven. Which i did work whit a few years back.</p>
+
+<p><strong>Clean PHP</strong> by <a href="http://sebastian-bergmann.de/">Sebastian Bergmann</a></p>
+
+<p>I expected more from this sessions. And i had the feeling Sebastian was blasting through the talk as if he was out of time. It went very fast. And basically was run down of all the developer principles, acronyms, etc. A good talk. But i expected more from the father of <a href="http://www.phpunit.de">PHPUnit</a>.</p>
+
+<p><strong>Advanced OO patterns</strong> by <a href="http://schlitt.info/">Tobias Schlitt</a></p>
+
+<p>The best session of the day. Tobias is a real speaker. One that say the right things. And makes the audience laugh. I really enjoyed listening to to him talk. But a subject like Advanced OO patterns can only be cool. So i guess i he chose the right talk to give. Like most talkers he gave some props to Martin Fowler and the Gang of Four. For writing on patterns and refactoring. And basically it's a refreshment of studying design patterns. Which i do an a daily basis.</p>
+
+<p>There was one real gem however in this session that i hadn't come across yet. Which basically is a way to do lazy loading with objects. This is nothing new. But the framework he used for the talk. Used the new 5.3 closures for this. And i really liked that. So besides the fact that i learned a cool pattern. I also learned a new way of using closures in PHP 5.3.</p>
+
+<p><strong>A great conference</strong></p>
+
+<p>That basically was the conference for me. I really was looking forward to listing in on <a href="http://derickrethans.nl/">Derick's</a> talk about profiling PHP applications. But due to my condition i had to stay home the last day and miss this talk. A bit sad. Thankfully he has pretty detailed <a href="http://derickrethans.nl/talks/profiling-dpc11.pdf">PDF</a> up on his site about the talk.</p>
+
+<p>Once again <a href="http://www.ibuildings.nl/">IBuildings</a> did a great job in organizing this event. Thanks guys. You once again did an awesome job. I do have some small notes however. During the sessions i heard a lot of speakers say. This is a sessions for 60 minutes. And i only have 45 minutes. So i have to skip some stuff. I mean come on how long was it known that this event was going to happen. Either give the speakers more time. Or speakers adjust your talks.</p>
+
+<p>Besides the fact that i sometimes had the feeling i was visiting the IBuildings headquarters. It was a great event. Hope to see you there next year.</p>
+]]></content>
+  </entry>
+  
+</feed>

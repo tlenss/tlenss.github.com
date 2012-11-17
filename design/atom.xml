@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Design | Thijs Lensselink's Blog]]></title>
+  <link href="http://tlenss.github.com//design/atom.xml" rel="self"/>
+  <link href="http://tlenss.github.com/"/>
+  <updated>2012-11-18T00:10:43+01:00</updated>
+  <id>http://tlenss.github.com/</id>
+  <author>
+    <name><![CDATA[Thijs Lensselink]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Jquery unrecognized expression error]]></title>
+    <link href="http://tlenss.github.com/2011/08/20/jquery-unrecognized-expression-error/"/>
+    <updated>2011-08-20T13:20:59+02:00</updated>
+    <id>http://tlenss.github.com/2011/08/20/jquery-unrecognized-expression-error</id>
+    <content type="html"><![CDATA[<p>While doing some front end work yesterday. I got trapped by a <a href="http://jquery.com/">jQuery</a> issue. Well not JQuery specific. The issue was actually triggered by some other hand crafted code. Every time i would click a link inside my grid view firebug would throw an error.</p>
+
+<blockquote><p>uncaught exception: Syntax error, unrecognized expression: .</p></blockquote>
+
+<p>And the markup that triggered the error was</p>
+
+<pre><code>&lt;a href="" class="zipDownload"&gt;&lt;span class="icon_zipSmall"&gt;&lt;/span&gt;&lt;/a&gt;
+</code></pre>
+
+<p>Nothing wrong there right? And it actually took my quite some time to figure this one out. It would be nice to have a tool that can tell you there are multiple click events assigned to a element? But for now it was just some manual searching and testing.</p>
+
+<p>The issue was caused by an other snippet of Javascript code inside another .js file. This piece of code attached a click event to every div inside a grid td. Which may be a bit to greedy.</p>
+
+<pre><code>$('.admin .gridbg tr td span').click(function() {
+</code></pre>
+
+<p>And my link was in a nested td inside the grid. And also contained a span tag. So it was actually firing off two click events. From which one failed. Fixing it after that was easy. Either make the first click binding less greedy. Or change the markup of my second grid. I choose the last one.</p>
+
+<pre><code>&lt;a href="http://lenss.nl" class="zipDownload icon_zipSmall"&gt;&lt;/a&gt;
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[New generation elePHPants arrived!!]]></title>
+    <link href="http://tlenss.github.com/2011/01/06/new-generation-elephpants-arrived/"/>
+    <updated>2011-01-06T12:28:30+01:00</updated>
+    <id>http://tlenss.github.com/2011/01/06/new-generation-elephpants-arrived</id>
+    <content type="html"><![CDATA[<p>Yesterday i got a message that the new generation of elePHPants are available for bulk pre-order. I am very happy the <a href="http://elephpant.com/">elephpant.com</a> site is finally up and running. For the past two years i have been shipping a lot of these blue guys all across the world. No need for me to do that any more.</p>
+
+<p>A big thanks for this furry blue creature goes out to:</p>
+
+<p><a href="http://www.elroubio.net/naissance_elephpant.php">Vincent Pontier</a>
+<a href="http://www.nexen.net/">Damien Seguy</a>
+<a href="http://blog.hello-design.fr/">Christophe Villeneuve</a>
+<a href="http://cesarodas.com/">Cesar Rodas</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[PHP Community Spirit T-Shirt Design Competition]]></title>
+    <link href="http://tlenss.github.com/2010/08/15/php-community-spirit-t-shirt-design-competition/"/>
+    <updated>2010-08-15T15:02:22+02:00</updated>
+    <id>http://tlenss.github.com/2010/08/15/php-community-spirit-t-shirt-design-competition</id>
+    <content type="html"><![CDATA[<p>I entered a design for the PHP Community <a href="http://php-spirit.strutta.com/">Spirit T-Shirt Design Competition</a>. And it got approved today. It's a simple design that uses the PHP logo colors and font. If you like it you can vote for it by following the design below.</p>
+
+<p><a href="http://php-spirit.strutta.com/entries/72596"><img src="http://www.strutta.com/image-cacher/f:640:360/aHR0cDovL3VwbG9hZHMuZmlsZXMuc3RydXR0YS5jb20vZW50cnkvMTU0NTk5Ni8xMjgxNzczMjQx" alt="" /></a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A new look for lenss.nl]]></title>
+    <link href="http://tlenss.github.com/2010/04/04/a-new-look-for-lenss-nl/"/>
+    <updated>2010-04-04T22:17:30+02:00</updated>
+    <id>http://tlenss.github.com/2010/04/04/a-new-look-for-lenss-nl</id>
+    <content type="html"><![CDATA[<p>This long Easter weekend gave me some time to create a new theme for this blog. So after a day of work this is the result. I was a bit tired of the dark unreadable format. At the moment i am still tweaking here and there but it looks fine!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Multiple versions of Internet Explorer on one machine]]></title>
+    <link href="http://tlenss.github.com/2008/06/23/multiple-versions-of-internet-explorer-on-one-machine/"/>
+    <updated>2008-06-23T07:54:52+02:00</updated>
+    <id>http://tlenss.github.com/2008/06/23/multiple-versions-of-internet-explorer-on-one-machine</id>
+    <content type="html"><![CDATA[<p>When designing pages for multiple browsers. It's pretty much a pain in the ass to get things looking similar cross all browsers. There are many Javascript libraries to help and ease the pain. But it doesn't solve all. And hoping people will stop using IE 6 also doesn't really help. So we are stuck in getting things work in all those quirky browsers. So a developer / designer probably has multiple browsers installed. On my dev box i only use Firefox.</p>
+
+<p>But when i have to build a design. I need to check al those browsers. So i have Firefox, Opera and Internet Explorer installed. The problem with internet explorer is that you can't run multiple versions on the same machine. Well at least not without a long hacking session. To solve this problem most of the time i used something like Virtual Machine or Virtual Desktop. The problem is that applications like that eat memory. And there is always the minor annoyances with losing focus on my <a href="http://www.zend.com/en/products/studio/">IDE</a> because the VM window is still active.</p>
+
+<p>Some time ago. My coworker Bart send a link to a tool called <a href="http://www.my-debugbar.com/wiki/IETester/HomePage">IETester</a>. This nice little (24mb) tool let's you run multiple versions of Internet explorer on one machine. It's possible to test pages in version 5.5 and up. even the upcomming (still in beta) version 8 is supported. At the time of writing it is still in alpha stage. But it works great. I did have some unexplainable crashes. And there are some known issue's like:</p>
+
+<ul>
+<li><p>When resizing, the content may disappear. I am working to correct it on the next version.</p></li>
+<li><p>The Previous/Next buttons are not working properly</p></li>
+<li><p>Focus is not working properly</p></li>
+<li><p>Java applets are not working</p></li>
+<li><p>Flash is not working on IE6 instance.</p></li>
+</ul>
+
+
+<p>Besides that it does what it's build for. A nice tool to add to your arsenal.</p>
+]]></content>
+  </entry>
+  
+</feed>
