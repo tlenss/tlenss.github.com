@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Magento | Thijs Lensselink's Blog]]></title>
+  <link href="http://tlenss.github.com/tag/magento/atom.xml" rel="self"/>
+  <link href="http://tlenss.github.com/"/>
+  <updated>2012-11-18T00:12:04+01:00</updated>
+  <id>http://tlenss.github.com/</id>
+  <author>
+    <name><![CDATA[Thijs Lensselink]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Returning Blocks from controllers without layout attached in Magento]]></title>
+    <link href="http://tlenss.github.com/2010/07/01/returning-blocks-from-controllers-without-layout-attached-in-magento/"/>
+    <updated>2010-07-01T11:31:53+02:00</updated>
+    <id>http://tlenss.github.com/2010/07/01/returning-blocks-from-controllers-without-layout-attached-in-magento</id>
+    <content type="html"><![CDATA[<p>When working in the admin environment of Magento i had to add a controller action that was called by an Ajax request. The problem however is that all layout data is returned as well when calling</p>
+
+<pre><code>$this-&gt;renderLayout();
+</code></pre>
+
+<p>from the controller. So my next attempt was to try to render the block separately and adding it to the layout.</p>
+
+<pre><code>$this-&gt;_initCustomer();
+$this-&gt;getResponse()-&gt;setBody(
+            $this-&gt;getLayout()-&gt;createBlock('block/location')
+            -&gt;setCustomerId(Mage::registry('current_customer')-&gt;getId())
+            -&gt;setData('list', $list)
+            -&gt;setUseAjax(true)
+            -&gt;toHtml()
+);
+</code></pre>
+
+<p>This kinda worked. But now i had no more control over the template used. Or maybe i missed that part. But i don't like to specify my Block anyway Magento should pick this up automatically.</p>
+
+<p>Solving this issue is actually quite easy. The only thing we need to do is change the layout structure of the module. We change the name to root. And that's it!</p>
+
+<pre><code>&lt;block type="block/location" name="root" template="template/location"&gt;&lt;/block&gt;
+</code></pre>
+
+<p>The name attribute tells Magento it is a root block so no need for the rest of the layout.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Override controllers in Magento]]></title>
+    <link href="http://tlenss.github.com/2010/06/29/override-controllers-in-magento/"/>
+    <updated>2010-06-29T12:43:45+02:00</updated>
+    <id>http://tlenss.github.com/2010/06/29/override-controllers-in-magento</id>
+    <content type="html"><![CDATA[<p>The last time i had to rewrite one of the core Magento blocks. And that turned out to be quite easy. My new challenge was to rewrite / overwrite one of the Core admin controllers. In this case the Mage_Adminhtml_CustomerController.</p>
+
+<p>I had no idea where to start so i did some googling beforehand. And came to the conclusion that a lot of people are trying to do this. Because of this there is a long list of solutions to solve this. And in most cases developers just advice to drop the Core class in the local folder and work from there. But that doesn't really make sense. First of all it code duplication in the worst form. And besides that all cool <a href="http://en.wikipedia.org/wiki/Object-oriented_programming">OO</a> stuff like extending is gone.</p>
+
+<p>And since Magento is such a flexible system. There must be a good clean way to solve this. One <a href="http://www.magentocommerce.com/boards/viewthread/16224/">thread</a> i found had some good info. And i used it as my starting point. There was one problem with this thread. The XML used seems to be an old form of rewriting in Magento.
+I found a (lost it) post by one of the Magento devs that shows a new and more clean way of defining this in XML.</p>
+
+<p>In the last post i already created the [Namespace]<em>All.xml module config. And we can use it for this as well. So we start by telling Magento we are using our own [Namespace</em>]_Adminhtml module.</p>
+
+<pre><code>&lt;[namespace]_Adminhtml&gt;
+    &lt;active&gt;true&lt;/active&gt;
+    &lt;codepool&gt;local&lt;/codepool&gt;
+    &lt;depends&gt;
+        &lt;mage_adminhtml&gt;&lt;/mage_adminhtml&gt;
+    &lt;/depends&gt;
+</code></pre>
+
+<blockquote><p>create local/Namespace/Adminhtml/controllers/CustomerController.php</p></blockquote>
+
+<p>The next thing to do is create the actual controller. And add an include line on top to the original file. Magento does not use autoloading for the controllers in this way.</p>
+
+<pre><code>include_once("Mage/Adminhtml/controllers/CustomerController.php");
+
+class [namespace]_Adminhtml_CustomerController extends Mage_Adminhtml_CustomerController
+{
+    public function somenewAction()
+    {
+
+    }
+}
+</code></pre>
+
+<p>Now the Core CustomerController is replaced by our own namespaced version. But it still retains all functionality of the parent.</p>
+
+<p>The only thing left is to create the config file for this module. And tell it to rewrite to the new [namespace]</p>
+
+<blockquote><p>Create local/[namespace]/Adminhtml/etc/config.xml</p></blockquote>
+
+<pre><code>&lt;config&gt;
+    &lt;modules&gt;
+        &lt;[namespace]_Adminhtml&gt;
+            &lt;version&gt;0.1.0&lt;/version&gt;
+        &lt;[namespace]_Adminhtml&gt;
+    &lt;/modules&gt;
+
+    &lt;admin&gt;
+        &lt;routers&gt;
+            &lt;adminhtml&gt;
+                &lt;args&gt;
+                    &lt;modules&gt;
+                        &lt;[namespace]_Adminhtml before="Mage_Adminhtml"&gt;[namespace]_Adminhtml
+                    &lt;/modules&gt;
+                &lt;/args&gt;
+            &lt;/adminhtml&gt;
+        &lt;/routers&gt;
+    &lt;/admin&gt;
+&lt;/config&gt;
+</code></pre>
+
+<p>The config section is placed inside the admin tags. because the controller in question is an admin controller. We basically tell Magento that we will be using our own Adminhtml module instead of the Core one. But it will of course fall back on the Core functionality when methods have not been overwritten.</p>
+]]></content>
+  </entry>
+  
+</feed>

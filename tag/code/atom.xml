@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Code | Thijs Lensselink's Blog]]></title>
+  <link href="http://tlenss.github.com/tag/code/atom.xml" rel="self"/>
+  <link href="http://tlenss.github.com/"/>
+  <updated>2012-11-18T00:12:04+01:00</updated>
+  <id>http://tlenss.github.com/</id>
+  <author>
+    <name><![CDATA[Thijs Lensselink]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Publish Google Reader shared items]]></title>
+    <link href="http://tlenss.github.com/2012/11/07/publish-google-reader-shared-items/"/>
+    <updated>2012-11-07T15:55:26+01:00</updated>
+    <id>http://tlenss.github.com/2012/11/07/publish-google-reader-shared-items</id>
+    <content type="html"><![CDATA[<p>A lot of people are using the shared items feature in <a href="http://www.google.nl/reader/">Google Reader</a> to publish what they are reading on a blog. It's like having a live blogroll widget on your website. And gives your readers a good impression of what you are actually interested in.</p>
+
+<p>I never bothered adding this to my blog. But i do like to share. So last night i was trying to figure out how to integrate this with my current blog. I was hoping for an easy implementation. But the information is scarce. So i had to do some digging. I did find a couple of <a href="https://www.google.nl/search?q=wordpress+plugin+google+reader">Wordpress plugins</a>. But most of them were not updated for at least a year. And i am not putting code like that life on my website.</p>
+
+<p>After some Googling i came across a couple of feed URL's that seem to share their <strong>shared</strong> items in feed form. Using the Google Reader URL and a user id. So the URL for my shared items would look like the one below. Getting your user id by the way is easy. Go to your Google reader page. Click all <strong>All items</strong> and the <strong>UID</strong> will show up in the address bar.</p>
+
+<blockquote><p>http://www.google.com/reader/shared/16525759780220726764</p></blockquote>
+
+<p>The problem with this however. Non of my shared posts show up on this page. And i have not figured out a way to populate it just yet. So i came up with an other path to get this data on my server.</p>
+
+<p>In the Google Reader pages it's possible to add sharing functionality. This is done by going to the <strong>Send To</strong> tab</p>
+
+<p><a href="http://lenss.nl/images/2012/11/Send-To.png"><img src="http://lenss.nl/images/2012/11/Send-To-300x22.png" alt="" /></a></p>
+
+<p>From here it's possible to select a service to share data with. Non of these services are any good for what i am trying to do. But the great thing about this page is. You can provide custom URL's for sharing data. Just incorporate the specified parameters in the URL and your done.</p>
+
+<p><a href="http://lenss.nl/images/2012/11/Custom-Site.png"><img src="http://lenss.nl/images/2012/11/Custom-Site-300x178.png" alt="" /></a></p>
+
+<p>Once configured and saved a custom URL is visible in the <strong>Send To</strong> panel</p>
+
+<p><a href="http://lenss.nl/images/2012/11/Favorite-Site.png"><img src="http://lenss.nl/images/2012/11/Favorite-Site-300x125.png" alt="" /></a></p>
+
+<p>That's it for this part. Actually sharing items is quite easy now. When back in the Google Reader under each post there is Send to link. If you click this link the newly created custom URL will show up. And you can share the post.</p>
+
+<p><a href="http://lenss.nl/images/2012/11/Tag-Article.png"><img src="http://lenss.nl/images/2012/11/Tag-Article-300x41.png" alt="" /></a></p>
+
+<p>The only thing left to do is write some code to process the incoming data. To get you started. Some of the code i used while testing this is posted below</p>
+
+<pre><code>Class GoogleReaderShare
+{
+    const GOOGLE_REMOTE_IP = '95.97.54.3';
+
+    const GOOGLE_REFERER = 'http://www.google.nl/reader/view/';
+
+    protected static $_whitelist = array('source', 'title', 'url', 'short');
+
+    public static function CheckSource($remoteAddr, $referer) 
+    {
+        if (($remoteAddr == self::GOOGLE_REMOTE_IP) 
+                &amp;&amp; ($referer == self::GOOGLE_REFERER)) {
+            return true;
+        }
+        return false;
+    }
+
+    protected static function _CheckIncomingData($data)
+    {
+        if (!is_array($data)) {
+            return false;
+        }
+
+        foreach ($data as $key =&gt; $value) {
+            if (!in_array($key, self::$_whitelist)) {
+                return false;
+            }
+        }
+    }
+
+    public static function Process($data) 
+    {
+        if (!self::_CheckIncomingData($data)) {
+            throw new Exception("Unrecognized or no incoming data");
+        }
+
+        // process the data
+    }
+}
+
+if (GoogleReaderShare::CheckSource($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_REFERER'])) {
+    GoogleReaderShare::Process($_GET);
+}
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Long running PHP script and MySQL server gone away]]></title>
+    <link href="http://tlenss.github.com/2012/10/29/long-running-php-script-and-mysql-server-gone-away/"/>
+    <updated>2012-10-29T14:39:26+01:00</updated>
+    <id>http://tlenss.github.com/2012/10/29/long-running-php-script-and-mysql-server-gone-away</id>
+    <content type="html"><![CDATA[<p>At the moment i am writing some workers that interact with a <a href="http://kr.github.com/beanstalkd/">beanstalk</a> server. When data gets pushed into the beanstalk server. My workers will be triggered to process this data. So the workers are sitting idle for most of the time. And just wait for some data to process. No rocket science there. But during testing i kept running into <a href="http://www.mysql.com/">MySQL</a> issues. The script seemed to lose connection to the MySQL server when it was idle for longer then a minute. And would respond with a</p>
+
+<blockquote><p>Warning: <a href="http://php.net/mysql_query">mysql_query</a>(): MySQL server has gone away in /path/to/some/mysql4/class.php on line xxx</p></blockquote>
+
+<p>So whats going on here? Well actually it's quite simple. When my script initializes the database connection it doesn't use it. It just sits there waiting for incoming data. Once received it will process it and try to store it in the database. But when the waiting period exceeds the time for PHP to keep the MySQL connection open it responds with the warning mentioned above. Now in previous versions of PHP this would not be a big issue. As PHP would just initiate a reconnect when the connection is lost. But from PHP 5.0.3 and up this functionality has been disabled by default. For MySQLI this is no problem at all.</p>
+
+<p>MySQLi:</p>
+
+<blockquote><p>mysqli.reconnect = Off to On</p></blockquote>
+
+<p>Unfortunately i am working with PHP's core mysql_* functions (don't get me started) and there doesn't seem to be an easy way to resolve this. According to the MySQL documentation</p>
+
+<pre><code>mysql_options(&amp;mysql;, MYSQL_OPT_RECONNECT, &amp;reconnect;);
+</code></pre>
+
+<p>Should do the trick. But passing <strong>MYSQL_OPT_RECONNECT</strong> in anyway to <a href="http://php.net/mysql_connect">mysql_connect</a> didn't result in the result i was looking for. So what now? Porting the database code to make use of the newer and better PDO or MySQLi is no option. As it would consume way to much time. Fortunately the mysql_* core functions come with mysql_ping. I never had to use this before. But in this case it comes in quite handy.</p>
+
+<p><strong>From the PHP manual:</strong></p>
+
+<pre><code>bool mysql_ping ([ resource $link_identifier = NULL ] )
+</code></pre>
+
+<blockquote><p>Checks whether or not the connection to the server is working. If it has gone down, an automatic reconnection is attempted. This function can be used by scripts that remain idle for a long while, to check whether or not the server has closed the connection and reconnect if necessary.</p></blockquote>
+
+<p>Note:
+<strong>Automatic reconnection is disabled by default in versions of MySQL >= 5.0.3.</strong></p>
+
+<p>Adding the mysql_ping function call was rather straight forward. And didn't require all that much work to be done. I extended the database class to include a ping method. That would simply throw an exception when it failed to reconnect.</p>
+
+<pre><code>public function ping()
+{
+    if (!mysql_ping($this-&gt;db_connect_id)) {
+        throw new Mollie_Database_Exception("Connection was lost");
+    }   
+    return true;
+}
+</code></pre>
+
+<p>And after that i started poking around the userland implementation. The worker is running inside a <strong>while(true)</strong> loop. A first test with <strong>->ping()</strong> being called inside this loop proved to resolve the issue at hand. But running the ping function that often is overkill. And who knows it might actually result in <strong>DoS</strong> of the database server. So i decided to ping the server every one minute or so.</p>
+
+<pre><code>$start = time();
+while (true) 
+{
+    $this-&gt;_keepConnectionAlive($start);
+</code></pre>
+
+<p>And the keepConnectionAlive method looks something like this</p>
+
+<pre><code>protected function _keepConnectionAlive(&amp;$start)
+{
+    $passed = (time() - $start);
+    if ($passed &gt; 60)
+    {
+        $start = time();
+        $this-&gt;_db-&gt;ping();
+    }
+}
+</code></pre>
+
+<p>I'm not a big fan of this solution. And would rather be implementing MySQLi functions. But this functions well. And will do for now.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Git: Rebase on pull by default]]></title>
+    <link href="http://tlenss.github.com/2012/10/25/git-rebase-on-pull-by-default/"/>
+    <updated>2012-10-25T14:20:22+02:00</updated>
+    <id>http://tlenss.github.com/2012/10/25/git-rebase-on-pull-by-default</id>
+    <content type="html"><![CDATA[<p>I was a bit surprised today when <a href="http://git-scm.com/">git</a> presented me a merge message window after i did a pull. This should not happen as the normal behavior here should be to <a href="http://git-scm.com/book/en/Git-Branching-Rebasing">rebase</a> the changes. But apparently that didn't happen this time. When i asked one of the other <a href="http://www.scriptorama.nl/">dev</a> 's what could be the issue. We quickly figured out i was just missing some <strong>config</strong> entry in <strong>.git/config</strong>. This probably happened some time ago when i did a fresh checkout.</p>
+
+<p>So to make sure rebasing is done by default. You can run a simple git command or modify the <strong>.git/config</strong> file manually.</p>
+
+<blockquote><p>$ git config branch.autosetuprebase always</p></blockquote>
+
+<p>or do</p>
+
+<blockquote><p>$ vi .git/config</p></blockquote>
+
+<p>Make sure <strong>[branch "master"]</strong> has <strong>rebase</strong> set to true. It should look like the snippet below.</p>
+
+<blockquote><p>[branch "master"]</p>
+
+<pre><code>remote = origin
+merge = refs/heads/master
+rebase = true
+</code></pre></blockquote>
+
+<p>Starting to really like git. A couple of more quirks and things will be running fine.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Fixing character replacement in Wordpress]]></title>
+    <link href="http://tlenss.github.com/2012/09/24/fixing-character-replacement-in-wordpress/"/>
+    <updated>2012-09-24T21:39:17+02:00</updated>
+    <id>http://tlenss.github.com/2012/09/24/fixing-character-replacement-in-wordpress</id>
+    <content type="html"><![CDATA[<p>This has been bugging me for a while. But not enough to actually look into it. And Google searches for <a href="http://wordpress.org/">Wordpress</a> display wrong characters results in a whole forest of threads about UTF-8 encoding. This has nothing to do with that. So what's the issue here?</p>
+
+<p>Wordpress is replacing characters in my posts. The most annoying being the replacement of -- <del>is</del> with - . Which makes no sense at all. Specially when creating code samples. Or command line parameters. My thought is why on earth would you do that? But it probably has something to do with typography...</p>
+
+<p>Anyways. Searching for it today made me stumble onto <a href="http://blog.paulbetts.org/index.php/2007/06/01/stop-wordpress-from-turning-double-dash-into-long-dash/">this</a> post from 2007 by <a href="http://blog.paulbetts.org/">Paul Betts</a>. And believe it or not. Wordpress is still doing that. The code has changed slightly tough. So i created a quick patch as a temporary solution. And need to figure out if this can be circumvented by a plugin or something. If that doesn't exists already :)</p>
+
+<p>The patch will replace the following lines</p>
+
+<pre><code>$static_characters = array_merge( array( '---', ' -- ', '--', ' - ', 'xn-', '...', '``', '\'\'', ' (tm)' ), $cockney );
+$static_replacements = array_merge( array( $em_dash, ' ' . $em_dash . ' ', $en_dash, ' ' . $en_dash . ' ', 'xn--', '…', $opening_quote, 
+    $closing_quote, ' ™' ), $cockneyreplace 
+);
+</code></pre>
+
+<p>With</p>
+
+<pre><code>$static_characters = $cockney;
+$static_replacements = $cockneyreplace;
+</code></pre>
+
+<p>Patching the file is easy.</p>
+
+<p><strong>This patch was created for v3.4.2. And will most likely fail on other versions of Wordpress.</strong></p>
+
+<blockquote><p>$ cd wp-includes/
+$ wget <a href="https://raw.github.com/tlenss/misc/master/patch/wordpress-charreplace.patch">https://raw.github.com/tlenss/misc/master/patch/wordpress-charreplace.patch</a>
+$ patch -p0 &lt; wordpress-charreplace.patch
+patching file formatting.php</p></blockquote>
+
+<p>That's all.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Resize a Vagrant VMDK drive]]></title>
+    <link href="http://tlenss.github.com/2012/09/24/resize-a-vagrant-vmdk-drive/"/>
+    <updated>2012-09-24T14:17:00+02:00</updated>
+    <id>http://tlenss.github.com/2012/09/24/resize-a-vagrant-vmdk-drive</id>
+    <content type="html"><![CDATA[<p>Using <a href="http://vagrantup.com/">Vagrant</a> as a development environment is great. But you have to watch the available disk space when doing some funky database benchmarking. Last Friday i wrote a script to populate a test database with over 60 million records. And left it running over the weekend. With the idea it would be finished when i returned to the office on Monday. Well it actually was still running. But the Vagrant instance was out of disk space when i logged in. Damn. Should have made sure i had a big disk attached to this instance.</p>
+
+<p>O well. My first idea was to just drop the database that i wanted to use for testing. But due to no space available on the system. I could not drop it. I really couldn't do anything on the system. Even writing config files failed. So where did all the disk space go?</p>
+
+<blockquote><p>$ df -h
+Filesystem            Size    Used    Avail    Use%    Mounted on
+/dev/mapper/debian-605-root    10G    9.8G    0.2G    99%    /</p></blockquote>
+
+<p>That's really not that much space left. And /var/mysql/ibdata1 for the <a href="http://www.innodb.com/">InnoDB</a> tables was taking up 7 GB. And since i have a couple of InnoDB tables i can't just delete this file. So need to come up with something else. And after a bit of Googling. I came across <a href="http://jjperezaguinaga.wordpress.com/2012/04/03/a-happy-ending-story-with-vagrant-resizing-a-lucid32-vmdk-box/">this</a> post. Which seemed promising. But the most important part is left out. And instead linked to some horrible garbled page. That is completely unreadable. So i had to do some digging to figure this out on my own. For cloning the disks i followed the steps in the article however. The Virtual Box files are located in the user folder in the following path</p>
+
+<blockquote><p>$ cd ~/VirtualBox VMs/development_*</p></blockquote>
+
+<p>The first thing i did was convert the <a href="http://sanbarrow.com/vmdk-handbook.html">VMDK</a> image to a <a href="http://en.wikipedia.org/wiki/VDI_(file_format">VDI</a>) image so we can actually do some partition resizing.</p>
+
+<blockquote><p>$ VBoxManage clonehd box-disk1.vmdk box-disk1.vdi --format VDI</p></blockquote>
+
+<p>So now we have a new VDI image. And we need to resize it so it has sufficient space for what we are trying to do. In my case 20 GB is sufficient.</p>
+
+<blockquote><p>$ VBoxManage modifyhd box-disk1.vdi --resize 20000</p></blockquote>
+
+<p>Now that the new disk is created it needs to be attached to the vagrant virtual machine. This is easily achieved by doing right click on the VM in <a href="https://www.virtualbox.org/">VirtualBox</a> and select Settings</p>
+
+<blockquote><p>Storage > SATA Controller > Add hard disk (select existing and point to the new VDI image)</p></blockquote>
+
+<p>Now boot the Vagrant image in VirtualBox so we have a screen to work with. When it has booted up. Login.</p>
+
+<p>First create a new Primary partition in the unused space of type Linux LVM (8e) with <a href="http://linux.die.net/man/8/cfdisk">cfdisk</a>.</p>
+
+<blockquote><p>$ cfdisk /dev/sda</p></blockquote>
+
+<p>When the partition table has been written. It's time to create a new physical volume on the new partition with the help of <a href="http://linux.about.com/library/cmd/blcmdl8_pvcreate.htm">pvcreate</a></p>
+
+<blockquote><p>$ pvcreate /dev/sda3
+  successfully created</p></blockquote>
+
+<p>For the next steps we will be needing the Volume Group name. We will get this by running <a href="http://linux.about.com/library/cmd/blcmdl8_pvdisplay.htm">pvdisplay</a></p>
+
+<blockquote><p>$ pvdisplay | grep "VG Name"
+ VG Name    debian-605</p></blockquote>
+
+<p>So now we have all the bits ready. And its time to extend the root partition with the newly created partition.</p>
+
+<blockquote><p>$ vgextend debian-605 /dev/sda3
+ Volume group "debian-605" successfully extended</p></blockquote>
+
+<p>Awesome! next step extending the logical partition</p>
+
+<blockquote><p>$ lvextend /dev/debian-605/root /dev/sda3
+ Extending logical volume root to 18.84 GiB
+ Logical volume root successfully resized</p></blockquote>
+
+<p>Almost there. The last thing left to do is resize the filesystem to make all space available.</p>
+
+<blockquote><p>$ resize2fs /dev/debian-605/root
+ resize2fs 1.41.12 (17-May-2010)
+Filesystem at /dev/debian-605/root is mounted on /; on-line resizing required old desc_blocks = 1, new_desc_blocks = 2
+Performing an on-line resize of /dev/debian-605/root to 4937728 (4k) blocks.
+The filesystem on /dev/debian-605/root is now 4937728 blocks long.</p></blockquote>
+
+<p>It's that simple really. So let's check.</p>
+
+<blockquote><p>$ df -h
+Filesystem            Size    Used    Avail    Use%    Mounted on
+/dev/mapper/debian-605-root    19G    8.6G    9.1G    49%    /</p></blockquote>
+
+<p>After this i did not bother to convert the VDI image back to a VDMK image. But if you have to for some reason. You could do that with the commands below. And some manual editing of the VirtualBox xml config.</p>
+
+<blockquote><p>$ VBoxManage internalcommands sethduuid box-disk1.vdi
+$ VBoxManage clonehd box-disk1.vdi box-disk1.vmdk --format VMDK</p></blockquote>
+
+<p>So that's it really for resizing the Vagrant hard drive. The only thing left for me was to cleanup the large ibdata1 file. And setup Mysql to use separate ibdata files for InnoDB table.</p>
+
+<blockquote><p>$ vi /etc/mysql/my.cnf
+[mysqld]
+innodb_file_per_table</p></blockquote>
+
+<p>Restart Mysql and dump all needed databases except the system tables like (mysql, information_schema).</p>
+
+<blockquote><p>$ /etc/init.d/mysql restart
+$ echo 'show databases;' | mysql -uroot -p | grep -v ^Database$ | grep -v ^information_schema$ | grep -v ^mysql$ | xargs mysqldump -uroot -p  --databases > dump.sql</p></blockquote>
+
+<p>When that's done. Drop all InnoDB database tables. Remove the ibdata and in_log files from /var/lib/mysql.</p>
+
+<blockquote><p>$ /etc/init.d/mysql stop
+$ rm /var/mysql/ibdata1<em> /var/mysql/ib_log</em></p></blockquote>
+
+<p>Now we restart Mysql. And reimport the databases.</p>
+
+<blockquote><p>$ /etc/init.d/mysql start
+$ mysql -uroot -p &lt; dump.sql</p></blockquote>
+
+<p>Some of the resources i used for solving this issue:</p>
+
+<p>[1] <a href="http://www.turnkeylinux.org/blog/extending-lvm">http://www.turnkeylinux.org/blog/extending-lvm</a>
+[2] <a href="http://unix.stackexchange.com/questions/37900/gparted-live-cd-cant-resize-a-partition">http://unix.stackexchange.com/questions/37900/gparted-live-cd-cant-resize-a-partition</a>
+[3] <a href="http://www.my-guides.net/en/guides/general-software/122-how-to-resize-a-virtualbox-disk-partition">http://www.my-guides.net/en/guides/general-software/122-how-to-resize-a-virtualbox-disk-partition</a>
+[4] <a href="http://www.virtualbox.org/manual/ch08.html#vboxmanage-modifyvdi">http://www.virtualbox.org/manual/ch08.html#vboxmanage-modifyvdi</a>
+[6] <a href="http://stackoverflow.com/questions/3456159/how-to-shrink-purge-ibdata1-file-in-mysql">http://stackoverflow.com/questions/3456159/how-to-shrink-purge-ibdata1-file-in-mysql</a></p>
+]]></content>
+  </entry>
+  
+</feed>
