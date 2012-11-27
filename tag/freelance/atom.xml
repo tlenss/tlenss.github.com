@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Freelance | Thijs Lensselink's Blog]]></title>
+  <link href="http://tlenss.github.com/tag/freelance/atom.xml" rel="self"/>
+  <link href="http://tlenss.github.com/"/>
+  <updated>2012-11-18T11:52:47+01:00</updated>
+  <id>http://tlenss.github.com/</id>
+  <author>
+    <name><![CDATA[Thijs Lensselink]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[VMware Workstation Listen to voice of the customer]]></title>
+    <link href="http://tlenss.github.com/2011/03/15/vmware-workstation-listen-to-voice-of-the-customer/"/>
+    <updated>2011-03-15T23:37:27+01:00</updated>
+    <id>http://tlenss.github.com/2011/03/15/vmware-workstation-listen-to-voice-of-the-customer</id>
+    <content type="html"><![CDATA[<p><a href="http://www.zend.com/en/products/studio/vmware-workstation-deployment"><img src="http://lenss.nl/images/2011/03/zend-vmware.gif" alt="" /></a>A while back i was contacted by <a href="http://twitter.com/vlaxmi">Vijay Laxmi</a>. Vijay is a Sr Partner Marketing Manager over at Zend Technologies. And she was interested in doing a podcast like interview about the brand new and shiny <a href="http://www.zend.com/en/products/studio/vmware-workstation-deployment">VMWare &amp; Zend Studio</a> integration. And because i am a big fan of this feature. I didn't see why not. So we had a few chat sessions. Along the way <a href="http://twitter.com/jsolomin">Joshua Solomin</a> from Zend and Michael Paiko from VMWare joined the party. And after some preparation we recorded the session. Considering i have never been much of a speaker. This was quite fun to do.</p>
+
+<p>Michael send me the end result. And everybody seemed happy with it. After that life resumed and i have been incredibly busy every since. So i kinda forgot about the whole thing. Till Vijay mailed me today (ty! Vijay). VMWare put the <a href="http://blogs.vmware.com/workstation/">recording</a> on their website. And a customer mailing has been transmitted over the wire.  Cool stuff!</p>
+
+<p><a href="http://lenss.nl/images/2011/03/2011-02-07-VMware-Zend-VOC-Podcast.mp3">2011-02-07 VMware-Zend VOC Podcast</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[end year notice]]></title>
+    <link href="http://tlenss.github.com/2009/12/31/end-year-notice/"/>
+    <updated>2009-12-31T11:38:33+01:00</updated>
+    <id>http://tlenss.github.com/2009/12/31/end-year-notice</id>
+    <content type="html"><![CDATA[<p>Have been working hard this week on <a href="http://kremermakelaars.nl">kremermakelaars.nl</a>. And managed to finish it right before the end of this year. The old website was one of those left overs from the early 90's. The only thing missing was a spinning @ sign. But i think i managed to give it a nice visual boost. For the back-end i created s nice CMS to manage all objects and page content. The whole thing is build with ZF, Mysql, and some javascript libraries.</p>
+
+<p>The customer is happy. I'm happy. Now it's time for some fun!</p>
+
+<p>So that's all for 2009. I wish everybody a good and happy new year.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A new adventure part II]]></title>
+    <link href="http://tlenss.github.com/2009/12/20/a-new-adventure-part-ii/"/>
+    <updated>2009-12-20T22:10:44+01:00</updated>
+    <id>http://tlenss.github.com/2009/12/20/a-new-adventure-part-ii</id>
+    <content type="html"><![CDATA[<p>This post is a recap of a post i made earlier this month. Normally i would leave it as it is. But i wasn't really happy with the outcome. And it didn't really reflect the current situation. So here goes.</p>
+
+<p>As the technological challenge in my current day to day job started to decline. I started to think this was not the right position for me. So i decided it was time to search for something new. And at that time i could not find anything interesting that didn't include relocating my self to an other part of this world. This left me with a hard choice to make. But i left <a href="http://addmissions.nl/">AddMissions</a> anyway. With a good feeling though. I had have a great year there. Now was just time for a change.</p>
+
+<p>All that was about two months ago. And for the past time i have been doing some <a href="http://bluesignal.nl/">freelance projects</a> to pay my bills. And although i enjoyed the time working from home. I feel it is time again to go and search for a new opportunity. I learned a lot from the past two months but freelance work is not something i tend to do full time. I need people around me. Even though i don't talk that much while i work :)</p>
+
+<p>I have some things cooking at the moment. Let's see what the new year has to offer.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[0x.vc URL shortener service]]></title>
+    <link href="http://tlenss.github.com/2009/12/17/0x-vc-url-shortener-service/"/>
+    <updated>2009-12-17T04:14:18+01:00</updated>
+    <id>http://tlenss.github.com/2009/12/17/0x-vc-url-shortener-service</id>
+    <content type="html"><![CDATA[<p>Having a hard time getting to sleep tonight. And was browsing my domain list. when i realized i still have this very short domain name that is just sitting there collecting dust. And since these URl shortener services are so hot lately i decided to roll my own.</p>
+
+<p>So three hours, a bit of code and a short domain name later i present : 0x.vc (it's shorter) It's probably still full of holes and prone to XSS attacks. So be careful!</p>
+
+<p><strong>The URL shortening service is offline!</strong></p>
+]]></content>
+  </entry>
+  
+</feed>

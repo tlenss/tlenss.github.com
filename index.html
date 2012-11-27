@@ -1,0 +1,1236 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Thijs Lensselink's Blog</title>
+  <meta name="author" content="Thijs Lensselink">
+
+  
+  <meta name="description" content="Publish Google Reader Shared Items A lot of people are using the shared items feature in Google Reader to publish what they are reading on a blog. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tlenss.github.com/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/libs/jquery-1.8.1.js"></script>
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js"></script>
+  <script src="/javascripts/github.js"></script>
+  <script src="/javascripts/twitter.js"></script>
+  <link href="http://feeds.feedburner.com/ThijsLensselinksBlog" rel="alternate" title="Thijs Lensselink's Blog" type="application/atom+xml">
+  
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-8003524-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <script type="text/javascript">
+	$(document).ready(function() {
+		$('#logo').click(function() {
+			window.location = '/';
+		});
+	});
+  </script>
+</head>
+
+<body   >
+<div id="content">
+	<div class="inner">
+        <div class="blog-index">
+  
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2012/11/07/publish-google-reader-shared-items/">Publish Google Reader Shared Items</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>A lot of people are using the shared items feature in <a href="http://www.google.nl/reader/">Google Reader</a> to publish what they are reading on a blog. It&#8217;s like having a live blogroll widget on your website. And gives your readers a good impression of what you are actually interested in.</p>
+
+<p>I never bothered adding this to my blog. But i do like to share. So last night i was trying to figure out how to integrate this with my current blog. I was hoping for an easy implementation. But the information is scarce. So i had to do some digging. I did find a couple of <a href="https://www.google.nl/search?q=wordpress+plugin+google+reader">Wordpress plugins</a>. But most of them were not updated for at least a year. And i am not putting code like that life on my website.</p>
+
+<p>After some Googling i came across a couple of feed URL&#8217;s that seem to share their <strong>shared</strong> items in feed form. Using the Google Reader URL and a user id. So the URL for my shared items would look like the one below. Getting your user id by the way is easy. Go to your Google reader page. Click all <strong>All items</strong> and the <strong>UID</strong> will show up in the address bar.</p>
+
+<blockquote><p>http://www.google.com/reader/shared/16525759780220726764</p></blockquote>
+
+<p>The problem with this however. Non of my shared posts show up on this page. And i have not figured out a way to populate it just yet. So i came up with an other path to get this data on my server.</p>
+
+<p>In the Google Reader pages it&#8217;s possible to add sharing functionality. This is done by going to the <strong>Send To</strong> tab</p>
+
+<p><a href="http://lenss.nl/images/2012/11/Send-To.png"><img src="http://lenss.nl/images/2012/11/Send-To-300x22.png" alt="" /></a></p>
+
+<p>From here it&#8217;s possible to select a service to share data with. Non of these services are any good for what i am trying to do. But the great thing about this page is. You can provide custom URL&#8217;s for sharing data. Just incorporate the specified parameters in the URL and your done.</p>
+
+<p><a href="http://lenss.nl/images/2012/11/Custom-Site.png"><img src="http://lenss.nl/images/2012/11/Custom-Site-300x178.png" alt="" /></a></p>
+
+<p>Once configured and saved a custom URL is visible in the <strong>Send To</strong> panel</p>
+
+<p><a href="http://lenss.nl/images/2012/11/Favorite-Site.png"><img src="http://lenss.nl/images/2012/11/Favorite-Site-300x125.png" alt="" /></a></p>
+
+<p>That&#8217;s it for this part. Actually sharing items is quite easy now. When back in the Google Reader under each post there is Send to link. If you click this link the newly created custom URL will show up. And you can share the post.</p>
+
+<p><a href="http://lenss.nl/images/2012/11/Tag-Article.png"><img src="http://lenss.nl/images/2012/11/Tag-Article-300x41.png" alt="" /></a></p>
+
+<p>The only thing left to do is write some code to process the incoming data. To get you started. Some of the code i used while testing this is posted below</p>
+
+<pre><code>Class GoogleReaderShare
+{
+    const GOOGLE_REMOTE_IP = '95.97.54.3';
+
+    const GOOGLE_REFERER = 'http://www.google.nl/reader/view/';
+
+    protected static $_whitelist = array('source', 'title', 'url', 'short');
+
+    public static function CheckSource($remoteAddr, $referer) 
+    {
+        if (($remoteAddr == self::GOOGLE_REMOTE_IP) 
+                &amp;&amp; ($referer == self::GOOGLE_REFERER)) {
+            return true;
+        }
+        return false;
+    }
+
+    protected static function _CheckIncomingData($data)
+    {
+        if (!is_array($data)) {
+            return false;
+        }
+
+        foreach ($data as $key =&gt; $value) {
+            if (!in_array($key, self::$_whitelist)) {
+                return false;
+            }
+        }
+    }
+
+    public static function Process($data) 
+    {
+        if (!self::_CheckIncomingData($data)) {
+            throw new Exception("Unrecognized or no incoming data");
+        }
+
+        // process the data
+    }
+}
+
+if (GoogleReaderShare::CheckSource($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_REFERER'])) {
+    GoogleReaderShare::Process($_GET);
+}
+</code></pre>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-07T15:55:26+01:00" pubdate data-updated="true">Nov 7<span>th</span>, 2012</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2012/11/07/publish-google-reader-shared-items/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2012/10/29/long-running-php-script-and-mysql-server-gone-away/">Long Running PHP Script and MySQL Server Gone Away</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>At the moment i am writing some workers that interact with a <a href="http://kr.github.com/beanstalkd/">beanstalk</a> server. When data gets pushed into the beanstalk server. My workers will be triggered to process this data. So the workers are sitting idle for most of the time. And just wait for some data to process. No rocket science there. But during testing i kept running into <a href="http://www.mysql.com/">MySQL</a> issues. The script seemed to lose connection to the MySQL server when it was idle for longer then a minute. And would respond with a</p>
+
+<blockquote><p>Warning: <a href="http://php.net/mysql_query">mysql_query</a>(): MySQL server has gone away in /path/to/some/mysql4/class.php on line xxx</p></blockquote>
+
+<p>So whats going on here? Well actually it&#8217;s quite simple. When my script initializes the database connection it doesn&#8217;t use it. It just sits there waiting for incoming data. Once received it will process it and try to store it in the database. But when the waiting period exceeds the time for PHP to keep the MySQL connection open it responds with the warning mentioned above. Now in previous versions of PHP this would not be a big issue. As PHP would just initiate a reconnect when the connection is lost. But from PHP 5.0.3 and up this functionality has been disabled by default. For MySQLI this is no problem at all.</p>
+
+<p>MySQLi:</p>
+
+<blockquote><p>mysqli.reconnect = Off to On</p></blockquote>
+
+<p>Unfortunately i am working with PHP&#8217;s core mysql_* functions (don&#8217;t get me started) and there doesn&#8217;t seem to be an easy way to resolve this. According to the MySQL documentation</p>
+
+<pre><code>mysql_options(&amp;mysql;, MYSQL_OPT_RECONNECT, &amp;reconnect;);
+</code></pre>
+
+<p>Should do the trick. But passing <strong>MYSQL_OPT_RECONNECT</strong> in anyway to <a href="http://php.net/mysql_connect">mysql_connect</a> didn&#8217;t result in the result i was looking for. So what now? Porting the database code to make use of the newer and better PDO or MySQLi is no option. As it would consume way to much time. Fortunately the mysql_* core functions come with mysql_ping. I never had to use this before. But in this case it comes in quite handy.</p>
+
+<p><strong>From the PHP manual:</strong></p>
+
+<pre><code>bool mysql_ping ([ resource $link_identifier = NULL ] )
+</code></pre>
+
+<blockquote><p>Checks whether or not the connection to the server is working. If it has gone down, an automatic reconnection is attempted. This function can be used by scripts that remain idle for a long while, to check whether or not the server has closed the connection and reconnect if necessary.</p></blockquote>
+
+<p>Note:
+<strong>Automatic reconnection is disabled by default in versions of MySQL >= 5.0.3.</strong></p>
+
+<p>Adding the mysql_ping function call was rather straight forward. And didn&#8217;t require all that much work to be done. I extended the database class to include a ping method. That would simply throw an exception when it failed to reconnect.</p>
+
+<pre><code>public function ping()
+{
+    if (!mysql_ping($this-&gt;db_connect_id)) {
+        throw new Mollie_Database_Exception("Connection was lost");
+    }   
+    return true;
+}
+</code></pre>
+
+<p>And after that i started poking around the userland implementation. The worker is running inside a <strong>while(true)</strong> loop. A first test with <strong>->ping()</strong> being called inside this loop proved to resolve the issue at hand. But running the ping function that often is overkill. And who knows it might actually result in <strong>DoS</strong> of the database server. So i decided to ping the server every one minute or so.</p>
+
+<pre><code>$start = time();
+while (true) 
+{
+    $this-&gt;_keepConnectionAlive($start);
+</code></pre>
+
+<p>And the keepConnectionAlive method looks something like this</p>
+
+<pre><code>protected function _keepConnectionAlive(&amp;$start)
+{
+    $passed = (time() - $start);
+    if ($passed &gt; 60)
+    {
+        $start = time();
+        $this-&gt;_db-&gt;ping();
+    }
+}
+</code></pre>
+
+<p>I&#8217;m not a big fan of this solution. And would rather be implementing MySQLi functions. But this functions well. And will do for now.</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-29T14:39:26+01:00" pubdate data-updated="true">Oct 29<span>th</span>, 2012</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2012/10/29/long-running-php-script-and-mysql-server-gone-away/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2012/10/25/git-rebase-on-pull-by-default/">Git: Rebase on Pull by Default</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>I was a bit surprised today when <a href="http://git-scm.com/">git</a> presented me a merge message window after i did a pull. This should not happen as the normal behavior here should be to <a href="http://git-scm.com/book/en/Git-Branching-Rebasing">rebase</a> the changes. But apparently that didn&#8217;t happen this time. When i asked one of the other <a href="http://www.scriptorama.nl/">dev</a> &#8216;s what could be the issue. We quickly figured out i was just missing some <strong>config</strong> entry in <strong>.git/config</strong>. This probably happened some time ago when i did a fresh checkout.</p>
+
+<p>So to make sure rebasing is done by default. You can run a simple git command or modify the <strong>.git/config</strong> file manually.</p>
+
+<blockquote><p>$ git config branch.autosetuprebase always</p></blockquote>
+
+<p>or do</p>
+
+<blockquote><p>$ vi .git/config</p></blockquote>
+
+<p>Make sure <strong>[branch &#8220;master&#8221;]</strong> has <strong>rebase</strong> set to true. It should look like the snippet below.</p>
+
+<blockquote><p>[branch &#8220;master&#8221;]</p>
+
+<pre><code>remote = origin
+merge = refs/heads/master
+rebase = true
+</code></pre></blockquote>
+
+<p>Starting to really like git. A couple of more quirks and things will be running fine.</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-25T14:20:22+02:00" pubdate data-updated="true">Oct 25<span>th</span>, 2012</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2012/10/25/git-rebase-on-pull-by-default/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/">Workaround Ubuntu 12.04 Mysterious System Freezes</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>I have two machines running <a href="http://releases.ubuntu.com/12.04/">Ubuntu 12.04</a>. One of them is very stable. And hardly ever gets rebooted. The other machine is displaying some odd behavior every now and then. And with odd behavior i mean. It just completely freezing up. The only thing functioning at that moment is the mouse.</p>
+
+<p>I use this machine daily. And i can&#8217;t afford to lose work due to system crashes. So i could spend numerous hours trying to figure out what&#8217;s going on. But that&#8217;s probably something better left for the Ubuntu devs them selfs. Besides that there are plenty of bug reports floating around that describe this behavior. And one of those <a href="https://bugs.launchpad.net/ubuntu/+source/linux/+bug/999910">posts</a> seemed to resolve the issue for me.</p>
+
+<p>Apparently the bug that causes these crashes is fixed in 12.10. But the changes will only be backported when 12.10 is released. So that leaves me in quite a pickle. But according to the thread. Upgrading the kernel should do the trick. So that&#8217;s exactly what i did. The kernel packages i used can be found here <a href="http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/">http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/</a></p>
+
+<blockquote><p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-headers-3.4.0-030400_3.4.0-030400.201205210521_all.deb
+$ sudo dpkg -i linux-headers-3.4.0-030400_3.4.0-030400.201205210521_all.deb</p>
+
+<p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-headers-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb
+$ sudo dpkg -i linux-headers-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb</p>
+
+<p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-image-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb
+$ sudo dpkg -i linux-image-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb</p></blockquote>
+
+<p>This comes with a downside of course. All modules compiled for the current kernel need to be recompiled. And i haven&#8217;t figured out how to rebuild all of them at once. So i just ran the command below for <a href="https://www.virtualbox.org/">VirtualBox</a> and the <a href="http://www.nvidia.com">NVidia</a> drivers.</p>
+
+<blockquote><p>$ sudo dpkg-reconfigure package-name</p></blockquote>
+
+<p>It&#8217;s probably a better idea to keep the stable kernel for now. But if system crashes are really bugging you. Then this might resolve the issue. Just be careful.</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-12T15:43:46+02:00" pubdate data-updated="true">Oct 12<span>th</span>, 2012</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2012/09/24/fixing-character-replacement-in-wordpress/">Fixing Character Replacement in Wordpress</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>This has been bugging me for a while. But not enough to actually look into it. And Google searches for <a href="http://wordpress.org/">Wordpress</a> display wrong characters results in a whole forest of threads about UTF-8 encoding. This has nothing to do with that. So what&#8217;s the issue here?</p>
+
+<p>Wordpress is replacing characters in my posts. The most annoying being the replacement of &#8211; <del>is</del> with - . Which makes no sense at all. Specially when creating code samples. Or command line parameters. My thought is why on earth would you do that? But it probably has something to do with typography&#8230;</p>
+
+<p>Anyways. Searching for it today made me stumble onto <a href="http://blog.paulbetts.org/index.php/2007/06/01/stop-wordpress-from-turning-double-dash-into-long-dash/">this</a> post from 2007 by <a href="http://blog.paulbetts.org/">Paul Betts</a>. And believe it or not. Wordpress is still doing that. The code has changed slightly tough. So i created a quick patch as a temporary solution. And need to figure out if this can be circumvented by a plugin or something. If that doesn&#8217;t exists already :)</p>
+
+<p>The patch will replace the following lines</p>
+
+<pre><code>$static_characters = array_merge( array( '---', ' -- ', '--', ' - ', 'xn-', '...', '``', '\'\'', ' (tm)' ), $cockney );
+$static_replacements = array_merge( array( $em_dash, ' ' . $em_dash . ' ', $en_dash, ' ' . $en_dash . ' ', 'xn--', '…', $opening_quote, 
+    $closing_quote, ' ™' ), $cockneyreplace 
+);
+</code></pre>
+
+<p>With</p>
+
+<pre><code>$static_characters = $cockney;
+$static_replacements = $cockneyreplace;
+</code></pre>
+
+<p>Patching the file is easy.</p>
+
+<p><strong>This patch was created for v3.4.2. And will most likely fail on other versions of Wordpress.</strong></p>
+
+<blockquote><p>$ cd wp-includes/
+$ wget <a href="https://raw.github.com/tlenss/misc/master/patch/wordpress-charreplace.patch">https://raw.github.com/tlenss/misc/master/patch/wordpress-charreplace.patch</a>
+$ patch -p0 &lt; wordpress-charreplace.patch
+patching file formatting.php</p></blockquote>
+
+<p>That&#8217;s all.</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-24T21:39:17+02:00" pubdate data-updated="true">Sep 24<span>th</span>, 2012</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2012/09/24/fixing-character-replacement-in-wordpress/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2012/09/24/resize-a-vagrant-vmdk-drive/">Resize a Vagrant VMDK Drive</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>Using <a href="http://vagrantup.com/">Vagrant</a> as a development environment is great. But you have to watch the available disk space when doing some funky database benchmarking. Last Friday i wrote a script to populate a test database with over 60 million records. And left it running over the weekend. With the idea it would be finished when i returned to the office on Monday. Well it actually was still running. But the Vagrant instance was out of disk space when i logged in. Damn. Should have made sure i had a big disk attached to this instance.</p>
+
+<p>O well. My first idea was to just drop the database that i wanted to use for testing. But due to no space available on the system. I could not drop it. I really couldn&#8217;t do anything on the system. Even writing config files failed. So where did all the disk space go?</p>
+
+<blockquote><p>$ df -h
+Filesystem            Size    Used    Avail    Use%    Mounted on
+/dev/mapper/debian-605-root    10G    9.8G    0.2G    99%    /</p></blockquote>
+
+<p>That&#8217;s really not that much space left. And /var/mysql/ibdata1 for the <a href="http://www.innodb.com/">InnoDB</a> tables was taking up 7 GB. And since i have a couple of InnoDB tables i can&#8217;t just delete this file. So need to come up with something else. And after a bit of Googling. I came across <a href="http://jjperezaguinaga.wordpress.com/2012/04/03/a-happy-ending-story-with-vagrant-resizing-a-lucid32-vmdk-box/">this</a> post. Which seemed promising. But the most important part is left out. And instead linked to some horrible garbled page. That is completely unreadable. So i had to do some digging to figure this out on my own. For cloning the disks i followed the steps in the article however. The Virtual Box files are located in the user folder in the following path</p>
+
+<blockquote><p>$ cd ~/VirtualBox VMs/development_*</p></blockquote>
+
+<p>The first thing i did was convert the <a href="http://sanbarrow.com/vmdk-handbook.html">VMDK</a> image to a <a href="http://en.wikipedia.org/wiki/VDI_(file_format">VDI</a>) image so we can actually do some partition resizing.</p>
+
+<blockquote><p>$ VBoxManage clonehd box-disk1.vmdk box-disk1.vdi &#8211;format VDI</p></blockquote>
+
+<p>So now we have a new VDI image. And we need to resize it so it has sufficient space for what we are trying to do. In my case 20 GB is sufficient.</p>
+
+<blockquote><p>$ VBoxManage modifyhd box-disk1.vdi &#8211;resize 20000</p></blockquote>
+
+<p>Now that the new disk is created it needs to be attached to the vagrant virtual machine. This is easily achieved by doing right click on the VM in <a href="https://www.virtualbox.org/">VirtualBox</a> and select Settings</p>
+
+<blockquote><p>Storage > SATA Controller > Add hard disk (select existing and point to the new VDI image)</p></blockquote>
+
+<p>Now boot the Vagrant image in VirtualBox so we have a screen to work with. When it has booted up. Login.</p>
+
+<p>First create a new Primary partition in the unused space of type Linux LVM (8e) with <a href="http://linux.die.net/man/8/cfdisk">cfdisk</a>.</p>
+
+<blockquote><p>$ cfdisk /dev/sda</p></blockquote>
+
+<p>When the partition table has been written. It&#8217;s time to create a new physical volume on the new partition with the help of <a href="http://linux.about.com/library/cmd/blcmdl8_pvcreate.htm">pvcreate</a></p>
+
+<blockquote><p>$ pvcreate /dev/sda3
+  successfully created</p></blockquote>
+
+<p>For the next steps we will be needing the Volume Group name. We will get this by running <a href="http://linux.about.com/library/cmd/blcmdl8_pvdisplay.htm">pvdisplay</a></p>
+
+<blockquote><p>$ pvdisplay | grep &#8220;VG Name&#8221;
+ VG Name    debian-605</p></blockquote>
+
+<p>So now we have all the bits ready. And its time to extend the root partition with the newly created partition.</p>
+
+<blockquote><p>$ vgextend debian-605 /dev/sda3
+ Volume group &#8220;debian-605&#8221; successfully extended</p></blockquote>
+
+<p>Awesome! next step extending the logical partition</p>
+
+<blockquote><p>$ lvextend /dev/debian-605/root /dev/sda3
+ Extending logical volume root to 18.84 GiB
+ Logical volume root successfully resized</p></blockquote>
+
+<p>Almost there. The last thing left to do is resize the filesystem to make all space available.</p>
+
+<blockquote><p>$ resize2fs /dev/debian-605/root
+ resize2fs 1.41.12 (17-May-2010)
+Filesystem at /dev/debian-605/root is mounted on /; on-line resizing required old desc_blocks = 1, new_desc_blocks = 2
+Performing an on-line resize of /dev/debian-605/root to 4937728 (4k) blocks.
+The filesystem on /dev/debian-605/root is now 4937728 blocks long.</p></blockquote>
+
+<p>It&#8217;s that simple really. So let&#8217;s check.</p>
+
+<blockquote><p>$ df -h
+Filesystem            Size    Used    Avail    Use%    Mounted on
+/dev/mapper/debian-605-root    19G    8.6G    9.1G    49%    /</p></blockquote>
+
+<p>After this i did not bother to convert the VDI image back to a VDMK image. But if you have to for some reason. You could do that with the commands below. And some manual editing of the VirtualBox xml config.</p>
+
+<blockquote><p>$ VBoxManage internalcommands sethduuid box-disk1.vdi
+$ VBoxManage clonehd box-disk1.vdi box-disk1.vmdk &#8211;format VMDK</p></blockquote>
+
+<p>So that&#8217;s it really for resizing the Vagrant hard drive. The only thing left for me was to cleanup the large ibdata1 file. And setup Mysql to use separate ibdata files for InnoDB table.</p>
+
+<blockquote><p>$ vi /etc/mysql/my.cnf
+[mysqld]
+innodb_file_per_table</p></blockquote>
+
+<p>Restart Mysql and dump all needed databases except the system tables like (mysql, information_schema).</p>
+
+<blockquote><p>$ /etc/init.d/mysql restart
+$ echo &#8216;show databases;&#8217; | mysql -uroot -p | grep -v ^Database$ | grep -v ^information_schema$ | grep -v ^mysql$ | xargs mysqldump -uroot -p  &#8211;databases > dump.sql</p></blockquote>
+
+<p>When that&#8217;s done. Drop all InnoDB database tables. Remove the ibdata and in_log files from /var/lib/mysql.</p>
+
+<blockquote><p>$ /etc/init.d/mysql stop
+$ rm /var/mysql/ibdata1<em> /var/mysql/ib_log</em></p></blockquote>
+
+<p>Now we restart Mysql. And reimport the databases.</p>
+
+<blockquote><p>$ /etc/init.d/mysql start
+$ mysql -uroot -p &lt; dump.sql</p></blockquote>
+
+<p>Some of the resources i used for solving this issue:</p>
+
+<p>[1] <a href="http://www.turnkeylinux.org/blog/extending-lvm">http://www.turnkeylinux.org/blog/extending-lvm</a>
+[2] <a href="http://unix.stackexchange.com/questions/37900/gparted-live-cd-cant-resize-a-partition">http://unix.stackexchange.com/questions/37900/gparted-live-cd-cant-resize-a-partition</a>
+[3] <a href="http://www.my-guides.net/en/guides/general-software/122-how-to-resize-a-virtualbox-disk-partition">http://www.my-guides.net/en/guides/general-software/122-how-to-resize-a-virtualbox-disk-partition</a>
+[4] <a href="http://www.virtualbox.org/manual/ch08.html#vboxmanage-modifyvdi">http://www.virtualbox.org/manual/ch08.html#vboxmanage-modifyvdi</a>
+[6] <a href="http://stackoverflow.com/questions/3456159/how-to-shrink-purge-ibdata1-file-in-mysql">http://stackoverflow.com/questions/3456159/how-to-shrink-purge-ibdata1-file-in-mysql</a></p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-24T14:17:00+02:00" pubdate data-updated="true">Sep 24<span>th</span>, 2012</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2012/09/24/resize-a-vagrant-vmdk-drive/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2012/09/12/git-coming-up-with-a-good-workflow/">GIT: Coming Up With a Good Workflow</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>A new environment to work in always brings new challenges. And this one is no exception. And i will be working with <a href="http://git-scm.com/">git</a> from now on. I tried switching before. But always went back to subversion. Because of my job. And for somebody who worked with <a href="http://subversion.apache.org/">subversion</a> solely for the past&#8230; say 5 to 7 years it&#8217;s kind of a new concept and takes some time to get a grasp on. Ok ok. It&#8217;s just another version control system. But it takes some getting used to.</p>
+
+<p>And two days ago i kinda got stuck in <a href="http://git-scm.com/docs/git-rebase">rebase</a> hell. And had to take some time to figure this all out without doing any damage. Which resulted in another problem. There simply is no revert command like in subversion. But git is pretty smart about this kinda things. So getting the branch full of failed merges back to it&#8217;s original state can easily be achieved with two commands and some concentration.</p>
+
+<p>First check the <strong>reflog</strong> for a point where to start from</p>
+
+<blockquote><p>$ git reflog</p></blockquote>
+
+<p>From the output pick the point where to revert back to. Which looks something like HEAD{2}. And run</p>
+
+<blockquote><p>$ git reset &#8211;hard HEAD{2}</p></blockquote>
+
+<p>So back to square one. My main problem was that i had not kept my branch up to date with the remote repository. Which you can do with the pull command while on the master branch. Or with the <strong>rebase</strong> command while working on a local branch. <strong>Rebase</strong> is git&#8217;s alternative way of bringing changes together. So the idea behind it is that when your local branch is up to date. The final merge will become as straight forward as possible.</p>
+
+<p>I finally managed to get my changes merged in to master. But did not feel very confident about the whole process. So I  need to come up with a steady work flow. And stick to it. To not waste time and run into these <strong>rebase</strong> disasters.</p>
+
+<p>This is what i have so far. And seems to be a solid routine. Start with a nice new checkout of the project at hand. And branch it for the changes to be done.</p>
+
+<blockquote><p>$ git clone git://some.repository.url:repos.git
+$ git branch dev-branch</p></blockquote>
+
+<p>After working on the newly created branch for a while. Some changes are bound to be ready to be pulled into master. Keeping an eye on the build logs or commit messages should work fine. When this happens it&#8217;s time to bring those changes into the dev-branch. After pulling them into master.</p>
+
+<blockquote><p>$ git checkout master
+$ git pull
+$ git checkout dev-branch</p></blockquote>
+
+<p>If there is a need to <strong>rebase</strong> the branch with for instance master. This is the moment. This might cause <a href="http://stackoverflow.com/questions/559917/git-rebase-and-git-push-non-fast-forward-why-use">non-fast-forward issues</a>. But i have not completely figured out why i run into these issues every now and then. A way to solve this might be to use the <em>&#8211;force</em> switch when pushing to remote. But i am not a big fan of forcing things like this.</p>
+
+<blockquote><p>$ git rebase</p></blockquote>
+
+<p>If everything is fine some more work can be done on the dev branch. Until a new change in master is ready to be pulled in. In which case it&#8217;s rinse and repeat the previous part. When the changeset is ready to be merged back into master. Switch to master bring it up up o date with a pull. And merge the changes from the dev-branch.</p>
+
+<blockquote><p>$ git checkout master
+$ git pull
+$ git push dev-branch</p></blockquote>
+
+<p>Again when all is fine all changes will be available in master. If something goes wrong during git-rebase and / or merging. Git will kindly state so. And some manual merging with git&#8217;s <a href="http://git-scm.com/docs/git-mergetool">mergetool</a> will have to be done. But that&#8217;s something for another day.</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-12T09:09:37+02:00" pubdate data-updated="true">Sep 12<span>th</span>, 2012</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2012/09/12/git-coming-up-with-a-good-workflow/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2012/09/02/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/">Workaround for Running WoW With Patch 5.0.4 on Ubuntu</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>After a fresh install i couldn&#8217;t get <a href="http://eu.battle.net/wow/en/">WoW</a> to work. I&#8217;m not that big on playing games lately. But this bugged me. Good thing we have the interwebs.</p>
+
+<p>Starting the battle.net agent manually before firing up the WoW launcher solved the launcher crashing.</p>
+
+<blockquote><p>wine ~/.wine/drive_c/users/Public/Application\ Data/Battle.net/Agent/Agent.1267/Agent.exe &#8211;nohttpauth &amp;
+wine ~/.wine/drive_c/Program\ Files\ (x86)/World\ of\ Warcraft/Launcher.exe &amp;</p></blockquote>
+
+<p>And installing <strong>vcrun2008</strong> with <a href="http://wiki.winehq.org/winetricks/">winetricks</a> solved the problem with the updater hanging.</p>
+
+<p>[1] <a href="http://appdb.winehq.org/objectManager.php?sClass=version&amp;iId=25610&amp;iTestingId=70352">http://appdb.winehq.org/objectManager.php?sClass=version&iId;=25610&iTestingId;=70352</a>
+[2] <a href="http://www.codeweavers.com/compatibility/browse/name/?forum=1;app_id=7714;mhl=130618;msg=130314">http://www.codeweavers.com/compatibility/browse/name/?forum=1;app_id=7714;mhl=130618;msg=130314</a></p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-02T23:48:36+02:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2012</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2012/09/02/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2012/08/27/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/">Setup a Basic PHP Development Environment With Vagrant and Chef-solo</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>So there are plenty of posts about this out there already. And this is nothing new i guess. But i am going to post it anyway. This weekend i spend some time playing with vagrant. And every setup guide seemed to be missing some steps the make the whole process a bit of a hassle. So i compiled my own steps in the post below. The goal was to create a basic <a href="http://www.debian.org/">Debian</a> box for my <a href="http://www.php.net/">PHP</a> development. From which i could serve my local development files.</p>
+
+<p>So to start of we need some packages.</p>
+
+<p><strong>Virtualbox</strong></p>
+
+<p>To create the virtual development image</p>
+
+<p><strong>NFS packages</strong></p>
+
+<p>To make sharing files between host and guest easy as pie</p>
+
+<p><strong>Vagrant</strong></p>
+
+<p>To package the virtual image and manage newly created box</p>
+
+<blockquote><p>$ sudo apt-get install virtualbox vagrant nfs-common nfs-kernel-server</p></blockquote>
+
+<p>Now is a good moment to download any Linux distro you want. I chose Debian. As it´s the most common in my day to day work.</p>
+
+<blockquote><p>$ wget <a href="http://cdimage.debian.org/debian-cd/6.0.5/i386/iso-cd/debian-6.0.5-i386-netinst.iso">http://cdimage.debian.org/debian-cd/6.0.5/i386/iso-cd/debian-6.0.5-i386-netinst.iso</a></p></blockquote>
+
+<p>Now launch <a href="https://www.virtualbox.org/">virtualbox</a> and create a new virtual machine. Just do what you normally do when you create a VM. But make sure to choose VMDK `Virtual Machine Disk´ as the format. The rest should be ok. When the VM is created start it up and choose the freshly downloaded Linux ISO to start the installation.</p>
+
+<p>I only installed the base system + the SSH server. And when that&#8217;s all done. And the VM is running. Login as root and install some packages vagrant needs.</p>
+
+<blockquote><p>$ apt-get install sudo ruby ruby-dev libopenssl-ruby rdoc ri irb build-essential ssl-cert curl rubygems puppet</p></blockquote>
+
+<p>I won&#8217;t be setting up a <a href="http://www.opscode.com/chef/">Chef</a> server to manage the vagrant images. But i will be using <a href="http://wiki.opscode.com/display/chef/Installing+Chef+Client+and+Chef+Solo">Chef-Solo</a> to manage installing packages. So let&#8217;s install Chef.</p>
+
+<p><strong>install chef</strong></p>
+
+<p>Setup the opscode package repositories for APT</p>
+
+<blockquote><p>$ echo &#8220;deb http://apt.opscode.com/ <code>lsb_release -cs</code>-0.10 main&#8221; | tee /etc/apt/sources.list.d/opscode.list
+$ gpg &#8211;keyserver keys.gnupg.net &#8211;recv-keys 83EF826A
+$ gpg &#8211;export packages@opscode.com | tee /etc/apt/trusted.gpg.d/opscode-keyring.gpg > /dev/null</p></blockquote>
+
+<p>And finally install the opscode keymanager and and of course Chef.</p>
+
+<blockquote><p>$ apt-get update
+$ apt-get install opscode-keyring
+$ apt-get install chef</p></blockquote>
+
+<p>The installer will ask for the chef URL. I used <strong>none</strong> because i will be using chef solo</p>
+
+<p>Now we need to add a user for <a href="http://vagrantup.com/">vagrant</a> to connect with.</p>
+
+<blockquote><p>$ adduser vagrant
+  passwrd : vagrant
+$ groupadd admin
+$ usermod -a -G admin vagrant</p></blockquote>
+
+<p>Make sure the admin users can <strong>sudo</strong> without a password.</p>
+
+<blockquote><p>$ visudo
+%admin  ALL=(ALL) NOPASSWD: ALL</p></blockquote>
+
+<p>Disable DNS for the SSH server. This should be a performance gain.</p>
+
+<blockquote><p>$ vi /etc/etc/ssh/sshd_config
+UseDNS no</p></blockquote>
+
+<p>Change the MOTD to something nice</p>
+
+<blockquote><p>$ bash -c &#8220;echo &#8216;Sweeet! A Vagrant box cooked by Chef!!&#8217; > /etc/motd&#8221;
+$ chmod 0777 /etc/motd</p></blockquote>
+
+<p>Switch to the vagrant user to setup the <strong>insecure</strong> vagrant public SSH key.</p>
+
+<blockquote><p>$ su vagrant
+mkdir -p ~/.ssh
+chmod 0700 ~/.ssh
+curl -o ~/.ssh/authorized_keys https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub
+chmod 0600 ~/.ssh/authorized_keys</p></blockquote>
+
+<p>That&#8217;s it for the VM. Now it&#8217;s time for vagrant to do some magic. First we need to create a vagrant package from the newly created VM.</p>
+
+<blockquote><p>$ vagrant package &#8211;base devbox
+$ mv package.box devbox.box</p></blockquote>
+
+<p>Done! Let&#8217;s test it.</p>
+
+<blockquote><p>$ vagrant box add devbox devbox.box
+$ mkdir test &amp;&amp; cd test
+$ vagrant init devbox
+$ vagrant up
+$ vagrant ssh</p></blockquote>
+
+<p>Voila ssh&#8217;d into the VM</p>
+
+<blockquote><p>$ exit
+$ vagrant halt
+$ vagrant destroy</p></blockquote>
+
+<p>So that&#8217;s all fine and dandy. But a base system with SSH is not that useful. So that&#8217;s where Chef comes in. Like i mentioned earlier i won&#8217;t be using a Chef-Server. I will be using Chef-Solo. And will be doing a very basic setup.</p>
+
+<p>A Chef install script is called a <a href="http://wiki.opscode.com/display/chef/Cookbooks">cookbook</a>. And they can be found all over the place. But the main repository is over here (find more here https://github.com/opscode/cookbooks). So in our vagrant folder we create a folder called cookbooks.</p>
+
+<blockquote><p>$ mkdir cookbooks
+$ cd cookbooks</p></blockquote>
+
+<p>And we install some basic cookbooks. Plus a very simple one i hacked together to install the latest <a href="http://www.dotdeb.org/">dotdeb</a> package repositories.</p>
+
+<p><a href="https://github.com/tlenss/misc/tree/master/chef/cookbooks/dotdeb">https://github.com/tlenss/misc/tree/master/chef/cookbooks/dotdeb</a></p>
+
+<blockquote><p>$ git clone <a href="https://github.com/opscode/cookbooks">https://github.com/opscode/cookbooks</a></p></blockquote>
+
+<p>This will be enough for now. And will allow for some basic PHP development. To enable these package we have to edit the <strong>Vagrantfile</strong> file.</p>
+
+<blockquote><p>$ vi Vagrantfile</p></blockquote>
+
+<p>Add these lines for apache forwarding and NFS sharing</p>
+
+<blockquote><p>config.vm.share_folder &#8220;www&#8221;, &#8220;/var/www&#8221;, &#8220;/dev/location&#8221;</p></blockquote>
+
+<p>uncomment the :hostonly line so we can acces apache from our local box. And setup a hosts file mapping</p>
+
+<blockquote><p>config.vm.network :hostonly, &#8220;192.168.164.123&#8221;
+$ sudo sed -i &#8216;$ a\
+192.168.164.123 dev.box&#8217; /etc/hosts</p></blockquote>
+
+<p>Configure chef&#8217;s cookbook path and add some recipes from the cloned cookbooks.</p>
+
+<blockquote><p>config.vm.provision :chef_solo do |chef|</p>
+
+<pre><code>chef.json = {
+    "mysql" =&gt; {
+        "server_root_password" =&gt; "somepassword"
+    "bind_address" =&gt; "127.0.0.1"
+    }
+}
+</code></pre></blockquote>
+
+<pre><code>chef.cookbooks_path = "cookbooks"
+chef.add_recipe("dotdeb")
+chef.add_recipe("dotdeb::php54")
+chef.add_recipe("openssl")
+chef.add_recipe("apache2")
+chef.add_recipe("apache2::mod_php5")
+chef.add_recipe("apache2::mod_rewrite")
+chef.add_recipe("mysql")
+chef.add_recipe("mysql::server")
+chef.add_recipe("memcached")
+chef.add_recipe("vim")
+chef.add_recipe("php")
+chef.add_recipe("php::module_curl")
+chef.add_recipe("php::module_mysql")
+chef.add_recipe("php::module_memcache")
+chef.add_recipe("php::module_sqlite3")
+</code></pre>
+
+<p>end</p>
+
+<p>Time to call vagrant again. And this time the startup takes a bit longer. All the selected packages get installed. And once that&#8217;s done. And a fresh development box is waiting.</p>
+
+<blockquote><p>$ vagrant up
+$ vagrant ssh</p></blockquote>
+
+<p>Let&#8217;s check PHP</p>
+
+<blockquote><p>$ php -v
+PHP 5.4.6-1~dotdeb.0 (cli) (built: Aug 19 2012 08:45:58)
+Copyright (c) 1997-2012 The PHP Group
+Zend Engine v2.4.0, Copyright (c) 1998-2012 Zend Technologies</p></blockquote>
+
+<p>What about apache?</p>
+
+<blockquote><p>$ ps -aux | grep apache
+root       790  0.1  0.2   5352  2580 ?        Ss   23:40   0:00 /usr/sbin/apache2 -k start
+www-data   793  0.0  0.1   5124  1764 ?        S    23:40   0:00 /usr/sbin/apache2 -k start
+www-data   797  0.0  0.2 546408  2412 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start
+www-data   798  0.0  0.2 546408  2404 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start
+www-data   811  0.0  0.2 546408  2424 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start</p></blockquote>
+
+<p>Nice! And Pointing the browser to http://localhost:8080 loads the NFS shared folder up through Apache. That&#8217;s it for now. Time to sleep&#8230;</p>
+
+<p>Some sources i used:
+[1] <a href="http://vagrantup.com/v1/docs/base_boxes.html">http://vagrantup.com/v1/docs/base_boxes.html</a>
+[2] <a href="https://github.com/yevgenko/cookbook-dotdeb">https://github.com/yevgenko/cookbook-dotdeb</a>
+[3] <a href="http://vagrantup.com/v1/docs/provisioners/chef_solo.html">http://vagrantup.com/v1/docs/provisioners/chef_solo.html</a></p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-27T00:47:05+02:00" pubdate data-updated="true">Aug 27<span>th</span>, 2012</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2012/08/27/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2012/05/26/adding-colors-to-php-cli-script-output/">Adding Colors to PHP CLI Script Output</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>I always loved writing CLI scripts. And in <a href="http://php.net/manual/en/features.commandline.php">PHP</a> this is no different. I write a lot of CLI importers, scrapers, reporters, etc. And sometimes i want a bit more funk in my output then the standard black and white. When output is important i will add some colors to make things more clear. And this is not hard at all.</p>
+
+<p>First of it&#8217;s probably a good thing to gather some of the available colors. A good resource is available <a href="https://wiki.archlinux.org/index.php/Color_Bash_Prompt">here</a>. Some of the colors and their corresponding codes can be found below.</p>
+
+<blockquote><p>Black         0;30
+Blue          0;34
+Green         0;32
+Cyan          0;36
+Red           0;31
+Purple        0;35
+Brown         0;33
+Light Gray    0;37
+Dark Gray     1;30
+Light Blue    1;34
+Light Green   1;32
+Light Cyan    1;36
+Light Red     1;31
+Light Purple  1;35
+Yellow        1;33
+White         1;37</p></blockquote>
+
+<p>So how do i output colors you ask? Well that&#8217;s just plain easy. It&#8217;s a bit like setting up colors in your linux PS1 env variable.</p>
+
+<p>Display a line in red for instance can be simply done by &#8216;echoing&#8217; from the script with some extra formatting for bash to pickup. I will try to explain everything in the line below a bit later.</p>
+
+<pre><code>echo "\033[31m some colored text \033[31m"; // red
+echo "\033[37m some colored text \033[37m"; // green
+</code></pre>
+
+<p>So what&#8217;s going on here. First we use an escape character so we can actually define a output color. This is done with <strong>\033</strong> (\e). Then we open the color statement with <strong>[31m</strong>. Red in this case. The &#8220;some colored text&#8221; will be the text outputted in a different color. And after that we have to close the color statement the same way.</p>
+
+<p>Easy as cake&#8230; that&#8217;s all!</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-26T11:14:33+02:00" pubdate data-updated="true">May 26<span>th</span>, 2012</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2012/05/26/adding-colors-to-php-cli-script-output/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/page/2/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+  </div>
+</div>
+
+	</div>
+</div>
+
+<div id="sidebar">
+  
+    
+<div id="logo" class="sidebox">
+	<div id="logo-main">lenss<span class="nl">nl</span></div>
+	<div id="logo-sub"><span class="nl">Thijs Lensselink's Blog</span></div>
+</div>
+
+<div class="sidebox">
+	<a href="http://www.facebook.com/thijs.lensselink#!/" class="social facebook"></a>
+	<a href="https://plus.google.com/117496548747841671883" class="social google"></a>
+	<a href="http://twitter.com/tlenss" class="social twitter"></a>
+	<a href="http://feeds.feedburner.com/ThijsLensselinksBlog" class="social rss"></a>
+	<div style="clear:both;"></div>
+</div>
+
+<div class="sidebox">
+	<h1>Me</h1>
+	<div class="me">
+		<a href="http://www.zend.com/store/education/certification/yellow-pages.php#show-ClientCandidateID=ZEND006598"><img src="http://lenss.nl/wp-content/php5-zce-logo-new.gif" height="58" /></a>
+		<a href="http://stackoverflow.com/users/476697/tlenss">
+			<img src="http://stackoverflow.com/users/flair/476697.png?theme=dark" width="208" height="58" alt="profile for tlenss at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for tlenss at Stack Overflow, Q&amp;A for professional and enthusiast programmers">
+		</a>
+		<div class="gpg">
+			Key ID : <a href="http://lenss.nl/6AD79CEF.asc">0x6AD79CEF</a><br/>
+			FP : FB53 B9D6 D7F1 9A16 1456 4DB3 3D35 402F 6AD7 9CEF
+		</div>
+		<div class="coderwall">
+			<a href="https://coderwall.com/tlenss"><img alt="Endorse tlenss on Coderwall" src="http://api.coderwall.com/tlenss/endorsecount.png" /></a>
+		</div>
+	</div>
+</div>
+
+<div class="sidebox ad">
+	<script type="text/javascript"><!--
+	google_ad_client = "ca-pub-0921745317573569";
+	/* nlblue_side */
+	google_ad_slot = "7706621160";
+	google_ad_width = 300;
+	google_ad_height = 250;
+	//-->
+	</script>
+	<script type="text/javascript"
+	src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+	</script>
+</div>
+<div class="sidebox">
+	<h1>Tags</h1>
+	<ul id="tag-cloud" class="blocklist"><a href='/tag/-home' style='font-size: 116.75675675675676%'>/home(31)</a> <a href='/tag/code' style='font-size: 160.0%'>Code(111)</a> <a href='/tag/design' style='font-size: 103.24324324324324%'>Design(6)</a> <a href='/tag/freelance' style='font-size: 102.16216216216216%'>Freelance(4)</a> <a href='/tag/google' style='font-size: 101.62162162162163%'>Google(3)</a> <a href='/tag/javascript' style='font-size: 104.32432432432432%'>Javascript(8)</a> <a href='/tag/jquery' style='font-size: 101.08108108108108%'>Jquery(2)</a> <a href='/tag/magento' style='font-size: 101.08108108108108%'>Magento(2)</a> <a href='/tag/php' style='font-size: 132.97297297297297%'>PHP(61)</a> <a href='/tag/security' style='font-size: 104.32432432432432%'>Security(8)</a> <a href='/tag/sql' style='font-size: 103.24324324324324%'>SQL(6)</a> <a href='/tag/tech' style='font-size: 150.27027027027026%'>Tech(93)</a> <a href='/tag/zend' style='font-size: 104.32432432432432%'>Zend(8)</a> </ul>
+	<div style="clear:both;"></div>
+</div><section>
+  <div class="sidebox">
+	<h1>Recent entries</h1>
+	<ul class="linklist">
+		
+		<li><a href="/2012/11/07/publish-google-reader-shared-items/"><span class="higlight">2012-11-07 15:55:26 +0100</span> Publish Google Reader shared items</a></li>
+		
+		<li><a href="/2012/10/29/long-running-php-script-and-mysql-server-gone-away/"><span class="higlight">2012-10-29 14:39:26 +0100</span> Long running PHP script and MySQL server gone away</a></li>
+		
+		<li><a href="/2012/10/25/git-rebase-on-pull-by-default/"><span class="higlight">2012-10-25 14:20:22 +0200</span> Git: Rebase on pull by default</a></li>
+		
+		<li><a href="/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/"><span class="higlight">2012-10-12 15:43:46 +0200</span> Workaround Ubuntu 12.04 mysterious system freezes</a></li>
+		
+		<li><a href="/2012/09/24/fixing-character-replacement-in-wordpress/"><span class="higlight">2012-09-24 21:39:17 +0200</span> Fixing character replacement in Wordpress</a></li>
+		
+		<li><a href="/2012/09/24/resize-a-vagrant-vmdk-drive/"><span class="higlight">2012-09-24 14:17:00 +0200</span> Resize a Vagrant VMDK drive</a></li>
+		
+		<li><a href="/2012/09/12/git-coming-up-with-a-good-workflow/"><span class="higlight">2012-09-12 09:09:37 +0200</span> GIT:  Coming up with a good workflow</a></li>
+		
+		<li><a href="/2012/09/02/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/"><span class="higlight">2012-09-02 23:48:36 +0200</span> Workaround for running WoW with patch 5.0.4 on Ubuntu</a></li>
+		
+		<li><a href="/2012/08/27/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/"><span class="higlight">2012-08-27 00:47:05 +0200</span> Setup a basic PHP development environment with Vagrant and chef-solo</a></li>
+		
+		<li><a href="/2012/05/26/adding-colors-to-php-cli-script-output/"><span class="higlight">2012-05-26 11:14:33 +0200</span> Adding colors to PHP CLI script output</a></li>
+		
+	</ul>
+</div>
+</section>
+<section>
+  <div class="sidebox">
+	<h1>GitHub Repos</h1>
+	
+	<ul class="linklist" id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/tlenss" class="github-follow-button">Follow On GitHub</a>
+  <script type="text/javascript" src="http://octophile.com/widgets.js"></script>
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'tlenss',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</div>
+</section>
+
+<section>
+  <div class="sidebox">
+	<h1>Latest Tweets</h1>
+	<ul class="linklist" id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("tlenss", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/tlenss" class="twitter-follow-button" data-show-count="false">Follow @tlenss</a>
+  
+</div>
+</section>
+
+  
+</div>
+
+<footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Thijs Lensselink -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'tlenss';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+Included file 'google_plus_one.html' not found in _includes directory
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

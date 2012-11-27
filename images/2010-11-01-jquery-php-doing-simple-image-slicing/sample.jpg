@@ -1,0 +1,199 @@
+	<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript">var NREUMQ=NREUMQ||[];NREUMQ.push(["mark","firstbyte",new Date().getTime()]);</script>
+<title>   Page not found at Thijs Lensselink&#039;s Blog</title>
+<link href="http://lenss.nl/feed/" title="Thijs Lensselink&#039;s Blog RSS Feed" type="application/rss+xml" rel="alternate">
+<meta content="Webdevelopment and stuff..." name="description">
+<meta charset="utf-8">
+<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<link rel="stylesheet" type="text/css" href="http://lenss.nl/wp-content/themes/lenssnlblue/style.css" />
+<script type="text/javascript" src="http://lenss.nl/wp-content/themes/lenssnlblue/js/jquery/jquery-1.8.1.js"></script>
+<script type="text/javascript">var switchTo5x=true;</script>
+<script type="text/javascript">stLight.options({publisher: "54092fe9-a343-499b-89c0-0d17490bf581"}); </script>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#logo').click(function() {
+		window.location = '/';
+	});
+});
+</script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://lenss.nl/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://lenss.nl/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 3.4.2" />
+	<link href="http://lenss.nl/wp-content/plugins/google-syntax-highlighter/Styles/SyntaxHighlighter.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css" href="http://lenss.nl/wp-content/plugins/wp-recaptcha/recaptcha.css" /></head>
+
+<body>
+
+<div id="content">
+	<div class="inner">
+			<div class="warning">
+			<p>Sorry, but you are looking for something that isn't here.</p>
+		</div>
+				
+		<div class="blog-navigation">
+			<div class="alignleft"></div>
+			<div class="alignright"></div>
+		</div>
+
+		<section class="ad">
+			<script type="text/javascript"><!--
+			//google_ad_client = "ca-pub-0921745317573569";
+			/* nlblue_content */
+			//google_ad_slot = "0947700644";
+			//google_ad_width = 728;
+			//google_ad_height = 90;
+			//-->
+			</script>
+			<!--<script type="text/javascript"
+			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+			</script>-->
+		</section>
+
+	</div>
+</div>
+
+<div id="sidebar">
+
+	<div id="logo" class="sidebox">
+		<div id="logo-main">lenss<span class="nl">nl</span></div>
+		<div id="logo-sub"><span class="nl">Thijs Lensselink's blog</span></div>
+	</div>
+
+	<div class="sidebox">
+		<a href="http://www.facebook.com/thijs.lensselink#!/" class="social facebook"></a>
+		<a href="https://plus.google.com/117496548747841671883" class="social google"></a>
+		<a href="http://twitter.com/tlenss" class="social twitter"></a>
+		<a href="http://feeds.feedburner.com/ThijsLensselinksBlog" class="social rss"></a>
+		<div style="clear:both;"></div>
+	</div>
+
+	<div class="sidebox">
+		<h1>Me</h1>
+		<div class="me">
+			<a href="http://www.zend.com/store/education/certification/yellow-pages.php#show-ClientCandidateID=ZEND006598"><img src="http://lenss.nl/wp-content/php5-zce-logo-new.gif" height="58" /></a>
+			<a href="http://stackoverflow.com/users/476697/tlenss">
+				<img src="http://stackoverflow.com/users/flair/476697.png?theme=dark" width="208" height="58" alt="profile for tlenss at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for tlenss at Stack Overflow, Q&amp;A for professional and enthusiast programmers">
+			</a>
+			<a href="https://coderwall.com/tlenss"><img alt="Endorse tlenss on Coderwall" src="http://api.coderwall.com/tlenss/endorsecount.png" /></a>
+			<div class="gpg">
+				Key ID : <a href="http://lenss.nl/6AD79CEF.asc">0x6AD79CEF</a><br/>
+				FP : FB53 B9D6 D7F1 9A16 1456 4DB3 3D35 402F 6AD7 9CEF
+			</div>
+		</div>
+	</div>
+	
+	<div class="sidebox">
+		<h1>Recent entries</h1>
+		<ul class="linklist">
+						<li><a href="http://lenss.nl/2012/11/publish-google-reader-shared-items/"><span class="higlight">November 7, 2012</span> Publish Google Reader shared items</a></li>
+						<li><a href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/"><span class="higlight">October 29, 2012</span> Long running PHP script and MySQL server gone away</a></li>
+						<li><a href="http://lenss.nl/2012/10/git-rebase-on-pull-by-default/"><span class="higlight">October 25, 2012</span> Git: Rebase on pull by default</a></li>
+						<li><a href="http://lenss.nl/2012/10/workaround-ubuntu-12-04-mysterious-system-freezes/"><span class="higlight">October 12, 2012</span> Workaround Ubuntu 12.04 mysterious system freezes</a></li>
+						<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September 24, 2012</span> Fixing character replacement in WordPress</a></li>
+						<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September 24, 2012</span> Resize a Vagrant VMDK drive</a></li>
+						<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September 12, 2012</span> GIT:  Coming up with a good workflow</a></li>
+						<li><a href="http://lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/"><span class="higlight">September 2, 2012</span> Workaround for running WoW with patch 5.0.4 on Ubuntu</a></li>
+						<li><a href="http://lenss.nl/2012/08/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/"><span class="higlight">August 26, 2012</span> Setup a basic PHP development environment with Vagrant and chef-solo</a></li>
+						<li><a href="http://lenss.nl/2012/05/adding-colors-to-php-cli-script-output/"><span class="higlight">May 26, 2012</span> Adding colors to PHP CLI script output</a></li>
+					</ul>
+	</div>
+
+	<div class="sidebox ad">
+		<script type="text/javascript"><!--
+		google_ad_client = "ca-pub-0921745317573569";
+		/* nlblue_side */
+		google_ad_slot = "7706621160";
+		google_ad_width = 300;
+		google_ad_height = 250;
+		//-->
+		</script>
+		<script type="text/javascript"
+		src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+		</script>
+	</div>
+
+	<div class="sidebox">
+		<h1>Tags</h1>
+		<ul class="blocklist">
+									<li><a href="/tag/php" class="weight10">PHP</a></li>
+						<li><a href="/tag/zend" class="weight10">Zend</a></li>
+						<li><a href="/tag/ubuntu" class="weight9">Ubuntu</a></li>
+						<li><a href="/tag/mysql" class="weight8">MySql</a></li>
+						<li><a href="/tag/zend-framework" class="weight7">Zend Framework</a></li>
+						<li><a href="/tag/apache" class="weight7">Apache</a></li>
+						<li><a href="/tag/javascript" class="weight6">Javascript</a></li>
+						<li><a href="/tag/google" class="weight6">google</a></li>
+						<li><a href="/tag/zend-studio" class="weight5">Zend Studio</a></li>
+						<li><a href="/tag/svn" class="weight5">SVN</a></li>
+					</ul>
+		<div style="clear:both;"></div>
+	</div>
+
+	<div class="sidebox">
+		<h1>Recent comments</h1>
+		<ul class="linklist">
+									<li><a href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/#comment-124873"><span class="higlight">Thijs Lensselink</span> wrote Hey Bob, Ja dat is een prima oplossing. Allee...</a></li>
+						<li><a href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/#comment-124841"><span class="higlight">Bob</span> wrote Ik heb het opgelost door op te slaan wanneer ...</a></li>
+						<li><a href="http://lenss.nl/2008/11/making-permanent-changes-to-resolvconf-under-ubuntu/#comment-118203"><span class="higlight">Abdul</span> wrote Thanks Benjamin that worked for me, although ...</a></li>
+						<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/#comment-115877"><span class="higlight">Thijs Lensselink</span> wrote Nice find Bart. Will certainly take a look at...</a></li>
+						<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/#comment-115875"><span class="higlight">Bart Stavenuiter</span> wrote Maybe you want to have a look at this as well...</a></li>
+						<li><a href="http://lenss.nl/2009/01/making-php-mail-work-on-ubuntu-through-postfix/#comment-115646"><span class="higlight">Thijs Lensselink</span> wrote As far as i remember it's a combination of bo...</a></li>
+						<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/#comment-115643"><span class="higlight">Thijs Lensselink</span> wrote It's a step in the right direction i guess :)...</a></li>
+						<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/#comment-115636"><span class="higlight">Bart Stavenuiter</span> wrote I quite like this workflow.
+I haven't rebase...</a></li>
+						<li><a href="http://lenss.nl/2009/01/making-php-mail-work-on-ubuntu-through-postfix/#comment-111404"><span class="higlight">John Hallquist</span> wrote So I just have to change the myorigin header ...</a></li>
+						<li><a href="http://lenss.nl/2011/08/php5-filesize-limit-on-32-bit-system/#comment-108889"><span class="higlight">David</span> wrote Executing external programs is slow like hell...</a></li>
+					</ul>
+	</div>
+
+	<h1>Check the archive</h1>
+	<div class="sidebox last">
+		<ul class="blocklist extrapadding">
+			<li><a href='http://lenss.nl/2012/' title='2012'>2012</a></li>
+	<li><a href='http://lenss.nl/2011/' title='2011'>2011</a></li>
+	<li><a href='http://lenss.nl/2010/' title='2010'>2010</a></li>
+	<li><a href='http://lenss.nl/2009/' title='2009'>2009</a></li>
+	<li><a href='http://lenss.nl/2008/' title='2008'>2008</a></li>
+		</ul>
+		<div style="clear:both;"></div>
+	</div>
+	<div>&nbsp;</div>
+</div>
+	
+	
+<script type="text/javascript">if(!NREUMQ.f){NREUMQ.f=function(){NREUMQ.push(["load",new Date().getTime()]);var e=document.createElement("script");e.type="text/javascript";e.async=true;e.src="https://d1ros97qkrwjf5.cloudfront.net/42/eum/rum.js";document.body.appendChild(e);if(NREUMQ.a)NREUMQ.a();};NREUMQ.a=window.onload;window.onload=NREUMQ.f;};NREUMQ.push(["nrf2","beacon-4.newrelic.com","03af518c7f",877308,"MgMAYBAHDERSAEVRXQtJI1cWDw1ZHApfXFcd",0,265,new Date().getTime()]);</script>
+</body>
+
+        <script class="javascript" src="http://lenss.nl/wp-content/plugins/google-syntax-highlighter/Scripts/shCore.js"></script>
+<script class="javascript" src="http://lenss.nl/wp-content/plugins/google-syntax-highlighter/Scripts/shBrushCSharp.js"></script>
+<script class="javascript" src="http://lenss.nl/wp-content/plugins/google-syntax-highlighter/Scripts/shBrushPhp.js"></script>
+<script class="javascript" src="http://lenss.nl/wp-content/plugins/google-syntax-highlighter/Scripts/shBrushJScript.js"></script>
+<script class="javascript" src="http://lenss.nl/wp-content/plugins/google-syntax-highlighter/Scripts/shBrushJava.js"></script>
+<script class="javascript" src="http://lenss.nl/wp-content/plugins/google-syntax-highlighter/Scripts/shBrushVb.js"></script>
+<script class="javascript" src="http://lenss.nl/wp-content/plugins/google-syntax-highlighter/Scripts/shBrushSql.js"></script>
+<script class="javascript" src="http://lenss.nl/wp-content/plugins/google-syntax-highlighter/Scripts/shBrushXml.js"></script>
+<script class="javascript" src="http://lenss.nl/wp-content/plugins/google-syntax-highlighter/Scripts/shBrushDelphi.js"></script>
+<script class="javascript" src="http://lenss.nl/wp-content/plugins/google-syntax-highlighter/Scripts/shBrushPython.js"></script>
+<script class="javascript" src="http://lenss.nl/wp-content/plugins/google-syntax-highlighter/Scripts/shBrushRuby.js"></script>
+<script class="javascript" src="http://lenss.nl/wp-content/plugins/google-syntax-highlighter/Scripts/shBrushCss.js"></script>
+<script class="javascript" src="http://lenss.nl/wp-content/plugins/google-syntax-highlighter/Scripts/shBrushCpp.js"></script>
+<script class="javascript">
+dp.SyntaxHighlighter.ClipboardSwf = 'http://lenss.nl/wp-content/plugins/google-syntax-highlighter/Scripts/clipboard.swf';
+dp.SyntaxHighlighter.HighlightAll('code');
+</script>
+        <script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-8003524-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+</html>
+
+<!-- WP Super Cache is installed but broken. The path to wp-cache-phase1.php in wp-content/advanced-cache.php must be fixed! -->

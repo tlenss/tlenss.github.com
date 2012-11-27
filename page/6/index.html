@@ -1,0 +1,1155 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Thijs Lensselink's Blog</title>
+  <meta name="author" content="Thijs Lensselink">
+
+  
+  <meta name="description" content="Jquery & PHP Doing Simple Image Slicing Today i was in need of a basic image slicer. An there must be a million of these things out there. But i &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tlenss.github.com/page/6/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/libs/jquery-1.8.1.js"></script>
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js"></script>
+  <script src="/javascripts/github.js"></script>
+  <script src="/javascripts/twitter.js"></script>
+  <link href="http://feeds.feedburner.com/ThijsLensselinksBlog" rel="alternate" title="Thijs Lensselink's Blog" type="application/atom+xml">
+  
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-8003524-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <script type="text/javascript">
+	$(document).ready(function() {
+		$('#logo').click(function() {
+			window.location = '/';
+		});
+	});
+  </script>
+</head>
+
+<body   >
+<div id="content">
+	<div class="inner">
+        <div class="blog-index">
+  
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2010/11/01/jquery-php-doing-simple-image-slicing/">Jquery & PHP Doing Simple Image Slicing</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>Today i was in need of a basic image slicer. An there must be a million of these things out there. But i wanted to see how hard / easy it would be to create this myself.</p>
+
+<p>Conclusion. It&#8217;s not that hard when using the jquery library. which is becoming my Javascript framework of choice.</p>
+
+<pre><code>&lt;script src="js/jquery-1.4.3.min.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script src="js/jquery-ui-1.8.5.custom.min.js" type="text/javascript"&gt;&lt;/script&gt;
+</code></pre>
+
+<p>I started with a div.</p>
+
+<pre><code>&lt;div id="image_slicer_canvas"&gt;&lt;/div&gt;
+</code></pre>
+
+<p>Then i added the placeholder for the to be scaled image. And a div that will represent the slicer borders.</p>
+
+<pre><code>&lt;div id="image_slicer_canvas"&gt;
+
+        &lt;img src="images/sample.jpg" alt="" border="0" id="image_slicer_image"&gt;&lt;/img&gt;
+
+        &lt;div id="image_slicer"&gt;
+            &lt;div id="image_slicer_scaler" class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se"&gt;&lt;/div&gt;
+        &lt;/div&gt;
+
+    &lt;/div&gt;
+</code></pre>
+
+<p>The next thing to do is setup the scaling canvas. So let&#8217;s make it draggable and resizeable.</p>
+
+<pre><code>// Create a draggable / scalable slicer
+       $(function() {
+            $('#image_slicer')
+            .draggable({containment:'#image_slicer_canvas'}) // constraint
+            .resizable();
+
+            // set the slicer canvas size
+            resizeCanvas(
+                $('#image_slicer_image').width(),
+                $('#image_slicer_image').height()
+            );
+       });
+</code></pre>
+
+<p>The only thing we need now is a bit of javascript to handle the slice action. I used a sample form to do the posting to the slicer.php script</p>
+
+<pre><code>// handle slicer actions
+       $('#image_slicer').resizable({
+          stop: function(event, ui) { 
+              var pos = $('#image_slicer').position();
+              // width, height, left, top
+              $('#scaler_width').val($('#image_slicer').width());
+              $('#scaler_height').val($('#image_slicer').height());
+              $('#scaler_left').val(pos.left);
+              $('#scaler_top').val(pos.top);
+          }
+       });
+</code></pre>
+
+<p>The result is a nice red dotted line (square) on top of the image. The dotted area is draggable and resizeable.
+When the right slice is selected just hit the slice button and PHP/GD will do the rest.</p>
+
+<pre><code>$width  = $_POST['width'];
+$height = $_POST['height']; 
+$left   = $_POST['left'];
+$top    = $_POST['top'];
+
+// read source image
+$src = imagecreatefromjpeg('images/sample.jpg');
+$dest = imagecreatetruecolor($width, $height);
+
+imagecopy($dest, $src, 0, 0, $left, $top, $width, $height);
+
+header('Content-Type: image/jpeg');
+imagegif($dest);
+
+imagedestroy($dest);
+imagedestroy($src);
+</code></pre>
+
+<p>That&#8217;s all. All files can be downloaded <a href="http://lenss.nl/images/2010/11/imageSlice.tar.gz">here</a></p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-11-01T17:34:11+01:00" pubdate data-updated="true">Nov 1<span>st</span>, 2010</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2010/11/01/jquery-php-doing-simple-image-slicing/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2010/11/01/just-something-funny/">Just Something Funny</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>I cam across this page today and it made me laugh :) With thanks to the <a href="http://www.gnu.org/fun/jokes/">GNU jokes archive</a>.</p>
+
+<p>How the way people code &#8220;Hello World&#8221; varies depending on their age and job:</p>
+
+<p><strong>High School/Jr. High</strong></p>
+
+<pre><code>10 PRINT "HELLO WORLD"
+ 20 END
+</code></pre>
+
+<p><strong>First year in College</strong></p>
+
+<blockquote><p>program Hello(input, output)
+ begin
+ writeln(&#8216;Hello World&#8217;)
+ end.</p></blockquote>
+
+<p>Senior year in College</p>
+
+<blockquote><p>(defun hello
+ (print
+ (cons &#8216;Hello (list &#8216;World))))</p></blockquote>
+
+<p><strong>New professional</strong></p>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+ void main(void)
+ {
+  char *message[] = {"Hello ", "World"};
+  int i;
+  for(i = 0; i &lt; 2; ++i)
+  printf("%s", message[i]);
+  printf("\n");
+ }
+</code></pre>
+
+<p><strong>Seasoned professional</strong></p>
+
+<pre><code>#include &lt;iostream.h&gt;
+ #include &lt;string.h&gt;
+ class string
+ {
+  private:
+   int size;
+   char *ptr;
+  public:
+   string() : size(0), ptr(new char('\0')) {}
+   string(const string &amp;s;) : size(s.size)
+   {
+     ptr = new char[size + 1];
+     strcpy(ptr, s.ptr);
+   }
+   ~string()
+   {
+     delete [] ptr;
+   }
+   friend ostream &amp;operator; &lt;&lt;(ostream &amp;, const string &amp;);
+   string &amp;operator;=(const char *);
+ };
+
+ ostream &amp;operator;&lt;&lt;(ostream &amp;stream;, const string &amp;s;)
+ {
+   return(stream &lt;&lt; s.ptr);
+ }
+ string &amp;string;::operator=(const char *chrs)
+ {
+   if (this != &amp;chrs;)
+   {
+     delete [] ptr;
+     size = strlen(chrs);
+     ptr = new char[size + 1];
+     strcpy(ptr, chrs);
+   }
+   return(*this);
+ }
+ int main()
+ {
+   string str;
+   str = "Hello World";
+   cout &lt;&lt; str &lt;&lt; endl;
+   return(0);
+ }
+</code></pre>
+
+<p><strong>System Administrator</strong></p>
+
+<pre><code>#include &lt;stdio.h&gt;
+ #include &lt;stdlib.h&gt;
+ main()
+ {
+  char *tmp;
+  int i=0;
+  /* on y va bourin */
+  tmp=(char *)malloc(1024*sizeof(char));
+  while (tmp[i]="Hello Wolrd"[i++]);
+  /* Ooopps y'a une infusion ! */
+  i=(int)tmp[8];
+  tmp[8]=tmp[9];
+  tmp[9]=(char)i;
+  printf("%s\n",tmp);
+ }
+</code></pre>
+
+<p><strong>Apprentice Hacker</strong></p>
+
+<pre><code>#!/usr/local/bin/perl
+ $msg="Hello, world.\n";
+ if ($#ARGV &gt;= 0) {
+     while(defined($arg=shift(@ARGV))) {
+     $outfilename = $arg;
+     open(FILE, "&gt;" . $outfilename) || die "Can't write $arg: $!\n";
+     print (FILE $msg);
+     close(FILE) || die "Can't close $arg: $!\n";
+     }
+ } else {
+     print ($msg);
+ }
+ 1;
+</code></pre>
+
+<p><strong>Experienced Hacker</strong></p>
+
+<pre><code> #include &lt;stdio.h&gt;
+ #include &lt;string.h&gt;
+ #define S "Hello, World\n"
+ main(){exit(printf(S) == strlen(S) ? 0 : 1);}
+</code></pre>
+
+<p><strong>Seasoned Hacker</strong></p>
+
+<pre><code> % cc -o a.out ~/src/misc/hw/hw.c
+ % a.out
+ Hello, world.
+</code></pre>
+
+<p><strong>Guru Hacker</strong></p>
+
+<blockquote><p>% cat
+ Hello, world.</p></blockquote>
+
+<p><strong>New Manager (do you remember?)</strong></p>
+
+<pre><code> 10 PRINT "HELLO WORLD"
+ 20 END
+</code></pre>
+
+<p><strong>Middle Manager</strong></p>
+
+<pre><code> mail -s "Hello, world." bob@b12
+ Bob, could you please write me a program that prints "Hello, world."?
+ I need it by tomorrow.
+ ^D
+</code></pre>
+
+<p><strong>Senior Manager</strong></p>
+
+<pre><code> % zmail jim
+ I need a "Hello, world." program by this afternoon.
+</code></pre>
+
+<p><strong>Chief Executive</strong></p>
+
+<pre><code>% letter
+ letter: Command not found.
+ % mail
+ To: ^X ^F ^C
+ % help mail
+ help: Command not found.
+ % damn!
+ !: Event unrecognized
+ % logout
+</code></pre>
+
+<p><strong>Research Scientist</strong></p>
+
+<blockquote><p>PROGRAM HELLO</p>
+
+<pre><code>PRINT *, 'Hello World'
+END
+</code></pre></blockquote>
+
+<p><strong>Older research Scientist</strong></p>
+
+<blockquote><p>WRITE (6, 100)</p>
+
+<pre><code>100 FORMAT (1H ,11HHELLO WORLD)
+CALL EXIT
+END
+</code></pre></blockquote>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-11-01T10:32:09+01:00" pubdate data-updated="true">Nov 1<span>st</span>, 2010</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2010/11/01/just-something-funny/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2010/09/27/zend-studio-goes-virtual/">Zend Studio Goes Virtual</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>Zend Studio added a new great <a href="http://www.zend.com/en/products/studio/vmware-workstation-deployment#discount">feature</a> to there already impressive stack of features. The IDE just keeps growing in the right direction.</p>
+
+<p>So the new 8 version which at the time of writing is in Beta added VMWare support. This is a feature i was looking forward to. And couldn&#8217;t wait to give this a try. So when i got a email that the new beta is out. I didn&#8217;t wait and downloaded the behemoth.</p>
+
+<p>Adding VMWare support to the IDE seems like a logical thing to do. Specially since everything is virtualized now a days. I thought about this a while. But you can use it in different setups. For me it is an extra on my development environment. I&#8217;m a big Linux enthusiast. But at the office i work on windows. So now i can develop in my own virtual Linux environment. But it&#8217;s also a great solution for running Unit Test on a production VM. Or just to test on a production VM.</p>
+
+<p>My first try was on my OS of choice which is Ubuntu. That however didn&#8217;t go to well. As soon as i started the &#8220;Run as VMWare application&#8221; my IDE would die on me. I quickly gave up on this mainly because i am running Maverick which is not considered stable. And VMWare already had some problems building the kernel modules. If anybody is interested in the crash logs. I still have some.</p>
+
+<p>So back to windows. Windows 7 in particular. I always keep a Windows partition laying around. For games and stuff. So i downloaded the following files.</p>
+
+<blockquote><ul>
+<li>Ubuntu-Server</li>
+<li>Zend Studio 8 Beta (<a href="http://www.zend.com/en/products/studio/download-8-beta">trial</a>)</li>
+<li>VMWare 7.1.2        (<a href="http://downloads.vmware.com/d/info/desktop_downloads/vmware_workstation/7_0">trial</a>)</li>
+</ul>
+</blockquote>
+
+<p>Installing VMWare and Zend Studio is a since. Nothing to make note off here. After that was done i installed Ubuntu 10.04 Server edition. And installed Zend Server inside of it. That should be all.. right? So let&#8217;s launch the IDE and give it a shot. Well it launched but i got back an error like below.</p>
+
+<p><a href="http://lenss.nl/images/2010/09/zend-server-vm-noconnect.png"><img src="http://lenss.nl/images/2010/09/zend-server-vm-noconnect_s.jpg" alt="" /></a></p>
+
+<p>At first i had no clue what was going on. But i had the feeling there was something wrong with the VMWare client tools. After digging through the Zend Studio manual i found the <a href="http://files.zend.com/help/Beta/Zend_Studio_8_0/zend-studio.htm#integrating_with_vmware_workstation.htm">answer</a> The &#8216;hgfs&#8217; was not mounted on teh client OS. And this was because the vmware tools did not have enough libraries to build everything. To build the complete VMWare tools on the client OS we need</p>
+
+<blockquote><ul>
+<li>gcc</li>
+<li>make</li>
+<li>build-essential</li>
+<li>linux-headers-(current version)</li>
+</ul>
+</blockquote>
+
+<p>When that&#8217;s done it necessary to attach the linux version of the VMWare tools to the virtual CDRom drive. So we can mount it inside the VM.</p>
+
+<blockquote><p>/usr/lib/vmware/isoimages/linux.iso</p>
+
+<p>mount /dev/cdrom /mnt</p></blockquote>
+
+<p>Copy the file somewhere and unmount the /mnt or the build will fail. Unpack the VMWare tools and run the perl script inside to install. Once that&#8217;s done follow the VMWare instructions. Or reboot the VM.</p>
+
+<p>Now we are all set. Now it&#8217;s just a matter of writing code. And running it on the VM. When running an application as a VMWare application the IDE syncs the files with the shared folder on the VM. After that the internal browser is launched to see the result.</p>
+
+<p>The first time you will be asked for the VM to use. Just point it to the VM image created by VMWare.</p>
+
+<p><a href="http://lenss.nl/images/2010/09/selectvm.png"><img src="http://lenss.nl/images/2010/09/selectvm_s.jpg" alt="" /></a></p>
+
+<p>When no VM is active when launching the application. Zend Studio will trigger VMWare to launch the VM.</p>
+
+<p><a href="http://lenss.nl/images/2010/09/launchvm.png"><img src="http://lenss.nl/images/2010/09/launchvm_s.jpg" alt="" /></a></p>
+
+<p>Some output in Zend Studio</p>
+
+<p><a href="http://lenss.nl/images/2010/09/resultvm.png"><img src="http://lenss.nl/images/2010/09/resultvm_s.jpg" alt="" /></a></p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-09-27T13:25:17+02:00" pubdate data-updated="true">Sep 27<span>th</span>, 2010</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2010/09/27/zend-studio-goes-virtual/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2010/09/22/drag-drop-uploads-with-xmlhttprequest2-and-php-revised/">Drag & Drop Uploads With XMLHttpRequest2 and PHP Revised</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>A while back i wrote a <a href="http://lenss.nl/2010/01/drag-drop-uploads-with-xmlhttprequest2-and-php/">post </a> where i explained how to implement the new XMLHttpRequest2 object. The main point of the post was to use <a href="https://developer.mozilla.org/en/XMLHttpRequest">sendAsBinary()</a> so we can stream file uploads from the client to the server.</p>
+
+<p>The post i made showed some code snippets to make this possible. And the Javascript part is all fine and dandy. But last week i had an interesting mail conversation with <a href="http://braincracking.org/">Jean-Pierre Vincent</a> about the memory consumption on the server side of things.</p>
+
+<p>The result of some testing revealed the server would need at least the amount of memory equal to the file size. For small files this is no problem. But with bigger files this becomes a problem. Although i couldn&#8217;t reproduce Jean-Pierre&#8217;s results. I wasn&#8217;t very happy with the test results.</p>
+
+<blockquote><p>Upload 2.8 MB file results in 3.1 MB memory usage
+Upload 29 MB file results in 30 MB memory usage</p></blockquote>
+
+<p>A bit more testing revealed that <a href="http://php.net/manual/function.file-put-contents.php">file_put_contents()</a> was the culprit. Which seems logical if you think about it. It reads the file into memory and dumps it again. Not very elegant for big files. Besides we are trying to stream files. So why should we read them completely in to memory? We shouldn&#8217;t :)</p>
+
+<p>Jean-Pierre decided to go with the DataForm object to solve the issue. I still want to look into that. But have not found any information about. Besides that i knew the problem was on the server side. So i rewrote the receive() method to be less memory intensive. The results are considerably better then before.</p>
+
+<blockquote><p>Upload 2.8 MB file results in 0.4 MB memory usage
+Upload 29 MB file results in 0.4 MB memory usage</p></blockquote>
+
+<p>The memory usage was measured with <a href="http://php.net/manual/function.memory-get-peak-usage.php">memory_get_peak_usage()</a>. And the new code is posted below:</p>
+
+<pre><code>public function receive()
+{
+    if (!$this-&gt;isValid()) {
+        throw new Exception('No file uploaded!');
+    }
+
+    $fileReader = fopen('php://input', "r");
+    $fileWriter = fopen($this-&gt;_destination . $this-&gt;_fileName, "w+");
+
+    while(true) {
+        $buffer = fgets($fileReader, 4096);
+        if (strlen($buffer) == 0) {
+            fclose($fileReader);
+            fclose($fileWriter);
+            return true;
+        }
+
+        fwrite($fileWriter, $buffer);
+    }
+
+    return false;
+}
+</code></pre>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-09-22T15:26:42+02:00" pubdate data-updated="true">Sep 22<span>nd</span>, 2010</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2010/09/22/drag-drop-uploads-with-xmlhttprequest2-and-php-revised/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2010/09/07/recursive-array-filter/">Recursive Array Filtering</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>note to self .. a nice clean way to do recursive array filters in PHP</p>
+
+<pre><code>$arr = array(
+    'teSt',
+    'The quick BroWn ...',
+    'foO',
+    array(
+       'Test sTring'
+    )
+);
+
+$filter = function(&amp;$input) use (&amp;$filter) {
+    if (is_array($input)) $input = array_map($filter, $input);
+    else if (is_string($input)) $input = strtolower($input);
+
+    return $input;
+};
+
+$filter($arr);
+var_dump($arr);
+</code></pre>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-09-07T00:15:26+02:00" pubdate data-updated="true">Sep 7<span>th</span>, 2010</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2010/09/07/recursive-array-filter/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2010/08/15/php-community-spirit-t-shirt-design-competition/">PHP Community Spirit T-Shirt Design Competition</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>I entered a design for the PHP Community <a href="http://php-spirit.strutta.com/">Spirit T-Shirt Design Competition</a>. And it got approved today. It&#8217;s a simple design that uses the PHP logo colors and font. If you like it you can vote for it by following the design below.</p>
+
+<p><a href="http://php-spirit.strutta.com/entries/72596"><img src="http://www.strutta.com/image-cacher/f:640:360/aHR0cDovL3VwbG9hZHMuZmlsZXMuc3RydXR0YS5jb20vZW50cnkvMTU0NTk5Ni8xMjgxNzczMjQx" alt="" /></a></p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-08-15T15:02:22+02:00" pubdate data-updated="true">Aug 15<span>th</span>, 2010</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2010/08/15/php-community-spirit-t-shirt-design-competition/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2010/08/06/new-elephpant/">New elePHPant :)</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>After purchasing a new batch of the friendly blue guys. <a href="http://www.nexen.net/">Damien Seguy</a> was so friendly to send me an early Christmas present :)</p>
+
+<p><a href="http://lenss.nl/images/2010/08/elephpant.jpg"><img src="http://lenss.nl/images/2010/08/elephpant-300x225.jpg" alt="" /></a></p>
+
+<p>I have some small versions left by the way. So if you are one of those people looking. Drop me a line or leave a comment.</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-08-06T12:22:59+02:00" pubdate data-updated="true">Aug 6<span>th</span>, 2010</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2010/08/06/new-elephpant/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2010/07/01/returning-blocks-from-controllers-without-layout-attached-in-magento/">Returning Blocks From Controllers Without Layout Attached in Magento</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>When working in the admin environment of Magento i had to add a controller action that was called by an Ajax request. The problem however is that all layout data is returned as well when calling</p>
+
+<pre><code>$this-&gt;renderLayout();
+</code></pre>
+
+<p>from the controller. So my next attempt was to try to render the block separately and adding it to the layout.</p>
+
+<pre><code>$this-&gt;_initCustomer();
+$this-&gt;getResponse()-&gt;setBody(
+            $this-&gt;getLayout()-&gt;createBlock('block/location')
+            -&gt;setCustomerId(Mage::registry('current_customer')-&gt;getId())
+            -&gt;setData('list', $list)
+            -&gt;setUseAjax(true)
+            -&gt;toHtml()
+);
+</code></pre>
+
+<p>This kinda worked. But now i had no more control over the template used. Or maybe i missed that part. But i don&#8217;t like to specify my Block anyway Magento should pick this up automatically.</p>
+
+<p>Solving this issue is actually quite easy. The only thing we need to do is change the layout structure of the module. We change the name to root. And that&#8217;s it!</p>
+
+<pre><code>&lt;block type="block/location" name="root" template="template/location"&gt;&lt;/block&gt;
+</code></pre>
+
+<p>The name attribute tells Magento it is a root block so no need for the rest of the layout.</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-07-01T11:31:53+02:00" pubdate data-updated="true">Jul 1<span>st</span>, 2010</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2010/07/01/returning-blocks-from-controllers-without-layout-attached-in-magento/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2010/06/30/errord/">Error&#8217;d</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>I really like the eclipse platform. But yesterday morning it was my own WTF moment when my IDE crashed while building a large project.</p>
+
+<p><a href="http://lenss.nl/images/2010/06/eclipse_error.jpg"><img src="http://lenss.nl/images/2010/06/eclipse_error-300x125.jpg" alt="" /></a></p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-06-30T21:33:48+02:00" pubdate data-updated="true">Jun 30<span>th</span>, 2010</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2010/06/30/errord/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2010/06/29/override-controllers-in-magento/">Override Controllers in Magento</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>The last time i had to rewrite one of the core Magento blocks. And that turned out to be quite easy. My new challenge was to rewrite / overwrite one of the Core admin controllers. In this case the Mage_Adminhtml_CustomerController.</p>
+
+<p>I had no idea where to start so i did some googling beforehand. And came to the conclusion that a lot of people are trying to do this. Because of this there is a long list of solutions to solve this. And in most cases developers just advice to drop the Core class in the local folder and work from there. But that doesn&#8217;t really make sense. First of all it code duplication in the worst form. And besides that all cool <a href="http://en.wikipedia.org/wiki/Object-oriented_programming">OO</a> stuff like extending is gone.</p>
+
+<p>And since Magento is such a flexible system. There must be a good clean way to solve this. One <a href="http://www.magentocommerce.com/boards/viewthread/16224/">thread</a> i found had some good info. And i used it as my starting point. There was one problem with this thread. The XML used seems to be an old form of rewriting in Magento.
+I found a (lost it) post by one of the Magento devs that shows a new and more clean way of defining this in XML.</p>
+
+<p>In the last post i already created the [Namespace]<em>All.xml module config. And we can use it for this as well. So we start by telling Magento we are using our own [Namespace</em>]_Adminhtml module.</p>
+
+<pre><code>&lt;[namespace]_Adminhtml&gt;
+    &lt;active&gt;true&lt;/active&gt;
+    &lt;codepool&gt;local&lt;/codepool&gt;
+    &lt;depends&gt;
+        &lt;mage_adminhtml&gt;&lt;/mage_adminhtml&gt;
+    &lt;/depends&gt;
+</code></pre>
+
+<blockquote><p>create local/Namespace/Adminhtml/controllers/CustomerController.php</p></blockquote>
+
+<p>The next thing to do is create the actual controller. And add an include line on top to the original file. Magento does not use autoloading for the controllers in this way.</p>
+
+<pre><code>include_once("Mage/Adminhtml/controllers/CustomerController.php");
+
+class [namespace]_Adminhtml_CustomerController extends Mage_Adminhtml_CustomerController
+{
+    public function somenewAction()
+    {
+
+    }
+}
+</code></pre>
+
+<p>Now the Core CustomerController is replaced by our own namespaced version. But it still retains all functionality of the parent.</p>
+
+<p>The only thing left is to create the config file for this module. And tell it to rewrite to the new [namespace]</p>
+
+<blockquote><p>Create local/[namespace]/Adminhtml/etc/config.xml</p></blockquote>
+
+<pre><code>&lt;config&gt;
+    &lt;modules&gt;
+        &lt;[namespace]_Adminhtml&gt;
+            &lt;version&gt;0.1.0&lt;/version&gt;
+        &lt;[namespace]_Adminhtml&gt;
+    &lt;/modules&gt;
+
+    &lt;admin&gt;
+        &lt;routers&gt;
+            &lt;adminhtml&gt;
+                &lt;args&gt;
+                    &lt;modules&gt;
+                        &lt;[namespace]_Adminhtml before="Mage_Adminhtml"&gt;[namespace]_Adminhtml
+                    &lt;/modules&gt;
+                &lt;/args&gt;
+            &lt;/adminhtml&gt;
+        &lt;/routers&gt;
+    &lt;/admin&gt;
+&lt;/config&gt;
+</code></pre>
+
+<p>The config section is placed inside the admin tags. because the controller in question is an admin controller. We basically tell Magento that we will be using our own Adminhtml module instead of the Core one. But it will of course fall back on the Core functionality when methods have not been overwritten.</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-06-29T12:43:45+02:00" pubdate data-updated="true">Jun 29<span>th</span>, 2010</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2010/06/29/override-controllers-in-magento/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/page/7/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/page/5/">Newer &rarr;</a>
+    
+  </div>
+</div>
+
+	</div>
+</div>
+
+<div id="sidebar">
+  
+    
+<div id="logo" class="sidebox">
+	<div id="logo-main">lenss<span class="nl">nl</span></div>
+	<div id="logo-sub"><span class="nl">Thijs Lensselink's Blog</span></div>
+</div>
+
+<div class="sidebox">
+	<a href="http://www.facebook.com/thijs.lensselink#!/" class="social facebook"></a>
+	<a href="https://plus.google.com/117496548747841671883" class="social google"></a>
+	<a href="http://twitter.com/tlenss" class="social twitter"></a>
+	<a href="http://feeds.feedburner.com/ThijsLensselinksBlog" class="social rss"></a>
+	<div style="clear:both;"></div>
+</div>
+
+<div class="sidebox">
+	<h1>Me</h1>
+	<div class="me">
+		<a href="http://www.zend.com/store/education/certification/yellow-pages.php#show-ClientCandidateID=ZEND006598"><img src="http://lenss.nl/wp-content/php5-zce-logo-new.gif" height="58" /></a>
+		<a href="http://stackoverflow.com/users/476697/tlenss">
+			<img src="http://stackoverflow.com/users/flair/476697.png?theme=dark" width="208" height="58" alt="profile for tlenss at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for tlenss at Stack Overflow, Q&amp;A for professional and enthusiast programmers">
+		</a>
+		<div class="gpg">
+			Key ID : <a href="http://lenss.nl/6AD79CEF.asc">0x6AD79CEF</a><br/>
+			FP : FB53 B9D6 D7F1 9A16 1456 4DB3 3D35 402F 6AD7 9CEF
+		</div>
+		<div class="coderwall">
+			<a href="https://coderwall.com/tlenss"><img alt="Endorse tlenss on Coderwall" src="http://api.coderwall.com/tlenss/endorsecount.png" /></a>
+		</div>
+	</div>
+</div>
+
+<div class="sidebox ad">
+	<script type="text/javascript"><!--
+	google_ad_client = "ca-pub-0921745317573569";
+	/* nlblue_side */
+	google_ad_slot = "7706621160";
+	google_ad_width = 300;
+	google_ad_height = 250;
+	//-->
+	</script>
+	<script type="text/javascript"
+	src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+	</script>
+</div>
+<div class="sidebox">
+	<h1>Tags</h1>
+	<ul id="tag-cloud" class="blocklist"><a href='/tag/-home' style='font-size: 116.75675675675676%'>/home(31)</a> <a href='/tag/code' style='font-size: 160.0%'>Code(111)</a> <a href='/tag/design' style='font-size: 103.24324324324324%'>Design(6)</a> <a href='/tag/freelance' style='font-size: 102.16216216216216%'>Freelance(4)</a> <a href='/tag/google' style='font-size: 101.62162162162163%'>Google(3)</a> <a href='/tag/javascript' style='font-size: 104.32432432432432%'>Javascript(8)</a> <a href='/tag/jquery' style='font-size: 101.08108108108108%'>Jquery(2)</a> <a href='/tag/magento' style='font-size: 101.08108108108108%'>Magento(2)</a> <a href='/tag/php' style='font-size: 132.97297297297297%'>PHP(61)</a> <a href='/tag/security' style='font-size: 104.32432432432432%'>Security(8)</a> <a href='/tag/sql' style='font-size: 103.24324324324324%'>SQL(6)</a> <a href='/tag/tech' style='font-size: 150.27027027027026%'>Tech(93)</a> <a href='/tag/zend' style='font-size: 104.32432432432432%'>Zend(8)</a> </ul>
+	<div style="clear:both;"></div>
+</div><section>
+  <div class="sidebox">
+	<h1>Recent entries</h1>
+	<ul class="linklist">
+		
+		<li><a href="/2012/11/07/publish-google-reader-shared-items/"><span class="higlight">2012-11-07 15:55:26 +0100</span> Publish Google Reader shared items</a></li>
+		
+		<li><a href="/2012/10/29/long-running-php-script-and-mysql-server-gone-away/"><span class="higlight">2012-10-29 14:39:26 +0100</span> Long running PHP script and MySQL server gone away</a></li>
+		
+		<li><a href="/2012/10/25/git-rebase-on-pull-by-default/"><span class="higlight">2012-10-25 14:20:22 +0200</span> Git: Rebase on pull by default</a></li>
+		
+		<li><a href="/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/"><span class="higlight">2012-10-12 15:43:46 +0200</span> Workaround Ubuntu 12.04 mysterious system freezes</a></li>
+		
+		<li><a href="/2012/09/24/fixing-character-replacement-in-wordpress/"><span class="higlight">2012-09-24 21:39:17 +0200</span> Fixing character replacement in Wordpress</a></li>
+		
+		<li><a href="/2012/09/24/resize-a-vagrant-vmdk-drive/"><span class="higlight">2012-09-24 14:17:00 +0200</span> Resize a Vagrant VMDK drive</a></li>
+		
+		<li><a href="/2012/09/12/git-coming-up-with-a-good-workflow/"><span class="higlight">2012-09-12 09:09:37 +0200</span> GIT:  Coming up with a good workflow</a></li>
+		
+		<li><a href="/2012/09/02/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/"><span class="higlight">2012-09-02 23:48:36 +0200</span> Workaround for running WoW with patch 5.0.4 on Ubuntu</a></li>
+		
+		<li><a href="/2012/08/27/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/"><span class="higlight">2012-08-27 00:47:05 +0200</span> Setup a basic PHP development environment with Vagrant and chef-solo</a></li>
+		
+		<li><a href="/2012/05/26/adding-colors-to-php-cli-script-output/"><span class="higlight">2012-05-26 11:14:33 +0200</span> Adding colors to PHP CLI script output</a></li>
+		
+	</ul>
+</div>
+</section>
+<section>
+  <div class="sidebox">
+	<h1>GitHub Repos</h1>
+	
+	<ul class="linklist" id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/tlenss" class="github-follow-button">Follow On GitHub</a>
+  <script type="text/javascript" src="http://octophile.com/widgets.js"></script>
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'tlenss',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</div>
+</section>
+
+<section>
+  <div class="sidebox">
+	<h1>Latest Tweets</h1>
+	<ul class="linklist" id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("tlenss", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/tlenss" class="twitter-follow-button" data-show-count="false">Follow @tlenss</a>
+  
+</div>
+</section>
+
+  
+</div>
+
+<footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Thijs Lensselink -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'tlenss';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+Included file 'google_plus_one.html' not found in _includes directory
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

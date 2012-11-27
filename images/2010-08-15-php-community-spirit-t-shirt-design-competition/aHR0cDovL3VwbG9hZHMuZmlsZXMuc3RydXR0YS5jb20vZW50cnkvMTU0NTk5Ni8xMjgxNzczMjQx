@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+  <title>404 – Strutta</title>
+
+  <meta name="viewport" content="width=1024">
+  <meta name="description" content="Strutta's industry leading technology connects brands with their target consumers through powerful social promotions. Its do-it-yourself tools allow brands and agencies to easily create and manage interactive contests and sweepstakes, coupled with a rich set of social analytics.">
+  <meta name="keywords" content="online contests, UGC contests, sweepstakes, Facebook applications, Facebook apps, Facebook page apps, contest platform">
+
+  <link rel="shortcut icon" href="/sites/all/themes/boom/favicon.ico" type="image/x-icon" />
+
+  <link rel="stylesheet" media="all" href="http://dctv67p65ny65.cloudfront.net/sites/www.strutta.com/files/css/css_6c472da0d4aa7a39990a790761b7e8aa.css?g">
+  <!--[if IE 9]>
+  <link rel="stylesheet" href="/sites/all/themes/boom/ie9.css">
+  <![endif]-->
+  <!--[if IE 8]>
+  <link rel="stylesheet" href="/sites/all/themes/boom/ie8.css">
+  <![endif]-->
+  <!--[if lt IE 8]>
+  <link rel="stylesheet" href="/sites/all/themes/boom/font-awesome-ie7.css">
+  <link rel="stylesheet" href="/sites/all/themes/boom/ie7-.css">
+  <![endif]-->
+  <!-- end styles -->
+
+  <script type="text/javascript" src="http://dctv67p65ny65.cloudfront.net/sites/www.strutta.com/files/js/js_9ee3ff3eb510e0d010080abab678f26d.js?g"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, { "basePath": "\/", "speedTestCallback": "\/speedtest\/js", "yes": "Yes", "no": "No", "confirmSubChange": "Are you sure you want to save these options?", "alerts": { "hosting-info": "\u003cp\u003eYou and your fans will put a lot of time and effort in to this promotion so don't let that go to waste. Once your promotion has ended you can still reap the benefits of user engagement and search engine optimization by keeping your site live for only $29 per month. You can cancel any time through your account subscriptions page.\u003c\/p\u003e\u003cp\u003eNote: If you have not opted in to this extended hosting a message will appear on your site notifying users that the promotion is no longer accessible.\u003c\/p\u003e", "upgrade-info": "\u003cp\u003eOur basic package is loaded with great options, but you may want to consider upgrading to Pro to make your promotion more consistent with your company\u2019s branding, to access enhanced metrics and to encourage deeper customer engagement.\u003c\/p\u003e\u003cp\u003eThe Pro features vary depending on the type of promotion you are building. If you want more control, more flexibility and more insight than the basic package offers, but you don\u2019t want a totally customized build, Pro might be your answer. Pro lets you further customize your design using our CSS Style Kit, gives you additional tools in your social dashboard to identify your key influencers, measure your social reach and track performance against conversion goals.\u003c\/p\u003e" }, "S3Upload": { "signature": "ARFslZ1IQLug3TR3SaEVhZQVLsI=", "policy": "eyJleHBpcmF0aW9uIjogIjIwMTItMTEtMTNUMTE6MzI6MzBaIiwKICAiY29uZGl0aW9ucyI6IFsKICAgIFsic3RhcnRzLXdpdGgiLCAiJEZpbGVuYW1lIiwgIiJdLAogICAgeyJidWNrZXQiOiAidXBsb2Fkcy5maWxlcy5zdHJ1dHRhLmNvbSJ9LAogICAgWyJzdGFydHMtd2l0aCIsICIka2V5IiwgIiJdLAogICAgWyJlcSIsICIkc3VjY2Vzc19hY3Rpb25fc3RhdHVzIiwgIjIwMSJdLAogICAgeyJhY2wiOiAicHVibGljLXJlYWQifQogIF0KfQ==", "accessKey": "1HV9D1JT36HCV07SQ3G2", "acl": "public-read", "bucketName": "uploads.files.strutta.com", "swfFile": "\/sites\/all\/modules\/custom\/strutta_aws\/upload\/swfupload\/Flash\/swfupload.swf", "errorMessage": "There was an error uploading your file. Please try again later." }, "confirmDeleteQuestion": "Are you sure you want to remove this question?", "confirmDeleteSponsor": "Are you sure you want to remove this sponsor?", "confirmDeletePrize": "Are you sure you want to remove this prize?", "confirmDeleteJudge": "Are you sure you want to remove this judge?", "confirmDashboardEdit": "Are you sure you want to apply these changes to your contest? The changes will be applied immediately.", "confirmLaunch": "Are you sure you want to publish your promotion?", "confirmPublish": "Are you sure you want to publish the updates to your promotion?", "geolocationNotSupported": "Your browser does not support this feature.", "geolocationError": "There was a error retrieving your location.", "beforeUnloadMessage": "Are you sure?", "navRequestURI": "http:\/\/www.strutta.com\/image-cacher\/f:640:360\/aHR0cDovL3VwbG9hZHMuZmlsZXMuc3RydXR0YS5jb20vZW50cnkvMTU0NTk5Ni8xMjgxNzczMjQx", "navDisableAjax": true, "twitterUrl": "\/twitter\/oauth\/start", "user": { "uid": "0", "mail": "", "created": 1222972717, "login": 0, "name": "User" } });
+//--><!]]>
+</script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+if (typeof window.mixpanel != 'undefined') {
+  mixpanel.set_config({
+    //debug: true,
+    loaded: function() {
+      var user = Drupal.settings.user;
+      if (Drupal.settings.mixpanelUniqueId) {
+        mixpanel.identify(Drupal.settings.mixpanelUniqueId);
+      }
+      if (user.uid > 0) {
+        mixpanel.name_tag(user.mail);
+
+        var login = new Date();
+        login.setTime(user.login * 1000);
+
+        var created = new Date();
+        created.setTime(user.created * 1000);
+
+        mixpanel.people.identify(user.mail);
+        mixpanel.people.set({
+          '$email' : user.mail,
+          '$name' : user.name,
+          '$last_login' : login,
+          '$created' : created
+        });
+      }
+    }
+  });
+}
+
+//--><!]]>
+</script>
+  <script src="https://use.typekit.com/hpc0xft.js"></script>
+  <script>try{Typekit.load();}catch(e){}</script>
+  <!--[if lt IE 9]>
+  <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <script src="/sites/all/themes/boom/modernizr.js"></script>
+
+  
+  <!-- end scripts -->
+
+</head>
+
+<body id="page-404-fail" class="not-front not-logged-in page-404-fail no-sidebars">
+
+  <header id="masthead">
+    <div class="container clear-block">
+      <h1><a href="/" title="Strutta"><span class="hide">Strutta</span></a></h1>
+      <span class="media-kit"></span>
+
+      
+            <nav id="nav-main">
+      <ul class="links"><li class="link-products first"><a href="/products">Products</a></li>
+<li class="link-pricing"><a href="/pricing">Pricing</a></li>
+<li class="link-resources"><a href="/resources">Resources</a></li>
+<li class="link-log-in last"><a href="http://www.strutta.com/auth/login?destination=account">Log In</a></li>
+</ul>      </nav>
+      
+            <nav id="nav-start">
+        <a href="/auth/register?destination=account" id="get-started" class="button green"><strong>Sign Up Free</strong></a>
+      </nav>
+      
+    </div>
+  </header>
+  <!-- end masthead -->
+
+  <section id="header">
+          <div class="wrapper">
+        <div class="container clear-block">
+          <h1>404</h1>
+                  </div>
+      </div>
+      </section>
+  <!-- end header -->
+
+  
+  <div id="content">
+
+    
+    <section id="content-main">
+              <div class="container clear-block">
+      
+        
+                  <section id="center" class="clear-block">
+        
+          
+          
+          <p class="intro">Oops, we couldn't find the page you were looking for.</p>
+
+<ul>
+  <li>Double check the URL</li>
+  <li>or try going back to the <a href="/">homepage</a></li>
+  <li>If you continue to receive this error, try <a href="/contact">contacting us</a></li>
+</ul>
+          
+        </section>
+        <!-- end center -->
+
+        
+        
+        
+      </div>
+    </section>
+    <!-- end content-main -->
+
+    
+    
+  </div>
+  <!-- end content -->
+
+      <footer id="footer">
+      <div class="container">
+        <div id="block-static_content-footer" class="block block-static_content">
+
+  <div class="content">
+    <nav id="nav-footer">
+  <ul>
+    <li class="first"><a href="/about">About</a></li>
+    <li><a href="/careers">Careers</a></li>
+    <li><a href="/spotlight">Spotlight</a></li>
+    <li><a href="/news">News</a></li>
+    <li><a href="/media-kit">Media Kit</a></li>
+    <li><a href="/faq">FAQ</a></li>
+    <li><a href="/resources/blog">Blog</a></li>
+    <li><a href="/privacy-policy">Privacy</a></li>
+    <li><a href="/terms-of-service">Terms</a></li>
+    <li class="last"><a href="/contact">Contact</a></li>
+  </ul>
+</nav>
+
+<nav id="social-connect">
+  <ul class="clear-block">
+    <li class="facebook first"><a href="https://www.facebook.com/strutta"><span class="hide">Facebook</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/strutta"><span class="hide">Twitter</span></a></li>
+    <li class="google"><a href="https://plus.google.com/103145815507039304597"><span class="hide">Google+</span></a></li>
+    <li class="linkedin last"><a href="http://www.linkedin.com/company/strutta"><span class="hide">LinkedIn</span></a></li>
+  </ul>
+</nav>
+
+<p id="footer-info"><strong class="pmd">Strutta is a <a href="/about"><i class="icon-facebook-sign"></i> Preferred Marketing Developer</a>.</strong><br>
+<strong class="phone">TOLL-FREE: 1-877-477-5717</strong><br>
+© 2012 Strutta Media, Inc.</p>
+  </div>
+</div>
+      </div>
+    </footer>
+    <!-- end footer -->
+  
+  <script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-1796637-1']);
+_gaq.push(['_setDomainName', 'strutta.com']);
+_gaq.push(['_addIgnoredRef', 'strutta.com']);
+
+_gaq.push(['_trackPageview']);
+
+(function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<script type="text/javascript">
+adroll_adv_id = "IYOIZBBA35ATNK7WSMMBBS";
+adroll_pix_id = "OWY47XHZWFEBPCXDOP4ITK";
+(function () {
+var oldonload = window.onload;
+window.onload = function(){
+  __adroll_loaded=true;
+  var scr = document.createElement("script");
+  var host = (("https:" == document.location.protocol) ? "https://s.adroll.com" : "http://a.adroll.com");
+  scr.setAttribute('async', 'true');
+  scr.type = "text/javascript";
+  scr.src = host + "/j/roundtrip.js";
+  document.documentElement.firstChild.appendChild(scr);
+  if(oldonload){oldonload()}};
+}());
+</script>
+
+<script type="text/javascript">
+setTimeout(function(){var a=document.createElement("script");
+var b=document.getElementsByTagName('script')[0];
+a.src=document.location.protocol+"//dnn506yrbagrg.cloudfront.net/pages/scripts/0012/0729.js?"+Math.floor(new Date().getTime()/3600000);
+a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
+</script>
+
+  <div id="fb-root"></div>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId   : '457907214252510',
+      status  : true,
+      cookie  : true,
+      xfbml   : true
+    });
+  };
+  (function() {
+    var e = document.createElement('script');
+    e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+    e.async = true;
+    document.getElementById('fb-root').appendChild(e);
+  })();
+</script>
+</body>
+
+</html>

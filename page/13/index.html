@@ -1,0 +1,916 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Thijs Lensselink's Blog</title>
+  <meta name="author" content="Thijs Lensselink">
+
+  
+  <meta name="description" content="SVN Repository and Project Structure When i first started out as a web developer. i didn&#8217;t really mind about structure. Almost every project &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tlenss.github.com/page/13/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/libs/jquery-1.8.1.js"></script>
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js"></script>
+  <script src="/javascripts/github.js"></script>
+  <script src="/javascripts/twitter.js"></script>
+  <link href="http://feeds.feedburner.com/ThijsLensselinksBlog" rel="alternate" title="Thijs Lensselink's Blog" type="application/atom+xml">
+  
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-8003524-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <script type="text/javascript">
+	$(document).ready(function() {
+		$('#logo').click(function() {
+			window.location = '/';
+		});
+	});
+  </script>
+</head>
+
+<body   >
+<div id="content">
+	<div class="inner">
+        <div class="blog-index">
+  
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2008/08/20/svn-repository-and-project-structure/">SVN Repository and Project Structure</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>When i first started out as a web developer. i didn&#8217;t really mind about structure. Almost every project had different directory structure. And <a href="http://en.wikipedia.org/wiki/Namespace">namespaces</a> i never heard off. I noticed that the longer i write code. The more I&#8217;m looking for a basic structure to start from. This can be the structure of a web application / site. but also the structure inside the <a href="http://subversion.tigris.org/">SVN</a> repository.</p>
+
+<p>So today i took a bit of time to think about a good structure for our new SVN repository here at the office. After a bit of browsing the web. Looking at other proposals. And looking around our old SVN repository. I came up with a new structure.</p>
+
+<p>Our SVN repository will start off with three directories.</p>
+
+<blockquote><p>&#8211; Development
+&#8211; Design
+&#8211; ??</p></blockquote>
+
+<p>The Development directory is what i will be talking about. I can&#8217;t talk for the designers. Because.. well i&#8217;m not one of them. Although i did a lot of design work in the past. The ?? directory is for another part of our department. So let&#8217;s see what i came up with.</p>
+
+<p>Inside the Development directory we start of with two directories.</p>
+
+<blockquote><p>&#8211; Projects
+&#8211; Library</p></blockquote>
+
+<p><strong>Projects:</strong>
+This directory will contain all projects. With projects i mean web applications / sites. All these projects will adhere to a basic structure. Which i will talk about a bit later. Besides the same basic structure. Every projects has the trunk, tags and branches sub directories. If a project contains &#8220;sub&#8221; projects. The trunk, tags and branches will shift one level deeper in the tree. Below is a small example.</p>
+
+<blockquote><p>&#8211; Project_1
+&#8212;- trunk
+&#8212;- tags
+&#8212;- branches
+&#8211; Project_2
+&#8212;- www
+&#8212;&#8212; trunk
+&#8212;&#8212; tags
+&#8212;&#8212; branches
+&#8212;- intranet
+&#8212;&#8212; trunk
+&#8212;&#8212; tags
+&#8212;&#8212; branches</p></blockquote>
+
+<p><strong>Library:</strong>
+The library directory will contain all shared libraries. This can be third party libraries or internally developed libraries that will be used in multiple applications. Below is a small example. I&#8217;m not sure about the trunk, tags, branches directories yet. For the internally developed libraries we will implement this structure. For the third party libraries we won&#8217;t. I think :)</p>
+
+<blockquote><p>&#8211; Zend
+&#8211; DB
+&#8212;- trunk
+&#8212;- tags
+&#8212;- branches</p></blockquote>
+
+<p>Now this will cover most of the project parts. What&#8217;s left now is defining a basic structure for the projects that will ive inside the repository and on the web servers. For a basic structure i&#8217;m inspired by the layout of an <a href="http://framework.zend.com">Zend Framework</a> <a href="http://nl.wikipedia.org/wiki/Model-View-Controller-model">MVC</a> style project. Why? i already work with this structure for a while now. outside and inside the Zend Framework projects. It separates the code from the views / templates. It makes sure the code is outside the web root. And it just looks clean.</p>
+
+<p>So for our projects i came up with this structure.</p>
+
+<p>The structure really consists of three parts. The first is &#8220;public&#8221;. This directory contains all data that should be globally accessible. We can think about images, stylesheetes, javascript libraries, etc.</p>
+
+<blockquote><p>&#8211; public
+&#8212;- images
+&#8212;- css
+&#8212;- scripts
+&#8212;- index.*</p></blockquote>
+
+<p>The application directory contains all the real code and views / templates. All views / templates will be stored in the views directory. All project specific code will be placed in the library directory. And if the project is MVC based. It will use the controllers directory to store the application controllers.</p>
+
+<blockquote><p>&#8211; application
+&#8212;- controllers
+&#8212;- library
+&#8212;- views</p></blockquote>
+
+<p>The final part of the structure is a collection of directories that can but are not always used in a project.</p>
+
+<p>The logs directory can be handy for logging data of the application. But can also be used to store php error logs or maybe even Apache logs. The cache directory is there to store cached files. The structure inside this directory will depend on the cache mechanism used in the project. The files directory contains files that are somehow linked to the project but have no place in any other directories. Some test scripts or tools can be placed there. And last but not least the docs directory. Which will contain all project documentation.</p>
+
+<blockquote><p>&#8211; logs
+&#8211; cache
+&#8211; files
+&#8211; docs</p></blockquote>
+
+<p>I wanted to post this yesterday. But i just couldn&#8217;t find any time for it. Yesterday i showed the initial proposal to the rest of the team. But we didn&#8217;t decide yet. What the final structure will be.</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-08-20T07:54:06+02:00" pubdate data-updated="true">Aug 20<span>th</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2008/08/20/svn-repository-and-project-structure/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2008/08/18/is-php-an-application/">Is PHP an Application</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>At the office here they are trying to make a portfolio about the stuff we build. The strange thing is they also want to add a list of day to day applications we use. The question came up if we need to add PHP to the list. One of our Delphi/Pascal programmers thought adding the Delphi programming language would be good. I argued that Delphi is not an application but a programming language. Turns out we have a different view on this.</p>
+
+<p>While we build almost every web related bit in PHP. i don&#8217;t see it as an application. And application is a layer between the low level computer and the user. The application does what the user wants to preform on the computer. An application can be anything from a simple text editor to a full blown IDE.</p>
+
+<p>And all these applications have one thing in common. They are written in programming languages. Without programming languages there would not be any applications. O well. just my point of view :)</p>
+
+<p>UPDATE*</p>
+
+<p>Ok so i had a good discussion with one of the other Delphi guys. And seems we talk different about the same subject. As i work soly on PHP. PHP is my programming language. And it&#8217;s also the interpeter living on the server. So really it&#8217;s both an application and a programming language. Now i understand what the Delphi guys meant.</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-08-18T06:50:58+02:00" pubdate data-updated="true">Aug 18<span>th</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2008/08/18/is-php-an-application/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2008/08/18/enable-xdebug-in-zend-studio-for-eclipse/">Enable XDebug in Zend Studio for Eclipse</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>I&#8217;m a great fan of the <a href="http://www.zend.com/en/products/studio/">Zend Studio for Eclipse</a> IDE. But there is one think that just didn&#8217;t feel right. At first i started out using the <a href="http://www.zend.com/en/community/pdt">PDT</a>. Free version of Zend Studio for Eclipse. In this IDE it was possible to switch debuggers. So you were not only forced to use the ZendDebugger. you could also choose to make use of the best debugger out there. <a href="http://www.xdebug.org/">XDebug</a>. Although there is nothing wrong with the ZendDebugger. I just got used to XDebug.</p>
+
+<p>So about an hour ago when i was reading my blog list i noticed a post from <a href="http://www.maxhorvath.com">Max Horvath</a>. In <a href="http://www.maxhorvath.com/2008/08/how-to-enable-the-xdebug-debugger-in-zend-studio-for-eclipse.html">this</a> post he explains how to enable the XDebugger in Zend Studio for Eclipse. Great news for a very slow monday morning. I will not copy his post so you can head over to Max&#8217;s Blog and read how to enable XDebug&#8217;s power.</p>
+
+<p>Here is a document explaining how to enable XDebug in PDT: <a href="http://www.eclipse.org/pdt/documents/XDebugGuide.pdf">http://www.eclipse.org/pdt/documents/XDebugGuide.pdf</a></p>
+
+<p>One small think i noticed though. Was that when i enabled XDebug according to Max&#8217;s post. After enabling it. I went to the Preferences > PHP > Debug tab and noticed there was no PHP Executable to select. So i headed over to the Preferences > PHP > PHP Executables and added a new PHP executable. This seemed to work.</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-08-18T05:13:56+02:00" pubdate data-updated="true">Aug 18<span>th</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2008/08/18/enable-xdebug-in-zend-studio-for-eclipse/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2008/08/12/dpt-results/">Dutch PHP testFest Results</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>Back in May i attended the Dutch version of the PHP testFest. And today i noticed the post of <a href="http://www.ibuildings.com/blog/archives/1191-Dutch-PHP-TestFest-A-Big-Success.html">Stefan Koopmanschap</a> about the testFest results. It seems the Dutch testFest was a great success with 39 tests written from the 158 total. <a href="http://felix.phpbelgium.be/blog/">Felix de Vliegher</a> a Belgium member of the <a href="http://www.phpgg.nl/">PHPGG</a> group and starter of the Belgium <a href="http://phpbelgium.be/">PHP group</a> got CVS access to the PHP.net source. Good job.</p>
+
+<p>Although i didn&#8217;t write that much tests. It was a great day. and i learned a lot. Thanks to IBuildings and <a href="http://sebastian-bergmann.de/">Sebastian Bergmann</a> for making this happen. And i hope till next year.</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-08-12T06:09:00+02:00" pubdate data-updated="true">Aug 12<span>th</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2008/08/12/dpt-results/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2008/08/08/php5-simplexml-and-xpath/">PHP5 SimpleXML and Xpath</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>Yesterday when working with some rather large XML files i noticed. That it&#8217;s not possible to do ->xpath() calls on sub nodes of a SimpleXMLElement. If that&#8217;s not clear. Here is a small example.</p>
+
+<pre><code>$xmlStr = '&lt;root&gt;
+    &lt;fareOption&gt;
+        &lt;fare&gt;
+            &lt;flight&gt;&lt;/flight&gt;
+            &lt;flight&gt;&lt;/flight&gt;
+            &lt;flight&gt;&lt;/flight&gt;
+        &lt;/fare&gt;
+    &lt;/fareOption&gt;
+    &lt;fareOption&gt;
+        &lt;fare&gt;
+            &lt;flight&gt;&lt;/flight&gt;
+            &lt;flight&gt;&lt;/flight&gt;
+            &lt;flight&gt;&lt;/flight&gt;
+        &lt;/fare&gt;
+    &lt;/fareOption&gt;
+&lt;/root&gt;';
+
+$objXML = simplexml_load_string($xmlStr);
+$fareList = $objXML-&gt;xpath('//fareOption');
+
+foreach ($fareList as $fare) {
+    $flightList = $fare-&gt;xpath('//flight');
+    print_r($flightList);
+}
+</code></pre>
+
+<p>So first i try to get all the fareOption elements from the XML structure. And loop through the extracted elements. In the loop i want to do a ->xpath call on $fare which is a instance of SimpleXMLElement. The result however is not what i expected. Instead of extracting all the flights of a $fare node. It extracts all flights from the root of the document. So instead of 3 flight nodes i get 6.</p>
+
+<p>I couldn&#8217;t really find a solution for this problem. And from reading some bug reports i understand this is how the PHP implementation of xpath works at the moment. To solve this problem. There is a small work around though. Instead of running the ->xpath() call on the $fare node directly. We can create a new SimpleXMLElement from the $fare node. And do a ->xpath() call on that. This will look something like this.</p>
+
+<pre><code>foreach ($fareList as $fare) {
+    $tempList = simplexml_load_string($fare-&gt;asXML());
+    $flightList = $tempList-&gt;xpath('//flight');
+    print_r($flightList);
+}
+</code></pre>
+
+<p>This creates the expected output.</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-08-08T10:55:27+02:00" pubdate data-updated="true">Aug 8<span>th</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2008/08/08/php5-simplexml-and-xpath/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2008/08/08/goodbye-php-4/">Goodbye PHP 4</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>Today PHP 4 breathes it&#8217;s last breath. After serving the community for many years. It&#8217;s time to retire. And step up to a more mature PHP. So PHP 4 leaves us at version 4.4.9 which was released last week. For a version history check out the <a href="http://museum.php.net/php4/">PHP museum</a>. My thanks go out to <a href="http://derickrethans.nl/">Derick Rethans</a> for being the release master of the last PHP 4 versions. And of course the whole PHP development team. For giving a set of tools through which i can do my day to day job. You guys have done an amazing job. Bringing us the new OO model in PHP5, better XML support, PDO, Reflection and a whole lot more.</p>
+
+<p>PHP 5 has been out for some years now. And it&#8217;s matured a lot since the first release. At the time of writing RC 1 of <a href="http://wiki.php.net/todo/php53">5.3</a> is out and being tested. This is a great step forward. And more is coming in the form of unicode support in PHP 6.</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-08-08T04:49:31+02:00" pubdate data-updated="true">Aug 8<span>th</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2008/08/08/goodbye-php-4/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2008/07/22/highjacked-name-server-or-not/">Highjacked Name Server or Not?</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>Yesterday was a weird day. Nothing seemed to go as it should have. My coworker Marius noticed that one of my domains was not responding anymore. We tried to ping it. But forgot that our admins block outbound <a href="http://en.wikipedia.org/wiki/Internet_Control_Message_Protocol">ICMP</a> packages. At least we could see the domain resolved to the correct IP address.</p>
+
+<p>So we did a lookup on the domain. No weird things here. Then we decided to ping the name servers to see if they were responding. They were. But there was something strange. The domain in question runs on two name servers. namely ns1.cker.sc and ns2.cker.sc. ns1 was responding correctly. ns2 however was responding with a totally different and unknown IP address. This is weird. The normal settings would be:</p>
+
+<blockquote><p>ns1.cker.sc ( 208.69.125.116 )
+ns2.cker.sc ( 208.69.125.117 )</p></blockquote>
+
+<p>ns2 however responded with 208.69.34.132. The whois database at ripe.net told us it was in the IANA pool of addresses. But we couldn&#8217;t find a whois tool there. So i opened up a browser to go directly to this IP address. This showed a temporary <a href="http://opendns.com/">OpenDNS</a> page. Off to <a href="http://www.domaintools.com/">domaintools.com</a> to do a <a href="http://www.domaintools.com/reverse-ip/">reverse lookup</a> on this IP.</p>
+
+<p>This revealed one domain matching this IP address. Some weird long domain name. At first i was thinking somebody highjacked my DNS server or maybe some DNS cache poisoning. But after looking closely i noticed the domain was actually readable. The domain returned was : <a href="http://whois.domaintools.com/caffefiaschetteriaitaliana.com">Caffefiaschetteriaitaliana.com</a>. A google search returned some italian cafe with almost the same domain. <a href="http://whois.domaintools.com/caffefiaschetteriaitaliana.com"></a><a href="http://www.fiaschetteriaitaliana.it/">fiaschetteriaitaliana.it</a>.</p>
+
+<p>So we decided to do a whois query on the .com domain. This revealed some email addresses with similar domains. And technical contacts from aruba.it. By now we had the feeling somebody made a configuration error. So i decided to send an email to all the addresses matching this domain including OpenDNS. And after about an hour the nameserver was responding correctly again. So they either corrected a mistake or it was just a temporary fluke. I never got a reply from any of the addresses i wrote to.</p>
+
+<p>Although i&#8217;m happy the nameservers are responding properly again. I&#8217;m still stuck with the question. What the hell happened here? The most logical scenario for me is still a configuration error.</p>
+
+<p>UPDATE: 12-08-2008</p>
+
+<p>After some digging. I found out that the ip address &#8220;208.69.34.132&#8221; actually belongs to opendns.com. When a non existing sub -/ domain is quieried. This ip is returned. It&#8217;s just a way to make money from ads. the network i was connected to at that moment uses an opendns.com DNS cache server. That explains that part.</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-07-22T09:44:51+02:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2008/07/22/highjacked-name-server-or-not/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2008/07/21/pear-install-weirdness/">PEAR Install Weirdness</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>This morning i wanted to play around with <a href="http://www.firephp.org/">firePHP</a> a bit. And wanted to install the PEAR package. When i found out i didn&#8217;t have <a href="http://pear.php.net/">PEAR</a> running on my local (win32 xp) box. So off to the pear install. The first thing i notice was that PEAR now is packaged as a nice <a href="http://nl.php.net/phar">PHAR</a> file (PHP 5.2.6) . So i hoped the install process would be smoother then normally. This was not the case. First thing i did was run the go-pear.bat file. Which resulted in an error.</p>
+
+<blockquote><p>phar &#8220;[path]go-pear.phar&#8221; does not have a signature
+Warning: require_once(phar://go-pear.phar/index.php): failed to open stream: pha
+r &#8220;[path]go-pear.phar&#8221; does not have a signature in [path]\PEAR\go-pear.phar on line 1236</p></blockquote>
+
+<p>Fatal error: require_once(): Failed opening required &#8216;phar://go-pear.phar/index.
+php&#8217; (include_path=&#8217;.;[path][path]\PEAR&#8217;) in [path]\PEAR\go-pear.phar on line 1236</p>
+
+<p>Ok. So that didn&#8217;t work out like i wanted. I checked the go-pear.bat file. And copied the command to windows command line. This resulted in the same error. So i thought. Let&#8217;s try this from the PEAR directory. cd PEAR and let&#8217;s try that again.</p>
+
+<blockquote><p>php.exe -d phar.require_hash=0 go-pear.phar</p></blockquote>
+
+<p>Now the PEAR install runs fine.</p>
+
+<blockquote><p>For more information about PEAR, see:</p></blockquote>
+
+<p>http://pear.php.net/faq.php
+http://pear.php.net/manual/</p>
+
+<p>Thanks for using go-pear!</p>
+
+<p>Update *</p>
+
+<p>Although this solution seems to have resolved the problem for me. Cal Evans has a good <a href="http://blog.calevans.com/2009/07/11/xampp-php-5-3-pear-and-phar-what-a-mess">post</a> how to resolve this issue as well. My workaround didn&#8217;t solve the problem for Cal but his did for me. So here&#8217;s the <a href="http://blog.calevans.com/2009/07/11/xampp-php-5-3-pear-and-phar-what-a-mess/">link</a></p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-07-21T07:11:24+02:00" pubdate data-updated="true">Jul 21<span>st</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2008/07/21/pear-install-weirdness/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2008/07/15/help-a-mysql-support-engineer/">Help a MySQL Support Engineer.</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>Today on <a href="http://www.planet-php.net/">planet-php.net</a> there are some posts [<a href="http://blogs.linux.ie/kenguest/2008/07/14/andrii-nikitin%e2%80%99s-son-needs-help-asap/">1</a>] [<a href="http://www.phpcult.com/blog/andrii-nikitis-son-needs-our-help/">2</a>] about <a href="http://www.mysql.com/about/help-ivan.html">Andrii Nikitin</a> a MySQL support engineer based in Ukraine. Andrii&#8217;s (2,5 year old) son Ivan is in need of a bone marrow transplant. The cost for this operation is somewhere bewteen $150.000 and $250.000. Which is a lot of money. So he asked the MySQL community for help. Although i don&#8217;t know the guy. I do use MySQL regularly. And i feel for him and his family. So decided to add a donation. I&#8217;m in no way rich and just bought a new house. But i think every body should pitch in and help out this guy. And offer his son a fair chance at life.</p>
+
+<p><strong>Paypal:</strong>
+<a href="http://tinyurl.com/6rxjsz">http://tinyurl.com/6rxjsz </a>
+Or
+<strong>by check payable to: </strong></p>
+
+<p>MySQL, Inc.
+Mail to: MySQL, Inc.
+Attn: Linda Dong
+20450 Stevens Creek Blvd #350
+Cupertino, CA 95014</p>
+
+<p>or
+<strong>US wire transfer:</strong></p>
+
+<p>MySQL Inc: 7396643001
+SWIFT: NDEAUS3N</p>
+
+<p>or
+<strong>International wire transfer in any currency:</strong>
+Bank: Nordea Bank
+Bank address: Stockholm, Sweden
+Bank account: 3259 17 03868
+IBAN: SE27 3000 0000 0325 9170 3868
+SWIFT: NDEASESS</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-07-15T08:47:50+02:00" pubdate data-updated="true">Jul 15<span>th</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2008/07/15/help-a-mysql-support-engineer/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  
+  
+<article>
+	<header>
+		<header>
+		
+		  <h1 class="entry-title"><a href="/2008/07/09/zend-framework-baseurl-helper/">Zend Framework BaseUrl Helper</a></h1>
+		
+		</header>
+	</header>
+
+	
+	  <div class="articletext"><p>Today i was working with the <a href="http://framework.zend.com">Zend Framework</a>. And needed the baseUrl to set the correct path for stylesheets and external javascript files. To include stylesheets and javascript files there are methods available in ZF. In your controller you can set:</p>
+
+<pre><code>$this-&gt;view-&gt;headLink()-&gt;appendStylesheet('/css/tester.css');
+</code></pre>
+
+<p>In your view or layout you can then call</p>
+
+<pre><code>$this-&gt;headLink();
+</code></pre>
+
+<p>This works great. But the current development structure lacks some good rewrite rules. And having the baseUrl is always a good thing. So i did some searching on Google. To figure out if somebody already has a solution for this problem. After a few minutes i found a post written by <a href="http://www.spotsec.com/blog/archive/2007/12/14/zend-framework-baseurl-view-helper/">Yusak Setiawan</a> from <a href="http://www.zendindonesia.com/">zendindonesia</a> (which is defaced by the way) explaining how to add a placeholder in the bootstrap file. Now this is a good solution. But i like to keep my bootstrap file as clean as possible. So i decided to add a Helper that would do the trick.</p>
+
+<p>Create a file called &#8216;BaseUrl.php&#8217; inside the Helper directory. And fill it with the following code.</p>
+
+<pre><code>class Zend_View_Helper_BaseUrl
+{
+    function baseUrl()
+    {
+        $base_url = substr($_SERVER['PHP_SELF'], 0, -9);
+        return $base_url;
+    }
+}
+</code></pre>
+
+<p>After that it&#8217;s extremly easy to get the baseUrl in your views, layouts or controllers.</p>
+
+<p>Inside the view or layout you can call:</p>
+
+<pre><code>$this-&gt;baseUrl();
+</code></pre>
+
+<p>And inside the controller you can call it like this.</p>
+
+<pre><code>$this-&gt;view-&gt;baseUrl();
+</code></pre>
+
+<p><a href="http://blog.motane.lu/2009/01/31/zend-framework-base-url/">Tudor Barbu</a> wrote a great article on this subject.</p>
+</div>
+	  
+	  
+	
+
+	<div style="clear:both;"></div>
+	<footer>
+		on 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-07-09T12:42:36+02:00" pubdate data-updated="true">Jul 9<span>th</span>, 2008</time>
+		<div class="share">
+			<ul>
+				<li><a href="/2008/07/09/zend-framework-baseurl-helper/#disqus_thread">Comments</a></li>
+			</ul>
+		</div>
+	</footer>
+</article>
+
+
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/page/14/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/page/12/">Newer &rarr;</a>
+    
+  </div>
+</div>
+
+	</div>
+</div>
+
+<div id="sidebar">
+  
+    
+<div id="logo" class="sidebox">
+	<div id="logo-main">lenss<span class="nl">nl</span></div>
+	<div id="logo-sub"><span class="nl">Thijs Lensselink's Blog</span></div>
+</div>
+
+<div class="sidebox">
+	<a href="http://www.facebook.com/thijs.lensselink#!/" class="social facebook"></a>
+	<a href="https://plus.google.com/117496548747841671883" class="social google"></a>
+	<a href="http://twitter.com/tlenss" class="social twitter"></a>
+	<a href="http://feeds.feedburner.com/ThijsLensselinksBlog" class="social rss"></a>
+	<div style="clear:both;"></div>
+</div>
+
+<div class="sidebox">
+	<h1>Me</h1>
+	<div class="me">
+		<a href="http://www.zend.com/store/education/certification/yellow-pages.php#show-ClientCandidateID=ZEND006598"><img src="http://lenss.nl/wp-content/php5-zce-logo-new.gif" height="58" /></a>
+		<a href="http://stackoverflow.com/users/476697/tlenss">
+			<img src="http://stackoverflow.com/users/flair/476697.png?theme=dark" width="208" height="58" alt="profile for tlenss at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for tlenss at Stack Overflow, Q&amp;A for professional and enthusiast programmers">
+		</a>
+		<div class="gpg">
+			Key ID : <a href="http://lenss.nl/6AD79CEF.asc">0x6AD79CEF</a><br/>
+			FP : FB53 B9D6 D7F1 9A16 1456 4DB3 3D35 402F 6AD7 9CEF
+		</div>
+		<div class="coderwall">
+			<a href="https://coderwall.com/tlenss"><img alt="Endorse tlenss on Coderwall" src="http://api.coderwall.com/tlenss/endorsecount.png" /></a>
+		</div>
+	</div>
+</div>
+
+<div class="sidebox ad">
+	<script type="text/javascript"><!--
+	google_ad_client = "ca-pub-0921745317573569";
+	/* nlblue_side */
+	google_ad_slot = "7706621160";
+	google_ad_width = 300;
+	google_ad_height = 250;
+	//-->
+	</script>
+	<script type="text/javascript"
+	src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+	</script>
+</div>
+<div class="sidebox">
+	<h1>Tags</h1>
+	<ul id="tag-cloud" class="blocklist"><a href='/tag/-home' style='font-size: 116.75675675675676%'>/home(31)</a> <a href='/tag/code' style='font-size: 160.0%'>Code(111)</a> <a href='/tag/design' style='font-size: 103.24324324324324%'>Design(6)</a> <a href='/tag/freelance' style='font-size: 102.16216216216216%'>Freelance(4)</a> <a href='/tag/google' style='font-size: 101.62162162162163%'>Google(3)</a> <a href='/tag/javascript' style='font-size: 104.32432432432432%'>Javascript(8)</a> <a href='/tag/jquery' style='font-size: 101.08108108108108%'>Jquery(2)</a> <a href='/tag/magento' style='font-size: 101.08108108108108%'>Magento(2)</a> <a href='/tag/php' style='font-size: 132.97297297297297%'>PHP(61)</a> <a href='/tag/security' style='font-size: 104.32432432432432%'>Security(8)</a> <a href='/tag/sql' style='font-size: 103.24324324324324%'>SQL(6)</a> <a href='/tag/tech' style='font-size: 150.27027027027026%'>Tech(93)</a> <a href='/tag/zend' style='font-size: 104.32432432432432%'>Zend(8)</a> </ul>
+	<div style="clear:both;"></div>
+</div><section>
+  <div class="sidebox">
+	<h1>Recent entries</h1>
+	<ul class="linklist">
+		
+		<li><a href="/2012/11/07/publish-google-reader-shared-items/"><span class="higlight">2012-11-07 15:55:26 +0100</span> Publish Google Reader shared items</a></li>
+		
+		<li><a href="/2012/10/29/long-running-php-script-and-mysql-server-gone-away/"><span class="higlight">2012-10-29 14:39:26 +0100</span> Long running PHP script and MySQL server gone away</a></li>
+		
+		<li><a href="/2012/10/25/git-rebase-on-pull-by-default/"><span class="higlight">2012-10-25 14:20:22 +0200</span> Git: Rebase on pull by default</a></li>
+		
+		<li><a href="/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/"><span class="higlight">2012-10-12 15:43:46 +0200</span> Workaround Ubuntu 12.04 mysterious system freezes</a></li>
+		
+		<li><a href="/2012/09/24/fixing-character-replacement-in-wordpress/"><span class="higlight">2012-09-24 21:39:17 +0200</span> Fixing character replacement in Wordpress</a></li>
+		
+		<li><a href="/2012/09/24/resize-a-vagrant-vmdk-drive/"><span class="higlight">2012-09-24 14:17:00 +0200</span> Resize a Vagrant VMDK drive</a></li>
+		
+		<li><a href="/2012/09/12/git-coming-up-with-a-good-workflow/"><span class="higlight">2012-09-12 09:09:37 +0200</span> GIT:  Coming up with a good workflow</a></li>
+		
+		<li><a href="/2012/09/02/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/"><span class="higlight">2012-09-02 23:48:36 +0200</span> Workaround for running WoW with patch 5.0.4 on Ubuntu</a></li>
+		
+		<li><a href="/2012/08/27/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/"><span class="higlight">2012-08-27 00:47:05 +0200</span> Setup a basic PHP development environment with Vagrant and chef-solo</a></li>
+		
+		<li><a href="/2012/05/26/adding-colors-to-php-cli-script-output/"><span class="higlight">2012-05-26 11:14:33 +0200</span> Adding colors to PHP CLI script output</a></li>
+		
+	</ul>
+</div>
+</section>
+<section>
+  <div class="sidebox">
+	<h1>GitHub Repos</h1>
+	
+	<ul class="linklist" id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/tlenss" class="github-follow-button">Follow On GitHub</a>
+  <script type="text/javascript" src="http://octophile.com/widgets.js"></script>
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'tlenss',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</div>
+</section>
+
+<section>
+  <div class="sidebox">
+	<h1>Latest Tweets</h1>
+	<ul class="linklist" id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("tlenss", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/tlenss" class="twitter-follow-button" data-show-count="false">Follow @tlenss</a>
+  
+</div>
+</section>
+
+  
+</div>
+
+<footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Thijs Lensselink -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'tlenss';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+Included file 'google_plus_one.html' not found in _includes directory
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>
