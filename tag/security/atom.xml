@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Security | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/security/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2012-11-27T21:58:58+01:00</updated>
+  <updated>2012-11-27T22:03:45+01:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Wordpress install compromised]]></title>
-    <link href="http://lenss.nl/2012/02/06/wordpress-install-compromised/"/>
+    <link href="http://lenss.nl/2012/02/wordpress-install-compromised/"/>
     <updated>2012-02-06T22:37:10+01:00</updated>
-    <id>http://lenss.nl/2012/02/06/wordpress-install-compromised</id>
+    <id>http://lenss.nl/2012/02/wordpress-install-compromised</id>
     <content type="html"><![CDATA[<p>Last week i got an email from the Dutch <a href="https://www.ncsc.nl/">NCSC</a> (Nationaal Cyber Security Centrum). Apparently one of the nodes i manage for a customer was part of a <a href="http://en.wikipedia.org/wiki/Botnet">botnet</a>. There were no further demands. They just informed me about the issue. Damn cool! Being part of a <a href="http://en.wikipedia.org/wiki/Botnet">botnet</a> however. Not so cool!</p>
 
 <p>With the email came a small excerpt of a IRC channel log. I recognized the node. So SSH'ed into that specific node. And used <a href="http://linux.die.net/man/8/netstat">netstat</a> to check for any strange connections. A connection on port 20 to the C&C; node of the <a href="http://en.wikipedia.org/wiki/Botnet">botnet</a>. Thats not good.</p>
@@ -209,9 +209,9 @@ http://eromang.zataz.com/2012/01/08/gangbang-mytijn-org-malware-spreader-down/</
   
   <entry>
     <title type="html"><![CDATA[PHP critical bug CVE-2012-0830]]></title>
-    <link href="http://lenss.nl/2012/02/05/php-critical-bug-cve-2012-0830/"/>
+    <link href="http://lenss.nl/2012/02/php-critical-bug-cve-2012-0830/"/>
     <updated>2012-02-05T13:39:43+01:00</updated>
-    <id>http://lenss.nl/2012/02/05/php-critical-bug-cve-2012-0830</id>
+    <id>http://lenss.nl/2012/02/php-critical-bug-cve-2012-0830</id>
     <content type="html"><![CDATA[<p>Ok it's a bit late But i have been laying under a rock for the last week. And i guess it can't hurt!</p>
 
 <p>Last week a critical bug was discovered in PHP. Which affects versions 5.3.9 and 5.2.17. The bug could be exploited to run arbitrary code on a remote PHP system. So upgrade your systems. And of course Stefan Esser <a href="http://news.php.net/php.internals/57655">popped up</a> with some wise words :)... O well i still think the guy does great work.</p>
@@ -222,9 +222,9 @@ http://eromang.zataz.com/2012/01/08/gangbang-mytijn-org-malware-spreader-down/</
   
   <entry>
     <title type="html"><![CDATA[PHP getting strict sessions]]></title>
-    <link href="http://lenss.nl/2011/11/30/php-getting-strict-sessions/"/>
+    <link href="http://lenss.nl/2011/11/php-getting-strict-sessions/"/>
     <updated>2011-11-30T15:38:28+01:00</updated>
-    <id>http://lenss.nl/2011/11/30/php-getting-strict-sessions</id>
+    <id>http://lenss.nl/2011/11/php-getting-strict-sessions</id>
     <content type="html"><![CDATA[<p>For years <a href="http://php.net/">PHP</a> has been vulnerable to session adoption which can enable <a href="http://en.wikipedia.org/wiki/Session_fixation">session fixation</a>. And since sessions are a major part of web applications now a days. A lot of platforms are open and waiting for an attack to happen.</p>
 
 <p><strong>session adoption &amp; session fixation</strong></p>
@@ -268,9 +268,9 @@ $_SESSION['valid_id'] = session_id();
   
   <entry>
     <title type="html"><![CDATA[The current state of SSL And The Future Of Authenticity]]></title>
-    <link href="http://lenss.nl/2011/09/12/the-current-state-of-ssl-and-the-future-of-authenticity/"/>
+    <link href="http://lenss.nl/2011/09/the-current-state-of-ssl-and-the-future-of-authenticity/"/>
     <updated>2011-09-12T02:13:33+02:00</updated>
-    <id>http://lenss.nl/2011/09/12/the-current-state-of-ssl-and-the-future-of-authenticity</id>
+    <id>http://lenss.nl/2011/09/the-current-state-of-ssl-and-the-future-of-authenticity</id>
     <content type="html"><![CDATA[<p><a href="http://convergence.io/"><img src="http://lenss.nl/images/2011/09/convergence.png" alt="" /></a> Last week i had a blast while listening to <a href="http://www.thoughtcrime.org/">Moxie Marlinspike's</a> Blackhat talk <a href="http://www.youtube.com/watch?v=Z7Wl2FW2TcA">the past and future of SSL</a>. The video is an absolute must see if you have any concern about the current state of SSL or the whole web for that matter.</p>
 
 <p>As many know. There has been quite the turmoil in the SSL world lately with some big CA's (<a href="http://www.comodo.com">Comodo</a>, <a href="http://www.startcom.org/">StartCom</a>, <a href="http://www.diginotar.com/">Diginotar</a>, <a href="http://www.globalsign.com/">GlobalSign</a>) getting hacked. And rogue certificates being generated for major domains like microsoft.com, google.com, etc for who knows what type of malicious purpose. The real problem here are the centralized CA's. For SSL to work you need to explicitly trust the major CA's. And if one gets hacked. Well.. we know the deal by now. And the funny thing is that Moxie mentions in his talk. The whole CA wasn't even part of the original SSL protocol. As the creator of SSL said "It's something we through in at the end".</p>
@@ -285,9 +285,9 @@ $_SESSION['valid_id'] = session_id();
   
   <entry>
     <title type="html"><![CDATA[Apache SSL client side certificate data in PHP]]></title>
-    <link href="http://lenss.nl/2011/02/24/apache-ssl-client-side-certificate-data-in-php/"/>
+    <link href="http://lenss.nl/2011/02/apache-ssl-client-side-certificate-data-in-php/"/>
     <updated>2011-02-24T01:55:03+01:00</updated>
-    <id>http://lenss.nl/2011/02/24/apache-ssl-client-side-certificate-data-in-php</id>
+    <id>http://lenss.nl/2011/02/apache-ssl-client-side-certificate-data-in-php</id>
     <content type="html"><![CDATA[<p>What should have been a simple assignment turned out to be a hair pulling endeavour. The ultimate goal was to read the client side certificate data in PHP. I am by no means a system administrator. And the SSL part will probably be done by somebody more experienced. And the certificates will be signed by real CA's. But for developing locally i need something functioning.</p>
 
 <p>So i spend the last hours trying to get client side certificates working. With absolutely no luck. I found a bunch of posts by doing Google searches. But none of them seem to offer the proper information for creating good client side certificates. Creating the CA and the server certificate is no problem at all. But creating a client side certificate seems impossible. Some of the post i tried:</p>

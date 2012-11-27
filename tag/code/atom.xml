@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Code | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/code/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2012-11-27T21:58:58+01:00</updated>
+  <updated>2012-11-27T22:03:45+01:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Publish Google Reader shared items]]></title>
-    <link href="http://lenss.nl/2012/11/07/publish-google-reader-shared-items/"/>
+    <link href="http://lenss.nl/2012/11/publish-google-reader-shared-items/"/>
     <updated>2012-11-07T15:55:26+01:00</updated>
-    <id>http://lenss.nl/2012/11/07/publish-google-reader-shared-items</id>
+    <id>http://lenss.nl/2012/11/publish-google-reader-shared-items</id>
     <content type="html"><![CDATA[<p>A lot of people are using the shared items feature in <a href="http://www.google.nl/reader/">Google Reader</a> to publish what they are reading on a blog. It's like having a live blogroll widget on your website. And gives your readers a good impression of what you are actually interested in.</p>
 
 <p>I never bothered adding this to my blog. But i do like to share. So last night i was trying to figure out how to integrate this with my current blog. I was hoping for an easy implementation. But the information is scarce. So i had to do some digging. I did find a couple of <a href="https://www.google.nl/search?q=wordpress+plugin+google+reader">Wordpress plugins</a>. But most of them were not updated for at least a year. And i am not putting code like that life on my website.</p>
@@ -95,9 +95,9 @@ if (GoogleReaderShare::CheckSource($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_REFER
   
   <entry>
     <title type="html"><![CDATA[Long running PHP script and MySQL server gone away]]></title>
-    <link href="http://lenss.nl/2012/10/29/long-running-php-script-and-mysql-server-gone-away/"/>
+    <link href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/"/>
     <updated>2012-10-29T14:39:26+01:00</updated>
-    <id>http://lenss.nl/2012/10/29/long-running-php-script-and-mysql-server-gone-away</id>
+    <id>http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away</id>
     <content type="html"><![CDATA[<p>At the moment i am writing some workers that interact with a <a href="http://kr.github.com/beanstalkd/">beanstalk</a> server. When data gets pushed into the beanstalk server. My workers will be triggered to process this data. So the workers are sitting idle for most of the time. And just wait for some data to process. No rocket science there. But during testing i kept running into <a href="http://www.mysql.com/">MySQL</a> issues. The script seemed to lose connection to the MySQL server when it was idle for longer then a minute. And would respond with a</p>
 
 <blockquote><p>Warning: <a href="http://php.net/mysql_query">mysql_query</a>(): MySQL server has gone away in /path/to/some/mysql4/class.php on line xxx</p></blockquote>
@@ -163,9 +163,9 @@ while (true)
   
   <entry>
     <title type="html"><![CDATA[Git: Rebase on pull by default]]></title>
-    <link href="http://lenss.nl/2012/10/25/git-rebase-on-pull-by-default/"/>
+    <link href="http://lenss.nl/2012/10/git-rebase-on-pull-by-default/"/>
     <updated>2012-10-25T14:20:22+02:00</updated>
-    <id>http://lenss.nl/2012/10/25/git-rebase-on-pull-by-default</id>
+    <id>http://lenss.nl/2012/10/git-rebase-on-pull-by-default</id>
     <content type="html"><![CDATA[<p>I was a bit surprised today when <a href="http://git-scm.com/">git</a> presented me a merge message window after i did a pull. This should not happen as the normal behavior here should be to <a href="http://git-scm.com/book/en/Git-Branching-Rebasing">rebase</a> the changes. But apparently that didn't happen this time. When i asked one of the other <a href="http://www.scriptorama.nl/">dev</a> 's what could be the issue. We quickly figured out i was just missing some <strong>config</strong> entry in <strong>.git/config</strong>. This probably happened some time ago when i did a fresh checkout.</p>
 
 <p>So to make sure rebasing is done by default. You can run a simple git command or modify the <strong>.git/config</strong> file manually.</p>
@@ -191,9 +191,9 @@ rebase = true
   
   <entry>
     <title type="html"><![CDATA[Fixing character replacement in Wordpress]]></title>
-    <link href="http://lenss.nl/2012/09/24/fixing-character-replacement-in-wordpress/"/>
+    <link href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"/>
     <updated>2012-09-24T21:39:17+02:00</updated>
-    <id>http://lenss.nl/2012/09/24/fixing-character-replacement-in-wordpress</id>
+    <id>http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress</id>
     <content type="html"><![CDATA[<p>This has been bugging me for a while. But not enough to actually look into it. And Google searches for <a href="http://wordpress.org/">Wordpress</a> display wrong characters results in a whole forest of threads about UTF-8 encoding. This has nothing to do with that. So what's the issue here?</p>
 
 <p>Wordpress is replacing characters in my posts. The most annoying being the replacement of -- <del>is</del> with - . Which makes no sense at all. Specially when creating code samples. Or command line parameters. My thought is why on earth would you do that? But it probably has something to do with typography...</p>
@@ -229,9 +229,9 @@ patching file formatting.php</p></blockquote>
   
   <entry>
     <title type="html"><![CDATA[Resize a Vagrant VMDK drive]]></title>
-    <link href="http://lenss.nl/2012/09/24/resize-a-vagrant-vmdk-drive/"/>
+    <link href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"/>
     <updated>2012-09-24T14:17:00+02:00</updated>
-    <id>http://lenss.nl/2012/09/24/resize-a-vagrant-vmdk-drive</id>
+    <id>http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive</id>
     <content type="html"><![CDATA[<p>Using <a href="http://vagrantup.com/">Vagrant</a> as a development environment is great. But you have to watch the available disk space when doing some funky database benchmarking. Last Friday i wrote a script to populate a test database with over 60 million records. And left it running over the weekend. With the idea it would be finished when i returned to the office on Monday. Well it actually was still running. But the Vagrant instance was out of disk space when i logged in. Damn. Should have made sure i had a big disk attached to this instance.</p>
 
 <p>O well. My first idea was to just drop the database that i wanted to use for testing. But due to no space available on the system. I could not drop it. I really couldn't do anything on the system. Even writing config files failed. So where did all the disk space go?</p>

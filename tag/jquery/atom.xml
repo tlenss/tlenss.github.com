@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Jquery | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/jquery/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2012-11-27T21:58:58+01:00</updated>
+  <updated>2012-11-27T22:03:45+01:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Jquery unrecognized expression error]]></title>
-    <link href="http://lenss.nl/2011/08/20/jquery-unrecognized-expression-error/"/>
+    <link href="http://lenss.nl/2011/08/jquery-unrecognized-expression-error/"/>
     <updated>2011-08-20T13:20:59+02:00</updated>
-    <id>http://lenss.nl/2011/08/20/jquery-unrecognized-expression-error</id>
+    <id>http://lenss.nl/2011/08/jquery-unrecognized-expression-error</id>
     <content type="html"><![CDATA[<p>While doing some front end work yesterday. I got trapped by a <a href="http://jquery.com/">jQuery</a> issue. Well not JQuery specific. The issue was actually triggered by some other hand crafted code. Every time i would click a link inside my grid view firebug would throw an error.</p>
 
 <blockquote><p>uncaught exception: Syntax error, unrecognized expression: .</p></blockquote>
@@ -43,9 +43,9 @@
   
   <entry>
     <title type="html"><![CDATA[Jquery & PHP doing simple image slicing]]></title>
-    <link href="http://lenss.nl/2010/11/01/jquery-php-doing-simple-image-slicing/"/>
+    <link href="http://lenss.nl/2010/11/jquery-php-doing-simple-image-slicing/"/>
     <updated>2010-11-01T17:34:11+01:00</updated>
-    <id>http://lenss.nl/2010/11/01/jquery-php-doing-simple-image-slicing</id>
+    <id>http://lenss.nl/2010/11/jquery-php-doing-simple-image-slicing</id>
     <content type="html"><![CDATA[<p>Today i was in need of a basic image slicer. An there must be a million of these things out there. But i wanted to see how hard / easy it would be to create this myself.</p>
 
 <p>Conclusion. It's not that hard when using the jquery library. which is becoming my Javascript framework of choice.</p>

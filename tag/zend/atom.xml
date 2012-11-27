@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Zend | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/zend/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2012-11-27T21:58:58+01:00</updated>
+  <updated>2012-11-27T22:03:45+01:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Long running PHP script and MySQL server gone away]]></title>
-    <link href="http://lenss.nl/2012/10/29/long-running-php-script-and-mysql-server-gone-away/"/>
+    <link href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/"/>
     <updated>2012-10-29T14:39:26+01:00</updated>
-    <id>http://lenss.nl/2012/10/29/long-running-php-script-and-mysql-server-gone-away</id>
+    <id>http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away</id>
     <content type="html"><![CDATA[<p>At the moment i am writing some workers that interact with a <a href="http://kr.github.com/beanstalkd/">beanstalk</a> server. When data gets pushed into the beanstalk server. My workers will be triggered to process this data. So the workers are sitting idle for most of the time. And just wait for some data to process. No rocket science there. But during testing i kept running into <a href="http://www.mysql.com/">MySQL</a> issues. The script seemed to lose connection to the MySQL server when it was idle for longer then a minute. And would respond with a</p>
 
 <blockquote><p>Warning: <a href="http://php.net/mysql_query">mysql_query</a>(): MySQL server has gone away in /path/to/some/mysql4/class.php on line xxx</p></blockquote>
@@ -83,9 +83,9 @@ while (true)
   
   <entry>
     <title type="html"><![CDATA[Using SSH key authentication with EGit in ZendStudio]]></title>
-    <link href="http://lenss.nl/2012/02/28/using-ssh-key-authentication-with-egit-in-zendstudio/"/>
+    <link href="http://lenss.nl/2012/02/using-ssh-key-authentication-with-egit-in-zendstudio/"/>
     <updated>2012-02-28T16:17:19+01:00</updated>
-    <id>http://lenss.nl/2012/02/28/using-ssh-key-authentication-with-egit-in-zendstudio</id>
+    <id>http://lenss.nl/2012/02/using-ssh-key-authentication-with-egit-in-zendstudio</id>
     <content type="html"><![CDATA[<p>For the past few months i have been switching some projects over to <a href="http://git-scm.com/">git</a> from <a href="http://subversion.tigris.org/">Subversion</a>. And have been trying to get the hang of all the command line options available. And i will be doing that for a while longer until i get completely comfortable. And for communication to the remote git server i have been using SSH key authentication. Which works smoothly just like it did with Subversion.</p>
 
 <p>But i wanted to check out the GIT support available in <a href="http://www.zend.com/products/studio/">Zend Studio 9</a>. And hit a problem pretty quickly. But i will describe that below. First i will create a local clone of my git project.</p>
@@ -124,9 +124,9 @@ $ mv jsch-0.1.46.jar plugins/com.jcraft.jsch_0.1.41.v201101211617.jar</p></block
   
   <entry>
     <title type="html"><![CDATA[PHP getting strict sessions]]></title>
-    <link href="http://lenss.nl/2011/11/30/php-getting-strict-sessions/"/>
+    <link href="http://lenss.nl/2011/11/php-getting-strict-sessions/"/>
     <updated>2011-11-30T15:38:28+01:00</updated>
-    <id>http://lenss.nl/2011/11/30/php-getting-strict-sessions</id>
+    <id>http://lenss.nl/2011/11/php-getting-strict-sessions</id>
     <content type="html"><![CDATA[<p>For years <a href="http://php.net/">PHP</a> has been vulnerable to session adoption which can enable <a href="http://en.wikipedia.org/wiki/Session_fixation">session fixation</a>. And since sessions are a major part of web applications now a days. A lot of platforms are open and waiting for an attack to happen.</p>
 
 <p><strong>session adoption &amp; session fixation</strong></p>
@@ -170,9 +170,9 @@ $_SESSION['valid_id'] = session_id();
   
   <entry>
     <title type="html"><![CDATA[PHP5 filesize limit on 32-bit system]]></title>
-    <link href="http://lenss.nl/2011/08/31/php5-filesize-limit-on-32-bit-system/"/>
+    <link href="http://lenss.nl/2011/08/php5-filesize-limit-on-32-bit-system/"/>
     <updated>2011-08-31T01:38:00+02:00</updated>
-    <id>http://lenss.nl/2011/08/31/php5-filesize-limit-on-32-bit-system</id>
+    <id>http://lenss.nl/2011/08/php5-filesize-limit-on-32-bit-system</id>
     <content type="html"><![CDATA[<p>So we have a PHP based importer script that does some heavy duty media processing at the office. And i had to import some new media today. But for some reason a couple of files weren't picked up without a message. So i cleaned up the upload folder. The only files left were the files not being processed. And when i started the importer. The result was.</p>
 
 <blockquote><p>Importer found (0) files to import!</p></blockquote>
@@ -258,9 +258,9 @@ return $timestamp;
   
   <entry>
     <title type="html"><![CDATA[VMware Workstation Listen to voice of the customer]]></title>
-    <link href="http://lenss.nl/2011/03/15/vmware-workstation-listen-to-voice-of-the-customer/"/>
+    <link href="http://lenss.nl/2011/03/vmware-workstation-listen-to-voice-of-the-customer/"/>
     <updated>2011-03-15T23:37:27+01:00</updated>
-    <id>http://lenss.nl/2011/03/15/vmware-workstation-listen-to-voice-of-the-customer</id>
+    <id>http://lenss.nl/2011/03/vmware-workstation-listen-to-voice-of-the-customer</id>
     <content type="html"><![CDATA[<p><a href="http://www.zend.com/en/products/studio/vmware-workstation-deployment"><img src="http://lenss.nl/images/2011/03/zend-vmware.gif" alt="" /></a>A while back i was contacted by <a href="http://twitter.com/vlaxmi">Vijay Laxmi</a>. Vijay is a Sr Partner Marketing Manager over at Zend Technologies. And she was interested in doing a podcast like interview about the brand new and shiny <a href="http://www.zend.com/en/products/studio/vmware-workstation-deployment">VMWare &amp; Zend Studio</a> integration. And because i am a big fan of this feature. I didn't see why not. So we had a few chat sessions. Along the way <a href="http://twitter.com/jsolomin">Joshua Solomin</a> from Zend and Michael Paiko from VMWare joined the party. And after some preparation we recorded the session. Considering i have never been much of a speaker. This was quite fun to do.</p>
 
 <p>Michael send me the end result. And everybody seemed happy with it. After that life resumed and i have been incredibly busy every since. So i kinda forgot about the whole thing. Till Vijay mailed me today (ty! Vijay). VMWare put the <a href="http://blogs.vmware.com/workstation/">recording</a> on their website. And a customer mailing has been transmitted over the wire.  Cool stuff!</p>
