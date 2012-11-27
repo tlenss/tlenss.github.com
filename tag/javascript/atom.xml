@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Javascript | Thijs Lensselink's Blog]]></title>
-  <link href="http://tlenss.github.com/tag/javascript/atom.xml" rel="self"/>
-  <link href="http://tlenss.github.com/"/>
-  <updated>2012-11-27T21:29:36+01:00</updated>
-  <id>http://tlenss.github.com/</id>
+  <link href="http://lenss.nl/tag/javascript/atom.xml" rel="self"/>
+  <link href="http://lenss.nl/"/>
+  <updated>2012-11-27T21:43:46+01:00</updated>
+  <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Abbywinters.com is hiring!]]></title>
-    <link href="http://tlenss.github.com/2011/11/22/abbywinters-com-is-hiring/"/>
+    <link href="http://lenss.nl/2011/11/22/abbywinters-com-is-hiring/"/>
     <updated>2011-11-22T14:46:51+01:00</updated>
-    <id>http://tlenss.github.com/2011/11/22/abbywinters-com-is-hiring</id>
+    <id>http://lenss.nl/2011/11/22/abbywinters-com-is-hiring</id>
     <content type="html"><![CDATA[<p><a href="http://careers.abbywinters.com/job-opportunities/senior-php-developer/"><img src="http://lenss.nl/images/2011/11/aw-logo-roundel-blue.png" alt="" /></a> If you're looking for a new challenging and exiting Senior Webdeveloper position. Don't look any further. If you already think you have the job of your dreams. Think again!</p>
 
 <p><em><a href="http://www.abbywinters.com">abbywinters.com</a> <strong>(NSFW)</strong> is one of the largest and most ethical, highly rated, well designed, and successful erotic websites in the world today. abbywinters.com is the WINNER of the AVN 2011 Awards for Best Membership site!</em></p>
@@ -77,9 +77,9 @@
   
   <entry>
     <title type="html"><![CDATA[Jquery unrecognized expression error]]></title>
-    <link href="http://tlenss.github.com/2011/08/20/jquery-unrecognized-expression-error/"/>
+    <link href="http://lenss.nl/2011/08/20/jquery-unrecognized-expression-error/"/>
     <updated>2011-08-20T13:20:59+02:00</updated>
-    <id>http://tlenss.github.com/2011/08/20/jquery-unrecognized-expression-error</id>
+    <id>http://lenss.nl/2011/08/20/jquery-unrecognized-expression-error</id>
     <content type="html"><![CDATA[<p>While doing some front end work yesterday. I got trapped by a <a href="http://jquery.com/">jQuery</a> issue. Well not JQuery specific. The issue was actually triggered by some other hand crafted code. Every time i would click a link inside my grid view firebug would throw an error.</p>
 
 <blockquote><p>uncaught exception: Syntax error, unrecognized expression: .</p></blockquote>
@@ -105,9 +105,9 @@
   
   <entry>
     <title type="html"><![CDATA[Jquery & PHP doing simple image slicing]]></title>
-    <link href="http://tlenss.github.com/2010/11/01/jquery-php-doing-simple-image-slicing/"/>
+    <link href="http://lenss.nl/2010/11/01/jquery-php-doing-simple-image-slicing/"/>
     <updated>2010-11-01T17:34:11+01:00</updated>
-    <id>http://tlenss.github.com/2010/11/01/jquery-php-doing-simple-image-slicing</id>
+    <id>http://lenss.nl/2010/11/01/jquery-php-doing-simple-image-slicing</id>
     <content type="html"><![CDATA[<p>Today i was in need of a basic image slicer. An there must be a million of these things out there. But i wanted to see how hard / easy it would be to create this myself.</p>
 
 <p>Conclusion. It's not that hard when using the jquery library. which is becoming my Javascript framework of choice.</p>
@@ -192,9 +192,9 @@ imagedestroy($src);
   
   <entry>
     <title type="html"><![CDATA[Drag & drop Uploads with XMLHttpRequest2 and PHP Revised]]></title>
-    <link href="http://tlenss.github.com/2010/09/22/drag-drop-uploads-with-xmlhttprequest2-and-php-revised/"/>
+    <link href="http://lenss.nl/2010/09/22/drag-drop-uploads-with-xmlhttprequest2-and-php-revised/"/>
     <updated>2010-09-22T15:26:42+02:00</updated>
-    <id>http://tlenss.github.com/2010/09/22/drag-drop-uploads-with-xmlhttprequest2-and-php-revised</id>
+    <id>http://lenss.nl/2010/09/22/drag-drop-uploads-with-xmlhttprequest2-and-php-revised</id>
     <content type="html"><![CDATA[<p>A while back i wrote a <a href="http://lenss.nl/2010/01/drag-drop-uploads-with-xmlhttprequest2-and-php/">post </a> where i explained how to implement the new XMLHttpRequest2 object. The main point of the post was to use <a href="https://developer.mozilla.org/en/XMLHttpRequest">sendAsBinary()</a> so we can stream file uploads from the client to the server.</p>
 
 <p>The post i made showed some code snippets to make this possible. And the Javascript part is all fine and dandy. But last week i had an interesting mail conversation with <a href="http://braincracking.org/">Jean-Pierre Vincent</a> about the memory consumption on the server side of things.</p>
@@ -241,9 +241,9 @@ Upload 29 MB file results in 0.4 MB memory usage</p></blockquote>
   
   <entry>
     <title type="html"><![CDATA[Drag & drop Uploads with XMLHttpRequest2 and PHP]]></title>
-    <link href="http://tlenss.github.com/2010/01/25/drag-drop-uploads-with-xmlhttprequest2-and-php/"/>
+    <link href="http://lenss.nl/2010/01/25/drag-drop-uploads-with-xmlhttprequest2-and-php/"/>
     <updated>2010-01-25T01:02:38+01:00</updated>
-    <id>http://tlenss.github.com/2010/01/25/drag-drop-uploads-with-xmlhttprequest2-and-php</id>
+    <id>http://lenss.nl/2010/01/25/drag-drop-uploads-with-xmlhttprequest2-and-php</id>
     <content type="html"><![CDATA[<p>I finally had some time to read through my ever growing list must read items and play with some new software. While reading up on the new Firefox 3.6 i noticed it came with the new <a href="http://www.ideal.nl/">XMLHttpRequest</a> [<a href="http://www.w3.org/TR/XMLHttpRequest2/">2</a>] object based on the new <a href="http://dev.w3.org/2006/webapi/FileAPI/">file API</a>. And according to the new <a href="http://dev.w3.org/2006/webapi/FileAPI/">specs</a>. This would allow for easy file uploads. Now there's been some <a href="http://hacks.mozilla.org/2009/12/uploading-files-with-xmlhttprequest/">examples</a> [<a href="http://arstechnica.com/open-source/news/2009/11/w3c-publishes-draft-of-new-file-api-spec.ars">2</a>] on the web already. But i just wanted to get my hands dirty.</p>
 
 <p>The new XMLHttpRequest object makes is possible to send files in a few different formats. The most important being the binary format. The code for sending a request with XMLHttpRequest2 looks the same as the previous version. Except for sendAsBinary() in this case.</p>

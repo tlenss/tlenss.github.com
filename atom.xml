@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Thijs Lensselink's Blog]]></title>
-  <link href="http://tlenss.github.com/atom.xml" rel="self"/>
-  <link href="http://tlenss.github.com/"/>
-  <updated>2012-11-27T21:29:36+01:00</updated>
-  <id>http://tlenss.github.com/</id>
+  <link href="http://lenss.nl/atom.xml" rel="self"/>
+  <link href="http://lenss.nl/"/>
+  <updated>2012-11-27T21:43:46+01:00</updated>
+  <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Publish Google Reader shared items]]></title>
-    <link href="http://tlenss.github.com/2012/11/07/publish-google-reader-shared-items/"/>
+    <link href="http://lenss.nl/2012/11/07/publish-google-reader-shared-items/"/>
     <updated>2012-11-07T15:55:26+01:00</updated>
-    <id>http://tlenss.github.com/2012/11/07/publish-google-reader-shared-items</id>
+    <id>http://lenss.nl/2012/11/07/publish-google-reader-shared-items</id>
     <content type="html"><![CDATA[<p>A lot of people are using the shared items feature in <a href="http://www.google.nl/reader/">Google Reader</a> to publish what they are reading on a blog. It&#8217;s like having a live blogroll widget on your website. And gives your readers a good impression of what you are actually interested in.</p>
 
 <p>I never bothered adding this to my blog. But i do like to share. So last night i was trying to figure out how to integrate this with my current blog. I was hoping for an easy implementation. But the information is scarce. So i had to do some digging. I did find a couple of <a href="https://www.google.nl/search?q=wordpress+plugin+google+reader">Wordpress plugins</a>. But most of them were not updated for at least a year. And i am not putting code like that life on my website.</p>
@@ -95,9 +95,9 @@ if (GoogleReaderShare::CheckSource($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_REFER
   
   <entry>
     <title type="html"><![CDATA[Long running PHP script and MySQL server gone away]]></title>
-    <link href="http://tlenss.github.com/2012/10/29/long-running-php-script-and-mysql-server-gone-away/"/>
+    <link href="http://lenss.nl/2012/10/29/long-running-php-script-and-mysql-server-gone-away/"/>
     <updated>2012-10-29T14:39:26+01:00</updated>
-    <id>http://tlenss.github.com/2012/10/29/long-running-php-script-and-mysql-server-gone-away</id>
+    <id>http://lenss.nl/2012/10/29/long-running-php-script-and-mysql-server-gone-away</id>
     <content type="html"><![CDATA[<p>At the moment i am writing some workers that interact with a <a href="http://kr.github.com/beanstalkd/">beanstalk</a> server. When data gets pushed into the beanstalk server. My workers will be triggered to process this data. So the workers are sitting idle for most of the time. And just wait for some data to process. No rocket science there. But during testing i kept running into <a href="http://www.mysql.com/">MySQL</a> issues. The script seemed to lose connection to the MySQL server when it was idle for longer then a minute. And would respond with a</p>
 
 <blockquote><p>Warning: <a href="http://php.net/mysql_query">mysql_query</a>(): MySQL server has gone away in /path/to/some/mysql4/class.php on line xxx</p></blockquote>
@@ -163,9 +163,9 @@ while (true)
   
   <entry>
     <title type="html"><![CDATA[Git: Rebase on pull by default]]></title>
-    <link href="http://tlenss.github.com/2012/10/25/git-rebase-on-pull-by-default/"/>
+    <link href="http://lenss.nl/2012/10/25/git-rebase-on-pull-by-default/"/>
     <updated>2012-10-25T14:20:22+02:00</updated>
-    <id>http://tlenss.github.com/2012/10/25/git-rebase-on-pull-by-default</id>
+    <id>http://lenss.nl/2012/10/25/git-rebase-on-pull-by-default</id>
     <content type="html"><![CDATA[<p>I was a bit surprised today when <a href="http://git-scm.com/">git</a> presented me a merge message window after i did a pull. This should not happen as the normal behavior here should be to <a href="http://git-scm.com/book/en/Git-Branching-Rebasing">rebase</a> the changes. But apparently that didn&#8217;t happen this time. When i asked one of the other <a href="http://www.scriptorama.nl/">dev</a> &#8216;s what could be the issue. We quickly figured out i was just missing some <strong>config</strong> entry in <strong>.git/config</strong>. This probably happened some time ago when i did a fresh checkout.</p>
 
 <p>So to make sure rebasing is done by default. You can run a simple git command or modify the <strong>.git/config</strong> file manually.</p>
@@ -191,9 +191,9 @@ rebase = true
   
   <entry>
     <title type="html"><![CDATA[Workaround Ubuntu 12.04 mysterious system freezes]]></title>
-    <link href="http://tlenss.github.com/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/"/>
+    <link href="http://lenss.nl/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes/"/>
     <updated>2012-10-12T15:43:46+02:00</updated>
-    <id>http://tlenss.github.com/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes</id>
+    <id>http://lenss.nl/2012/10/12/workaround-ubuntu-12-04-mysterious-system-freezes</id>
     <content type="html"><![CDATA[<p>I have two machines running <a href="http://releases.ubuntu.com/12.04/">Ubuntu 12.04</a>. One of them is very stable. And hardly ever gets rebooted. The other machine is displaying some odd behavior every now and then. And with odd behavior i mean. It just completely freezing up. The only thing functioning at that moment is the mouse.</p>
 
 <p>I use this machine daily. And i can&#8217;t afford to lose work due to system crashes. So i could spend numerous hours trying to figure out what&#8217;s going on. But that&#8217;s probably something better left for the Ubuntu devs them selfs. Besides that there are plenty of bug reports floating around that describe this behavior. And one of those <a href="https://bugs.launchpad.net/ubuntu/+source/linux/+bug/999910">posts</a> seemed to resolve the issue for me.</p>
@@ -219,9 +219,9 @@ $ sudo dpkg -i linux-image-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.
   
   <entry>
     <title type="html"><![CDATA[Fixing character replacement in Wordpress]]></title>
-    <link href="http://tlenss.github.com/2012/09/24/fixing-character-replacement-in-wordpress/"/>
+    <link href="http://lenss.nl/2012/09/24/fixing-character-replacement-in-wordpress/"/>
     <updated>2012-09-24T21:39:17+02:00</updated>
-    <id>http://tlenss.github.com/2012/09/24/fixing-character-replacement-in-wordpress</id>
+    <id>http://lenss.nl/2012/09/24/fixing-character-replacement-in-wordpress</id>
     <content type="html"><![CDATA[<p>This has been bugging me for a while. But not enough to actually look into it. And Google searches for <a href="http://wordpress.org/">Wordpress</a> display wrong characters results in a whole forest of threads about UTF-8 encoding. This has nothing to do with that. So what&#8217;s the issue here?</p>
 
 <p>Wordpress is replacing characters in my posts. The most annoying being the replacement of &#8211; <del>is</del> with - . Which makes no sense at all. Specially when creating code samples. Or command line parameters. My thought is why on earth would you do that? But it probably has something to do with typography&#8230;</p>
@@ -257,9 +257,9 @@ patching file formatting.php</p></blockquote>
   
   <entry>
     <title type="html"><![CDATA[Resize a Vagrant VMDK drive]]></title>
-    <link href="http://tlenss.github.com/2012/09/24/resize-a-vagrant-vmdk-drive/"/>
+    <link href="http://lenss.nl/2012/09/24/resize-a-vagrant-vmdk-drive/"/>
     <updated>2012-09-24T14:17:00+02:00</updated>
-    <id>http://tlenss.github.com/2012/09/24/resize-a-vagrant-vmdk-drive</id>
+    <id>http://lenss.nl/2012/09/24/resize-a-vagrant-vmdk-drive</id>
     <content type="html"><![CDATA[<p>Using <a href="http://vagrantup.com/">Vagrant</a> as a development environment is great. But you have to watch the available disk space when doing some funky database benchmarking. Last Friday i wrote a script to populate a test database with over 60 million records. And left it running over the weekend. With the idea it would be finished when i returned to the office on Monday. Well it actually was still running. But the Vagrant instance was out of disk space when i logged in. Damn. Should have made sure i had a big disk attached to this instance.</p>
 
 <p>O well. My first idea was to just drop the database that i wanted to use for testing. But due to no space available on the system. I could not drop it. I really couldn&#8217;t do anything on the system. Even writing config files failed. So where did all the disk space go?</p>
@@ -363,9 +363,9 @@ $ mysql -uroot -p &lt; dump.sql</p></blockquote>
   
   <entry>
     <title type="html"><![CDATA[GIT:  Coming up with a good workflow]]></title>
-    <link href="http://tlenss.github.com/2012/09/12/git-coming-up-with-a-good-workflow/"/>
+    <link href="http://lenss.nl/2012/09/12/git-coming-up-with-a-good-workflow/"/>
     <updated>2012-09-12T09:09:37+02:00</updated>
-    <id>http://tlenss.github.com/2012/09/12/git-coming-up-with-a-good-workflow</id>
+    <id>http://lenss.nl/2012/09/12/git-coming-up-with-a-good-workflow</id>
     <content type="html"><![CDATA[<p>A new environment to work in always brings new challenges. And this one is no exception. And i will be working with <a href="http://git-scm.com/">git</a> from now on. I tried switching before. But always went back to subversion. Because of my job. And for somebody who worked with <a href="http://subversion.apache.org/">subversion</a> solely for the past&#8230; say 5 to 7 years it&#8217;s kind of a new concept and takes some time to get a grasp on. Ok ok. It&#8217;s just another version control system. But it takes some getting used to.</p>
 
 <p>And two days ago i kinda got stuck in <a href="http://git-scm.com/docs/git-rebase">rebase</a> hell. And had to take some time to figure this all out without doing any damage. Which resulted in another problem. There simply is no revert command like in subversion. But git is pretty smart about this kinda things. So getting the branch full of failed merges back to it&#8217;s original state can easily be achieved with two commands and some concentration.</p>
@@ -409,9 +409,9 @@ $ git push dev-branch</p></blockquote>
   
   <entry>
     <title type="html"><![CDATA[Workaround for running WoW with patch 5.0.4 on Ubuntu]]></title>
-    <link href="http://tlenss.github.com/2012/09/02/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/"/>
+    <link href="http://lenss.nl/2012/09/02/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/"/>
     <updated>2012-09-02T23:48:36+02:00</updated>
-    <id>http://tlenss.github.com/2012/09/02/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu</id>
+    <id>http://lenss.nl/2012/09/02/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu</id>
     <content type="html"><![CDATA[<p>After a fresh install i couldn&#8217;t get <a href="http://eu.battle.net/wow/en/">WoW</a> to work. I&#8217;m not that big on playing games lately. But this bugged me. Good thing we have the interwebs.</p>
 
 <p>Starting the battle.net agent manually before firing up the WoW launcher solved the launcher crashing.</p>
@@ -428,9 +428,9 @@ wine ~/.wine/drive_c/Program\ Files\ (x86)/World\ of\ Warcraft/Launcher.exe &amp
   
   <entry>
     <title type="html"><![CDATA[Setup a basic PHP development environment with Vagrant and chef-solo]]></title>
-    <link href="http://tlenss.github.com/2012/08/27/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/"/>
+    <link href="http://lenss.nl/2012/08/27/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/"/>
     <updated>2012-08-27T00:47:05+02:00</updated>
-    <id>http://tlenss.github.com/2012/08/27/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo</id>
+    <id>http://lenss.nl/2012/08/27/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo</id>
     <content type="html"><![CDATA[<p>So there are plenty of posts about this out there already. And this is nothing new i guess. But i am going to post it anyway. This weekend i spend some time playing with vagrant. And every setup guide seemed to be missing some steps the make the whole process a bit of a hassle. So i compiled my own steps in the post below. The goal was to create a basic <a href="http://www.debian.org/">Debian</a> box for my <a href="http://www.php.net/">PHP</a> development. From which i could serve my local development files.</p>
 
 <p>So to start of we need some packages.</p>
@@ -617,9 +617,9 @@ www-data   811  0.0  0.2 546408  2424 ?        Sl   23:40   0:00 /usr/sbin/apach
   
   <entry>
     <title type="html"><![CDATA[Adding colors to PHP CLI script output]]></title>
-    <link href="http://tlenss.github.com/2012/05/26/adding-colors-to-php-cli-script-output/"/>
+    <link href="http://lenss.nl/2012/05/26/adding-colors-to-php-cli-script-output/"/>
     <updated>2012-05-26T11:14:33+02:00</updated>
-    <id>http://tlenss.github.com/2012/05/26/adding-colors-to-php-cli-script-output</id>
+    <id>http://lenss.nl/2012/05/26/adding-colors-to-php-cli-script-output</id>
     <content type="html"><![CDATA[<p>I always loved writing CLI scripts. And in <a href="http://php.net/manual/en/features.commandline.php">PHP</a> this is no different. I write a lot of CLI importers, scrapers, reporters, etc. And sometimes i want a bit more funk in my output then the standard black and white. When output is important i will add some colors to make things more clear. And this is not hard at all.</p>
 
 <p>First of it&#8217;s probably a good thing to gather some of the available colors. A good resource is available <a href="https://wiki.archlinux.org/index.php/Color_Bash_Prompt">here</a>. Some of the colors and their corresponding codes can be found below.</p>
@@ -657,9 +657,9 @@ echo "\033[37m some colored text \033[37m"; // green
   
   <entry>
     <title type="html"><![CDATA[abbywinters is looking for new developers]]></title>
-    <link href="http://tlenss.github.com/2012/05/24/abbywinters-is-looking-for-new-developers/"/>
+    <link href="http://lenss.nl/2012/05/24/abbywinters-is-looking-for-new-developers/"/>
     <updated>2012-05-24T15:04:02+02:00</updated>
-    <id>http://tlenss.github.com/2012/05/24/abbywinters-is-looking-for-new-developers</id>
+    <id>http://lenss.nl/2012/05/24/abbywinters-is-looking-for-new-developers</id>
     <content type="html"><![CDATA[<p><a href="http://careers.abbywinters.com/job-opportunities/senior-php-developer/"><img src="http://lenss.nl/images/2011/11/aw-logo-roundel-blue.png" alt="" /></a> If you&#8217;re looking for a new challenging and exiting Senior Webdeveloper position. Don&#8217;t look any further. If you already think you have the job of your dreams. Think again!</p>
 
 <p><em><a href="http://www.abbywinters.com">abbywinters.com</a> <strong>(NSFW)</strong> is one of the largest and most ethical, highly rated, well designed, and successful erotic websites in the world today. abbywinters.com is the WINNER of the AVN 2011 Awards for Best Membership site!</em></p>
@@ -719,9 +719,9 @@ echo "\033[37m some colored text \033[37m"; // green
   
   <entry>
     <title type="html"><![CDATA[Regular expression name based matches]]></title>
-    <link href="http://tlenss.github.com/2012/04/15/regular-expression-name-based-matches/"/>
+    <link href="http://lenss.nl/2012/04/15/regular-expression-name-based-matches/"/>
     <updated>2012-04-15T21:14:49+02:00</updated>
-    <id>http://tlenss.github.com/2012/04/15/regular-expression-name-based-matches</id>
+    <id>http://lenss.nl/2012/04/15/regular-expression-name-based-matches</id>
     <content type="html"><![CDATA[<p>Normally when i write regular expressions with for instance <a href="http://php.net">PHP</a>´s <a href="http://php.net/preg_match">preg_match</a>. I will use the standard $matches array to catch the result of pattern matches. This array has a normal numeric index for each match found. And looks something like</p>
 
 <pre><code>$matches = array();
@@ -753,9 +753,9 @@ var_dump($matches);
   
   <entry>
     <title type="html"><![CDATA[PHP: Only variables should be passed by reference]]></title>
-    <link href="http://tlenss.github.com/2012/03/26/php-only-variables-should-be-passed-by-reference/"/>
+    <link href="http://lenss.nl/2012/03/26/php-only-variables-should-be-passed-by-reference/"/>
     <updated>2012-03-26T11:19:20+02:00</updated>
-    <id>http://tlenss.github.com/2012/03/26/php-only-variables-should-be-passed-by-reference</id>
+    <id>http://lenss.nl/2012/03/26/php-only-variables-should-be-passed-by-reference</id>
     <content type="html"><![CDATA[<p>Last week i got this error while doing some coding with a new library. And at first i didn&#8217;t quite get what was causing this. The line in question looked like</p>
 
 <pre><code>$url = reset($file-&gt;getPaths());
@@ -773,9 +773,9 @@ $url = reset($paths);
   
   <entry>
     <title type="html"><![CDATA[Using SSH key authentication with EGit in ZendStudio]]></title>
-    <link href="http://tlenss.github.com/2012/02/28/using-ssh-key-authentication-with-egit-in-zendstudio/"/>
+    <link href="http://lenss.nl/2012/02/28/using-ssh-key-authentication-with-egit-in-zendstudio/"/>
     <updated>2012-02-28T16:17:19+01:00</updated>
-    <id>http://tlenss.github.com/2012/02/28/using-ssh-key-authentication-with-egit-in-zendstudio</id>
+    <id>http://lenss.nl/2012/02/28/using-ssh-key-authentication-with-egit-in-zendstudio</id>
     <content type="html"><![CDATA[<p>For the past few months i have been switching some projects over to <a href="http://git-scm.com/">git</a> from <a href="http://subversion.tigris.org/">Subversion</a>. And have been trying to get the hang of all the command line options available. And i will be doing that for a while longer until i get completely comfortable. And for communication to the remote git server i have been using SSH key authentication. Which works smoothly just like it did with Subversion.</p>
 
 <p>But i wanted to check out the GIT support available in <a href="http://www.zend.com/products/studio/">Zend Studio 9</a>. And hit a problem pretty quickly. But i will describe that below. First i will create a local clone of my git project.</p>
@@ -814,9 +814,9 @@ $ mv jsch-0.1.46.jar plugins/com.jcraft.jsch_0.1.41.v201101211617.jar</p></block
   
   <entry>
     <title type="html"><![CDATA[Recruiter rant]]></title>
-    <link href="http://tlenss.github.com/2012/02/21/recruiter-rant/"/>
+    <link href="http://lenss.nl/2012/02/21/recruiter-rant/"/>
     <updated>2012-02-21T23:14:03+01:00</updated>
-    <id>http://tlenss.github.com/2012/02/21/recruiter-rant</id>
+    <id>http://lenss.nl/2012/02/21/recruiter-rant</id>
     <content type="html"><![CDATA[<p>While doing our routine <a href="http://sites.google.com/site/agiledevelopmentsite/process/sprint-retrospective">sprint retrospective</a> today. We got interrupted by our office manager Wendy. An important phone call for me. Hmm&#8230; Should have known.</p>
 
 <p>I picked up the phone. And the guy (<a href="http://www.amoriabond.com/">Amoria Bond</a>) on the other end immediately started his sales pitch. O shit another one of those nasty recruiters. So after listening to him for a few seconds i quickly interrupted him. Told him i was not interested in a new job at all. And that he was a jerk and extremely unprofessional for calling me at the office. Completely unaware (or maybe intentionally?) what impact this might have if for instance my manager picks up the phone. Besides it&#8217;s just plain rude.</p>
@@ -831,9 +831,9 @@ $ mv jsch-0.1.46.jar plugins/com.jcraft.jsch_0.1.41.v201101211617.jar</p></block
   
   <entry>
     <title type="html"><![CDATA[Wordpress install compromised]]></title>
-    <link href="http://tlenss.github.com/2012/02/06/wordpress-install-compromised/"/>
+    <link href="http://lenss.nl/2012/02/06/wordpress-install-compromised/"/>
     <updated>2012-02-06T22:37:10+01:00</updated>
-    <id>http://tlenss.github.com/2012/02/06/wordpress-install-compromised</id>
+    <id>http://lenss.nl/2012/02/06/wordpress-install-compromised</id>
     <content type="html"><![CDATA[<p>Last week i got an email from the Dutch <a href="https://www.ncsc.nl/">NCSC</a> (Nationaal Cyber Security Centrum). Apparently one of the nodes i manage for a customer was part of a <a href="http://en.wikipedia.org/wiki/Botnet">botnet</a>. There were no further demands. They just informed me about the issue. Damn cool! Being part of a <a href="http://en.wikipedia.org/wiki/Botnet">botnet</a> however. Not so cool!</p>
 
 <p>With the email came a small excerpt of a IRC channel log. I recognized the node. So SSH&#8217;ed into that specific node. And used <a href="http://linux.die.net/man/8/netstat">netstat</a> to check for any strange connections. A connection on port 20 to the C&C; node of the <a href="http://en.wikipedia.org/wiki/Botnet">botnet</a>. Thats not good.</p>
@@ -1025,9 +1025,9 @@ http://eromang.zataz.com/2012/01/08/gangbang-mytijn-org-malware-spreader-down/</
   
   <entry>
     <title type="html"><![CDATA[PHP critical bug CVE-2012-0830]]></title>
-    <link href="http://tlenss.github.com/2012/02/05/php-critical-bug-cve-2012-0830/"/>
+    <link href="http://lenss.nl/2012/02/05/php-critical-bug-cve-2012-0830/"/>
     <updated>2012-02-05T13:39:43+01:00</updated>
-    <id>http://tlenss.github.com/2012/02/05/php-critical-bug-cve-2012-0830</id>
+    <id>http://lenss.nl/2012/02/05/php-critical-bug-cve-2012-0830</id>
     <content type="html"><![CDATA[<p>Ok it&#8217;s a bit late But i have been laying under a rock for the last week. And i guess it can&#8217;t hurt!</p>
 
 <p>Last week a critical bug was discovered in PHP. Which affects versions 5.3.9 and 5.2.17. The bug could be exploited to run arbitrary code on a remote PHP system. So upgrade your systems. And of course Stefan Esser <a href="http://news.php.net/php.internals/57655">popped up</a> with some wise words :)&#8230; O well i still think the guy does great work.</p>
@@ -1038,9 +1038,9 @@ http://eromang.zataz.com/2012/01/08/gangbang-mytijn-org-malware-spreader-down/</
   
   <entry>
     <title type="html"><![CDATA[PHP getting strict sessions]]></title>
-    <link href="http://tlenss.github.com/2011/11/30/php-getting-strict-sessions/"/>
+    <link href="http://lenss.nl/2011/11/30/php-getting-strict-sessions/"/>
     <updated>2011-11-30T15:38:28+01:00</updated>
-    <id>http://tlenss.github.com/2011/11/30/php-getting-strict-sessions</id>
+    <id>http://lenss.nl/2011/11/30/php-getting-strict-sessions</id>
     <content type="html"><![CDATA[<p>For years <a href="http://php.net/">PHP</a> has been vulnerable to session adoption which can enable <a href="http://en.wikipedia.org/wiki/Session_fixation">session fixation</a>. And since sessions are a major part of web applications now a days. A lot of platforms are open and waiting for an attack to happen.</p>
 
 <p><strong>session adoption &amp; session fixation</strong></p>
@@ -1084,9 +1084,9 @@ $_SESSION['valid_id'] = session_id();
   
   <entry>
     <title type="html"><![CDATA[Abbywinters.com is hiring!]]></title>
-    <link href="http://tlenss.github.com/2011/11/22/abbywinters-com-is-hiring/"/>
+    <link href="http://lenss.nl/2011/11/22/abbywinters-com-is-hiring/"/>
     <updated>2011-11-22T14:46:51+01:00</updated>
-    <id>http://tlenss.github.com/2011/11/22/abbywinters-com-is-hiring</id>
+    <id>http://lenss.nl/2011/11/22/abbywinters-com-is-hiring</id>
     <content type="html"><![CDATA[<p><a href="http://careers.abbywinters.com/job-opportunities/senior-php-developer/"><img src="http://lenss.nl/images/2011/11/aw-logo-roundel-blue.png" alt="" /></a> If you&#8217;re looking for a new challenging and exiting Senior Webdeveloper position. Don&#8217;t look any further. If you already think you have the job of your dreams. Think again!</p>
 
 <p><em><a href="http://www.abbywinters.com">abbywinters.com</a> <strong>(NSFW)</strong> is one of the largest and most ethical, highly rated, well designed, and successful erotic websites in the world today. abbywinters.com is the WINNER of the AVN 2011 Awards for Best Membership site!</em></p>
@@ -1146,9 +1146,9 @@ $_SESSION['valid_id'] = session_id();
   
   <entry>
     <title type="html"><![CDATA[Ubuntu 11.10 issues after fresh install]]></title>
-    <link href="http://tlenss.github.com/2011/11/07/ubuntu-11-10-issues-after-fresh-install/"/>
+    <link href="http://lenss.nl/2011/11/07/ubuntu-11-10-issues-after-fresh-install/"/>
     <updated>2011-11-07T00:26:27+01:00</updated>
-    <id>http://tlenss.github.com/2011/11/07/ubuntu-11-10-issues-after-fresh-install</id>
+    <id>http://lenss.nl/2011/11/07/ubuntu-11-10-issues-after-fresh-install</id>
     <content type="html"><![CDATA[<p><strong>Update: 13-11-2011</strong></p>
 
 <p>I decided to give Ubuntu another try. After downloading and burning a fresh image. I did a clean install. And this time the result was a lot better then the first time. Maybe i just had a bad disk.</p>

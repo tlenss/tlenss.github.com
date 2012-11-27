@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: SQL | Thijs Lensselink's Blog]]></title>
-  <link href="http://tlenss.github.com/tag/sql/atom.xml" rel="self"/>
-  <link href="http://tlenss.github.com/"/>
-  <updated>2012-11-27T21:29:36+01:00</updated>
-  <id>http://tlenss.github.com/</id>
+  <link href="http://lenss.nl/tag/sql/atom.xml" rel="self"/>
+  <link href="http://lenss.nl/"/>
+  <updated>2012-11-27T21:43:46+01:00</updated>
+  <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Long running PHP script and MySQL server gone away]]></title>
-    <link href="http://tlenss.github.com/2012/10/29/long-running-php-script-and-mysql-server-gone-away/"/>
+    <link href="http://lenss.nl/2012/10/29/long-running-php-script-and-mysql-server-gone-away/"/>
     <updated>2012-10-29T14:39:26+01:00</updated>
-    <id>http://tlenss.github.com/2012/10/29/long-running-php-script-and-mysql-server-gone-away</id>
+    <id>http://lenss.nl/2012/10/29/long-running-php-script-and-mysql-server-gone-away</id>
     <content type="html"><![CDATA[<p>At the moment i am writing some workers that interact with a <a href="http://kr.github.com/beanstalkd/">beanstalk</a> server. When data gets pushed into the beanstalk server. My workers will be triggered to process this data. So the workers are sitting idle for most of the time. And just wait for some data to process. No rocket science there. But during testing i kept running into <a href="http://www.mysql.com/">MySQL</a> issues. The script seemed to lose connection to the MySQL server when it was idle for longer then a minute. And would respond with a</p>
 
 <blockquote><p>Warning: <a href="http://php.net/mysql_query">mysql_query</a>(): MySQL server has gone away in /path/to/some/mysql4/class.php on line xxx</p></blockquote>
@@ -83,9 +83,9 @@ while (true)
   
   <entry>
     <title type="html"><![CDATA[Resize a Vagrant VMDK drive]]></title>
-    <link href="http://tlenss.github.com/2012/09/24/resize-a-vagrant-vmdk-drive/"/>
+    <link href="http://lenss.nl/2012/09/24/resize-a-vagrant-vmdk-drive/"/>
     <updated>2012-09-24T14:17:00+02:00</updated>
-    <id>http://tlenss.github.com/2012/09/24/resize-a-vagrant-vmdk-drive</id>
+    <id>http://lenss.nl/2012/09/24/resize-a-vagrant-vmdk-drive</id>
     <content type="html"><![CDATA[<p>Using <a href="http://vagrantup.com/">Vagrant</a> as a development environment is great. But you have to watch the available disk space when doing some funky database benchmarking. Last Friday i wrote a script to populate a test database with over 60 million records. And left it running over the weekend. With the idea it would be finished when i returned to the office on Monday. Well it actually was still running. But the Vagrant instance was out of disk space when i logged in. Damn. Should have made sure i had a big disk attached to this instance.</p>
 
 <p>O well. My first idea was to just drop the database that i wanted to use for testing. But due to no space available on the system. I could not drop it. I really couldn't do anything on the system. Even writing config files failed. So where did all the disk space go?</p>
@@ -189,9 +189,9 @@ $ mysql -uroot -p &lt; dump.sql</p></blockquote>
   
   <entry>
     <title type="html"><![CDATA[Abbywinters.com is hiring!]]></title>
-    <link href="http://tlenss.github.com/2011/11/22/abbywinters-com-is-hiring/"/>
+    <link href="http://lenss.nl/2011/11/22/abbywinters-com-is-hiring/"/>
     <updated>2011-11-22T14:46:51+01:00</updated>
-    <id>http://tlenss.github.com/2011/11/22/abbywinters-com-is-hiring</id>
+    <id>http://lenss.nl/2011/11/22/abbywinters-com-is-hiring</id>
     <content type="html"><![CDATA[<p><a href="http://careers.abbywinters.com/job-opportunities/senior-php-developer/"><img src="http://lenss.nl/images/2011/11/aw-logo-roundel-blue.png" alt="" /></a> If you're looking for a new challenging and exiting Senior Webdeveloper position. Don't look any further. If you already think you have the job of your dreams. Think again!</p>
 
 <p><em><a href="http://www.abbywinters.com">abbywinters.com</a> <strong>(NSFW)</strong> is one of the largest and most ethical, highly rated, well designed, and successful erotic websites in the world today. abbywinters.com is the WINNER of the AVN 2011 Awards for Best Membership site!</em></p>
@@ -251,9 +251,9 @@ $ mysql -uroot -p &lt; dump.sql</p></blockquote>
   
   <entry>
     <title type="html"><![CDATA[Reserved keywords, corrupt cache and stack errors]]></title>
-    <link href="http://tlenss.github.com/2011/06/21/reserved-keywords_corrupt-cache-and-stack-errors/"/>
+    <link href="http://lenss.nl/2011/06/21/reserved-keywords_corrupt-cache-and-stack-errors/"/>
     <updated>2011-06-21T15:22:36+02:00</updated>
-    <id>http://tlenss.github.com/2011/06/21/reserved-keywords_corrupt-cache-and-stack-errors</id>
+    <id>http://lenss.nl/2011/06/21/reserved-keywords_corrupt-cache-and-stack-errors</id>
     <content type="html"><![CDATA[<p>What a day. Every now and then there are such days where you wished you stayed in bed. Today was one of them. And i was confronted by two weird errors with very non descriptive error message or no error message at all. In both cases the issue was solved without a real solution. This post is just to vent my frustration of the day. And now that i take the time to write this down i might as well add the issue i ran into last week. Will save that one for last.</p>
 
 <p><strong>Reserved keyword</strong></p>
@@ -298,9 +298,9 @@ $ mysql -uroot -p &lt; dump.sql</p></blockquote>
   
   <entry>
     <title type="html"><![CDATA[Dutch PHP Conference 2011]]></title>
-    <link href="http://tlenss.github.com/2011/05/23/dutch-php-conference-2011/"/>
+    <link href="http://lenss.nl/2011/05/23/dutch-php-conference-2011/"/>
     <updated>2011-05-23T12:51:39+02:00</updated>
-    <id>http://tlenss.github.com/2011/05/23/dutch-php-conference-2011</id>
+    <id>http://lenss.nl/2011/05/23/dutch-php-conference-2011</id>
     <content type="html"><![CDATA[<p><a href="http://lenss.nl/images/2011/05/dpc11.jpg"><img src="http://lenss.nl/images/2011/05/dpc11.jpg" alt="" /></a> Last week was the 5th <a href="http://www.phpconference.nl">DPC</a> (Dutch PHP Conference) in the <a href="http://www.rai.nl/">Amsterdam Rai</a>. And thanks to my awesome employer i once again had the chance to be there. This year with a full conference ticket (including the tutorial days). And i had a blast. I wanted to do this post earlier this weekend but due to some current injury i wasn't able to. So here goes.</p>
 
 <p>The kick off for the DPC11 were the tutorial days. And they had some pretty cool tutorial lined up for this year. But as always you have to choose. So me and Geoff chose to visit two of the tutorials we would benefit from the most. Since we are in pretty heavy database driven environment. We chose:</p>

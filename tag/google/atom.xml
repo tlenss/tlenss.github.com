@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Google | Thijs Lensselink's Blog]]></title>
-  <link href="http://tlenss.github.com/tag/google/atom.xml" rel="self"/>
-  <link href="http://tlenss.github.com/"/>
-  <updated>2012-11-27T21:29:36+01:00</updated>
-  <id>http://tlenss.github.com/</id>
+  <link href="http://lenss.nl/tag/google/atom.xml" rel="self"/>
+  <link href="http://lenss.nl/"/>
+  <updated>2012-11-27T21:43:46+01:00</updated>
+  <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Publish Google Reader shared items]]></title>
-    <link href="http://tlenss.github.com/2012/11/07/publish-google-reader-shared-items/"/>
+    <link href="http://lenss.nl/2012/11/07/publish-google-reader-shared-items/"/>
     <updated>2012-11-07T15:55:26+01:00</updated>
-    <id>http://tlenss.github.com/2012/11/07/publish-google-reader-shared-items</id>
+    <id>http://lenss.nl/2012/11/07/publish-google-reader-shared-items</id>
     <content type="html"><![CDATA[<p>A lot of people are using the shared items feature in <a href="http://www.google.nl/reader/">Google Reader</a> to publish what they are reading on a blog. It's like having a live blogroll widget on your website. And gives your readers a good impression of what you are actually interested in.</p>
 
 <p>I never bothered adding this to my blog. But i do like to share. So last night i was trying to figure out how to integrate this with my current blog. I was hoping for an easy implementation. But the information is scarce. So i had to do some digging. I did find a couple of <a href="https://www.google.nl/search?q=wordpress+plugin+google+reader">Wordpress plugins</a>. But most of them were not updated for at least a year. And i am not putting code like that life on my website.</p>
@@ -95,9 +95,9 @@ if (GoogleReaderShare::CheckSource($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_REFER
   
   <entry>
     <title type="html"><![CDATA[PHP's current trend status]]></title>
-    <link href="http://tlenss.github.com/2011/03/06/phps-current-trend-status/"/>
+    <link href="http://lenss.nl/2011/03/06/phps-current-trend-status/"/>
     <updated>2011-03-06T18:09:32+01:00</updated>
-    <id>http://tlenss.github.com/2011/03/06/phps-current-trend-status</id>
+    <id>http://lenss.nl/2011/03/06/phps-current-trend-status</id>
     <content type="html"><![CDATA[<p>Kevin Schroeder has a nice <a href="http://www.eschrade.com/page/what-to-make-of-tiobe-php/">post</a> about the current state of PHP in the <a href="http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html">TIOBE index</a>. And i have seen this TIOBE index pop up every now and then in blog posts. It never really interested me. I am not a big fan of trend statistics and certainly don't care for what is the hottest language of the moment. But reading Kevin's article got me interested. He mentions the fact that if you do manual searches on different search engine with a query like <a href="http://www.google.nl/search?source=ig&amp;hl=nl&amp;rlz=&amp;=&amp;q=%2B%22PHP+programming%22&amp;btnG=Google+zoeken&amp;aq=f&amp;aqi=&amp;aql=&amp;oq=">+"PHP programming"</a> vs <a href="http://www.google.nl/search?hl=nl&amp;q=%2B%22Python+programming%22&amp;btnG=Zoeken&amp;aq=f&amp;aqi=&amp;aql=&amp;oq=">+"Python programming"</a> you will get a different view then what the TIOBE index is displaying. And this is true. So let's give that a try.</p>
 
 <blockquote><p>+"PHP programming"
@@ -146,9 +146,9 @@ Baidu  : 1,860,000</p></blockquote>
   
   <entry>
     <title type="html"><![CDATA[Google mod_pagespeed continued]]></title>
-    <link href="http://tlenss.github.com/2010/11/11/google-mod_pagespeed-continued/"/>
+    <link href="http://lenss.nl/2010/11/11/google-mod_pagespeed-continued/"/>
     <updated>2010-11-11T12:08:45+01:00</updated>
-    <id>http://tlenss.github.com/2010/11/11/google-mod_pagespeed-continued</id>
+    <id>http://lenss.nl/2010/11/11/google-mod_pagespeed-continued</id>
     <content type="html"><![CDATA[<p>Last week i <a href="http://lenss.nl/2010/11/google-mod_pagespeed/">toyed</a> with <a href="http://code.google.com/p/modpagespeed/">mod_pagespeed</a> a bit. But just couldn't get the hang of it. So the last two days permitted me to play some more with this great Apache module. Only this time i choose to <a href="http://code.google.com/p/modpagespeed/wiki/HowToBuild">build from source</a> and ignore the binaries for a while.</p>
 
 <p>For me the main problem was. As soon as i enabled the module. It was active for all sites running on this server. And that should not be a problem. But some of these sites are Wordpress monsters. That are ready to take any server down with a bit of high load.</p>
