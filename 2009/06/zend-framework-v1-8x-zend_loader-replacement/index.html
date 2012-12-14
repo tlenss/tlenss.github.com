@@ -58,17 +58,16 @@
         <div>
 <article class="hentry" role="article">
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title">Zend Framework v1.8x Zend_Loader Replacement</h1>
-		
-		</header>
-	</header>
-
 	
-	<div class="articletext"><p>Last night i was trying to push a application to my <a href="http://en.wikipedia.org/wiki/Staging_(websites">staging</a>) environment. When i noticed an error i didn&#8217;t had on my local box.</p>
+	  <h1 class="entry-title">Zend Framework v1.8x Zend_Loader Replacement</h1>
+	
+	</header>
+</header>
+
+
+<div class="articletext"><p>Last night i was trying to push a application to my <a href="http://en.wikipedia.org/wiki/Staging_(websites">staging</a>) environment. When i noticed an error i didn&#8217;t had on my local box.</p>
 
 <blockquote><p>Notice: Zend_Loader::Zend_Loader::registerAutoload is deprecated as of 1.8.0 and will be removed with 2.0.0; use Zend_Loader_Autoloader instead in /path/to/Zend/Loader.php on line 207</p></blockquote>
 
@@ -89,10 +88,9 @@ $loader-&gt;registerNamespace('Namespace_');
 
 <p>Notice the call to &#8216;registerNamespace&#8217;. This is where you set the namespacing for the classes or application libraries. By default the AutoLoader picks up Zend<em> and ZendX</em> namespacing. And we can extend this to use our own classes and libraries.</p>
 </div>
-	
 
-	<div style="clear:both;"></div>
-</article>
+
+<div style="clear:both;"></div>
 
   <footer>
     <p class="meta">

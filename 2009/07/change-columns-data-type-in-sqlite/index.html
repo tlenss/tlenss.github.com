@@ -58,17 +58,16 @@
         <div>
 <article class="hentry" role="article">
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title">Change Columns Data Type in Sqlite</h1>
-		
-		</header>
-	</header>
-
 	
-	<div class="articletext"><p>My coworker Chris yesterday asked me how to change a column data type in a database. He wanted to change the data type from varchar to text. So my first reaction was to shout ALTER TABLE. But i didn&#8217;t realize he was using <a href="http://www.sqlite.org/">sqlite</a> at the moment. So after reading the docs for a while. We came to the conclusion sqlite does support the ALTER statement. But it is very limited compared to say MySQL. And it doesn&#8217;t provide the option to alter the data types or column names.</p>
+	  <h1 class="entry-title">Change Columns Data Type in Sqlite</h1>
+	
+	</header>
+</header>
+
+
+<div class="articletext"><p>My coworker Chris yesterday asked me how to change a column data type in a database. He wanted to change the data type from varchar to text. So my first reaction was to shout ALTER TABLE. But i didn&#8217;t realize he was using <a href="http://www.sqlite.org/">sqlite</a> at the moment. So after reading the docs for a while. We came to the conclusion sqlite does support the ALTER statement. But it is very limited compared to say MySQL. And it doesn&#8217;t provide the option to alter the data types or column names.</p>
 
 <p>So how should you change a column data type in an sqlite database? Well as far as i can see there is not really a simple solution. But here goes for our work around.</p>
 
@@ -98,10 +97,9 @@ sqlite3 test.db  &#8220;drop table temp_table;&#8221;</p></blockquote>
 
 <p>There must be a cleaner way to do this. But this worked for us!</p>
 </div>
-	
 
-	<div style="clear:both;"></div>
-</article>
+
+<div style="clear:both;"></div>
 
   <footer>
     <p class="meta">

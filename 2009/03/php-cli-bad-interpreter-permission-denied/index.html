@@ -58,17 +58,16 @@
         <div>
 <article class="hentry" role="article">
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title">PHP CLI Bad Interpreter: Permission Denied</h1>
-		
-		</header>
-	</header>
-
 	
-	<div class="articletext"><p>This question came up on the php.general list today. And i have seen it before when writing an shell script in PHP.</p>
+	  <h1 class="entry-title">PHP CLI Bad Interpreter: Permission Denied</h1>
+	
+	</header>
+</header>
+
+
+<div class="articletext"><p>This question came up on the php.general list today. And i have seen it before when writing an shell script in PHP.</p>
 
 <pre><code>#!/usr/local/bin/php
 passthru("printenv");
@@ -81,10 +80,9 @@ passthru("printenv");
 <p>Big change the file you are trying to execute is on a filesystem with the noexec flag set.
 To fix this either set the exec flag for the filesystem or move the script to a place where it can be executed.</p>
 </div>
-	
 
-	<div style="clear:both;"></div>
-</article>
+
+<div style="clear:both;"></div>
 
   <footer>
     <p class="meta">

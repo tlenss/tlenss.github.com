@@ -58,17 +58,16 @@
         <div>
 <article class="hentry" role="article">
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title">Speed Up and Save Traffic With Apache and Mod_deflate</h1>
-		
-		</header>
-	</header>
-
 	
-	<div class="articletext"><p>One of our sites was loading pretty slow. This is mostly caused by a very heavy design. But i still wanted to speed things up a bit.</p>
+	  <h1 class="entry-title">Speed Up and Save Traffic With Apache and Mod_deflate</h1>
+	
+	</header>
+</header>
+
+
+<div class="articletext"><p>One of our sites was loading pretty slow. This is mostly caused by a very heavy design. But i still wanted to speed things up a bit.</p>
 
 <p>The first step was compressing all JavaScript files with the <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI compressor</a>. The next step was to activate mod_deflate and compress all text, XML, and media files (JavaScript, CSS).</p>
 
@@ -100,10 +99,9 @@ BrowserMatch \bMSIE !no-gzip !gzip-only-text/html</p></blockquote>
 <p>References :
 <a href="http://www.howtoforge.com/apache2_mod_deflate">http://www.howtoforge.com/apache2_mod_deflate</a></p>
 </div>
-	
 
-	<div style="clear:both;"></div>
-</article>
+
+<div style="clear:both;"></div>
 
   <footer>
     <p class="meta">

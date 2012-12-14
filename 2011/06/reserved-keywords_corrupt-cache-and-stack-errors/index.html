@@ -58,17 +58,16 @@
         <div>
 <article class="hentry" role="article">
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title">Reserved Keywords, Corrupt Cache and Stack Errors</h1>
-		
-		</header>
-	</header>
-
 	
-	<div class="articletext"><p>What a day. Every now and then there are such days where you wished you stayed in bed. Today was one of them. And i was confronted by two weird errors with very non descriptive error message or no error message at all. In both cases the issue was solved without a real solution. This post is just to vent my frustration of the day. And now that i take the time to write this down i might as well add the issue i ran into last week. Will save that one for last.</p>
+	  <h1 class="entry-title">Reserved Keywords, Corrupt Cache and Stack Errors</h1>
+	
+	</header>
+</header>
+
+
+<div class="articletext"><p>What a day. Every now and then there are such days where you wished you stayed in bed. Today was one of them. And i was confronted by two weird errors with very non descriptive error message or no error message at all. In both cases the issue was solved without a real solution. This post is just to vent my frustration of the day. And now that i take the time to write this down i might as well add the issue i ran into last week. Will save that one for last.</p>
 
 <p><strong>Reserved keyword</strong></p>
 
@@ -108,10 +107,9 @@
 
 <p>Message are stored in a queue and written to file in a register shutdown function. Which was failing because the logfile location was not set correctly. This was causing an exception to be thrown inside the registered shutdown function. And therefore triggering this horrible error message. Be careful with <a href="http://nl.php.net/manual/en/function.register-shutdown-function.php">register_shutdown</a> functions.</p>
 </div>
-	
 
-	<div style="clear:both;"></div>
-</article>
+
+<div style="clear:both;"></div>
 
   <footer>
     <p class="meta">

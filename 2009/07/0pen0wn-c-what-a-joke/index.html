@@ -58,17 +58,16 @@
         <div>
 <article class="hentry" role="article">
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title">0pen0wn.c What a Joke</h1>
-		
-		</header>
-	</header>
-
 	
-	<div class="articletext"><p>So there have been a lot of <a href="http://seclists.org/fulldisclosure/2009/Jul/0028.html">rumors</a> lately about some remote SSH exploit. And to throw a bit of fuel on the fire some hacker / group have released what they call an exploit. This piece of <a href="http://blogs.securiteam.com/index.php/archives/1302">code</a> is just hilarious. At a first glance it looks like a real exploit. But when you take the time to decode the HEX blocks. It will become obvious this is not what it seems to be.</p>
+	  <h1 class="entry-title">0pen0wn.c What a Joke</h1>
+	
+	</header>
+</header>
+
+
+<div class="articletext"><p>So there have been a lot of <a href="http://seclists.org/fulldisclosure/2009/Jul/0028.html">rumors</a> lately about some remote SSH exploit. And to throw a bit of fuel on the fire some hacker / group have released what they call an exploit. This piece of <a href="http://blogs.securiteam.com/index.php/archives/1302">code</a> is just hilarious. At a first glance it looks like a real exploit. But when you take the time to decode the HEX blocks. It will become obvious this is not what it seems to be.</p>
 
 <p>there are three blocks with HEX characters. The last two transform into some perl scripts that seem to make contact with an IRC server. This code seems to be bogus. The first and smallest HEX block is interesting though.</p>
 
@@ -84,10 +83,9 @@
 <pre><code>foreach (explode('\x', $str) as $char) echo chr(hexdec($char);
 </code></pre>
 </div>
-	
 
-	<div style="clear:both;"></div>
-</article>
+
+<div style="clear:both;"></div>
 
   <footer>
     <p class="meta">

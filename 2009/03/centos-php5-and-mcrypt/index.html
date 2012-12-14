@@ -58,17 +58,16 @@
         <div>
 <article class="hentry" role="article">
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title">CentOS PHP5 and Mcrypt</h1>
-		
-		</header>
-	</header>
-
 	
-	<div class="articletext"><p>For some strange reason (i didn&#8217;t investigate) CentOS 5 does not come with a pre build <a href="http://www.php.net/mcrypt">mcrypt</a> extension for PHP. This is pretty weird if you ask me. And building this extension from source is no option for me. There are way to much dependencies missing. And i don&#8217;t really like installing *dev packages on my server. So how to fix this?</p>
+	  <h1 class="entry-title">CentOS PHP5 and Mcrypt</h1>
+	
+	</header>
+</header>
+
+
+<div class="articletext"><p>For some strange reason (i didn&#8217;t investigate) CentOS 5 does not come with a pre build <a href="http://www.php.net/mcrypt">mcrypt</a> extension for PHP. This is pretty weird if you ask me. And building this extension from source is no option for me. There are way to much dependencies missing. And i don&#8217;t really like installing *dev packages on my server. So how to fix this?</p>
 
 <p>Luckily there are some rpm files floating around the net. So i just used <a href="http://rpmfind.net/linux/rpm2html/search.php?query=php-mcrypt">rpmfind</a> to find a fedora 5.2.6 version of the mcrypt extension. After downloading it&#8217;s a one line command to install. And a apache reboot to get it working.</p>
 
@@ -78,10 +77,9 @@
 $ rpm -ivh &#8211;nodeps php-mcrypt-5.2.6-2.fc7.i386.rpm
 $ /etc/init.d/http restart</p></blockquote>
 </div>
-	
 
-	<div style="clear:both;"></div>
-</article>
+
+<div style="clear:both;"></div>
 
   <footer>
     <p class="meta">

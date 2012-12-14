@@ -58,17 +58,16 @@
         <div>
 <article class="hentry" role="article">
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title">PHP5 SimpleXML and Xpath</h1>
-		
-		</header>
-	</header>
-
 	
-	<div class="articletext"><p>Yesterday when working with some rather large XML files i noticed. That it&#8217;s not possible to do ->xpath() calls on sub nodes of a SimpleXMLElement. If that&#8217;s not clear. Here is a small example.</p>
+	  <h1 class="entry-title">PHP5 SimpleXML and Xpath</h1>
+	
+	</header>
+</header>
+
+
+<div class="articletext"><p>Yesterday when working with some rather large XML files i noticed. That it&#8217;s not possible to do ->xpath() calls on sub nodes of a SimpleXMLElement. If that&#8217;s not clear. Here is a small example.</p>
 
 <pre><code>$xmlStr = '&lt;root&gt;
     &lt;fareOption&gt;
@@ -109,10 +108,9 @@ foreach ($fareList as $fare) {
 
 <p>This creates the expected output.</p>
 </div>
-	
 
-	<div style="clear:both;"></div>
-</article>
+
+<div style="clear:both;"></div>
 
   <footer>
     <p class="meta">

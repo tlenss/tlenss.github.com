@@ -58,17 +58,16 @@
         <div>
 <article class="hentry" role="article">
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title">Forcing a Trailing Slash With Mod_rewrite</h1>
-		
-		</header>
-	</header>
-
 	
-	<div class="articletext"><p>I&#8217;m doing some <a href="http://en.wikipedia.org/wiki/Search_engine_optimization">SEO</a> optimization for a couple of websites. And one of the small steps is to force a trailing slash on all URL&#8217;s that do not point to a file on the server. The reason I&#8217;m doing this is to go around the duplicate content problem.</p>
+	  <h1 class="entry-title">Forcing a Trailing Slash With Mod_rewrite</h1>
+	
+	</header>
+</header>
+
+
+<div class="articletext"><p>I&#8217;m doing some <a href="http://en.wikipedia.org/wiki/Search_engine_optimization">SEO</a> optimization for a couple of websites. And one of the small steps is to force a trailing slash on all URL&#8217;s that do not point to a file on the server. The reason I&#8217;m doing this is to go around the duplicate content problem.</p>
 
 <blockquote><p>/trip/80
 /trip/80/</p></blockquote>
@@ -87,10 +86,9 @@
 
 <p>RewriteRule [<sup>/]$</sup> %{REQUEST_URI}/ [R=301,L]</p>
 </div>
-	
 
-	<div style="clear:both;"></div>
-</article>
+
+<div style="clear:both;"></div>
 
   <footer>
     <p class="meta">

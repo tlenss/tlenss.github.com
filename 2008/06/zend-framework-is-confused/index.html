@@ -58,17 +58,16 @@
         <div>
 <article class="hentry" role="article">
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title">Zend Framework Is Confused</h1>
-		
-		</header>
-	</header>
-
 	
-	<div class="articletext"><p>I decided to give the <a href="http://framework.zend.com/">Zend Framework</a> a try. The first attempt to create a simple SOAP based login.</p>
+	  <h1 class="entry-title">Zend Framework Is Confused</h1>
+	
+	</header>
+</header>
+
+
+<div class="articletext"><p>I decided to give the <a href="http://framework.zend.com/">Zend Framework</a> a try. The first attempt to create a simple SOAP based login.</p>
 
 <p>In the first few hours i had absolutely now problems building my small application. But for some strange reason after a few hours ZF started to throw error&#8217;s. Mainly for files it was trying to include. These files were in the correct location. Nothing changed. The include path was still set correctly. I found a few bug reports with similar problems. Although there were some solutions. I was not satisfied with them. And had the feeling the problems were caused by something else.</p>
 
@@ -92,10 +91,9 @@ set_include_path($inc_path);
 
 <p>After this change the problem seems to have been resolved. I still would like to figure out why ZF has problems with finding it&#8217;s own include files. Maybe it&#8217;s a combination of the wrong include order and the .htaccess file not working well together.</p>
 </div>
-	
 
-	<div style="clear:both;"></div>
-</article>
+
+<div style="clear:both;"></div>
 
   <footer>
     <p class="meta">

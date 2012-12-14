@@ -58,17 +58,16 @@
         <div>
 <article class="hentry" role="article">
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title">Postfix With Dovecot Results in MySQL Access Denied</h1>
-		
-		</header>
-	</header>
-
 	
-	<div class="articletext"><p>While installing a new mail server i ran into a problem with SMTP authentication. The mail server in question is postfix installed on a Debian lenny box. The backend for postfix is MySQL. And because <a href="http://asg.web.cmu.edu/sasl/">SASL</a> is always a pain to configure i used <a href="http://www.dovecot.org/">dovecot</a> to do the SMTP authentication with the MySQL backend. This however resulted in the following error</p>
+	  <h1 class="entry-title">Postfix With Dovecot Results in MySQL Access Denied</h1>
+	
+	</header>
+</header>
+
+
+<div class="articletext"><p>While installing a new mail server i ran into a problem with SMTP authentication. The mail server in question is postfix installed on a Debian lenny box. The backend for postfix is MySQL. And because <a href="http://asg.web.cmu.edu/sasl/">SASL</a> is always a pain to configure i used <a href="http://www.dovecot.org/">dovecot</a> to do the SMTP authentication with the MySQL backend. This however resulted in the following error</p>
 
 <blockquote><p>Jun 21 17:43:02 ims1 dovecot: auth-worker(default): mysql: Connect failed to localhost (mail): Access denied for user &#8216;mail_admin&#8217;@&#8217;localhost&#8217; (using password: YES) - waiting for 1 seconds before retry</p></blockquote>
 
@@ -82,10 +81,9 @@
 
 <p>Like i said it took me a while to figure out. So maybe i can safe somebody some time.</p>
 </div>
-	
 
-	<div style="clear:both;"></div>
-</article>
+
+<div style="clear:both;"></div>
 
   <footer>
     <p class="meta">

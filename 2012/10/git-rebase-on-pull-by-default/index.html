@@ -58,17 +58,16 @@
         <div>
 <article class="hentry" role="article">
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title">Git: Rebase on Pull by Default</h1>
-		
-		</header>
-	</header>
-
 	
-	<div class="articletext"><p>I was a bit surprised today when <a href="http://git-scm.com/">git</a> presented me a merge message window after i did a pull. This should not happen as the normal behavior here should be to <a href="http://git-scm.com/book/en/Git-Branching-Rebasing">rebase</a> the changes. But apparently that didn&#8217;t happen this time. When i asked one of the other <a href="http://www.scriptorama.nl/">dev</a> &#8216;s what could be the issue. We quickly figured out i was just missing some <strong>config</strong> entry in <strong>.git/config</strong>. This probably happened some time ago when i did a fresh checkout.</p>
+	  <h1 class="entry-title">Git: Rebase on Pull by Default</h1>
+	
+	</header>
+</header>
+
+
+<div class="articletext"><p>I was a bit surprised today when <a href="http://git-scm.com/">git</a> presented me a merge message window after i did a pull. This should not happen as the normal behavior here should be to <a href="http://git-scm.com/book/en/Git-Branching-Rebasing">rebase</a> the changes. But apparently that didn&#8217;t happen this time. When i asked one of the other <a href="http://www.scriptorama.nl/">dev</a> &#8216;s what could be the issue. We quickly figured out i was just missing some <strong>config</strong> entry in <strong>.git/config</strong>. This probably happened some time ago when i did a fresh checkout.</p>
 
 <p>So to make sure rebasing is done by default. You can run a simple git command or modify the <strong>.git/config</strong> file manually.</p>
 
@@ -89,10 +88,9 @@ rebase = true
 
 <p>Starting to really like git. A couple of more quirks and things will be running fine.</p>
 </div>
-	
 
-	<div style="clear:both;"></div>
-</article>
+
+<div style="clear:both;"></div>
 
   <footer>
     <p class="meta">

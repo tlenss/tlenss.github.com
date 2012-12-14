@@ -58,17 +58,16 @@
         <div>
 <article class="hentry" role="article">
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title">PHP 5.2.6-Win32 Unable to Load Mysql & Pgsql Extension</h1>
-		
-		</header>
-	</header>
-
 	
-	<div class="articletext"><p>Normally i have no problems installing PHP. So when i decided to upgrade 5.2.5 to 5.2.6 on my windows dev box. I was surprised to see that php_mysql.dll and php_pgsql.dll were not loading after a clean install. No matter what i tried. I kept getting the &#8220;PHP Startup: Unable to load dynamic library&#8221; error.</p>
+	  <h1 class="entry-title">PHP 5.2.6-Win32 Unable to Load Mysql & Pgsql Extension</h1>
+	
+	</header>
+</header>
+
+
+<div class="articletext"><p>Normally i have no problems installing PHP. So when i decided to upgrade 5.2.5 to 5.2.6 on my windows dev box. I was surprised to see that php_mysql.dll and php_pgsql.dll were not loading after a clean install. No matter what i tried. I kept getting the &#8220;PHP Startup: Unable to load dynamic library&#8221; error.</p>
 
 <p>Some years ago this problem was obvious. The problem was always solved by copying the libmysql.dll to windows/system32. But this changed. For the last year i never had to copy this file. So i couldn&#8217;t really believe this was the problem. But after trying for some hours. I gave up. Copied the libmysql.dll file to windows/system32. And voila&#8230;. the mysql extension now loads. But i still have no solution for the pgsql extension. Which i really need by the way. WTF happened here? How is it possible that two of the most used extensions do not load after a clean install?</p>
 
@@ -76,10 +75,9 @@
 
 <p>The postgres problem is solvable by installing the postgres server. And adding the PostgreSQL\8.3\bin to the PATH variable. Weird stuff&#8230;</p>
 </div>
-	
 
-	<div style="clear:both;"></div>
-</article>
+
+<div style="clear:both;"></div>
 
   <footer>
     <p class="meta">

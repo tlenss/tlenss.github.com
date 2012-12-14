@@ -58,17 +58,16 @@
         <div>
 <article class="hentry" role="article">
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title">Subversion Cross Platform Errors</h1>
-		
-		</header>
-	</header>
-
 	
-	<div class="articletext"><p>Yesterday my colleague was complaining he couldn&#8217;t do a normal check out of one of the projects in Subversion. At first i thought it was just something wrong with his local settings. Because i could do the check out just fine. Today when i was thinking about this problem. I quickly realized we are on two different platforms. He works on Windows while I&#8217;m on Linux.</p>
+	  <h1 class="entry-title">Subversion Cross Platform Errors</h1>
+	
+	</header>
+</header>
+
+
+<div class="articletext"><p>Yesterday my colleague was complaining he couldn&#8217;t do a normal check out of one of the projects in Subversion. At first i thought it was just something wrong with his local settings. Because i could do the check out just fine. Today when i was thinking about this problem. I quickly realized we are on two different platforms. He works on Windows while I&#8217;m on Linux.</p>
 
 <p>And since i had to do some Photoshop work today. I took the chance to install Subversion on my Windows partition. When i did a checkout of the failing project. I ran into the same problems as my colleague did before. Two different errors were preventing me from making a complete checkout. The first error:</p>
 
@@ -83,10 +82,9 @@ svn: Can&#8217;t copy &#8216;path/to/some/images/image.JPG.svn-base&#8217; to &#
 
 <p>This one was actually pretty obvious. A file name with an illigal character. I wonder how it got in the repository. The folder name causeing the problems was a folder called &#8216;\ &#8216;. Which was empty. After removing this. I could do a complete checkout again.</p>
 </div>
-	
 
-	<div style="clear:both;"></div>
-</article>
+
+<div style="clear:both;"></div>
 
   <footer>
     <p class="meta">

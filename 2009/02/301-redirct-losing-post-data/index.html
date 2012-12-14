@@ -59,17 +59,16 @@ But &hellip;">
         <div>
 <article class="hentry" role="article">
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title">301 Redirect Losing POST Data</h1>
-		
-		</header>
-	</header>
-
 	
-	<div class="articletext"><p>Earlier this week i implemented the forcing of trailing slashes for some websites. And this worked out great.
+	  <h1 class="entry-title">301 Redirect Losing POST Data</h1>
+	
+	</header>
+</header>
+
+
+<div class="articletext"><p>Earlier this week i implemented the forcing of trailing slashes for some websites. And this worked out great.
 But today one of the ladies here at the office noticed the contact form on one site wasn&#8217;t functioning properly anymore.</p>
 
 <p>So i did some debugging and quickly came to the conclusion the POST data array was empty after a submit of the form. That&#8217;s weird i thought. And didn&#8217;t really have a clue where to start looking. The code wasn&#8217;t touched for a couple of weeks. Bu then i remembered adding the forcing of the trailing slash.</p>
@@ -86,10 +85,9 @@ But today one of the ladies here at the office noticed the contact form on one s
 
 <p>So to fix it just changed to URL in the form to reflect the correct end point. But i have to say i didn&#8217;t expect this to happen. I understand why it happens. And it&#8217;s pretty logical. But i wonder if there&#8217;s a way around this behavior?</p>
 </div>
-	
 
-	<div style="clear:both;"></div>
-</article>
+
+<div style="clear:both;"></div>
 
   <footer>
     <p class="meta">

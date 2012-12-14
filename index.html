@@ -59,18 +59,18 @@
   
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2012/11/publish-google-reader-shared-items/">Publish Google Reader Shared Items</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p>A lot of people are using the shared items feature in <a href="http://www.google.nl/reader/">Google Reader</a> to publish what they are reading on a blog. It&#8217;s like having a live blogroll widget on your website. And gives your readers a good impression of what you are actually interested in.</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2012/11/publish-google-reader-shared-items/">Publish Google Reader Shared Items</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>A lot of people are using the shared items feature in <a href="http://www.google.nl/reader/">Google Reader</a> to publish what they are reading on a blog. It&#8217;s like having a live blogroll widget on your website. And gives your readers a good impression of what you are actually interested in.</p>
 
 <p>I never bothered adding this to my blog. But i do like to share. So last night i was trying to figure out how to integrate this with my current blog. I was hoping for an easy implementation. But the information is scarce. So i had to do some digging. I did find a couple of <a href="https://www.google.nl/search?q=wordpress+plugin+google+reader">Wordpress plugins</a>. But most of them were not updated for at least a year. And i am not putting code like that life on my website.</p>
 
@@ -143,27 +143,27 @@ if (GoogleReaderShare::CheckSource($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_REFER
 }
 </code></pre>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/">Long Running PHP Script and MySQL Server Gone Away</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p>At the moment i am writing some workers that interact with a <a href="http://kr.github.com/beanstalkd/">beanstalk</a> server. When data gets pushed into the beanstalk server. My workers will be triggered to process this data. So the workers are sitting idle for most of the time. And just wait for some data to process. No rocket science there. But during testing i kept running into <a href="http://www.mysql.com/">MySQL</a> issues. The script seemed to lose connection to the MySQL server when it was idle for longer then a minute. And would respond with a</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/">Long Running PHP Script and MySQL Server Gone Away</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>At the moment i am writing some workers that interact with a <a href="http://kr.github.com/beanstalkd/">beanstalk</a> server. When data gets pushed into the beanstalk server. My workers will be triggered to process this data. So the workers are sitting idle for most of the time. And just wait for some data to process. No rocket science there. But during testing i kept running into <a href="http://www.mysql.com/">MySQL</a> issues. The script seemed to lose connection to the MySQL server when it was idle for longer then a minute. And would respond with a</p>
 
 <blockquote><p>Warning: <a href="http://php.net/mysql_query">mysql_query</a>(): MySQL server has gone away in /path/to/some/mysql4/class.php on line xxx</p></blockquote>
 
@@ -224,27 +224,27 @@ while (true)
 
 <p>I&#8217;m not a big fan of this solution. And would rather be implementing MySQLi functions. But this functions well. And will do for now.</p>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2012/10/git-rebase-on-pull-by-default/">Git: Rebase on Pull by Default</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p>I was a bit surprised today when <a href="http://git-scm.com/">git</a> presented me a merge message window after i did a pull. This should not happen as the normal behavior here should be to <a href="http://git-scm.com/book/en/Git-Branching-Rebasing">rebase</a> the changes. But apparently that didn&#8217;t happen this time. When i asked one of the other <a href="http://www.scriptorama.nl/">dev</a> &#8216;s what could be the issue. We quickly figured out i was just missing some <strong>config</strong> entry in <strong>.git/config</strong>. This probably happened some time ago when i did a fresh checkout.</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2012/10/git-rebase-on-pull-by-default/">Git: Rebase on Pull by Default</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>I was a bit surprised today when <a href="http://git-scm.com/">git</a> presented me a merge message window after i did a pull. This should not happen as the normal behavior here should be to <a href="http://git-scm.com/book/en/Git-Branching-Rebasing">rebase</a> the changes. But apparently that didn&#8217;t happen this time. When i asked one of the other <a href="http://www.scriptorama.nl/">dev</a> &#8216;s what could be the issue. We quickly figured out i was just missing some <strong>config</strong> entry in <strong>.git/config</strong>. This probably happened some time ago when i did a fresh checkout.</p>
 
 <p>So to make sure rebasing is done by default. You can run a simple git command or modify the <strong>.git/config</strong> file manually.</p>
 
@@ -265,27 +265,27 @@ rebase = true
 
 <p>Starting to really like git. A couple of more quirks and things will be running fine.</p>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2012/10/workaround-ubuntu-12-04-mysterious-system-freezes/">Workaround Ubuntu 12.04 Mysterious System Freezes</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p>I have two machines running <a href="http://releases.ubuntu.com/12.04/">Ubuntu 12.04</a>. One of them is very stable. And hardly ever gets rebooted. The other machine is displaying some odd behavior every now and then. And with odd behavior i mean. It just completely freezing up. The only thing functioning at that moment is the mouse.</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2012/10/workaround-ubuntu-12-04-mysterious-system-freezes/">Workaround Ubuntu 12.04 Mysterious System Freezes</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>I have two machines running <a href="http://releases.ubuntu.com/12.04/">Ubuntu 12.04</a>. One of them is very stable. And hardly ever gets rebooted. The other machine is displaying some odd behavior every now and then. And with odd behavior i mean. It just completely freezing up. The only thing functioning at that moment is the mouse.</p>
 
 <p>I use this machine daily. And i can&#8217;t afford to lose work due to system crashes. So i could spend numerous hours trying to figure out what&#8217;s going on. But that&#8217;s probably something better left for the Ubuntu devs them selfs. Besides that there are plenty of bug reports floating around that describe this behavior. And one of those <a href="https://bugs.launchpad.net/ubuntu/+source/linux/+bug/999910">posts</a> seemed to resolve the issue for me.</p>
 
@@ -306,27 +306,27 @@ $ sudo dpkg -i linux-image-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.
 
 <p>It&#8217;s probably a better idea to keep the stable kernel for now. But if system crashes are really bugging you. Then this might resolve the issue. Just be careful.</p>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/">Fixing Character Replacement in Wordpress</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p>This has been bugging me for a while. But not enough to actually look into it. And Google searches for <a href="http://wordpress.org/">Wordpress</a> display wrong characters results in a whole forest of threads about UTF-8 encoding. This has nothing to do with that. So what&#8217;s the issue here?</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/">Fixing Character Replacement in Wordpress</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>This has been bugging me for a while. But not enough to actually look into it. And Google searches for <a href="http://wordpress.org/">Wordpress</a> display wrong characters results in a whole forest of threads about UTF-8 encoding. This has nothing to do with that. So what&#8217;s the issue here?</p>
 
 <p>Wordpress is replacing characters in my posts. The most annoying being the replacement of &#8211; <del>is</del> with - . Which makes no sense at all. Specially when creating code samples. Or command line parameters. My thought is why on earth would you do that? But it probably has something to do with typography&#8230;</p>
 
@@ -357,27 +357,27 @@ patching file formatting.php</p></blockquote>
 
 <p>That&#8217;s all.</p>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/">Resize a Vagrant VMDK Drive</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p>Using <a href="http://vagrantup.com/">Vagrant</a> as a development environment is great. But you have to watch the available disk space when doing some funky database benchmarking. Last Friday i wrote a script to populate a test database with over 60 million records. And left it running over the weekend. With the idea it would be finished when i returned to the office on Monday. Well it actually was still running. But the Vagrant instance was out of disk space when i logged in. Damn. Should have made sure i had a big disk attached to this instance.</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/">Resize a Vagrant VMDK Drive</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>Using <a href="http://vagrantup.com/">Vagrant</a> as a development environment is great. But you have to watch the available disk space when doing some funky database benchmarking. Last Friday i wrote a script to populate a test database with over 60 million records. And left it running over the weekend. With the idea it would be finished when i returned to the office on Monday. Well it actually was still running. But the Vagrant instance was out of disk space when i logged in. Damn. Should have made sure i had a big disk attached to this instance.</p>
 
 <p>O well. My first idea was to just drop the database that i wanted to use for testing. But due to no space available on the system. I could not drop it. I really couldn&#8217;t do anything on the system. Even writing config files failed. So where did all the disk space go?</p>
 
@@ -476,27 +476,27 @@ $ mysql -uroot -p &lt; dump.sql</p></blockquote>
 [4] <a href="http://www.virtualbox.org/manual/ch08.html#vboxmanage-modifyvdi">http://www.virtualbox.org/manual/ch08.html#vboxmanage-modifyvdi</a>
 [6] <a href="http://stackoverflow.com/questions/3456159/how-to-shrink-purge-ibdata1-file-in-mysql">http://stackoverflow.com/questions/3456159/how-to-shrink-purge-ibdata1-file-in-mysql</a></p>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/">GIT: Coming Up With a Good Workflow</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p>A new environment to work in always brings new challenges. And this one is no exception. And i will be working with <a href="http://git-scm.com/">git</a> from now on. I tried switching before. But always went back to subversion. Because of my job. And for somebody who worked with <a href="http://subversion.apache.org/">subversion</a> solely for the past&#8230; say 5 to 7 years it&#8217;s kind of a new concept and takes some time to get a grasp on. Ok ok. It&#8217;s just another version control system. But it takes some getting used to.</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/">GIT: Coming Up With a Good Workflow</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>A new environment to work in always brings new challenges. And this one is no exception. And i will be working with <a href="http://git-scm.com/">git</a> from now on. I tried switching before. But always went back to subversion. Because of my job. And for somebody who worked with <a href="http://subversion.apache.org/">subversion</a> solely for the past&#8230; say 5 to 7 years it&#8217;s kind of a new concept and takes some time to get a grasp on. Ok ok. It&#8217;s just another version control system. But it takes some getting used to.</p>
 
 <p>And two days ago i kinda got stuck in <a href="http://git-scm.com/docs/git-rebase">rebase</a> hell. And had to take some time to figure this all out without doing any damage. Which resulted in another problem. There simply is no revert command like in subversion. But git is pretty smart about this kinda things. So getting the branch full of failed merges back to it&#8217;s original state can easily be achieved with two commands and some concentration.</p>
 
@@ -535,27 +535,27 @@ $ git push dev-branch</p></blockquote>
 
 <p>Again when all is fine all changes will be available in master. If something goes wrong during git-rebase and / or merging. Git will kindly state so. And some manual merging with git&#8217;s <a href="http://git-scm.com/docs/git-mergetool">mergetool</a> will have to be done. But that&#8217;s something for another day.</p>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/">Workaround for Running WoW With Patch 5.0.4 on Ubuntu</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p>After a fresh install i couldn&#8217;t get <a href="http://eu.battle.net/wow/en/">WoW</a> to work. I&#8217;m not that big on playing games lately. But this bugged me. Good thing we have the interwebs.</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/">Workaround for Running WoW With Patch 5.0.4 on Ubuntu</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>After a fresh install i couldn&#8217;t get <a href="http://eu.battle.net/wow/en/">WoW</a> to work. I&#8217;m not that big on playing games lately. But this bugged me. Good thing we have the interwebs.</p>
 
 <p>Starting the battle.net agent manually before firing up the WoW launcher solved the launcher crashing.</p>
 
@@ -567,27 +567,27 @@ wine ~/.wine/drive_c/Program\ Files\ (x86)/World\ of\ Warcraft/Launcher.exe &amp
 <p>[1] <a href="http://appdb.winehq.org/objectManager.php?sClass=version&amp;iId=25610&amp;iTestingId=70352">http://appdb.winehq.org/objectManager.php?sClass=version&iId;=25610&iTestingId;=70352</a>
 [2] <a href="http://www.codeweavers.com/compatibility/browse/name/?forum=1;app_id=7714;mhl=130618;msg=130314">http://www.codeweavers.com/compatibility/browse/name/?forum=1;app_id=7714;mhl=130618;msg=130314</a></p>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2012/08/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/">Setup a Basic PHP Development Environment With Vagrant and Chef-solo</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p>So there are plenty of posts about this out there already. And this is nothing new i guess. But i am going to post it anyway. This weekend i spend some time playing with vagrant. And every setup guide seemed to be missing some steps the make the whole process a bit of a hassle. So i compiled my own steps in the post below. The goal was to create a basic <a href="http://www.debian.org/">Debian</a> box for my <a href="http://www.php.net/">PHP</a> development. From which i could serve my local development files.</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2012/08/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/">Setup a Basic PHP Development Environment With Vagrant and Chef-solo</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>So there are plenty of posts about this out there already. And this is nothing new i guess. But i am going to post it anyway. This weekend i spend some time playing with vagrant. And every setup guide seemed to be missing some steps the make the whole process a bit of a hassle. So i compiled my own steps in the post below. The goal was to create a basic <a href="http://www.debian.org/">Debian</a> box for my <a href="http://www.php.net/">PHP</a> development. From which i could serve my local development files.</p>
 
 <p>So to start of we need some packages.</p>
 
@@ -769,27 +769,27 @@ www-data   811  0.0  0.2 546408  2424 ?        Sl   23:40   0:00 /usr/sbin/apach
 [2] <a href="https://github.com/yevgenko/cookbook-dotdeb">https://github.com/yevgenko/cookbook-dotdeb</a>
 [3] <a href="http://vagrantup.com/v1/docs/provisioners/chef_solo.html">http://vagrantup.com/v1/docs/provisioners/chef_solo.html</a></p>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2012/05/adding-colors-to-php-cli-script-output/">Adding Colors to PHP CLI Script Output</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p>I always loved writing CLI scripts. And in <a href="http://php.net/manual/en/features.commandline.php">PHP</a> this is no different. I write a lot of CLI importers, scrapers, reporters, etc. And sometimes i want a bit more funk in my output then the standard black and white. When output is important i will add some colors to make things more clear. And this is not hard at all.</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2012/05/adding-colors-to-php-cli-script-output/">Adding Colors to PHP CLI Script Output</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>I always loved writing CLI scripts. And in <a href="http://php.net/manual/en/features.commandline.php">PHP</a> this is no different. I write a lot of CLI importers, scrapers, reporters, etc. And sometimes i want a bit more funk in my output then the standard black and white. When output is important i will add some colors to make things more clear. And this is not hard at all.</p>
 
 <p>First of it&#8217;s probably a good thing to gather some of the available colors. A good resource is available <a href="https://wiki.archlinux.org/index.php/Color_Bash_Prompt">here</a>. Some of the colors and their corresponding codes can be found below.</p>
 
@@ -822,13 +822,13 @@ echo "\033[37m some colored text \033[37m"; // green
 
 <p>Easy as cake&#8230; that&#8217;s all!</p>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   <div class="blog-navigation">
     

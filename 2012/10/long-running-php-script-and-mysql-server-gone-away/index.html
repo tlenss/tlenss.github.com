@@ -58,17 +58,16 @@
         <div>
 <article class="hentry" role="article">
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title">Long Running PHP Script and MySQL Server Gone Away</h1>
-		
-		</header>
-	</header>
-
 	
-	<div class="articletext"><p>At the moment i am writing some workers that interact with a <a href="http://kr.github.com/beanstalkd/">beanstalk</a> server. When data gets pushed into the beanstalk server. My workers will be triggered to process this data. So the workers are sitting idle for most of the time. And just wait for some data to process. No rocket science there. But during testing i kept running into <a href="http://www.mysql.com/">MySQL</a> issues. The script seemed to lose connection to the MySQL server when it was idle for longer then a minute. And would respond with a</p>
+	  <h1 class="entry-title">Long Running PHP Script and MySQL Server Gone Away</h1>
+	
+	</header>
+</header>
+
+
+<div class="articletext"><p>At the moment i am writing some workers that interact with a <a href="http://kr.github.com/beanstalkd/">beanstalk</a> server. When data gets pushed into the beanstalk server. My workers will be triggered to process this data. So the workers are sitting idle for most of the time. And just wait for some data to process. No rocket science there. But during testing i kept running into <a href="http://www.mysql.com/">MySQL</a> issues. The script seemed to lose connection to the MySQL server when it was idle for longer then a minute. And would respond with a</p>
 
 <blockquote><p>Warning: <a href="http://php.net/mysql_query">mysql_query</a>(): MySQL server has gone away in /path/to/some/mysql4/class.php on line xxx</p></blockquote>
 
@@ -129,10 +128,9 @@ while (true)
 
 <p>I&#8217;m not a big fan of this solution. And would rather be implementing MySQLi functions. But this functions well. And will do for now.</p>
 </div>
-	
 
-	<div style="clear:both;"></div>
-</article>
+
+<div style="clear:both;"></div>
 
   <footer>
     <p class="meta">

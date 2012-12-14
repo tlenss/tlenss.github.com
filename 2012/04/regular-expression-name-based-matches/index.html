@@ -58,17 +58,16 @@
         <div>
 <article class="hentry" role="article">
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title">Regular Expression Name Based Matches</h1>
-		
-		</header>
-	</header>
-
 	
-	<div class="articletext"><p>Normally when i write regular expressions with for instance <a href="http://php.net">PHP</a>´s <a href="http://php.net/preg_match">preg_match</a>. I will use the standard $matches array to catch the result of pattern matches. This array has a normal numeric index for each match found. And looks something like</p>
+	  <h1 class="entry-title">Regular Expression Name Based Matches</h1>
+	
+	</header>
+</header>
+
+
+<div class="articletext"><p>Normally when i write regular expressions with for instance <a href="http://php.net">PHP</a>´s <a href="http://php.net/preg_match">preg_match</a>. I will use the standard $matches array to catch the result of pattern matches. This array has a normal numeric index for each match found. And looks something like</p>
 
 <pre><code>$matches = array();
 preg_match("/^Get(.+)Repository$/", "GetFooBarRepository", $matches);
@@ -95,10 +94,9 @@ var_dump($matches);
 
 <p>And i have to say. It looks a lot cleaner. So i added this to my bag of tricks. And will be using it from now on.</p>
 </div>
-	
 
-	<div style="clear:both;"></div>
-</article>
+
+<div style="clear:both;"></div>
 
   <footer>
     <p class="meta">

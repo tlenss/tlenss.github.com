@@ -59,18 +59,18 @@
   
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2008/11/subversion-cross-platform-errors/">Subversion Cross Platform Errors</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p>Yesterday my colleague was complaining he couldn&#8217;t do a normal check out of one of the projects in Subversion. At first i thought it was just something wrong with his local settings. Because i could do the check out just fine. Today when i was thinking about this problem. I quickly realized we are on two different platforms. He works on Windows while I&#8217;m on Linux.</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2008/11/subversion-cross-platform-errors/">Subversion Cross Platform Errors</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>Yesterday my colleague was complaining he couldn&#8217;t do a normal check out of one of the projects in Subversion. At first i thought it was just something wrong with his local settings. Because i could do the check out just fine. Today when i was thinking about this problem. I quickly realized we are on two different platforms. He works on Windows while I&#8217;m on Linux.</p>
 
 <p>And since i had to do some Photoshop work today. I took the chance to install Subversion on my Windows partition. When i did a checkout of the failing project. I ran into the same problems as my colleague did before. Two different errors were preventing me from making a complete checkout. The first error:</p>
 
@@ -85,27 +85,27 @@ svn: Can&#8217;t copy &#8216;path/to/some/images/image.JPG.svn-base&#8217; to &#
 
 <p>This one was actually pretty obvious. A file name with an illigal character. I wonder how it got in the repository. The folder name causeing the problems was a folder called &#8216;\ &#8216;. Which was empty. After removing this. I could do a complete checkout again.</p>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2008/11/making-permanent-changes-to-resolvconf-under-ubuntu/">Making Permanent Changes to resolv.conf Under Ubuntu.</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p>At work we have a local dev box. This box is running <a href="http://www.ubuntu.com/">Ubuntu</a> 8.04 and some tools we need for developing. Nothing special. This box get&#8217;s it&#8217;s IP address from the <a href="http://nl.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol">DHCP</a> server that runs on the router. And this caused some problems because we are running a local <a href="http://nl.wikipedia.org/wiki/Domain_Name_System">DNS</a> server for the dev box. Mainly to use internal domains for testing.</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2008/11/making-permanent-changes-to-resolvconf-under-ubuntu/">Making Permanent Changes to resolv.conf Under Ubuntu.</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>At work we have a local dev box. This box is running <a href="http://www.ubuntu.com/">Ubuntu</a> 8.04 and some tools we need for developing. Nothing special. This box get&#8217;s it&#8217;s IP address from the <a href="http://nl.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol">DHCP</a> server that runs on the router. And this caused some problems because we are running a local <a href="http://nl.wikipedia.org/wiki/Domain_Name_System">DNS</a> server for the dev box. Mainly to use internal domains for testing.</p>
 
 <p>To make this work we changed the resolv.conf to use the new local DNS server. This works fine wouldn&#8217;t it be for Ubuntu changing the file back to it&#8217;s original settings on every DHCP request. So every 900 sec the file gets overwritten. To solve this the first time i simply made the file read only. This however caused some problems with the DHCP client requesting an IP address over and over again. This caused the load on the dev box to rise&#8230;.</p>
 
@@ -132,27 +132,27 @@ nameserver xxx.xxx.x.xx</p>
 <blockquote><p>supersede domain-name &#8220;example.com&#8221;
 prepend domain-name-server xxx.xxx.xxx.1, xxx.xxx.xxx.2</p></blockquote>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2008/11/ubuntu-810-nvidia-driver-trickery/">Ubuntu 8.10 NVidia Driver Trickery</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p>I was up early last Sunday. just couldn&#8217;t sleep anymore. So i decided to do a fresh OS install on my main workstation. One or two weeks ago i updated my Ubuntu 8.04 to the latest 8.10 Interpid. This went without real big problems. And the system was running stable. Besides at the office i did some clean installs of Ubuntu 8.10. And there were no real problems to name.</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2008/11/ubuntu-810-nvidia-driver-trickery/">Ubuntu 8.10 NVidia Driver Trickery</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>I was up early last Sunday. just couldn&#8217;t sleep anymore. So i decided to do a fresh OS install on my main workstation. One or two weeks ago i updated my Ubuntu 8.04 to the latest 8.10 Interpid. This went without real big problems. And the system was running stable. Besides at the office i did some clean installs of Ubuntu 8.10. And there were no real problems to name.</p>
 
 <p>So i thought what the hell. Let&#8217;s do a clean install here at home also. I created a backup of my important files. and downloaded the new .iso image (couldn&#8217;t find the previous downloaded one). And started of the install. It was nice weather and i thought if i finish this fast. I can go and enjoy a nice Sunday.</p>
 
@@ -315,53 +315,53 @@ Option         "metamodes" "DFP-0: nvidia-auto-select +0+0, DFP-1: nvidia-auto-s
 
 <p>EndSection</p>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2008/11/still-here/">Still Here</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p>It&#8217;s been a while since i blogged last time. But i&#8217;m still here. And still planning to continue this blog. I just need to make some time to write. And time is not something that comes cheap latley :)</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2008/11/still-here/">Still Here</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>It&#8217;s been a while since i blogged last time. But i&#8217;m still here. And still planning to continue this blog. I just need to make some time to write. And time is not something that comes cheap latley :)</p>
 
 <p>Some months ago i move to my new appartment. But i&#8217;m still working on it. It probably would have been better if i completed it completly befor emoving there. But it has to be done. So it takes up a lot of my time.</p>
 
 <p>And besides that two weeks ago i started my new job here in Amsterdam. And this takes up the rest of my time. Trying to read into a new code base. And trying to understand everything that goes on around the office. It&#8217;s a hectic place. But it feels great so far.</p>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2008/10/parsing-xml-cdata-with-simplexml/">Parsing XML CDATA With SimpleXML</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p>I was quite amazed today. When loading a SOAP response into a SimpleXMLElement i noticed some fields were left blank. I should have checked the SOAP response first. But instead told our Delphi guy that the response was not filled correctly. This was not the case :)</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2008/10/parsing-xml-cdata-with-simplexml/">Parsing XML CDATA With SimpleXML</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>I was quite amazed today. When loading a SOAP response into a SimpleXMLElement i noticed some fields were left blank. I should have checked the SOAP response first. But instead told our Delphi guy that the response was not filled correctly. This was not the case :)</p>
 
 <p>When we both saw the SOAP response was in perfect shape. We started to poke around on the PHP side. The strange thing was all tag names were taken from the response correctly. It was just the data that was missing.  Then we noticed the data missing was inside <a href="http://en.wikipedia.org/wiki/CDATA">CDATA</a> tags.</p>
 
@@ -378,27 +378,27 @@ Option         "metamodes" "DFP-0: nvidia-auto-select +0+0, DFP-1: nvidia-auto-s
 
 <p>It&#8217;s pretty damn weird though. I want to parse the CDATA tags inside my XML. And can only do so by providing the NOCDATA option.</p>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2008/10/load-moodalboxes-without-clicking-links/">Load MOOdalBoxes Without Clicking Links</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p>The MOOdalBox script is a great addition to the <a href="http://mootools.net/">mootools</a> library. The interface is pretty slick. And easy to style with just CSS. <a href="http://www.e-magine.ro/">Răzvan Brateş</a> did a great job here. And every now and then i have to implement one of those MOOdalBoxes in a web application. No problem here.</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2008/10/load-moodalboxes-without-clicking-links/">Load MOOdalBoxes Without Clicking Links</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>The MOOdalBox script is a great addition to the <a href="http://mootools.net/">mootools</a> library. The interface is pretty slick. And easy to style with just CSS. <a href="http://www.e-magine.ro/">Răzvan Brateş</a> did a great job here. And every now and then i have to implement one of those MOOdalBoxes in a web application. No problem here.</p>
 
 <p>Until today all MOOdalBoxes i used were triggered by simply clicking a link on a page. But today i needed to load a MOOdalBox window on page load. The screen represented some sort of QuickStart menu. Which can be disabled. I had no idea how to trigger the MOOdalBox from javascript. But once i read through the source. It became clear that it should be as easy as calling:</p>
 
@@ -433,27 +433,27 @@ function loadMOOdal() {
 
 <p>This did it. And my only goal was to make it function properly inside of IE 7. but this also fixes the same problem for IE 6. So a big thanks to Răzvan for creating MOOdalBox and for supplying the fix.</p>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2008/10/atp-is-seeking-web-developers/">ATP Is Seeking Web Developers</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p>For the past three years I&#8217;ve been working as a web developer for ATP in the Netherlands. This has been a great experience. And still is. I have the pleasure of working with some really smart people here. Who are always eager to work with the newest technologies. This offers a great learning ground for all of us. The projects have evolved over the years. From simple websites to complex web applications.</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2008/10/atp-is-seeking-web-developers/">ATP Is Seeking Web Developers</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>For the past three years I&#8217;ve been working as a web developer for ATP in the Netherlands. This has been a great experience. And still is. I have the pleasure of working with some really smart people here. Who are always eager to work with the newest technologies. This offers a great learning ground for all of us. The projects have evolved over the years. From simple websites to complex web applications.</p>
 
 <p>Right now we are looking for some experienced web developers to strengthen the team. we are looking for somebody who master the following skills.</p>
 
@@ -473,27 +473,27 @@ function loadMOOdal() {
 
 <p>If you are located in the Schiphol / Amsterdam area. And are looking for a good job. take your chance. For more information take a look at <a href="http://www.atp.nl/home/vacatures.php">atp.nl</a>. If you are interested drop me a line.</p>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2008/09/dutch-php-group-meeting/">Dutch PHP Group Meeting</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p>I didn&#8217;t post for some time now. Been working on my new house. And it just takes up every free minute i</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2008/09/dutch-php-group-meeting/">Dutch PHP Group Meeting</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>I didn&#8217;t post for some time now. Been working on my new house. And it just takes up every free minute i</p>
 
 <p><a href="http://www.phpgg.nl/node/864"><img src="http://www.phpgg.nl/files/images/phpgglogo.png" alt="" /></a>
 have. But today when i was reading through my RSS feeds i noticed the Dutch PHP Group (PHPGG) is</p>
@@ -502,27 +502,27 @@ have. But today when i was reading through my RSS feeds i noticed the Dutch PHP 
 
 <p>You can register through the upcomming.com website. Or just by sending a personal email to the PHPGG group. For more info head over to the <a href="http://www.phpgg.nl/node/864">PHPGG</a> website (Dutch).</p>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2008/08/svn-over-ssh-in-zend-studio-for-eclipse/">SVN Over SSH in Zend Studio for Eclipse</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p>This should be pretty damn straight forward. However i ran into some problems while setting this up. At my daily work spot we use <a href="http://subversion.tigris.org/">SVN</a> over <a href="http://nl.wikipedia.org/wiki/Hypertext_Transfer_Protocol">HTTP</a> so we can do <a href="http://en.wikipedia.org/wiki/NTLM">NTLM</a> authentication. This sucks in many ways. But most of all it&#8217;s slow. And i mean really slow. Last week i tried to retrieve the log information for a project in the repository. This took my IDE 30 minutes. At first i thought my IDE was just being lame on me. But it turns out it&#8217;s SVN over HTTP that&#8217;s the culprit.</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2008/08/svn-over-ssh-in-zend-studio-for-eclipse/">SVN Over SSH in Zend Studio for Eclipse</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>This should be pretty damn straight forward. However i ran into some problems while setting this up. At my daily work spot we use <a href="http://subversion.tigris.org/">SVN</a> over <a href="http://nl.wikipedia.org/wiki/Hypertext_Transfer_Protocol">HTTP</a> so we can do <a href="http://en.wikipedia.org/wiki/NTLM">NTLM</a> authentication. This sucks in many ways. But most of all it&#8217;s slow. And i mean really slow. Last week i tried to retrieve the log information for a project in the repository. This took my IDE 30 minutes. At first i thought my IDE was just being lame on me. But it turns out it&#8217;s SVN over HTTP that&#8217;s the culprit.</p>
 
 <p>So i started to do some testing over the standard svn:// protocol. And retrieving the logs on the same repository took about 2 seconds. Amazing. That&#8217;s enough reason to switch to the svn:// protocol. This however was not possible. Because our network policy doesn&#8217;t allow for multiple log ins. All is centrally stored on some M$ domain controllers. That&#8217;s why SVN over HTTP was used in the first place. End of story i thought.</p>
 
@@ -565,27 +565,27 @@ I always open the repository view. From there i right click > New > repository L
 
 <p>So now we can enjoy the speed of the svn:// protocol. And the security of SSH. So let&#8217;s do some coding :)</p>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2008/08/zend_filter_inflector-and-the-camelcasetounderscore-filter/">Zend_Filter_Inflector and the CamelCaseToUnderscore Filter</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p>I was thinking about how to add theme support to an application that makes use of the Zend_Layout component. When i came across the Zend_Filter_Inflector class. This looks interesting. From teh ZF manual:</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2008/08/zend_filter_inflector-and-the-camelcasetounderscore-filter/">Zend_Filter_Inflector and the CamelCaseToUnderscore Filter</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>I was thinking about how to add theme support to an application that makes use of the Zend_Layout component. When i came across the Zend_Filter_Inflector class. This looks interesting. From teh ZF manual:</p>
 
 <blockquote><p>Zend_Filter_Inflector is a general purpose tool for rules-based inflection of strings to a given target.</p></blockquote>
 
@@ -611,13 +611,13 @@ $inflector-&gt;setRules(array(
 
 <p>it&#8217;s a minor issue but i reported <a href="http://framework.zend.com/issues/browse/ZF-4011">it</a> anyway.</p>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   <div class="blog-navigation">
     

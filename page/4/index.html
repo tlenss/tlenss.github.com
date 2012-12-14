@@ -59,18 +59,18 @@
   
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2011/04/vim-for-a-php-developer/">VIM for a PHP Developer</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p><a href="http://www.vim.org/"><img src="http://lenss.nl/images/2011/04/vim_logo.png" alt="" /></a>For my coding work i mostly use <a href="http://www.zend.com/en/products/studio/">Zend Studio</a>. And i am a big fan of this IDE. But i also do a lot of work in the shell. And that asks for at least basic <a href="http://www.vim.org/">vim</a> knowledge. My colleague is a big vim fan. And does most of his work in vim. So last week i was compiling a cheat-sheet for my self. And came across a <a href="http://www.slideshare.net/ZendCon/vim-for-php-programmers-presentation">slideshow</a> of one of <a href="http://zmievski.org/">Andrei Zmievski</a>&#8217;s talks. This slide show got me inspired enough to start playing around with vim a bit. And this is the result of it.</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2011/04/vim-for-a-php-developer/">VIM for a PHP Developer</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p><a href="http://www.vim.org/"><img src="http://lenss.nl/images/2011/04/vim_logo.png" alt="" /></a>For my coding work i mostly use <a href="http://www.zend.com/en/products/studio/">Zend Studio</a>. And i am a big fan of this IDE. But i also do a lot of work in the shell. And that asks for at least basic <a href="http://www.vim.org/">vim</a> knowledge. My colleague is a big vim fan. And does most of his work in vim. So last week i was compiling a cheat-sheet for my self. And came across a <a href="http://www.slideshare.net/ZendCon/vim-for-php-programmers-presentation">slideshow</a> of one of <a href="http://zmievski.org/">Andrei Zmievski</a>&#8217;s talks. This slide show got me inspired enough to start playing around with vim a bit. And this is the result of it.</p>
 
 <p>We need to have vim installed of course.</p>
 
@@ -196,27 +196,27 @@ Enter the File Filter: [ file filter : *.php ]</p></blockquote>
 
 <p>That&#8217;s about it. I had good fun exploring all the features and possibilities. And have only scratched the surface. One more thing i found on Matthew&#8217;s blog was a way to test and run PHP script from vim. Awesome stuff. You can read about it <a href="http://weierophinney.net/matthew/archives/164-Vim-Productivity-Tips-for-PHP-Developers.html">here</a>. Although i like vim. I don&#8217;t think i will be leaving ZS any time soon.</p>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2011/03/php-domdocument-slow-loading-pages/">PHP & DOMDocument Slow Loading Pages</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p>While trying to load a very basic XML template with <a href="http://nl.php.net/manual/en/domdocument.load.php">DOMDocument::load()</a> i ran into some issues last Friday. During the weekend i completely forgot about this. Thank god :) But since it&#8217;s Monday i have no other option then to solve it. The problem i was experiencing was page loads took about 2 minutes for every controller action in the application. My first thought was that it would be related to permissions. The application not being able to write certain files. But after checking all permissions the problems still remained.</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2011/03/php-domdocument-slow-loading-pages/">PHP & DOMDocument Slow Loading Pages</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>While trying to load a very basic XML template with <a href="http://nl.php.net/manual/en/domdocument.load.php">DOMDocument::load()</a> i ran into some issues last Friday. During the weekend i completely forgot about this. Thank god :) But since it&#8217;s Monday i have no other option then to solve it. The problem i was experiencing was page loads took about 2 minutes for every controller action in the application. My first thought was that it would be related to permissions. The application not being able to write certain files. But after checking all permissions the problems still remained.</p>
 
 <p>The logs weren&#8217;t showing anything. No errors, nothing. Time to enable the <a href="http://www.xdebug.org/">XDebug</a> profiler. And after doing a few requests and loading them up in <a href="http://kcachegrind.sourceforge.net/html/Home.html">KCachegrind</a> i found the root of the problem quite fast. A call to the mkDom method was causing the slow load.</p>
 
@@ -239,27 +239,27 @@ Entity &#8216;nbsp&#8217; not defined in /some/file.tal.html, line: 363</p></blo
 
 <p>This was one of those hard to track errors. But it&#8217;s fixed and everything is running smooth again.</p>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2011/03/writing-a-simple-wordpress-plugin/">Writing a Simple Wordpress Plugin</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p><img src="http://lenss.nl/images/2011/03/wordpress.jpg" alt="" /> In the spirit of <a href="http://lenss.nl/2011/03/ideas-of-march/">Ideas for March</a> i should really be blogging more. Somehow i just can&#8217;t think of anything interesting at the moment. Will give it a shot anyway.</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2011/03/writing-a-simple-wordpress-plugin/">Writing a Simple Wordpress Plugin</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p><img src="http://lenss.nl/images/2011/03/wordpress.jpg" alt="" /> In the spirit of <a href="http://lenss.nl/2011/03/ideas-of-march/">Ideas for March</a> i should really be blogging more. Somehow i just can&#8217;t think of anything interesting at the moment. Will give it a shot anyway.</p>
 
 <p>Last week i created my first ever <a href="http://wordpress.org/">Wordpress</a> <a href="http://codex.wordpress.org/Writing_a_Plugin">plugin</a>. It&#8217;s an extremely simple one. And for sure nothing new or special. But it was a fun experience. I have always dreaded the WP code base. The mixture of OO and procedural programming just looks plain ugly to me. But i don&#8217;t want to be bash WP. I use it myself. So i took the dive and spend a few hours hacking and <a href="http://codex.wordpress.org/Plugin_API">reading</a>. And the result is my <strong>DWOTD</strong> (Dutch Word Of The Day) plugin.</p>
 
@@ -406,27 +406,27 @@ $widget-&gt;widget($args,$instance);
 
 <p>That&#8217;s all. The result can be viewed on the right top side. I build the plugin for fun and use on an Intranet. So don&#8217;t go blaming me if it breaks something. Besides that everybody is free to do with the code as they please.</p>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2011/03/ideas-of-march/">Ideas of March</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p>This post has been waiting in my draft list for a few days already. And March is almost over. So better get it out now. Christ Shiflett has an <a href="http://shiflett.org/blog/2011/mar/ideas-of-march">good post</a> about the fact that a lot discussions have moved from the <a href="http://en.wikipedia.org/wiki/Blogosphere">blogosphere</a> to twitter. And this is sad but true. Chris calls for a blog revival. Which i think is a great initiative. And i already blogged a bit more this month then i normally do. I have never been a big fan of twitter my self. Most of the time the stream of information is mind boggling. But i do follow a some interesting people. Which does keep me updated in what happens in the web development world. I prefer a good blog post over any twitter message though.</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2011/03/ideas-of-march/">Ideas of March</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>This post has been waiting in my draft list for a few days already. And March is almost over. So better get it out now. Christ Shiflett has an <a href="http://shiflett.org/blog/2011/mar/ideas-of-march">good post</a> about the fact that a lot discussions have moved from the <a href="http://en.wikipedia.org/wiki/Blogosphere">blogosphere</a> to twitter. And this is sad but true. Chris calls for a blog revival. Which i think is a great initiative. And i already blogged a bit more this month then i normally do. I have never been a big fan of twitter my self. Most of the time the stream of information is mind boggling. But i do follow a some interesting people. Which does keep me updated in what happens in the web development world. I prefer a good blog post over any twitter message though.</p>
 
 <p>So Chris Shiflett&#8217;s idea is for people to create a blog post called <em>Ideas of March</em> that:</p>
 
@@ -454,27 +454,27 @@ It&#8217;s also a great exercise platform. I myself are not native English speak
 <a href="http://www.cvwdesign.com/txp/article/450/ideas-of-march">http://www.cvwdesign.com/txp/article/450/ideas-of-march</a>
 <a href="http://jeremycook.ca/2011/03/16/ideas-of-march/">http://jeremycook.ca/2011/03/16/ideas-of-march/</a></p>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2011/03/moving-to-amazons-cloud-or-not/">Moving to Amazon&#8217;s Cloud or Not?</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p><a href="http://aws.amazon.com/"><img src="http://lenss.nl/images/2011/03/logo_aws.gif" alt="" /></a> Finally back online again. Somewhere today the site went down. And i couldn&#8217;t reach the server. Which resulted in me jumping the gun and write an pissed off <a href="http://twitter.com/m0s/status/48089219616354304">tweet</a> about Amazon&#8217;s EC2 service. Which turned out to be false. After i noticed i tried to login to the AWS dashboard. But instead of my running instance i was presented with a validation screen. I had to validate my account by phone. That&#8217;s weird. I came to conclusion to early and thought Amazon had suspended my account for what whatever reason possible. It turns out it&#8217;s the annoying Amazon password bug that bit my ass. After poking around i came to the conclusion i have two Amazon accounts on the same email address but with different passwords. One has EC2 enabled the other doesn&#8217;t. Good to know. But the site was still down. So on my way home i missed a call from the Amazon support desk (really more companies should act like Amazon does). But got into an email conversation with them later on. After i apologised for the tweet. The Dev at Amazon figured out the server was running out of resources and was swapping. And just couldn&#8217;t do much more then that. Only a reboot resolved the issue. Hey! It&#8217;s not a micro instance for nothing.</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2011/03/moving-to-amazons-cloud-or-not/">Moving to Amazon&#8217;s Cloud or Not?</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p><a href="http://aws.amazon.com/"><img src="http://lenss.nl/images/2011/03/logo_aws.gif" alt="" /></a> Finally back online again. Somewhere today the site went down. And i couldn&#8217;t reach the server. Which resulted in me jumping the gun and write an pissed off <a href="http://twitter.com/m0s/status/48089219616354304">tweet</a> about Amazon&#8217;s EC2 service. Which turned out to be false. After i noticed i tried to login to the AWS dashboard. But instead of my running instance i was presented with a validation screen. I had to validate my account by phone. That&#8217;s weird. I came to conclusion to early and thought Amazon had suspended my account for what whatever reason possible. It turns out it&#8217;s the annoying Amazon password bug that bit my ass. After poking around i came to the conclusion i have two Amazon accounts on the same email address but with different passwords. One has EC2 enabled the other doesn&#8217;t. Good to know. But the site was still down. So on my way home i missed a call from the Amazon support desk (really more companies should act like Amazon does). But got into an email conversation with them later on. After i apologised for the tweet. The Dev at Amazon figured out the server was running out of resources and was swapping. And just couldn&#8217;t do much more then that. Only a reboot resolved the issue. Hey! It&#8217;s not a micro instance for nothing.</p>
 
 <p>I might as well write a post about the move to the Amazon Cloud late last year. Ever since this website went up in 2008. It has been running on one of my own servers. And this has done the job well for two years. Some people would say if it ain&#8217;t broke don&#8217;t try to fix it. But i like to try out new things. And running a server isn&#8217;t cheap. So if i can find a more affordable way of hosting this site i may be interested enough to move. So where do i move this site too. Some other hosting provider? Let&#8217;s try something different and host it from the cloud. I didn&#8217;t really want to go over the whole hassle of finding a suitable hosting provider. And i was doing some small project with Amazon Web-services. So my choice was made quite easy. Let&#8217;s try the wide array of options Amazon&#8217;s Web-services have to offer.</p>
 
@@ -528,53 +528,53 @@ $ sudo bash</p></blockquote>
 
 <p>I was quite impressed with the AWS interface and the possibilities. But the cost is pretty high. The first month was nearly free. But while traffic keeps growing the cost keeps rising. This ended up me paying more for a single instance a month then for a complete server on which i can run multiple sites. So while extremely easy to use, flexible and just plain cool to work with. It&#8217;s not for this site. I thank Amazon for the available possibilities. And the Support i had today. But i am moving back to my own server as we speak.</p>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2011/03/vmware-workstation-listen-to-voice-of-the-customer/">VMware Workstation Listen to Voice of the Customer</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p><a href="http://www.zend.com/en/products/studio/vmware-workstation-deployment"><img src="http://lenss.nl/images/2011/03/zend-vmware.gif" alt="" /></a>A while back i was contacted by <a href="http://twitter.com/vlaxmi">Vijay Laxmi</a>. Vijay is a Sr Partner Marketing Manager over at Zend Technologies. And she was interested in doing a podcast like interview about the brand new and shiny <a href="http://www.zend.com/en/products/studio/vmware-workstation-deployment">VMWare &amp; Zend Studio</a> integration. And because i am a big fan of this feature. I didn&#8217;t see why not. So we had a few chat sessions. Along the way <a href="http://twitter.com/jsolomin">Joshua Solomin</a> from Zend and Michael Paiko from VMWare joined the party. And after some preparation we recorded the session. Considering i have never been much of a speaker. This was quite fun to do.</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2011/03/vmware-workstation-listen-to-voice-of-the-customer/">VMware Workstation Listen to Voice of the Customer</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p><a href="http://www.zend.com/en/products/studio/vmware-workstation-deployment"><img src="http://lenss.nl/images/2011/03/zend-vmware.gif" alt="" /></a>A while back i was contacted by <a href="http://twitter.com/vlaxmi">Vijay Laxmi</a>. Vijay is a Sr Partner Marketing Manager over at Zend Technologies. And she was interested in doing a podcast like interview about the brand new and shiny <a href="http://www.zend.com/en/products/studio/vmware-workstation-deployment">VMWare &amp; Zend Studio</a> integration. And because i am a big fan of this feature. I didn&#8217;t see why not. So we had a few chat sessions. Along the way <a href="http://twitter.com/jsolomin">Joshua Solomin</a> from Zend and Michael Paiko from VMWare joined the party. And after some preparation we recorded the session. Considering i have never been much of a speaker. This was quite fun to do.</p>
 
 <p>Michael send me the end result. And everybody seemed happy with it. After that life resumed and i have been incredibly busy every since. So i kinda forgot about the whole thing. Till Vijay mailed me today (ty! Vijay). VMWare put the <a href="http://blogs.vmware.com/workstation/">recording</a> on their website. And a customer mailing has been transmitted over the wire.  Cool stuff!</p>
 
 <p><a href="http://lenss.nl/images/2011/03/2011-02-07-VMware-Zend-VOC-Podcast.mp3">2011-02-07 VMware-Zend VOC Podcast</a></p>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2011/03/phps-current-trend-status/">PHP&#8217;s Current Trend Status</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p>Kevin Schroeder has a nice <a href="http://www.eschrade.com/page/what-to-make-of-tiobe-php/">post</a> about the current state of PHP in the <a href="http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html">TIOBE index</a>. And i have seen this TIOBE index pop up every now and then in blog posts. It never really interested me. I am not a big fan of trend statistics and certainly don&#8217;t care for what is the hottest language of the moment. But reading Kevin&#8217;s article got me interested. He mentions the fact that if you do manual searches on different search engine with a query like <a href="http://www.google.nl/search?source=ig&amp;hl=nl&amp;rlz=&amp;=&amp;q=%2B%22PHP+programming%22&amp;btnG=Google+zoeken&amp;aq=f&amp;aqi=&amp;aql=&amp;oq=">+&#8221;PHP programming&#8221;</a> vs <a href="http://www.google.nl/search?hl=nl&amp;q=%2B%22Python+programming%22&amp;btnG=Zoeken&amp;aq=f&amp;aqi=&amp;aql=&amp;oq=">+&#8221;Python programming&#8221;</a> you will get a different view then what the TIOBE index is displaying. And this is true. So let&#8217;s give that a try.</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2011/03/phps-current-trend-status/">PHP&#8217;s Current Trend Status</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>Kevin Schroeder has a nice <a href="http://www.eschrade.com/page/what-to-make-of-tiobe-php/">post</a> about the current state of PHP in the <a href="http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html">TIOBE index</a>. And i have seen this TIOBE index pop up every now and then in blog posts. It never really interested me. I am not a big fan of trend statistics and certainly don&#8217;t care for what is the hottest language of the moment. But reading Kevin&#8217;s article got me interested. He mentions the fact that if you do manual searches on different search engine with a query like <a href="http://www.google.nl/search?source=ig&amp;hl=nl&amp;rlz=&amp;=&amp;q=%2B%22PHP+programming%22&amp;btnG=Google+zoeken&amp;aq=f&amp;aqi=&amp;aql=&amp;oq=">+&#8221;PHP programming&#8221;</a> vs <a href="http://www.google.nl/search?hl=nl&amp;q=%2B%22Python+programming%22&amp;btnG=Zoeken&amp;aq=f&amp;aqi=&amp;aql=&amp;oq=">+&#8221;Python programming&#8221;</a> you will get a different view then what the TIOBE index is displaying. And this is true. So let&#8217;s give that a try.</p>
 
 <blockquote><p>+&#8221;PHP programming&#8221;
 Google : 1.460.000
@@ -618,27 +618,27 @@ Baidu  : 1,860,000</p></blockquote>
 
 <p>Conclusion for me is. I still have no clue what the TIOBE index does. Google trend shows a drop in PHP&#8217;s popularity and a rise in Pythons Popularity. Personally i don&#8217;t see much change in the PHP community compared to resent years. And i have no real opinion of what is going on inside the Python community. But i am happy to stick with PHP anyway.</p>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2011/02/apache-ssl-client-side-certificate-data-in-php/">Apache SSL Client Side Certificate Data in PHP</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p>What should have been a simple assignment turned out to be a hair pulling endeavour. The ultimate goal was to read the client side certificate data in PHP. I am by no means a system administrator. And the SSL part will probably be done by somebody more experienced. And the certificates will be signed by real CA&#8217;s. But for developing locally i need something functioning.</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2011/02/apache-ssl-client-side-certificate-data-in-php/">Apache SSL Client Side Certificate Data in PHP</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>What should have been a simple assignment turned out to be a hair pulling endeavour. The ultimate goal was to read the client side certificate data in PHP. I am by no means a system administrator. And the SSL part will probably be done by somebody more experienced. And the certificates will be signed by real CA&#8217;s. But for developing locally i need something functioning.</p>
 
 <p>So i spend the last hours trying to get client side certificates working. With absolutely no luck. I found a bunch of posts by doing Google searches. But none of them seem to offer the proper information for creating good client side certificates. Creating the CA and the server certificate is no problem at all. But creating a client side certificate seems impossible. Some of the post i tried:</p>
 
@@ -764,49 +764,49 @@ SSLCACertificateFile /usr/lib/ssl/misc/demoCA/cacert.pem</p>
 
 <p>Now it&#8217;s time for the fun part.</p>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2011/02/voices-of-the-elephpant/">Voices of the ElePHPant</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p><a href="http://lenss.nl/images/2011/02/elephpant-small.png"><img src="http://lenss.nl/images/2011/02/elephpant-small.png" alt="" /></a> Just found this nice little project <a href="http://blog.calevans.com/">Cal Evans</a> is doing. It&#8217;s called <a href="http://voicesoftheelephpant.com/">Voices of the ElePHPant</a>. The name i guess is dedicated to <a href="http://www.elroubio.net/">Vincent Pontier</a> the creator of the elePHPant. The goal is to shine a light on a special PHP community person. And the kick of is done by <a href="http://www.jeremykendall.net/">Jeremy Kendall</a>. Be sure to check back often for new updates. Or nominate somebody.</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2011/02/voices-of-the-elephpant/">Voices of the ElePHPant</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p><a href="http://lenss.nl/images/2011/02/elephpant-small.png"><img src="http://lenss.nl/images/2011/02/elephpant-small.png" alt="" /></a> Just found this nice little project <a href="http://blog.calevans.com/">Cal Evans</a> is doing. It&#8217;s called <a href="http://voicesoftheelephpant.com/">Voices of the ElePHPant</a>. The name i guess is dedicated to <a href="http://www.elroubio.net/">Vincent Pontier</a> the creator of the elePHPant. The goal is to shine a light on a special PHP community person. And the kick of is done by <a href="http://www.jeremykendall.net/">Jeremy Kendall</a>. Be sure to check back often for new updates. Or nominate somebody.</p>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   
+  <article>
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title"><a href="http://lenss.nl/2011/02/dark-theme-for-zend-studio-8/">Dark Theme for Zend Studio 8</a></h1>
-		
-		</header>
-	</header>
-
 	
-	  <div class="articletext"><p>Because i was so happy with my new <a href="http://lenss.nl/2011/02/extending-my-desktop/">3 monitor configuration</a>. I decided to refresh my development environment as well. Normally all my files would reside in the Devspace older in my user folder under the /home directory. Now i used a new 500 GB <em>SATA</em> drive and formatted it <em>EXT3</em>. Moving your workspace in <a href="http://www.zend.com/en/products/studio/">Zend Studio</a> has the minor inconvenience that the local settings like fonts / syntax colours are lost. <del>I still haven&#8217;t found a way to export this. So i decided to take this opportunity to create a nice new dark theme.</del>. My friend Bart (still no blog?) was friendly enough to let me know how to export the theme related data in ZS. And was nice enough to send me his zenburn theme.</p>
+	  <h1 class="entry-title"><a href="http://lenss.nl/2011/02/dark-theme-for-zend-studio-8/">Dark Theme for Zend Studio 8</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>Because i was so happy with my new <a href="http://lenss.nl/2011/02/extending-my-desktop/">3 monitor configuration</a>. I decided to refresh my development environment as well. Normally all my files would reside in the Devspace older in my user folder under the /home directory. Now i used a new 500 GB <em>SATA</em> drive and formatted it <em>EXT3</em>. Moving your workspace in <a href="http://www.zend.com/en/products/studio/">Zend Studio</a> has the minor inconvenience that the local settings like fonts / syntax colours are lost. <del>I still haven&#8217;t found a way to export this. So i decided to take this opportunity to create a nice new dark theme.</del>. My friend Bart (still no blog?) was friendly enough to let me know how to export the theme related data in ZS. And was nice enough to send me his zenburn theme.</p>
 
 <blockquote><p>File > Export > General > Preferences</p>
 
@@ -869,13 +869,13 @@ Variable : #0B91B7 (11, 145, 183)</p></blockquote>
 
 <p>That&#8217;s it for now. This of course only sets up the PHP environment. The syntax colours for XML, HTML, CSS and Javascript still have to be changed. But i will leave it at this.</p>
 </div>
-	  
-	  
-	
+  
+  
 
-	<div style="clear:both;"></div>
-</article>
 
+<div style="clear:both;"></div>
+
+  </article>
   
   <div class="blog-navigation">
     

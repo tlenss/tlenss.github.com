@@ -58,17 +58,16 @@
         <div>
 <article class="hentry" role="article">
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title">SVN Over SSH in Zend Studio for Eclipse</h1>
-		
-		</header>
-	</header>
-
 	
-	<div class="articletext"><p>This should be pretty damn straight forward. However i ran into some problems while setting this up. At my daily work spot we use <a href="http://subversion.tigris.org/">SVN</a> over <a href="http://nl.wikipedia.org/wiki/Hypertext_Transfer_Protocol">HTTP</a> so we can do <a href="http://en.wikipedia.org/wiki/NTLM">NTLM</a> authentication. This sucks in many ways. But most of all it&#8217;s slow. And i mean really slow. Last week i tried to retrieve the log information for a project in the repository. This took my IDE 30 minutes. At first i thought my IDE was just being lame on me. But it turns out it&#8217;s SVN over HTTP that&#8217;s the culprit.</p>
+	  <h1 class="entry-title">SVN Over SSH in Zend Studio for Eclipse</h1>
+	
+	</header>
+</header>
+
+
+<div class="articletext"><p>This should be pretty damn straight forward. However i ran into some problems while setting this up. At my daily work spot we use <a href="http://subversion.tigris.org/">SVN</a> over <a href="http://nl.wikipedia.org/wiki/Hypertext_Transfer_Protocol">HTTP</a> so we can do <a href="http://en.wikipedia.org/wiki/NTLM">NTLM</a> authentication. This sucks in many ways. But most of all it&#8217;s slow. And i mean really slow. Last week i tried to retrieve the log information for a project in the repository. This took my IDE 30 minutes. At first i thought my IDE was just being lame on me. But it turns out it&#8217;s SVN over HTTP that&#8217;s the culprit.</p>
 
 <p>So i started to do some testing over the standard svn:// protocol. And retrieving the logs on the same repository took about 2 seconds. Amazing. That&#8217;s enough reason to switch to the svn:// protocol. This however was not possible. Because our network policy doesn&#8217;t allow for multiple log ins. All is centrally stored on some M$ domain controllers. That&#8217;s why SVN over HTTP was used in the first place. End of story i thought.</p>
 
@@ -111,10 +110,9 @@ I always open the repository view. From there i right click > New > repository L
 
 <p>So now we can enjoy the speed of the svn:// protocol. And the security of SSH. So let&#8217;s do some coding :)</p>
 </div>
-	
 
-	<div style="clear:both;"></div>
-</article>
+
+<div style="clear:both;"></div>
 
   <footer>
     <p class="meta">

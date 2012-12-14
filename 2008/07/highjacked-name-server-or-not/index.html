@@ -58,17 +58,16 @@
         <div>
 <article class="hentry" role="article">
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title">Highjacked Name Server or Not?</h1>
-		
-		</header>
-	</header>
-
 	
-	<div class="articletext"><p>Yesterday was a weird day. Nothing seemed to go as it should have. My coworker Marius noticed that one of my domains was not responding anymore. We tried to ping it. But forgot that our admins block outbound <a href="http://en.wikipedia.org/wiki/Internet_Control_Message_Protocol">ICMP</a> packages. At least we could see the domain resolved to the correct IP address.</p>
+	  <h1 class="entry-title">Highjacked Name Server or Not?</h1>
+	
+	</header>
+</header>
+
+
+<div class="articletext"><p>Yesterday was a weird day. Nothing seemed to go as it should have. My coworker Marius noticed that one of my domains was not responding anymore. We tried to ping it. But forgot that our admins block outbound <a href="http://en.wikipedia.org/wiki/Internet_Control_Message_Protocol">ICMP</a> packages. At least we could see the domain resolved to the correct IP address.</p>
 
 <p>So we did a lookup on the domain. No weird things here. Then we decided to ping the name servers to see if they were responding. They were. But there was something strange. The domain in question runs on two name servers. namely ns1.cker.sc and ns2.cker.sc. ns1 was responding correctly. ns2 however was responding with a totally different and unknown IP address. This is weird. The normal settings would be:</p>
 
@@ -87,10 +86,9 @@ ns2.cker.sc ( 208.69.125.117 )</p></blockquote>
 
 <p>After some digging. I found out that the ip address &#8220;208.69.34.132&#8221; actually belongs to opendns.com. When a non existing sub -/ domain is quieried. This ip is returned. It&#8217;s just a way to make money from ads. the network i was connected to at that moment uses an opendns.com DNS cache server. That explains that part.</p>
 </div>
-	
 
-	<div style="clear:both;"></div>
-</article>
+
+<div style="clear:both;"></div>
 
   <footer>
     <p class="meta">

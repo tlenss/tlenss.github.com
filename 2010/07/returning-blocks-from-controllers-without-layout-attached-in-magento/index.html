@@ -58,17 +58,16 @@
         <div>
 <article class="hentry" role="article">
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title">Returning Blocks From Controllers Without Layout Attached in Magento</h1>
-		
-		</header>
-	</header>
-
 	
-	<div class="articletext"><p>When working in the admin environment of Magento i had to add a controller action that was called by an Ajax request. The problem however is that all layout data is returned as well when calling</p>
+	  <h1 class="entry-title">Returning Blocks From Controllers Without Layout Attached in Magento</h1>
+	
+	</header>
+</header>
+
+
+<div class="articletext"><p>When working in the admin environment of Magento i had to add a controller action that was called by an Ajax request. The problem however is that all layout data is returned as well when calling</p>
 
 <pre><code>$this-&gt;renderLayout();
 </code></pre>
@@ -94,10 +93,9 @@ $this-&gt;getResponse()-&gt;setBody(
 
 <p>The name attribute tells Magento it is a root block so no need for the rest of the layout.</p>
 </div>
-	
 
-	<div style="clear:both;"></div>
-</article>
+
+<div style="clear:both;"></div>
 
   <footer>
     <p class="meta">

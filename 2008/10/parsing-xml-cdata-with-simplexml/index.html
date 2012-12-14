@@ -58,17 +58,16 @@
         <div>
 <article class="hentry" role="article">
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title">Parsing XML CDATA With SimpleXML</h1>
-		
-		</header>
-	</header>
-
 	
-	<div class="articletext"><p>I was quite amazed today. When loading a SOAP response into a SimpleXMLElement i noticed some fields were left blank. I should have checked the SOAP response first. But instead told our Delphi guy that the response was not filled correctly. This was not the case :)</p>
+	  <h1 class="entry-title">Parsing XML CDATA With SimpleXML</h1>
+	
+	</header>
+</header>
+
+
+<div class="articletext"><p>I was quite amazed today. When loading a SOAP response into a SimpleXMLElement i noticed some fields were left blank. I should have checked the SOAP response first. But instead told our Delphi guy that the response was not filled correctly. This was not the case :)</p>
 
 <p>When we both saw the SOAP response was in perfect shape. We started to poke around on the PHP side. The strange thing was all tag names were taken from the response correctly. It was just the data that was missing.  Then we noticed the data missing was inside <a href="http://en.wikipedia.org/wiki/CDATA">CDATA</a> tags.</p>
 
@@ -85,10 +84,9 @@
 
 <p>It&#8217;s pretty damn weird though. I want to parse the CDATA tags inside my XML. And can only do so by providing the NOCDATA option.</p>
 </div>
-	
 
-	<div style="clear:both;"></div>
-</article>
+
+<div style="clear:both;"></div>
 
   <footer>
     <p class="meta">

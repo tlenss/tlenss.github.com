@@ -58,17 +58,16 @@
         <div>
 <article class="hentry" role="article">
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title">Mootools FX.Slide Flicker Bug II</h1>
-		
-		</header>
-	</header>
-
 	
-	<div class="articletext"><p>Today i got a question from <a href="http://www.usablenet.co.uk/">Richard</a>. About the flicker bug and how to implement the fix. The problem that he had with Javascript throwing an illegal character error was because of copy pasting from this blog. I&#8217;m not sure why the single quotes get screwed up. But i will have a look at it. I also didn&#8217;t state which version of <a href="http://mootools.net/">mootools</a> i was using. It was 1.1 at the time. And i was using the full uncompressed version.</p>
+	  <h1 class="entry-title">Mootools FX.Slide Flicker Bug II</h1>
+	
+	</header>
+</header>
+
+
+<div class="articletext"><p>Today i got a question from <a href="http://www.usablenet.co.uk/">Richard</a>. About the flicker bug and how to implement the fix. The problem that he had with Javascript throwing an illegal character error was because of copy pasting from this blog. I&#8217;m not sure why the single quotes get screwed up. But i will have a look at it. I also didn&#8217;t state which version of <a href="http://mootools.net/">mootools</a> i was using. It was 1.1 at the time. And i was using the full uncompressed version.</p>
 
 <p>But since then version 1.2 of <a href="http://mootools.net/">mootools</a> came out. And id didn&#8217;t really had time yet to look into it. But this version also has the same annoying bug. So i looked at the code. The <a href="http://docs.mootools.net/Plugins/Fx.Slide">FX.Slide</a> class changed a bit. And the core and  plugins are split up into separate files now. But the fix remains the same. And since i don&#8217;t really want to write a whole article about it right now. I decided to create two sets of archives. One with the fix for version 1.1 and one for version 1.2. The changes i made are explained in the previous article. But for 1.1 they are around line 4453 and 4458. For 1.2 if you only use the FX.Slide plugin it&#8217;s around line 17 and 29.</p>
 
@@ -76,10 +75,9 @@
 <a href="http://we.designandco.de/code/mootools.1.1.slide.flickerbug.tar.gz">version 1.1</a>
 <a href="http://we.designandco.de/code/mootools.1.2.slide.flickerbug.tar.gz">version 1.2</a></p>
 </div>
-	
 
-	<div style="clear:both;"></div>
-</article>
+
+<div style="clear:both;"></div>
 
   <footer>
     <p class="meta">

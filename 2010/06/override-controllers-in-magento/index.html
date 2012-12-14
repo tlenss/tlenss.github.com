@@ -58,17 +58,16 @@
         <div>
 <article class="hentry" role="article">
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title">Override Controllers in Magento</h1>
-		
-		</header>
-	</header>
-
 	
-	<div class="articletext"><p>The last time i had to rewrite one of the core Magento blocks. And that turned out to be quite easy. My new challenge was to rewrite / overwrite one of the Core admin controllers. In this case the Mage_Adminhtml_CustomerController.</p>
+	  <h1 class="entry-title">Override Controllers in Magento</h1>
+	
+	</header>
+</header>
+
+
+<div class="articletext"><p>The last time i had to rewrite one of the core Magento blocks. And that turned out to be quite easy. My new challenge was to rewrite / overwrite one of the Core admin controllers. In this case the Mage_Adminhtml_CustomerController.</p>
 
 <p>I had no idea where to start so i did some googling beforehand. And came to the conclusion that a lot of people are trying to do this. Because of this there is a long list of solutions to solve this. And in most cases developers just advice to drop the Core class in the local folder and work from there. But that doesn&#8217;t really make sense. First of all it code duplication in the worst form. And besides that all cool <a href="http://en.wikipedia.org/wiki/Object-oriented_programming">OO</a> stuff like extending is gone.</p>
 
@@ -129,10 +128,9 @@ class [namespace]_Adminhtml_CustomerController extends Mage_Adminhtml_CustomerCo
 
 <p>The config section is placed inside the admin tags. because the controller in question is an admin controller. We basically tell Magento that we will be using our own Adminhtml module instead of the Core one. But it will of course fall back on the Core functionality when methods have not been overwritten.</p>
 </div>
-	
 
-	<div style="clear:both;"></div>
-</article>
+
+<div style="clear:both;"></div>
 
   <footer>
     <p class="meta">

@@ -58,17 +58,16 @@
         <div>
 <article class="hentry" role="article">
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title">Making Permanent Changes to resolv.conf Under Ubuntu.</h1>
-		
-		</header>
-	</header>
-
 	
-	<div class="articletext"><p>At work we have a local dev box. This box is running <a href="http://www.ubuntu.com/">Ubuntu</a> 8.04 and some tools we need for developing. Nothing special. This box get&#8217;s it&#8217;s IP address from the <a href="http://nl.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol">DHCP</a> server that runs on the router. And this caused some problems because we are running a local <a href="http://nl.wikipedia.org/wiki/Domain_Name_System">DNS</a> server for the dev box. Mainly to use internal domains for testing.</p>
+	  <h1 class="entry-title">Making Permanent Changes to resolv.conf Under Ubuntu.</h1>
+	
+	</header>
+</header>
+
+
+<div class="articletext"><p>At work we have a local dev box. This box is running <a href="http://www.ubuntu.com/">Ubuntu</a> 8.04 and some tools we need for developing. Nothing special. This box get&#8217;s it&#8217;s IP address from the <a href="http://nl.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol">DHCP</a> server that runs on the router. And this caused some problems because we are running a local <a href="http://nl.wikipedia.org/wiki/Domain_Name_System">DNS</a> server for the dev box. Mainly to use internal domains for testing.</p>
 
 <p>To make this work we changed the resolv.conf to use the new local DNS server. This works fine wouldn&#8217;t it be for Ubuntu changing the file back to it&#8217;s original settings on every DHCP request. So every 900 sec the file gets overwritten. To solve this the first time i simply made the file read only. This however caused some problems with the DHCP client requesting an IP address over and over again. This caused the load on the dev box to rise&#8230;.</p>
 
@@ -95,10 +94,9 @@ nameserver xxx.xxx.x.xx</p>
 <blockquote><p>supersede domain-name &#8220;example.com&#8221;
 prepend domain-name-server xxx.xxx.xxx.1, xxx.xxx.xxx.2</p></blockquote>
 </div>
-	
 
-	<div style="clear:both;"></div>
-</article>
+
+<div style="clear:both;"></div>
 
   <footer>
     <p class="meta">

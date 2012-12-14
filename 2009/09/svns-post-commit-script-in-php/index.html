@@ -58,17 +58,16 @@
         <div>
 <article class="hentry" role="article">
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title">SVN's Post-commit Script in PHP</h1>
-		
-		</header>
-	</header>
-
 	
-	<div class="articletext"><p>I was kinda bored yesterday. And was poking around the SVN hooks scripts. When i noticed the post-commit script i was using was written in Python. Nothing wrong with that. I just wondered how hard it would be to do the same in PHP. So i came up with a little test. Which at this moment lacks error checking and just looks plain ugly. But it does the job. and i only needed a working PHP CLI executable to make it work.</p>
+	  <h1 class="entry-title">SVN's Post-commit Script in PHP</h1>
+	
+	</header>
+</header>
+
+
+<div class="articletext"><p>I was kinda bored yesterday. And was poking around the SVN hooks scripts. When i noticed the post-commit script i was using was written in Python. Nothing wrong with that. I just wondered how hard it would be to do the same in PHP. So i came up with a little test. Which at this moment lacks error checking and just looks plain ugly. But it does the job. and i only needed a working PHP CLI executable to make it work.</p>
 
 <p>First we set the email address and the location of svnlook.</p>
 
@@ -148,10 +147,9 @@ $bodyHTML = str_replace('{EMAIL}', $body, $bodyHTML);
 mail($address, 'SVN post-commit', $bodyHTML, $headers);
 </code></pre>
 </div>
-	
 
-	<div style="clear:both;"></div>
-</article>
+
+<div style="clear:both;"></div>
 
   <footer>
     <p class="meta">

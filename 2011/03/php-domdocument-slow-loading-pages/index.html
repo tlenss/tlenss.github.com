@@ -58,17 +58,16 @@
         <div>
 <article class="hentry" role="article">
   
-<article>
+<header>
 	<header>
-		<header>
-		
-		  <h1 class="entry-title">PHP & DOMDocument Slow Loading Pages</h1>
-		
-		</header>
-	</header>
-
 	
-	<div class="articletext"><p>While trying to load a very basic XML template with <a href="http://nl.php.net/manual/en/domdocument.load.php">DOMDocument::load()</a> i ran into some issues last Friday. During the weekend i completely forgot about this. Thank god :) But since it&#8217;s Monday i have no other option then to solve it. The problem i was experiencing was page loads took about 2 minutes for every controller action in the application. My first thought was that it would be related to permissions. The application not being able to write certain files. But after checking all permissions the problems still remained.</p>
+	  <h1 class="entry-title">PHP & DOMDocument Slow Loading Pages</h1>
+	
+	</header>
+</header>
+
+
+<div class="articletext"><p>While trying to load a very basic XML template with <a href="http://nl.php.net/manual/en/domdocument.load.php">DOMDocument::load()</a> i ran into some issues last Friday. During the weekend i completely forgot about this. Thank god :) But since it&#8217;s Monday i have no other option then to solve it. The problem i was experiencing was page loads took about 2 minutes for every controller action in the application. My first thought was that it would be related to permissions. The application not being able to write certain files. But after checking all permissions the problems still remained.</p>
 
 <p>The logs weren&#8217;t showing anything. No errors, nothing. Time to enable the <a href="http://www.xdebug.org/">XDebug</a> profiler. And after doing a few requests and loading them up in <a href="http://kcachegrind.sourceforge.net/html/Home.html">KCachegrind</a> i found the root of the problem quite fast. A call to the mkDom method was causing the slow load.</p>
 
@@ -91,10 +90,9 @@ Entity &#8216;nbsp&#8217; not defined in /some/file.tal.html, line: 363</p></blo
 
 <p>This was one of those hard to track errors. But it&#8217;s fixed and everything is running smooth again.</p>
 </div>
-	
 
-	<div style="clear:both;"></div>
-</article>
+
+<div style="clear:both;"></div>
 
   <footer>
     <p class="meta">
