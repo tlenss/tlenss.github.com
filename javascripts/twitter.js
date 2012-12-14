@@ -62,7 +62,7 @@ function showTwitterFeed(tweets, twitter_user) {
       content = '';
 
   for (var t in tweets) {
-    content += '<li>'+'<p><a href="https://twitter.com/'+twitter_user+'/status/'+tweets[t].id_str+'"><span class="higlight">'+prettyDate(tweets[t].created_at)+'</span>'+linkifyTweet(tweets[t].text.replace(/\n/g, '<br>'), tweets[t].entities.urls)+'</a></p>'+'</li>';
+    content += '<li>'+'<p><a href="https://twitter.com/'+twitter_user+'/status/'+tweets[t].id_str+'"><span class="higlight">'+prettyDate(tweets[t].created_at)+'</span>'+linkifyTweet(tweets[t].text, tweets[t].entities.urls)+'</a></p>'+'</li>';
   }
   timeline.innerHTML = content;
 }
