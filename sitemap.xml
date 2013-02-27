@@ -573,11 +573,11 @@
         <lastmod>2012-12-14T19:13:30+01:00</lastmod>
     </url>
     <url>
-        <loc>http://lenss.nl/</loc>
-        <lastmod>2012-12-14T23:43:00+01:00</lastmod>
-    </url>
-    <url>
         <loc>http://lenss.nl/6AD79CEF.asc</loc>
         <lastmod>2010-11-23T22:06:43+01:00</lastmod>
+    </url>
+    <url>
+        <loc>http://lenss.nl/</loc>
+        <lastmod>2012-12-14T23:43:00+01:00</lastmod>
     </url>
 </urlset>
