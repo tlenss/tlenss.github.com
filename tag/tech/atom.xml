@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tech | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/tech/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-02-27T12:06:24+01:00</updated>
+  <updated>2013-02-27T22:04:26+01:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -12,6 +12,19 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Zend Optimizer+ integrated into 5.5]]></title>
+    <link href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"/>
+    <updated>2013-02-27T22:12:12+01:00</updated>
+    <id>http://lenss.nl/2013/02/zend-optimizer+-integrated-in-5.5</id>
+    <content type="html"><![CDATA[<p>It looks like PHP is going to get another built in performance boost. The plan is to integrate and open source the <a href="http://files.zend.com/help/previous-version/Zend-Server-4-Community-Edition/zendoptimizerplus.html">Zend Optimizer+</a> component. The fastest Opcode cacher out there. Zend has provided the source. Which is already available on <a href="http://bit.ly/VSsqx3">github</a>. So we get the Opcode cacher to boost  out applications even more. And the community can extend and built upon the available source code. Win! Win!</p>
+
+<p>PHP 5+ has come a long way performance wise without the Optimizer component. But being able to apply opcode cache out of the box is a great addition. And so far the <a href="http://bit.ly/116BnnB">benchmarks</a> look promising. The Optimizer+ component beats <a href="http://pecl.php.net/package/APC">APC</a> hands down in all performed tests.</p>
+
+<p>Read more about Opcode caching and the integration process <a href="https://wiki.php.net/rfc/optimizerplus">here</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[PHPness Serious WTF]]></title>
@@ -229,34 +242,6 @@ rebase = true
 </code></pre></blockquote>
 
 <p>Starting to really like git. A couple of more quirks and things will be running fine.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Workaround Ubuntu 12.04 mysterious system freezes]]></title>
-    <link href="http://lenss.nl/2012/10/workaround-ubuntu-12-04-mysterious-system-freezes/"/>
-    <updated>2012-10-12T15:43:46+02:00</updated>
-    <id>http://lenss.nl/2012/10/workaround-ubuntu-12-04-mysterious-system-freezes</id>
-    <content type="html"><![CDATA[<p>I have two machines running <a href="http://releases.ubuntu.com/12.04/">Ubuntu 12.04</a>. One of them is very stable. And hardly ever gets rebooted. The other machine is displaying some odd behavior every now and then. And with odd behavior i mean. It just completely freezing up. The only thing functioning at that moment is the mouse.</p>
-
-<p>I use this machine daily. And i can't afford to lose work due to system crashes. So i could spend numerous hours trying to figure out what's going on. But that's probably something better left for the Ubuntu devs them selfs. Besides that there are plenty of bug reports floating around that describe this behavior. And one of those <a href="https://bugs.launchpad.net/ubuntu/+source/linux/+bug/999910">posts</a> seemed to resolve the issue for me.</p>
-
-<p>Apparently the bug that causes these crashes is fixed in 12.10. But the changes will only be backported when 12.10 is released. So that leaves me in quite a pickle. But according to the thread. Upgrading the kernel should do the trick. So that's exactly what i did. The kernel packages i used can be found here <a href="http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/">http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/</a></p>
-
-<blockquote><p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-headers-3.4.0-030400_3.4.0-030400.201205210521_all.deb
-$ sudo dpkg -i linux-headers-3.4.0-030400_3.4.0-030400.201205210521_all.deb</p>
-
-<p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-headers-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb
-$ sudo dpkg -i linux-headers-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb</p>
-
-<p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-image-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb
-$ sudo dpkg -i linux-image-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb</p></blockquote>
-
-<p>This comes with a downside of course. All modules compiled for the current kernel need to be recompiled. And i haven't figured out how to rebuild all of them at once. So i just ran the command below for <a href="https://www.virtualbox.org/">VirtualBox</a> and the <a href="http://www.nvidia.com">NVidia</a> drivers.</p>
-
-<blockquote><p>$ sudo dpkg-reconfigure package-name</p></blockquote>
-
-<p>It's probably a better idea to keep the stable kernel for now. But if system crashes are really bugging you. Then this might resolve the issue. Just be careful.</p>
 ]]></content>
   </entry>
   

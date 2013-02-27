@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Adding Colors to PHP CLI Script Output I always loved writing CLI scripts. And in PHP this is no different. I write a lot of CLI importers, scrapers &hellip;">
+  <meta name="description" content="Setup a Basic PHP Development Environment With Vagrant and Chef-solo So there are plenty of posts about this out there already. And this is nothing &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -57,6 +57,244 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2012/08/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/">Setup a Basic PHP Development Environment With Vagrant and Chef-solo</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>So there are plenty of posts about this out there already. And this is nothing new i guess. But i am going to post it anyway. This weekend i spend some time playing with vagrant. And every setup guide seemed to be missing some steps the make the whole process a bit of a hassle. So i compiled my own steps in the post below. The goal was to create a basic <a href="http://www.debian.org/">Debian</a> box for my <a href="http://www.php.net/">PHP</a> development. From which i could serve my local development files.</p>
+
+<p>So to start of we need some packages.</p>
+
+<p><strong>Virtualbox</strong></p>
+
+<p>To create the virtual development image</p>
+
+<p><strong>NFS packages</strong></p>
+
+<p>To make sharing files between host and guest easy as pie</p>
+
+<p><strong>Vagrant</strong></p>
+
+<p>To package the virtual image and manage newly created box</p>
+
+<blockquote><p>$ sudo apt-get install virtualbox vagrant nfs-common nfs-kernel-server</p></blockquote>
+
+<p>Now is a good moment to download any Linux distro you want. I chose Debian. As it´s the most common in my day to day work.</p>
+
+<blockquote><p>$ wget <a href="http://cdimage.debian.org/debian-cd/6.0.5/i386/iso-cd/debian-6.0.5-i386-netinst.iso">http://cdimage.debian.org/debian-cd/6.0.5/i386/iso-cd/debian-6.0.5-i386-netinst.iso</a></p></blockquote>
+
+<p>Now launch <a href="https://www.virtualbox.org/">virtualbox</a> and create a new virtual machine. Just do what you normally do when you create a VM. But make sure to choose VMDK `Virtual Machine Disk´ as the format. The rest should be ok. When the VM is created start it up and choose the freshly downloaded Linux ISO to start the installation.</p>
+
+<p>I only installed the base system + the SSH server. And when that&#8217;s all done. And the VM is running. Login as root and install some packages vagrant needs.</p>
+
+<blockquote><p>$ apt-get install sudo ruby ruby-dev libopenssl-ruby rdoc ri irb build-essential ssl-cert curl rubygems puppet</p></blockquote>
+
+<p>I won&#8217;t be setting up a <a href="http://www.opscode.com/chef/">Chef</a> server to manage the vagrant images. But i will be using <a href="http://wiki.opscode.com/display/chef/Installing+Chef+Client+and+Chef+Solo">Chef-Solo</a> to manage installing packages. So let&#8217;s install Chef.</p>
+
+<p><strong>install chef</strong></p>
+
+<p>Setup the opscode package repositories for APT</p>
+
+<blockquote><p>$ echo &#8220;deb http://apt.opscode.com/ <code>lsb_release -cs</code>-0.10 main&#8221; | tee /etc/apt/sources.list.d/opscode.list
+$ gpg &#8211;keyserver keys.gnupg.net &#8211;recv-keys 83EF826A
+$ gpg &#8211;export packages@opscode.com | tee /etc/apt/trusted.gpg.d/opscode-keyring.gpg > /dev/null</p></blockquote>
+
+<p>And finally install the opscode keymanager and and of course Chef.</p>
+
+<blockquote><p>$ apt-get update
+$ apt-get install opscode-keyring
+$ apt-get install chef</p></blockquote>
+
+<p>The installer will ask for the chef URL. I used <strong>none</strong> because i will be using chef solo</p>
+
+<p>Now we need to add a user for <a href="http://vagrantup.com/">vagrant</a> to connect with.</p>
+
+<blockquote><p>$ adduser vagrant
+  passwrd : vagrant
+$ groupadd admin
+$ usermod -a -G admin vagrant</p></blockquote>
+
+<p>Make sure the admin users can <strong>sudo</strong> without a password.</p>
+
+<blockquote><p>$ visudo
+%admin  ALL=(ALL) NOPASSWD: ALL</p></blockquote>
+
+<p>Disable DNS for the SSH server. This should be a performance gain.</p>
+
+<blockquote><p>$ vi /etc/etc/ssh/sshd_config
+UseDNS no</p></blockquote>
+
+<p>Change the MOTD to something nice</p>
+
+<blockquote><p>$ bash -c &#8220;echo &#8216;Sweeet! A Vagrant box cooked by Chef!!&#8217; > /etc/motd&#8221;
+$ chmod 0777 /etc/motd</p></blockquote>
+
+<p>Switch to the vagrant user to setup the <strong>insecure</strong> vagrant public SSH key.</p>
+
+<blockquote><p>$ su vagrant
+mkdir -p ~/.ssh
+chmod 0700 ~/.ssh
+curl -o ~/.ssh/authorized_keys https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub
+chmod 0600 ~/.ssh/authorized_keys</p></blockquote>
+
+<p>That&#8217;s it for the VM. Now it&#8217;s time for vagrant to do some magic. First we need to create a vagrant package from the newly created VM.</p>
+
+<blockquote><p>$ vagrant package &#8211;base devbox
+$ mv package.box devbox.box</p></blockquote>
+
+<p>Done! Let&#8217;s test it.</p>
+
+<blockquote><p>$ vagrant box add devbox devbox.box
+$ mkdir test &amp;&amp; cd test
+$ vagrant init devbox
+$ vagrant up
+$ vagrant ssh</p></blockquote>
+
+<p>Voila ssh&#8217;d into the VM</p>
+
+<blockquote><p>$ exit
+$ vagrant halt
+$ vagrant destroy</p></blockquote>
+
+<p>So that&#8217;s all fine and dandy. But a base system with SSH is not that useful. So that&#8217;s where Chef comes in. Like i mentioned earlier i won&#8217;t be using a Chef-Server. I will be using Chef-Solo. And will be doing a very basic setup.</p>
+
+<p>A Chef install script is called a <a href="http://wiki.opscode.com/display/chef/Cookbooks">cookbook</a>. And they can be found all over the place. But the main repository is over here (find more here https://github.com/opscode/cookbooks). So in our vagrant folder we create a folder called cookbooks.</p>
+
+<blockquote><p>$ mkdir cookbooks
+$ cd cookbooks</p></blockquote>
+
+<p>And we install some basic cookbooks. Plus a very simple one i hacked together to install the latest <a href="http://www.dotdeb.org/">dotdeb</a> package repositories.</p>
+
+<p><a href="https://github.com/tlenss/misc/tree/master/chef/cookbooks/dotdeb">https://github.com/tlenss/misc/tree/master/chef/cookbooks/dotdeb</a></p>
+
+<blockquote><p>$ git clone <a href="https://github.com/opscode/cookbooks">https://github.com/opscode/cookbooks</a></p></blockquote>
+
+<p>This will be enough for now. And will allow for some basic PHP development. To enable these package we have to edit the <strong>Vagrantfile</strong> file.</p>
+
+<blockquote><p>$ vi Vagrantfile</p></blockquote>
+
+<p>Add these lines for apache forwarding and NFS sharing</p>
+
+<blockquote><p>config.vm.share_folder &#8220;www&#8221;, &#8220;/var/www&#8221;, &#8220;/dev/location&#8221;</p></blockquote>
+
+<p>uncomment the :hostonly line so we can acces apache from our local box. And setup a hosts file mapping</p>
+
+<blockquote><p>config.vm.network :hostonly, &#8220;192.168.164.123&#8221;
+$ sudo sed -i &#8216;$ a\
+192.168.164.123 dev.box&#8217; /etc/hosts</p></blockquote>
+
+<p>Configure chef&#8217;s cookbook path and add some recipes from the cloned cookbooks.</p>
+
+<blockquote><p>config.vm.provision :chef_solo do |chef|</p>
+
+<pre><code>chef.json = {
+    "mysql" =&gt; {
+        "server_root_password" =&gt; "somepassword"
+    "bind_address" =&gt; "127.0.0.1"
+    }
+}
+</code></pre></blockquote>
+
+<pre><code>chef.cookbooks_path = "cookbooks"
+chef.add_recipe("dotdeb")
+chef.add_recipe("dotdeb::php54")
+chef.add_recipe("openssl")
+chef.add_recipe("apache2")
+chef.add_recipe("apache2::mod_php5")
+chef.add_recipe("apache2::mod_rewrite")
+chef.add_recipe("mysql")
+chef.add_recipe("mysql::server")
+chef.add_recipe("memcached")
+chef.add_recipe("vim")
+chef.add_recipe("php")
+chef.add_recipe("php::module_curl")
+chef.add_recipe("php::module_mysql")
+chef.add_recipe("php::module_memcache")
+chef.add_recipe("php::module_sqlite3")
+</code></pre>
+
+<p>end</p>
+
+<p>Time to call vagrant again. And this time the startup takes a bit longer. All the selected packages get installed. And once that&#8217;s done. And a fresh development box is waiting.</p>
+
+<blockquote><p>$ vagrant up
+$ vagrant ssh</p></blockquote>
+
+<p>Let&#8217;s check PHP</p>
+
+<blockquote><p>$ php -v
+PHP 5.4.6-1~dotdeb.0 (cli) (built: Aug 19 2012 08:45:58)
+Copyright (c) 1997-2012 The PHP Group
+Zend Engine v2.4.0, Copyright (c) 1998-2012 Zend Technologies</p></blockquote>
+
+<p>What about apache?</p>
+
+<blockquote><p>$ ps -aux | grep apache
+root       790  0.1  0.2   5352  2580 ?        Ss   23:40   0:00 /usr/sbin/apache2 -k start
+www-data   793  0.0  0.1   5124  1764 ?        S    23:40   0:00 /usr/sbin/apache2 -k start
+www-data   797  0.0  0.2 546408  2412 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start
+www-data   798  0.0  0.2 546408  2404 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start
+www-data   811  0.0  0.2 546408  2424 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start</p></blockquote>
+
+<p>Nice! And Pointing the browser to http://localhost:8080 loads the NFS shared folder up through Apache. That&#8217;s it for now. Time to sleep&#8230;</p>
+
+<p>Some sources i used:
+[1] <a href="http://vagrantup.com/v1/docs/base_boxes.html">http://vagrantup.com/v1/docs/base_boxes.html</a>
+[2] <a href="https://github.com/yevgenko/cookbook-dotdeb">https://github.com/yevgenko/cookbook-dotdeb</a>
+[3] <a href="http://vagrantup.com/v1/docs/provisioners/chef_solo.html">http://vagrantup.com/v1/docs/provisioners/chef_solo.html</a></p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-27T00:47:05+02:00" pubdate data-updated="true">Aug 27<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2012/08/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -966,117 +1204,6 @@ $_SESSION['valid_id'] = session_id();
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2011/11/abbywinters-com-is-hiring/">Abbywinters.com Is Hiring!</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p><a href="http://careers.abbywinters.com/job-opportunities/senior-php-developer/"><img src="http://lenss.nl/images/2011/11/aw-logo-roundel-blue.png" alt="" /></a> If you&#8217;re looking for a new challenging and exiting Senior Webdeveloper position. Don&#8217;t look any further. If you already think you have the job of your dreams. Think again!</p>
-
-<p><em><a href="http://www.abbywinters.com">abbywinters.com</a> <strong>(NSFW)</strong> is one of the largest and most ethical, highly rated, well designed, and successful erotic websites in the world today. abbywinters.com is the WINNER of the AVN 2011 Awards for Best Membership site!</em></p>
-
-<p>And we are looking to hire a new talented webdeveloper to expand our small team. What would you think about joining our small Agile team of highly qualified professionals?</p>
-
-<p>You will be creating sexy, exiting and game changing experiences for the web, work for one of the industry leaders. And just be part of an awesome company. Some of the jobs key elements are:</p>
-
-<ul>
-<li><p>Implementing development projects</p></li>
-<li><p>Leading informal mentoring during day-to-day work</p></li>
-<li><p>Contribute to design of development projects</p></li>
-<li><p>Track, reduce, and prevent technical debt in Web Development projects</p></li>
-</ul>
-
-
-<blockquote><p>Motivated by principles of social responsibility, we deliver provocative media by embracing imagination, creativity and emerging technologies. Our models, customers and business partners are inspired by our fervid passion.</p>
-
-<p>Our experienced staff use state-of-the-art content production facilities to produce 10 shoots a week from concept to finished art, utilizing the most advanced digital capture, post production and delivery systems in the world.</p>
-
-<p>You will be working directly with our Web Dev Manager, Lead developer and colleagues in the web dev team. We need each individual to contribute for us to continue as a pioneer in our industry.</p></blockquote>
-
-<p>If you posses a &#8220;Can do&#8221; attitude. Would like to work in the center of Amsterdam. And are able to identify your self in the criteria below. You might want to head over to our <a href="http://careers.abbywinters.com/job-opportunities/senior-php-developer/">career portal</a> for a more detailed description.</p>
-
-<p><strong>Technical competencies – Required</strong></p>
-
-<ul>
-<li><p>High level of skill with PHP 5</p></li>
-<li><p>High level of skill with Object Oriented Programming</p></li>
-<li><p>High level of skill with HTML/CSS</p></li>
-<li><p>High level of skill with JavaScript</p></li>
-<li><p>High level of skill with Internet Applications</p></li>
-<li><p>Moderate level of skill with Unit Testing and Test Driven Design</p></li>
-<li><p>Moderate level of skill with MySQL</p></li>
-<li><p>Moderate level of skill with Windows XP operating system</p></li>
-<li><p>Experience with the GNU/Linux operating system</p></li>
-<li><p>Competent with Revision Control systems (Subversion)</p></li>
-<li><p>Bachelor of Science in Computer Science, or equivalent experience</p></li>
-<li><p>Zend Certified Engineer, or equivalent experience</p></li>
-<li><p>At least 5 years experience in Web Application Development</p></li>
-</ul>
-
-
-<p><strong>Technical competencies – Desired</strong></p>
-
-<ul>
-<li><p>Moderate level of skill with the Apache HTTP server</p></li>
-<li><p>Good understanding of the Model-View-Controller pattern</p></li>
-<li><p>Good understanding of the ActiveRecord Object-Relational-Mapping pattern</p></li>
-<li><p>Familiarity with Agile software development practices (Scrum)</p></li>
-<li><p>E-commerce</p></li>
-<li><p>Agile development experience</p></li>
-</ul>
-
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-11-22T14:46:51+01:00" pubdate data-updated="true">Nov 22<span>nd</span>, 2011</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/javascript/'>Javascript</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/sql/'>SQL</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2011/11/abbywinters-com-is-hiring/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/3/">&larr; Older</a></div>
@@ -1129,6 +1256,8 @@ $_SESSION['valid_id'] = session_id();
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
+		
 		<li><a href="http://lenss.nl/2013/02/phpness-serious-wtf/"><span class="higlight">February, 2013</span> PHPness Serious WTF</a></li>
 		
 		<li><a href="http://lenss.nl/2012/11/publish-google-reader-shared-items/"><span class="higlight">November, 2012</span> Publish Google Reader shared items</a></li>
@@ -1146,8 +1275,6 @@ $_SESSION['valid_id'] = session_id();
 		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/"><span class="higlight">September, 2012</span> Workaround for running WoW with patch 5.0.4 on Ubuntu</a></li>
-		
-		<li><a href="http://lenss.nl/2012/08/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/"><span class="higlight">August, 2012</span> Setup a basic PHP development environment with Vagrant and chef-solo</a></li>
 		
 	</ul>
 </div>
@@ -1168,7 +1295,7 @@ $_SESSION['valid_id'] = session_id();
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 117.14285714285714%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(112)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.21428571428571%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.14285714285714%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.60714285714286%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.28571428571429%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.07142857142857%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.07142857142857%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.21428571428572%'>PHP(62)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.28571428571429%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.21428571428571%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.35714285714286%'>Tech(94)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.28571428571429%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.99115044247787%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(113)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1858407079646%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.12389380530973%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.59292035398231%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.24778761061947%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.06194690265487%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.06194690265487%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.4513274336283%'>PHP(63)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.24778761061947%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1858407079646%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.44247787610618%'>Tech(95)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.24778761061947%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

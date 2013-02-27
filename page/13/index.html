@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Zend_Filter_Inflector and the CamelCaseToUnderscore Filter I was thinking about how to add theme support to an application that makes use of the &hellip;">
+  <meta name="description" content="SVN Over SSH in Zend Studio for Eclipse This should be pretty damn straight forward. However i ran into some problems while setting this up. At my &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -57,6 +57,105 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2008/08/svn-over-ssh-in-zend-studio-for-eclipse/">SVN Over SSH in Zend Studio for Eclipse</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>This should be pretty damn straight forward. However i ran into some problems while setting this up. At my daily work spot we use <a href="http://subversion.tigris.org/">SVN</a> over <a href="http://nl.wikipedia.org/wiki/Hypertext_Transfer_Protocol">HTTP</a> so we can do <a href="http://en.wikipedia.org/wiki/NTLM">NTLM</a> authentication. This sucks in many ways. But most of all it&#8217;s slow. And i mean really slow. Last week i tried to retrieve the log information for a project in the repository. This took my IDE 30 minutes. At first i thought my IDE was just being lame on me. But it turns out it&#8217;s SVN over HTTP that&#8217;s the culprit.</p>
+
+<p>So i started to do some testing over the standard svn:// protocol. And retrieving the logs on the same repository took about 2 seconds. Amazing. That&#8217;s enough reason to switch to the svn:// protocol. This however was not possible. Because our network policy doesn&#8217;t allow for multiple log ins. All is centrally stored on some M$ domain controllers. That&#8217;s why SVN over HTTP was used in the first place. End of story i thought.</p>
+
+<p>But i couldn&#8217;t let go of this. The situation becomes less workable every day. So i decided to look around for other options. When i notice some log ins were merged to the <em>nix boxes. i immediately thought about using SSH in combination with SVN. Logging in on the </em>nix box was no problem. So let&#8217;s try that with SVN.</p>
+
+<blockquote><p>svn+ssh://location/of/repo</p></blockquote>
+
+<p>This gives an error about a mismatched handshake. And i just couldn&#8217;t get this to work until i found a post made by <a href="http://www.woodwardweb.com/java/000155.html">Martin Woodward</a>. He explains how to setup an environment variable on my local windows machine. To the tortoise PLink executable.</p>
+
+<blockquote><p>Set the environment variable (by right-clicking on My Computer, Properties, Advanced, Environment Variables, New):-
+Variable name: SVN_SSH
+Variable value: C:\Program Files\TortoiseSVN\bin\TortoisePlink.exe</p></blockquote>
+
+<p>This seemed to work i thought. i was presented with a login box. But no matter how i tried i couldn&#8217;t login. It just kept giving me the login box. So i opened a SSH session to the server and tried to do the same from there.</p>
+
+<blockquote><p>svn list svn+ssh://location/of/repo</p></blockquote>
+
+<p>After hitting enter i typed my password and got the following message.</p>
+
+<blockquote><p>bash: line 1: svnserve: command not found
+svn: Connection closed unexpectedly</p></blockquote>
+
+<p>Now we&#8217;re getting somewhere. So svnserve could not be found. Probably because it&#8217;s not in the $PATH variable. So let&#8217;s add it there.</p>
+
+<blockquote><p>vi .bashrc
+PATH=$PATH:/usr/local/bin</p></blockquote>
+
+<p>So let&#8217;s try to get a listing of the repo.</p>
+
+<blockquote><p>svn list svn+ssh://location/of/repo</p></blockquote>
+
+<p>This gave me the following message:</p>
+
+<blockquote><p>svn: No repository found in &#8216;svn+ssh://location/of/repo&#8217;</p></blockquote>
+
+<p>Seems that when you use SVN over SSH you need to give the full location to the repository. Not the web server path but the complete file system path. After changing the webserver path for the file system path everything worked out. From here on adding the repository to eclipse is easy.
+I always open the repository view. From there i right click > New > repository Location. The URL to add will look something like</p>
+
+<blockquote><p>svn+ssh://file/system/location/of/repository</p></blockquote>
+
+<p>So now we can enjoy the speed of the svn:// protocol. And the security of SSH. So let&#8217;s do some coding :)</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-08-21T07:13:18+02:00" pubdate data-updated="true">Aug 21<span>st</span>, 2008</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2008/08/svn-over-ssh-in-zend-studio-for-eclipse/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -773,89 +872,6 @@ http://pear.php.net/manual/</p>
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2008/07/help-a-mysql-support-engineer/">Help a MySQL Support Engineer.</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>Today on <a href="http://www.planet-php.net/">planet-php.net</a> there are some posts [<a href="http://blogs.linux.ie/kenguest/2008/07/14/andrii-nikitin%e2%80%99s-son-needs-help-asap/">1</a>] [<a href="http://www.phpcult.com/blog/andrii-nikitis-son-needs-our-help/">2</a>] about <a href="http://www.mysql.com/about/help-ivan.html">Andrii Nikitin</a> a MySQL support engineer based in Ukraine. Andrii&#8217;s (2,5 year old) son Ivan is in need of a bone marrow transplant. The cost for this operation is somewhere bewteen $150.000 and $250.000. Which is a lot of money. So he asked the MySQL community for help. Although i don&#8217;t know the guy. I do use MySQL regularly. And i feel for him and his family. So decided to add a donation. I&#8217;m in no way rich and just bought a new house. But i think every body should pitch in and help out this guy. And offer his son a fair chance at life.</p>
-
-<p><strong>Paypal:</strong>
-<a href="http://tinyurl.com/6rxjsz">http://tinyurl.com/6rxjsz </a>
-Or
-<strong>by check payable to: </strong></p>
-
-<p>MySQL, Inc.
-Mail to: MySQL, Inc.
-Attn: Linda Dong
-20450 Stevens Creek Blvd #350
-Cupertino, CA 95014</p>
-
-<p>or
-<strong>US wire transfer:</strong></p>
-
-<p>MySQL Inc: 7396643001
-SWIFT: NDEAUS3N</p>
-
-<p>or
-<strong>International wire transfer in any currency:</strong>
-Bank: Nordea Bank
-Bank address: Stockholm, Sweden
-Bank account: 3259 17 03868
-IBAN: SE27 3000 0000 0325 9170 3868
-SWIFT: NDEASESS</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-07-15T08:47:50+02:00" pubdate data-updated="true">Jul 15<span>th</span>, 2008</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2008/07/help-a-mysql-support-engineer/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/14/">&larr; Older</a></div>
@@ -908,6 +924,8 @@ SWIFT: NDEASESS</p>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
+		
 		<li><a href="http://lenss.nl/2013/02/phpness-serious-wtf/"><span class="higlight">February, 2013</span> PHPness Serious WTF</a></li>
 		
 		<li><a href="http://lenss.nl/2012/11/publish-google-reader-shared-items/"><span class="higlight">November, 2012</span> Publish Google Reader shared items</a></li>
@@ -925,8 +943,6 @@ SWIFT: NDEASESS</p>
 		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/"><span class="higlight">September, 2012</span> Workaround for running WoW with patch 5.0.4 on Ubuntu</a></li>
-		
-		<li><a href="http://lenss.nl/2012/08/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/"><span class="higlight">August, 2012</span> Setup a basic PHP development environment with Vagrant and chef-solo</a></li>
 		
 	</ul>
 </div>
@@ -947,7 +963,7 @@ SWIFT: NDEASESS</p>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 117.14285714285714%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(112)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.21428571428571%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.14285714285714%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.60714285714286%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.28571428571429%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.07142857142857%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.07142857142857%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.21428571428572%'>PHP(62)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.28571428571429%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.21428571428571%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.35714285714286%'>Tech(94)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.28571428571429%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.99115044247787%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(113)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1858407079646%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.12389380530973%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.59292035398231%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.24778761061947%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.06194690265487%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.06194690265487%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.4513274336283%'>PHP(63)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.24778761061947%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1858407079646%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.44247787610618%'>Tech(95)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.24778761061947%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

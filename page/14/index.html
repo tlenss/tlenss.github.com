@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Zend Framework BaseUrl Helper Today i was working with the Zend Framework. And needed the baseUrl to set the correct path for stylesheets and &hellip;">
+  <meta name="description" content="Help a MySQL Support Engineer. Today on planet-php.net there are some posts [1] [2] about Andrii Nikitin a MySQL support engineer based in Ukraine. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -57,6 +57,89 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2008/07/help-a-mysql-support-engineer/">Help a MySQL Support Engineer.</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>Today on <a href="http://www.planet-php.net/">planet-php.net</a> there are some posts [<a href="http://blogs.linux.ie/kenguest/2008/07/14/andrii-nikitin%e2%80%99s-son-needs-help-asap/">1</a>] [<a href="http://www.phpcult.com/blog/andrii-nikitis-son-needs-our-help/">2</a>] about <a href="http://www.mysql.com/about/help-ivan.html">Andrii Nikitin</a> a MySQL support engineer based in Ukraine. Andrii&#8217;s (2,5 year old) son Ivan is in need of a bone marrow transplant. The cost for this operation is somewhere bewteen $150.000 and $250.000. Which is a lot of money. So he asked the MySQL community for help. Although i don&#8217;t know the guy. I do use MySQL regularly. And i feel for him and his family. So decided to add a donation. I&#8217;m in no way rich and just bought a new house. But i think every body should pitch in and help out this guy. And offer his son a fair chance at life.</p>
+
+<p><strong>Paypal:</strong>
+<a href="http://tinyurl.com/6rxjsz">http://tinyurl.com/6rxjsz </a>
+Or
+<strong>by check payable to: </strong></p>
+
+<p>MySQL, Inc.
+Mail to: MySQL, Inc.
+Attn: Linda Dong
+20450 Stevens Creek Blvd #350
+Cupertino, CA 95014</p>
+
+<p>or
+<strong>US wire transfer:</strong></p>
+
+<p>MySQL Inc: 7396643001
+SWIFT: NDEAUS3N</p>
+
+<p>or
+<strong>International wire transfer in any currency:</strong>
+Bank: Nordea Bank
+Bank address: Stockholm, Sweden
+Bank account: 3259 17 03868
+IBAN: SE27 3000 0000 0325 9170 3868
+SWIFT: NDEASESS</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-07-15T08:47:50+02:00" pubdate data-updated="true">Jul 15<span>th</span>, 2008</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2008/07/help-a-mysql-support-engineer/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -749,141 +832,6 @@ set_include_path($inc_path);
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2008/06/mootools-fxslide-flicker-bug/">Mootools FX.Slide Flicker Bug</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>When my coworker decided to use <a href="http://mootools.net/">mootools</a> for a project we are working on. I decided to give it a try also.</p>
-
-<p>I decided to use the <a href="http://docs.mootools.net/Plugins/Fx.Slide">FX.Slide</a> effect on some tab based boxes. This was pretty straight forward. The mootools library is pretty easy in usage. And the documentation is darn good. Bellow i will show how to add the most basic FX.Slide effect. This is directly copied from the mootools <a href="http://docs.mootools.net/">manual</a>.</p>
-
-<p>To create the sliding effect all you need is the following lines of javascript.</p>
-
-<pre><code>window.addEvent('domready', function() {
-
-    // create an instance of the FX.Slide object
-    var mySlide = new Fx.Slide('test');
-
-    // Attach the click event to the wrapper div
-    $('toggle').addEvent('click', function(e) {
-        e = new Event(e);
-    mySlide.toggle();
-    e.stop();
-    });
-});
-</code></pre>
-
-<p>And of course some HTML to represent the sliding elements.</p>
-
-<pre><code>&lt;h3 class="section"&gt;Fx.Slide Vertical&lt;/h3&gt;
-
-&lt;a id="toggle" href="#"&gt;toggle&lt;/a&gt;
-&lt;div id="test"&gt;
-foo
-&lt;/div&gt;
-</code></pre>
-
-<p>And some CSS to cover it all in a nice sauce.</p>
-
-<pre><code>#test {
-    background: #222;
-    color: #fff;
-    padding: 10px;
-    margin: 20px;
-    border: 10px solid pink;
-}
-</code></pre>
-
-<p>So this looks great. It functions well. And the sliding is very smooth. There is one small problem though. When the wrapper contains an element with a style attribute overflow set to &#8220;auto&#8221;. The sliding will cause a flicker effect on the page. This is probably caused by rescaling the wrapper. Witch in it&#8217;s turn rescales the element with attribute overflow set to auto.</p>
-
-<p>I didn&#8217;t really try to figure out why this happens. Maybe that&#8217;s a later project. But i did come up with a small fix. When a slide object is created. FX.Slide wraps a div around the container that will slide in and out. This wrapper has the attribute overflow set to hidden. I couldn&#8217;t figure out why overflow is set to hidden on this wrapper. So i added the ability to set it through the options object. When overflow is set to auto the flicker bug disappears. To add this feature we need to add some small changes to the FX.Slide class.</p>
-
-<pre><code>options: {
-    mode: 'vertical'
-},
-</code></pre>
-
-<p>First we change the code above to reflect the code below:</p>
-
-<pre><code>options: {
-    mode: 'vertical',
-    overflow: 'hidden'
-},
-</code></pre>
-
-<p>Then on the third line of the initialize function we change:</p>
-
-<pre><code>this.wrapper = new Element('div', {'styles': $extend(this.element.getStyles('margin'), {'overflow': "hidden"})}).injectAfter(this.element).adopt(this.element);
-</code></pre>
-
-<p>To:</p>
-
-<pre><code>this.wrapper = new Element('div', {'styles': $extend(this.element.getStyles('margin'), {'overflow': this.options.overflow})}).injectAfter(this.element).adopt(this.element);
-</code></pre>
-
-<p>When all this is done and we want to create a FX.Slide object without the flicker bug. We add the options parameter. The constructor will make sure the right value is used.</p>
-
-<pre><code>var mySlide2 = new Fx.Slide('test', {overflow: 'auto'});
-
-$('toggle').addEvent('click', function(e){
-    e = new Event(e);
-    mySlide2.toggle();
-    e.stop();
-});
-</code></pre>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-06-10T10:43:19+02:00" pubdate data-updated="true">Jun 10<span>th</span>, 2008</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2008/06/mootools-fxslide-flicker-bug/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/15/">&larr; Older</a></div>
@@ -936,6 +884,8 @@ $('toggle').addEvent('click', function(e){
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
+		
 		<li><a href="http://lenss.nl/2013/02/phpness-serious-wtf/"><span class="higlight">February, 2013</span> PHPness Serious WTF</a></li>
 		
 		<li><a href="http://lenss.nl/2012/11/publish-google-reader-shared-items/"><span class="higlight">November, 2012</span> Publish Google Reader shared items</a></li>
@@ -953,8 +903,6 @@ $('toggle').addEvent('click', function(e){
 		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/"><span class="higlight">September, 2012</span> Workaround for running WoW with patch 5.0.4 on Ubuntu</a></li>
-		
-		<li><a href="http://lenss.nl/2012/08/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/"><span class="higlight">August, 2012</span> Setup a basic PHP development environment with Vagrant and chef-solo</a></li>
 		
 	</ul>
 </div>
@@ -975,7 +923,7 @@ $('toggle').addEvent('click', function(e){
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 117.14285714285714%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(112)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.21428571428571%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.14285714285714%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.60714285714286%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.28571428571429%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.07142857142857%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.07142857142857%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.21428571428572%'>PHP(62)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.28571428571429%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.21428571428571%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.35714285714286%'>Tech(94)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.28571428571429%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.99115044247787%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(113)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1858407079646%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.12389380530973%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.59292035398231%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.24778761061947%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.06194690265487%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.06194690265487%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.4513274336283%'>PHP(63)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.24778761061947%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1858407079646%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.44247787610618%'>Tech(95)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.24778761061947%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

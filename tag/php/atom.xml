@@ -4,7 +4,7 @@
   <title><![CDATA[Category: PHP | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/php/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-02-27T12:06:24+01:00</updated>
+  <updated>2013-02-27T22:04:26+01:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -12,6 +12,19 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Zend Optimizer+ integrated into 5.5]]></title>
+    <link href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"/>
+    <updated>2013-02-27T22:12:12+01:00</updated>
+    <id>http://lenss.nl/2013/02/zend-optimizer+-integrated-in-5.5</id>
+    <content type="html"><![CDATA[<p>It looks like PHP is going to get another built in performance boost. The plan is to integrate and open source the <a href="http://files.zend.com/help/previous-version/Zend-Server-4-Community-Edition/zendoptimizerplus.html">Zend Optimizer+</a> component. The fastest Opcode cacher out there. Zend has provided the source. Which is already available on <a href="http://bit.ly/VSsqx3">github</a>. So we get the Opcode cacher to boost  out applications even more. And the community can extend and built upon the available source code. Win! Win!</p>
+
+<p>PHP 5+ has come a long way performance wise without the Optimizer component. But being able to apply opcode cache out of the box is a great addition. And so far the <a href="http://bit.ly/116BnnB">benchmarks</a> look promising. The Optimizer+ component beats <a href="http://pecl.php.net/package/APC">APC</a> hands down in all performed tests.</p>
+
+<p>Read more about Opcode caching and the integration process <a href="https://wiki.php.net/rfc/optimizerplus">here</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[PHPness Serious WTF]]></title>
@@ -229,44 +242,6 @@ rebase = true
 </code></pre></blockquote>
 
 <p>Starting to really like git. A couple of more quirks and things will be running fine.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Fixing character replacement in Wordpress]]></title>
-    <link href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"/>
-    <updated>2012-09-24T21:39:17+02:00</updated>
-    <id>http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress</id>
-    <content type="html"><![CDATA[<p>This has been bugging me for a while. But not enough to actually look into it. And Google searches for <a href="http://wordpress.org/">Wordpress</a> display wrong characters results in a whole forest of threads about UTF-8 encoding. This has nothing to do with that. So what's the issue here?</p>
-
-<p>Wordpress is replacing characters in my posts. The most annoying being the replacement of -- <del>is</del> with - . Which makes no sense at all. Specially when creating code samples. Or command line parameters. My thought is why on earth would you do that? But it probably has something to do with typography...</p>
-
-<p>Anyways. Searching for it today made me stumble onto <a href="http://blog.paulbetts.org/index.php/2007/06/01/stop-wordpress-from-turning-double-dash-into-long-dash/">this</a> post from 2007 by <a href="http://blog.paulbetts.org/">Paul Betts</a>. And believe it or not. Wordpress is still doing that. The code has changed slightly tough. So i created a quick patch as a temporary solution. And need to figure out if this can be circumvented by a plugin or something. If that doesn't exists already :)</p>
-
-<p>The patch will replace the following lines</p>
-
-<pre><code>$static_characters = array_merge( array( '---', ' -- ', '--', ' - ', 'xn-', '...', '``', '\'\'', ' (tm)' ), $cockney );
-$static_replacements = array_merge( array( $em_dash, ' ' . $em_dash . ' ', $en_dash, ' ' . $en_dash . ' ', 'xn--', '…', $opening_quote, 
-    $closing_quote, ' ™' ), $cockneyreplace 
-);
-</code></pre>
-
-<p>With</p>
-
-<pre><code>$static_characters = $cockney;
-$static_replacements = $cockneyreplace;
-</code></pre>
-
-<p>Patching the file is easy.</p>
-
-<p><strong>This patch was created for v3.4.2. And will most likely fail on other versions of Wordpress.</strong></p>
-
-<blockquote><p>$ cd wp-includes/
-$ wget <a href="https://raw.github.com/tlenss/misc/master/patch/wordpress-charreplace.patch">https://raw.github.com/tlenss/misc/master/patch/wordpress-charreplace.patch</a>
-$ patch -p0 &lt; wordpress-charreplace.patch
-patching file formatting.php</p></blockquote>
-
-<p>That's all.</p>
 ]]></content>
   </entry>
   
