@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tech | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/tech/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-02-27T11:55:35+01:00</updated>
+  <updated>2013-02-27T12:02:34+01:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -12,6 +12,42 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[PHPness Serious WTF]]></title>
+    <link href="http://lenss.nl/2013/02/phpness-serious-wtf/"/>
+    <updated>2013-02-27T11:58:26+01:00</updated>
+    <id>http://lenss.nl/2013/02/phpness-serious-wtf</id>
+    <content type="html"><![CDATA[<p>It's been a while since i last blogged. And i don't really have anything new to offer. But i would like to comment on some current event. There has been some commotion about a free t shirt that was distributed on the SunshinePHP conference this year.</p>
+
+<p><a href="http://lenss.nl/images/2013/02/web-and-php-img.png"><img src="http://lenss.nl/images/2013/02/web-and-php-img.png" alt="" /></a></p>
+
+<p>The first time i saw the shirt i could not make out what was so offending that people would start blogging about it. Somebody had to point that out for me. So what's the deal here? Apparently the shirt's slogan was intentionally created with a slight sexual undertone. The idea comes from the enlarge your penis SPAM we all know!</p>
+
+<p>Some people have perceived this as being sexist. And even go so far as to personally attack the people behind the shirt.</p>
+
+<p>Personally i don't think the shirt is sexist or offensive at all. And don't really understand all the fuss. Sex has never been an issue for me in the PHP community. I learn just as much from female developers as i do from the male ones. We are all equal. People that feel the need to defend the opposite sex are probably the ones that see a difference. Even so! Why make such a big deal of something so small? I never seen anybody blog about the programming with attitude poster.</p>
+
+<p><a href="http://lenss.nl/images/2013/02/php-programming.jpg"><img src="http://lenss.nl/images/2013/02/php-programming.jpg" alt="" /></a></p>
+
+<p>I think the PHP community has just lost a bit of it's shine and coolness. I've always been under the impression the PHP community consisted of free thinking people that do what they love. Develop stuff. And that's exactly what attracted me to it 12 years ago in the first place.</p>
+
+<p>The community has grown quite a lot in that period of time. The thing with every communities is that it brings forth vocal people. Which is a great thing in general. But not so good when people forget their responsibility towards the rest of the community. And that's exactly what happened the last few days. Personal issues have become public. To me it seems many of you have missed the boat completely. You don't have to like the shirt. But there is absolutely no reason to bash the initiative in public.</p>
+
+<p>Here are some of the articles the spawned over the last couple days:</p>
+
+<p><a href="http://webandphpmag.wordpress.com/2013/02/25/phpness-gate-raising-interesting-issues/">PHPness Gate – raising interesting issues</a>
+<a href="http://www.brandonsavage.net/on-public-outrage-and-bad-actors/">On Public Outrage And Bad Actors</a>
+<a href="http://caseysoftware.com/blog/sexism-php-community">Sexism in the PHP Community</a>
+<a href="http://www.leftontheweb.com/message/On_SexismRacismAnyotherism_and_the_PHP_Community">On Sexism/Racism/Any-other-ism and the PHP Community</a>
+<a href="http://blog.calevans.com/2013/02/22/sexism-and-php/">Sexism and PHP</a>
+<a href="http://news.ycombinator.com/item?id=5269120">Hacker news - Sexism and PHP (calevans.com)</a>
+<a href="http://www.gogolek.co.uk/blog/2013/02/web-and-php-sexist-tshirt-debate-my-2-cents/">Web &amp; PHP sexist tshirt debate – my 2 cents</a>
+<a href="http://blog.ircmaxell.com/2013/02/on-equality-sexism-and-even-hand.html">On Equality, Sexism and an Even Hand</a></p>
+
+<p>So let's all just respect one another. And keep the PHP community a friendly place. This kind of nonsense has no positive impact on anybody.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Publish Google Reader shared items]]></title>
@@ -214,44 +250,6 @@ $ sudo dpkg -i linux-image-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.
 <blockquote><p>$ sudo dpkg-reconfigure package-name</p></blockquote>
 
 <p>It's probably a better idea to keep the stable kernel for now. But if system crashes are really bugging you. Then this might resolve the issue. Just be careful.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Fixing character replacement in Wordpress]]></title>
-    <link href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"/>
-    <updated>2012-09-24T21:39:17+02:00</updated>
-    <id>http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress</id>
-    <content type="html"><![CDATA[<p>This has been bugging me for a while. But not enough to actually look into it. And Google searches for <a href="http://wordpress.org/">Wordpress</a> display wrong characters results in a whole forest of threads about UTF-8 encoding. This has nothing to do with that. So what's the issue here?</p>
-
-<p>Wordpress is replacing characters in my posts. The most annoying being the replacement of -- <del>is</del> with - . Which makes no sense at all. Specially when creating code samples. Or command line parameters. My thought is why on earth would you do that? But it probably has something to do with typography...</p>
-
-<p>Anyways. Searching for it today made me stumble onto <a href="http://blog.paulbetts.org/index.php/2007/06/01/stop-wordpress-from-turning-double-dash-into-long-dash/">this</a> post from 2007 by <a href="http://blog.paulbetts.org/">Paul Betts</a>. And believe it or not. Wordpress is still doing that. The code has changed slightly tough. So i created a quick patch as a temporary solution. And need to figure out if this can be circumvented by a plugin or something. If that doesn't exists already :)</p>
-
-<p>The patch will replace the following lines</p>
-
-<pre><code>$static_characters = array_merge( array( '---', ' -- ', '--', ' - ', 'xn-', '...', '``', '\'\'', ' (tm)' ), $cockney );
-$static_replacements = array_merge( array( $em_dash, ' ' . $em_dash . ' ', $en_dash, ' ' . $en_dash . ' ', 'xn--', '…', $opening_quote, 
-    $closing_quote, ' ™' ), $cockneyreplace 
-);
-</code></pre>
-
-<p>With</p>
-
-<pre><code>$static_characters = $cockney;
-$static_replacements = $cockneyreplace;
-</code></pre>
-
-<p>Patching the file is easy.</p>
-
-<p><strong>This patch was created for v3.4.2. And will most likely fail on other versions of Wordpress.</strong></p>
-
-<blockquote><p>$ cd wp-includes/
-$ wget <a href="https://raw.github.com/tlenss/misc/master/patch/wordpress-charreplace.patch">https://raw.github.com/tlenss/misc/master/patch/wordpress-charreplace.patch</a>
-$ patch -p0 &lt; wordpress-charreplace.patch
-patching file formatting.php</p></blockquote>
-
-<p>That's all.</p>
 ]]></content>
   </entry>
   

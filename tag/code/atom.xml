@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Code | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/code/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-02-27T11:55:35+01:00</updated>
+  <updated>2013-02-27T12:02:34+01:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -12,6 +12,42 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[PHPness Serious WTF]]></title>
+    <link href="http://lenss.nl/2013/02/phpness-serious-wtf/"/>
+    <updated>2013-02-27T11:58:26+01:00</updated>
+    <id>http://lenss.nl/2013/02/phpness-serious-wtf</id>
+    <content type="html"><![CDATA[<p>It's been a while since i last blogged. And i don't really have anything new to offer. But i would like to comment on some current event. There has been some commotion about a free t shirt that was distributed on the SunshinePHP conference this year.</p>
+
+<p><a href="http://lenss.nl/images/2013/02/web-and-php-img.png"><img src="http://lenss.nl/images/2013/02/web-and-php-img.png" alt="" /></a></p>
+
+<p>The first time i saw the shirt i could not make out what was so offending that people would start blogging about it. Somebody had to point that out for me. So what's the deal here? Apparently the shirt's slogan was intentionally created with a slight sexual undertone. The idea comes from the enlarge your penis SPAM we all know!</p>
+
+<p>Some people have perceived this as being sexist. And even go so far as to personally attack the people behind the shirt.</p>
+
+<p>Personally i don't think the shirt is sexist or offensive at all. And don't really understand all the fuss. Sex has never been an issue for me in the PHP community. I learn just as much from female developers as i do from the male ones. We are all equal. People that feel the need to defend the opposite sex are probably the ones that see a difference. Even so! Why make such a big deal of something so small? I never seen anybody blog about the programming with attitude poster.</p>
+
+<p><a href="http://lenss.nl/images/2013/02/php-programming.jpg"><img src="http://lenss.nl/images/2013/02/php-programming.jpg" alt="" /></a></p>
+
+<p>I think the PHP community has just lost a bit of it's shine and coolness. I've always been under the impression the PHP community consisted of free thinking people that do what they love. Develop stuff. And that's exactly what attracted me to it 12 years ago in the first place.</p>
+
+<p>The community has grown quite a lot in that period of time. The thing with every communities is that it brings forth vocal people. Which is a great thing in general. But not so good when people forget their responsibility towards the rest of the community. And that's exactly what happened the last few days. Personal issues have become public. To me it seems many of you have missed the boat completely. You don't have to like the shirt. But there is absolutely no reason to bash the initiative in public.</p>
+
+<p>Here are some of the articles the spawned over the last couple days:</p>
+
+<p><a href="http://webandphpmag.wordpress.com/2013/02/25/phpness-gate-raising-interesting-issues/">PHPness Gate – raising interesting issues</a>
+<a href="http://www.brandonsavage.net/on-public-outrage-and-bad-actors/">On Public Outrage And Bad Actors</a>
+<a href="http://caseysoftware.com/blog/sexism-php-community">Sexism in the PHP Community</a>
+<a href="http://www.leftontheweb.com/message/On_SexismRacismAnyotherism_and_the_PHP_Community">On Sexism/Racism/Any-other-ism and the PHP Community</a>
+<a href="http://blog.calevans.com/2013/02/22/sexism-and-php/">Sexism and PHP</a>
+<a href="http://news.ycombinator.com/item?id=5269120">Hacker news - Sexism and PHP (calevans.com)</a>
+<a href="http://www.gogolek.co.uk/blog/2013/02/web-and-php-sexist-tshirt-debate-my-2-cents/">Web &amp; PHP sexist tshirt debate – my 2 cents</a>
+<a href="http://blog.ircmaxell.com/2013/02/on-equality-sexism-and-even-hand.html">On Equality, Sexism and an Even Hand</a></p>
+
+<p>So let's all just respect one another. And keep the PHP community a friendly place. This kind of nonsense has no positive impact on anybody.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Publish Google Reader shared items]]></title>
@@ -224,112 +260,6 @@ $ patch -p0 &lt; wordpress-charreplace.patch
 patching file formatting.php</p></blockquote>
 
 <p>That's all.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Resize a Vagrant VMDK drive]]></title>
-    <link href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"/>
-    <updated>2012-09-24T14:17:00+02:00</updated>
-    <id>http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive</id>
-    <content type="html"><![CDATA[<p>Using <a href="http://vagrantup.com/">Vagrant</a> as a development environment is great. But you have to watch the available disk space when doing some funky database benchmarking. Last Friday i wrote a script to populate a test database with over 60 million records. And left it running over the weekend. With the idea it would be finished when i returned to the office on Monday. Well it actually was still running. But the Vagrant instance was out of disk space when i logged in. Damn. Should have made sure i had a big disk attached to this instance.</p>
-
-<p>O well. My first idea was to just drop the database that i wanted to use for testing. But due to no space available on the system. I could not drop it. I really couldn't do anything on the system. Even writing config files failed. So where did all the disk space go?</p>
-
-<blockquote><p>$ df -h
-Filesystem            Size    Used    Avail    Use%    Mounted on
-/dev/mapper/debian-605-root    10G    9.8G    0.2G    99%    /</p></blockquote>
-
-<p>That's really not that much space left. And /var/mysql/ibdata1 for the <a href="http://www.innodb.com/">InnoDB</a> tables was taking up 7 GB. And since i have a couple of InnoDB tables i can't just delete this file. So need to come up with something else. And after a bit of Googling. I came across <a href="http://jjperezaguinaga.wordpress.com/2012/04/03/a-happy-ending-story-with-vagrant-resizing-a-lucid32-vmdk-box/">this</a> post. Which seemed promising. But the most important part is left out. And instead linked to some horrible garbled page. That is completely unreadable. So i had to do some digging to figure this out on my own. For cloning the disks i followed the steps in the article however. The Virtual Box files are located in the user folder in the following path</p>
-
-<blockquote><p>$ cd ~/VirtualBox VMs/development_*</p></blockquote>
-
-<p>The first thing i did was convert the <a href="http://sanbarrow.com/vmdk-handbook.html">VMDK</a> image to a <a href="http://en.wikipedia.org/wiki/VDI_(file_format">VDI</a>) image so we can actually do some partition resizing.</p>
-
-<blockquote><p>$ VBoxManage clonehd box-disk1.vmdk box-disk1.vdi --format VDI</p></blockquote>
-
-<p>So now we have a new VDI image. And we need to resize it so it has sufficient space for what we are trying to do. In my case 20 GB is sufficient.</p>
-
-<blockquote><p>$ VBoxManage modifyhd box-disk1.vdi --resize 20000</p></blockquote>
-
-<p>Now that the new disk is created it needs to be attached to the vagrant virtual machine. This is easily achieved by doing right click on the VM in <a href="https://www.virtualbox.org/">VirtualBox</a> and select Settings</p>
-
-<blockquote><p>Storage > SATA Controller > Add hard disk (select existing and point to the new VDI image)</p></blockquote>
-
-<p>Now boot the Vagrant image in VirtualBox so we have a screen to work with. When it has booted up. Login.</p>
-
-<p>First create a new Primary partition in the unused space of type Linux LVM (8e) with <a href="http://linux.die.net/man/8/cfdisk">cfdisk</a>.</p>
-
-<blockquote><p>$ cfdisk /dev/sda</p></blockquote>
-
-<p>When the partition table has been written. It's time to create a new physical volume on the new partition with the help of <a href="http://linux.about.com/library/cmd/blcmdl8_pvcreate.htm">pvcreate</a></p>
-
-<blockquote><p>$ pvcreate /dev/sda3
-  successfully created</p></blockquote>
-
-<p>For the next steps we will be needing the Volume Group name. We will get this by running <a href="http://linux.about.com/library/cmd/blcmdl8_pvdisplay.htm">pvdisplay</a></p>
-
-<blockquote><p>$ pvdisplay | grep "VG Name"
- VG Name    debian-605</p></blockquote>
-
-<p>So now we have all the bits ready. And its time to extend the root partition with the newly created partition.</p>
-
-<blockquote><p>$ vgextend debian-605 /dev/sda3
- Volume group "debian-605" successfully extended</p></blockquote>
-
-<p>Awesome! next step extending the logical partition</p>
-
-<blockquote><p>$ lvextend /dev/debian-605/root /dev/sda3
- Extending logical volume root to 18.84 GiB
- Logical volume root successfully resized</p></blockquote>
-
-<p>Almost there. The last thing left to do is resize the filesystem to make all space available.</p>
-
-<blockquote><p>$ resize2fs /dev/debian-605/root
- resize2fs 1.41.12 (17-May-2010)
-Filesystem at /dev/debian-605/root is mounted on /; on-line resizing required old desc_blocks = 1, new_desc_blocks = 2
-Performing an on-line resize of /dev/debian-605/root to 4937728 (4k) blocks.
-The filesystem on /dev/debian-605/root is now 4937728 blocks long.</p></blockquote>
-
-<p>It's that simple really. So let's check.</p>
-
-<blockquote><p>$ df -h
-Filesystem            Size    Used    Avail    Use%    Mounted on
-/dev/mapper/debian-605-root    19G    8.6G    9.1G    49%    /</p></blockquote>
-
-<p>After this i did not bother to convert the VDI image back to a VDMK image. But if you have to for some reason. You could do that with the commands below. And some manual editing of the VirtualBox xml config.</p>
-
-<blockquote><p>$ VBoxManage internalcommands sethduuid box-disk1.vdi
-$ VBoxManage clonehd box-disk1.vdi box-disk1.vmdk --format VMDK</p></blockquote>
-
-<p>So that's it really for resizing the Vagrant hard drive. The only thing left for me was to cleanup the large ibdata1 file. And setup Mysql to use separate ibdata files for InnoDB table.</p>
-
-<blockquote><p>$ vi /etc/mysql/my.cnf
-[mysqld]
-innodb_file_per_table</p></blockquote>
-
-<p>Restart Mysql and dump all needed databases except the system tables like (mysql, information_schema).</p>
-
-<blockquote><p>$ /etc/init.d/mysql restart
-$ echo 'show databases;' | mysql -uroot -p | grep -v ^Database$ | grep -v ^information_schema$ | grep -v ^mysql$ | xargs mysqldump -uroot -p  --databases > dump.sql</p></blockquote>
-
-<p>When that's done. Drop all InnoDB database tables. Remove the ibdata and in_log files from /var/lib/mysql.</p>
-
-<blockquote><p>$ /etc/init.d/mysql stop
-$ rm /var/mysql/ibdata1<em> /var/mysql/ib_log</em></p></blockquote>
-
-<p>Now we restart Mysql. And reimport the databases.</p>
-
-<blockquote><p>$ /etc/init.d/mysql start
-$ mysql -uroot -p &lt; dump.sql</p></blockquote>
-
-<p>Some of the resources i used for solving this issue:</p>
-
-<p>[1] <a href="http://www.turnkeylinux.org/blog/extending-lvm">http://www.turnkeylinux.org/blog/extending-lvm</a>
-[2] <a href="http://unix.stackexchange.com/questions/37900/gparted-live-cd-cant-resize-a-partition">http://unix.stackexchange.com/questions/37900/gparted-live-cd-cant-resize-a-partition</a>
-[3] <a href="http://www.my-guides.net/en/guides/general-software/122-how-to-resize-a-virtualbox-disk-partition">http://www.my-guides.net/en/guides/general-software/122-how-to-resize-a-virtualbox-disk-partition</a>
-[4] <a href="http://www.virtualbox.org/manual/ch08.html#vboxmanage-modifyvdi">http://www.virtualbox.org/manual/ch08.html#vboxmanage-modifyvdi</a>
-[6] <a href="http://stackoverflow.com/questions/3456159/how-to-shrink-purge-ibdata1-file-in-mysql">http://stackoverflow.com/questions/3456159/how-to-shrink-purge-ibdata1-file-in-mysql</a></p>
 ]]></content>
   </entry>
   

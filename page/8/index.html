@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="A New Hobby A few months ago i got stranded on adda&#8217;s website. This stuff looks so interesting. But thinking about building my own gives me &hellip;">
+  <meta name="description" content="End Year Notice Have been working hard this week on kremermakelaars.nl. And managed to finish it right before the end of this year. The old website &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -57,6 +57,68 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2009/12/end-year-notice/">End Year Notice</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>Have been working hard this week on <a href="http://kremermakelaars.nl">kremermakelaars.nl</a>. And managed to finish it right before the end of this year. The old website was one of those left overs from the early 90&#8217;s. The only thing missing was a spinning @ sign. But i think i managed to give it a nice visual boost. For the back-end i created s nice CMS to manage all objects and page content. The whole thing is build with ZF, Mysql, and some javascript libraries.</p>
+
+<p>The customer is happy. I&#8217;m happy. Now it&#8217;s time for some fun!</p>
+
+<p>So that&#8217;s all for 2009. I wish everybody a good and happy new year.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-12-31T11:38:33+01:00" pubdate data-updated="true">Dec 31<span>st</span>, 2009</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://lenss.nl/tag/freelance/'>Freelance</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2009/12/end-year-notice/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -772,83 +834,6 @@ samba\ share</p></blockquote>
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2009/06/zend-framework-v1-8x-zend_loader-replacement/">Zend Framework v1.8x Zend_Loader Replacement</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>Last night i was trying to push a application to my <a href="http://en.wikipedia.org/wiki/Staging_(websites">staging</a>) environment. When i noticed an error i didn&#8217;t had on my local box.</p>
-
-<blockquote><p>Notice: Zend_Loader::Zend_Loader::registerAutoload is deprecated as of 1.8.0 and will be removed with 2.0.0; use Zend_Loader_Autoloader instead in /path/to/Zend/Loader.php on line 207</p></blockquote>
-
-<p>A quick check revealed that i had a newer version of the <a href="http://framework.zend.com/">Zend Framework</a> loaded on my staging environment. Locally i have 1.7x and on the staging environment i have 1.8x. And according to the documentation the old Zend_Loader is being deprecated in favor of <a href="http://framework.zend.com/manual/en/zend.loader.autoloader.html">Zend_Loader_Autoloader</a>.</p>
-
-<p>So in ZF projects prior to version 1.8x when enabling <a href="http://nl2.php.net/manual/en/language.oop5.autoload.php">autoloading</a> we would do something like this:</p>
-
-<pre><code>require_once 'Zend/Loader.php';
-Zend_Loader::registerAutoload();
-</code></pre>
-
-<p>With the new Zend_Loader_AutoLoader this will look something like this:</p>
-
-<pre><code>require_once 'Zend/Loader/Autoloader.php';
-$loader = Zend_Loader_Autoloader::getInstance();
-$loader-&gt;registerNamespace('Namespace_');
-</code></pre>
-
-<p>Notice the call to &#8216;registerNamespace&#8217;. This is where you set the namespacing for the classes or application libraries. By default the AutoLoader picks up Zend<em> and ZendX</em> namespacing. And we can extend this to use our own classes and libraries.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-06-29T11:39:14+02:00" pubdate data-updated="true">Jun 29<span>th</span>, 2009</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2009/06/zend-framework-v1-8x-zend_loader-replacement/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/9/">&larr; Older</a></div>
@@ -901,6 +886,8 @@ $loader-&gt;registerNamespace('Namespace_');
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/02/phpness-serious-wtf/"><span class="higlight">February, 2013</span> PHPness Serious WTF</a></li>
+		
 		<li><a href="http://lenss.nl/2012/11/publish-google-reader-shared-items/"><span class="higlight">November, 2012</span> Publish Google Reader shared items</a></li>
 		
 		<li><a href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/"><span class="higlight">October, 2012</span> Long running PHP script and MySQL server gone away</a></li>
@@ -918,8 +905,6 @@ $loader-&gt;registerNamespace('Namespace_');
 		<li><a href="http://lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/"><span class="higlight">September, 2012</span> Workaround for running WoW with patch 5.0.4 on Ubuntu</a></li>
 		
 		<li><a href="http://lenss.nl/2012/08/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/"><span class="higlight">August, 2012</span> Setup a basic PHP development environment with Vagrant and chef-solo</a></li>
-		
-		<li><a href="http://lenss.nl/2012/05/adding-colors-to-php-cli-script-output/"><span class="higlight">May, 2012</span> Adding colors to PHP CLI script output</a></li>
 		
 	</ul>
 </div>
@@ -940,7 +925,7 @@ $loader-&gt;registerNamespace('Namespace_');
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.75675675675676%'>/home(31)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(111)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.24324324324324%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.16216216216216%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.62162162162163%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.32432432432432%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.08108108108108%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.08108108108108%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 132.97297297297297%'>PHP(61)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.32432432432432%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.24324324324324%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.27027027027026%'>Tech(93)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.32432432432432%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 117.14285714285714%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(112)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.21428571428571%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.14285714285714%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.60714285714286%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.28571428571429%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.07142857142857%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.07142857142857%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.21428571428572%'>PHP(62)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.28571428571429%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.21428571428571%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.35714285714286%'>Tech(94)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.28571428571429%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

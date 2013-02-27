@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="SVN Repository and Project Structure When i first started out as a web developer. i didn&#8217;t really mind about structure. Almost every project &hellip;">
+  <meta name="description" content="Zend_Filter_Inflector and the CamelCaseToUnderscore Filter I was thinking about how to add theme support to an application that makes use of the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -57,6 +57,88 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2008/08/zend_filter_inflector-and-the-camelcasetounderscore-filter/">Zend_Filter_Inflector and the CamelCaseToUnderscore Filter</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>I was thinking about how to add theme support to an application that makes use of the Zend_Layout component. When i came across the Zend_Filter_Inflector class. This looks interesting. From teh ZF manual:</p>
+
+<blockquote><p>Zend_Filter_Inflector is a general purpose tool for rules-based inflection of strings to a given target.</p></blockquote>
+
+<p>This little class makes it easy to convert string to for instance paths. Anyway. i was trying to configure this class in my Bootstrap class. And run into some problems. I was testing the example in the manual. which makes use of the Zend_Filter CalemCaseToUnderscore. But when i reloaded my page instead of the usual output i was treated by an error.</p>
+
+<pre><code>$inflector = new Zend_Filter_Inflector(':script.:suffix');
+$inflector-&gt;setRules(array(
+    ':script' =&gt; array('CamelCaseToUnderscore'),
+    'suffix' =&gt; 'html'
+));
+</code></pre>
+
+<blockquote><p>Zend_Loader_PluginLoader_Exception: Plugin by name CamelCaseToUnderscore was not found in the registry. in Zend\Loader\PluginLoader.php on line 370</p></blockquote>
+
+<p>When i looked at the structure of the Zend folder. I noticed the CamelCaseToUnderscore filter was not available in the root of the Filter directory. Instead it&#8217;s placed inside the Filter/Word directory. So i prefixed the class name with Word_. And this works fine. The code now looks like this.</p>
+
+<pre><code>$inflector = new Zend_Filter_Inflector(':script.:suffix');
+$inflector-&gt;setRules(array(
+    ':script' =&gt; array('Word_CamelCaseToUnderscore'),
+    'suffix' =&gt; 'html'
+));
+</code></pre>
+
+<p>it&#8217;s a minor issue but i reported <a href="http://framework.zend.com/issues/browse/ZF-4011">it</a> anyway.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-08-20T11:23:14+02:00" pubdate data-updated="true">Aug 20<span>th</span>, 2008</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2008/08/zend_filter_inflector-and-the-camelcasetounderscore-filter/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -774,100 +856,6 @@ SWIFT: NDEASESS</p>
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2008/07/zend-framework-baseurl-helper/">Zend Framework BaseUrl Helper</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>Today i was working with the <a href="http://framework.zend.com">Zend Framework</a>. And needed the baseUrl to set the correct path for stylesheets and external javascript files. To include stylesheets and javascript files there are methods available in ZF. In your controller you can set:</p>
-
-<pre><code>$this-&gt;view-&gt;headLink()-&gt;appendStylesheet('/css/tester.css');
-</code></pre>
-
-<p>In your view or layout you can then call</p>
-
-<pre><code>$this-&gt;headLink();
-</code></pre>
-
-<p>This works great. But the current development structure lacks some good rewrite rules. And having the baseUrl is always a good thing. So i did some searching on Google. To figure out if somebody already has a solution for this problem. After a few minutes i found a post written by <a href="http://www.spotsec.com/blog/archive/2007/12/14/zend-framework-baseurl-view-helper/">Yusak Setiawan</a> from <a href="http://www.zendindonesia.com/">zendindonesia</a> (which is defaced by the way) explaining how to add a placeholder in the bootstrap file. Now this is a good solution. But i like to keep my bootstrap file as clean as possible. So i decided to add a Helper that would do the trick.</p>
-
-<p>Create a file called &#8216;BaseUrl.php&#8217; inside the Helper directory. And fill it with the following code.</p>
-
-<pre><code>class Zend_View_Helper_BaseUrl
-{
-    function baseUrl()
-    {
-        $base_url = substr($_SERVER['PHP_SELF'], 0, -9);
-        return $base_url;
-    }
-}
-</code></pre>
-
-<p>After that it&#8217;s extremly easy to get the baseUrl in your views, layouts or controllers.</p>
-
-<p>Inside the view or layout you can call:</p>
-
-<pre><code>$this-&gt;baseUrl();
-</code></pre>
-
-<p>And inside the controller you can call it like this.</p>
-
-<pre><code>$this-&gt;view-&gt;baseUrl();
-</code></pre>
-
-<p><a href="http://blog.motane.lu/2009/01/31/zend-framework-base-url/">Tudor Barbu</a> wrote a great article on this subject.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-07-09T12:42:36+02:00" pubdate data-updated="true">Jul 9<span>th</span>, 2008</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2008/07/zend-framework-baseurl-helper/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/14/">&larr; Older</a></div>
@@ -920,6 +908,8 @@ SWIFT: NDEASESS</p>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/02/phpness-serious-wtf/"><span class="higlight">February, 2013</span> PHPness Serious WTF</a></li>
+		
 		<li><a href="http://lenss.nl/2012/11/publish-google-reader-shared-items/"><span class="higlight">November, 2012</span> Publish Google Reader shared items</a></li>
 		
 		<li><a href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/"><span class="higlight">October, 2012</span> Long running PHP script and MySQL server gone away</a></li>
@@ -937,8 +927,6 @@ SWIFT: NDEASESS</p>
 		<li><a href="http://lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/"><span class="higlight">September, 2012</span> Workaround for running WoW with patch 5.0.4 on Ubuntu</a></li>
 		
 		<li><a href="http://lenss.nl/2012/08/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/"><span class="higlight">August, 2012</span> Setup a basic PHP development environment with Vagrant and chef-solo</a></li>
-		
-		<li><a href="http://lenss.nl/2012/05/adding-colors-to-php-cli-script-output/"><span class="higlight">May, 2012</span> Adding colors to PHP CLI script output</a></li>
 		
 	</ul>
 </div>
@@ -959,7 +947,7 @@ SWIFT: NDEASESS</p>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.75675675675676%'>/home(31)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(111)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.24324324324324%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.16216216216216%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.62162162162163%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.32432432432432%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.08108108108108%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.08108108108108%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 132.97297297297297%'>PHP(61)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.32432432432432%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.24324324324324%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.27027027027026%'>Tech(93)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.32432432432432%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 117.14285714285714%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(112)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.21428571428571%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.14285714285714%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.60714285714286%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.28571428571429%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.07142857142857%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.07142857142857%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.21428571428572%'>PHP(62)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.28571428571429%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.21428571428571%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.35714285714286%'>Tech(94)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.28571428571429%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

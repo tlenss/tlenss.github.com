@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Lack of Better Content Just something funny for a change ;) Posted by Thijs Lensselink Oct 8th, 2011 /home Comments The Current State of SSL and the &hellip;">
+  <meta name="description" content="Ubuntu 11.10 Issues After Fresh Install Update: 13-11-2011 I decided to give Ubuntu another try. After downloading and burning a fresh image. I did &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -57,6 +57,121 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2011/11/ubuntu-11-10-issues-after-fresh-install/">Ubuntu 11.10 Issues After Fresh Install</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p><strong>Update: 13-11-2011</strong></p>
+
+<p>I decided to give Ubuntu another try. After downloading and burning a fresh image. I did a clean install. And this time the result was a lot better then the first time. Maybe i just had a bad disk.</p>
+
+<p>Unity still caused me issues. Mainly because i am running a dual monitor setup. And i wan to use a TwinView setup. This just does not seem to work at the moment. So i install GNOME Shell. And that seems to work a lot smoother with two screens. Even my sound issues have been resolved magically. Maybe i should stick with Ubuntu a bit longer.</p>
+
+<p><del>This weekend i decided to finally try to upgrade Ubuntu to the latest version (11.10). And since the upgrade process was not working out for me. I had no other choice but to do a clean install. No problem. It was time for a clean install anyway.</del></p>
+
+<p><del>After fighting my way through a pile of bad rewritable DVDs i finally managed to write to disc that didn&#8217;t halt in the middle of the install process. And finished the install quite quickly. No problem there.</del></p>
+
+<p><del>The <a href="https://launchpad.net/lightdm">Lightgdm</a> greeting instead of the old <a href="http://projects.gnome.org/gdm/">GDM</a> interface was nice. I logged in. And then it hit me. O shit they hooked Ubuntu up with the <a href="http://unity.ubuntu.com/">Unity</a> interface. The last time i upgraded Ubuntu that was the first thing i disabled. But my second screen wasn&#8217;t activated. So i decided to install the Nvidia drivers first. And then did a reboot.</del></p>
+
+<p><del>After the system came back up. The desktop environment didn&#8217;t load anymore. And if i waited long enough the whole system would crawl to a halt. Damn! At this point i was getting sleepy. And didn&#8217;t want to spend the whole night poking around the system trying to fix this. So a bit of Google magic later i found <a href="http://blog.al4.co.nz/2011/10/slow-desktop-performance-on-ubuntu-11-10-with-nvidia-graphics-cards/">this</a>. Some issues related to the current Nvidia driver. So i upgraded to the 285.05 version</del></p>
+
+<p><del></p>
+
+<blockquote><p>$ sudo bash
+$ add-apt-repository ppa:ubuntu-x-swat/x-updates
+$ apt-get update &amp;&amp; apt-get upgrade
+$ reboot</p></blockquote>
+
+<p></del></p>
+
+<p><del>And after a reboot the desktop was fine again. Nice!</del></p>
+
+<p><strong>World of Warcraft</strong></p>
+
+<p>After that i installed wine and copied back the old files i already had installed previously. But World of Warcraft didn&#8217;t want to start anymore. And although i planned not to play for a while. This got me poking around. And of course couldn&#8217;t find a solution. So i downloaded a new game client from battle.net. And started a fresh install. But when the launcher came up. It crashed just like before. Tried it a couple more times. When i noticed it was crashing starting the download. SO i started poking around in the download settings. And disabled peer-to peer. And voila! It started working for me again.</p>
+
+<blockquote><p>Options > Downloader Preferences
+(uncheck ¨Enable peer-to-peer Transfer¨)</p></blockquote>
+
+<p><del><strong>Lets remove Unity!</strong></del></p>
+
+<p><del>Although i kind alike the <a href="http://unity.ubuntu.com/">Unity</a> interface. It wasn&#8217;t running smoothly. And i was having some serious CPU load issues. So i decided to remove it once again. This time. It wasn&#8217;t as easy though. I followed the steps in <a href="http://linux-software-news-tutorials.blogspot.com/2011/10/ubuntu-1110-oneiric-remove-unity-and.html">this</a> post. Only to come to the realization that its <a href="http://www.gnome.org/gnome-3/">Gnome 3</a> i´m dealing with and not Gnome2. O well lets give it a try. </del></p>
+
+<p><del>So after messing with the themes a bit. I got the normal look back. Now the only thing annoying left is the bottom bar. That has to go. And preferably moved to the second screen. This was surprisingly easy for a change. Start up DConfig Editor from the Applications menu. And navigate to.</del></p>
+
+<p><del></p>
+
+<blockquote><p>org > gnome > gnome-panel > layout > toplevels</p></blockquote>
+
+<p></del></p>
+
+<p><del>(then change)</p>
+
+<blockquote><p>monitor : 1
+orientation : top</p></blockquote>
+
+<p></del></p>
+
+<p><del>And fix the freaking <a href="http://askubuntu.com/questions/69306/tilde-and-double-quote-keys-dont-work-on-the-command-line">keyboard</a></del></p>
+
+<p><del>Sound still makes a crackling noise!</del></p>
+
+<p><del>But at least i have a desktop that looks reasonably the same as my old and trusted Gnome2 one did. </del></p>
+
+<p><a href="http://lenss.nl/images/2011/11/Screenshot-at-2011-11-06-231619.png"><img src="http://lenss.nl/images/2011/11/Screenshot-at-2011-11-06-231619-300x93.png" alt="" /></a></p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-07T00:26:27+01:00" pubdate data-updated="true">Nov 7<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2011/11/ubuntu-11-10-issues-after-fresh-install/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -1028,72 +1143,6 @@ That was day one. I had fun although quit painful with my current injury. I real
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2011/05/downtime/">Downtime</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>So lenss.nl was offline Thursday for about 5 hours. When i was getting ready for the <a href="http://www.phpconference.nl/">DPC11</a> tutorial day i got a notification that one of my servers was down. So i quickly setup a ssh connection. And that still seemed to work. The only thing off was. Apache wasn&#8217;t running anymore. So tried a restart. And was unpleasantly surprised by the result. Which looked something like this.</p>
-
-<blockquote><p>/usr/sbin/apache2ctl line 82 (core dumped) $HTTPD ${APACHE_ARGUMENTS} -k $ARGV</p></blockquote>
-
-<p>Googling didn&#8217;t provide any useful information about the issue. So i contacted support and asked them to take a look at it. So i could move in the direction of the DPC11. After some horrible traffic and a closed road due to an accident. I finally made it to the DPC 2 hours late. But when i plugged my laptop in i noticed apache was still not running. Contacted support again. They couldn&#8217;t find any serious issues. I already missed the first part of &#8221;<a href="http://www.phpconference.nl/tutorials#optimizing-mysql-essentials">Optimizing MySQL Essentials</a>&#8221;. So decided to do the tutorial first.</p>
-
-<p>While i was sitting there i got the idea of disabling the apache modules. Which turned out to be a good idea. So after the tutorial session finished i logged in to the server. Disabled all apache modules and got apache working again. After some testing the cause of the problem seemed to be the Google <a href="http://code.google.com/p/modpagespeed/">mod_pagespeed</a> apache module. That&#8217;s the second time this happened after a upgrade. Will leave it disabled for now.</p>
-
-<p>On a side note.. Where is all the direct traffic coming from all of the sudden?</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-05-21T12:06:40+02:00" pubdate data-updated="true">May 21<span>st</span>, 2011</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2011/05/downtime/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/4/">&larr; Older</a></div>
@@ -1146,6 +1195,8 @@ That was day one. I had fun although quit painful with my current injury. I real
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/02/phpness-serious-wtf/"><span class="higlight">February, 2013</span> PHPness Serious WTF</a></li>
+		
 		<li><a href="http://lenss.nl/2012/11/publish-google-reader-shared-items/"><span class="higlight">November, 2012</span> Publish Google Reader shared items</a></li>
 		
 		<li><a href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/"><span class="higlight">October, 2012</span> Long running PHP script and MySQL server gone away</a></li>
@@ -1163,8 +1214,6 @@ That was day one. I had fun although quit painful with my current injury. I real
 		<li><a href="http://lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/"><span class="higlight">September, 2012</span> Workaround for running WoW with patch 5.0.4 on Ubuntu</a></li>
 		
 		<li><a href="http://lenss.nl/2012/08/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/"><span class="higlight">August, 2012</span> Setup a basic PHP development environment with Vagrant and chef-solo</a></li>
-		
-		<li><a href="http://lenss.nl/2012/05/adding-colors-to-php-cli-script-output/"><span class="higlight">May, 2012</span> Adding colors to PHP CLI script output</a></li>
 		
 	</ul>
 </div>
@@ -1185,7 +1234,7 @@ That was day one. I had fun although quit painful with my current injury. I real
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.75675675675676%'>/home(31)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(111)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.24324324324324%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.16216216216216%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.62162162162163%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.32432432432432%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.08108108108108%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.08108108108108%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 132.97297297297297%'>PHP(61)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.32432432432432%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.24324324324324%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.27027027027026%'>Tech(93)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.32432432432432%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 117.14285714285714%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(112)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.21428571428571%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.14285714285714%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.60714285714286%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.28571428571429%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.07142857142857%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.07142857142857%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.21428571428572%'>PHP(62)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.28571428571429%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.21428571428571%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.35714285714286%'>Tech(94)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.28571428571429%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

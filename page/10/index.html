@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Getting Used to the New Office Last week was the big move for us. We were first located on the Brouwersgracht in Amsterdam. But it was getting to &hellip;">
+  <meta name="description" content="Two Character Domain My feed reader today showed the post from &#8221;Ilia Alshanetsky&#8221; a well respected PHP core developer. The goal of Ilia &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -57,6 +57,66 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2009/04/two-character-domain/">Two Character Domain</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>My feed reader today showed the <a href="http://ilia.ws/index.php?url=archives/197-5-Letter-Domain-ia.gd.html">post</a> from &#8221;<a href="http://ilia.ws/">Ilia Alshanetsky</a>&#8221; a well respected PHP core developer. The goal of Ilia was to find the shortest domain possible for his blog. So there will be no need to use URL shortener&#8217;s. This made me think about my own little travel over the Internet to find a two character domain. It took my quite some time to find a registrar and top-level domain that actually allowed registering domains shorter then 3 characters. Ilia found his relieve in the .gd (Grenada) domain. And i myself found mine in the .vc (Saint Vincent) domain. So it&#8217;s still possible to get short domain names. It just takes a bit of research and time :)</p>
+
+<p>I tried commenting on his post. But he either disabled the commenting. Or i just can&#8217;t get the CAPTCHA right.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-04-14T17:36:14+02:00" pubdate data-updated="true">Apr 14<span>th</span>, 2009</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2009/04/two-character-domain/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -836,94 +896,6 @@ To fix this either set the exec flag for the filesystem or move the script to a 
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2009/02/speed-up-and-save-traffic-with-apache-and-mod_deflate/">Speed Up and Save Traffic With Apache and Mod_deflate</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>One of our sites was loading pretty slow. This is mostly caused by a very heavy design. But i still wanted to speed things up a bit.</p>
-
-<p>The first step was compressing all JavaScript files with the <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI compressor</a>. The next step was to activate mod_deflate and compress all text, XML, and media files (JavaScript, CSS).</p>
-
-<p>When the mod_deflate module is loaded in apache this is a pretty easy thing to do. Just add the following lines to a .htaccess file in the root of the web site / application.</p>
-
-<blockquote><p>AddOutputFilterByType DEFLATE text/html text/plain text/xml text/javascript text/css
-BrowserMatch ^Mozilla/4 gzip-only-text/html
-BrowserMatch ^Mozilla/4.0[678] no-gzip
-BrowserMatch \bMSIE !no-gzip !gzip-only-text/html</p></blockquote>
-
-<p>The first line enables mod_deflate for the specified extensions. And the other three lines are there because of the way some older browsers handle gzipped data.</p>
-
-<p>To test if the the content is transmitted over the line in gzipped format i used the <a href="https://addons.mozilla.org/en-US/firefox/addon/3829">Live HTTP Header</a> Firefox extensions. This let&#8217;s you watch the Live HTTP headers as the fly by.</p>
-
-<p>Check the HTTP/ 1.x 200 OK response from the webserver for the following line</p>
-
-<blockquote><p>Content-Encoding: gzip</p></blockquote>
-
-<p>And to test what happens if a browser doesn&#8217;t support gzipped data. You can set a configuration parameter in Firefox <a href="http://kb.mozillazine.org/Firefox_:_FAQs_:_About:config_Entries">about:config</a>.</p>
-
-<p>gzip, deflate enabled:</p>
-
-<blockquote><p>network.http.accept-encoding = gzip,deflate</p></blockquote>
-
-<p>gzip, deflate disabled:</p>
-
-<blockquote><p>network.http.accept-encoding =</p></blockquote>
-
-<p>References :
-<a href="http://www.howtoforge.com/apache2_mod_deflate">http://www.howtoforge.com/apache2_mod_deflate</a></p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-02-24T05:59:53+01:00" pubdate data-updated="true">Feb 24<span>th</span>, 2009</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2009/02/speed-up-and-save-traffic-with-apache-and-mod_deflate/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/11/">&larr; Older</a></div>
@@ -976,6 +948,8 @@ BrowserMatch \bMSIE !no-gzip !gzip-only-text/html</p></blockquote>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/02/phpness-serious-wtf/"><span class="higlight">February, 2013</span> PHPness Serious WTF</a></li>
+		
 		<li><a href="http://lenss.nl/2012/11/publish-google-reader-shared-items/"><span class="higlight">November, 2012</span> Publish Google Reader shared items</a></li>
 		
 		<li><a href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/"><span class="higlight">October, 2012</span> Long running PHP script and MySQL server gone away</a></li>
@@ -993,8 +967,6 @@ BrowserMatch \bMSIE !no-gzip !gzip-only-text/html</p></blockquote>
 		<li><a href="http://lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/"><span class="higlight">September, 2012</span> Workaround for running WoW with patch 5.0.4 on Ubuntu</a></li>
 		
 		<li><a href="http://lenss.nl/2012/08/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/"><span class="higlight">August, 2012</span> Setup a basic PHP development environment with Vagrant and chef-solo</a></li>
-		
-		<li><a href="http://lenss.nl/2012/05/adding-colors-to-php-cli-script-output/"><span class="higlight">May, 2012</span> Adding colors to PHP CLI script output</a></li>
 		
 	</ul>
 </div>
@@ -1015,7 +987,7 @@ BrowserMatch \bMSIE !no-gzip !gzip-only-text/html</p></blockquote>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.75675675675676%'>/home(31)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(111)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.24324324324324%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.16216216216216%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.62162162162163%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.32432432432432%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.08108108108108%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.08108108108108%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 132.97297297297297%'>PHP(61)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.32432432432432%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.24324324324324%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.27027027027026%'>Tech(93)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.32432432432432%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 117.14285714285714%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(112)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.21428571428571%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.14285714285714%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.60714285714286%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.28571428571429%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.07142857142857%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.07142857142857%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.21428571428572%'>PHP(62)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.28571428571429%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.21428571428571%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.35714285714286%'>Tech(94)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.28571428571429%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

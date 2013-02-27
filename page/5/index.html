@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Extending My Desktop Although i am blessed with a nice double 22 inch monitor configuration. I have had this spare monitor sitting on my desk for a &hellip;">
+  <meta name="description" content="Dark Theme for Zend Studio 8 Because i was so happy with my new 3 monitor configuration. I decided to refresh my development environment as well. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -57,6 +57,125 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2011/02/dark-theme-for-zend-studio-8/">Dark Theme for Zend Studio 8</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>Because i was so happy with my new <a href="http://lenss.nl/2011/02/extending-my-desktop/">3 monitor configuration</a>. I decided to refresh my development environment as well. Normally all my files would reside in the Devspace older in my user folder under the /home directory. Now i used a new 500 GB <em>SATA</em> drive and formatted it <em>EXT3</em>. Moving your workspace in <a href="http://www.zend.com/en/products/studio/">Zend Studio</a> has the minor inconvenience that the local settings like fonts / syntax colours are lost. <del>I still haven&#8217;t found a way to export this. So i decided to take this opportunity to create a nice new dark theme.</del>. My friend Bart (still no blog?) was friendly enough to let me know how to export the theme related data in ZS. And was nice enough to send me his zenburn theme.</p>
+
+<blockquote><p>File > Export > General > Preferences</p>
+
+<p>File > Import > General > Preferences</p></blockquote>
+
+<p>Bart&#8217;s zenburn theme:
+<a href="http://lenss.nl/images/2011/03/zenburn.png"><img src="http://lenss.nl/images/2011/03/zenburn-300x225.png" alt="" /></a></p>
+
+<p>Most developers i know don&#8217;t seem to care much about the colour of their screen and the font they use. But considering the fact that i spend an insanely amount of time behind a screen. It would be nice if this environment i am in all day put the least amount of constrained on my eyes as possible. So i choose to take time and configure this for optimal viewing pleasure. This starts with the font. For years i have been using the <a href="http://damieng.com/blog/2008/05/26/envy-code-r-preview-7-coding-font-released">Envy Code</a> font by <a href="http://damieng.com/">Damien Guard</a> inside my <a href="http://en.wikipedia.org/wiki/Integrated_development_environment">IDE</a>. This all started i think with a <a href="http://www.codinghorror.com/blog/2007/10/revisiting-programming-fonts.html">post</a> by <a href="http://www.codinghorror.com/">Jeff Atwood</a> It&#8217;s a great font that is extremely easy to read even for terminals. Although still in beta. I advice people to use it when possible.</p>
+
+<p>The second thing i configure are the colour schemes my IDE uses. The standard colour always has a white background. White makes sure things are clear. But staring at a white screen for more then 6 hours always resulted in headaches for me. So the darker the better. And with a dark background you are forced to change the rest as well.</p>
+
+<p><strong>Changing the font is first</strong></p>
+
+<blockquote><p>General > Appearance > Colors and Fonts
+Font : Envy Code R Bold (11 pt)</p></blockquote>
+
+<p><strong>Second up are some general text editor colours</strong></p>
+
+<blockquote><p>General > Editors > Text Editors
+Line number foreground : #787878 (120, 120, 120)
+Current line highlight : #35353D (53, 53, 61)
+Background color : #25252D (37, 37, 45)</p></blockquote>
+
+<p><strong>And finally the PHP syntax coloring</strong></p>
+
+<blockquote><p>PHP > Editor > Syntax Coloring
+Decprecated : #000 (0, 0, 0)
+Fields : #FFFFFF (255, 255, 255)
+Heredoc     : #008282 (0, 130, 130)
+Keyword     : #DE5727 (222, 87, 39)
+Multi-line comment : #557F5F (85, 127, 95)
+Normal : #FFF (255, 255, 255)
+Number : #FFCECE (255, 206, 206)
+PHP tags : #DE5727 (222, 87, 39)
+PHP Doc : #FEC601 (254, 198, 1)
+PHPDoc Comment : #FEC601 (254, 198, 1)
+single line comment : #FEC601 (254, 198, 1)
+static fields : #FFFFFF (255, 255, 255)
+static methods : #FFFFFF (255, 255, 255)
+String : #B3C0C8 (179, 192, 200)
+Task Tags : #FEC601 (254, 198, 1)
+Variable : #0B91B7 (11, 145, 183)</p></blockquote>
+
+<p>The result can be viewed below</p>
+
+<p><a href="http://lenss.nl/images/2011/02/Screenshot-ide-dark.png"><img src="http://lenss.nl/images/2011/02/Screenshot-ide-dark-300x182.png" alt="" /></a></p>
+
+<p>There are much more configuration options to do but for now this is what i came up with. Setting up the theme is a since in ZS. But one thing bothered me. The function / property name highlighting when you select an element inside the IDE. Was a very light colour. And this made it impossible to read the contents of the selection.</p>
+
+<p><a href="http://lenss.nl/images/2011/02/occurrences_on.png"><img src="http://lenss.nl/images/2011/02/occurrences_on-300x20.png" alt="" /></a></p>
+
+<p>So after searching for a while and setting every possible setting in the configuration tabs. I finally figured out how the set the colour for these two actions. This is done from the Annotations setting in the Text editors panel under the general tab. The two options to change are <em>PHP elements read / write occurrences</em>.</p>
+
+<p><a href="http://lenss.nl/images/2011/02/Screenshot-change-bg.png"><img src="http://lenss.nl/images/2011/02/Screenshot-change-bg-300x157.png" alt="" /></a></p>
+
+<p>For now i settled with a dark colour. But maybe i will change this in the future since it is not very readable</p>
+
+<p><a href="http://lenss.nl/images/2011/02/occurrences_off.png"><img src="http://lenss.nl/images/2011/02/occurrences_off-300x20.png" alt="" /></a></p>
+
+<p>That&#8217;s it for now. This of course only sets up the PHP environment. The syntax colours for XML, HTML, CSS and Javascript still have to be changed. But i will leave it at this.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-20T22:11:58+01:00" pubdate data-updated="true">Feb 20<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>, <a class='category' href='http://lenss.nl/tag/zend/'>Zend</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2011/02/dark-theme-for-zend-studio-8/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -390,7 +509,7 @@
 <p>Before we start the importing. It&#8217;s good practice to create an author mapping file. So the SVN commiter names match the GIT ones. This is done by creating a simple text file like so.</p>
 
 <blockquote><p><strong>$</strong> touch authors.txt
-<strong>$</strong> echo &#8220;m0s = Thijs Lensselink <a href="&#109;&#97;&#105;&#108;&#x74;&#111;&#58;&#101;&#109;&#97;&#105;&#x6c;&#x40;&#x6c;&#x65;&#x6e;&#x73;&#115;&#x2e;&#x6e;&#108;">&#x65;&#x6d;&#97;&#105;&#x6c;&#64;&#108;&#x65;&#110;&#x73;&#115;&#x2e;&#110;&#108;</a>&#8221; > authors.txt</p></blockquote>
+<strong>$</strong> echo &#8220;m0s = Thijs Lensselink <a href="&#109;&#97;&#105;&#x6c;&#116;&#111;&#x3a;&#101;&#109;&#x61;&#105;&#x6c;&#x40;&#108;&#101;&#x6e;&#115;&#x73;&#46;&#x6e;&#x6c;">&#x65;&#109;&#97;&#105;&#108;&#64;&#x6c;&#x65;&#x6e;&#x73;&#x73;&#46;&#110;&#108;</a>&#8221; > authors.txt</p></blockquote>
 
 <p>Importing the existing <em>tags</em> and <em>branches</em> is done by adding the <em>&#8211;stdlayout</em> switch</p>
 
@@ -1104,101 +1223,6 @@ mysql  Ver 14.16 Distrib 5.1.49-MariaDB, for debian-linux-gnu (i486) using readl
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2010/11/google-mod_pagespeed/">Google Mod_pagespeed</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>Yesterday Google <a href="http://googlewebmastercentral.blogspot.com/2010/11/make-your-websites-run-faster.html">released</a> a <strong>beta</strong> version of their upcoming Apache module <a href="http://code.google.com/speed/page-speed/docs/using_mod.html">mod_pagespeed</a>.</p>
-
-<p>And this seems like a very promising project indeed. It mainly is a suite that provides web optimisation features to make your sites run faster. Right now 15 of such features are available.</p>
-
-<blockquote><p>including optimising caching, minimising client-server round trips and minimising payload size.</p></blockquote>
-
-<p>So no more manual image compressing and javascript, html and css minifying.</p>
-
-<p>It uses the Apache <em>SetOutputFilter</em> to register the output filter. And from thereon you can use <em>ModPagespeedEnableFilters</em> to enable certain filters.</p>
-
-<p>Filters like:</p>
-
-<blockquote><p><strong>add_head</strong>
-<em>Add the head section if missing</em></p></blockquote>
-
-<p><strong>move_css_to_head</strong>
-<em>Moves CSS into the head of the page (needs add_head)</em></p>
-
-<p><strong>combine_css</strong>
-<em>Combine multiple CSS tags into one.</em></p>
-
-<p><strong>rewrite_css,rewrite_javascript</strong>
-<em>Remove comments and white spaces</em></p>
-
-<p><strong>rewrite_images</strong>
-<em>Compress / re encode images</em></p>
-
-<p>More info about the filters can be found <a href="http://code.google.com/speed/page-speed/docs/filters.html">here</a></p>
-
-<p>So i went ahead and <a href="http://code.google.com/speed/page-speed/download.html">downloaded</a> the Debian version to give it a try. And as always it&#8217;s straight forward from here.</p>
-
-<blockquote><p>dpkg -i mod-pagespeed-beta_current_i386.deb</p></blockquote>
-
-<p>It hooks nicely into Apache and creates the .load and .conf files in <em>/etc/apache2/mods-available</em>. After a Apache restart everything looked fine. And the pages did seem to load faster. Google also offers a <a href="http://www.modpagespeed.com/">test suite</a> to see the result of this module in action.</p>
-
-<p>Running the tests showed a small speed increase. But at the moment my daytime hours are spend behind a horrible firewall that really screws with web output. So i have to redo those for more accurate results. Never the less. This is a module to keep an eye on.</p>
-
-<p>It&#8217;s still a very young project. And i did have some server issues today. So related or not. Be careful :)</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-11-04T23:05:42+01:00" pubdate data-updated="true">Nov 4<span>th</span>, 2010</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2010/11/google-mod_pagespeed/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/6/">&larr; Older</a></div>
@@ -1251,6 +1275,8 @@ mysql  Ver 14.16 Distrib 5.1.49-MariaDB, for debian-linux-gnu (i486) using readl
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/02/phpness-serious-wtf/"><span class="higlight">February, 2013</span> PHPness Serious WTF</a></li>
+		
 		<li><a href="http://lenss.nl/2012/11/publish-google-reader-shared-items/"><span class="higlight">November, 2012</span> Publish Google Reader shared items</a></li>
 		
 		<li><a href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/"><span class="higlight">October, 2012</span> Long running PHP script and MySQL server gone away</a></li>
@@ -1268,8 +1294,6 @@ mysql  Ver 14.16 Distrib 5.1.49-MariaDB, for debian-linux-gnu (i486) using readl
 		<li><a href="http://lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/"><span class="higlight">September, 2012</span> Workaround for running WoW with patch 5.0.4 on Ubuntu</a></li>
 		
 		<li><a href="http://lenss.nl/2012/08/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/"><span class="higlight">August, 2012</span> Setup a basic PHP development environment with Vagrant and chef-solo</a></li>
-		
-		<li><a href="http://lenss.nl/2012/05/adding-colors-to-php-cli-script-output/"><span class="higlight">May, 2012</span> Adding colors to PHP CLI script output</a></li>
 		
 	</ul>
 </div>
@@ -1290,7 +1314,7 @@ mysql  Ver 14.16 Distrib 5.1.49-MariaDB, for debian-linux-gnu (i486) using readl
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.75675675675676%'>/home(31)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(111)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.24324324324324%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.16216216216216%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.62162162162163%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.32432432432432%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.08108108108108%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.08108108108108%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 132.97297297297297%'>PHP(61)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.32432432432432%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.24324324324324%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.27027027027026%'>Tech(93)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.32432432432432%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 117.14285714285714%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(112)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.21428571428571%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.14285714285714%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.60714285714286%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.28571428571429%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.07142857142857%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.07142857142857%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.21428571428572%'>PHP(62)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.28571428571429%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.21428571428571%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.35714285714286%'>Tech(94)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.28571428571429%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

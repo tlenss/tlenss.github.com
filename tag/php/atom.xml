@@ -4,7 +4,7 @@
   <title><![CDATA[Category: PHP | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/php/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-02-27T11:55:35+01:00</updated>
+  <updated>2013-02-27T12:02:34+01:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -12,6 +12,42 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[PHPness Serious WTF]]></title>
+    <link href="http://lenss.nl/2013/02/phpness-serious-wtf/"/>
+    <updated>2013-02-27T11:58:26+01:00</updated>
+    <id>http://lenss.nl/2013/02/phpness-serious-wtf</id>
+    <content type="html"><![CDATA[<p>It's been a while since i last blogged. And i don't really have anything new to offer. But i would like to comment on some current event. There has been some commotion about a free t shirt that was distributed on the SunshinePHP conference this year.</p>
+
+<p><a href="http://lenss.nl/images/2013/02/web-and-php-img.png"><img src="http://lenss.nl/images/2013/02/web-and-php-img.png" alt="" /></a></p>
+
+<p>The first time i saw the shirt i could not make out what was so offending that people would start blogging about it. Somebody had to point that out for me. So what's the deal here? Apparently the shirt's slogan was intentionally created with a slight sexual undertone. The idea comes from the enlarge your penis SPAM we all know!</p>
+
+<p>Some people have perceived this as being sexist. And even go so far as to personally attack the people behind the shirt.</p>
+
+<p>Personally i don't think the shirt is sexist or offensive at all. And don't really understand all the fuss. Sex has never been an issue for me in the PHP community. I learn just as much from female developers as i do from the male ones. We are all equal. People that feel the need to defend the opposite sex are probably the ones that see a difference. Even so! Why make such a big deal of something so small? I never seen anybody blog about the programming with attitude poster.</p>
+
+<p><a href="http://lenss.nl/images/2013/02/php-programming.jpg"><img src="http://lenss.nl/images/2013/02/php-programming.jpg" alt="" /></a></p>
+
+<p>I think the PHP community has just lost a bit of it's shine and coolness. I've always been under the impression the PHP community consisted of free thinking people that do what they love. Develop stuff. And that's exactly what attracted me to it 12 years ago in the first place.</p>
+
+<p>The community has grown quite a lot in that period of time. The thing with every communities is that it brings forth vocal people. Which is a great thing in general. But not so good when people forget their responsibility towards the rest of the community. And that's exactly what happened the last few days. Personal issues have become public. To me it seems many of you have missed the boat completely. You don't have to like the shirt. But there is absolutely no reason to bash the initiative in public.</p>
+
+<p>Here are some of the articles the spawned over the last couple days:</p>
+
+<p><a href="http://webandphpmag.wordpress.com/2013/02/25/phpness-gate-raising-interesting-issues/">PHPness Gate – raising interesting issues</a>
+<a href="http://www.brandonsavage.net/on-public-outrage-and-bad-actors/">On Public Outrage And Bad Actors</a>
+<a href="http://caseysoftware.com/blog/sexism-php-community">Sexism in the PHP Community</a>
+<a href="http://www.leftontheweb.com/message/On_SexismRacismAnyotherism_and_the_PHP_Community">On Sexism/Racism/Any-other-ism and the PHP Community</a>
+<a href="http://blog.calevans.com/2013/02/22/sexism-and-php/">Sexism and PHP</a>
+<a href="http://news.ycombinator.com/item?id=5269120">Hacker news - Sexism and PHP (calevans.com)</a>
+<a href="http://www.gogolek.co.uk/blog/2013/02/web-and-php-sexist-tshirt-debate-my-2-cents/">Web &amp; PHP sexist tshirt debate – my 2 cents</a>
+<a href="http://blog.ircmaxell.com/2013/02/on-equality-sexism-and-even-hand.html">On Equality, Sexism and an Even Hand</a></p>
+
+<p>So let's all just respect one another. And keep the PHP community a friendly place. This kind of nonsense has no positive impact on anybody.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Publish Google Reader shared items]]></title>
@@ -224,195 +260,6 @@ $ patch -p0 &lt; wordpress-charreplace.patch
 patching file formatting.php</p></blockquote>
 
 <p>That's all.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Setup a basic PHP development environment with Vagrant and chef-solo]]></title>
-    <link href="http://lenss.nl/2012/08/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/"/>
-    <updated>2012-08-27T00:47:05+02:00</updated>
-    <id>http://lenss.nl/2012/08/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo</id>
-    <content type="html"><![CDATA[<p>So there are plenty of posts about this out there already. And this is nothing new i guess. But i am going to post it anyway. This weekend i spend some time playing with vagrant. And every setup guide seemed to be missing some steps the make the whole process a bit of a hassle. So i compiled my own steps in the post below. The goal was to create a basic <a href="http://www.debian.org/">Debian</a> box for my <a href="http://www.php.net/">PHP</a> development. From which i could serve my local development files.</p>
-
-<p>So to start of we need some packages.</p>
-
-<p><strong>Virtualbox</strong></p>
-
-<p>To create the virtual development image</p>
-
-<p><strong>NFS packages</strong></p>
-
-<p>To make sharing files between host and guest easy as pie</p>
-
-<p><strong>Vagrant</strong></p>
-
-<p>To package the virtual image and manage newly created box</p>
-
-<blockquote><p>$ sudo apt-get install virtualbox vagrant nfs-common nfs-kernel-server</p></blockquote>
-
-<p>Now is a good moment to download any Linux distro you want. I chose Debian. As it´s the most common in my day to day work.</p>
-
-<blockquote><p>$ wget <a href="http://cdimage.debian.org/debian-cd/6.0.5/i386/iso-cd/debian-6.0.5-i386-netinst.iso">http://cdimage.debian.org/debian-cd/6.0.5/i386/iso-cd/debian-6.0.5-i386-netinst.iso</a></p></blockquote>
-
-<p>Now launch <a href="https://www.virtualbox.org/">virtualbox</a> and create a new virtual machine. Just do what you normally do when you create a VM. But make sure to choose VMDK `Virtual Machine Disk´ as the format. The rest should be ok. When the VM is created start it up and choose the freshly downloaded Linux ISO to start the installation.</p>
-
-<p>I only installed the base system + the SSH server. And when that's all done. And the VM is running. Login as root and install some packages vagrant needs.</p>
-
-<blockquote><p>$ apt-get install sudo ruby ruby-dev libopenssl-ruby rdoc ri irb build-essential ssl-cert curl rubygems puppet</p></blockquote>
-
-<p>I won't be setting up a <a href="http://www.opscode.com/chef/">Chef</a> server to manage the vagrant images. But i will be using <a href="http://wiki.opscode.com/display/chef/Installing+Chef+Client+and+Chef+Solo">Chef-Solo</a> to manage installing packages. So let's install Chef.</p>
-
-<p><strong>install chef</strong></p>
-
-<p>Setup the opscode package repositories for APT</p>
-
-<blockquote><p>$ echo "deb http://apt.opscode.com/ <code>lsb_release -cs</code>-0.10 main" | tee /etc/apt/sources.list.d/opscode.list
-$ gpg --keyserver keys.gnupg.net --recv-keys 83EF826A
-$ gpg --export packages@opscode.com | tee /etc/apt/trusted.gpg.d/opscode-keyring.gpg > /dev/null</p></blockquote>
-
-<p>And finally install the opscode keymanager and and of course Chef.</p>
-
-<blockquote><p>$ apt-get update
-$ apt-get install opscode-keyring
-$ apt-get install chef</p></blockquote>
-
-<p>The installer will ask for the chef URL. I used <strong>none</strong> because i will be using chef solo</p>
-
-<p>Now we need to add a user for <a href="http://vagrantup.com/">vagrant</a> to connect with.</p>
-
-<blockquote><p>$ adduser vagrant
-  passwrd : vagrant
-$ groupadd admin
-$ usermod -a -G admin vagrant</p></blockquote>
-
-<p>Make sure the admin users can <strong>sudo</strong> without a password.</p>
-
-<blockquote><p>$ visudo
-%admin  ALL=(ALL) NOPASSWD: ALL</p></blockquote>
-
-<p>Disable DNS for the SSH server. This should be a performance gain.</p>
-
-<blockquote><p>$ vi /etc/etc/ssh/sshd_config
-UseDNS no</p></blockquote>
-
-<p>Change the MOTD to something nice</p>
-
-<blockquote><p>$ bash -c "echo 'Sweeet! A Vagrant box cooked by Chef!!' > /etc/motd"
-$ chmod 0777 /etc/motd</p></blockquote>
-
-<p>Switch to the vagrant user to setup the <strong>insecure</strong> vagrant public SSH key.</p>
-
-<blockquote><p>$ su vagrant
-mkdir -p ~/.ssh
-chmod 0700 ~/.ssh
-curl -o ~/.ssh/authorized_keys https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub
-chmod 0600 ~/.ssh/authorized_keys</p></blockquote>
-
-<p>That's it for the VM. Now it's time for vagrant to do some magic. First we need to create a vagrant package from the newly created VM.</p>
-
-<blockquote><p>$ vagrant package --base devbox
-$ mv package.box devbox.box</p></blockquote>
-
-<p>Done! Let's test it.</p>
-
-<blockquote><p>$ vagrant box add devbox devbox.box
-$ mkdir test &amp;&amp; cd test
-$ vagrant init devbox
-$ vagrant up
-$ vagrant ssh</p></blockquote>
-
-<p>Voila ssh'd into the VM</p>
-
-<blockquote><p>$ exit
-$ vagrant halt
-$ vagrant destroy</p></blockquote>
-
-<p>So that's all fine and dandy. But a base system with SSH is not that useful. So that's where Chef comes in. Like i mentioned earlier i won't be using a Chef-Server. I will be using Chef-Solo. And will be doing a very basic setup.</p>
-
-<p>A Chef install script is called a <a href="http://wiki.opscode.com/display/chef/Cookbooks">cookbook</a>. And they can be found all over the place. But the main repository is over here (find more here https://github.com/opscode/cookbooks). So in our vagrant folder we create a folder called cookbooks.</p>
-
-<blockquote><p>$ mkdir cookbooks
-$ cd cookbooks</p></blockquote>
-
-<p>And we install some basic cookbooks. Plus a very simple one i hacked together to install the latest <a href="http://www.dotdeb.org/">dotdeb</a> package repositories.</p>
-
-<p><a href="https://github.com/tlenss/misc/tree/master/chef/cookbooks/dotdeb">https://github.com/tlenss/misc/tree/master/chef/cookbooks/dotdeb</a></p>
-
-<blockquote><p>$ git clone <a href="https://github.com/opscode/cookbooks">https://github.com/opscode/cookbooks</a></p></blockquote>
-
-<p>This will be enough for now. And will allow for some basic PHP development. To enable these package we have to edit the <strong>Vagrantfile</strong> file.</p>
-
-<blockquote><p>$ vi Vagrantfile</p></blockquote>
-
-<p>Add these lines for apache forwarding and NFS sharing</p>
-
-<blockquote><p>config.vm.share_folder "www", "/var/www", "/dev/location"</p></blockquote>
-
-<p>uncomment the :hostonly line so we can acces apache from our local box. And setup a hosts file mapping</p>
-
-<blockquote><p>config.vm.network :hostonly, "192.168.164.123"
-$ sudo sed -i '$ a\
-192.168.164.123 dev.box' /etc/hosts</p></blockquote>
-
-<p>Configure chef's cookbook path and add some recipes from the cloned cookbooks.</p>
-
-<blockquote><p>config.vm.provision :chef_solo do |chef|</p>
-
-<pre><code>chef.json = {
-    "mysql" =&gt; {
-        "server_root_password" =&gt; "somepassword"
-    "bind_address" =&gt; "127.0.0.1"
-    }
-}
-</code></pre></blockquote>
-
-<pre><code>chef.cookbooks_path = "cookbooks"
-chef.add_recipe("dotdeb")
-chef.add_recipe("dotdeb::php54")
-chef.add_recipe("openssl")
-chef.add_recipe("apache2")
-chef.add_recipe("apache2::mod_php5")
-chef.add_recipe("apache2::mod_rewrite")
-chef.add_recipe("mysql")
-chef.add_recipe("mysql::server")
-chef.add_recipe("memcached")
-chef.add_recipe("vim")
-chef.add_recipe("php")
-chef.add_recipe("php::module_curl")
-chef.add_recipe("php::module_mysql")
-chef.add_recipe("php::module_memcache")
-chef.add_recipe("php::module_sqlite3")
-</code></pre>
-
-<p>end</p>
-
-<p>Time to call vagrant again. And this time the startup takes a bit longer. All the selected packages get installed. And once that's done. And a fresh development box is waiting.</p>
-
-<blockquote><p>$ vagrant up
-$ vagrant ssh</p></blockquote>
-
-<p>Let's check PHP</p>
-
-<blockquote><p>$ php -v
-PHP 5.4.6-1~dotdeb.0 (cli) (built: Aug 19 2012 08:45:58)
-Copyright (c) 1997-2012 The PHP Group
-Zend Engine v2.4.0, Copyright (c) 1998-2012 Zend Technologies</p></blockquote>
-
-<p>What about apache?</p>
-
-<blockquote><p>$ ps -aux | grep apache
-root       790  0.1  0.2   5352  2580 ?        Ss   23:40   0:00 /usr/sbin/apache2 -k start
-www-data   793  0.0  0.1   5124  1764 ?        S    23:40   0:00 /usr/sbin/apache2 -k start
-www-data   797  0.0  0.2 546408  2412 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start
-www-data   798  0.0  0.2 546408  2404 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start
-www-data   811  0.0  0.2 546408  2424 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start</p></blockquote>
-
-<p>Nice! And Pointing the browser to http://localhost:8080 loads the NFS shared folder up through Apache. That's it for now. Time to sleep...</p>
-
-<p>Some sources i used:
-[1] <a href="http://vagrantup.com/v1/docs/base_boxes.html">http://vagrantup.com/v1/docs/base_boxes.html</a>
-[2] <a href="https://github.com/yevgenko/cookbook-dotdeb">https://github.com/yevgenko/cookbook-dotdeb</a>
-[3] <a href="http://vagrantup.com/v1/docs/provisioners/chef_solo.html">http://vagrantup.com/v1/docs/provisioners/chef_solo.html</a></p>
 ]]></content>
   </entry>
   
