@@ -4,7 +4,7 @@
   <title><![CDATA[Category: PHP | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/php/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-02-27T22:07:22+01:00</updated>
+  <updated>2013-03-28T21:46:38+01:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -12,6 +12,69 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Casting weirdness with PHP]]></title>
+    <link href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"/>
+    <updated>2013-03-28T22:20:34+01:00</updated>
+    <id>http://lenss.nl/2013/03/casting-weirdness-with-PHP</id>
+    <content type="html"><![CDATA[<p>When my coworker today asked if he could cast an array to a object. I couldn't really answer the question. Don't think i ever done that. So let's try. right?</p>
+
+<pre><code>(integer) exec("stat -c%s {$file-&gt;getFilename()}");
+$arr = array('foo' =&gt; 'baz');
+$obj = (object) $arr;
+
+var_dump($obj);
+
+object(stdClass)#1 (1) {
+  ["foo"]=&gt;
+  string(3) "baz"
+}
+</code></pre>
+
+<p>Ha that's cool. It actually works. But wait. What happens when we use a numeric index?</p>
+
+<pre><code>$arr = array(0 =&gt; 'bar', 'foo' =&gt; 'baz');
+$obj = (object) $arr;
+
+var_dump($obj);
+
+object(stdClass)#1 (2) {
+  [0]=&gt;
+  string(3) "bar"
+  ["foo"]=&gt;
+  string(3) "baz"
+}
+</code></pre>
+
+<p>WTF? We just created <strong><em>$obj->0</em></strong> which should not be allowed in PHP as far as i know. So let's make sure i am not mistaking.</p>
+
+<pre><code>$foo = new stdClass();
+$foo-&gt;0 = 'bar';
+</code></pre>
+
+<blockquote><p>PHP Parse error:  syntax error, unexpected '0' (T_LNUMBER), expecting identifier (T_STRING) or variable (T_VARIABLE) or '{' or '$' in foo.php on line 5</p></blockquote>
+
+<p>But casting the array didn't complain about a thing. Can we access this property? Well! Not calling it directly. At least not that i know of. But looping over the object's properties does seem to work.</p>
+
+<pre><code>// Parse error
+// var_dump($obj-&gt;0);
+
+foreach ($obj as $key =&gt; $val) {
+    var_dump($key);
+    var_dump($obj-&gt;$key);
+}
+
+int(0)
+PHP Notice:  Undefined property: stdClass::$0 in foo.php on line 14
+NULL
+string(3) "foo"
+string(3) "baz"
+</code></pre>
+
+<p>It's not that i was planning on ever using this. Or advising other people to use it. In the contrary. But i guess it's not completely useless. But care is required when doing so.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Zend Optimizer+ integrated into 5.5]]></title>
@@ -214,34 +277,6 @@ while (true)
 </code></pre>
 
 <p>I'm not a big fan of this solution. And would rather be implementing MySQLi functions. But this functions well. And will do for now.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Git: Rebase on pull by default]]></title>
-    <link href="http://lenss.nl/2012/10/git-rebase-on-pull-by-default/"/>
-    <updated>2012-10-25T14:20:22+02:00</updated>
-    <id>http://lenss.nl/2012/10/git-rebase-on-pull-by-default</id>
-    <content type="html"><![CDATA[<p>I was a bit surprised today when <a href="http://git-scm.com/">git</a> presented me a merge message window after i did a pull. This should not happen as the normal behavior here should be to <a href="http://git-scm.com/book/en/Git-Branching-Rebasing">rebase</a> the changes. But apparently that didn't happen this time. When i asked one of the other <a href="http://www.scriptorama.nl/">dev</a> 's what could be the issue. We quickly figured out i was just missing some <strong>config</strong> entry in <strong>.git/config</strong>. This probably happened some time ago when i did a fresh checkout.</p>
-
-<p>So to make sure rebasing is done by default. You can run a simple git command or modify the <strong>.git/config</strong> file manually.</p>
-
-<blockquote><p>$ git config branch.autosetuprebase always</p></blockquote>
-
-<p>or do</p>
-
-<blockquote><p>$ vi .git/config</p></blockquote>
-
-<p>Make sure <strong>[branch "master"]</strong> has <strong>rebase</strong> set to true. It should look like the snippet below.</p>
-
-<blockquote><p>[branch "master"]</p>
-
-<pre><code>remote = origin
-merge = refs/heads/master
-rebase = true
-</code></pre></blockquote>
-
-<p>Starting to really like git. A couple of more quirks and things will be running fine.</p>
 ]]></content>
   </entry>
   

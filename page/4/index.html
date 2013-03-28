@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Dutch PHP Conference 2011 Last week was the 5th DPC (Dutch PHP Conference) in the Amsterdam Rai. And thanks to my awesome employer i once again had &hellip;">
+  <meta name="description" content="Reserved Keywords, Corrupt Cache and Stack Errors What a day. Every now and then there are such days where you wished you stayed in bed. Today was &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -57,6 +57,102 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2011/06/reserved-keywords_corrupt-cache-and-stack-errors/">Reserved Keywords, Corrupt Cache and Stack Errors</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>What a day. Every now and then there are such days where you wished you stayed in bed. Today was one of them. And i was confronted by two weird errors with very non descriptive error message or no error message at all. In both cases the issue was solved without a real solution. This post is just to vent my frustration of the day. And now that i take the time to write this down i might as well add the issue i ran into last week. Will save that one for last.</p>
+
+<p><strong>Reserved keyword</strong></p>
+
+<p>So i have been banging my head over this issue for way to long today. And had to find out the hard way it was a simple little thing as usual. But <a href="http://www.doctrine-project.org/">Doctrine</a> (version 1 if anybody asks) didn&#8217;t offer me any good info with the error message it was displaying. Nor did <a href="http://www.php.net/">PHP</a> or <a href="http://www.mysql.com/">MySQL</a> (should be <a href="http://mariadb.org/">MariaDB</a> if you ask me).</p>
+
+<p>While working on a very heavy Doctrine based project. I ran into a at first glance weird error. Yesterday i created a class structure. All good and well. The class i was working on was called <em>Shows</em>. But it represented a single <em>Show</em> entity and therefore should have been called <strong>Show</strong>. So i decided to do a rename action. Pretty complex because of different dependencies. But after a few tries i got it right. Except Doctrine was failing with a syntax error. After a code inspection i still couldn&#8217;t spot the issue. The only thing i didn&#8217;t do yet was output the query and run it from a shell. And this failed with the same syntax error message. Damn!</p>
+
+<blockquote><p>INNER JOIN show s ON &#8230;</p></blockquote>
+
+<p>Checked the whole query. Still couldn&#8217;t spot the issue. Then for some weird reason i decided to escape the table name with <a href="http://en.wikipedia.org/wiki/Grave_accent">backticks</a> <strong><code>Show</code></strong>. Everything worked again. Wow! So Doctrine doesn&#8217;t escape table names. But why did it fail in the first place? By now i had the feeling i was using a reserved keyword. And a check <a href="http://dev.mysql.com/doc/mysqld-version-reference/en/mysqld-version-reference-reservedwords-5-6.html">confirmed</a> this. An error would have been helpful here. I had a bit of luck though. As it turned out the table should have been named different anyway. I made a small workaround for it in my code. But decided that was not the way to go  So the lesson of the day for me was don&#8217;t use reserved words for class / table names. A good thread on the issue can be found <a href="http://www.doctrine-project.org/jira/browse/DBAL-40">here</a>.</p>
+
+<p><strong>APC object corruption</strong></p>
+
+<p>The second issue to bite my ass was a nice one as well. And this time no indication of an error at all. While working on the same classes discusses shortly above. I renamed the class names and the file names on disk. And after a page reload in the browser. The framework was complaining it couldn&#8217;t load the changed class. I checked the class and file names and all were correct. After toying with it for 20 minutes i decided to ask my colleague. And he suggested to restart Apache. for the second time today i was stumped. Everything worked again. Turns out that APC couldn&#8217;t find the already in memory loaded class. After renaming the corresponding filename (seems logical now that i think of it). A restart of Apache flushed the APC cache and therefore the issue. This sounds like a bug though. And requires some further inspection or a bug report. We will see.</p>
+
+<p><strong>PHP Fatal error</strong></p>
+
+<p>Last week while setting up <a href="https://github.com/sebastianbergmann/phpunit/">PHPUnit</a> i ran into a weird issue while testing PHPUnit from a shell on my local desktop. The whole test suite would run from start to end. But at the end would display the following not so descriptive error message.</p>
+
+<blockquote><p>PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0</p></blockquote>
+
+<p>This kept me busy for some hours. This happened somewhere in a large framework. And there was no clear sign of what was causing the issue. Some <a href="http://www.google.com/search?client=ubuntu&amp;channel=fs&amp;q=Exception+thrown+without+a+stack+frame+in+Unknown+on+line+0&amp;ie=utf-8&amp;oe=utf-8">googling</a> did reveal some cases in which this error may occur.</p>
+
+<blockquote><ul>
+<li><p>There was an exception while handling an exception</p></li>
+<li><p>There was an exception while running a destructor</p></li>
+<li><p>There was an exception while closing the session</p></li>
+<li><p>There was an exception while running a shutdown function</p></li>
+<li><p>There was an exception while running a autoload function</p></li>
+</ul>
+</blockquote>
+
+<p>The issue in my case was the fact that the configuration file wasn&#8217;t loaded yet. And therefore the log file location was not set correctly. Logging in this framework is done in a plugin system which is pretty cool. We can basically assign plugins for certain log levels (and more). This was the FileLogger. This all still does not explain why it failed with this particular error message. But a bit of digging in the Log/Plugin system revealed the issue.</p>
+
+<pre><code>register_shutdown_function(array(__CLASS__, 'Shutdown'));
+</code></pre>
+
+<p>Message are stored in a queue and written to file in a register shutdown function. Which was failing because the logfile location was not set correctly. This was causing an exception to be thrown inside the registered shutdown function. And therefore triggering this horrible error message. Be careful with <a href="http://nl.php.net/manual/en/function.register-shutdown-function.php">register_shutdown</a> functions.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-06-21T15:22:36+02:00" pubdate data-updated="true">Jun 21<span>st</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/sql/'>SQL</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2011/06/reserved-keywords_corrupt-cache-and-stack-errors/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -1080,188 +1176,6 @@ Baidu  : 1,860,000</p></blockquote>
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2011/02/apache-ssl-client-side-certificate-data-in-php/">Apache SSL Client Side Certificate Data in PHP</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>What should have been a simple assignment turned out to be a hair pulling endeavour. The ultimate goal was to read the client side certificate data in PHP. I am by no means a system administrator. And the SSL part will probably be done by somebody more experienced. And the certificates will be signed by real CA&#8217;s. But for developing locally i need something functioning.</p>
-
-<p>So i spend the last hours trying to get client side certificates working. With absolutely no luck. I found a bunch of posts by doing Google searches. But none of them seem to offer the proper information for creating good client side certificates. Creating the CA and the server certificate is no problem at all. But creating a client side certificate seems impossible. Some of the post i tried:</p>
-
-<p><a href="http://www.modssl.org/docs/2.7/ssl_faq.html">http://www.modssl.org/docs/2.7/ssl_faq.html</a>
-<a href="http://www.vanemery.com/Linux/Apache/apache-SSL.html">http://www.vanemery.com/Linux/Apache/apache-SSL.html</a>
-<a href="http://www.linuxconfig.org/apache-web-server-ssl-authentication">http://www.linuxconfig.org/apache-web-server-ssl-authentication</a>
-<a href="https://help.ubuntu.com/community/OpenSSL">https://help.ubuntu.com/community/OpenSSL</a>
-<a href="https://help.ubuntu.com/8.04/serverguide/C/httpd.html">https://help.ubuntu.com/8.04/serverguide/C/httpd.html</a>
-<a href="http://it.toolbox.com/blogs/securitymonkey/howto-securing-a-website-with-client-ssl-certificates-11500">http://it.toolbox.com/blogs/securitymonkey/howto-securing-a-website-with-client-ssl-certificates-11500</a></p>
-
-<p>You would have thought that something like this would have been documented pretty well by now. But no luck for me. This only resulted in</p>
-
-<blockquote><p>[debug] ssl_engine_kernel.c(1879): OpenSSL: Read: SSLv3 read client certificate A
-[debug] ssl_engine_kernel.c(1898): OpenSSL: Exit: failed in SSLv3 read client certificate A
-[info] [client xxx.xxx.xxx.xx] SSL library error 1 in handshake (server lab:443)
-[info] SSL Library Error: 336151570 error:14094412:SSL routines:SSL3_READ_BYTES:sslv3 alert bad certificate Subject CN in certificate not server name or identical to CA!?</p></blockquote>
-
-<p>So after almost giving up i found the <em>CA.sh</em> script hidden in <em>/usr/lib/ssl/misc</em> this little sucker seems to do the job pretty well. Creating a CA, server certificate and client side certificate is extremely easy. So i settled for that.</p>
-
-<p><strong>Creating the CA</strong></p>
-
-<blockquote><p>$ cd /usr/lib/ssl/misc
-$ /CA.sh -newca
-CA certificate filename (or enter to create)</p></blockquote>
-
-<p>Making CA certificate &#8230;
-Generating a 1024 bit RSA private key
-&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;..++++++
-&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;++++++
-writing new private key to &#8216;./demoCA/private/./cakey.pem&#8217;
-Enter PEM pass phrase:
-Verifying - Enter PEM pass phrase:</p>
-
-<p>And fill out some basic certificate data</p>
-
-<blockquote><p>Country Name (2 letter code) [AU]:NL
-State or Province Name (full name) [Some-State]:NH
-Locality Name (eg, city) []:Purmerend
-Organization Name (eg, company) [Internet Widgits Pty Ltd]:Bluesignal
-Organizational Unit Name (eg, section) []:lab
-Common Name (eg, YOUR name) []:lab
-Email Address []:my@email.tld</p></blockquote>
-
-<p><strong>Creating the server certificates</strong></p>
-
-<blockquote><p>$ ./CA.sh -newreq
-Generating a 1024 bit RSA private key
-.++++++
-&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;++++++
-writing new private key to &#8216;newkey.pem&#8217;
-Enter PEM pass phrase:
-Verifying - Enter PEM pass phrase:</p></blockquote>
-
-<p>Fill out the same basic certificate data</p>
-
-<blockquote><p>Country Name (2 letter code) [AU]:NL
-State or Province Name (full name) [Some-State]:NH
-Locality Name (eg, city) []:Purmerend
-Organization Name (eg, company) [Internet Widgits Pty Ltd]:Bluesignal
-Organizational Unit Name (eg, section) []:lab
-Common Name (eg, YOUR name) []:lab
-Email Address []:my@email.tld</p></blockquote>
-
-<p><strong>Sign the sucker</strong></p>
-
-<blockquote><p>$ ./CA.sh -sign
-Using configuration from /etc/ssl/openssl.cnf
-Enter pass phrase for ./demoCA/private/cakey.pem:
-Check that the request matches the signature
-Signature ok</p></blockquote>
-
-<p>The only thing left to do is creating the client side certificate</p>
-
-<blockquote><p>openssl pkcs12 -export -in newcert.pem -inkey newkey.key -out username.p12 -name &#8220;Client Certificate&#8221;</p></blockquote>
-
-<p>Time to configure Apache2. I used the standard default-ssl virtual host and just reconfigured it</p>
-
-<blockquote><p>SSLEngine on
-SSLProtocol -all +TLSv1 +SSLv3
-SSLCipherSuite HIGH:MEDIUM
-SSLProxyEngine off
-SSLOptions +StrictRequire +OptRenegotiate +StdEnvVars +ExportCertData</p></blockquote>
-
-<p>SSLCertificateFile /usr/lib/ssl/misc/newcert.pem
-SSLCertificateKeyFile /usr/lib/ssl/misc/newkey.pem
-SSLVerifyClient require
-SSLVerifyDepth 1</p>
-
-<p>SSLCertificateChainFile /usr/lib/ssl/misc/demoCA/cacert.pem
-SSLCACertificatePath /usr/lib/ssl/misc/demoCA/certs
-SSLCACertificateFile /usr/lib/ssl/misc/demoCA/cacert.pem</p>
-
-<p>reboot Apache2</p>
-
-<blockquote><p>$ /etc/init.d/apache2 restart</p></blockquote>
-
-<p>The server side is ready. But it is still impossible to connect at this moment. We need to install the client certificate inside Firefox</p>
-
-<blockquote><p>Edit > Preferences > Advanced > View Certificates</p></blockquote>
-
-<p>Choose import and browse to the newly created *.p12 certificate file.</p>
-
-<p>Now i can finally connect based on my client side certificate and read the pieces of data i was looking for. Which can easily found by doing</p>
-
-<pre><code>print_r($_SERVER);
-</code></pre>
-
-<p>Some of the stuff i was looking for</p>
-
-<blockquote><p>[SSL_CLIENT_S_DN_C] => NL
-[SSL_CLIENT_S_DN_ST] => NH
-[SSL_CLIENT_S_DN_L] => Purmerend
-[SSL_CLIENT_S_DN_O] => Bluesignal
-[SSL_CLIENT_S_DN_OU] => lab
-[SSL_CLIENT_S_DN_CN] => lab
-[SSL_CLIENT_S_DN_Email] => my@email.tld
-[SSL_CLIENT_I_DN_C] => NL
-[SSL_CLIENT_I_DN_ST] => NH
-[SSL_CLIENT_I_DN_O] => Bluesignal
-[SSL_CLIENT_I_DN_OU] => lab
-[SSL_CLIENT_I_DN_CN] => lab
-[SSL_CLIENT_I_DN_Email] => my@email.tld</p></blockquote>
-
-<p>Now it&#8217;s time for the fun part.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-02-24T01:55:03+01:00" pubdate data-updated="true">Feb 24<span>th</span>, 2011</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/security/'>Security</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2011/02/apache-ssl-client-side-certificate-data-in-php/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/5/">&larr; Older</a></div>
@@ -1314,6 +1228,8 @@ SSLCACertificateFile /usr/lib/ssl/misc/demoCA/cacert.pem</p>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
+		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/phpness-serious-wtf/"><span class="higlight">February, 2013</span> PHPness Serious WTF</a></li>
@@ -1331,8 +1247,6 @@ SSLCACertificateFile /usr/lib/ssl/misc/demoCA/cacert.pem</p>
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/"><span class="higlight">September, 2012</span> Workaround for running WoW with patch 5.0.4 on Ubuntu</a></li>
 		
 	</ul>
 </div>
@@ -1353,7 +1267,7 @@ SSLCACertificateFile /usr/lib/ssl/misc/demoCA/cacert.pem</p>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.99115044247787%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(113)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1858407079646%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.12389380530973%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.59292035398231%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.24778761061947%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.06194690265487%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.06194690265487%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.4513274336283%'>PHP(63)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.24778761061947%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1858407079646%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.44247787610618%'>Tech(95)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.24778761061947%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

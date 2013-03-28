@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Voices of the ElePHPant Just found this nice little project Cal Evans is doing. It&#8217;s called Voices of the ElePHPant. The name i guess is &hellip;">
+  <meta name="description" content="Apache SSL Client Side Certificate Data in PHP What should have been a simple assignment turned out to be a hair pulling endeavour. The ultimate &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -57,6 +57,188 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2011/02/apache-ssl-client-side-certificate-data-in-php/">Apache SSL Client Side Certificate Data in PHP</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>What should have been a simple assignment turned out to be a hair pulling endeavour. The ultimate goal was to read the client side certificate data in PHP. I am by no means a system administrator. And the SSL part will probably be done by somebody more experienced. And the certificates will be signed by real CA&#8217;s. But for developing locally i need something functioning.</p>
+
+<p>So i spend the last hours trying to get client side certificates working. With absolutely no luck. I found a bunch of posts by doing Google searches. But none of them seem to offer the proper information for creating good client side certificates. Creating the CA and the server certificate is no problem at all. But creating a client side certificate seems impossible. Some of the post i tried:</p>
+
+<p><a href="http://www.modssl.org/docs/2.7/ssl_faq.html">http://www.modssl.org/docs/2.7/ssl_faq.html</a>
+<a href="http://www.vanemery.com/Linux/Apache/apache-SSL.html">http://www.vanemery.com/Linux/Apache/apache-SSL.html</a>
+<a href="http://www.linuxconfig.org/apache-web-server-ssl-authentication">http://www.linuxconfig.org/apache-web-server-ssl-authentication</a>
+<a href="https://help.ubuntu.com/community/OpenSSL">https://help.ubuntu.com/community/OpenSSL</a>
+<a href="https://help.ubuntu.com/8.04/serverguide/C/httpd.html">https://help.ubuntu.com/8.04/serverguide/C/httpd.html</a>
+<a href="http://it.toolbox.com/blogs/securitymonkey/howto-securing-a-website-with-client-ssl-certificates-11500">http://it.toolbox.com/blogs/securitymonkey/howto-securing-a-website-with-client-ssl-certificates-11500</a></p>
+
+<p>You would have thought that something like this would have been documented pretty well by now. But no luck for me. This only resulted in</p>
+
+<blockquote><p>[debug] ssl_engine_kernel.c(1879): OpenSSL: Read: SSLv3 read client certificate A
+[debug] ssl_engine_kernel.c(1898): OpenSSL: Exit: failed in SSLv3 read client certificate A
+[info] [client xxx.xxx.xxx.xx] SSL library error 1 in handshake (server lab:443)
+[info] SSL Library Error: 336151570 error:14094412:SSL routines:SSL3_READ_BYTES:sslv3 alert bad certificate Subject CN in certificate not server name or identical to CA!?</p></blockquote>
+
+<p>So after almost giving up i found the <em>CA.sh</em> script hidden in <em>/usr/lib/ssl/misc</em> this little sucker seems to do the job pretty well. Creating a CA, server certificate and client side certificate is extremely easy. So i settled for that.</p>
+
+<p><strong>Creating the CA</strong></p>
+
+<blockquote><p>$ cd /usr/lib/ssl/misc
+$ /CA.sh -newca
+CA certificate filename (or enter to create)</p></blockquote>
+
+<p>Making CA certificate &#8230;
+Generating a 1024 bit RSA private key
+&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;..++++++
+&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;++++++
+writing new private key to &#8216;./demoCA/private/./cakey.pem&#8217;
+Enter PEM pass phrase:
+Verifying - Enter PEM pass phrase:</p>
+
+<p>And fill out some basic certificate data</p>
+
+<blockquote><p>Country Name (2 letter code) [AU]:NL
+State or Province Name (full name) [Some-State]:NH
+Locality Name (eg, city) []:Purmerend
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:Bluesignal
+Organizational Unit Name (eg, section) []:lab
+Common Name (eg, YOUR name) []:lab
+Email Address []:my@email.tld</p></blockquote>
+
+<p><strong>Creating the server certificates</strong></p>
+
+<blockquote><p>$ ./CA.sh -newreq
+Generating a 1024 bit RSA private key
+.++++++
+&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;++++++
+writing new private key to &#8216;newkey.pem&#8217;
+Enter PEM pass phrase:
+Verifying - Enter PEM pass phrase:</p></blockquote>
+
+<p>Fill out the same basic certificate data</p>
+
+<blockquote><p>Country Name (2 letter code) [AU]:NL
+State or Province Name (full name) [Some-State]:NH
+Locality Name (eg, city) []:Purmerend
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:Bluesignal
+Organizational Unit Name (eg, section) []:lab
+Common Name (eg, YOUR name) []:lab
+Email Address []:my@email.tld</p></blockquote>
+
+<p><strong>Sign the sucker</strong></p>
+
+<blockquote><p>$ ./CA.sh -sign
+Using configuration from /etc/ssl/openssl.cnf
+Enter pass phrase for ./demoCA/private/cakey.pem:
+Check that the request matches the signature
+Signature ok</p></blockquote>
+
+<p>The only thing left to do is creating the client side certificate</p>
+
+<blockquote><p>openssl pkcs12 -export -in newcert.pem -inkey newkey.key -out username.p12 -name &#8220;Client Certificate&#8221;</p></blockquote>
+
+<p>Time to configure Apache2. I used the standard default-ssl virtual host and just reconfigured it</p>
+
+<blockquote><p>SSLEngine on
+SSLProtocol -all +TLSv1 +SSLv3
+SSLCipherSuite HIGH:MEDIUM
+SSLProxyEngine off
+SSLOptions +StrictRequire +OptRenegotiate +StdEnvVars +ExportCertData</p></blockquote>
+
+<p>SSLCertificateFile /usr/lib/ssl/misc/newcert.pem
+SSLCertificateKeyFile /usr/lib/ssl/misc/newkey.pem
+SSLVerifyClient require
+SSLVerifyDepth 1</p>
+
+<p>SSLCertificateChainFile /usr/lib/ssl/misc/demoCA/cacert.pem
+SSLCACertificatePath /usr/lib/ssl/misc/demoCA/certs
+SSLCACertificateFile /usr/lib/ssl/misc/demoCA/cacert.pem</p>
+
+<p>reboot Apache2</p>
+
+<blockquote><p>$ /etc/init.d/apache2 restart</p></blockquote>
+
+<p>The server side is ready. But it is still impossible to connect at this moment. We need to install the client certificate inside Firefox</p>
+
+<blockquote><p>Edit > Preferences > Advanced > View Certificates</p></blockquote>
+
+<p>Choose import and browse to the newly created *.p12 certificate file.</p>
+
+<p>Now i can finally connect based on my client side certificate and read the pieces of data i was looking for. Which can easily found by doing</p>
+
+<pre><code>print_r($_SERVER);
+</code></pre>
+
+<p>Some of the stuff i was looking for</p>
+
+<blockquote><p>[SSL_CLIENT_S_DN_C] => NL
+[SSL_CLIENT_S_DN_ST] => NH
+[SSL_CLIENT_S_DN_L] => Purmerend
+[SSL_CLIENT_S_DN_O] => Bluesignal
+[SSL_CLIENT_S_DN_OU] => lab
+[SSL_CLIENT_S_DN_CN] => lab
+[SSL_CLIENT_S_DN_Email] => my@email.tld
+[SSL_CLIENT_I_DN_C] => NL
+[SSL_CLIENT_I_DN_ST] => NH
+[SSL_CLIENT_I_DN_O] => Bluesignal
+[SSL_CLIENT_I_DN_OU] => lab
+[SSL_CLIENT_I_DN_CN] => lab
+[SSL_CLIENT_I_DN_Email] => my@email.tld</p></blockquote>
+
+<p>Now it&#8217;s time for the fun part.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-24T01:55:03+01:00" pubdate data-updated="true">Feb 24<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/security/'>Security</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2011/02/apache-ssl-client-side-certificate-data-in-php/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -567,7 +749,7 @@ Variable : #0B91B7 (11, 145, 183)</p></blockquote>
 <p>Before we start the importing. It&#8217;s good practice to create an author mapping file. So the SVN commiter names match the GIT ones. This is done by creating a simple text file like so.</p>
 
 <blockquote><p><strong>$</strong> touch authors.txt
-<strong>$</strong> echo &#8220;m0s = Thijs Lensselink <a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#111;&#x3a;&#x65;&#x6d;&#97;&#105;&#x6c;&#64;&#108;&#101;&#x6e;&#x73;&#x73;&#46;&#x6e;&#108;">&#x65;&#x6d;&#x61;&#105;&#108;&#x40;&#108;&#101;&#110;&#x73;&#x73;&#46;&#110;&#108;</a>&#8221; > authors.txt</p></blockquote>
+<strong>$</strong> echo &#8220;m0s = Thijs Lensselink <a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#x65;&#x6d;&#97;&#105;&#x6c;&#x40;&#x6c;&#x65;&#110;&#x73;&#x73;&#x2e;&#x6e;&#108;">&#101;&#109;&#x61;&#105;&#108;&#x40;&#108;&#101;&#x6e;&#x73;&#115;&#x2e;&#110;&#108;</a>&#8221; > authors.txt</p></blockquote>
 
 <p>Importing the existing <em>tags</em> and <em>branches</em> is done by adding the <em>&#8211;stdlayout</em> switch</p>
 
@@ -1069,84 +1251,6 @@ firebug/pagespeed score : 90</p></blockquote>
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2010/11/compiling-php-v1-0-8/">Compiling PHP v1.0.8</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>Today <a href="http://lerdorf.com/bio.php">Rasmus</a> posted on <a href="http://twitter.com/#!/rasmus">twitter</a> that he just compiled PHP v 1.0.8. And it actually worked. Is that great? :) He was in need of this for his upcoming talk this week in Paris. But i couldn&#8217;t resist and try to compile this ancient piece of work ;)</p>
-
-<blockquote><p>$ wget http://museum.php.net/php1/php-108.tar.gz
-$ tar xfvz php-108.tar.gz
-$ cd php</p></blockquote>
-
-<p>If you need to change any config setting do it now. And hit make!</p>
-
-<blockquote><p>$ vi config.h
-$ make</p></blockquote>
-
-<p>This creates a few .cgi files. So it actually does still build</p>
-
-<blockquote><p>phpf.cgi
-phpl.cgi
-phplmon.cgi
-phplview.cgi</p></blockquote>
-
-<p>Let&#8217;s copy that to my cgi-bin and run it through Apache.</p>
-
-<p><a href="http://lenss.nl/images/2010/11/php-1.0.8.jpg"><img src="http://lenss.nl/images/2010/11/php-1.0.8-300x263.jpg" alt="" /></a></p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-11-08T18:47:58+01:00" pubdate data-updated="true">Nov 8<span>th</span>, 2010</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2010/11/compiling-php-v1-0-8/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/6/">&larr; Older</a></div>
@@ -1199,6 +1303,8 @@ phplview.cgi</p></blockquote>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
+		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/phpness-serious-wtf/"><span class="higlight">February, 2013</span> PHPness Serious WTF</a></li>
@@ -1216,8 +1322,6 @@ phplview.cgi</p></blockquote>
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/"><span class="higlight">September, 2012</span> Workaround for running WoW with patch 5.0.4 on Ubuntu</a></li>
 		
 	</ul>
 </div>
@@ -1238,7 +1342,7 @@ phplview.cgi</p></blockquote>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.99115044247787%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(113)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1858407079646%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.12389380530973%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.59292035398231%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.24778761061947%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.06194690265487%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.06194690265487%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.4513274336283%'>PHP(63)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.24778761061947%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1858407079646%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.44247787610618%'>Tech(95)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.24778761061947%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Changing Mysql for MariaDB Ok so i quit smoking 4 days ago now. And i am having some serious sleep issues at the moment. i have been up half the &hellip;">
+  <meta name="description" content="Compiling PHP v1.0.8 Today Rasmus posted on twitter that he just compiled PHP v 1.0.8. And it actually worked. Is that great? :) He was in need of &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -57,6 +57,84 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2010/11/compiling-php-v1-0-8/">Compiling PHP v1.0.8</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>Today <a href="http://lerdorf.com/bio.php">Rasmus</a> posted on <a href="http://twitter.com/#!/rasmus">twitter</a> that he just compiled PHP v 1.0.8. And it actually worked. Is that great? :) He was in need of this for his upcoming talk this week in Paris. But i couldn&#8217;t resist and try to compile this ancient piece of work ;)</p>
+
+<blockquote><p>$ wget http://museum.php.net/php1/php-108.tar.gz
+$ tar xfvz php-108.tar.gz
+$ cd php</p></blockquote>
+
+<p>If you need to change any config setting do it now. And hit make!</p>
+
+<blockquote><p>$ vi config.h
+$ make</p></blockquote>
+
+<p>This creates a few .cgi files. So it actually does still build</p>
+
+<blockquote><p>phpf.cgi
+phpl.cgi
+phplmon.cgi
+phplview.cgi</p></blockquote>
+
+<p>Let&#8217;s copy that to my cgi-bin and run it through Apache.</p>
+
+<p><a href="http://lenss.nl/images/2010/11/php-1.0.8.jpg"><img src="http://lenss.nl/images/2010/11/php-1.0.8-300x263.jpg" alt="" /></a></p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-11-08T18:47:58+01:00" pubdate data-updated="true">Nov 8<span>th</span>, 2010</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2010/11/compiling-php-v1-0-8/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -1077,88 +1155,6 @@ var_dump($arr);
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2010/07/returning-blocks-from-controllers-without-layout-attached-in-magento/">Returning Blocks From Controllers Without Layout Attached in Magento</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>When working in the admin environment of Magento i had to add a controller action that was called by an Ajax request. The problem however is that all layout data is returned as well when calling</p>
-
-<pre><code>$this-&gt;renderLayout();
-</code></pre>
-
-<p>from the controller. So my next attempt was to try to render the block separately and adding it to the layout.</p>
-
-<pre><code>$this-&gt;_initCustomer();
-$this-&gt;getResponse()-&gt;setBody(
-            $this-&gt;getLayout()-&gt;createBlock('block/location')
-            -&gt;setCustomerId(Mage::registry('current_customer')-&gt;getId())
-            -&gt;setData('list', $list)
-            -&gt;setUseAjax(true)
-            -&gt;toHtml()
-);
-</code></pre>
-
-<p>This kinda worked. But now i had no more control over the template used. Or maybe i missed that part. But i don&#8217;t like to specify my Block anyway Magento should pick this up automatically.</p>
-
-<p>Solving this issue is actually quite easy. The only thing we need to do is change the layout structure of the module. We change the name to root. And that&#8217;s it!</p>
-
-<pre><code>&lt;block type="block/location" name="root" template="template/location"&gt;&lt;/block&gt;
-</code></pre>
-
-<p>The name attribute tells Magento it is a root block so no need for the rest of the layout.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-07-01T11:31:53+02:00" pubdate data-updated="true">Jul 1<span>st</span>, 2010</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/magento/'>Magento</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2010/07/returning-blocks-from-controllers-without-layout-attached-in-magento/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/7/">&larr; Older</a></div>
@@ -1211,6 +1207,8 @@ $this-&gt;getResponse()-&gt;setBody(
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
+		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/phpness-serious-wtf/"><span class="higlight">February, 2013</span> PHPness Serious WTF</a></li>
@@ -1228,8 +1226,6 @@ $this-&gt;getResponse()-&gt;setBody(
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/"><span class="higlight">September, 2012</span> Workaround for running WoW with patch 5.0.4 on Ubuntu</a></li>
 		
 	</ul>
 </div>
@@ -1250,7 +1246,7 @@ $this-&gt;getResponse()-&gt;setBody(
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.99115044247787%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(113)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1858407079646%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.12389380530973%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.59292035398231%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.24778761061947%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.06194690265487%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.06194690265487%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.4513274336283%'>PHP(63)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.24778761061947%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1858407079646%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.44247787610618%'>Tech(95)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.24778761061947%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

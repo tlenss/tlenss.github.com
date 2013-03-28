@@ -4,7 +4,7 @@
   <title><![CDATA[Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-02-27T22:07:22+01:00</updated>
+  <updated>2013-03-28T21:46:38+01:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -12,6 +12,69 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Casting weirdness with PHP]]></title>
+    <link href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"/>
+    <updated>2013-03-28T22:20:34+01:00</updated>
+    <id>http://lenss.nl/2013/03/casting-weirdness-with-PHP</id>
+    <content type="html"><![CDATA[<p>When my coworker today asked if he could cast an array to a object. I couldn&#8217;t really answer the question. Don&#8217;t think i ever done that. So let&#8217;s try. right?</p>
+
+<pre><code>(integer) exec("stat -c%s {$file-&gt;getFilename()}");
+$arr = array('foo' =&gt; 'baz');
+$obj = (object) $arr;
+
+var_dump($obj);
+
+object(stdClass)#1 (1) {
+  ["foo"]=&gt;
+  string(3) "baz"
+}
+</code></pre>
+
+<p>Ha that&#8217;s cool. It actually works. But wait. What happens when we use a numeric index?</p>
+
+<pre><code>$arr = array(0 =&gt; 'bar', 'foo' =&gt; 'baz');
+$obj = (object) $arr;
+
+var_dump($obj);
+
+object(stdClass)#1 (2) {
+  [0]=&gt;
+  string(3) "bar"
+  ["foo"]=&gt;
+  string(3) "baz"
+}
+</code></pre>
+
+<p>WTF? We just created <strong><em>$obj->0</em></strong> which should not be allowed in PHP as far as i know. So let&#8217;s make sure i am not mistaking.</p>
+
+<pre><code>$foo = new stdClass();
+$foo-&gt;0 = 'bar';
+</code></pre>
+
+<blockquote><p>PHP Parse error:  syntax error, unexpected &#8216;0&#8217; (T_LNUMBER), expecting identifier (T_STRING) or variable (T_VARIABLE) or &#8216;{&#8217; or &#8216;$&#8217; in foo.php on line 5</p></blockquote>
+
+<p>But casting the array didn&#8217;t complain about a thing. Can we access this property? Well! Not calling it directly. At least not that i know of. But looping over the object&#8217;s properties does seem to work.</p>
+
+<pre><code>// Parse error
+// var_dump($obj-&gt;0);
+
+foreach ($obj as $key =&gt; $val) {
+    var_dump($key);
+    var_dump($obj-&gt;$key);
+}
+
+int(0)
+PHP Notice:  Undefined property: stdClass::$0 in foo.php on line 14
+NULL
+string(3) "foo"
+string(3) "baz"
+</code></pre>
+
+<p>It&#8217;s not that i was planning on ever using this. Or advising other people to use it. In the contrary. But i guess it&#8217;s not completely useless. But care is required when doing so.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Zend Optimizer+ integrated into 5.5]]></title>
@@ -1093,52 +1156,6 @@ http://eromang.zataz.com/2012/01/08/gangbang-mytijn-org-malware-spreader-down/</
 <p>Last week a critical bug was discovered in PHP. Which affects versions 5.3.9 and 5.2.17. The bug could be exploited to run arbitrary code on a remote PHP system. So upgrade your systems. And of course Stefan Esser <a href="http://news.php.net/php.internals/57655">popped up</a> with some wise words :)&#8230; O well i still think the guy does great work.</p>
 
 <p>More info about the issue can be found on packetstorm (<a href="http://packetstormsecurity.org/files/cve/CVE-2012-0830">CVE-2012-0830</a>)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[PHP getting strict sessions]]></title>
-    <link href="http://lenss.nl/2011/11/php-getting-strict-sessions/"/>
-    <updated>2011-11-30T15:38:28+01:00</updated>
-    <id>http://lenss.nl/2011/11/php-getting-strict-sessions</id>
-    <content type="html"><![CDATA[<p>For years <a href="http://php.net/">PHP</a> has been vulnerable to session adoption which can enable <a href="http://en.wikipedia.org/wiki/Session_fixation">session fixation</a>. And since sessions are a major part of web applications now a days. A lot of platforms are open and waiting for an attack to happen.</p>
-
-<p><strong>session adoption &amp; session fixation</strong></p>
-
-<p>The problem exists because the current session module does not validate the session id that comes in from a cookie. This means uninitialized session id&#8217;s can be passed by the client. This happens due to the fact that browsers overwrite cookie if multiple cookies are send per request.
-Some people would say this is solvable by implementing <a href="http://nl3.php.net/manual/en/function.session-regenerate-id.php">session_regenerate_id()</a>. But this is not the case.</p>
-
-<p>Because session fixation can be used to take over control of web applications. Validation is required when multiple cookies are send per request. When multiple cookie are send with a request. Browsers send multiple cookies without domain / path information. This way it&#8217;s impossible to tell which cookie belongs to which domain.</p>
-
-<p><strong>So how do we fix this?</strong></p>
-
-<p>There is some userland code that does offer the ability to validate session data. But this has not been widely adopted by other developers.</p>
-
-<p>Code that adds the session ID as a validation key:</p>
-
-<pre><code>session_destory();
-session_regenerate_id();
-$_SESSION['valid_id'] = session_id(); 
-</code></pre>
-
-<p>And the code to check if the session was properly initialized:</p>
-
-<pre><code>if ($_SESSION['valid_id'] !== session_id()) {
-  die('Invalid use of session ID');
-}
-</code></pre>
-
-<p>Thank god the internal developer know this. And are working to fix this. For the past days there has been an interesting discussion going on on the <a href="http://news.php.net/php.internals">internals</a> list. About applying a patch that will fix this. The patch will add some new php.ini features and a new method validate_id() for the session save handler. Hopefully this will be available in version 5.4.</p>
-
-<p>To not break BC strict_mode will be disabled by default. But can be enabled by setting the following setting in php.ini. When enabled uninitialized session ID will be discarded.</p>
-
-<blockquote><p>session.use_strict_mode=0</p></blockquote>
-
-<p>To prevent a DoS instead of session fixation. An new feature has been added that deletes possible malicious cookies that prevent new session ID.</p>
-
-<blockquote><p>session.safe_session_cookie=1</p></blockquote>
-
-<p>You can read more about session fixation and the upcoming patch on the <a href="https://wiki.php.net/rfc/strict_sessions">PHP-Wiki</a></p>
 ]]></content>
   </entry>
   

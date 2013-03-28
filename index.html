@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Zend Optimizer+ Integrated Into 5.5 It looks like PHP is going to get another built in performance boost. The plan is to integrate and open source &hellip;">
+  <meta name="description" content="Casting Weirdness With PHP When my coworker today asked if he could cast an array to a object. I couldn&#8217;t really answer the question. Don&# &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -57,6 +57,118 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/">Casting Weirdness With PHP</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>When my coworker today asked if he could cast an array to a object. I couldn&#8217;t really answer the question. Don&#8217;t think i ever done that. So let&#8217;s try. right?</p>
+
+<pre><code>(integer) exec("stat -c%s {$file-&gt;getFilename()}");
+$arr = array('foo' =&gt; 'baz');
+$obj = (object) $arr;
+
+var_dump($obj);
+
+object(stdClass)#1 (1) {
+  ["foo"]=&gt;
+  string(3) "baz"
+}
+</code></pre>
+
+<p>Ha that&#8217;s cool. It actually works. But wait. What happens when we use a numeric index?</p>
+
+<pre><code>$arr = array(0 =&gt; 'bar', 'foo' =&gt; 'baz');
+$obj = (object) $arr;
+
+var_dump($obj);
+
+object(stdClass)#1 (2) {
+  [0]=&gt;
+  string(3) "bar"
+  ["foo"]=&gt;
+  string(3) "baz"
+}
+</code></pre>
+
+<p>WTF? We just created <strong><em>$obj->0</em></strong> which should not be allowed in PHP as far as i know. So let&#8217;s make sure i am not mistaking.</p>
+
+<pre><code>$foo = new stdClass();
+$foo-&gt;0 = 'bar';
+</code></pre>
+
+<blockquote><p>PHP Parse error:  syntax error, unexpected &#8216;0&#8217; (T_LNUMBER), expecting identifier (T_STRING) or variable (T_VARIABLE) or &#8216;{&#8217; or &#8216;$&#8217; in foo.php on line 5</p></blockquote>
+
+<p>But casting the array didn&#8217;t complain about a thing. Can we access this property? Well! Not calling it directly. At least not that i know of. But looping over the object&#8217;s properties does seem to work.</p>
+
+<pre><code>// Parse error
+// var_dump($obj-&gt;0);
+
+foreach ($obj as $key =&gt; $val) {
+    var_dump($key);
+    var_dump($obj-&gt;$key);
+}
+
+int(0)
+PHP Notice:  Undefined property: stdClass::$0 in foo.php on line 14
+NULL
+string(3) "foo"
+string(3) "baz"
+</code></pre>
+
+<p>It&#8217;s not that i was planning on ever using this. Or advising other people to use it. In the contrary. But i guess it&#8217;s not completely useless. But care is required when doing so.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-28T22:20:34+01:00" pubdate data-updated="true">Mar 28<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -953,74 +1065,6 @@ $ git push dev-branch</p></blockquote>
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/">Workaround for Running WoW With Patch 5.0.4 on Ubuntu</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>After a fresh install i couldn&#8217;t get <a href="http://eu.battle.net/wow/en/">WoW</a> to work. I&#8217;m not that big on playing games lately. But this bugged me. Good thing we have the interwebs.</p>
-
-<p>Starting the battle.net agent manually before firing up the WoW launcher solved the launcher crashing.</p>
-
-<blockquote><p>wine ~/.wine/drive_c/users/Public/Application\ Data/Battle.net/Agent/Agent.1267/Agent.exe &#8211;nohttpauth &amp;
-wine ~/.wine/drive_c/Program\ Files\ (x86)/World\ of\ Warcraft/Launcher.exe &amp;</p></blockquote>
-
-<p>And installing <strong>vcrun2008</strong> with <a href="http://wiki.winehq.org/winetricks/">winetricks</a> solved the problem with the updater hanging.</p>
-
-<p>[1] <a href="http://appdb.winehq.org/objectManager.php?sClass=version&amp;iId=25610&amp;iTestingId=70352">http://appdb.winehq.org/objectManager.php?sClass=version&iId;=25610&iTestingId;=70352</a>
-[2] <a href="http://www.codeweavers.com/compatibility/browse/name/?forum=1;app_id=7714;mhl=130618;msg=130314">http://www.codeweavers.com/compatibility/browse/name/?forum=1;app_id=7714;mhl=130618;msg=130314</a></p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-02T23:48:36+02:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2012</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/2/">&larr; Older</a></div>
@@ -1071,6 +1115,8 @@ wine ~/.wine/drive_c/Program\ Files\ (x86)/World\ of\ Warcraft/Launcher.exe &amp
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
+		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/phpness-serious-wtf/"><span class="higlight">February, 2013</span> PHPness Serious WTF</a></li>
@@ -1088,8 +1134,6 @@ wine ~/.wine/drive_c/Program\ Files\ (x86)/World\ of\ Warcraft/Launcher.exe &amp
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/"><span class="higlight">September, 2012</span> Workaround for running WoW with patch 5.0.4 on Ubuntu</a></li>
 		
 	</ul>
 </div>
@@ -1110,7 +1154,7 @@ wine ~/.wine/drive_c/Program\ Files\ (x86)/World\ of\ Warcraft/Launcher.exe &amp
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.99115044247787%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(113)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1858407079646%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.12389380530973%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.59292035398231%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.24778761061947%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.06194690265487%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.06194690265487%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.4513274336283%'>PHP(63)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.24778761061947%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1858407079646%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.44247787610618%'>Tech(95)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.24778761061947%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

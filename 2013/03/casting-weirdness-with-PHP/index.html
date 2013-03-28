@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Help a MySQL support engineer. - Thijs Lensselink's Blog</title>
+  <title>Casting weirdness with PHP - Thijs Lensselink's Blog</title>
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Help a MySQL Support Engineer. Today on planet-php.net there are some posts [1] [2] about Andrii Nikitin a MySQL support engineer based in Ukraine. &hellip;">
+  <meta name="description" content="Casting Weirdness With PHP When my coworker today asked if he could cast an array to a object. I couldn&#8217;t really answer the question. Don&# &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://lenss.nl/2008/07/help-a-mysql-support-engineer/">
+  <link rel="canonical" href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/">
   <link href="http://lenss.nl/favicon.png" rel="icon">
   <link href="http://lenss.nl/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="http://lenss.nl/javascripts/libs/jquery-1.8.1.js"></script>
@@ -61,38 +61,67 @@
 <header>
 	<header>
 	
-	  <h1 class="entry-title">Help a MySQL Support Engineer.</h1>
+	  <h1 class="entry-title">Casting Weirdness With PHP</h1>
 	
 	</header>
 </header>
 
 
-<div class="articletext"><p>Today on <a href="http://www.planet-php.net/">planet-php.net</a> there are some posts [<a href="http://blogs.linux.ie/kenguest/2008/07/14/andrii-nikitin%e2%80%99s-son-needs-help-asap/">1</a>] [<a href="http://www.phpcult.com/blog/andrii-nikitis-son-needs-our-help/">2</a>] about <a href="http://www.mysql.com/about/help-ivan.html">Andrii Nikitin</a> a MySQL support engineer based in Ukraine. Andrii&#8217;s (2,5 year old) son Ivan is in need of a bone marrow transplant. The cost for this operation is somewhere bewteen $150.000 and $250.000. Which is a lot of money. So he asked the MySQL community for help. Although i don&#8217;t know the guy. I do use MySQL regularly. And i feel for him and his family. So decided to add a donation. I&#8217;m in no way rich and just bought a new house. But i think every body should pitch in and help out this guy. And offer his son a fair chance at life.</p>
+<div class="articletext"><p>When my coworker today asked if he could cast an array to a object. I couldn&#8217;t really answer the question. Don&#8217;t think i ever done that. So let&#8217;s try. right?</p>
 
-<p><strong>Paypal:</strong>
-<a href="http://tinyurl.com/6rxjsz">http://tinyurl.com/6rxjsz </a>
-Or
-<strong>by check payable to: </strong></p>
+<pre><code>(integer) exec("stat -c%s {$file-&gt;getFilename()}");
+$arr = array('foo' =&gt; 'baz');
+$obj = (object) $arr;
 
-<p>MySQL, Inc.
-Mail to: MySQL, Inc.
-Attn: Linda Dong
-20450 Stevens Creek Blvd #350
-Cupertino, CA 95014</p>
+var_dump($obj);
 
-<p>or
-<strong>US wire transfer:</strong></p>
+object(stdClass)#1 (1) {
+  ["foo"]=&gt;
+  string(3) "baz"
+}
+</code></pre>
 
-<p>MySQL Inc: 7396643001
-SWIFT: NDEAUS3N</p>
+<p>Ha that&#8217;s cool. It actually works. But wait. What happens when we use a numeric index?</p>
 
-<p>or
-<strong>International wire transfer in any currency:</strong>
-Bank: Nordea Bank
-Bank address: Stockholm, Sweden
-Bank account: 3259 17 03868
-IBAN: SE27 3000 0000 0325 9170 3868
-SWIFT: NDEASESS</p>
+<pre><code>$arr = array(0 =&gt; 'bar', 'foo' =&gt; 'baz');
+$obj = (object) $arr;
+
+var_dump($obj);
+
+object(stdClass)#1 (2) {
+  [0]=&gt;
+  string(3) "bar"
+  ["foo"]=&gt;
+  string(3) "baz"
+}
+</code></pre>
+
+<p>WTF? We just created <strong><em>$obj->0</em></strong> which should not be allowed in PHP as far as i know. So let&#8217;s make sure i am not mistaking.</p>
+
+<pre><code>$foo = new stdClass();
+$foo-&gt;0 = 'bar';
+</code></pre>
+
+<blockquote><p>PHP Parse error:  syntax error, unexpected &#8216;0&#8217; (T_LNUMBER), expecting identifier (T_STRING) or variable (T_VARIABLE) or &#8216;{&#8217; or &#8216;$&#8217; in foo.php on line 5</p></blockquote>
+
+<p>But casting the array didn&#8217;t complain about a thing. Can we access this property? Well! Not calling it directly. At least not that i know of. But looping over the object&#8217;s properties does seem to work.</p>
+
+<pre><code>// Parse error
+// var_dump($obj-&gt;0);
+
+foreach ($obj as $key =&gt; $val) {
+    var_dump($key);
+    var_dump($obj-&gt;$key);
+}
+
+int(0)
+PHP Notice:  Undefined property: stdClass::$0 in foo.php on line 14
+NULL
+string(3) "foo"
+string(3) "baz"
+</code></pre>
+
+<p>It&#8217;s not that i was planning on ever using this. Or advising other people to use it. In the contrary. But i guess it&#8217;s not completely useless. But care is required when doing so.</p>
 </div>
 
 
@@ -117,12 +146,12 @@ SWIFT: NDEASESS</p>
   
 
 
-<time datetime="2008-07-15T08:47:50+02:00" pubdate data-updated="true">Jul 15<span>th</span>, 2008</time>
+<time datetime="2013-03-28T22:20:34+01:00" pubdate data-updated="true">Mar 28<span>th</span>, 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
   
 </span>
 
@@ -130,10 +159,8 @@ SWIFT: NDEASESS</p>
     </p>
     <p class="meta">
       
-        <a class="basic-alignment left" href="http://lenss.nl/2008/07/zend-framework-baseurl-helper/" title="Previous Post: Zend Framework BaseUrl Helper">&laquo; Zend Framework BaseUrl Helper</a>
+        <a class="basic-alignment left" href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/" title="Previous Post: Zend Optimizer+ integrated into 5.5">&laquo; Zend Optimizer+ integrated into 5.5</a>
       
-      
-        <a class="basic-alignment right" href="http://lenss.nl/2008/07/pear-install-weirdness/" title="Next Post: PEAR install weirdness">PEAR install weirdness &raquo;</a>
       
     </p>
   </footer>
@@ -143,7 +170,7 @@ SWIFT: NDEASESS</p>
 
   <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lenss.nl/2008/07/help-a-mysql-support-engineer/" data-via="tlenss" data-counturl="http://lenss.nl/2008/07/help-a-mysql-support-engineer/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lenss.nl/2013/03/casting-weirdness-with-PHP/" data-via="tlenss" data-counturl="http://lenss.nl/2013/03/casting-weirdness-with-PHP/" >Tweet</a>
   
   
     <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
@@ -320,8 +347,8 @@ SWIFT: NDEASESS</p>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://lenss.nl/2008/07/help-a-mysql-support-engineer/';
-        var disqus_url = 'http://lenss.nl/2008/07/help-a-mysql-support-engineer/';
+        var disqus_identifier = 'http://lenss.nl/2013/03/casting-weirdness-with-PHP/';
+        var disqus_url = 'http://lenss.nl/2013/03/casting-weirdness-with-PHP/';
         var disqus_script = 'embed.js';
       
     (function () {

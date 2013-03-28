@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="ElePHPants Good thing i sometimes use my wife&#8217;s computer for backup. I found my lost pictures again :) Say hi to my blue family. Posted by &hellip;">
+  <meta name="description" content="PHP CLI Bad Interpreter: Permission Denied This question came up on the php.general list today. And i have seen it before when writing an shell &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -57,6 +57,75 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2009/03/php-cli-bad-interpreter-permission-denied/">PHP CLI Bad Interpreter: Permission Denied</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>This question came up on the php.general list today. And i have seen it before when writing an shell script in PHP.</p>
+
+<pre><code>#!/usr/local/bin/php
+passthru("printenv");
+</code></pre>
+
+<p>If you are sure the PHP executable can be found in that location. And the file is executable. But it still returns this error:</p>
+
+<blockquote><p>/usr/local/bin/php: bad interpreter: Permission denied</p></blockquote>
+
+<p>Big change the file you are trying to execute is on a filesystem with the noexec flag set.
+To fix this either set the exec flag for the filesystem or move the script to a place where it can be executed.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-03-13T16:59:02+01:00" pubdate data-updated="true">Mar 13<span>th</span>, 2009</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2009/03/php-cli-bad-interpreter-permission-denied/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -721,135 +790,6 @@ $ ln -s /usr/lib/libcrypto.so libcrypto.so.0.9.8</p></blockquote>
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2009/01/making-php-mail-work-on-ubuntu-through-postfix/">Making PHP Mail Work on Ubuntu Through Postfix</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>While writing a small mail application in PHP i noticed i couldn&#8217;t send mail from my local machine. Even with telnet i couldn&#8217;t send out emails. I quickly found out that postfix and sendmail on the same system is not a good idea. Seems it was a left over from some testing i did. So after wiping sendmail and postfix from the system. And reinstalling only postfix i got an error when starting Postfix</p>
-
-<blockquote><p>postfix: fatal: /etc/postfix/postfix-script: No such file or directory</p></blockquote>
-
-<p>So let&#8217;s try and completely remove the postfix package and purge all files.</p>
-
-<blockquote><p>$ sudo dpkg &#8211;remove postfix
-$ sudo dpkg &#8211;purge postfix</p></blockquote>
-
-<p>And a clean install of postfix:</p>
-
-<blockquote><p>$ sudo apt-get -V install postfix</p></blockquote>
-
-<p>Now i can telnet in and try to send some mail. And this seemed to work. The mail got delivered.</p>
-
-<blockquote><p>$ telnet localhost 25</p></blockquote>
-
-<p>Trying 127.0.0.1&#8230;
-Connected to localhost.
-Escape character is &#8217;<sup>]&#8217;.</sup>
-220 0x0 ESMTP Postfix (Ubuntu)</p>
-
-<p>helo test.nl
-250 0x0
-mail from: test@test.nl
-250 2.1.0 Ok
-rcpt to: some@working.address
-250 2.1.5 Ok
-data
-354 End data with
-testing
-.
-250 2.0.0 Ok: queued as ED97311C412F</p>
-
-<p>So now let&#8217;s make sure it also works from PHP. I tested it through a CLI script and through apache2. With the most basic mail script you can imagine.</p>
-
-<pre><code>    mail('some@working.address', 'test', 'test message');
-</code></pre>
-
-<p>The mail however gets bounced.</p>
-
-<blockquote><p>Jan  7 22:31:48 0x0 postfix/pickup[10249]: 035BF11C4133: uid=1 from=
-Jan  7 22:31:48 0x0 postfix/cleanup[11726]: 035BF11C4133: message-id=&lt;20090107213148.035BF11C4133@0x0>
-Jan  7 22:31:48 0x0 postfix/qmgr[10250]: 035BF11C4133: from=<a href="&#x6d;&#97;&#105;&#108;&#116;&#x6f;&#x3a;&#100;&#97;&#101;&#109;&#111;&#x6e;&#64;&#105;&#110;&#x74;&#101;&#114;&#110;&#97;&#x6c;&#46;&#110;&#x61;&#x6d;&#101;">&#100;&#97;&#x65;&#x6d;&#x6f;&#x6e;&#x40;&#x69;&#x6e;&#116;&#x65;&#114;&#x6e;&#x61;&#108;&#x2e;&#110;&#97;&#x6d;&#101;</a>, size=303, nrcpt=1 (queue active)
-Jan  7 22:31:48 0x0 postfix/smtp[11728]: 035BF11C4133: to=<a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#x73;&#x6f;&#x6d;&#x65;&#x40;&#x77;&#111;&#114;&#107;&#105;&#x6e;&#103;&#x2e;&#x61;&#x64;&#x64;&#114;&#101;&#115;&#x73;">&#115;&#111;&#109;&#x65;&#64;&#x77;&#111;&#114;&#107;&#105;&#110;&#x67;&#x2e;&#97;&#x64;&#100;&#x72;&#x65;&#115;&#115;</a>, relay=working.mail.server[xx.xxx.xx.xx]:25, delay=0.68, delays=0.02/0/0.48/0.18, dsn=5.0.0, status=bounced (host working.mail.server[xx.xxx.xx.xx] said: 553 sorry, your envelope sender domain must exist (#5.7.1) (in reply to MAIL FROM command))
-Jan  7 22:31:48 0x0 postfix/cleanup[11726]: C5C2911C4134: message-id=&lt;20090107213148.C5C2911C4134@0x0>
-Jan  7 22:31:48 0x0 postfix/qmgr[10250]: C5C2911C4134: from=&lt;>, size=2064, nrcpt=1 (queue active)
-Jan  7 22:31:48 0x0 postfix/bounce[11729]: 035BF11C4133: sender non-delivery notification: C5C2911C4134
-Jan  7 22:31:48 0x0 postfix/qmgr[10250]: 035BF11C4133: removed
-Jan  7 22:31:49 0x0 postfix/smtp[11728]: C5C2911C4134: to=<a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#x6f;&#58;&#x64;&#x61;&#101;&#109;&#x6f;&#x6e;&#x40;&#105;&#x6e;&#116;&#101;&#x72;&#x6e;&#97;&#x6c;&#46;&#x6e;&#x61;&#x6d;&#x65;">&#x64;&#x61;&#x65;&#x6d;&#111;&#110;&#x40;&#x69;&#x6e;&#116;&#101;&#114;&#x6e;&#97;&#108;&#46;&#x6e;&#x61;&#x6d;&#101;</a>, relay=working.mail.server[xx.xxx.xx.xx]:25, delay=0.75, delays=0.01/0/0.41/0.34, dsn=2.0.0, status=sent (250 ok 1231363909 qp 10204)
-Jan  7 22:31:49 0x0 postfix/qmgr[10250]: C5C2911C4134: removed</p></blockquote>
-
-<p>From looking at the log files i can tell it bounced because the from address is set to <strong>daemon@internal.name</strong>. And internal.name is not known by my mail server. Let&#8217;s try that again. But this time specifically set the FROM header.</p>
-
-<pre><code>    $headers .= 'To: Name &lt;some@working.addressl&gt;' . "\n";
-    $headers .= 'From: test &lt;some@working.address&gt;' . "\n";
-    mail('some@working.address', 'test', 'test message', $headers);
-</code></pre>
-
-<p>The result is the same. The FROM header didn&#8217;t change at all. So although it&#8217;s possible to set the from header. The message is always send by a system user.. So after doing some research on Google about this problem it seems possible to pass an extra parameter to the mail() function. This parameter can contain a string which will be passed to the postfix binary as an extra parameter. So adding <strong>-fsome@orking.address</strong> makes the problem go away.</p>
-
-<blockquote><p>Jan  7 22:36:58 0x0 postfix/pickup[10249]: 687CA11C4133: uid=1 from=<a href="&#109;&#x61;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#x73;&#111;&#x6d;&#x65;&#x40;&#119;&#111;&#114;&#107;&#x69;&#x6e;&#103;&#46;&#x61;&#100;&#100;&#114;&#101;&#115;&#x73;">&#115;&#111;&#109;&#101;&#64;&#x77;&#111;&#x72;&#x6b;&#x69;&#110;&#x67;&#x2e;&#x61;&#100;&#x64;&#x72;&#101;&#x73;&#115;</a>
-Jan  7 22:36:58 0x0 postfix/cleanup[11847]: 687CA11C4133: message-id=&lt;20090107213658.687CA11C4133@0x0>
-Jan  7 22:36:58 0x0 postfix/qmgr[10250]: 687CA11C4133: from=<a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#111;&#x3a;&#x73;&#111;&#109;&#101;&#64;&#119;&#111;&#x72;&#107;&#x69;&#x6e;&#x67;&#x2e;&#97;&#x64;&#100;&#x72;&#x65;&#115;&#115;">&#115;&#111;&#109;&#101;&#64;&#x77;&#111;&#x72;&#x6b;&#105;&#x6e;&#103;&#x2e;&#x61;&#100;&#x64;&#x72;&#101;&#115;&#x73;</a>, size=276, nrcpt=1 (queue active)
-Jan  7 22:36:59 0x0 postfix/smtp[11849]: 687CA11C4133: to=<a href="&#109;&#x61;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#x73;&#111;&#x6d;&#x65;&#x40;&#x77;&#x6f;&#x72;&#x6b;&#105;&#110;&#x67;&#46;&#97;&#100;&#100;&#x72;&#x65;&#x73;&#x73;">&#115;&#x6f;&#x6d;&#x65;&#x40;&#x77;&#x6f;&#114;&#107;&#105;&#x6e;&#x67;&#x2e;&#97;&#x64;&#100;&#114;&#101;&#x73;&#x73;</a>, relay=working.mail.server[xx.xxx.xx.xx]:25, delay=1.4, delays=0.02/0/0.59/0.76, dsn=2.0.0, status=sent (250 ok 1231364219 qp 10582)
-Jan  7 22:36:59 0x0 postfix/qmgr[10250]: 687CA11C4133: removed</p></blockquote>
-
-<p>But this would mean that i always have to pass the extra parameter. And if i use a third party class or function. i may not be able to do so without hacking the code. So although it solves the problem it&#8217;s not the final solution. After i bit of browsing i found out that changing the <strong>myorigin</strong> parameter in <strong>/etc/postfix/main.cf</strong> to a known mail server. I could start the send out mail. So i changed it to the domain my mail server runs under.</p>
-
-<blockquote><p>myorigin = mail.server</p></blockquote>
-
-<p>And now sending mail from PHP works.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-01-09T08:43:24+01:00" pubdate data-updated="true">Jan 9<span>th</span>, 2009</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2009/01/making-php-mail-work-on-ubuntu-through-postfix/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/12/">&larr; Older</a></div>
@@ -902,6 +842,8 @@ Jan  7 22:36:59 0x0 postfix/qmgr[10250]: 687CA11C4133: removed</p></blockquote>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
+		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/phpness-serious-wtf/"><span class="higlight">February, 2013</span> PHPness Serious WTF</a></li>
@@ -919,8 +861,6 @@ Jan  7 22:36:59 0x0 postfix/qmgr[10250]: 687CA11C4133: removed</p></blockquote>
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/"><span class="higlight">September, 2012</span> Workaround for running WoW with patch 5.0.4 on Ubuntu</a></li>
 		
 	</ul>
 </div>
@@ -941,7 +881,7 @@ Jan  7 22:36:59 0x0 postfix/qmgr[10250]: 687CA11C4133: removed</p></blockquote>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.99115044247787%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(113)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1858407079646%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.12389380530973%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.59292035398231%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.24778761061947%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.06194690265487%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.06194690265487%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.4513274336283%'>PHP(63)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.24778761061947%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1858407079646%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.44247787610618%'>Tech(95)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.24778761061947%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

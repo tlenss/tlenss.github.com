@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Help a MySQL Support Engineer. Today on planet-php.net there are some posts [1] [2] about Andrii Nikitin a MySQL support engineer based in Ukraine. &hellip;">
+  <meta name="description" content="PEAR Install Weirdness This morning i wanted to play around with firePHP a bit. And wanted to install the PEAR package. When i found out i didn&# &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -57,6 +57,88 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2008/07/pear-install-weirdness/">PEAR Install Weirdness</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>This morning i wanted to play around with <a href="http://www.firephp.org/">firePHP</a> a bit. And wanted to install the PEAR package. When i found out i didn&#8217;t have <a href="http://pear.php.net/">PEAR</a> running on my local (win32 xp) box. So off to the pear install. The first thing i notice was that PEAR now is packaged as a nice <a href="http://nl.php.net/phar">PHAR</a> file (PHP 5.2.6) . So i hoped the install process would be smoother then normally. This was not the case. First thing i did was run the go-pear.bat file. Which resulted in an error.</p>
+
+<blockquote><p>phar &#8220;[path]go-pear.phar&#8221; does not have a signature
+Warning: require_once(phar://go-pear.phar/index.php): failed to open stream: pha
+r &#8220;[path]go-pear.phar&#8221; does not have a signature in [path]\PEAR\go-pear.phar on line 1236</p></blockquote>
+
+<p>Fatal error: require_once(): Failed opening required &#8216;phar://go-pear.phar/index.
+php&#8217; (include_path=&#8217;.;[path][path]\PEAR&#8217;) in [path]\PEAR\go-pear.phar on line 1236</p>
+
+<p>Ok. So that didn&#8217;t work out like i wanted. I checked the go-pear.bat file. And copied the command to windows command line. This resulted in the same error. So i thought. Let&#8217;s try this from the PEAR directory. cd PEAR and let&#8217;s try that again.</p>
+
+<blockquote><p>php.exe -d phar.require_hash=0 go-pear.phar</p></blockquote>
+
+<p>Now the PEAR install runs fine.</p>
+
+<blockquote><p>For more information about PEAR, see:</p></blockquote>
+
+<p>http://pear.php.net/faq.php
+http://pear.php.net/manual/</p>
+
+<p>Thanks for using go-pear!</p>
+
+<p>Update *</p>
+
+<p>Although this solution seems to have resolved the problem for me. Cal Evans has a good <a href="http://blog.calevans.com/2009/07/11/xampp-php-5-3-pear-and-phar-what-a-mess">post</a> how to resolve this issue as well. My workaround didn&#8217;t solve the problem for Cal but his did for me. So here&#8217;s the <a href="http://blog.calevans.com/2009/07/11/xampp-php-5-3-pear-and-phar-what-a-mess/">link</a></p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-07-21T07:11:24+02:00" pubdate data-updated="true">Jul 21<span>st</span>, 2008</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2008/07/pear-install-weirdness/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -772,66 +854,6 @@ set_include_path($inc_path);
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2008/06/dutch-php-conference/">Dutch PHP Conference</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>In only two days it&#8217;s time for the Dutch <a href="http://php.net/">PHP</a> Conference. The second edition as far as i remember. Last year i also had the intention to go. And the ticket was ready. But two days before the conference i got sick. And stayed in bed for over a week. So this year i have a second chance. Looking at the list of speakers it&#8217;s gonna be a great day. With a lot of information to chew on for a while. For those who didn&#8217;t buy a ticket yet. At the time of writing there are still some <a href="http://phpconference.nl/register/">tickets</a> left. A big thanks to <a href="http://www.ibuildings.nl/">Ibuildings</a> for making this happen.</p>
-
-<p><a href="http://phpconference.nl/"><img src="http://phpconference.nl/img/dpc08/logoDPC08_small.png" alt="" /></a></p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-06-12T11:47:29+02:00" pubdate data-updated="true">Jun 12<span>th</span>, 2008</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2008/06/dutch-php-conference/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/15/">&larr; Older</a></div>
@@ -884,6 +906,8 @@ set_include_path($inc_path);
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
+		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/phpness-serious-wtf/"><span class="higlight">February, 2013</span> PHPness Serious WTF</a></li>
@@ -901,8 +925,6 @@ set_include_path($inc_path);
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/"><span class="higlight">September, 2012</span> Workaround for running WoW with patch 5.0.4 on Ubuntu</a></li>
 		
 	</ul>
 </div>
@@ -923,7 +945,7 @@ set_include_path($inc_path);
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.99115044247787%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(113)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1858407079646%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.12389380530973%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.59292035398231%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.24778761061947%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.06194690265487%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.06194690265487%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.4513274336283%'>PHP(63)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.24778761061947%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1858407079646%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.44247787610618%'>Tech(95)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.24778761061947%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

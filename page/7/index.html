@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Error&#8217;d I really like the eclipse platform. But yesterday morning it was my own WTF moment when my IDE crashed while building a large project &hellip;">
+  <meta name="description" content="Returning Blocks From Controllers Without Layout Attached in Magento When working in the admin environment of Magento i had to add a controller &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -57,6 +57,88 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2010/07/returning-blocks-from-controllers-without-layout-attached-in-magento/">Returning Blocks From Controllers Without Layout Attached in Magento</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>When working in the admin environment of Magento i had to add a controller action that was called by an Ajax request. The problem however is that all layout data is returned as well when calling</p>
+
+<pre><code>$this-&gt;renderLayout();
+</code></pre>
+
+<p>from the controller. So my next attempt was to try to render the block separately and adding it to the layout.</p>
+
+<pre><code>$this-&gt;_initCustomer();
+$this-&gt;getResponse()-&gt;setBody(
+            $this-&gt;getLayout()-&gt;createBlock('block/location')
+            -&gt;setCustomerId(Mage::registry('current_customer')-&gt;getId())
+            -&gt;setData('list', $list)
+            -&gt;setUseAjax(true)
+            -&gt;toHtml()
+);
+</code></pre>
+
+<p>This kinda worked. But now i had no more control over the template used. Or maybe i missed that part. But i don&#8217;t like to specify my Block anyway Magento should pick this up automatically.</p>
+
+<p>Solving this issue is actually quite easy. The only thing we need to do is change the layout structure of the module. We change the name to root. And that&#8217;s it!</p>
+
+<pre><code>&lt;block type="block/location" name="root" template="template/location"&gt;&lt;/block&gt;
+</code></pre>
+
+<p>The name attribute tells Magento it is a root block so no need for the rest of the layout.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-07-01T11:31:53+02:00" pubdate data-updated="true">Jul 1<span>st</span>, 2010</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/magento/'>Magento</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2010/07/returning-blocks-from-controllers-without-layout-attached-in-magento/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -924,183 +1006,6 @@ default.resources.layout.layoutPath = APPLICATION_PATH &#8220;/modules/default/l
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2010/01/cache-data-with-zend-framework-and-memcached/">Cache Data With Zend Framework and Memcached</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>Last week i had the chance to work with memcache. Something i hadn&#8217;t done before. For caching i mostly rely on APC for bytecode. And file based caching for content. Using memecache extension for PHP and de memcached service gives a whole range of features for caching data. And an easy way to manage all this cached data.</p>
-
-<p>The project i am working on is based on Zend Framework. And there for this post will reflect working with memcache in ZF only. With ZF and memcache it&#8217;s possible to do frontend and backend caching. I will focuse on the backend side for now. But will setup the frontend as well.</p>
-
-<p>If you don&#8217;t have memcache installed do it now. It&#8217;s not that hard. On my debian box it went somethign like this:</p>
-
-<blockquote><p>$ aptitude install memcached
-$ aptitude install php5-memcache</p></blockquote>
-
-<p>Now a days evrything seems to go automatic. So no need to edit the php.ini or anyhting. To check if PHP loaded the memcache extension you can do:</p>
-
-<blockquote><p>$ php -m | grep memcache
-memcache</p></blockquote>
-
-<p>Memached is automatically started after install. So let&#8217;s check if everything went ok.</p>
-
-<blockquote><p>$ ps -aux | grep memcached
-nobody   20965  0.0  0.5  42900 23072 ?        S    Jan28   0:01 /usr/bin/memcached -m 64 -p 11211 -u nobody -l 127.0.0.1
-root     22393  0.0  0.0  87940   776 pts/0    R+   12:06   0:00 grep memcached</p>
-
-<p>$ netstat -an | grep 11211
-tcp        0      0 127.0.0.1:11211         0.0.0.0:*               LISTEN</p></blockquote>
-
-<p>Looking good. Now it&#8217;s time to do some configuration in ZF.</p>
-
-<p>First of the frontend settings. With &#8216;type&#8217; we set the cache method for the frontend. We chose the standard Core class for this. With &#8216;lifetime&#8217; we set the time for which a cached entity is valid. The &#8216;cache_id_prefix&#8217; is a nice way to group for instnace cache data by controller. So just give it a name.</p>
-
-<blockquote><p>cache.frontend.type = Core
-cache.frontend.options.lifetime = 600
-cache.frontend.options.automatic_serialization = true
-cache.frontend.options.cache_id_prefix = [some string]
-cache.frontend.options.cache = true</p></blockquote>
-
-<p>Now it&#8217;s the backends turn to get configured. For &#8216;type&#8217; we choose Memcached. More types are available. For more info read the ZF manual. The rest of the settings are basic memcached settings like host, port and persitance.</p>
-
-<blockquote><p>cache.backend.type = Memcached
-cache.backend.options.servers.1.host = 127.0.0.1
-cache.backend.options.servers.1.port = 11211
-cache.backend.options.servers.1.persistent = true
-cache.backend.options.servers.1.weight = 1
-cache.backend.options.servers.1.timeout = 5
-cache.backend.options.servers.1.retry_interval = 15</p></blockquote>
-
-<p>Finally we can do some PHP code. To get the cache instance setup we add a _initCache() method to the bootstrap class. Inside this method we retrieve the config options by calling getOptions(). And setup the cache object. Which is then stored in the Registry for later use.</p>
-
-<pre><code>protected function _initCache()
-{
-        $options = $this-&gt;getOptions();
-
-        if (isset($options['cache'])) {
-            $cache = Zend_Cache::factory(
-                $options['cache']['frontend']['type'],
-                $options['cache']['backend']['type'],
-                $options['cache']['frontend']['options'],
-                $options['cache']['backend']['options']
-            );
-
-            Zend_Registry::set('cache', $cache);
-            return $cache;
-        }
-}
-</code></pre>
-
-<p>That&#8217;s all set. I used the caching for some REST service responses. So i will stick to that in this post as well. The class has a method for adding a cache object.</p>
-
-<pre><code>public function setCache(Zend_Cache_Core $cache) {
-    $this-&gt;cache = $cache;
-}
-</code></pre>
-
-<p>So fetching the cache instance and passing it to the REST client will look something like this:</p>
-
-<pre><code>$cache = Zend_Registry::get('cache');
-$cache-&gt;setLifetime(86400);
-
-$client = new Client();
-$client-&gt;setCache($cache);
-</code></pre>
-
-<p>The first thing we do inside the calling method is set a unique key for the cache entry.</p>
-
-<pre><code>$cache_id = 'getPage_' . $this-&gt;getDomain()
-            . $this-&gt;getPageName()
-            . $this-&gt;getCountry();
-</code></pre>
-
-<p>Then we check if the cache object is set. If that&#8217;s the case we check to see if the unique key is already available in the cache.</p>
-
-<pre><code>if (!isset($this-&gt;cache) || !($ret = $this-&gt;cache-&gt;load($cache_id))) {
-</code></pre>
-
-<p>If a value is returned from the cahce we will return it. If not then we will do the webservice call and store the return data in cache.</p>
-
-<pre><code> $ret = $this-&gt;restClient-&gt;call('getPage', array());
-
-if (isset($this-&gt;cache)) {
-    $this-&gt;cache-&gt;save($ret, $cache_id);
-}
-</code></pre>
-
-<p>The complete method looks something like this.</p>
-
-<pre><code>protected function getPageFromWebservice()
-{
-        $cache_id = 'getPage_' . $this-&gt;getDomain()
-            . $this-&gt;getPageName()
-            . $this-&gt;getCountry();
-
-        if (!isset($this-&gt;cache) || !($ret = $this-&gt;cache-&gt;load($cache_id))) {
-            $ret = $this-&gt;restClient-&gt;call('getPage', array());
-
-            if (isset($this-&gt;cache)) {
-                $this-&gt;cache-&gt;save($ret, $cache_id);
-            }
-        }
-        return $ret;
-}
-</code></pre>
-
-<p>That&#8217;s all. It&#8217;s pretty basic stuff. But so cool!</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-01-29T13:26:19+01:00" pubdate data-updated="true">Jan 29<span>th</span>, 2010</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2010/01/cache-data-with-zend-framework-and-memcached/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/8/">&larr; Older</a></div>
@@ -1153,6 +1058,8 @@ if (isset($this-&gt;cache)) {
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
+		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/phpness-serious-wtf/"><span class="higlight">February, 2013</span> PHPness Serious WTF</a></li>
@@ -1170,8 +1077,6 @@ if (isset($this-&gt;cache)) {
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/"><span class="higlight">September, 2012</span> Workaround for running WoW with patch 5.0.4 on Ubuntu</a></li>
 		
 	</ul>
 </div>
@@ -1192,7 +1097,7 @@ if (isset($this-&gt;cache)) {
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.99115044247787%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(113)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1858407079646%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.12389380530973%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.59292035398231%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.24778761061947%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.06194690265487%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.06194690265487%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.4513274336283%'>PHP(63)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.24778761061947%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1858407079646%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.44247787610618%'>Tech(95)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.24778761061947%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>
