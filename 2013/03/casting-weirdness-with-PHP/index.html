@@ -69,8 +69,7 @@
 
 <div class="articletext"><p>When my coworker today asked if he could cast an array to a object. I couldn&#8217;t really answer the question. Don&#8217;t think i ever done that. So let&#8217;s try. right?</p>
 
-<pre><code>(integer) exec("stat -c%s {$file-&gt;getFilename()}");
-$arr = array('foo' =&gt; 'baz');
+<pre><code>$arr = array('foo' =&gt; 'baz');
 $obj = (object) $arr;
 
 var_dump($obj);

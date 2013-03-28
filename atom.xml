@@ -4,7 +4,7 @@
   <title><![CDATA[Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-03-28T21:46:38+01:00</updated>
+  <updated>2013-03-28T21:51:39+01:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -20,8 +20,7 @@
     <id>http://lenss.nl/2013/03/casting-weirdness-with-PHP</id>
     <content type="html"><![CDATA[<p>When my coworker today asked if he could cast an array to a object. I couldn&#8217;t really answer the question. Don&#8217;t think i ever done that. So let&#8217;s try. right?</p>
 
-<pre><code>(integer) exec("stat -c%s {$file-&gt;getFilename()}");
-$arr = array('foo' =&gt; 'baz');
+<pre><code>$arr = array('foo' =&gt; 'baz');
 $obj = (object) $arr;
 
 var_dump($obj);
