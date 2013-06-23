@@ -341,7 +341,8 @@ verbosity
 </header>
 
 
-  <div class="articletext"><p><a href="http://lenss.nl/images/2011/05/dpc11.jpg"><img src="http://lenss.nl/images/2011/05/dpc11.jpg" alt="" /></a> Last week was the 5th <a href="http://www.phpconference.nl">DPC</a> (Dutch PHP Conference) in the <a href="http://www.rai.nl/">Amsterdam Rai</a>. And thanks to my awesome employer i once again had the chance to be there. This year with a full conference ticket (including the tutorial days). And i had a blast. I wanted to do this post earlier this weekend but due to some current injury i wasn’t able to. So here goes.</p>
+  <div class="articletext"><p><img class="left" src="http://lenss.nl/images/2011/05/dpc11.jpg" />
+Last week was the 5th <a href="http://www.phpconference.nl">DPC</a> (Dutch PHP Conference) in the <a href="http://www.rai.nl/">Amsterdam Rai</a>. And thanks to my awesome employer i once again had the chance to be there. This year with a full conference ticket (including the tutorial days). And i had a blast. I wanted to do this post earlier this weekend but due to some current injury i wasn’t able to. So here goes.</p>
 
 <p>The kick off for the DPC11 were the tutorial days. And they had some pretty cool tutorial lined up for this year. But as always you have to choose. So me and Geoff chose to visit two of the tutorials we would benefit from the most. Since we are in pretty heavy database driven environment. We chose:</p>
 
@@ -367,12 +368,15 @@ verbosity
 <p>If possible move where clauses inside the join statements
 Don’t use subselects. But if you really have to use them in the <code>AS</code> form </p>
 
-<blockquote>
-  <p>SELECT 
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+SELECT 
   t.id, 
   (SELECT t2foo FROM table t2 WHERE t2foo = t.bar) AS foo
-FROM table t</p>
-</blockquote>
+FROM table t
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Indexing key order is very important
 Use a sequence table to generate date based reports</p>
@@ -559,8 +563,10 @@ That was day one. I had fun although quit painful with my current injury. I real
 <p>Vim doesn’t seem to create the user folder automatically. So we need to create these our self. We’ll start off with a folder for plugins, color schemes and syntax settings.</p>
 
 <blockquote>
-  <p>$ mkdir ~/.vim
-$ mkdir ~/.vim/{syntax,colors,plugin}</p>
+  <ul>
+    <li>$ mkdir ~/.vim</li>
+    <li>$ mkdir ~/.vim/{syntax,colors,plugin}</li>
+  </ul>
 </blockquote>
 
 <p>Most of the time i will be editing <strong>.php</strong> files. So i want some good syntax support for that. Vim has a nice plugin system. And there does seem to be a syntax file for PHP <a href="http://www.vim.org/scripts/script.php?script_id=1571">available</a>. It’s a bit outdated. But will do for now. The only thing to do to enable it is copy it to the plugin directory.</p>
@@ -581,11 +587,17 @@ $ mkdir ~/.vim/{syntax,colors,plugin}</p>
   <p>$ mv wombat256mod.vim ~/.vim/colors</p>
 </blockquote>
 
-<p><a href="http://lenss.nl/images/2011/04/wombat-html.png"><img src="http://lenss.nl/images/2011/04/wombat-html-300x60.png" alt="" /></a></p>
-
-<p><a href="http://lenss.nl/images/2011/04/wombat-php.png"><img src="http://lenss.nl/images/2011/04/wombat-php-300x128.png" alt="" /></a></p>
-
-<p>That’s starting to look like a pretty nice setup. Time to make some settings permanent and to enable some other features.</p>
+<ul>
+  <li>
+    <p><a href="http://lenss.nl/images/2011/04/wombat-html.png"><img src="http://lenss.nl/images/2011/04/wombat-html-300x60.png" alt="" /></a></p>
+  </li>
+  <li>
+    <p><a href="http://lenss.nl/images/2011/04/wombat-php.png"><img src="http://lenss.nl/images/2011/04/wombat-php-300x128.png" alt="" /></a></p>
+  </li>
+  <li>
+    <p>That’s starting to look like a pretty nice setup. Time to make some settings permanent and to enable some other features.</p>
+  </li>
+</ul>
 
 <blockquote>
   <p>$ vim ~/.vimrc</p>
@@ -595,101 +607,139 @@ $ mkdir ~/.vim/{syntax,colors,plugin}</p>
 
 <blockquote>
 
-  <p>set rule
-set wrapscan
-set number
-set backspace=start,indent,eol</p>
+  <ul>
+    <li>set rule</li>
+    <li>set wrapscan</li>
+    <li>set number</li>
+    <li>set backspace=start,indent,eol</li>
+    <li></li>
+    <li>set t_Co=256</li>
+    <li>colorscheme wombat256mod</li>
+    <li></li>
+    <li>autocmd FileType php set omnifunc=phpcomplete#CompletePHP</li>
+  </ul>
 </blockquote>
-
-<p>set t_Co=256
-colorscheme wombat256mod</p>
-
-<p>autocmd FileType php set omnifunc=phpcomplete#CompletePHP</p>
 
 <p>In the meantime i found this interesting post on Matthew Weier O’Phinney’s blog about using <a href="http://weierophinney.net/matthew/archives/134-exuberant-ctags-with-PHP-in-Vim.html">ctags , VIM and PHP</a>. That looks like interesting stuff. So let’s add it. With <a href="http://ctags.sourceforge.net/">ctags</a> it’s possible to scan a source tree. And compile a sort of index file that vim can use for lookups. </p>
 
 <blockquote>
-  <p>$ sudo aptitude install exuberant-ctags
-$ mkdir ~/.vim/tags</p>
+  <ul>
+    <li>$ sudo aptitude install exuberant-ctags</li>
+    <li>$ mkdir ~/.vim/tags</li>
+  </ul>
 </blockquote>
 
 <p>Creating an index file is a piece of cake. Move to a source directory and issue the following command.</p>
 
 <blockquote>
-  <p>$ cd /some/path
-$ ctags-exuberant -R -f ~/.vim/tags/filename -h “.php” 
-–exclude=”.svn” –totals=yes 
-–tag-relative=yes –PHP-kinds=+cf 
-–regex-PHP=’/abstract class ([^ ]<em>)/\1/c/’ 
-–regex-PHP=’/interface ([^ ]</em>)/\1/c/’ 
-–regex-PHP=’/(public |static |abstract |protected |private )+function ([^ (]*)/\2/f/’</p>
+  <ul>
+    <li>$ cd /some/path</li>
+    <li>$ ctags-exuberant -R -f ~/.vim/tags/filename -h “.php” </li>
+    <li>–exclude=”.svn” –totals=yes </li>
+    <li>–tag-relative=yes –PHP-kinds=+cf </li>
+    <li>–regex-PHP=’/abstract class ([^ ]*)/\1/c/’ </li>
+    <li>–regex-PHP=’/interface ([^ ]*)/\1/c/’ </li>
+    <li>
+      <table>
+        <tbody>
+          <tr>
+            <td>–regex-PHP=’/(public</td>
+            <td>static</td>
+            <td>abstract</td>
+            <td>protected</td>
+            <td>private )+function ([^ (]*)/\2/f/’</td>
+          </tr>
+        </tbody>
+      </table>
+    </li>
+  </ul>
 </blockquote>
 
 <p>This will scan the whole directory structure recursively while using the regular expressions to extract useful information from the source files it finds. When done and when the parameter <em>–totals=yes</em> is used the following output is displayed. But probably with different numbers.</p>
 
 <blockquote>
-  <p>2375 files, 466018 lines (14628 kB) scanned in 11.7 seconds (1246 kB/s)
-199296 tags added to tag file
-199296 tags sorted in 0.00 seconds</p>
+  <ul>
+    <li>2375 files, 466018 lines (14628 kB) scanned in 11.7 seconds (1246 kB/s)</li>
+    <li>199296 tags added to tag file</li>
+    <li>199296 tags sorted in 0.00 seconds</li>
+  </ul>
 </blockquote>
 
 <p>Time to enable tags. I want to use multiple files. Some standard files for common frameworks / libraries. And a tag file per project.</p>
 
 <blockquote>
-  <p>$ vim ~/.vimrc 
-set tags=tags;~/.vim/tags/filename</p>
+  <ul>
+    <li>$ vim ~/.vimrc </li>
+    <li>set tags=tags;~/.vim/tags/filename</li>
+  </ul>
 </blockquote>
 
 <p>So let’s start vim and have a look at what we have so far. The first thing we do when vim has started is launch the :Project plugin.</p>
 
 <blockquote>
-  <p>$ vim
-:Project</p>
+  <ul>
+    <li>$ vim</li>
+    <li>:Project</li>
+  </ul>
 </blockquote>
 
-<p><a href="http://lenss.nl/images/2011/04/vim-project-1.png"><img src="http://lenss.nl/images/2011/04/vim-project-1-300x175.png" alt="" /></a></p>
-
-<p><a href="http://lenss.nl/images/2011/04/vim-project-2.png"><img src="http://lenss.nl/images/2011/04/vim-project-2-300x174.png" alt="" /></a></p>
+<ul>
+  <li>
+    <p><a href="http://lenss.nl/images/2011/04/vim-project-1.png"><img src="http://lenss.nl/images/2011/04/vim-project-1-300x175.png" alt="" /></a></p>
+  </li>
+  <li>
+    <p><a href="http://lenss.nl/images/2011/04/vim-project-2.png"><img src="http://lenss.nl/images/2011/04/vim-project-2-300x174.png" alt="" /></a></p>
+  </li>
+</ul>
 
 <p>The project plugin took some time to get used to. But it’s a very convenient plugin. And easy to get the hang of. It’s possible to create the project settings by hand. But the plugin comes with a build in tool for this. While in <em>:Project</em> mode and hitting <em>\C</em> will make it easy to create new projects.</p>
 
 <blockquote>
-  <p>$ vim
-:Project
-\C</p>
+  <ul>
+    <li>$ vim</li>
+    <li>:Project</li>
+    <li>\C</li>
+  </ul>
 </blockquote>
 
 <p>This will guide you through the process with a few short and simple questions.</p>
 
 <blockquote>
-  <p>Enter the Name of the Entry: [ project name ]
-Enter the Absolute Directory to Load: [ absolute path ]
-Enter the CD parameter: [ path to move into ]
-Enter the File Filter: [ file filter : *.php ]</p>
+  <ul>
+    <li>Enter the Name of the Entry: [ project name ]</li>
+    <li>Enter the Absolute Directory to Load: [ absolute path ]</li>
+    <li>Enter the CD parameter: [ path to move into ]</li>
+    <li>Enter the File Filter: [ file filter : *.php ]</li>
+  </ul>
 </blockquote>
 
 <p>When that’s done the screen will be in edit mode inside the .vimproject file. Displaying something like this.</p>
 
-<blockquote>
-
-  <p>Project name=/path/to/project CD=/path/to/project filter=”*.php” {
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+Project name=/path/to/project CD=/path/to/project filter=&quot;*.php&quot; {
   filename.ext
-  folder———————————————————-
-}</p>
-</blockquote>
+  folder----------------------------------------------------------
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>It’s possible to alter the project setup here. Like adding more files. Or even adding files from other locations outside of the project.</p>
 
-<blockquote>
-  <p>Project name=/path/to/project CD=/path/to/project filter=”*.php” {
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+Project name=/path/to/project CD=/path/to/project filter=&quot;*.php&quot; {
   filename.ext
-  folder———————————————————-</p>
-</blockquote>
-
-<p>External=/some/other/path CD=/some/other/path filter=”*.php” {
+  folder----------------------------------------------------------
+  
+  External=/some/other/path CD=/some/other/path filter=&quot;*.php&quot; {
     filename.ext
   }
-}</p>
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>When done editing. Just do like normally in vim.</p>
 
@@ -1170,7 +1220,8 @@ It’s also a great exercise platform. I myself are not native English speaker. 
 </header>
 
 
-  <div class="articletext"><p><a href="http://aws.amazon.com/"><img src="http://lenss.nl/images/2011/03/logo_aws.gif" alt="" /></a> Finally back online again. Somewhere today the site went down. And i couldn’t reach the server. Which resulted in me jumping the gun and write an pissed off <a href="http://twitter.com/m0s/status/48089219616354304">tweet</a> about Amazon’s EC2 service. Which turned out to be false. After i noticed i tried to login to the AWS dashboard. But instead of my running instance i was presented with a validation screen. I had to validate my account by phone. That’s weird. I came to conclusion to early and thought Amazon had suspended my account for what whatever reason possible. It turns out it’s the annoying Amazon password bug that bit my ass. After poking around i came to the conclusion i have two Amazon accounts on the same email address but with different passwords. One has EC2 enabled the other doesn’t. Good to know. But the site was still down. So on my way home i missed a call from the Amazon support desk (really more companies should act like Amazon does). But got into an email conversation with them later on. After i apologised for the tweet. The Dev at Amazon figured out the server was running out of resources and was swapping. And just couldn’t do much more then that. Only a reboot resolved the issue. Hey! It’s not a micro instance for nothing.</p>
+  <div class="articletext"><p><img class="left" src="http://lenss.nl/images/2011/03/logo_aws.gif" />
+Finally back online again. Somewhere today the site went down. And i couldn’t reach the server. Which resulted in me jumping the gun and write an pissed off <a href="http://twitter.com/m0s/status/48089219616354304">tweet</a> about Amazon’s EC2 service. Which turned out to be false. After i noticed i tried to login to the AWS dashboard. But instead of my running instance i was presented with a validation screen. I had to validate my account by phone. That’s weird. I came to conclusion to early and thought Amazon had suspended my account for what whatever reason possible. It turns out it’s the annoying Amazon password bug that bit my ass. After poking around i came to the conclusion i have two Amazon accounts on the same email address but with different passwords. One has EC2 enabled the other doesn’t. Good to know. But the site was still down. So on my way home i missed a call from the Amazon support desk (really more companies should act like Amazon does). But got into an email conversation with them later on. After i apologised for the tweet. The Dev at Amazon figured out the server was running out of resources and was swapping. And just couldn’t do much more then that. Only a reboot resolved the issue. Hey! It’s not a micro instance for nothing.</p>
 
 <p>I might as well write a post about the move to the Amazon Cloud late last year. Ever since this website went up in 2008. It has been running on one of my own servers. And this has done the job well for two years. Some people would say if it ain’t broke don’t try to fix it. But i like to try out new things. And running a server isn’t cheap. So if i can find a more affordable way of hosting this site i may be interested enough to move. So where do i move this site too. Some other hosting provider? Let’s try something different and host it from the cloud. I didn’t really want to go over the whole hassle of finding a suitable hosting provider. And i was doing some small project with Amazon Web-services. So my choice was made quite easy. Let’s try the wide array of options Amazon’s Web-services have to offer.</p>
 
@@ -1339,7 +1390,8 @@ $ sudo bash</p>
 </header>
 
 
-  <div class="articletext"><p><a href="http://www.zend.com/en/products/studio/vmware-workstation-deployment"><img src="http://lenss.nl/images/2011/03/zend-vmware.gif" alt="" /></a>A while back i was contacted by <a href="http://twitter.com/vlaxmi">Vijay Laxmi</a>. Vijay is a Sr Partner Marketing Manager over at Zend Technologies. And she was interested in doing a podcast like interview about the brand new and shiny <a href="http://www.zend.com/en/products/studio/vmware-workstation-deployment">VMWare &amp; Zend Studio</a> integration. And because i am a big fan of this feature. I didn’t see why not. So we had a few chat sessions. Along the way <a href="http://twitter.com/jsolomin">Joshua Solomin</a> from Zend and Michael Paiko from VMWare joined the party. And after some preparation we recorded the session. Considering i have never been much of a speaker. This was quite fun to do. </p>
+  <div class="articletext"><p><img class="left" src="http://lenss.nl/images/2011/03/zend-vmware.gif" />
+A while back i was contacted by <a href="http://twitter.com/vlaxmi">Vijay Laxmi</a>. Vijay is a Sr Partner Marketing Manager over at Zend Technologies. And she was interested in doing a podcast like interview about the brand new and shiny <a href="http://www.zend.com/en/products/studio/vmware-workstation-deployment">VMWare &amp; Zend Studio</a> integration. And because i am a big fan of this feature. I didn&#8217;t see why not. So we had a few chat sessions. Along the way <a href="http://twitter.com/jsolomin">Joshua Solomin</a> from Zend and Michael Paiko from VMWare joined the party. And after some preparation we recorded the session. Considering i have never been much of a speaker. This was quite fun to do. </p>
 
 <p>Michael send me the end result. And everybody seemed happy with it. After that life resumed and i have been incredibly busy every since. So i kinda forgot about the whole thing. Till Vijay mailed me today (ty! Vijay). VMWare put the <a href="http://blogs.vmware.com/workstation/">recording</a> on their website. And a customer mailing has been transmitted over the wire.  Cool stuff!</p>
 

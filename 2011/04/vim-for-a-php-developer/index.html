@@ -78,8 +78,10 @@
 <p>Vim doesn’t seem to create the user folder automatically. So we need to create these our self. We’ll start off with a folder for plugins, color schemes and syntax settings.</p>
 
 <blockquote>
-  <p>$ mkdir ~/.vim
-$ mkdir ~/.vim/{syntax,colors,plugin}</p>
+  <ul>
+    <li>$ mkdir ~/.vim</li>
+    <li>$ mkdir ~/.vim/{syntax,colors,plugin}</li>
+  </ul>
 </blockquote>
 
 <p>Most of the time i will be editing <strong>.php</strong> files. So i want some good syntax support for that. Vim has a nice plugin system. And there does seem to be a syntax file for PHP <a href="http://www.vim.org/scripts/script.php?script_id=1571">available</a>. It’s a bit outdated. But will do for now. The only thing to do to enable it is copy it to the plugin directory.</p>
@@ -100,11 +102,17 @@ $ mkdir ~/.vim/{syntax,colors,plugin}</p>
   <p>$ mv wombat256mod.vim ~/.vim/colors</p>
 </blockquote>
 
-<p><a href="http://lenss.nl/images/2011/04/wombat-html.png"><img src="http://lenss.nl/images/2011/04/wombat-html-300x60.png" alt="" /></a></p>
-
-<p><a href="http://lenss.nl/images/2011/04/wombat-php.png"><img src="http://lenss.nl/images/2011/04/wombat-php-300x128.png" alt="" /></a></p>
-
-<p>That’s starting to look like a pretty nice setup. Time to make some settings permanent and to enable some other features.</p>
+<ul>
+  <li>
+    <p><a href="http://lenss.nl/images/2011/04/wombat-html.png"><img src="http://lenss.nl/images/2011/04/wombat-html-300x60.png" alt="" /></a></p>
+  </li>
+  <li>
+    <p><a href="http://lenss.nl/images/2011/04/wombat-php.png"><img src="http://lenss.nl/images/2011/04/wombat-php-300x128.png" alt="" /></a></p>
+  </li>
+  <li>
+    <p>That’s starting to look like a pretty nice setup. Time to make some settings permanent and to enable some other features.</p>
+  </li>
+</ul>
 
 <blockquote>
   <p>$ vim ~/.vimrc</p>
@@ -114,101 +122,139 @@ $ mkdir ~/.vim/{syntax,colors,plugin}</p>
 
 <blockquote>
 
-  <p>set rule
-set wrapscan
-set number
-set backspace=start,indent,eol</p>
+  <ul>
+    <li>set rule</li>
+    <li>set wrapscan</li>
+    <li>set number</li>
+    <li>set backspace=start,indent,eol</li>
+    <li></li>
+    <li>set t_Co=256</li>
+    <li>colorscheme wombat256mod</li>
+    <li></li>
+    <li>autocmd FileType php set omnifunc=phpcomplete#CompletePHP</li>
+  </ul>
 </blockquote>
-
-<p>set t_Co=256
-colorscheme wombat256mod</p>
-
-<p>autocmd FileType php set omnifunc=phpcomplete#CompletePHP</p>
 
 <p>In the meantime i found this interesting post on Matthew Weier O’Phinney’s blog about using <a href="http://weierophinney.net/matthew/archives/134-exuberant-ctags-with-PHP-in-Vim.html">ctags , VIM and PHP</a>. That looks like interesting stuff. So let’s add it. With <a href="http://ctags.sourceforge.net/">ctags</a> it’s possible to scan a source tree. And compile a sort of index file that vim can use for lookups. </p>
 
 <blockquote>
-  <p>$ sudo aptitude install exuberant-ctags
-$ mkdir ~/.vim/tags</p>
+  <ul>
+    <li>$ sudo aptitude install exuberant-ctags</li>
+    <li>$ mkdir ~/.vim/tags</li>
+  </ul>
 </blockquote>
 
 <p>Creating an index file is a piece of cake. Move to a source directory and issue the following command.</p>
 
 <blockquote>
-  <p>$ cd /some/path
-$ ctags-exuberant -R -f ~/.vim/tags/filename -h “.php” 
-–exclude=”.svn” –totals=yes 
-–tag-relative=yes –PHP-kinds=+cf 
-–regex-PHP=’/abstract class ([^ ]<em>)/\1/c/’ 
-–regex-PHP=’/interface ([^ ]</em>)/\1/c/’ 
-–regex-PHP=’/(public |static |abstract |protected |private )+function ([^ (]*)/\2/f/’</p>
+  <ul>
+    <li>$ cd /some/path</li>
+    <li>$ ctags-exuberant -R -f ~/.vim/tags/filename -h “.php” </li>
+    <li>–exclude=”.svn” –totals=yes </li>
+    <li>–tag-relative=yes –PHP-kinds=+cf </li>
+    <li>–regex-PHP=’/abstract class ([^ ]*)/\1/c/’ </li>
+    <li>–regex-PHP=’/interface ([^ ]*)/\1/c/’ </li>
+    <li>
+      <table>
+        <tbody>
+          <tr>
+            <td>–regex-PHP=’/(public</td>
+            <td>static</td>
+            <td>abstract</td>
+            <td>protected</td>
+            <td>private )+function ([^ (]*)/\2/f/’</td>
+          </tr>
+        </tbody>
+      </table>
+    </li>
+  </ul>
 </blockquote>
 
 <p>This will scan the whole directory structure recursively while using the regular expressions to extract useful information from the source files it finds. When done and when the parameter <em>–totals=yes</em> is used the following output is displayed. But probably with different numbers.</p>
 
 <blockquote>
-  <p>2375 files, 466018 lines (14628 kB) scanned in 11.7 seconds (1246 kB/s)
-199296 tags added to tag file
-199296 tags sorted in 0.00 seconds</p>
+  <ul>
+    <li>2375 files, 466018 lines (14628 kB) scanned in 11.7 seconds (1246 kB/s)</li>
+    <li>199296 tags added to tag file</li>
+    <li>199296 tags sorted in 0.00 seconds</li>
+  </ul>
 </blockquote>
 
 <p>Time to enable tags. I want to use multiple files. Some standard files for common frameworks / libraries. And a tag file per project.</p>
 
 <blockquote>
-  <p>$ vim ~/.vimrc 
-set tags=tags;~/.vim/tags/filename</p>
+  <ul>
+    <li>$ vim ~/.vimrc </li>
+    <li>set tags=tags;~/.vim/tags/filename</li>
+  </ul>
 </blockquote>
 
 <p>So let’s start vim and have a look at what we have so far. The first thing we do when vim has started is launch the :Project plugin.</p>
 
 <blockquote>
-  <p>$ vim
-:Project</p>
+  <ul>
+    <li>$ vim</li>
+    <li>:Project</li>
+  </ul>
 </blockquote>
 
-<p><a href="http://lenss.nl/images/2011/04/vim-project-1.png"><img src="http://lenss.nl/images/2011/04/vim-project-1-300x175.png" alt="" /></a></p>
-
-<p><a href="http://lenss.nl/images/2011/04/vim-project-2.png"><img src="http://lenss.nl/images/2011/04/vim-project-2-300x174.png" alt="" /></a></p>
+<ul>
+  <li>
+    <p><a href="http://lenss.nl/images/2011/04/vim-project-1.png"><img src="http://lenss.nl/images/2011/04/vim-project-1-300x175.png" alt="" /></a></p>
+  </li>
+  <li>
+    <p><a href="http://lenss.nl/images/2011/04/vim-project-2.png"><img src="http://lenss.nl/images/2011/04/vim-project-2-300x174.png" alt="" /></a></p>
+  </li>
+</ul>
 
 <p>The project plugin took some time to get used to. But it’s a very convenient plugin. And easy to get the hang of. It’s possible to create the project settings by hand. But the plugin comes with a build in tool for this. While in <em>:Project</em> mode and hitting <em>\C</em> will make it easy to create new projects.</p>
 
 <blockquote>
-  <p>$ vim
-:Project
-\C</p>
+  <ul>
+    <li>$ vim</li>
+    <li>:Project</li>
+    <li>\C</li>
+  </ul>
 </blockquote>
 
 <p>This will guide you through the process with a few short and simple questions.</p>
 
 <blockquote>
-  <p>Enter the Name of the Entry: [ project name ]
-Enter the Absolute Directory to Load: [ absolute path ]
-Enter the CD parameter: [ path to move into ]
-Enter the File Filter: [ file filter : *.php ]</p>
+  <ul>
+    <li>Enter the Name of the Entry: [ project name ]</li>
+    <li>Enter the Absolute Directory to Load: [ absolute path ]</li>
+    <li>Enter the CD parameter: [ path to move into ]</li>
+    <li>Enter the File Filter: [ file filter : *.php ]</li>
+  </ul>
 </blockquote>
 
 <p>When that’s done the screen will be in edit mode inside the .vimproject file. Displaying something like this.</p>
 
-<blockquote>
-
-  <p>Project name=/path/to/project CD=/path/to/project filter=”*.php” {
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+Project name=/path/to/project CD=/path/to/project filter=&quot;*.php&quot; {
   filename.ext
-  folder———————————————————-
-}</p>
-</blockquote>
+  folder----------------------------------------------------------
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>It’s possible to alter the project setup here. Like adding more files. Or even adding files from other locations outside of the project.</p>
 
-<blockquote>
-  <p>Project name=/path/to/project CD=/path/to/project filter=”*.php” {
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+Project name=/path/to/project CD=/path/to/project filter=&quot;*.php&quot; {
   filename.ext
-  folder———————————————————-</p>
-</blockquote>
-
-<p>External=/some/other/path CD=/some/other/path filter=”*.php” {
+  folder----------------------------------------------------------
+  
+  External=/some/other/path CD=/some/other/path filter=&quot;*.php&quot; {
     filename.ext
   }
-}</p>
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>When done editing. Just do like normally in vim.</p>
 

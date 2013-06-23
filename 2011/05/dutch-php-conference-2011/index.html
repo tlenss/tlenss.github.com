@@ -67,7 +67,8 @@
 </header>
 
 
-<div class="articletext"><p><a href="http://lenss.nl/images/2011/05/dpc11.jpg"><img src="http://lenss.nl/images/2011/05/dpc11.jpg" alt="" /></a> Last week was the 5th <a href="http://www.phpconference.nl">DPC</a> (Dutch PHP Conference) in the <a href="http://www.rai.nl/">Amsterdam Rai</a>. And thanks to my awesome employer i once again had the chance to be there. This year with a full conference ticket (including the tutorial days). And i had a blast. I wanted to do this post earlier this weekend but due to some current injury i wasn’t able to. So here goes.</p>
+<div class="articletext"><p><img class="left" src="http://lenss.nl/images/2011/05/dpc11.jpg" />
+Last week was the 5th <a href="http://www.phpconference.nl">DPC</a> (Dutch PHP Conference) in the <a href="http://www.rai.nl/">Amsterdam Rai</a>. And thanks to my awesome employer i once again had the chance to be there. This year with a full conference ticket (including the tutorial days). And i had a blast. I wanted to do this post earlier this weekend but due to some current injury i wasn’t able to. So here goes.</p>
 
 <p>The kick off for the DPC11 were the tutorial days. And they had some pretty cool tutorial lined up for this year. But as always you have to choose. So me and Geoff chose to visit two of the tutorials we would benefit from the most. Since we are in pretty heavy database driven environment. We chose:</p>
 
@@ -93,12 +94,15 @@
 <p>If possible move where clauses inside the join statements
 Don’t use subselects. But if you really have to use them in the <code>AS</code> form </p>
 
-<blockquote>
-  <p>SELECT 
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+SELECT 
   t.id, 
   (SELECT t2foo FROM table t2 WHERE t2foo = t.bar) AS foo
-FROM table t</p>
-</blockquote>
+FROM table t
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Indexing key order is very important
 Use a sequence table to generate date based reports</p>
