@@ -4,7 +4,7 @@
   <title><![CDATA[Category: PHP | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/php/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-06-23T12:59:27+02:00</updated>
+  <updated>2013-06-23T13:04:10+02:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -354,16 +354,26 @@ sudo apt-get install php5
     <id>http://lenss.nl/2013/03/casting-weirdness-with-PHP</id>
     <content type="html"><![CDATA[<p>When my coworker today asked if he could cast an array to a object. I couldn’t really answer the question. Don’t think i ever done that. So let’s try. right?</p>
 
-<pre><code>$arr = array('foo' =&gt; 'baz');
-$obj = (object) $arr;
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Cast array to object </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+$arr = array(‘foo’ =<span class="entity">&amp;gt;</span> ‘baz’);
+$obj = (object) $arr;<span class="tag">&lt;/p&gt;</span>
 
-var_dump($obj);
+<span class="tag">&lt;p&gt;</span>var_dump($obj);
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
 object(stdClass)#1 (1) {
-  ["foo"]=&gt;
-  string(3) "baz"
+        [“foo”]=&amp;gt;
+        string(3) “baz”
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <p>Ha that’s cool. It actually works. But wait. What happens when we use a numeric index?</p>
 
