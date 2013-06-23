@@ -174,63 +174,77 @@ $ sudo dpkg –purge postfix</p>
 
 <blockquote>
 
-  <p>$ telnet localhost 25</p>
+  <ul>
+    <li>$ telnet localhost 25</li>
+    <li></li>
+    <li>Trying 127.0.0.1…</li>
+    <li>Connected to localhost.</li>
+    <li>Escape character is ‘^]’.</li>
+    <li>220 0x0 ESMTP Postfix (Ubuntu)</li>
+    <li></li>
+    <li>helo test.nl</li>
+    <li>250 0x0</li>
+    <li>mail from: test@test.nl</li>
+    <li>250 2.1.0 Ok</li>
+    <li>rcpt to: some@working.address</li>
+    <li>250 2.1.5 Ok</li>
+    <li>data</li>
+    <li>354 End data with </li>
+    <li>testing</li>
+    <li>.</li>
+    <li>250 2.0.0 Ok: queued as ED97311C412F</li>
+  </ul>
 </blockquote>
-
-<p>Trying 127.0.0.1…
-Connected to localhost.
-Escape character is ‘^]’.
-220 0x0 ESMTP Postfix (Ubuntu)</p>
-
-<p>helo test.nl
-250 0x0
-mail from: test@test.nl
-250 2.1.0 Ok
-rcpt to: some@working.address
-250 2.1.5 Ok
-data
-354 End data with 
-testing
-.
-250 2.0.0 Ok: queued as ED97311C412F</p>
 
 <p>So now let’s make sure it also works from PHP. I tested it through a CLI script and through apache2. With the most basic mail script you can imagine. </p>
 
-<pre><code>    mail('some@working.address', 'test', 'test message');
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="predefined">mail</span>(<span class="string"><span class="delimiter">'</span><span class="content">some@working.address</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">test</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">test message</span><span class="delimiter">'</span></span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>The mail however gets bounced.</p>
 
 <blockquote>
 
-  <p>Jan  7 22:31:48 0x0 postfix/pickup[10249]: 035BF11C4133: uid=1 from=
-Jan  7 22:31:48 0x0 postfix/cleanup[11726]: 035BF11C4133: message-id=&lt;20090107213148.035BF11C4133@0x0&gt;
-Jan  7 22:31:48 0x0 postfix/qmgr[10250]: 035BF11C4133: from=<a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#100;&#097;&#101;&#109;&#111;&#110;&#064;&#105;&#110;&#116;&#101;&#114;&#110;&#097;&#108;&#046;&#110;&#097;&#109;&#101;">&#100;&#097;&#101;&#109;&#111;&#110;&#064;&#105;&#110;&#116;&#101;&#114;&#110;&#097;&#108;&#046;&#110;&#097;&#109;&#101;</a>, size=303, nrcpt=1 (queue active)
-Jan  7 22:31:48 0x0 postfix/smtp[11728]: 035BF11C4133: to=<a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;">&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;</a>, relay=working.mail.server[xx.xxx.xx.xx]:25, delay=0.68, delays=0.02/0/0.48/0.18, dsn=5.0.0, status=bounced (host working.mail.server[xx.xxx.xx.xx] said: 553 sorry, your envelope sender domain must exist (#5.7.1) (in reply to MAIL FROM command))
-Jan  7 22:31:48 0x0 postfix/cleanup[11726]: C5C2911C4134: message-id=&lt;20090107213148.C5C2911C4134@0x0&gt;
-Jan  7 22:31:48 0x0 postfix/qmgr[10250]: C5C2911C4134: from=&lt;&gt;, size=2064, nrcpt=1 (queue active)
-Jan  7 22:31:48 0x0 postfix/bounce[11729]: 035BF11C4133: sender non-delivery notification: C5C2911C4134
-Jan  7 22:31:48 0x0 postfix/qmgr[10250]: 035BF11C4133: removed
-Jan  7 22:31:49 0x0 postfix/smtp[11728]: C5C2911C4134: to=<a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#100;&#097;&#101;&#109;&#111;&#110;&#064;&#105;&#110;&#116;&#101;&#114;&#110;&#097;&#108;&#046;&#110;&#097;&#109;&#101;">&#100;&#097;&#101;&#109;&#111;&#110;&#064;&#105;&#110;&#116;&#101;&#114;&#110;&#097;&#108;&#046;&#110;&#097;&#109;&#101;</a>, relay=working.mail.server[xx.xxx.xx.xx]:25, delay=0.75, delays=0.01/0/0.41/0.34, dsn=2.0.0, status=sent (250 ok 1231363909 qp 10204)
-Jan  7 22:31:49 0x0 postfix/qmgr[10250]: C5C2911C4134: removed</p>
+  <ul>
+    <li>Jan  7 22:31:48 0x0 postfix/pickup[10249]: 035BF11C4133: uid=1 from=</li>
+    <li>Jan  7 22:31:48 0x0 postfix/cleanup[11726]: 035BF11C4133: message-id=&lt;20090107213148.035BF11C4133@0x0&gt;</li>
+    <li>Jan  7 22:31:48 0x0 postfix/qmgr[10250]: 035BF11C4133: from=<a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#100;&#097;&#101;&#109;&#111;&#110;&#064;&#105;&#110;&#116;&#101;&#114;&#110;&#097;&#108;&#046;&#110;&#097;&#109;&#101;">&#100;&#097;&#101;&#109;&#111;&#110;&#064;&#105;&#110;&#116;&#101;&#114;&#110;&#097;&#108;&#046;&#110;&#097;&#109;&#101;</a>, size=303, nrcpt=1 (queue active)</li>
+    <li>Jan  7 22:31:48 0x0 postfix/smtp[11728]: 035BF11C4133: to=<a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;">&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;</a>, relay=working.mail.server[xx.xxx.xx.xx]:25, delay=0.68, delays=0.02/0/0.48/0.18, dsn=5.0.0, status=bounced (host working.mail.server[xx.xxx.xx.xx] said: 553 sorry, your envelope sender domain must exist (#5.7.1) (in reply to MAIL FROM command))</li>
+    <li>Jan  7 22:31:48 0x0 postfix/cleanup[11726]: C5C2911C4134: message-id=&lt;20090107213148.C5C2911C4134@0x0&gt;</li>
+    <li>Jan  7 22:31:48 0x0 postfix/qmgr[10250]: C5C2911C4134: from=&lt;&gt;, size=2064, nrcpt=1 (queue active)</li>
+    <li>Jan  7 22:31:48 0x0 postfix/bounce[11729]: 035BF11C4133: sender non-delivery notification: C5C2911C4134</li>
+    <li>Jan  7 22:31:48 0x0 postfix/qmgr[10250]: 035BF11C4133: removed</li>
+    <li>Jan  7 22:31:49 0x0 postfix/smtp[11728]: C5C2911C4134: to=<a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#100;&#097;&#101;&#109;&#111;&#110;&#064;&#105;&#110;&#116;&#101;&#114;&#110;&#097;&#108;&#046;&#110;&#097;&#109;&#101;">&#100;&#097;&#101;&#109;&#111;&#110;&#064;&#105;&#110;&#116;&#101;&#114;&#110;&#097;&#108;&#046;&#110;&#097;&#109;&#101;</a>, relay=working.mail.server[xx.xxx.xx.xx]:25, delay=0.75, delays=0.01/0/0.41/0.34, dsn=2.0.0, status=sent (250 ok 1231363909 qp 10204)</li>
+    <li>Jan  7 22:31:49 0x0 postfix/qmgr[10250]: C5C2911C4134: removed</li>
+  </ul>
 </blockquote>
 
 <p>From looking at the log files i can tell it bounced because the from address is set to <strong>daemon@internal.name</strong>. And internal.name is not known by my mail server. Let’s try that again. But this time specifically set the FROM header.</p>
 
-<pre><code>    $headers .= 'To: Name &lt;some@working.addressl&gt;' . "\n";
-    $headers .= 'From: test &lt;some@working.address&gt;' . "\n";
-    mail('some@working.address', 'test', 'test message', $headers);
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$headers</span> .= <span class="string"><span class="delimiter">'</span><span class="content">To: Name &lt;some@working.addressl&gt;</span><span class="delimiter">'</span></span> . <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>;
+<span class="local-variable">$headers</span> .= <span class="string"><span class="delimiter">'</span><span class="content">From: test &lt;some@working.address&gt;</span><span class="delimiter">'</span></span> . <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>;
+<span class="predefined">mail</span>(<span class="string"><span class="delimiter">'</span><span class="content">some@working.address</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">test</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">test message</span><span class="delimiter">'</span></span>, <span class="local-variable">$headers</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>The result is the same. The FROM header didn’t change at all. So although it’s possible to set the from header. The message is always send by a system user.. So after doing some research on Google about this problem it seems possible to pass an extra parameter to the mail() function. This parameter can contain a string which will be passed to the postfix binary as an extra parameter. So adding <strong>-fsome@orking.address</strong> makes the problem go away.</p>
 
 <blockquote>
 
-  <p>Jan  7 22:36:58 0x0 postfix/pickup[10249]: 687CA11C4133: uid=1 from=<a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;">&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;</a>
-Jan  7 22:36:58 0x0 postfix/cleanup[11847]: 687CA11C4133: message-id=&lt;20090107213658.687CA11C4133@0x0&gt;
-Jan  7 22:36:58 0x0 postfix/qmgr[10250]: 687CA11C4133: from=<a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;">&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;</a>, size=276, nrcpt=1 (queue active)
-Jan  7 22:36:59 0x0 postfix/smtp[11849]: 687CA11C4133: to=<a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;">&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;</a>, relay=working.mail.server[xx.xxx.xx.xx]:25, delay=1.4, delays=0.02/0/0.59/0.76, dsn=2.0.0, status=sent (250 ok 1231364219 qp 10582)
-Jan  7 22:36:59 0x0 postfix/qmgr[10250]: 687CA11C4133: removed</p>
+  <ul>
+    <li>Jan  7 22:36:58 0x0 postfix/pickup[10249]: 687CA11C4133: uid=1 from=<a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;">&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;</a></li>
+    <li>Jan  7 22:36:58 0x0 postfix/cleanup[11847]: 687CA11C4133: message-id=&lt;20090107213658.687CA11C4133@0x0&gt;</li>
+    <li>Jan  7 22:36:58 0x0 postfix/qmgr[10250]: 687CA11C4133: from=<a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;">&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;</a>, size=276, nrcpt=1 (queue active)</li>
+    <li>Jan  7 22:36:59 0x0 postfix/smtp[11849]: 687CA11C4133: to=<a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;">&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;</a>, relay=working.mail.server[xx.xxx.xx.xx]:25, delay=1.4, delays=0.02/0/0.59/0.76, dsn=2.0.0, status=sent (250 ok 1231364219 qp 10582)</li>
+    <li>Jan  7 22:36:59 0x0 postfix/qmgr[10250]: 687CA11C4133: removed</li>
+  </ul>
 </blockquote>
 
 <p>But this would mean that i always have to pass the extra parameter. And if i use a third party class or function. i may not be able to do so without hacking the code. So although it solves the problem it’s not the final solution. After i bit of browsing i found out that changing the <strong>myorigin</strong> parameter in <strong>/etc/postfix/main.cf</strong> to a known mail server. I could start the send out mail. So i changed it to the domain my mail server runs under.</p>
@@ -361,10 +375,12 @@ Jan  7 22:36:59 0x0 postfix/qmgr[10250]: 687CA11C4133: removed</p>
 <p>So this will not be seen on a lot of systems i figure :)</p>
 
 <blockquote>
-  <p>PHP 5.2.7 (cli) (built: Dec  5 2008 11:18:04)
-Copyright (c) 1997-2008 The PHP Group
-Zend Engine v2.2.0, Copyright (c) 1998-2008 Zend Technologies
-with Xdebug v2.0.3, Copyright (c) 2002-2007, by Derick Rethans</p>
+  <ul>
+    <li>PHP 5.2.7 (cli) (built: Dec  5 2008 11:18:04)</li>
+    <li>Copyright (c) 1997-2008 The PHP Group</li>
+    <li>Zend Engine v2.2.0, Copyright (c) 1998-2008 Zend Technologies</li>
+    <li>with Xdebug v2.0.3, Copyright (c) 2002-2007, by Derick Rethans</li>
+  </ul>
 </blockquote>
 
 <ul>
@@ -516,11 +532,16 @@ svn: Can’t copy ‘path/to/some/images/image.JPG.svn-base’ to ‘path/to/som
   <p>/etc/resolvconf/run/resolv.conf</p>
 </blockquote>
 
-<h1 id="dynamic-resolvconf5-file-for-glibc-resolver3-generated-by-resolvconf8">Dynamic resolv.conf(5) file for glibc resolver(3) generated by resolvconf(8)</h1>
-<p>#     DO NOT EDIT THIS FILE BY HAND – YOUR CHANGES WILL BE OVERWRITTEN
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+# Dynamic resolv.conf(5) file for glibc resolver(3) generated by resolvconf(8)
+#     DO NOT EDIT THIS FILE BY HAND -- YOUR CHANGES WILL BE OVERWRITTEN
 search example.com
 domain example.com
-nameserver xxx.xxx.x.xx</p>
+nameserver xxx.xxx.x.xx
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p><strong>*Update</strong></p>
 
@@ -607,99 +628,101 @@ prepend domain-name-server xxx.xxx.xxx.1, xxx.xxx.xxx.2</p>
 
 <p>I’ll add my xorg.conf file here. Maybe it’s of any use</p>
 
-<blockquote>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+# nvidia-settings: X configuration file generated by nvidia-settings
+# nvidia-settings:  version 1.0  (buildd@vernadsky)  Thu Jun  5 09:26:53 UTC 2008
 
-  <h1 id="nvidia-settings-x-configuration-file-generated-by-nvidia-settings">nvidia-settings: X configuration file generated by nvidia-settings</h1>
-  <p># nvidia-settings:  version 1.0  (buildd@vernadsky)  Thu Jun  5 09:26:53 UTC 2008</p>
-</blockquote>
-
-<h1 id="xorgconf-xorg-x-window-system-server-configuration-file">xorg.conf (X.Org X Window System server configuration file)</h1>
-<p>#
+# xorg.conf (X.Org X Window System server configuration file)
+#
 # This file was generated by dexconf, the Debian X Configuration tool, using
 # values from the debconf database.
 #
 # Edit this file with caution, and see the xorg.conf manual page.
-# (Type “man xorg.conf” at the shell prompt.)
+# (Type &quot;man xorg.conf&quot; at the shell prompt.)
 #
-# This file is automatically updated on xserver-xorg package upgrades <em>only</em>
+# This file is automatically updated on xserver-xorg package upgrades *only*
 # if it has not been modified since the last upgrade of the xserver-xorg
 # package.
 #
 # If you have edited this file but would like it to be automatically updated
 # again, run the following command:
-#   sudo dpkg-reconfigure -phigh xserver-xorg</p>
+#   sudo dpkg-reconfigure -phigh xserver-xorg
 
-<p>Section “ServerLayout”
-    Identifier     “Default Layout”
-    Screen      0  “Screen0” 0 0
-EndSection</p>
+Section &quot;ServerLayout&quot;
+    Identifier     &quot;Default Layout&quot;
+    Screen      0  &quot;Screen0&quot; 0 0
+EndSection
 
-<p>Section “Module”
-    Load           “glx”
-EndSection</p>
+Section &quot;Module&quot;
+    Load           &quot;glx&quot;
+EndSection
 
-<p>Section “ServerFlags”
-    Option         “Xinerama” “0”
-EndSection</p>
+Section &quot;ServerFlags&quot;
+    Option         &quot;Xinerama&quot; &quot;0&quot;
+EndSection
 
-<h1 id="commented-out-by-update-manager-hal-is-now-used">commented out by update-manager, HAL is now used</h1>
-<p>#Section “InputDevice”
-#    Identifier     “Generic Keyboard”
-#    Driver         “kbd”
-#    Option         “XkbRules” “xorg”
-#    Option         “XkbModel” “pc105”
-#    Option         “XkbLayout” “us”
-#EndSection</p>
+# commented out by update-manager, HAL is now used
+#Section &quot;InputDevice&quot;
+#    Identifier     &quot;Generic Keyboard&quot;
+#    Driver         &quot;kbd&quot;
+#    Option         &quot;XkbRules&quot; &quot;xorg&quot;
+#    Option         &quot;XkbModel&quot; &quot;pc105&quot;
+#    Option         &quot;XkbLayout&quot; &quot;us&quot;
+#EndSection
 
-<h1 id="commented-out-by-update-manager-hal-is-now-used-1">commented out by update-manager, HAL is now used</h1>
-<p>#Section “InputDevice”
-#    Identifier     “Configured Mouse”
-#    Driver         “mouse”
-#    Option         “CorePointer”
-#EndSection</p>
+# commented out by update-manager, HAL is now used
+#Section &quot;InputDevice&quot;
+#    Identifier     &quot;Configured Mouse&quot;
+#    Driver         &quot;mouse&quot;
+#    Option         &quot;CorePointer&quot;
+#EndSection
 
-<p>Section “Monitor”
-    Identifier     “Configured Monitor”
-EndSection</p>
+Section &quot;Monitor&quot;
+    Identifier     &quot;Configured Monitor&quot;
+EndSection
 
-<p>Section “Monitor”
-    Identifier     “Monitor0”
-    VendorName     “Unknown”
-    ModelName      “Iiyama PL2201W”
+Section &quot;Monitor&quot;
+    Identifier     &quot;Monitor0&quot;
+    VendorName     &quot;Unknown&quot;
+    ModelName      &quot;Iiyama PL2201W&quot;
     HorizSync       30.0 - 80.0
     VertRefresh     55.0 - 75.0
-EndSection</p>
+EndSection
 
-<p>Section “Device”
-    Identifier     “Configured Video Device”
-    Driver         “nvidia”
-    Option         “NoLogo” “True”
-EndSection</p>
+Section &quot;Device&quot;
+    Identifier     &quot;Configured Video Device&quot;
+    Driver         &quot;nvidia&quot;
+    Option         &quot;NoLogo&quot; &quot;True&quot;
+EndSection
 
-<p>Section “Device”
-    Identifier     “Videocard0”
-    Driver         “nvidia”
-    VendorName     “NVIDIA Corporation”
-    BoardName      “GeForce 8600 GT”
-    BusID          “PCI:1:0:0”
-EndSection</p>
+Section &quot;Device&quot;
+    Identifier     &quot;Videocard0&quot;
+    Driver         &quot;nvidia&quot;
+    VendorName     &quot;NVIDIA Corporation&quot;
+    BoardName      &quot;GeForce 8600 GT&quot;
+    BusID          &quot;PCI:1:0:0&quot;
+EndSection
 
-<p>Section “Screen”
-    Identifier     “Default Screen”
-    Device         “Configured Video Device”
-    Monitor        “Configured Monitor”
+Section &quot;Screen&quot;
+    Identifier     &quot;Default Screen&quot;
+    Device         &quot;Configured Video Device&quot;
+    Monitor        &quot;Configured Monitor&quot;
     DefaultDepth    24
-EndSection</p>
+EndSection
 
-<p>Section “Screen”
-    Identifier     “Screen0”
-    Device         “Videocard0”
-    Monitor        “Monitor0”
+Section &quot;Screen&quot;
+    Identifier     &quot;Screen0&quot;
+    Device         &quot;Videocard0&quot;
+    Monitor        &quot;Monitor0&quot;
     DefaultDepth    24
-    Option         “TwinView” “1”
-    Option         “TwinViewXineramaInfoOrder” “DFP-0”
-    Option         “metamodes” “DFP-0: nvidia-auto-select +0+0, DFP-1: nvidia-auto-select +1680+0”
-EndSection </p>
+    Option         &quot;TwinView&quot; &quot;1&quot;
+    Option         &quot;TwinViewXineramaInfoOrder&quot; &quot;DFP-0&quot;
+    Option         &quot;metamodes&quot; &quot;DFP-0: nvidia-auto-select +0+0, DFP-1: nvidia-auto-select +1680+0&quot;
+EndSection 
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 </div>
   
