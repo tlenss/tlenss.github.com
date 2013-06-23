@@ -69,25 +69,28 @@
 
 <div class="articletext"><p>note to self .. a nice clean way to do recursive array filters in PHP</p>
 
-<pre><code>$arr = array(
-    'teSt',
-    'The quick BroWn ...',
-    'foO',
-    array(
-       'Test sTring'
-    )
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$arr</span> = <span class="predefined">array</span>(
+  <span class="string"><span class="delimiter">'</span><span class="content">teSt</span><span class="delimiter">'</span></span>,
+  <span class="string"><span class="delimiter">'</span><span class="content">The quick BroWn ...</span><span class="delimiter">'</span></span>,
+  <span class="string"><span class="delimiter">'</span><span class="content">foO</span><span class="delimiter">'</span></span>,
+  <span class="predefined">array</span>(
+    <span class="string"><span class="delimiter">'</span><span class="content">Test sTring</span><span class="delimiter">'</span></span>
+  )
 );
-
-$filter = function(&amp;$input) use (&amp;$filter) {
-    if (is_array($input)) $input = array_map($filter, $input);
-    else if (is_string($input)) $input = strtolower($input);
-
-    return $input;
+    
+<span class="local-variable">$filter</span> = <span class="keyword">function</span>(&amp;<span class="local-variable">$input</span>) <span class="keyword">use</span> (&amp;<span class="local-variable">$filter</span>) {
+  <span class="keyword">if</span> (<span class="predefined">is_array</span>(<span class="local-variable">$input</span>)) <span class="local-variable">$input</span> = <span class="predefined">array_map</span>(<span class="local-variable">$filter</span>, <span class="local-variable">$input</span>);
+  <span class="keyword">else</span> <span class="keyword">if</span> (<span class="predefined">is_string</span>(<span class="local-variable">$input</span>)) <span class="local-variable">$input</span> = <span class="predefined">strtolower</span>(<span class="local-variable">$input</span>);
+  <span class="keyword">return</span> <span class="local-variable">$input</span>;
 };
-
-$filter($arr);
-var_dump($arr);
-</code></pre>
+    
+<span class="local-variable">$filter</span>(<span class="local-variable">$arr</span>);
+<span class="predefined">var_dump</span>(<span class="local-variable">$arr</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 </div>
 

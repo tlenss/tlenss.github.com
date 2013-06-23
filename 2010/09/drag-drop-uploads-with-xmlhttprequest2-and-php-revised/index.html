@@ -91,29 +91,33 @@ Upload 29 MB file results in 0.4 MB memory usage</p>
 
 <p>The memory usage was measured with <a href="http://php.net/manual/function.memory-get-peak-usage.php">memory_get_peak_usage()</a>. And the new code is posted below:</p>
 
-<pre><code>public function receive()
-{
-    if (!$this-&gt;isValid()) {
-        throw new Exception('No file uploaded!');
-    }
-		
-    $fileReader = fopen('php://input', "r");
-    $fileWriter = fopen($this-&gt;_destination . $this-&gt;_fileName, "w+");
-
-    while(true) {
-        $buffer = fgets($fileReader, 4096);
-        if (strlen($buffer) == 0) {
-            fclose($fileReader);
-            fclose($fileWriter);
-            return true;
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+    <span class="keyword">public</span> <span class="keyword">function</span> <span class="function">receive</span>()
+    {
+        <span class="keyword">if</span> (!<span class="local-variable">$this</span>-&gt;isValid()) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="predefined-constant">Exception</span>(<span class="string"><span class="delimiter">'</span><span class="content">No file uploaded!</span><span class="delimiter">'</span></span>);
         }
-
-        fwrite($fileWriter, $buffer);
+                    
+        <span class="local-variable">$fileReader</span> = <span class="predefined">fopen</span>(<span class="string"><span class="delimiter">'</span><span class="content">php://input</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">r</span><span class="delimiter">&quot;</span></span>);
+        <span class="local-variable">$fileWriter</span> = <span class="predefined">fopen</span>(<span class="local-variable">$this</span>-&gt;_destination . <span class="local-variable">$this</span>-&gt;_fileName, <span class="string"><span class="delimiter">&quot;</span><span class="content">w+</span><span class="delimiter">&quot;</span></span>);
+    
+        <span class="keyword">while</span>(<span class="predefined-constant">true</span>) {
+            <span class="local-variable">$buffer</span> = <span class="predefined">fgets</span>(<span class="local-variable">$fileReader</span>, <span class="integer">4096</span>);
+            <span class="keyword">if</span> (<span class="predefined">strlen</span>(<span class="local-variable">$buffer</span>) == <span class="integer">0</span>) {
+                <span class="predefined">fclose</span>(<span class="local-variable">$fileReader</span>);
+                <span class="predefined">fclose</span>(<span class="local-variable">$fileWriter</span>);
+                <span class="keyword">return</span> <span class="predefined-constant">true</span>;
+            }
+    
+            <span class="predefined">fwrite</span>(<span class="local-variable">$fileWriter</span>, <span class="local-variable">$buffer</span>);
+        }
+    
+        <span class="keyword">return</span> <span class="predefined-constant">false</span>;
     }
-
-    return false;
-}
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 </div>
 
