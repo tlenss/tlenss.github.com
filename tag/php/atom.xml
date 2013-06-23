@@ -4,7 +4,7 @@
   <title><![CDATA[Category: PHP | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/php/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-06-23T11:50:46+02:00</updated>
+  <updated>2013-06-23T11:58:41+02:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -292,12 +292,13 @@ bool(false)
 </span><span class='line'><span class="x">	print_r($columns);</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre><span class="global-variable">$columns</span> = array_column(<span class="global-variable">$nestedArray</span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span>);
-print_r(<span class="global-variable">$columns</span>);
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$columns</span> = array_column(<span class="local-variable">$nestedArray</span>, ‘code’, ‘id’);
+<span class="predefined">print_r</span>(<span class="local-variable">$columns</span>);
 </pre></div>
 </div>
-</div>
+ </figure></notextile></div></p>
 
 <pre><code>Array
 (
