@@ -851,135 +851,150 @@ Entity ‘nbsp’ not defined in /some/file.tal.html, line: 363</p>
 <p>To get some inspiration for this i took a look at some plugin code available on the internet. This gave me a basic understanding of how the plugin system works. Together with the docs writing a plugin wasn’t that hard. The code that i saw however was pretty bad. And i wanted something that at least looked better then all the global statements swarming around. So i created a small OO wrapper for the plugin. The basic plugin structure looks something like this</p>
 
 <blockquote>
-
-  <p>– plugin</p>
+  <p>– plugin
+—– css
+———- dwotd.css
+—– lib
+———- Dwotd.php
+———- Widget.php
+—– template
+———- Widget.php
+– dwotd.php</p>
 </blockquote>
-
-<p>—– css</p>
-
-<p>———- dwotd.css</p>
-
-<p>—– lib</p>
-
-<p>———- Dwotd.php</p>
-
-<p>———- Widget.php</p>
-
-<p>—– template</p>
-
-<p>———- Widget.php</p>
-
-<p>– dwotd.php</p>
 
 <p>The file in the root is the bootstrap file. It includes the main plugin class and registers the widget class. The two files in lib contain the plugin and Widget classes. The rest is self explanatory i think.</p>
 
 <p>The first lines of the bootstrap file contain a comment block that is used by WP to show some more information about the plugin inside the admin. </p>
 
-<pre><code>/*
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="comment">/*
 Plugin Name: DWOTD
 Plugin URI: http://lenss.nl/projects/dwotd-plugin/
 Description: Dutch Word Of The Day including English translation
 Author: Thijs Lensselink
 Author URI: http://lenss.nl/
 Version: 1.2
-*/
-</code></pre>
+*/</span>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Then the plugin class file is loaded and the a plugin object instantiated.</p>
 
-<pre><code>require_once(dirname(__FILE__).'/lib/Dwotd.php');
-
-$DWOTD = new DWOTD_Plugin();
-wp_register_style('dwotd', "{$DWOTD-&gt;getPluginDir()}/css/dwotd.css");
-wp_enqueue_style('dwotd', "{$DWOTD-&gt;getPluginDir()}/css/dwotd.css");
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="predefined">require_once</span>(<span class="predefined">dirname</span>(<span class="predefined-constant">__FILE__</span>).<span class="string"><span class="delimiter">'</span><span class="content">/lib/Dwotd.php</span><span class="delimiter">'</span></span>);
+    
+<span class="local-variable">$DWOTD</span> = <span class="keyword">new</span> <span class="constant">DWOTD_Plugin</span>();
+wp_register_style(<span class="string"><span class="delimiter">'</span><span class="content">dwotd</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="delimiter">{</span><span class="local-variable">$DWOTD</span>-&gt;getPluginDir()<span class="delimiter">}</span></span><span class="content">/css/dwotd.css</span><span class="delimiter">&quot;</span></span>);
+wp_enqueue_style(<span class="string"><span class="delimiter">'</span><span class="content">dwotd</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="delimiter">{</span><span class="local-variable">$DWOTD</span>-&gt;getPluginDir()<span class="delimiter">}</span></span><span class="content">/css/dwotd.css</span><span class="delimiter">&quot;</span></span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>If the logged in user is a admin hooks for <em>installing</em> and <em>uninstalling</em> the plugin will be activated.</p>
 
-<pre><code>if ( is_admin() ) {
-	register_activation_hook(__FILE__, array($DWOTD, 'install'));
-	register_deactivation_hook(__FILE__, array($DWOTD, 'uninstall'));
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">if</span> ( is_admin() ) {
+  register_activation_hook(<span class="predefined-constant">__FILE__</span>, <span class="predefined">array</span>(<span class="local-variable">$DWOTD</span>, <span class="string"><span class="delimiter">'</span><span class="content">install</span><span class="delimiter">'</span></span>));
+  register_deactivation_hook(<span class="predefined-constant">__FILE__</span>, <span class="predefined">array</span>(<span class="local-variable">$DWOTD</span>, <span class="string"><span class="delimiter">'</span><span class="content">uninstall</span><span class="delimiter">'</span></span>));
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>And finally register the Widget class</p>
 
-<pre><code>add_action('widgets_init', create_function('', 'return register_widget("DWOTD_Widget");'));
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+add_action(<span class="string"><span class="delimiter">'</span><span class="content">widgets_init</span><span class="delimiter">'</span></span>, <span class="predefined">create_function</span>(<span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">return register_widget(&quot;DWOTD_Widget&quot;);</span><span class="delimiter">'</span></span>));
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>The Widget class is a simple wrapper around the plugin class. It basically instantiates the Plugin class and after that the <em>widget()</em> method gets called. This method calls the Plugin and finally renders a view for the widget box.</p>
 
-<pre><code>class DWOTD_Widget extends WP_Widget 
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">class</span> <span class="class">DWOTD_Widget</span> <span class="keyword">extends</span> <span class="constant">WP_Widget</span> 
 {
-	protected $_dwotd;
-	
-	public function DWOTD_Widget() 
-	{
-		$this-&gt;_dwotd = new DWOTD_Plugin();
-		parent::WP_Widget(false, $name = 'DWOTD Plugin');
-	}
-
-	public function widget($args, $instance) 
-	{
-		$result = $this-&gt;_dwotd-&gt;getFromCache();
-		if (!$result || $result-&gt;used_on != date('Y-m-d')) {
-			try {
-				$result = $this-&gt;_dwotd-&gt;fetchRandomWord();
-				$this-&gt;_dwotd-&gt;writeToCache($result);
-			} catch (Exception $e) {
-				return new WP_Error('broke', __($e-&gt;getMessage()));
-			}
-		}
-		
-		$this-&gt;_renderView($result);
-	}
-	
-	protected function _renderView($data)
-	{
-		ob_start();
-		include $this-&gt;_dwotd-&gt;getTemplate();
-		ob_get_contents();
-	}
-	
-	public function update($new_instance, $old_instance) 
-	{
-		$instance = $old_instance;
-		return $instance;
-	}
+  <span class="keyword">protected</span> <span class="local-variable">$_dwotd</span>;
+            
+  <span class="keyword">public</span> <span class="keyword">function</span> <span class="function">DWOTD_Widget</span>() 
+  {
+    <span class="local-variable">$this</span>-&gt;_dwotd = <span class="keyword">new</span> <span class="constant">DWOTD_Plugin</span>();
+    <span class="predefined-constant">parent</span>::<span class="constant">WP_Widget</span>(<span class="predefined-constant">false</span>, <span class="local-variable">$name</span> = <span class="string"><span class="delimiter">'</span><span class="content">DWOTD Plugin</span><span class="delimiter">'</span></span>);
+  }
+    
+  <span class="keyword">public</span> <span class="keyword">function</span> <span class="function">widget</span>(<span class="local-variable">$args</span>, <span class="local-variable">$instance</span>) 
+  {
+    <span class="local-variable">$result</span> = <span class="local-variable">$this</span>-&gt;_dwotd-&gt;getFromCache();
+    <span class="keyword">if</span> (!<span class="local-variable">$result</span> || <span class="local-variable">$result</span>-&gt;used_on != <span class="predefined">date</span>(<span class="string"><span class="delimiter">'</span><span class="content">Y-m-d</span><span class="delimiter">'</span></span>)) {
+      <span class="keyword">try</span> {
+        <span class="local-variable">$result</span> = <span class="local-variable">$this</span>-&gt;_dwotd-&gt;fetchRandomWord();
+            <span class="local-variable">$this</span>-&gt;_dwotd-&gt;writeToCache(<span class="local-variable">$result</span>);
+      } <span class="keyword">catch</span> (<span class="predefined-constant">Exception</span> <span class="local-variable">$e</span>) {
+            <span class="keyword">return</span> <span class="keyword">new</span> <span class="constant">WP_Error</span>(<span class="string"><span class="delimiter">'</span><span class="content">broke</span><span class="delimiter">'</span></span>, __(<span class="local-variable">$e</span>-&gt;getMessage()));
+      }
+    }
+    
+    <span class="local-variable">$this</span>-&gt;_renderView(<span class="local-variable">$result</span>);
+  }
+            
+  <span class="keyword">protected</span> <span class="keyword">function</span> <span class="function">_renderView</span>(<span class="local-variable">$data</span>)
+  {
+    ob_start();
+    <span class="predefined">include</span> <span class="local-variable">$this</span>-&gt;_dwotd-&gt;getTemplate();
+    ob_get_contents();
+  }
+            
+  <span class="keyword">public</span> <span class="keyword">function</span> <span class="function">update</span>(<span class="local-variable">$new_instance</span>, <span class="local-variable">$old_instance</span>) 
+  {
+    <span class="local-variable">$instance</span> = <span class="local-variable">$old_instance</span>;
+    <span class="keyword">return</span> <span class="local-variable">$instance</span>;
+  }
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>All real work is done inside the the Plugin class. This has all methods for talking to the database instance. But also contains the <a href="http://codex.wordpress.org/Plugin_API">hooks</a> for the WP install and uninstall actions. Some of the contents of this method are listed below.</p>
 
-<pre><code>require_once(ABSPATH.'wp-admin/includes/upgrade.php');
-require_once(dirname(__FILE__).'/Widget.php');
-
-Class DWOTD_Plugin
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="predefined">require_once</span>(<span class="constant">ABSPATH</span>.<span class="string"><span class="delimiter">'</span><span class="content">wp-admin/includes/upgrade.php</span><span class="delimiter">'</span></span>);
+<span class="predefined">require_once</span>(<span class="predefined">dirname</span>(<span class="predefined-constant">__FILE__</span>).<span class="string"><span class="delimiter">'</span><span class="content">/Widget.php</span><span class="delimiter">'</span></span>);
+    
+<span class="keyword">Class</span> <span class="constant">DWOTD_Plugin</span>
 {
-	public function __construct()
-	{
-		global $wpdb, $table_prefix;
-                // set some class vars and include some files
-	}
-	
-	public function install() 
-	{
-                // create database and insert data
-		add_option('dwotd_quote','1');
-	}	
-	
-	public function uninstall() 
-	{
-		$this-&gt;_dbh-&gt;query("DROP TABLE IF EXISTS `{$this-&gt;_dbName}`");
-		delete_option('dwotd_quote');
-	}
-	
-	public function getPluginDir()
-	{
-		return $this-&gt;_wpContent.'/plugins/dwotd';
-	}
+  <span class="keyword">public</span> <span class="keyword">function</span> <span class="function">__construct</span>()
+  {
+    <span class="keyword">global</span> <span class="local-variable">$wpdb</span>, <span class="local-variable">$table_prefix</span>;
+    <span class="comment">// set some class vars and include some files</span>
+  }
+            
+  <span class="keyword">public</span> <span class="keyword">function</span> <span class="function">install</span>() 
+  {
+    <span class="comment">// create database and insert data</span>
+    add_option(<span class="string"><span class="delimiter">'</span><span class="content">dwotd_quote</span><span class="delimiter">'</span></span>,<span class="string"><span class="delimiter">'</span><span class="content">1</span><span class="delimiter">'</span></span>);
+  }        
+            
+  <span class="keyword">public</span> <span class="keyword">function</span> <span class="function">uninstall</span>() 
+  {
+    <span class="local-variable">$this</span>-&gt;_dbh-&gt;query(<span class="string"><span class="delimiter">&quot;</span><span class="content">DROP TABLE IF EXISTS `</span><span class="inline"><span class="delimiter">{</span><span class="local-variable">$this</span>-&gt;_dbName<span class="delimiter">}</span></span><span class="content">`</span><span class="delimiter">&quot;</span></span>);
+    delete_option(<span class="string"><span class="delimiter">'</span><span class="content">dwotd_quote</span><span class="delimiter">'</span></span>);
+  }
+
+  <span class="keyword">public</span> <span class="keyword">function</span> <span class="function">getPluginDir</span>()
+  {
+    <span class="keyword">return</span> <span class="local-variable">$this</span>-&gt;_wpContent.<span class="string"><span class="delimiter">'</span><span class="content">/plugins/dwotd</span><span class="delimiter">'</span></span>;
+  }
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>The code is just a small part of the real code. Which you can download <a href="http://lenss.nl/projects/dwotd-plugin/dwotd.tar.gz">here</a>. After that it’s quite easy. Create a folder for the plugin in <em>wp-content/plugins</em> and copy the files there. Enable it from the plugin manager and enable it in the widget menu (which didn’t work for me because my theme has no sidebar.. well not the wp one :)). So i had to use a manual approach.</p>
 
@@ -994,11 +1009,15 @@ Class DWOTD_Plugin
 
 <p>Enabling it the manual way is also easy. But required a bit more work. For this to work the correct theme file needs to be edited somewhere in <em>wp-content/themes</em>. And the following code needs to be added in the spot the widget should appear.</p>
 
-<pre><code>$args = array ( 'title' =&gt; '' );
-$instance = array ( 'title' =&gt; 'DWOTD', 'number' =&gt; 1 );
-$widget = new DWOTD_Widget();
-$widget-&gt;widget($args,$instance);
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$args</span> = <span class="predefined">array</span> ( <span class="string"><span class="delimiter">'</span><span class="content">title</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span> );
+<span class="local-variable">$instance</span> = <span class="predefined">array</span> ( <span class="string"><span class="delimiter">'</span><span class="content">title</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">DWOTD</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">number</span><span class="delimiter">'</span></span> =&gt; <span class="integer">1</span> );
+<span class="local-variable">$widget</span> = <span class="keyword">new</span> <span class="constant">DWOTD_Widget</span>();
+<span class="local-variable">$widget</span>-&gt;widget(<span class="local-variable">$args</span>,<span class="local-variable">$instance</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>That’s all. The result can be viewed on the right top side. I build the plugin for fun and use on an Intranet. So don’t go blaming me if it breaks something. Besides that everybody is free to do with the code as they please.</p>
 </div>
