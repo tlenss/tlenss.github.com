@@ -4,7 +4,7 @@
   <title><![CDATA[Category: SQL | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/sql/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-06-23T21:52:55+02:00</updated>
+  <updated>2013-06-23T21:56:50+02:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -260,7 +260,8 @@ $ mysql -uroot -p &lt; dump.sql</p>
     <link href="http://lenss.nl/2011/11/abbywinters-com-is-hiring/"/>
     <updated>2011-11-22T14:46:51+01:00</updated>
     <id>http://lenss.nl/2011/11/abbywinters-com-is-hiring</id>
-    <content type="html"><![CDATA[<p><a href="http://careers.abbywinters.com/job-opportunities/senior-php-developer/"><img src="http://lenss.nl/images/2011/11/aw-logo-roundel-blue.png" alt="" /></a> If you’re looking for a new challenging and exiting Senior Webdeveloper position. Don’t look any further. If you already think you have the job of your dreams. Think again!</p>
+    <content type="html"><![CDATA[<p><img class="left" src="http://lenss.nl/images/2011/11/aw-logo-roundel-blue.png">
+If you’re looking for a new challenging and exiting Senior Webdeveloper position. Don’t look any further. If you already think you have the job of your dreams. Think again!</p>
 
 <p><em><a href="http://www.abbywinters.com">abbywinters.com</a> <strong>(NSFW)</strong> is one of the largest and most ethical, highly rated, well designed, and successful erotic websites in the world today. abbywinters.com is the WINNER of the AVN 2011 Awards for Best Membership site!</em></p>
 

@@ -239,7 +239,8 @@ session_regenerate_id();
 </header>
 
 
-  <div class="articletext"><p><a href="http://careers.abbywinters.com/job-opportunities/senior-php-developer/"><img src="http://lenss.nl/images/2011/11/aw-logo-roundel-blue.png" alt="" /></a> If you’re looking for a new challenging and exiting Senior Webdeveloper position. Don’t look any further. If you already think you have the job of your dreams. Think again!</p>
+  <div class="articletext"><p><img class="left" src="http://lenss.nl/images/2011/11/aw-logo-roundel-blue.png" />
+If you’re looking for a new challenging and exiting Senior Webdeveloper position. Don’t look any further. If you already think you have the job of your dreams. Think again!</p>
 
 <p><em><a href="http://www.abbywinters.com">abbywinters.com</a> <strong>(NSFW)</strong> is one of the largest and most ethical, highly rated, well designed, and successful erotic websites in the world today. abbywinters.com is the WINNER of the AVN 2011 Awards for Best Membership site!</em></p>
 
@@ -587,15 +588,16 @@ orientation : top</p>
 </header>
 
 
-  <div class="articletext"><p><a href="http://convergence.io/"><img src="http://lenss.nl/images/2011/09/convergence.png" alt="" /></a> Last week i had a blast while listening to <a href="http://www.thoughtcrime.org/">Moxie Marlinspike’s</a> Blackhat talk <a href="http://www.youtube.com/watch?v=Z7Wl2FW2TcA">the past and future of SSL</a>. The video is an absolute must see if you have any concern about the current state of SSL or the whole web for that matter.</p>
+  <div class="articletext"><p><img class="left" src="http://lenss.nl/images/2011/09/convergence.png" />
+Last week i had a blast while listening to <a href="http://www.thoughtcrime.org/">Moxie Marlinspike&#8217;s</a> Blackhat talk <a href="http://www.youtube.com/watch?v=Z7Wl2FW2TcA">the past and future of SSL</a>. The video is an absolute must see if you have any concern about the current state of SSL or the whole web for that matter.</p>
 
-<p>As many know. There has been quite the turmoil in the SSL world lately with some big CA’s (<a href="http://www.comodo.com">Comodo</a>, <a href="http://www.startcom.org/">StartCom</a>, <a href="http://www.diginotar.com/">Diginotar</a>, <a href="http://www.globalsign.com/">GlobalSign</a>) getting hacked. And rogue certificates being generated for major domains like microsoft.com, google.com, etc for who knows what type of malicious purpose. The real problem here are the centralized CA’s. For SSL to work you need to explicitly trust the major CA’s. And if one gets hacked. Well.. we know the deal by now. And the funny thing is that Moxie mentions in his talk. The whole CA wasn’t even part of the original SSL protocol. As the creator of SSL said “It’s something we through in at the end”.</p>
+<p>As many know. There has been quite the turmoil in the SSL world lately with some big CA&#8217;s (<a href="http://www.comodo.com">Comodo</a>, <a href="http://www.startcom.org/">StartCom</a>, <a href="http://www.diginotar.com/">Diginotar</a>, <a href="http://www.globalsign.com/">GlobalSign</a>) getting hacked. And rogue certificates being generated for major domains like microsoft.com, google.com, etc for who knows what type of malicious purpose. The real problem here are the centralized CA&#8217;s. For SSL to work you need to explicitly trust the major CA&#8217;s. And if one gets hacked. Well.. we know the deal by now. And the funny thing is that Moxie mentions in his talk. The whole CA wasn&#8217;t even part of the original SSL protocol. As the creator of SSL said &#8220;It&#8217;s something we through in at the end&#8221;.</p>
 
-<p>But instead of only bashing the CA’s. Moxie comes with a solution to the problem. In the form of a new protocol <a href="http://convergence.io/">Convergence</a>, Which exists of a client and a server package. The client right now is a simple Firefox extension. And when installed it disables the current CA system in the browser. And will use one or more of the selected notaries instead. It even works with self signed certificates. And the back-end is a modular one. And the standard CA verification can be swapped with for instance <a href="http://www.dnssec.net/">DNSSEC</a> based verification.</p>
+<p>But instead of only bashing the CA&#8217;s. Moxie comes with a solution to the problem. In the form of a new protocol <a href="http://convergence.io/">Convergence</a>, Which exists of a client and a server package. The client right now is a simple Firefox extension. And when installed it disables the current CA system in the browser. And will use one or more of the selected notaries instead. It even works with self signed certificates. And the back-end is a modular one. And the standard CA verification can be swapped with for instance <a href="http://www.dnssec.net/">DNSSEC</a> based verification.</p>
 
-<p>There is still a level of trust involved. But you won’t lay all your trust in one specific CA. Convergence uses notaries. Notaries are anonymous nodes that can be picked at will and can be used to verify the requested certificate. And like i said the notaries are anonymous. No more browser leakage at this point. One of th notaries will act as a bounce node to which a SSL connection is made. All other notaries are contacted through this secure connection.</p>
+<p>There is still a level of trust involved. But you won&#8217;t lay all your trust in one specific CA. Convergence uses notaries. Notaries are anonymous nodes that can be picked at will and can be used to verify the requested certificate. And like i said the notaries are anonymous. No more browser leakage at this point. One of th notaries will act as a bounce node to which a SSL connection is made. All other notaries are contacted through this secure connection.</p>
 
-<p>I am probably not the best person to explain this all. So go ahead and listen/watch <a href="http://www.youtube.com/watch?v=Z7Wl2FW2TcA">Moxie’s talk</a> and form your own opinion. But i think everybody should install <a href="http://convergence.io/">this</a> Firefox plugin. And forget about the whole CA system. I went ahead and installed a notary node myself. Which can be found <a href="http://lenss.nl/lenssnl.notary">here</a>. More information about setting up a notary node yourself can be found <a href="https://github.com/moxie0/Convergence/wiki/Running-a-Notary">here</a></p>
+<p>I am probably not the best person to explain this all. So go ahead and listen/watch <a href="http://www.youtube.com/watch?v=Z7Wl2FW2TcA">Moxie&#8217;s talk</a> and form your own opinion. But i think everybody should install <a href="http://convergence.io/">this</a> Firefox plugin. And forget about the whole CA system. I went ahead and installed a notary node myself. Which can be found <a href="http://lenss.nl/lenssnl.notary">here</a>. More information about setting up a notary node yourself can be found <a href="https://github.com/moxie0/Convergence/wiki/Running-a-Notary">here</a></p>
 </div>
   
   
@@ -669,32 +671,42 @@ orientation : top</p>
 <p><strong>PHP-5.3.8 compiled with large file support:</strong></p>
 
 <blockquote>
-  <p>test_math                 : 4.414 sec.
-test_stringmanipulation   : 4.968 sec.
-test_loops                : 3.529 sec.
-test_ifelse               : 2.344 sec.
-————————————–
-Total time:               : 15.255 sec.</p>
+  <ul>
+    <li>test_math                 : 4.414 sec.</li>
+    <li>test_stringmanipulation   : 4.968 sec.</li>
+    <li>test_loops                : 3.529 sec.</li>
+    <li>test_ifelse               : 2.344 sec.</li>
+    <li>
+      <hr />
+    </li>
+    <li>Total time:               : 15.255 sec.</li>
+  </ul>
 </blockquote>
 
 <p><strong>PHP-5.3.8 compiled without large file support:</strong></p>
 
 <blockquote>
-  <p>test_math                 : 2.274 sec.
-test_stringmanipulation   : 2.286 sec.
-test_loops                : 1.619 sec.
-test_ifelse               : 1.228 sec.
-————————————–
-Total time:               : 7.407 sec.</p>
+  <ul>
+    <li>test_math                 : 2.274 sec.</li>
+    <li>test_stringmanipulation   : 2.286 sec.</li>
+    <li>test_loops                : 1.619 sec.</li>
+    <li>test_ifelse               : 1.228 sec.</li>
+    <li>
+      <hr />
+    </li>
+    <li>Total time:               : 7.407 sec.</li>
+  </ul>
 </blockquote>
 
 <p>That’s pretty much a 50% speed decrease. One more thing i tried is adding the ‘AC_SYS_LARGEFILE’ macro to configure.in and rebuild the configure script. But this had no effect at all.</p>
 
 <blockquote>
-  <p>$ cd php-5.3.8 
-$ vi configure.in (add AC_SYS_LARGEFILE somewhere)
-$ export PHP_AUTOCONF=/usr/share/autoconf2.59
-$ ./buildconf –force</p>
+  <ul>
+    <li>$ cd php-5.3.8 </li>
+    <li>$ vi configure.in (add AC_SYS_LARGEFILE somewhere)</li>
+    <li>$ export PHP_AUTOCONF=/usr/share/autoconf2.59</li>
+    <li>$ ./buildconf –force</li>
+  </ul>
 </blockquote>
 
 <p>I then tried two things. First i build without the CFLAGS. But this didn’t seem to do much. Then i used the same configure script with the CFLAGS for large file support. But there was no speed increase measurable. </p>
@@ -803,8 +815,10 @@ $ ./buildconf –force</p>
 <p>Convinced it was a 32 bit issue. I came home later that day. And wanted to try it out on my own desktop. That is a 32 bit system and runs Ubuntu 11.04. To my surprise the result was different then i expected.</p>
 
 <blockquote>
-  <p>$ php -r “var_dump(is_file(‘/some/file.ext’));”;
-<em>bool(true)</em></p>
+  <ul>
+    <li>$ php -r “var_dump(is_file(‘/some/file.ext’));”;</li>
+    <li><em>bool(true)</em></li>
+  </ul>
 </blockquote>
 
 <p>I used the same files as before. And tested some more big files. But the result was the same. Weird. Let’s try some other 32 bit machines.</p>
@@ -819,8 +833,10 @@ Debian 6.0.2 (squeeze): bool(false)</p>
 <p>Only my desktop at home seems to have a good result. Ubuntu must have some patch somewhere to fix this issue? To confirm i compiled PHP 5.3.8 from source. And did the same test again on Ubuntu 11.04. And this time it was <em>(false)</em>.</p>
 
 <blockquote>
-  <p>$ php -r “var_dump(is_file(‘/some/file.ext’));”;
-<em>bool(false)</em></p>
+  <ul>
+    <li>$ php -r “var_dump(is_file(‘/some/file.ext’));”;</li>
+    <li><em>bool(false)</em></li>
+  </ul>
 </blockquote>
 
 <p>I am not really in the mood to search the Ubuntu <a href="http://changelogs.ubuntu.com/changelogs/pool/main/p/php5/">changelog</a>. And for now the work around will do. But i really would like to know what patch is applied to resolve the issue.</p>
@@ -1064,36 +1080,40 @@ date_default_timezone_set(<span class="string"><span class="delimiter">'</span><
 </blockquote>
 
 <blockquote>
-  <p>en_AG
-en_AG.utf8
-en_AU.utf8
-en_BW.utf8
-en_CA.utf8
-en_DK.utf8
-en_GB.utf8
-en_HK.utf8
-en_IE.utf8
-en_IN
-en_IN.utf8
-en_NG
-en_NG.utf8
-en_NZ.utf8
-en_PH.utf8
-en_SG.utf8
-en_US.utf8
-en_ZA.utf8
-en_ZW.utf8
-…</p>
+  <ul>
+    <li>en_AG</li>
+    <li>en_AG.utf8</li>
+    <li>en_AU.utf8</li>
+    <li>en_BW.utf8</li>
+    <li>en_CA.utf8</li>
+    <li>en_DK.utf8</li>
+    <li>en_GB.utf8</li>
+    <li>en_HK.utf8</li>
+    <li>en_IE.utf8</li>
+    <li>en_IN</li>
+    <li>en_IN.utf8</li>
+    <li>en_NG</li>
+    <li>en_NG.utf8</li>
+    <li>en_NZ.utf8</li>
+    <li>en_PH.utf8</li>
+    <li>en_SG.utf8</li>
+    <li>en_US.utf8</li>
+    <li>en_ZA.utf8</li>
+    <li>en_ZW.utf8</li>
+    <li>…</li>
+  </ul>
 </blockquote>
 
 <p>And some more output after that. But not the one i am looking for. But thankfully aptitude was kind enough to provide the missing language packages.</p>
 
 <blockquote>
-  <p>nl_NL
-nl_NL@euro
-nl_NL.iso88591
-nl_NL.iso885915@euro
-nl_NL.utf8</p>
+  <ul>
+    <li>nl_NL</li>
+    <li>nl_NL@euro</li>
+    <li>nl_NL.iso88591</li>
+    <li>nl_NL.iso885915@euro</li>
+    <li>nl_NL.utf8</li>
+  </ul>
 </blockquote>
 
 <p>So let’s set the correct locale for this script.</p>

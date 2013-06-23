@@ -83,32 +83,42 @@
 <p><strong>PHP-5.3.8 compiled with large file support:</strong></p>
 
 <blockquote>
-  <p>test_math                 : 4.414 sec.
-test_stringmanipulation   : 4.968 sec.
-test_loops                : 3.529 sec.
-test_ifelse               : 2.344 sec.
-————————————–
-Total time:               : 15.255 sec.</p>
+  <ul>
+    <li>test_math                 : 4.414 sec.</li>
+    <li>test_stringmanipulation   : 4.968 sec.</li>
+    <li>test_loops                : 3.529 sec.</li>
+    <li>test_ifelse               : 2.344 sec.</li>
+    <li>
+      <hr />
+    </li>
+    <li>Total time:               : 15.255 sec.</li>
+  </ul>
 </blockquote>
 
 <p><strong>PHP-5.3.8 compiled without large file support:</strong></p>
 
 <blockquote>
-  <p>test_math                 : 2.274 sec.
-test_stringmanipulation   : 2.286 sec.
-test_loops                : 1.619 sec.
-test_ifelse               : 1.228 sec.
-————————————–
-Total time:               : 7.407 sec.</p>
+  <ul>
+    <li>test_math                 : 2.274 sec.</li>
+    <li>test_stringmanipulation   : 2.286 sec.</li>
+    <li>test_loops                : 1.619 sec.</li>
+    <li>test_ifelse               : 1.228 sec.</li>
+    <li>
+      <hr />
+    </li>
+    <li>Total time:               : 7.407 sec.</li>
+  </ul>
 </blockquote>
 
 <p>That’s pretty much a 50% speed decrease. One more thing i tried is adding the ‘AC_SYS_LARGEFILE’ macro to configure.in and rebuild the configure script. But this had no effect at all.</p>
 
 <blockquote>
-  <p>$ cd php-5.3.8 
-$ vi configure.in (add AC_SYS_LARGEFILE somewhere)
-$ export PHP_AUTOCONF=/usr/share/autoconf2.59
-$ ./buildconf –force</p>
+  <ul>
+    <li>$ cd php-5.3.8 </li>
+    <li>$ vi configure.in (add AC_SYS_LARGEFILE somewhere)</li>
+    <li>$ export PHP_AUTOCONF=/usr/share/autoconf2.59</li>
+    <li>$ ./buildconf –force</li>
+  </ul>
 </blockquote>
 
 <p>I then tried two things. First i build without the CFLAGS. But this didn’t seem to do much. Then i used the same configure script with the CFLAGS for large file support. But there was no speed increase measurable. </p>
