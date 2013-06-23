@@ -850,17 +850,21 @@ Entity ‘nbsp’ not defined in /some/file.tal.html, line: 363</p>
 
 <p>To get some inspiration for this i took a look at some plugin code available on the internet. This gave me a basic understanding of how the plugin system works. Together with the docs writing a plugin wasn’t that hard. The code that i saw however was pretty bad. And i wanted something that at least looked better then all the global statements swarming around. So i created a small OO wrapper for the plugin. The basic plugin structure looks something like this</p>
 
-<blockquote>
-  <p>– plugin
-—– css
-———- dwotd.css
-—– lib
-———- Dwotd.php
-———- Widget.php
-—– template
-———- Widget.php
-– dwotd.php</p>
-</blockquote>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>plugin structure </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+-- plugin
+----- css
+---------- dwotd.css
+----- lib
+---------- Dwotd.php
+---------- Widget.php
+----- template
+---------- Widget.php
+-- dwotd.php
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>The file in the root is the bootstrap file. It includes the main plugin class and registers the widget class. The two files in lib contain the plugin and Widget classes. The rest is self explanatory i think.</p>
 
