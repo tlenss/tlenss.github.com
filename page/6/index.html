@@ -765,196 +765,207 @@ imagedestroy(<span class="local-variable">$src</span>);
 
 <p><strong>High School/Jr. High</strong></p>
 
-<pre><code>10 PRINT "HELLO WORLD"
- 20 END
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+10 PRINT &quot;HELLO WORLD&quot;
+20 END
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p><strong>First year in College</strong></p>
 
-<blockquote>
-  <p>program Hello(input, output)
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+program Hello(input, output)
  begin
- writeln(‘Hello World’)
- end.</p>
-</blockquote>
+ writeln('Hello World')
+ end.
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Senior year in College</p>
 
-<blockquote>
-  <p>(defun hello
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+&gt; (defun hello
  (print
- (cons ‘Hello (list ‘World))))</p>
-</blockquote>
+ (cons 'Hello (list 'World))))
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p><strong>New professional</strong></p>
 
-<pre><code>#include &lt;stdio.h&gt;
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="preprocessor">#include</span> <span class="include">&lt;stdio.h&gt;</span>
+    
+<span class="directive">void</span> main(<span class="directive">void</span>)
+{
+  <span class="predefined-type">char</span> *message[] = {<span class="string"><span class="delimiter">&quot;</span><span class="content">Hello </span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">World</span><span class="delimiter">&quot;</span></span>};
+  <span class="predefined-type">int</span> i;
+  <span class="keyword">for</span>(i = <span class="integer">0</span>; i &lt; <span class="integer">2</span>; ++i)
+    printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">%s</span><span class="delimiter">&quot;</span></span>, message[i]);
+    printf(<span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
 
- void main(void)
- {
-  char *message[] = {"Hello ", "World"};
-  int i;
-  for(i = 0; i &lt; 2; ++i)
-  printf("%s", message[i]);
-  printf("\n");
- }
-</code></pre>
-
-<p><strong>Seasoned professional</strong></p>
-
-<pre><code>#include &lt;iostream.h&gt;
- #include &lt;string.h&gt;
- class string
- {
-  private:
-   int size;
-   char *ptr;
-  public:
-   string() : size(0), ptr(new char('\0')) {}
-   string(const string &amp;s;) : size(s.size)
-   {
-     ptr = new char[size + 1];
-     strcpy(ptr, s.ptr);
-   }
-   ~string()
-   {
-     delete [] ptr;
-   }
-   friend ostream &amp;operator; &lt;&lt;(ostream &amp;, const string &amp;);
-   string &amp;operator;=(const char *);
- };
-
- ostream &amp;operator;&lt;&lt;(ostream &amp;stream;, const string &amp;s;)
- {
-   return(stream &lt;&lt; s.ptr);
- }
- string &amp;string;::operator=(const char *chrs)
- {
-   if (this != &amp;chrs;)
-   {
-     delete [] ptr;
-     size = strlen(chrs);
-     ptr = new char[size + 1];
-     strcpy(ptr, chrs);
-   }
-   return(*this);
- }
- int main()
- {
-   string str;
-   str = "Hello World";
-   cout &lt;&lt; str &lt;&lt; endl;
-   return(0);
- }
-</code></pre>
+<p>Liquid error: Invalid id given: c++</p>
 
 <p><strong>System Administrator</strong></p>
 
-<pre><code>#include &lt;stdio.h&gt;
- #include &lt;stdlib.h&gt;
- main()
- {
-  char *tmp;
-  int i=0;
-  /* on y va bourin */
-  tmp=(char *)malloc(1024*sizeof(char));
-  while (tmp[i]="Hello Wolrd"[i++]);
-  /* Ooopps y'a une infusion ! */
-  i=(int)tmp[8];
-  tmp[8]=tmp[9];
-  tmp[9]=(char)i;
-  printf("%s\n",tmp);
- }
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="preprocessor">#include</span> <span class="include">&lt;stdio.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;stdlib.h&gt;</span>
+main()
+{
+  <span class="predefined-type">char</span> *tmp;
+  <span class="predefined-type">int</span> i=<span class="integer">0</span>;
+      
+  <span class="comment">/* on y va bourin */</span>
+  tmp=(<span class="predefined-type">char</span> *)malloc(<span class="integer">1024</span>*<span class="keyword">sizeof</span>(<span class="predefined-type">char</span>));
+  <span class="keyword">while</span> (tmp[i]=<span class="string"><span class="delimiter">&quot;</span><span class="content">Hello Wolrd</span><span class="delimiter">&quot;</span></span>[i++]);
+      
+  <span class="comment">/* Ooopps y'a une infusion ! */</span>
+  i=(<span class="predefined-type">int</span>)tmp[<span class="integer">8</span>];
+  tmp[<span class="integer">8</span>]=tmp[<span class="integer">9</span>];
+  tmp[<span class="integer">9</span>]=(<span class="predefined-type">char</span>)i;
+  printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">%s</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>,tmp);
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p><strong>Apprentice Hacker</strong></p>
 
-<pre><code>#!/usr/local/bin/perl
- $msg="Hello, world.\n";
- if ($#ARGV &gt;= 0) {
-     while(defined($arg=shift(@ARGV))) {
-	 $outfilename = $arg;
-	 open(FILE, "&gt;" . $outfilename) || die "Can't write $arg: $!\n";
-	 print (FILE $msg);
-	 close(FILE) || die "Can't close $arg: $!\n";
-     }
- } else {
-     print ($msg);
- }
- 1;
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+#!/usr/local/bin/perl
+$msg=&quot;Hello, world.\n&quot;;
+if ($#ARGV &gt;= 0) {
+  while(defined($arg=shift(@ARGV))) {
+    $outfilename = $arg;
+    open(FILE, &quot;&gt;&quot; . $outfilename) || die &quot;Can't write $arg: $!\n&quot;;
+    print (FILE $msg);
+    close(FILE) || die &quot;Can't close $arg: $!\n&quot;;
+  }
+} else {
+  print ($msg);
+}
+1;
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p><strong>Experienced Hacker</strong></p>
 
-<pre><code> #include &lt;stdio.h&gt;
- #include &lt;string.h&gt;
- #define S "Hello, World\n"
- main(){exit(printf(S) == strlen(S) ? 0 : 1);}
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="preprocessor">#include</span> <span class="include">&lt;stdio.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;string.h&gt;</span>
+<span class="preprocessor">#define</span> S <span class="string"><span class="delimiter">&quot;</span><span class="content">Hello, World</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>
+main(){exit(printf(S) == strlen(S) ? <span class="integer">0</span> : <span class="integer">1</span>);}
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p><strong>Seasoned Hacker</strong></p>
 
-<pre><code> % cc -o a.out ~/src/misc/hw/hw.c
- % a.out
- Hello, world.
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+     % cc -o a.out ~/src/misc/hw/hw.c
+     % a.out
+     Hello, world.
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p><strong>Guru Hacker</strong></p>
 
-<blockquote>
-  <p>% cat
- Hello, world.</p>
-</blockquote>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+&gt; % cat
+ Hello, world.
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p><strong>New Manager (do you remember?)</strong></p>
 
-<pre><code> 10 PRINT "HELLO WORLD"
- 20 END
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+10 PRINT &quot;HELLO WORLD&quot;
+20 END
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p><strong>Middle Manager</strong></p>
 
-<pre><code> mail -s "Hello, world." bob@b12
- Bob, could you please write me a program that prints "Hello, world."?
- I need it by tomorrow.
- ^D
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+mail -s &quot;Hello, world.&quot; bob@b12
+Bob, could you please write me a program that prints &quot;Hello, world.&quot;?
+I need it by tomorrow.
+^D
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p><strong>Senior Manager</strong></p>
 
-<pre><code> % zmail jim
- I need a "Hello, world." program by this afternoon.
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+% zmail jim
+I need a &quot;Hello, world.&quot; program by this afternoon.
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p><strong>Chief Executive</strong></p>
 
-<pre><code>% letter
- letter: Command not found.
- % mail
- To: ^X ^F ^C
- % help mail
- help: Command not found.
- % damn!
- !: Event unrecognized
- % logout
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+% letter
+letter: Command not found.
+% mail
+To: ^X ^F ^C
+% help mail
+help: Command not found.
+% damn!
+!: Event unrecognized
+% logout
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p><strong>Research Scientist</strong></p>
 
-<blockquote>
-  <p>PROGRAM HELLO
-	PRINT *, ‘Hello World’
-	END</p>
-</blockquote>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+PROGRAM HELLO
+  PRINT *, 'Hello World'
+  END
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p><strong>Older research Scientist</strong></p>
 
-<blockquote>
-  <p>WRITE (6, 100)
-    100 FORMAT (1H ,11HHELLO WORLD)
-	CALL EXIT
-	END</p>
-</blockquote>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+WRITE (6, 100)
+  100 FORMAT (1H ,11HHELLO WORLD)
+    CALL EXIT
+    END
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 </div>
   
