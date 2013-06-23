@@ -248,29 +248,53 @@ document.write(<span class="string"><span class="delimiter">&quot;</span><span c
 <p>If you don’t have memcache installed do it now. It’s not that hard. On my debian box it went somethign like this:</p>
 
 <blockquote>
-  <p>$ aptitude install memcached
-$ aptitude install php5-memcache</p>
+  <ul>
+    <li>$ aptitude install memcached</li>
+    <li>$ aptitude install php5-memcache</li>
+  </ul>
 </blockquote>
 
 <p>Now a days evrything seems to go automatic. So no need to edit the php.ini or anyhting. To check if PHP loaded the memcache extension you can do:</p>
 
 <blockquote>
-  <p>$ php -m | grep memcache
-memcache</p>
+  <ul>
+    <li>
+      <table>
+        <tbody>
+          <tr>
+            <td>$ php -m</td>
+            <td>grep memcache</td>
+          </tr>
+        </tbody>
+      </table>
+    </li>
+    <li>memcache</li>
+  </ul>
 </blockquote>
 
 <p>Memached is automatically started after install. So let’s check if everything went ok.</p>
 
 <blockquote>
   <p>$ ps -aux | grep memcached
-nobody   20965  0.0  0.5  42900 23072 ?        S    Jan28   0:01 /usr/bin/memcached -m 64 -p 11211 -u nobody -l 127.0.0.1
-root     22393  0.0  0.0  87940   776 pts/0    R+   12:06   0:00 grep memcached</p>
+* nobody   20965  0.0  0.5  42900 23072 ?        S    Jan28   0:01 /usr/bin/memcached -m 64 -p 11211 -u nobody -l 127.0.0.1
+* root     22393  0.0  0.0  87940   776 pts/0    R+   12:06   0:00 grep memcached</p>
 </blockquote>
 
 <blockquote>
 
-  <p>$ netstat -an | grep 11211
-tcp        0      0 127.0.0.1:11211         0.0.0.0:*               LISTEN</p>
+  <ul>
+    <li>
+      <table>
+        <tbody>
+          <tr>
+            <td>$ netstat -an</td>
+            <td>grep 11211</td>
+          </tr>
+        </tbody>
+      </table>
+    </li>
+    <li>tcp        0      0 127.0.0.1:11211         0.0.0.0:*               LISTEN</li>
+  </ul>
 </blockquote>
 
 <p>Looking good. Now it’s time to do some configuration in ZF.</p>
@@ -278,23 +302,27 @@ tcp        0      0 127.0.0.1:11211         0.0.0.0:*               LISTEN</p>
 <p>First of the frontend settings. With ‘type’ we set the cache method for the frontend. We chose the standard Core class for this. With ‘lifetime’ we set the time for which a cached entity is valid. The ‘cache_id_prefix’ is a nice way to group for instnace cache data by controller. So just give it a name.</p>
 
 <blockquote>
-  <p>cache.frontend.type = Core
-cache.frontend.options.lifetime = 600
-cache.frontend.options.automatic_serialization = true
-cache.frontend.options.cache_id_prefix = [some string]
-cache.frontend.options.cache = true</p>
+  <ul>
+    <li>cache.frontend.type = Core</li>
+    <li>cache.frontend.options.lifetime = 600</li>
+    <li>cache.frontend.options.automatic_serialization = true</li>
+    <li>cache.frontend.options.cache_id_prefix = [some string]</li>
+    <li>cache.frontend.options.cache = true</li>
+  </ul>
 </blockquote>
 
 <p>Now it’s the backends turn to get configured. For ‘type’ we choose Memcached. More types are available. For more info read the ZF manual. The rest of the settings are basic memcached settings like host, port and persitance.</p>
 
 <blockquote>
-  <p>cache.backend.type = Memcached
-cache.backend.options.servers.1.host = 127.0.0.1
-cache.backend.options.servers.1.port = 11211
-cache.backend.options.servers.1.persistent = true
-cache.backend.options.servers.1.weight = 1
-cache.backend.options.servers.1.timeout = 5
-cache.backend.options.servers.1.retry_interval = 15</p>
+  <ul>
+    <li>cache.backend.type = Memcached</li>
+    <li>cache.backend.options.servers.1.host = 127.0.0.1</li>
+    <li>cache.backend.options.servers.1.port = 11211</li>
+    <li>cache.backend.options.servers.1.persistent = true</li>
+    <li>cache.backend.options.servers.1.weight = 1</li>
+    <li>cache.backend.options.servers.1.timeout = 5</li>
+    <li>cache.backend.options.servers.1.retry_interval = 15</li>
+  </ul>
 </blockquote>
 
 <p>Finally we can do some PHP code. To get the cache instance setup we add a _initCache() method to the bootstrap class. Inside this method we retrieve the config options by calling getOptions(). And setup the cache object. Which is then stored in the Registry for later use.</p>
@@ -732,31 +760,31 @@ container.addEventListener(<span class="string"><span class="delimiter">&quot;</
 
 <p>When you unpack the whole thing and lay it out on a table it looks pretty impressive. And at this point i got the feeling i would never get this to work. But thank god for the internet. I quickly found some nice hand held guides to <a href="http://0x.vc/4">guide</a> me through it.</p>
 
-<p>[<img src="http://lenss.nl/images/2009/12/IMG_0550.jpg" alt="IMG_0550](http://lenss.nl/images/2009/12/IMG_0550-1024x768.jpg)" /></p>
+<p><img src="http://lenss.nl/images/2009/12/IMG_0550-1024x768.jpg" /></p>
 
 <p>I will not bother you with all specifics. because i can’t :) And for that you should read <a href="http://www.adafruit.com/index.php?main_page=product_info&amp;cPath=39&amp;products_id=194">here</a> and <a href="http://www.ladyada.net/make/icetube/">here</a> Or just order the kit and give it a shot. it’s great. So after burning my self i managed to get the first set of components mounted properly on top of the PCB.</p>
 
-<p>[<img src="http://lenss.nl/images/2009/12/IMG_0555.jpg" alt="IMG_0555](http://lenss.nl/images/2009/12/IMG_0555-1024x768.jpg)" /></p>
+<p><img src="http://lenss.nl/images/2009/12/IMG_0555-1024x768.jpg" /></p>
 
 <p>The only problem i encountered (and it spoiled most of the project) was the soldering iron. Which was a mess to start of with. And it was way to big for this delicate work. The result was my soldering didn’t look that proper as you can see in the image below.</p>
 
-<p>[<img src="http://lenss.nl/images/2009/12/IMG_0557.jpg" alt="IMG_0557](http://lenss.nl/images/2009/12/IMG_0557-1024x768.jpg)" /></p>
+<p><img src="http://lenss.nl/images/2009/12/IMG_0557-1024x768.jpg" /></p>
 
 <p>The hardest part was to get the tube mounted correctly. One end of the tube is a spring of wires that need to be attached to a jack on the smaller PCB. It’s a time consuming and tedious job to do. But i think i managed. Although not all wires are as straight as they should have been.</p>
 
-<p>[<img src="http://lenss.nl/images/2009/12/img_0611.jpg" alt="img_0611](http://lenss.nl/images/2009/12/img_0611-1024x768.jpg)" /></p>
+<p><img src="http://lenss.nl/images/2009/12/img_0611-1024x768.jpg" /></p>
 
 <p>It finally starts to look like something. After hooking it up to some power and running some tests. I was ready to build the outer casing.</p>
 
-<p>[<img src="http://lenss.nl/images/2009/12/img_0609.jpg" alt="img_0609](http://lenss.nl/images/2009/12/img_0609-1024x768.jpg)" /></p>
+<p><img src="http://lenss.nl/images/2009/12/img_0609-1024x768.jpg" /></p>
 
 <p>The outer casing is a simple design. Done in Plexiglas. It looks simple. But it was a struggle to get the thing assembled.</p>
 
-<p>[<img src="http://lenss.nl/images/2009/12/IMG_0563.jpg" alt="IMG_0563](http://lenss.nl/images/2009/12/IMG_0563-1024x768.jpg)" /></p>
+<p><img src="http://lenss.nl/images/2009/12/IMG_0563-1024x768.jpg" /></p>
 
 <p>After my struggle with the casing i switched the tube on. And was greeted by a nice blue/greenish color and a beep. The color is a bit different from what is shown on the main site. But that has something to do with the tubes i read. The brightness is adjustable so that’s no problem. As you can see i still miss one time delimiter. And the menu is still not function 100%. But the clock works. And i can set the alarm. </p>
 
-<p>[<img src="http://lenss.nl/images/2009/12/img_0608.jpg" alt="img_0608](http://lenss.nl/images/2009/12/img_0608-1024x768.jpg)" /></p>
+<p><img src="http://lenss.nl/images/2009/12/img_0608-1024x768.jpg" /></p>
 
 <p>I had so much fun building this thing. that i ordered a new soldering iron. And will be doing a new attempt soon!</p>
 </div>

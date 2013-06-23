@@ -74,29 +74,53 @@
 <p>If you don’t have memcache installed do it now. It’s not that hard. On my debian box it went somethign like this:</p>
 
 <blockquote>
-  <p>$ aptitude install memcached
-$ aptitude install php5-memcache</p>
+  <ul>
+    <li>$ aptitude install memcached</li>
+    <li>$ aptitude install php5-memcache</li>
+  </ul>
 </blockquote>
 
 <p>Now a days evrything seems to go automatic. So no need to edit the php.ini or anyhting. To check if PHP loaded the memcache extension you can do:</p>
 
 <blockquote>
-  <p>$ php -m | grep memcache
-memcache</p>
+  <ul>
+    <li>
+      <table>
+        <tbody>
+          <tr>
+            <td>$ php -m</td>
+            <td>grep memcache</td>
+          </tr>
+        </tbody>
+      </table>
+    </li>
+    <li>memcache</li>
+  </ul>
 </blockquote>
 
 <p>Memached is automatically started after install. So let’s check if everything went ok.</p>
 
 <blockquote>
   <p>$ ps -aux | grep memcached
-nobody   20965  0.0  0.5  42900 23072 ?        S    Jan28   0:01 /usr/bin/memcached -m 64 -p 11211 -u nobody -l 127.0.0.1
-root     22393  0.0  0.0  87940   776 pts/0    R+   12:06   0:00 grep memcached</p>
+* nobody   20965  0.0  0.5  42900 23072 ?        S    Jan28   0:01 /usr/bin/memcached -m 64 -p 11211 -u nobody -l 127.0.0.1
+* root     22393  0.0  0.0  87940   776 pts/0    R+   12:06   0:00 grep memcached</p>
 </blockquote>
 
 <blockquote>
 
-  <p>$ netstat -an | grep 11211
-tcp        0      0 127.0.0.1:11211         0.0.0.0:*               LISTEN</p>
+  <ul>
+    <li>
+      <table>
+        <tbody>
+          <tr>
+            <td>$ netstat -an</td>
+            <td>grep 11211</td>
+          </tr>
+        </tbody>
+      </table>
+    </li>
+    <li>tcp        0      0 127.0.0.1:11211         0.0.0.0:*               LISTEN</li>
+  </ul>
 </blockquote>
 
 <p>Looking good. Now it’s time to do some configuration in ZF.</p>
@@ -104,23 +128,27 @@ tcp        0      0 127.0.0.1:11211         0.0.0.0:*               LISTEN</p>
 <p>First of the frontend settings. With ‘type’ we set the cache method for the frontend. We chose the standard Core class for this. With ‘lifetime’ we set the time for which a cached entity is valid. The ‘cache_id_prefix’ is a nice way to group for instnace cache data by controller. So just give it a name.</p>
 
 <blockquote>
-  <p>cache.frontend.type = Core
-cache.frontend.options.lifetime = 600
-cache.frontend.options.automatic_serialization = true
-cache.frontend.options.cache_id_prefix = [some string]
-cache.frontend.options.cache = true</p>
+  <ul>
+    <li>cache.frontend.type = Core</li>
+    <li>cache.frontend.options.lifetime = 600</li>
+    <li>cache.frontend.options.automatic_serialization = true</li>
+    <li>cache.frontend.options.cache_id_prefix = [some string]</li>
+    <li>cache.frontend.options.cache = true</li>
+  </ul>
 </blockquote>
 
 <p>Now it’s the backends turn to get configured. For ‘type’ we choose Memcached. More types are available. For more info read the ZF manual. The rest of the settings are basic memcached settings like host, port and persitance.</p>
 
 <blockquote>
-  <p>cache.backend.type = Memcached
-cache.backend.options.servers.1.host = 127.0.0.1
-cache.backend.options.servers.1.port = 11211
-cache.backend.options.servers.1.persistent = true
-cache.backend.options.servers.1.weight = 1
-cache.backend.options.servers.1.timeout = 5
-cache.backend.options.servers.1.retry_interval = 15</p>
+  <ul>
+    <li>cache.backend.type = Memcached</li>
+    <li>cache.backend.options.servers.1.host = 127.0.0.1</li>
+    <li>cache.backend.options.servers.1.port = 11211</li>
+    <li>cache.backend.options.servers.1.persistent = true</li>
+    <li>cache.backend.options.servers.1.weight = 1</li>
+    <li>cache.backend.options.servers.1.timeout = 5</li>
+    <li>cache.backend.options.servers.1.retry_interval = 15</li>
+  </ul>
 </blockquote>
 
 <p>Finally we can do some PHP code. To get the cache instance setup we add a _initCache() method to the bootstrap class. Inside this method we retrieve the config options by calling getOptions(). And setup the cache object. Which is then stored in the Registry for later use.</p>
