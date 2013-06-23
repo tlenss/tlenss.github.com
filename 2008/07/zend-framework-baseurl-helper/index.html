@@ -69,39 +69,59 @@
 
 <div class="articletext"><p>Today i was working with the <a href="http://framework.zend.com">Zend Framework</a>. And needed the baseUrl to set the correct path for stylesheets and external javascript files. To include stylesheets and javascript files there are methods available in ZF. In your controller you can set:</p>
 
-<pre><code>$this-&gt;view-&gt;headLink()-&gt;appendStylesheet('/css/tester.css');
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$this</span>-&gt;view-&gt;headLink()-&gt;appendStylesheet(<span class="string"><span class="delimiter">'</span><span class="content">/css/tester.css</span><span class="delimiter">'</span></span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>In your view or layout you can then call</p>
 
-<pre><code>$this-&gt;headLink();
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$this</span>-&gt;headLink();
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>This works great. But the current development structure lacks some good rewrite rules. And having the baseUrl is always a good thing. So i did some searching on Google. To figure out if somebody already has a solution for this problem. After a few minutes i found a post written by <a href="http://www.spotsec.com/blog/archive/2007/12/14/zend-framework-baseurl-view-helper/">Yusak Setiawan</a> from <a href="http://www.zendindonesia.com/">zendindonesia</a> (which is defaced by the way) explaining how to add a placeholder in the bootstrap file. Now this is a good solution. But i like to keep my bootstrap file as clean as possible. So i decided to add a Helper that would do the trick.</p>
 
 <p>Create a file called ‘BaseUrl.php’ inside the Helper directory. And fill it with the following code.</p>
 
-<pre><code>class Zend_View_Helper_BaseUrl
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">class</span> <span class="class">Zend_View_Helper_BaseUrl</span>
 {
-    function baseUrl()
-    {
-        $base_url = substr($_SERVER['PHP_SELF'], 0, -9);
-        return $base_url;
-    }
+  <span class="keyword">function</span> <span class="function">baseUrl</span>()
+  {
+    <span class="local-variable">$base_url</span> = <span class="predefined">substr</span>(<span class="predefined">$_SERVER</span>[<span class="string"><span class="delimiter">'</span><span class="content">PHP_SELF</span><span class="delimiter">'</span></span>], <span class="integer">0</span>, -<span class="integer">9</span>);
+    <span class="keyword">return</span> <span class="local-variable">$base_url</span>;
+  }
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>After that it’s extremly easy to get the baseUrl in your views, layouts or controllers.</p>
 
 <p>Inside the view or layout you can call:</p>
 
-<pre><code>$this-&gt;baseUrl();
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$this</span>-&gt;baseUrl();
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>And inside the controller you can call it like this.</p>
 
-<pre><code>$this-&gt;view-&gt;baseUrl();
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$this</span>-&gt;view-&gt;baseUrl();
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p><a href="http://blog.motane.lu/2009/01/31/zend-framework-base-url/">Tudor Barbu</a> wrote a great article on this subject.</p>
 </div>

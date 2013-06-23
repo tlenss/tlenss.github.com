@@ -196,78 +196,111 @@
 
 <p>To create the sliding effect all you need is the following lines of javascript.</p>
 
-<pre><code>window.addEvent('domready', function() {
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+window.addEvent(<span class="string"><span class="delimiter">'</span><span class="content">domready</span><span class="delimiter">'</span></span>, <span class="keyword">function</span>() {
 
-    // create an instance of the FX.Slide object
-    var mySlide = new Fx.Slide('test');
+  <span class="comment">// create an instance of the FX.Slide object</span>
+  <span class="keyword">var</span> mySlide = <span class="keyword">new</span> Fx.Slide(<span class="string"><span class="delimiter">'</span><span class="content">test</span><span class="delimiter">'</span></span>);
 
-    // Attach the click event to the wrapper div
-    $('toggle').addEvent('click', function(e) {
-        e = new Event(e);
-	mySlide.toggle();
-	e.stop();
-    });
+  <span class="comment">// Attach the click event to the wrapper div</span>
+  <span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">toggle</span><span class="delimiter">'</span></span>).addEvent(<span class="string"><span class="delimiter">'</span><span class="content">click</span><span class="delimiter">'</span></span>, <span class="keyword">function</span>(e) {
+    e = <span class="keyword">new</span> Event(e);
+    mySlide.toggle();
+    e.stop();
+  });
 });
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>And of course some HTML to represent the sliding elements.</p>
 
-<pre><code>&lt;h3 class="section"&gt;Fx.Slide Vertical&lt;/h3&gt;
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="tag">&lt;h3</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">section</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>Fx.Slide Vertical<span class="tag">&lt;/h3&gt;</span>
 
-&lt;a id="toggle" href="#"&gt;toggle&lt;/a&gt;
-&lt;div id="test"&gt;
+<span class="tag">&lt;a</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">toggle</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">href</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">#</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>toggle<span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;div</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">test</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
 foo
-&lt;/div&gt;
-</code></pre>
+<span class="tag">&lt;/div&gt;</span>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>And some CSS to cover it all in a nice sauce.</p>
 
-<pre><code>#test {
-    background: #222;
-    color: #fff;
-    padding: 10px;
-    margin: 20px;
-    border: 10px solid pink;
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="constant">#test</span> {
+  <span class="key">background</span>: <span class="color">#222</span>;
+  <span class="key">color</span>: <span class="color">#fff</span>;
+  <span class="key">padding</span>: <span class="float">10px</span>;
+  <span class="key">margin</span>: <span class="float">20px</span>;
+  <span class="key">border</span>: <span class="float">10px</span> <span class="value">solid</span> <span class="value">pink</span>;
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>So this looks great. It functions well. And the sliding is very smooth. There is one small problem though. When the wrapper contains an element with a style attribute overflow set to “auto”. The sliding will cause a flicker effect on the page. This is probably caused by rescaling the wrapper. Witch in it’s turn rescales the element with attribute overflow set to auto.</p>
 
 <p>I didn’t really try to figure out why this happens. Maybe that’s a later project. But i did come up with a small fix. When a slide object is created. FX.Slide wraps a div around the container that will slide in and out. This wrapper has the attribute overflow set to hidden. I couldn’t figure out why overflow is set to hidden on this wrapper. So i added the ability to set it through the options object. When overflow is set to auto the flicker bug disappears. To add this feature we need to add some small changes to the FX.Slide class.</p>
 
-<pre><code>options: {
-	mode: 'vertical'
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="type">options</span>: {
+  <span class="key">mode</span>: <span class="string"><span class="delimiter">'</span><span class="content">vertical</span><span class="delimiter">'</span></span>
 },
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>First we change the code above to reflect the code below:</p>
 
-<pre><code>options: {
-	mode: 'vertical',
-	overflow: 'hidden'
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="type">options</span>: {
+  <span class="key">mode</span>: <span class="string"><span class="delimiter">'</span><span class="content">vertical</span><span class="delimiter">'</span></span>,
+  <span class="value">overflow</span>: <span class="string"><span class="delimiter">'</span><span class="content">hidden</span><span class="delimiter">'</span></span>
 },
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Then on the third line of the initialize function we change:</p>
 
-<pre><code>this.wrapper = new Element('div', {'styles': $extend(this.element.getStyles('margin'), {'overflow': "hidden"})}).injectAfter(this.element).adopt(this.element);
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">this</span>.wrapper = <span class="keyword">new</span> Element(<span class="string"><span class="delimiter">'</span><span class="content">div</span><span class="delimiter">'</span></span>, {<span class="key"><span class="delimiter">'</span><span class="content">styles</span><span class="delimiter">'</span></span>: <span class="predefined">$extend</span>(<span class="local-variable">this</span>.element.getStyles(<span class="string"><span class="delimiter">'</span><span class="content">margin</span><span class="delimiter">'</span></span>), {<span class="key"><span class="delimiter">'</span><span class="content">overflow</span><span class="delimiter">'</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">hidden</span><span class="delimiter">&quot;</span></span>})}).injectAfter(<span class="local-variable">this</span>.element).adopt(<span class="local-variable">this</span>.element);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>To:</p>
 
-<pre><code>this.wrapper = new Element('div', {'styles': $extend(this.element.getStyles('margin'), {'overflow': this.options.overflow})}).injectAfter(this.element).adopt(this.element);
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">this</span>.wrapper = <span class="keyword">new</span> Element(<span class="string"><span class="delimiter">'</span><span class="content">div</span><span class="delimiter">'</span></span>, {<span class="key"><span class="delimiter">'</span><span class="content">styles</span><span class="delimiter">'</span></span>: <span class="predefined">$extend</span>(<span class="local-variable">this</span>.element.getStyles(<span class="string"><span class="delimiter">'</span><span class="content">margin</span><span class="delimiter">'</span></span>), {<span class="key"><span class="delimiter">'</span><span class="content">overflow</span><span class="delimiter">'</span></span>: <span class="local-variable">this</span>.options.overflow})}).injectAfter(<span class="local-variable">this</span>.element).adopt(<span class="local-variable">this</span>.element);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>When all this is done and we want to create a FX.Slide object without the flicker bug. We add the options parameter. The constructor will make sure the right value is used.</p>
 
-<pre><code>var mySlide2 = new Fx.Slide('test', {overflow: 'auto'});
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">var</span> mySlide2 = <span class="keyword">new</span> Fx.Slide(<span class="string"><span class="delimiter">'</span><span class="content">test</span><span class="delimiter">'</span></span>, {<span class="key">overflow</span>: <span class="string"><span class="delimiter">'</span><span class="content">auto</span><span class="delimiter">'</span></span>});
 
-$('toggle').addEvent('click', function(e){
-    e = new Event(e);
-    mySlide2.toggle();
-    e.stop();
+<span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">toggle</span><span class="delimiter">'</span></span>).addEvent(<span class="string"><span class="delimiter">'</span><span class="content">click</span><span class="delimiter">'</span></span>, <span class="keyword">function</span>(e){
+  e = <span class="keyword">new</span> Event(e);
+  mySlide2.toggle();
+  e.stop();
 });
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
+
 </div>
   
   
@@ -396,11 +429,15 @@ $('toggle').addEvent('click', function(e){
 
 <p>Using it is as simple as including this in the header section of your (X)HTML:</p>
 
-<pre><code>&lt;a id="IE8.js"&gt;&lt;!--[if lt IE 8]&gt;
-&lt;script src="IE8.js" type="text/javascript"&gt;&lt;/script&gt;
-&lt;![endif]--&gt;
-&lt;/a&gt;
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="tag">&lt;a</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">IE8.js</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="comment">&lt;!--[if lt IE 8]&gt;
+&lt;script src=&quot;IE8.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;![endif]--&gt;</span>
+<span class="tag">&lt;/a&gt;</span>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>*demo <a href="http://ie7-js.googlecode.com/svn/test/index.html">http://ie7-js.googlecode.com/svn/test/index.html</a></p>
 

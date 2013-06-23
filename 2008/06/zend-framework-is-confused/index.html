@@ -73,21 +73,29 @@
 
 <p>So after i read threw all code. I notice a few lines i copied from <a href="http://www.calevans.com/">Cal Evans</a> <a href="http://phparch.com/c/books/id/9780973862157">book</a>. These lines mainly set the include_path for the current application. And it looked something like this:</p>
 
-<pre><code>$lib_paths = array();
-$lib_paths[] = "/path/to/application";
-$lib_paths[] = "/path/to/library";
-$inc_path = implode(PATH_SEPARATOR, $lib_paths);
-set_include_path($inc_path);
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$lib_paths</span> = <span class="predefined">array</span>();
+<span class="local-variable">$lib_paths</span>[] = <span class="string"><span class="delimiter">&quot;</span><span class="content">/path/to/application</span><span class="delimiter">&quot;</span></span>;
+<span class="local-variable">$lib_paths</span>[] = <span class="string"><span class="delimiter">&quot;</span><span class="content">/path/to/library</span><span class="delimiter">&quot;</span></span>;
+<span class="local-variable">$inc_path</span> = <span class="predefined">implode</span>(<span class="predefined-constant">PATH_SEPARATOR</span>, <span class="local-variable">$lib_paths</span>);
+<span class="predefined">set_include_path</span>(<span class="local-variable">$inc_path</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>I noticed the application directory was added first. So this is also the first part where PHP starts looking for it’s include files. So i decided to switch them. So the code looks like this now:</p>
 
-<pre><code>$lib_paths = array();
-$lib_paths[] = "/path/to/library";
-$lib_paths[] = "/path/to/application";
-$inc_path = implode(PATH_SEPARATOR, $lib_paths);
-set_include_path($inc_path);
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$lib_paths</span> = <span class="predefined">array</span>();
+<span class="local-variable">$lib_paths</span>[] = <span class="string"><span class="delimiter">&quot;</span><span class="content">/path/to/library</span><span class="delimiter">&quot;</span></span>;
+<span class="local-variable">$lib_paths</span>[] = <span class="string"><span class="delimiter">&quot;</span><span class="content">/path/to/application</span><span class="delimiter">&quot;</span></span>;
+<span class="local-variable">$inc_path</span> = <span class="predefined">implode</span>(<span class="predefined-constant">PATH_SEPARATOR</span>, <span class="local-variable">$lib_paths</span>);
+<span class="predefined">set_include_path</span>(<span class="local-variable">$inc_path</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>After this change the problem seems to have been resolved. I still would like to figure out why ZF has problems with finding it’s own include files. Maybe it’s a combination of the wrong include order and the .htaccess file not working well together.</p>
 </div>
