@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Code | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/code/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-06-23T12:23:05+02:00</updated>
+  <updated>2013-06-23T12:25:03+02:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -34,63 +34,66 @@
 
 <p><strong><em>$options</em></strong> makes it possible to add a salt or set the cost for the hashing algorithm</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Hash password with default algorithm </span><a href='http://php.net/manual/en/function.password-hash.php'>password_hash() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">	$password = ‘test-password’;</span>
-</span><span class='line'><span class="x">	$hash = password_hash($password, PASSWORD_DEFAULT);</span>
-</span><span class='line'><span class="x">	var_dump($hash);</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Hash password with default algorithm</span><a href='http://php.net/manual/en/function.password-hash.php'>password_hash() </a></figcaption> <div class="CodeRay">
+  <div class="code"><pre>
+        <span class="local-variable">$password</span> = ‘test-password’;
+        <span class="local-variable">$hash</span> = password_hash(<span class="local-variable">$password</span>, <span class="constant">PASSWORD_DEFAULT</span>);
+        <span class="predefined">var_dump</span>(<span class="local-variable">$hash</span>);
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <pre><code>string(60) "$2y$10$qGv1q5nT4F7HCtKSPPME2usrdJRcRpk9lEUMQsE8mqyDIy3fbJ4I."
 </code></pre>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Hash password with BLOWFISH algorithm </span><a href='http://php.net/manual/en/function.password-hash.php'>password_hash() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">	$hash = password_hash($password, PASSWORD_BCRYPT);</span>
-</span><span class='line'><span class="x">	var_dump($hash);</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Hash password with BLOWFISH algorithm</span><a href='http://php.net/manual/en/function.password-hash.php'>password_hash() </a></figcaption> <div class="CodeRay">
+  <div class="code"><pre>
+        <span class="local-variable">$hash</span> = password_hash(<span class="local-variable">$password</span>, <span class="constant">PASSWORD_BCRYPT</span>);
+        <span class="predefined">var_dump</span>(<span class="local-variable">$hash</span>);
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <pre><code>string(60) "$2y$10$XtpNO/tFjtkq4u3ghcpqXeSwbHZxDQDTXRHfWBnZsmowUVl/MQys2"
 </code></pre>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Hash password with BLOWFISH algorithm and options </span><a href='http://php.net/manual/en/function.password-hash.php'>password_hash() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">	$salt = mcrypt_create_iv(22, MCRYPT_DEV_URANDOM); </span>
-</span><span class='line'><span class="x">	$hash = password_hash($password, PASSWORD_BCRYPT, array(“cost” =&amp;gt; 14, “salt” =&amp;gt; $salt));</span>
-</span><span class='line'><span class="x">	var_dump($hash);</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Hash password with BLOWFISH algorithm and options</span><a href='http://php.net/manual/en/function.password-hash.php'>password_hash() </a></figcaption> <div class="CodeRay">
+  <div class="code"><pre>
+        <span class="local-variable">$salt</span> = mcrypt_create_iv(<span class="integer">22</span>, <span class="constant">MCRYPT_DEV_URANDOM</span>); 
+        <span class="local-variable">$hash</span> = password_hash(<span class="local-variable">$password</span>, <span class="constant">PASSWORD_BCRYPT</span>, <span class="predefined">array</span>(“cost” =&amp;gt; <span class="integer">14</span>, “salt” =&amp;gt; <span class="local-variable">$salt</span>));
+        <span class="predefined">var_dump</span>(<span class="local-variable">$hash</span>);
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <pre><code>string(60) "$2y$14$6ZtnYJ0CyqCUx.vJu3MZEuUGgIN.ryxMa0Yh8BnCrbBDVnd3Me30i"
 </code></pre>
 
 <p>Verify if a hash and password match. Return true if they do and false if they don’t</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Verify hash </span><a href='http://php.net/manual/en/function.password-verify.php'>password_verify() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">	$hash = password_hash($password, PASSWORD_DEFAULT);&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt;if (password_verify($password, $hash)) {</span>
-</span><span class='line'><span class="x">		echo &#39;Password is correct&#39;;</span>
-</span><span class='line'><span class="x">} else {</span>
-</span><span class='line'><span class="x">		echo &#39;Password is incorrect&#39;;</span>
-</span><span class='line'><span class="x">} </span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Verify hash</span><a href='http://php.net/manual/en/function.password-verify.php'>password_verify() </a></figcaption> <div class="CodeRay">
+  <div class="code"><pre>
+        <span class="local-variable">$hash</span> = password_hash(<span class="local-variable">$password</span>, <span class="constant">PASSWORD_DEFAULT</span>);&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;<span class="keyword">if</span> (password_verify(<span class="local-variable">$password</span>, <span class="local-variable">$hash</span>)) {
+                <span class="predefined">echo</span> <span class="string"><span class="delimiter">'</span><span class="content">Password is correct</span><span class="delimiter">'</span></span>;
+} <span class="keyword">else</span> {
+                <span class="predefined">echo</span> <span class="string"><span class="delimiter">'</span><span class="content">Password is incorrect</span><span class="delimiter">'</span></span>;
+} </pre></div>
+</div>
+ </figure></notextile></div>
 
 Password is correct
 </code></pre>
 
 <p>Get information about a valid hash created with password_hash(). The function returns an array with the use d algorithm and options</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Retrieve $hash information </span><a href='http://php.net/manual/en/function.password-get-info.php'>password_get_info() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">$info = password_get_info($hash);</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Retrieve $hash information</span><a href='http://php.net/manual/en/function.password-get-info.php'>password_get_info() </a></figcaption> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$info</span> = password_get_info(<span class="local-variable">$hash</span>);
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <pre><code>array(3) {
 	["algo"]=&gt;
@@ -107,59 +110,57 @@ Password is correct
 
 <p>Check if the supplied hash was generated by the provided algorithm and options. This might come in handy when the hash needs to be updated</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Check if a $hash needs to be rehashed </span><a href='http://php.net/manual/en/function.password-needs-rehash.php'>password_needs_rehash() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">	if (password_needs_rehash($hash, PASSWORD_BCRYPT, array(‘cost’ =&amp;gt; 8))) {</span>
-</span><span class='line'><span class="x">		// Update the password hash</span>
-</span><span class='line'><span class="x">	}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Check if a $hash needs to be rehashed</span><a href='http://php.net/manual/en/function.password-needs-rehash.php'>password_needs_rehash() </a></figcaption> <div class="CodeRay">
+  <div class="code"><pre>
+        <span class="keyword">if</span> (password_needs_rehash(<span class="local-variable">$hash</span>, <span class="constant">PASSWORD_BCRYPT</span>, <span class="predefined">array</span>(‘cost’ =&amp;gt; <span class="integer">8</span>))) {
+                <span class="comment">// Update the password hash</span>
+        }
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <p><strong><em>Support for constant array/string dereferencing</em></strong></p>
 
 <p>If you work with objects you might have worked with object dereferencing. This Is used to chain method calls. Or the so called fluent interfaces</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Dereference object call  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">	$obj-&amp;gt;method()-&amp;gt;returnObjMethod();</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Dereference object call </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+        <span class="local-variable">$obj</span>-&amp;gt;method()-&amp;gt;returnObjMethod();
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <p>Now the same is possible for arrays and strings</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Dereference strings / array  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">	echo array(1, 2, 3)[0]; //output 1</span>
-</span><span class='line'><span class="x">	echo “foobar”[2]; //output o</span>
-</span><span class='line'><span class="x">	echo “foobar”[“foo”][0] // output f&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt;echo [1,3,4][2]; //output 4 </span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Dereference strings / array </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+        <span class="predefined">echo</span> <span class="predefined">array</span>(<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>)[<span class="integer">0</span>]; <span class="comment">//output 1</span>
+        <span class="predefined">echo</span> “foobar”[<span class="integer">2</span>]; <span class="comment">//output o</span>
+        <span class="predefined">echo</span> “foobar”[“foo”][<span class="integer">0</span>] <span class="comment">// output f&lt;/p&gt;</span>
+
+&lt;pre&gt;&lt;code&gt;<span class="predefined">echo</span> [<span class="integer">1</span>,<span class="integer">3</span>,<span class="integer">4</span>][<span class="integer">2</span>]; <span class="comment">//output 4 </span></pre></div>
+</div>
+ </figure></notextile></div>
 </code></pre>
 
 <p><strong><em>Class Name Resolution As Scalar Via “class” Keyword</em></strong></p>
 
 <p>An easy way to get the full class name </p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Class name resolution via ::class  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">	namespace Vodka\Crypt;&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt;Class HashBuilder {}</span>
-</span><span class='line'>
-</span><span class='line'><span class="x">use Vodka\Crypt\HashBuilder;</span>
-</span><span class='line'><span class="x"> </span>
-</span><span class='line'><span class="x">var_dump(HashBuilder::class); </span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Class name resolution via ::class </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+        <span class="keyword">namespace</span> <span class="constant">Vodka</span>\<span class="predefined">Crypt</span>;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;<span class="keyword">Class</span> <span class="constant">HashBuilder</span> {}
+
+<span class="keyword">use</span> <span class="constant">Vodka</span>\<span class="predefined">Crypt</span>\<span class="constant">HashBuilder</span>;
+ 
+<span class="predefined">var_dump</span>(<span class="constant">HashBuilder</span>::<span class="keyword">class</span>); </pre></div>
+</div>
+ </figure></notextile></div>
 
 string(23) "Vodka\Crypt\HashBuilder"
 </code></pre>
@@ -170,42 +171,42 @@ string(23) "Vodka\Crypt\HashBuilder"
 
 <p><strong><em>5.3</em></strong></p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Call empty() with closure  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">	var_dump( empty(function() {}) );</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Call empty() with closure </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+        <span class="predefined">var_dump</span>( <span class="predefined">empty</span>(<span class="keyword">function</span>() {}) );
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <pre><code>PHP Parse error:  syntax error, unexpected T_FUNCTION in
 </code></pre>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Call empty() with function return value  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">	</span>
-</span><span class='line'><span class="x">	function foo() {}</span>
-</span><span class='line'><span class="x">	var_dump(empty(foo()));</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Call empty() with function return value </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>        
+        <span class="keyword">function</span> <span class="function">foo</span>() {}
+        <span class="predefined">var_dump</span>(<span class="predefined">empty</span>(foo()));
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <pre><code>PHP Fatal error:  Can't use function return value in write context in
 </code></pre>
 
 <p><strong><em>5.5</em></strong></p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Call empty() with function return value  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">	function foo($val) { </span>
-</span><span class='line'><span class="x">		return $val; </span>
-</span><span class='line'><span class="x">	}&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt;var_dump( empty(foo([])) );</span>
-</span><span class='line'><span class="x">var_dump( empty(foo(true)) ); </span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Call empty() with function return value </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+        <span class="keyword">function</span> <span class="function">foo</span>(<span class="local-variable">$val</span>) { 
+                <span class="keyword">return</span> <span class="local-variable">$val</span>; 
+        }&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;<span class="predefined">var_dump</span>( <span class="predefined">empty</span>(foo([])) );
+<span class="predefined">var_dump</span>( <span class="predefined">empty</span>(foo(<span class="predefined-constant">true</span>)) ); </pre></div>
+</div>
+ </figure></notextile></div>
 
 bool(true)
 bool(false)
@@ -215,38 +216,26 @@ bool(false)
 
 <p>List has been added for foreach loops. Great for eliminating unused variables.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Support for list in foreach  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">	$messages = array(</span>
-</span><span class='line'><span class="x">		array(‘id’ =&amp;gt; 1, ‘body’ =&amp;gt; ‘test-1’, ‘code’ =&amp;gt; 12),</span>
-</span><span class='line'><span class="x">		array(‘id’ =&amp;gt; 2, ‘body’ =&amp;gt; ‘test-2’, ‘code’ =&amp;gt; 12),</span>
-</span><span class='line'><span class="x">		array(‘id’ =&amp;gt; 3, ‘body’ =&amp;gt; ‘test-3’, ‘code’ =&amp;gt; 10)</span>
-</span><span class='line'><span class="x">	);&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt;// Before</span>
-</span><span class='line'><span class="x">foreach ($messages as $message) {</span>
-</span><span class='line'><span class="x">    list($id, $body) = $message;</span>
-</span><span class='line'><span class="x">}</span>
-</span><span class='line'><span class="x"> </span>
-</span><span class='line'><span class="x">// After</span>
-</span><span class='line'><span class="x">foreach ($messages as list($id, $body)) {</span>
-</span><span class='line'><span class="x">    </span>
-</span><span class='line'><span class="x">} </span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Support for list in foreach </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+        <span class="local-variable">$messages</span> = <span class="predefined">array</span>(
+                <span class="predefined">array</span>(‘id’ =&amp;gt; <span class="integer">1</span>, ‘body’ =&amp;gt; ‘test-<span class="integer">1</span>’, ‘code’ =&amp;gt; <span class="integer">12</span>),
+                <span class="predefined">array</span>(‘id’ =&amp;gt; <span class="integer">2</span>, ‘body’ =&amp;gt; ‘test-<span class="integer">2</span>’, ‘code’ =&amp;gt; <span class="integer">12</span>),
+                <span class="predefined">array</span>(‘id’ =&amp;gt; <span class="integer">3</span>, ‘body’ =&amp;gt; ‘test-<span class="integer">3</span>’, ‘code’ =&amp;gt; <span class="integer">10</span>)
+        );&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;<span class="comment">// Before</span>
+<span class="keyword">foreach</span> (<span class="local-variable">$messages</span> <span class="keyword">as</span> <span class="local-variable">$message</span>) {
+    <span class="predefined">list</span>(<span class="local-variable">$id</span>, <span class="local-variable">$body</span>) = <span class="local-variable">$message</span>;
+}
+ 
+<span class="comment">// After</span>
+<span class="keyword">foreach</span> (<span class="local-variable">$messages</span> <span class="keyword">as</span> <span class="predefined">list</span>(<span class="local-variable">$id</span>, <span class="local-variable">$body</span>)) {
+    
+} </pre></div>
+</div>
+ </figure></notextile></div>
 </code></pre>
 
 <p><strong><em>Zend Opcache extension and enable building it by default</em></strong></p>
@@ -260,21 +249,18 @@ bool(false)
 
 <p>Fetching a column from a multi-dimensional array is now possible with a single function call.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Fetch a column from a multi-dimensional array </span><a href='http://php.net/manual/en/function.array-column.php'>array_column() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">	$nestedArray = array(</span>
-</span><span class='line'><span class="x">		array(‘id’ =&amp;gt; 1, ‘body’ =&amp;gt; ‘test-1’, ‘code’ =&amp;gt; 12),</span>
-</span><span class='line'><span class="x">		array(‘id’ =&amp;gt; 2, ‘body’ =&amp;gt; ‘test-2’, ‘code’ =&amp;gt; 12),</span>
-</span><span class='line'><span class="x">		array(‘id’ =&amp;gt; 3, ‘body’ =&amp;gt; ‘test-3’, ‘code’ =&amp;gt; 10)</span>
-</span><span class='line'><span class="x">	);</span>
-</span><span class='line'><span class="x">	$columns = array_column($nestedArray, ‘code’);</span>
-</span><span class='line'><span class="x">	print_r($columns);</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Fetch a column from a multi-dimensional array</span><a href='http://php.net/manual/en/function.array-column.php'>array_column() </a></figcaption> <div class="CodeRay">
+  <div class="code"><pre>
+        <span class="local-variable">$nestedArray</span> = <span class="predefined">array</span>(
+                <span class="predefined">array</span>(‘id’ =&amp;gt; <span class="integer">1</span>, ‘body’ =&amp;gt; ‘test-<span class="integer">1</span>’, ‘code’ =&amp;gt; <span class="integer">12</span>),
+                <span class="predefined">array</span>(‘id’ =&amp;gt; <span class="integer">2</span>, ‘body’ =&amp;gt; ‘test-<span class="integer">2</span>’, ‘code’ =&amp;gt; <span class="integer">12</span>),
+                <span class="predefined">array</span>(‘id’ =&amp;gt; <span class="integer">3</span>, ‘body’ =&amp;gt; ‘test-<span class="integer">3</span>’, ‘code’ =&amp;gt; <span class="integer">10</span>)
+        );
+        <span class="local-variable">$columns</span> = array_column(<span class="local-variable">$nestedArray</span>, ‘code’);
+        <span class="predefined">print_r</span>(<span class="local-variable">$columns</span>);
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <pre><code>Array
 (
@@ -286,16 +272,10 @@ bool(false)
 
 <p>Or fetch status code indexed by id</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Fetch a column from a multi-dimensional array index by another field </span><a href='http://php.net/manual/en/function.array-column.php'>array_column() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">	$columns = array_column($nestedArray, ‘code’, ‘id’);</span>
-</span><span class='line'><span class="x">	print_r($columns);</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Fetch a column from a multi-dimensional array index by another field</span><a href='http://php.net/manual/en/function.array-column.php'>array_column() </a></figcaption> <div class="CodeRay">
   <div class="code"><pre>
-<span class="local-variable">$columns</span> = array_column(<span class="local-variable">$nestedArray</span>, ‘code’, ‘id’);
-<span class="predefined">print_r</span>(<span class="local-variable">$columns</span>);
+        <span class="local-variable">$columns</span> = array_column(<span class="local-variable">$nestedArray</span>, ‘code’, ‘id’);
+        <span class="predefined">print_r</span>(<span class="local-variable">$columns</span>);
 </pre></div>
 </div>
  </figure></notextile></div></p>
