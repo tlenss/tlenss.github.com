@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Code | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/code/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-06-23T13:04:10+02:00</updated>
+  <updated>2013-06-23T13:07:10+02:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -377,18 +377,28 @@ object(stdClass)#1 (1) {
 
 <p>Ha that’s cool. It actually works. But wait. What happens when we use a numeric index?</p>
 
-<pre><code>$arr = array(0 =&gt; 'bar', 'foo' =&gt; 'baz');
-$obj = (object) $arr;
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Cast array to object </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+$arr = array(0 =<span class="entity">&amp;gt;</span> ‘bar’, ‘foo’ =<span class="entity">&amp;gt;</span> ‘baz’);
+$obj = (object) $arr;<span class="tag">&lt;/p&gt;</span>
 
-var_dump($obj);
+<span class="tag">&lt;p&gt;</span>var_dump($obj);
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
 object(stdClass)#1 (2) {
-  [0]=&gt;
-  string(3) "bar"
-  ["foo"]=&gt;
-  string(3) "baz"
+  [0]=&amp;gt;
+  string(3) “bar”
+  [“foo”]=&amp;gt;
+  string(3) “baz”
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <p>WTF? We just created <strong><em>$obj-&gt;0</em></strong> which should not be allowed in PHP as far as i know. So let’s make sure i am not mistaking.</p>
 
