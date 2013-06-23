@@ -605,79 +605,101 @@ mysql  Ver 14.16 Distrib 5.1.49-MariaDB, for debian-linux-gnu (i486) using readl
 
 <p>Conclusion. It’s not that hard when using the jquery library. which is becoming my Javascript framework of choice.</p>
 
-<pre><code>&lt;script src="js/jquery-1.4.3.min.js" type="text/javascript"&gt;&lt;/script&gt;
-&lt;script src="js/jquery-ui-1.8.5.custom.min.js" type="text/javascript"&gt;&lt;/script&gt;
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="tag">&lt;script</span> <span class="attribute-name">src</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">js/jquery-1.4.3.min.js</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">type</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">text/javascript</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="tag">&lt;/script&gt;</span>
+<span class="tag">&lt;script</span> <span class="attribute-name">src</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">js/jquery-ui-1.8.5.custom.min.js</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">type</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">text/javascript</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="tag">&lt;/script&gt;</span>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>I started with a div.</p>
 
-<pre><code>&lt;div id="image_slicer_canvas"&gt;&lt;/div&gt;
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="tag">&lt;div</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">image_slicer_canvas</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="tag">&lt;/div&gt;</span>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Then i added the placeholder for the to be scaled image. And a div that will represent the slicer borders.</p>
 
-<pre><code>&lt;div id="image_slicer_canvas"&gt;
-    
-        &lt;img src="images/sample.jpg" alt="" border="0" id="image_slicer_image"&gt;&lt;/img&gt;
-        
-        &lt;div id="image_slicer"&gt;
-            &lt;div id="image_slicer_scaler" class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se"&gt;&lt;/div&gt;
-        &lt;/div&gt;
-        
-    &lt;/div&gt;
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="tag">&lt;div</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">image_slicer_canvas</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+  <span class="tag">&lt;img</span> <span class="attribute-name">src</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">images/sample.jpg</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">alt</span>=<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">border</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">image_slicer_image</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="tag">&lt;/img&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">image_slicer</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">image_slicer_scaler</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>The next thing to do is setup the scaling canvas. So let’s make it draggable and resizeable.</p>
 
-<pre><code>// Create a draggable / scalable slicer
-       $(function() {
-            $('#image_slicer')
-            .draggable({containment:'#image_slicer_canvas'}) // constraint
-            .resizable();
-
-            // set the slicer canvas size
-            resizeCanvas(
-            	$('#image_slicer_image').width(),
-            	$('#image_slicer_image').height()
-            );
-       });
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="comment">// Create a draggable / scalable slicer</span>
+<span class="predefined">$</span>(<span class="keyword">function</span>() {
+  <span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">#image_slicer</span><span class="delimiter">'</span></span>)
+    .draggable({<span class="key">containment</span>:<span class="string"><span class="delimiter">'</span><span class="content">#image_slicer_canvas</span><span class="delimiter">'</span></span>}) <span class="comment">// constraint</span>
+    .resizable();
+    
+  <span class="comment">// set the slicer canvas size</span>
+  resizeCanvas(
+    <span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">#image_slicer_image</span><span class="delimiter">'</span></span>).width(),
+    <span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">#image_slicer_image</span><span class="delimiter">'</span></span>).height()
+  );
+});
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>The only thing we need now is a bit of javascript to handle the slice action. I used a sample form to do the posting to the slicer.php script</p>
 
-<pre><code>// handle slicer actions
-       $('#image_slicer').resizable({
-   	      stop: function(event, ui) { 
-   	          var pos = $('#image_slicer').position();
-   	          // width, height, left, top
-   	          $('#scaler_width').val($('#image_slicer').width());
-      	      $('#scaler_height').val($('#image_slicer').height());
-        	  $('#scaler_left').val(pos.left);
-        	  $('#scaler_top').val(pos.top);
-   	      }
-       });
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="comment">// handle slicer actions</span>
+<span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">#image_slicer</span><span class="delimiter">'</span></span>).resizable({
+  <span class="function">stop</span>: <span class="keyword">function</span>(event, ui) { 
+    <span class="keyword">var</span> pos = <span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">#image_slicer</span><span class="delimiter">'</span></span>).position();
+  
+    <span class="comment">// width, height, left, top</span>
+    <span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">#scaler_width</span><span class="delimiter">'</span></span>).val(<span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">#image_slicer</span><span class="delimiter">'</span></span>).width());
+    <span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">#scaler_height</span><span class="delimiter">'</span></span>).val(<span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">#image_slicer</span><span class="delimiter">'</span></span>).height());
+    <span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">#scaler_left</span><span class="delimiter">'</span></span>).val(pos.left);
+    <span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">#scaler_top</span><span class="delimiter">'</span></span>).val(pos.top);
+  }
+});
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>The result is a nice red dotted line (square) on top of the image. The dotted area is draggable and resizeable.
 When the right slice is selected just hit the slice button and PHP/GD will do the rest.</p>
 
-<pre><code>$width  = $_POST['width'];
-$height = $_POST['height']; 
-$left   = $_POST['left'];
-$top    = $_POST['top'];
-
-// read source image
-$src = imagecreatefromjpeg('images/sample.jpg');
-$dest = imagecreatetruecolor($width, $height);
-
-imagecopy($dest, $src, 0, 0, $left, $top, $width, $height);
-
-header('Content-Type: image/jpeg');
-imagegif($dest);
-
-imagedestroy($dest);
-imagedestroy($src);
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$width</span>  = <span class="predefined">$_POST</span>[<span class="string"><span class="delimiter">'</span><span class="content">width</span><span class="delimiter">'</span></span>];
+<span class="local-variable">$height</span> = <span class="predefined">$_POST</span>[<span class="string"><span class="delimiter">'</span><span class="content">height</span><span class="delimiter">'</span></span>]; 
+<span class="local-variable">$left</span>   = <span class="predefined">$_POST</span>[<span class="string"><span class="delimiter">'</span><span class="content">left</span><span class="delimiter">'</span></span>];
+<span class="local-variable">$top</span>    = <span class="predefined">$_POST</span>[<span class="string"><span class="delimiter">'</span><span class="content">top</span><span class="delimiter">'</span></span>];
+    
+<span class="comment">// read source image</span>
+<span class="local-variable">$src</span> = imagecreatefromjpeg(<span class="string"><span class="delimiter">'</span><span class="content">images/sample.jpg</span><span class="delimiter">'</span></span>);
+<span class="local-variable">$dest</span> = imagecreatetruecolor(<span class="local-variable">$width</span>, <span class="local-variable">$height</span>);
+    
+imagecopy(<span class="local-variable">$dest</span>, <span class="local-variable">$src</span>, <span class="integer">0</span>, <span class="integer">0</span>, <span class="local-variable">$left</span>, <span class="local-variable">$top</span>, <span class="local-variable">$width</span>, <span class="local-variable">$height</span>);
+    
+<span class="predefined">header</span>(<span class="string"><span class="delimiter">'</span><span class="content">Content-Type: image/jpeg</span><span class="delimiter">'</span></span>);
+imagegif(<span class="local-variable">$dest</span>);
+    
+imagedestroy(<span class="local-variable">$dest</span>);
+imagedestroy(<span class="local-variable">$src</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>That’s all. All files can be downloaded <a href="http://lenss.nl/images/2010/11/imageSlice.tar.gz">here</a></p>
 </div>
