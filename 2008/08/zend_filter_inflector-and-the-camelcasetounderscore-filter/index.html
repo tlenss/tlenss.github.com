@@ -75,12 +75,16 @@
 
 <p>This little class makes it easy to convert string to for instance paths. Anyway. i was trying to configure this class in my Bootstrap class. And run into some problems. I was testing the example in the manual. which makes use of the Zend_Filter CalemCaseToUnderscore. But when i reloaded my page instead of the usual output i was treated by an error.</p>
 
-<pre><code>$inflector = new Zend_Filter_Inflector(':script.:suffix');
-$inflector-&gt;setRules(array(
-    ':script' =&gt; array('CamelCaseToUnderscore'),
-    'suffix' =&gt; 'html'
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$inflector</span> = <span class="keyword">new</span> <span class="constant">Zend_Filter_Inflector</span>(<span class="string"><span class="delimiter">'</span><span class="content">:script.:suffix</span><span class="delimiter">'</span></span>);
+<span class="local-variable">$inflector</span>-&gt;setRules(<span class="predefined">array</span>(
+  <span class="string"><span class="delimiter">'</span><span class="content">:script</span><span class="delimiter">'</span></span> =&gt; <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">CamelCaseToUnderscore</span><span class="delimiter">'</span></span>),
+  <span class="string"><span class="delimiter">'</span><span class="content">suffix</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">html</span><span class="delimiter">'</span></span>
 ));
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <blockquote>
   <p>Zend_Loader_PluginLoader_Exception: Plugin by name CamelCaseToUnderscore was not found in the registry. in Zend\Loader\PluginLoader.php on line 370</p>
@@ -88,12 +92,16 @@ $inflector-&gt;setRules(array(
 
 <p>When i looked at the structure of the Zend folder. I noticed the CamelCaseToUnderscore filter was not available in the root of the Filter directory. Instead it’s placed inside the Filter/Word directory. So i prefixed the class name with Word_. And this works fine. The code now looks like this.</p>
 
-<pre><code>$inflector = new Zend_Filter_Inflector(':script.:suffix');
-$inflector-&gt;setRules(array(
-    ':script' =&gt; array('Word_CamelCaseToUnderscore'),
-    'suffix' =&gt; 'html'
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$inflector</span> = <span class="keyword">new</span> <span class="constant">Zend_Filter_Inflector</span>(<span class="string"><span class="delimiter">'</span><span class="content">:script.:suffix</span><span class="delimiter">'</span></span>);
+<span class="local-variable">$inflector</span>-&gt;setRules(<span class="predefined">array</span>(
+  <span class="string"><span class="delimiter">'</span><span class="content">:script</span><span class="delimiter">'</span></span> =&gt; <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">Word_CamelCaseToUnderscore</span><span class="delimiter">'</span></span>),
+  <span class="string"><span class="delimiter">'</span><span class="content">suffix</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">html</span><span class="delimiter">'</span></span>
 ));
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>it’s a minor issue but i reported <a href="http://framework.zend.com/issues/browse/ZF-4011">it</a> anyway.</p>
 </div>

@@ -350,12 +350,16 @@ I always open the repository view. From there i right click &gt; New &gt; reposi
 
 <p>This little class makes it easy to convert string to for instance paths. Anyway. i was trying to configure this class in my Bootstrap class. And run into some problems. I was testing the example in the manual. which makes use of the Zend_Filter CalemCaseToUnderscore. But when i reloaded my page instead of the usual output i was treated by an error.</p>
 
-<pre><code>$inflector = new Zend_Filter_Inflector(':script.:suffix');
-$inflector-&gt;setRules(array(
-    ':script' =&gt; array('CamelCaseToUnderscore'),
-    'suffix' =&gt; 'html'
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$inflector</span> = <span class="keyword">new</span> <span class="constant">Zend_Filter_Inflector</span>(<span class="string"><span class="delimiter">'</span><span class="content">:script.:suffix</span><span class="delimiter">'</span></span>);
+<span class="local-variable">$inflector</span>-&gt;setRules(<span class="predefined">array</span>(
+  <span class="string"><span class="delimiter">'</span><span class="content">:script</span><span class="delimiter">'</span></span> =&gt; <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">CamelCaseToUnderscore</span><span class="delimiter">'</span></span>),
+  <span class="string"><span class="delimiter">'</span><span class="content">suffix</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">html</span><span class="delimiter">'</span></span>
 ));
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <blockquote>
   <p>Zend_Loader_PluginLoader_Exception: Plugin by name CamelCaseToUnderscore was not found in the registry. in Zend\Loader\PluginLoader.php on line 370</p>
@@ -363,12 +367,16 @@ $inflector-&gt;setRules(array(
 
 <p>When i looked at the structure of the Zend folder. I noticed the CamelCaseToUnderscore filter was not available in the root of the Filter directory. Instead it’s placed inside the Filter/Word directory. So i prefixed the class name with Word_. And this works fine. The code now looks like this.</p>
 
-<pre><code>$inflector = new Zend_Filter_Inflector(':script.:suffix');
-$inflector-&gt;setRules(array(
-    ':script' =&gt; array('Word_CamelCaseToUnderscore'),
-    'suffix' =&gt; 'html'
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$inflector</span> = <span class="keyword">new</span> <span class="constant">Zend_Filter_Inflector</span>(<span class="string"><span class="delimiter">'</span><span class="content">:script.:suffix</span><span class="delimiter">'</span></span>);
+<span class="local-variable">$inflector</span>-&gt;setRules(<span class="predefined">array</span>(
+  <span class="string"><span class="delimiter">'</span><span class="content">:script</span><span class="delimiter">'</span></span> =&gt; <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">Word_CamelCaseToUnderscore</span><span class="delimiter">'</span></span>),
+  <span class="string"><span class="delimiter">'</span><span class="content">suffix</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">html</span><span class="delimiter">'</span></span>
 ));
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>it’s a minor issue but i reported <a href="http://framework.zend.com/issues/browse/ZF-4011">it</a> anyway.</p>
 </div>
@@ -436,9 +444,11 @@ $inflector-&gt;setRules(array(
 
 <blockquote>
 
-  <p>– Development
-– Design
-– ??</p>
+  <ul>
+    <li>– Development</li>
+    <li>– Design</li>
+    <li>– ??</li>
+  </ul>
 </blockquote>
 
 <p>The Development directory is what i will be talking about. I can’t talk for the designers. Because.. well i’m not one of them. Although i did a lot of design work in the past. The ?? directory is for another part of our department. So let’s see what i came up with.</p>
@@ -447,8 +457,10 @@ $inflector-&gt;setRules(array(
 
 <blockquote>
 
-  <p>– Projects
-– Library</p>
+  <ul>
+    <li>– Projects</li>
+    <li>– Library</li>
+  </ul>
 </blockquote>
 
 <p><strong>Projects:</strong>
@@ -456,19 +468,21 @@ This directory will contain all projects. With projects i mean web applications 
 
 <blockquote>
 
-  <p>– Project<em>1
-—- trunk
-—- tags
-—- branches
-– Project</em>2
-—- www
-—— trunk
-—— tags
-—— branches
-—- intranet
-—— trunk
-—— tags
-—— branches</p>
+  <ul>
+    <li>– Project_1</li>
+    <li>—- trunk</li>
+    <li>—- tags</li>
+    <li>—- branches</li>
+    <li>– Project_2</li>
+    <li>—- www</li>
+    <li>—— trunk</li>
+    <li>—— tags</li>
+    <li>—— branches</li>
+    <li>—- intranet</li>
+    <li>—— trunk</li>
+    <li>—— tags</li>
+    <li>—— branches</li>
+  </ul>
 </blockquote>
 
 <p><strong>Library:</strong>
@@ -476,11 +490,13 @@ The library directory will contain all shared libraries. This can be third party
 
 <blockquote>
 
-  <p>– Zend
-– DB
-—- trunk
-—- tags
-—- branches</p>
+  <ul>
+    <li>– Zend</li>
+    <li>– DB</li>
+    <li>—- trunk</li>
+    <li>—- tags</li>
+    <li>—- branches</li>
+  </ul>
 </blockquote>
 
 <p>Now this will cover most of the project parts. What’s left now is defining a basic structure for the projects that will ive inside the repository and on the web servers. For a basic structure i’m inspired by the layout of an <a href="http://framework.zend.com">Zend Framework</a> <a href="http://nl.wikipedia.org/wiki/Model-View-Controller-model">MVC</a> style project. Why? i already work with this structure for a while now. outside and inside the Zend Framework projects. It separates the code from the views / templates. It makes sure the code is outside the web root. And it just looks clean.</p>
@@ -491,21 +507,25 @@ The library directory will contain all shared libraries. This can be third party
 
 <blockquote>
 
-  <p>– public
-—- images
-—- css
-—- scripts
-—- index.*</p>
+  <ul>
+    <li>– public</li>
+    <li>—- images</li>
+    <li>—- css</li>
+    <li>—- scripts</li>
+    <li>—- index.*</li>
+  </ul>
 </blockquote>
 
 <p>The application directory contains all the real code and views / templates. All views / templates will be stored in the views directory. All project specific code will be placed in the library directory. And if the project is MVC based. It will use the controllers directory to store the application controllers.</p>
 
 <blockquote>
 
-  <p>– application
-—- controllers
-—- library
-—- views</p>
+  <ul>
+    <li>– application</li>
+    <li>—- controllers</li>
+    <li>—- library</li>
+    <li>—- views</li>
+  </ul>
 </blockquote>
 
 <p>The final part of the structure is a collection of directories that can but are not always used in a project. </p>
@@ -514,10 +534,12 @@ The library directory will contain all shared libraries. This can be third party
 
 <blockquote>
 
-  <p>– logs
-– cache
-– files
-– docs</p>
+  <ul>
+    <li>– logs</li>
+    <li>– cache</li>
+    <li>– files</li>
+    <li>– docs</li>
+  </ul>
 </blockquote>
 
 <p>I wanted to post this yesterday. But i just couldn’t find any time for it. Yesterday i showed the initial proposal to the rest of the team. But we didn’t decide yet. What the final structure will be.</p>
@@ -770,42 +792,50 @@ The library directory will contain all shared libraries. This can be third party
 
   <div class="articletext"><p>Yesterday when working with some rather large XML files i noticed. That it’s not possible to do -&gt;xpath() calls on sub nodes of a SimpleXMLElement. If that’s not clear. Here is a small example.</p>
 
-<pre><code>$xmlStr = '&lt;root&gt;
-	&lt;fareOption&gt;
-		&lt;fare&gt;
-			&lt;flight&gt;&lt;/flight&gt;
-			&lt;flight&gt;&lt;/flight&gt;
-			&lt;flight&gt;&lt;/flight&gt;
-		&lt;/fare&gt;
-	&lt;/fareOption&gt;
-	&lt;fareOption&gt;
-		&lt;fare&gt;
-			&lt;flight&gt;&lt;/flight&gt;
-			&lt;flight&gt;&lt;/flight&gt;
-			&lt;flight&gt;&lt;/flight&gt;
-		&lt;/fare&gt;
-	&lt;/fareOption&gt;
-&lt;/root&gt;';
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$xmlStr</span> = <span class="string"><span class="delimiter">'</span><span class="content">&lt;root&gt;
+  &lt;fareOption&gt;
+  &lt;fare&gt;
+    &lt;flight&gt;&lt;/flight&gt;
+    &lt;flight&gt;&lt;/flight&gt;
+    &lt;flight&gt;&lt;/flight&gt;
+  &lt;/fare&gt;
+  &lt;/fareOption&gt;
+  &lt;fareOption&gt;
+  &lt;fare&gt;
+    &lt;flight&gt;&lt;/flight&gt;
+    &lt;flight&gt;&lt;/flight&gt;
+    &lt;flight&gt;&lt;/flight&gt;
+  &lt;/fare&gt;
+  &lt;/fareOption&gt;
+&lt;/root&gt;</span><span class="delimiter">'</span></span>;
 
-$objXML = simplexml_load_string($xmlStr);
-$fareList = $objXML-&gt;xpath('//fareOption');
+<span class="local-variable">$objXML</span> = simplexml_load_string(<span class="local-variable">$xmlStr</span>);
+<span class="local-variable">$fareList</span> = <span class="local-variable">$objXML</span>-&gt;xpath(<span class="string"><span class="delimiter">'</span><span class="content">//fareOption</span><span class="delimiter">'</span></span>);
 
-foreach ($fareList as $fare) {
-    $flightList = $fare-&gt;xpath('//flight');
-    print_r($flightList);
+<span class="keyword">foreach</span> (<span class="local-variable">$fareList</span> <span class="keyword">as</span> <span class="local-variable">$fare</span>) {
+  <span class="local-variable">$flightList</span> = <span class="local-variable">$fare</span>-&gt;xpath(<span class="string"><span class="delimiter">'</span><span class="content">//flight</span><span class="delimiter">'</span></span>);
+  <span class="predefined">print_r</span>(<span class="local-variable">$flightList</span>);
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>So first i try to get all the fareOption elements from the XML structure. And loop through the extracted elements. In the loop i want to do a -&gt;xpath call on $fare which is a instance of SimpleXMLElement. The result however is not what i expected. Instead of extracting all the flights of a $fare node. It extracts all flights from the root of the document. So instead of 3 flight nodes i get 6.</p>
 
 <p>I couldn’t really find a solution for this problem. And from reading some bug reports i understand this is how the PHP implementation of xpath works at the moment. To solve this problem. There is a small work around though. Instead of running the -&gt;xpath() call on the $fare node directly. We can create a new SimpleXMLElement from the $fare node. And do a -&gt;xpath() call on that. This will look something like this.</p>
 
-<pre><code>foreach ($fareList as $fare) {
-    $tempList = simplexml_load_string($fare-&gt;asXML());
-    $flightList = $tempList-&gt;xpath('//flight');
-    print_r($flightList);
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">foreach</span> (<span class="local-variable">$fareList</span> <span class="keyword">as</span> <span class="local-variable">$fare</span>) {
+  <span class="local-variable">$tempList</span> = simplexml_load_string(<span class="local-variable">$fare</span>-&gt;asXML());
+  <span class="local-variable">$flightList</span> = <span class="local-variable">$tempList</span>-&gt;xpath(<span class="string"><span class="delimiter">'</span><span class="content">//flight</span><span class="delimiter">'</span></span>);
+  <span class="predefined">print_r</span>(<span class="local-variable">$flightList</span>);
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>This creates the expected output.</p>
 </div>

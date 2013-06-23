@@ -75,9 +75,11 @@
 
 <blockquote>
 
-  <p>– Development
-– Design
-– ??</p>
+  <ul>
+    <li>– Development</li>
+    <li>– Design</li>
+    <li>– ??</li>
+  </ul>
 </blockquote>
 
 <p>The Development directory is what i will be talking about. I can’t talk for the designers. Because.. well i’m not one of them. Although i did a lot of design work in the past. The ?? directory is for another part of our department. So let’s see what i came up with.</p>
@@ -86,8 +88,10 @@
 
 <blockquote>
 
-  <p>– Projects
-– Library</p>
+  <ul>
+    <li>– Projects</li>
+    <li>– Library</li>
+  </ul>
 </blockquote>
 
 <p><strong>Projects:</strong>
@@ -95,19 +99,21 @@ This directory will contain all projects. With projects i mean web applications 
 
 <blockquote>
 
-  <p>– Project<em>1
-—- trunk
-—- tags
-—- branches
-– Project</em>2
-—- www
-—— trunk
-—— tags
-—— branches
-—- intranet
-—— trunk
-—— tags
-—— branches</p>
+  <ul>
+    <li>– Project_1</li>
+    <li>—- trunk</li>
+    <li>—- tags</li>
+    <li>—- branches</li>
+    <li>– Project_2</li>
+    <li>—- www</li>
+    <li>—— trunk</li>
+    <li>—— tags</li>
+    <li>—— branches</li>
+    <li>—- intranet</li>
+    <li>—— trunk</li>
+    <li>—— tags</li>
+    <li>—— branches</li>
+  </ul>
 </blockquote>
 
 <p><strong>Library:</strong>
@@ -115,11 +121,13 @@ The library directory will contain all shared libraries. This can be third party
 
 <blockquote>
 
-  <p>– Zend
-– DB
-—- trunk
-—- tags
-—- branches</p>
+  <ul>
+    <li>– Zend</li>
+    <li>– DB</li>
+    <li>—- trunk</li>
+    <li>—- tags</li>
+    <li>—- branches</li>
+  </ul>
 </blockquote>
 
 <p>Now this will cover most of the project parts. What’s left now is defining a basic structure for the projects that will ive inside the repository and on the web servers. For a basic structure i’m inspired by the layout of an <a href="http://framework.zend.com">Zend Framework</a> <a href="http://nl.wikipedia.org/wiki/Model-View-Controller-model">MVC</a> style project. Why? i already work with this structure for a while now. outside and inside the Zend Framework projects. It separates the code from the views / templates. It makes sure the code is outside the web root. And it just looks clean.</p>
@@ -130,21 +138,25 @@ The library directory will contain all shared libraries. This can be third party
 
 <blockquote>
 
-  <p>– public
-—- images
-—- css
-—- scripts
-—- index.*</p>
+  <ul>
+    <li>– public</li>
+    <li>—- images</li>
+    <li>—- css</li>
+    <li>—- scripts</li>
+    <li>—- index.*</li>
+  </ul>
 </blockquote>
 
 <p>The application directory contains all the real code and views / templates. All views / templates will be stored in the views directory. All project specific code will be placed in the library directory. And if the project is MVC based. It will use the controllers directory to store the application controllers.</p>
 
 <blockquote>
 
-  <p>– application
-—- controllers
-—- library
-—- views</p>
+  <ul>
+    <li>– application</li>
+    <li>—- controllers</li>
+    <li>—- library</li>
+    <li>—- views</li>
+  </ul>
 </blockquote>
 
 <p>The final part of the structure is a collection of directories that can but are not always used in a project. </p>
@@ -153,10 +165,12 @@ The library directory will contain all shared libraries. This can be third party
 
 <blockquote>
 
-  <p>– logs
-– cache
-– files
-– docs</p>
+  <ul>
+    <li>– logs</li>
+    <li>– cache</li>
+    <li>– files</li>
+    <li>– docs</li>
+  </ul>
 </blockquote>
 
 <p>I wanted to post this yesterday. But i just couldn’t find any time for it. Yesterday i showed the initial proposal to the rest of the team. But we didn’t decide yet. What the final structure will be.</p>

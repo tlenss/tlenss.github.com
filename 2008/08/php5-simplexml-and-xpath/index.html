@@ -69,42 +69,50 @@
 
 <div class="articletext"><p>Yesterday when working with some rather large XML files i noticed. That it’s not possible to do -&gt;xpath() calls on sub nodes of a SimpleXMLElement. If that’s not clear. Here is a small example.</p>
 
-<pre><code>$xmlStr = '&lt;root&gt;
-	&lt;fareOption&gt;
-		&lt;fare&gt;
-			&lt;flight&gt;&lt;/flight&gt;
-			&lt;flight&gt;&lt;/flight&gt;
-			&lt;flight&gt;&lt;/flight&gt;
-		&lt;/fare&gt;
-	&lt;/fareOption&gt;
-	&lt;fareOption&gt;
-		&lt;fare&gt;
-			&lt;flight&gt;&lt;/flight&gt;
-			&lt;flight&gt;&lt;/flight&gt;
-			&lt;flight&gt;&lt;/flight&gt;
-		&lt;/fare&gt;
-	&lt;/fareOption&gt;
-&lt;/root&gt;';
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$xmlStr</span> = <span class="string"><span class="delimiter">'</span><span class="content">&lt;root&gt;
+  &lt;fareOption&gt;
+  &lt;fare&gt;
+    &lt;flight&gt;&lt;/flight&gt;
+    &lt;flight&gt;&lt;/flight&gt;
+    &lt;flight&gt;&lt;/flight&gt;
+  &lt;/fare&gt;
+  &lt;/fareOption&gt;
+  &lt;fareOption&gt;
+  &lt;fare&gt;
+    &lt;flight&gt;&lt;/flight&gt;
+    &lt;flight&gt;&lt;/flight&gt;
+    &lt;flight&gt;&lt;/flight&gt;
+  &lt;/fare&gt;
+  &lt;/fareOption&gt;
+&lt;/root&gt;</span><span class="delimiter">'</span></span>;
 
-$objXML = simplexml_load_string($xmlStr);
-$fareList = $objXML-&gt;xpath('//fareOption');
+<span class="local-variable">$objXML</span> = simplexml_load_string(<span class="local-variable">$xmlStr</span>);
+<span class="local-variable">$fareList</span> = <span class="local-variable">$objXML</span>-&gt;xpath(<span class="string"><span class="delimiter">'</span><span class="content">//fareOption</span><span class="delimiter">'</span></span>);
 
-foreach ($fareList as $fare) {
-    $flightList = $fare-&gt;xpath('//flight');
-    print_r($flightList);
+<span class="keyword">foreach</span> (<span class="local-variable">$fareList</span> <span class="keyword">as</span> <span class="local-variable">$fare</span>) {
+  <span class="local-variable">$flightList</span> = <span class="local-variable">$fare</span>-&gt;xpath(<span class="string"><span class="delimiter">'</span><span class="content">//flight</span><span class="delimiter">'</span></span>);
+  <span class="predefined">print_r</span>(<span class="local-variable">$flightList</span>);
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>So first i try to get all the fareOption elements from the XML structure. And loop through the extracted elements. In the loop i want to do a -&gt;xpath call on $fare which is a instance of SimpleXMLElement. The result however is not what i expected. Instead of extracting all the flights of a $fare node. It extracts all flights from the root of the document. So instead of 3 flight nodes i get 6.</p>
 
 <p>I couldn’t really find a solution for this problem. And from reading some bug reports i understand this is how the PHP implementation of xpath works at the moment. To solve this problem. There is a small work around though. Instead of running the -&gt;xpath() call on the $fare node directly. We can create a new SimpleXMLElement from the $fare node. And do a -&gt;xpath() call on that. This will look something like this.</p>
 
-<pre><code>foreach ($fareList as $fare) {
-    $tempList = simplexml_load_string($fare-&gt;asXML());
-    $flightList = $tempList-&gt;xpath('//flight');
-    print_r($flightList);
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">foreach</span> (<span class="local-variable">$fareList</span> <span class="keyword">as</span> <span class="local-variable">$fare</span>) {
+  <span class="local-variable">$tempList</span> = simplexml_load_string(<span class="local-variable">$fare</span>-&gt;asXML());
+  <span class="local-variable">$flightList</span> = <span class="local-variable">$tempList</span>-&gt;xpath(<span class="string"><span class="delimiter">'</span><span class="content">//flight</span><span class="delimiter">'</span></span>);
+  <span class="predefined">print_r</span>(<span class="local-variable">$flightList</span>);
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>This creates the expected output.</p>
 </div>
