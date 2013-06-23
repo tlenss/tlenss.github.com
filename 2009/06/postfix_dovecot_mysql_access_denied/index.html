@@ -75,9 +75,12 @@
 
 <p>It took me a while to figure this out. The settings in ‘dovecot-sql.conf’ were correct. Logging in with the same data from a shell went without a problem. I remembered i had this problem some years ago. With a <a href="http://www.inter7.com/index.php?page=vpopmail">vpopmail</a> setup. The problem then was the encryption algorithm used by MySQL. So i tried to use the older encryption algorithm.</p>
 
-<blockquote>
-  <p>SET PASSWORD FOR ‘user’@’localhost’ = OLD_PASSWORD(‘password’);</p>
-</blockquote>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+SET PASSWORD FOR 'user'@'localhost' = OLD_PASSWORD('password');
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>After a restart everything was fine. </p>
 

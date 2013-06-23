@@ -267,9 +267,7 @@
 <p>This resulted in a syntax error from the fstab file</p>
 
 <blockquote>
-  <ul>
-    <li></li>
-  </ul>
+  <p>mntent: line 13 in /etc/fstab is bad</p>
 </blockquote>
 
 <p>That’s nice. So Linux doesn’t like spaces in the share names. How strange :) So i tried a few escaping sequences.</p>
@@ -620,9 +618,9 @@
 </header>
 
 
-  <div class="articletext"><p>[<img src="http://lenss.nl/images/2009/06/IMG_0303.jpg" alt="IMG_0303](http://lenss.nl/images/2009/06/IMG_0303-150x150.jpg)" /></p>
+  <div class="articletext"><p><img class="left" src="http://lenss.nl/images/2009/06/IMG_0303-150x150.jpg" /></p>
 
-<p>A few days ago i received the latest version of the <a href="http://informationarchitects.jp/wtm4/">IA Trend Map</a>. This year even the tube it was shipped in looks good! This years design is a landscape view. Which forces me to buy a new frame. But it’s worth it. Now only need to find a spot for it.</p>
+<p>A few days ago i received the latest version of the <a href="http://informationarchitects.jp/wtm4/">IA Trend Map</a>. This year even the tube it was shipped in looks good! This years design is a landscape view. Which forces me to buy a new frame. But it&#8217;s worth it. Now only need to find a spot for it.</p>
 
 <p>The map visualizes the main websites / companies based on a hand full of variables. Where height stands for the success rate and width for the stability. This all is spread on top of the Tokyo Metro Subway. The 13 subway lines reflect different web sectors in which the companies / websites opperate. A new addition to the map this year are the people behind the companies / websites. Which gives just that little bit of extra information.</p>
 
@@ -695,9 +693,12 @@
 
 <p>It took me a while to figure this out. The settings in ‘dovecot-sql.conf’ were correct. Logging in with the same data from a shell went without a problem. I remembered i had this problem some years ago. With a <a href="http://www.inter7.com/index.php?page=vpopmail">vpopmail</a> setup. The problem then was the encryption algorithm used by MySQL. So i tried to use the older encryption algorithm.</p>
 
-<blockquote>
-  <p>SET PASSWORD FOR ‘user’@’localhost’ = OLD_PASSWORD(‘password’);</p>
-</blockquote>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+SET PASSWORD FOR 'user'@'localhost' = OLD_PASSWORD('password');
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>After a restart everything was fine. </p>
 
