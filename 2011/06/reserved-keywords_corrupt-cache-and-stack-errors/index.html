@@ -136,8 +136,12 @@
 
 <p>The issue in my case was the fact that the configuration file wasn’t loaded yet. And therefore the log file location was not set correctly. Logging in this framework is done in a plugin system which is pretty cool. We can basically assign plugins for certain log levels (and more). This was the FileLogger. This all still does not explain why it failed with this particular error message. But a bit of digging in the Log/Plugin system revealed the issue. </p>
 
-<pre><code>register_shutdown_function(array(__CLASS__, 'Shutdown'));
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="predefined">register_shutdown_function</span>(<span class="predefined">array</span>(<span class="predefined-constant">__CLASS__</span>, <span class="string"><span class="delimiter">'</span><span class="content">Shutdown</span><span class="delimiter">'</span></span>));
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Message are stored in a queue and written to file in a register shutdown function. Which was failing because the logfile location was not set correctly. This was causing an exception to be thrown inside the registered shutdown function. And therefore triggering this horrible error message. Be careful with <a href="http://nl.php.net/manual/en/function.register-shutdown-function.php">register_shutdown</a> functions.</p>
 </div>
