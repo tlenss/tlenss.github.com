@@ -4,7 +4,7 @@
   <title><![CDATA[Category: PHP | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/php/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-06-23T13:07:10+02:00</updated>
+  <updated>2013-06-23T13:11:30+02:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -368,8 +368,8 @@ $obj = (object) $arr;<span class="tag">&lt;/p&gt;</span>
 <p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
   <div class="code"><pre>
 object(stdClass)#1 (1) {
-        [“foo”]=&amp;gt;
-        string(3) “baz”
+  [“foo”]=&amp;gt;
+  string(3) “baz”
 }
 </pre></div>
 </div>
@@ -402,30 +402,43 @@ object(stdClass)#1 (2) {
 
 <p>WTF? We just created <strong><em>$obj-&gt;0</em></strong> which should not be allowed in PHP as far as i know. So let’s make sure i am not mistaking.</p>
 
-<pre><code>$foo = new stdClass();
-$foo-&gt;0 = 'bar';
-</code></pre>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Assign value to numeric class property </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$foo</span> = <span class="keyword">new</span> <span class="predefined-constant">stdClass</span>();
+<span class="local-variable">$foo</span>-&amp;gt;<span class="integer">0</span> = ‘bar’;
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
-<blockquote>
-  <p>PHP Parse error:  syntax error, unexpected ‘0’ (T_LNUMBER), expecting identifier (T_STRING) or variable (T_VARIABLE) or ‘{‘ or ‘$’ in foo.php on line 5</p>
-</blockquote>
+<p><blockquote><p>PHP Parse error:  syntax error, unexpected ‘0’ (T_LNUMBER), expecting identifier (T_STRING) or variable (T_VARIABLE) or ‘{‘ or ‘$’ in foo.php on line 5</p></blockquote></p>
 
 <p>But casting the array didn’t complain about a thing. Can we access this property? Well! Not calling it directly. At least not that i know of. But looping over the object’s properties does seem to work. </p>
 
-<pre><code>// Parse error
-// var_dump($obj-&gt;0);
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Loop object properties </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+// Parse error
+// var_dump($obj-<span class="entity">&amp;gt;</span>0);<span class="tag">&lt;/p&gt;</span>
 
-foreach ($obj as $key =&gt; $val) {
-    var_dump($key);
-    var_dump($obj-&gt;$key);
+<span class="tag">&lt;p&gt;</span>foreach ($obj as $key =<span class="entity">&amp;gt;</span> $val) {
+  var_dump($key);
+  var_dump($obj-<span class="entity">&amp;gt;</span>$key);
 }
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
-int(0)
-PHP Notice:  Undefined property: stdClass::$0 in foo.php on line 14
-NULL
-string(3) "foo"
-string(3) "baz"
-</code></pre>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+  int(0)
+  PHP Notice:  Undefined property: stdClass::$0 in foo.php on line 14
+  NULL
+  string(3) “foo”
+  string(3) “baz”
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <p>It’s not that i was planning on ever using this. Or advising other people to use it. In the contrary. But i guess it’s not completely useless. But care is required when doing so.</p>
 ]]></content>
