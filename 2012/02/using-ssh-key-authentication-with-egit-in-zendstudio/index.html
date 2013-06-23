@@ -79,10 +79,12 @@
 
 <blockquote>
 
-  <p>$ cd project.git
-$ touch TEST
-$ git commit 
-$ git push origin master</p>
+  <ul>
+    <li>$ cd project.git</li>
+    <li>$ touch TEST</li>
+    <li>$ git commit </li>
+    <li>$ git push origin master</li>
+  </ul>
 </blockquote>
 
 <p>So that works fine. Now time to see how Zen Studio handles this. To create a project i use the <strong>Create from Git</strong> option. And select the local checkout i just created. This will read the whole repository configuration. And you are basically done from here. But as i mentioned earlier, i had some difficulties getting things running smoothly. I discovered that when it was time to push changes to the master repository.</p>
@@ -97,17 +99,21 @@ $ git push origin master</p>
 
 <blockquote>
 
-  <p>$ cd ZendStudio9
-$ find . -name ‘<em>jsch</em>’ -type f</p>
+  <ul>
+    <li>$ cd ZendStudio9</li>
+    <li>$ find . -name ‘<em>jsch</em>’ -type f</li>
+  </ul>
 </blockquote>
 
 <p>Found it <strong>plugins/com.jcraft.jsch_0.1.41.v201101211617.jar</strong>. So let’s try to update that.</p>
 
 <blockquote>
 
-  <p>$ cp plugins/com.jcraft.jsch<em>0.1.41.v201101211617.jar plugins/com.jcraft.jsch</em>0.1.41.v201101211617.jar.backup
-$ wget http://sourceforge.net/projects/jsch/files/jsch.jar/0.1.46/jsch-0.1.46.jar/download
-$ mv jsch-0.1.46.jar plugins/com.jcraft.jsch_0.1.41.v201101211617.jar</p>
+  <ul>
+    <li>$ cp plugins/com.jcraft.jsch<em>0.1.41.v201101211617.jar plugins/com.jcraft.jsch</em>0.1.41.v201101211617.jar.backup</li>
+    <li>$ wget http://sourceforge.net/projects/jsch/files/jsch.jar/0.1.46/jsch-0.1.46.jar/download</li>
+    <li>$ mv jsch-0.1.46.jar plugins/com.jcraft.jsch_0.1.41.v201101211617.jar</li>
+  </ul>
 </blockquote>
 
 <p>After restarting ZS everything worked fine again. Another problem solved! Thanks to the guys who posted in the EGit bug thread. Some good community Karma here! Time for other things. Hope it helps!</p>

@@ -110,18 +110,40 @@
 
 <blockquote>
 
-  <p>$ echo “deb http://apt.opscode.com/ <code>lsb_release -cs</code>-0.10 main” | tee /etc/apt/sources.list.d/opscode.list
-$ gpg –keyserver keys.gnupg.net –recv-keys 83EF826A
-$ gpg –export packages@opscode.com | tee /etc/apt/trusted.gpg.d/opscode-keyring.gpg &gt; /dev/null</p>
+  <ul>
+    <li>
+      <table>
+        <tbody>
+          <tr>
+            <td>$ echo “deb http://apt.opscode.com/ <code>lsb_release -cs</code>-0.10 main”</td>
+            <td>tee /etc/apt/sources.list.d/opscode.list</td>
+          </tr>
+        </tbody>
+      </table>
+    </li>
+    <li>$ gpg –keyserver keys.gnupg.net –recv-keys 83EF826A</li>
+    <li>
+      <table>
+        <tbody>
+          <tr>
+            <td>$ gpg –export packages@opscode.com</td>
+            <td>tee /etc/apt/trusted.gpg.d/opscode-keyring.gpg &gt; /dev/null</td>
+          </tr>
+        </tbody>
+      </table>
+    </li>
+  </ul>
 </blockquote>
 
 <p>And finally install the opscode keymanager and and of course Chef.</p>
 
 <blockquote>
 
-  <p>$ apt-get update
-$ apt-get install opscode-keyring
-$ apt-get install chef</p>
+  <ul>
+    <li>$ apt-get update</li>
+    <li>$ apt-get install opscode-keyring</li>
+    <li>$ apt-get install chef</li>
+  </ul>
 </blockquote>
 
 <p>The installer will ask for the chef URL. I used <strong>none</strong> because i will be using chef solo</p>
@@ -130,69 +152,85 @@ $ apt-get install chef</p>
 
 <blockquote>
 
-  <p>$ adduser vagrant 
-  passwrd : vagrant
-$ groupadd admin
-$ usermod -a -G admin vagrant</p>
+  <ul>
+    <li>$ adduser vagrant </li>
+    <li>passwrd : vagrant</li>
+    <li>$ groupadd admin</li>
+    <li>$ usermod -a -G admin vagrant</li>
+  </ul>
 </blockquote>
 
 <p>Make sure the admin users can <strong>sudo</strong> without a password.</p>
 
 <blockquote>
 
-  <p>$ visudo
-%admin  ALL=(ALL) NOPASSWD: ALL</p>
+  <ul>
+    <li>$ visudo</li>
+    <li>%admin  ALL=(ALL) NOPASSWD: ALL</li>
+  </ul>
 </blockquote>
 
 <p>Disable DNS for the SSH server. This should be a performance gain.</p>
 
 <blockquote>
 
-  <p>$ vi /etc/etc/ssh/sshd_config
-UseDNS no</p>
+  <ul>
+    <li>$ vi /etc/etc/ssh/sshd_config</li>
+    <li>UseDNS no</li>
+  </ul>
 </blockquote>
 
 <p>Change the MOTD to something nice</p>
 
 <blockquote>
-  <p>$ bash -c “echo ‘Sweeet! A Vagrant box cooked by Chef!!’ &gt; /etc/motd”
-$ chmod 0777 /etc/motd</p>
+  <ul>
+    <li>$ bash -c “echo ‘Sweeet! A Vagrant box cooked by Chef!!’ &gt; /etc/motd”</li>
+    <li>$ chmod 0777 /etc/motd</li>
+  </ul>
 </blockquote>
 
 <p>Switch to the vagrant user to setup the <strong>insecure</strong> vagrant public SSH key.</p>
 
 <blockquote>
-  <p>$ su vagrant
-mkdir -p ~/.ssh
-chmod 0700 ~/.ssh
-curl -o ~/.ssh/authorized_keys https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub
-chmod 0600 ~/.ssh/authorized_keys </p>
+  <ul>
+    <li>$ su vagrant</li>
+    <li>mkdir -p ~/.ssh</li>
+    <li>chmod 0700 ~/.ssh</li>
+    <li>curl -o ~/.ssh/authorized_keys https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub</li>
+    <li>chmod 0600 ~/.ssh/authorized_keys </li>
+  </ul>
 </blockquote>
 
 <p>That’s it for the VM. Now it’s time for vagrant to do some magic. First we need to create a vagrant package from the newly created VM.</p>
 
 <blockquote>
-  <p>$ vagrant package –base devbox
-$ mv package.box devbox.box</p>
+  <ul>
+    <li>$ vagrant package –base devbox</li>
+    <li>$ mv package.box devbox.box</li>
+  </ul>
 </blockquote>
 
 <p>Done! Let’s test it.</p>
 
 <blockquote>
-  <p>$ vagrant box add devbox devbox.box
-$ mkdir test &amp;&amp; cd test
-$ vagrant init devbox
-$ vagrant up
-$ vagrant ssh</p>
+  <ul>
+    <li>$ vagrant box add devbox devbox.box</li>
+    <li>$ mkdir test &amp;&amp; cd test</li>
+    <li>$ vagrant init devbox</li>
+    <li>$ vagrant up</li>
+    <li>$ vagrant ssh</li>
+  </ul>
 </blockquote>
 
 <p>Voila ssh’d into the VM</p>
 
 <blockquote>
 
-  <p>$ exit
-$ vagrant halt
-$ vagrant destroy</p>
+  <ul>
+    <li>$ exit</li>
+    <li>$ vagrant halt</li>
+    <li>$ vagrant destroy</li>
+  </ul>
 </blockquote>
 
 <p>So that’s all fine and dandy. But a base system with SSH is not that useful. So that’s where Chef comes in. Like i mentioned earlier i won’t be using a Chef-Server. I will be using Chef-Solo. And will be doing a very basic setup.</p>
@@ -200,8 +238,10 @@ $ vagrant destroy</p>
 <p>A Chef install script is called a <a href="http://wiki.opscode.com/display/chef/Cookbooks">cookbook</a>. And they can be found all over the place. But the main repository is over here (find more here https://github.com/opscode/cookbooks). So in our vagrant folder we create a folder called cookbooks.</p>
 
 <blockquote>
-  <p>$ mkdir cookbooks
-$ cd cookbooks</p>
+  <ul>
+    <li>$ mkdir cookbooks</li>
+    <li>$ cd cookbooks</li>
+  </ul>
 </blockquote>
 
 <p>And we install some basic cookbooks. Plus a very simple one i hacked together to install the latest <a href="http://www.dotdeb.org/">dotdeb</a> package repositories.</p>
@@ -229,9 +269,11 @@ $ cd cookbooks</p>
 <p>uncomment the :hostonly line so we can acces apache from our local box. And setup a hosts file mapping</p>
 
 <blockquote>
-  <p>config.vm.network :hostonly, “192.168.164.123”
-$ sudo sed -i ‘$ a\
-192.168.164.123	dev.box’ /etc/hosts</p>
+  <ul>
+    <li>config.vm.network :hostonly, “192.168.164.123”</li>
+    <li>$ sudo sed -i ‘$ a\</li>
+    <li>192.168.164.123	dev.box’ /etc/hosts</li>
+  </ul>
 </blockquote>
 
 <p>Configure chef’s cookbook path and add some recipes from the cloned cookbooks.</p>
@@ -271,36 +313,53 @@ end
 
 <blockquote>
 
-  <p>$ vagrant up
-$ vagrant ssh</p>
+  <ul>
+    <li>$ vagrant up</li>
+    <li>$ vagrant ssh</li>
+  </ul>
 </blockquote>
 
 <p>Let’s check PHP</p>
 
 <blockquote>
-  <p>$ php -v
-PHP 5.4.6-1~dotdeb.0 (cli) (built: Aug 19 2012 08:45:58) 
-Copyright (c) 1997-2012 The PHP Group
-Zend Engine v2.4.0, Copyright (c) 1998-2012 Zend Technologies</p>
+  <ul>
+    <li>$ php -v</li>
+    <li>PHP 5.4.6-1~dotdeb.0 (cli) (built: Aug 19 2012 08:45:58) </li>
+    <li>Copyright (c) 1997-2012 The PHP Group</li>
+    <li>Zend Engine v2.4.0, Copyright (c) 1998-2012 Zend Technologies</li>
+  </ul>
 </blockquote>
 
 <p>What about apache?</p>
 
 <blockquote>
-  <p>$ ps -aux | grep apache
-root       790  0.1  0.2   5352  2580 ?        Ss   23:40   0:00 /usr/sbin/apache2 -k start
-www-data   793  0.0  0.1   5124  1764 ?        S    23:40   0:00 /usr/sbin/apache2 -k start
-www-data   797  0.0  0.2 546408  2412 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start
-www-data   798  0.0  0.2 546408  2404 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start
-www-data   811  0.0  0.2 546408  2424 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start</p>
+  <ul>
+    <li>
+      <table>
+        <tbody>
+          <tr>
+            <td>$ ps -aux</td>
+            <td>grep apache</td>
+          </tr>
+        </tbody>
+      </table>
+    </li>
+    <li>root       790  0.1  0.2   5352  2580 ?        Ss   23:40   0:00 /usr/sbin/apache2 -k start</li>
+    <li>www-data   793  0.0  0.1   5124  1764 ?        S    23:40   0:00 /usr/sbin/apache2 -k start</li>
+    <li>www-data   797  0.0  0.2 546408  2412 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start</li>
+    <li>www-data   798  0.0  0.2 546408  2404 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start</li>
+    <li>www-data   811  0.0  0.2 546408  2424 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start</li>
+  </ul>
 </blockquote>
 
 <p>Nice! And Pointing the browser to http://localhost:8080 loads the NFS shared folder up through Apache. That’s it for now. Time to sleep…</p>
 
-<p>Some sources i used:
-[1] <a href="http://vagrantup.com/v1/docs/base_boxes.html">http://vagrantup.com/v1/docs/base_boxes.html</a>
-[2] <a href="https://github.com/yevgenko/cookbook-dotdeb">https://github.com/yevgenko/cookbook-dotdeb</a>
-[3] <a href="http://vagrantup.com/v1/docs/provisioners/chef_solo.html">http://vagrantup.com/v1/docs/provisioners/chef_solo.html</a></p>
+<ul>
+  <li>Some sources i used:</li>
+  <li>[1] <a href="http://vagrantup.com/v1/docs/base_boxes.html">http://vagrantup.com/v1/docs/base_boxes.html</a></li>
+  <li>[2] <a href="https://github.com/yevgenko/cookbook-dotdeb">https://github.com/yevgenko/cookbook-dotdeb</a></li>
+  <li>[3] <a href="http://vagrantup.com/v1/docs/provisioners/chef_solo.html">http://vagrantup.com/v1/docs/provisioners/chef_solo.html</a></li>
+</ul>
 </div>
 
 

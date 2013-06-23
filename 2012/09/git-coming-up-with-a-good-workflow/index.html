@@ -91,17 +91,21 @@
 
 <blockquote>
 
-  <p>$ git clone git://some.repository.url:repos.git
-$ git branch dev-branch</p>
+  <ul>
+    <li>$ git clone git://some.repository.url:repos.git</li>
+    <li>$ git branch dev-branch</li>
+  </ul>
 </blockquote>
 
 <p>After working on the newly created branch for a while. Some changes are bound to be ready to be pulled into master. Keeping an eye on the build logs or commit messages should work fine. When this happens it’s time to bring those changes into the dev-branch. After pulling them into master.</p>
 
 <blockquote>
 
-  <p>$ git checkout master
-$ git pull
-$ git checkout dev-branch</p>
+  <ul>
+    <li>$ git checkout master</li>
+    <li>$ git pull</li>
+    <li>$ git checkout dev-branch</li>
+  </ul>
 </blockquote>
 
 <p>If there is a need to <strong>rebase</strong> the branch with for instance master. This is the moment. This might cause <a href="http://stackoverflow.com/questions/559917/git-rebase-and-git-push-non-fast-forward-why-use">non-fast-forward issues</a>. But i have not completely figured out why i run into these issues every now and then. A way to solve this might be to use the <em>–force</em> switch when pushing to remote. But i am not a big fan of forcing things like this.</p>
@@ -115,9 +119,11 @@ $ git checkout dev-branch</p>
 
 <blockquote>
 
-  <p>$ git checkout master
-$ git pull
-$ git push dev-branch</p>
+  <ul>
+    <li>$ git checkout master</li>
+    <li>$ git pull</li>
+    <li>$ git push dev-branch</li>
+  </ul>
 </blockquote>
 
 <p>Again when all is fine all changes will be available in master. If something goes wrong during git-rebase and / or merging. Git will kindly state so. And some manual merging with git’s <a href="http://git-scm.com/docs/git-mergetool">mergetool</a> will have to be done. But that’s something for another day.</p>
