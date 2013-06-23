@@ -81,9 +81,11 @@
 
 <blockquote>
 
-  <p>sqlite3 test.db  “insert into sync (data, num) values (‘This is sampledata’, 3);”
-sqlite3 test.db  “insert into sync (data, num) values (‘More sample data’, 6);”
-sqlite3 test.db  “insert into sync (data, num) values (‘And a little more’, 9);”</p>
+  <ul>
+    <li>sqlite3 test.db  “insert into sync (data, num) values (‘This is sampledata’, 3);”</li>
+    <li>sqlite3 test.db  “insert into sync (data, num) values (‘More sample data’, 6);”</li>
+    <li>sqlite3 test.db  “insert into sync (data, num) values (‘And a little more’, 9);”</li>
+  </ul>
 </blockquote>
 
 <p>Now comes the trick. We first create a temporary table and populate it with the data from the table we are going to alter.</p>
@@ -96,16 +98,20 @@ sqlite3 test.db  “insert into sync (data, num) values (‘And a little more’
 
 <blockquote>
 
-  <p>sqlite3 test.db  “drop table sync;”
-sqlite3 test.db  “create table sync (id INTEGER PRIMARY KEY, data TEXT, num double, dateIn DATE);”</p>
+  <ul>
+    <li>sqlite3 test.db  “drop table sync;”</li>
+    <li>sqlite3 test.db  “create table sync (id INTEGER PRIMARY KEY, data TEXT, num double, dateIn DATE);”</li>
+  </ul>
 </blockquote>
 
 <p>The only thing left now is to populate the new database with the data from the temporary table. And finally drop the temporary table.</p>
 
 <blockquote>
 
-  <p>sqlite3 test.db  “insert into sync select * from temp_table;”
-sqlite3 test.db  “drop table temp_table;”</p>
+  <ul>
+    <li>sqlite3 test.db  “insert into sync select * from temp_table;”</li>
+    <li>sqlite3 test.db  “drop table temp_table;”</li>
+  </ul>
 </blockquote>
 
 <p>There must be a cleaner way to do this. But this worked for us!</p>

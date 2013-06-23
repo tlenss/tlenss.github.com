@@ -84,9 +84,11 @@
 
 <blockquote>
 
-  <p>sqlite3 test.db  “insert into sync (data, num) values (‘This is sampledata’, 3);”
-sqlite3 test.db  “insert into sync (data, num) values (‘More sample data’, 6);”
-sqlite3 test.db  “insert into sync (data, num) values (‘And a little more’, 9);”</p>
+  <ul>
+    <li>sqlite3 test.db  “insert into sync (data, num) values (‘This is sampledata’, 3);”</li>
+    <li>sqlite3 test.db  “insert into sync (data, num) values (‘More sample data’, 6);”</li>
+    <li>sqlite3 test.db  “insert into sync (data, num) values (‘And a little more’, 9);”</li>
+  </ul>
 </blockquote>
 
 <p>Now comes the trick. We first create a temporary table and populate it with the data from the table we are going to alter.</p>
@@ -99,16 +101,20 @@ sqlite3 test.db  “insert into sync (data, num) values (‘And a little more’
 
 <blockquote>
 
-  <p>sqlite3 test.db  “drop table sync;”
-sqlite3 test.db  “create table sync (id INTEGER PRIMARY KEY, data TEXT, num double, dateIn DATE);”</p>
+  <ul>
+    <li>sqlite3 test.db  “drop table sync;”</li>
+    <li>sqlite3 test.db  “create table sync (id INTEGER PRIMARY KEY, data TEXT, num double, dateIn DATE);”</li>
+  </ul>
 </blockquote>
 
 <p>The only thing left now is to populate the new database with the data from the temporary table. And finally drop the temporary table.</p>
 
 <blockquote>
 
-  <p>sqlite3 test.db  “insert into sync select * from temp_table;”
-sqlite3 test.db  “drop table temp_table;”</p>
+  <ul>
+    <li>sqlite3 test.db  “insert into sync select * from temp_table;”</li>
+    <li>sqlite3 test.db  “drop table temp_table;”</li>
+  </ul>
 </blockquote>
 
 <p>There must be a cleaner way to do this. But this worked for us!</p>
@@ -261,14 +267,19 @@ sqlite3 test.db  “drop table temp_table;”</p>
 <p>This resulted in a syntax error from the fstab file</p>
 
 <blockquote>
+  <ul>
+    <li></li>
+  </ul>
 </blockquote>
 
 <p>That’s nice. So Linux doesn’t like spaces in the share names. How strange :) So i tried a few escaping sequences.</p>
 
 <blockquote>
-  <p>‘samba share’
-“samba share”
-samba\ share</p>
+  <ul>
+    <li>‘samba share’</li>
+    <li>“samba share”</li>
+    <li>samba\ share</li>
+  </ul>
 </blockquote>
 
 <p>Non of that seemed to work. So after a bit of searching found the solution. You can use an octal number format to express the ASCII symbol. In this case that’s ‘040’. And escape it with a slash.</p>
