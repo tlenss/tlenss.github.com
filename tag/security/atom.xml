@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Security | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/security/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-06-23T14:47:30+02:00</updated>
+  <updated>2013-06-23T14:55:46+02:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -357,21 +357,26 @@ session_regenerate_id();
 
 <p>So i spend the last hours trying to get client side certificates working. With absolutely no luck. I found a bunch of posts by doing Google searches. But none of them seem to offer the proper information for creating good client side certificates. Creating the CA and the server certificate is no problem at all. But creating a client side certificate seems impossible. Some of the post i tried:</p>
 
-<p><a href="http://www.modssl.org/docs/2.7/ssl_faq.html">http://www.modssl.org/docs/2.7/ssl_faq.html</a>
-<a href="http://www.vanemery.com/Linux/Apache/apache-SSL.html">http://www.vanemery.com/Linux/Apache/apache-SSL.html</a>
-<a href="http://www.linuxconfig.org/apache-web-server-ssl-authentication">http://www.linuxconfig.org/apache-web-server-ssl-authentication</a>
-<a href="https://help.ubuntu.com/community/OpenSSL">https://help.ubuntu.com/community/OpenSSL</a>
-<a href="https://help.ubuntu.com/8.04/serverguide/C/httpd.html">https://help.ubuntu.com/8.04/serverguide/C/httpd.html</a>
-<a href="http://it.toolbox.com/blogs/securitymonkey/howto-securing-a-website-with-client-ssl-certificates-11500">http://it.toolbox.com/blogs/securitymonkey/howto-securing-a-website-with-client-ssl-certificates-11500</a></p>
+<ul>
+  <li><a href="http://www.modssl.org/docs/2.7/ssl_faq.html">http://www.modssl.org/docs/2.7/ssl_faq.html</a></li>
+  <li><a href="http://www.vanemery.com/Linux/Apache/apache-SSL.html">http://www.vanemery.com/Linux/Apache/apache-SSL.html</a></li>
+  <li><a href="http://www.linuxconfig.org/apache-web-server-ssl-authentication">http://www.linuxconfig.org/apache-web-server-ssl-authentication</a></li>
+  <li><a href="https://help.ubuntu.com/community/OpenSSL">https://help.ubuntu.com/community/OpenSSL</a></li>
+  <li><a href="https://help.ubuntu.com/8.04/serverguide/C/httpd.html">https://help.ubuntu.com/8.04/serverguide/C/httpd.html</a></li>
+  <li><a href="http://it.toolbox.com/blogs/securitymonkey/howto-securing-a-website-with-client-ssl-certificates-11500">http://it.toolbox.com/blogs/securitymonkey/howto-securing-a-website-with-client-ssl-certificates-11500</a></li>
+</ul>
 
 <p>You would have thought that something like this would have been documented pretty well by now. But no luck for me. This only resulted in</p>
 
-<blockquote>
-  <p>[debug] ssl_engine_kernel.c(1879): OpenSSL: Read: SSLv3 read client certificate A
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+[debug] ssl_engine_kernel.c(1879): OpenSSL: Read: SSLv3 read client certificate A
 [debug] ssl_engine_kernel.c(1898): OpenSSL: Exit: failed in SSLv3 read client certificate A
 [info] [client xxx.xxx.xxx.xx] SSL library error 1 in handshake (server lab:443)
-[info] SSL Library Error: 336151570 error:14094412:SSL routines:SSL3_READ_BYTES:sslv3 alert bad certificate Subject CN in certificate not server name or identical to CA!?</p>
-</blockquote>
+[info] SSL Library Error: 336151570 error:14094412:SSL routines:SSL3_READ_BYTES:sslv3 alert bad certificate Subject CN in certificate not server name or identical to CA!?
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <p>So after almost giving up i found the <em>CA.sh</em> script hidden in <em>/usr/lib/ssl/misc</em> this little sucker seems to do the job pretty well. Creating a CA, server certificate and client side certificate is extremely easy. So i settled for that.</p>
 
@@ -379,63 +384,87 @@ session_regenerate_id();
 
 <blockquote>
   <p>$ cd /usr/lib/ssl/misc
-$ /CA.sh -newca
-CA certificate filename (or enter to create)</p>
+$ /CA.sh -newca</p>
 </blockquote>
 
-<p>Making CA certificate …
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+CA certificate filename (or enter to create)&lt;/p&gt;
+
+&lt;p&gt;Making CA certificate …
 Generating a 1024 bit RSA private key
 …………………..++++++
 ………………………………++++++
 writing new private key to ‘./demoCA/private/./cakey.pem’
 Enter PEM pass phrase:
-Verifying - Enter PEM pass phrase:</p>
+Verifying - Enter PEM pass phrase:
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <p>And fill out some basic certificate data</p>
 
-<blockquote>
-  <p>Country Name (2 letter code) [AU]:NL
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+Country Name (2 letter code) [AU]:NL
 State or Province Name (full name) [Some-State]:NH
 Locality Name (eg, city) []:Purmerend
 Organization Name (eg, company) [Internet Widgits Pty Ltd]:Bluesignal
 Organizational Unit Name (eg, section) []:lab
 Common Name (eg, YOUR name) []:lab
-Email Address []:my@email.tld</p>
-</blockquote>
+Email Address []:my@email.tld
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <p><strong>Creating the server certificates</strong></p>
 
 <blockquote>
-  <p>$ ./CA.sh -newreq
+  <p>$ ./CA.sh -newreq</p>
+</blockquote>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
 Generating a 1024 bit RSA private key
 .++++++
 …………………………………………………………………………++++++
 writing new private key to ‘newkey.pem’
 Enter PEM pass phrase:
-Verifying - Enter PEM pass phrase:</p>
-</blockquote>
+Verifying - Enter PEM pass phrase:
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <p>Fill out the same basic certificate data</p>
 
-<blockquote>
-  <p>Country Name (2 letter code) [AU]:NL
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+Country Name (2 letter code) [AU]:NL
 State or Province Name (full name) [Some-State]:NH
 Locality Name (eg, city) []:Purmerend
 Organization Name (eg, company) [Internet Widgits Pty Ltd]:Bluesignal
 Organizational Unit Name (eg, section) []:lab
 Common Name (eg, YOUR name) []:lab
-Email Address []:my@email.tld</p>
-</blockquote>
+Email Address []:my@email.tld
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <p><strong>Sign the sucker</strong></p>
 
 <blockquote>
-  <p>$ ./CA.sh -sign
+  <p>$ ./CA.sh -sign</p>
+</blockquote>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
 Using configuration from /etc/ssl/openssl.cnf
 Enter pass phrase for ./demoCA/private/cakey.pem:
 Check that the request matches the signature
-Signature ok</p>
-</blockquote>
+Signature ok
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <p>The only thing left to do is creating the client side certificate</p>
 
@@ -445,22 +474,25 @@ Signature ok</p>
 
 <p>Time to configure Apache2. I used the standard default-ssl virtual host and just reconfigured it</p>
 
-<blockquote>
-  <p>SSLEngine on
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+SSLEngine on
 SSLProtocol -all +TLSv1 +SSLv3
 SSLCipherSuite HIGH:MEDIUM
 SSLProxyEngine off
-SSLOptions +StrictRequire +OptRenegotiate +StdEnvVars +ExportCertData</p>
-</blockquote>
+SSLOptions +StrictRequire +OptRenegotiate +StdEnvVars +ExportCertData&lt;/p&gt;
 
-<p>SSLCertificateFile /usr/lib/ssl/misc/newcert.pem
+&lt;p&gt;SSLCertificateFile /usr/lib/ssl/misc/newcert.pem
 SSLCertificateKeyFile /usr/lib/ssl/misc/newkey.pem
 SSLVerifyClient require
-SSLVerifyDepth 1</p>
+SSLVerifyDepth 1&lt;/p&gt;
 
-<p>SSLCertificateChainFile /usr/lib/ssl/misc/demoCA/cacert.pem
+&lt;p&gt;SSLCertificateChainFile /usr/lib/ssl/misc/demoCA/cacert.pem
 SSLCACertificatePath /usr/lib/ssl/misc/demoCA/certs
-SSLCACertificateFile /usr/lib/ssl/misc/demoCA/cacert.pem</p>
+SSLCACertificateFile /usr/lib/ssl/misc/demoCA/cacert.pem
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <p>reboot Apache2</p>
 
@@ -478,26 +510,34 @@ SSLCACertificateFile /usr/lib/ssl/misc/demoCA/cacert.pem</p>
 
 <p>Now i can finally connect based on my client side certificate and read the pieces of data i was looking for. Which can easily found by doing</p>
 
-<pre><code>print_r($_SERVER);
-</code></pre>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Dump $_SERVER </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+<span class="predefined">print_r</span>(<span class="predefined">$_SERVER</span>);
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <p>Some of the stuff i was looking for</p>
 
-<blockquote>
-  <p>[SSL_CLIENT_S_DN_C] =&gt; NL
-[SSL_CLIENT_S_DN_ST] =&gt; NH
-[SSL_CLIENT_S_DN_L] =&gt; Purmerend
-[SSL_CLIENT_S_DN_O] =&gt; Bluesignal
-[SSL_CLIENT_S_DN_OU] =&gt; lab
-[SSL_CLIENT_S_DN_CN] =&gt; lab
-[SSL_CLIENT_S_DN_Email] =&gt; my@email.tld
-[SSL_CLIENT_I_DN_C] =&gt; NL
-[SSL_CLIENT_I_DN_ST] =&gt; NH
-[SSL_CLIENT_I_DN_O] =&gt; Bluesignal
-[SSL_CLIENT_I_DN_OU] =&gt; lab
-[SSL_CLIENT_I_DN_CN] =&gt; lab
-[SSL_CLIENT_I_DN_Email] =&gt; my@email.tld</p>
-</blockquote>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+[SSL_CLIENT_S_DN_C] =&amp;gt; NL
+[SSL_CLIENT_S_DN_ST] =&amp;gt; NH
+[SSL_CLIENT_S_DN_L] =&amp;gt; Purmerend
+[SSL_CLIENT_S_DN_O] =&amp;gt; Bluesignal
+[SSL_CLIENT_S_DN_OU] =&amp;gt; lab
+[SSL_CLIENT_S_DN_CN] =&amp;gt; lab
+[SSL_CLIENT_S_DN_Email] =&amp;gt; my@email.tld
+[SSL_CLIENT_I_DN_C] =&amp;gt; NL
+[SSL_CLIENT_I_DN_ST] =&amp;gt; NH
+[SSL_CLIENT_I_DN_O] =&amp;gt; Bluesignal
+[SSL_CLIENT_I_DN_OU] =&amp;gt; lab
+[SSL_CLIENT_I_DN_CN] =&amp;gt; lab
+[SSL_CLIENT_I_DN_Email] =&amp;gt; my@email.tld
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <p>Now it’s time for the fun part. </p>
 ]]></content>
