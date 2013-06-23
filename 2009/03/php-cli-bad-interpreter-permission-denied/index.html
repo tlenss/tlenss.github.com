@@ -69,9 +69,13 @@
 
 <div class="articletext"><p>This question came up on the php.general list today. And i have seen it before when writing an shell script in PHP.</p>
 
-<pre><code>#!/usr/local/bin/php
-passthru("printenv");
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="comment">#!/usr/local/bin/php</span>
+<span class="predefined">passthru</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">printenv</span><span class="delimiter">&quot;</span></span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>If you are sure the PHP executable can be found in that location. And the file is executable. But it still returns this error:</p>
 

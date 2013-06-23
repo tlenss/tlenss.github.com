@@ -74,10 +74,12 @@
 <p>When the mod_deflate module is loaded in apache this is a pretty easy thing to do. Just add the following lines to a .htaccess file in the root of the web site / application.</p>
 
 <blockquote>
-  <p>AddOutputFilterByType DEFLATE text/html text/plain text/xml text/javascript text/css
-BrowserMatch ^Mozilla/4 gzip-only-text/html
-BrowserMatch ^Mozilla/4.0[678] no-gzip
-BrowserMatch \bMSIE !no-gzip !gzip-only-text/html</p>
+  <ul>
+    <li>AddOutputFilterByType DEFLATE text/html text/plain text/xml text/javascript text/css</li>
+    <li>BrowserMatch ^Mozilla/4 gzip-only-text/html</li>
+    <li>BrowserMatch ^Mozilla/4.0[678] no-gzip</li>
+    <li>BrowserMatch \bMSIE !no-gzip !gzip-only-text/html</li>
+  </ul>
 </blockquote>
 
 <p>The first line enables mod_deflate for the specified extensions. And the other three lines are there because of the way some older browsers handle gzipped data.</p>

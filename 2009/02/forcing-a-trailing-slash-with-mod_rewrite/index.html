@@ -77,15 +77,26 @@
 <p>Both point to the same content. But a <a href="http://en.wikipedia.org/wiki/Web_crawler">crawler</a> would see this as two different URL’s. Which off course is correct. But this can lead to duplicate content being indexed in search engines. Which could result in penalties for the site in question. So to fix this problem we add three simple lines to the main .htaccess file</p>
 
 <blockquote>
-  <h1 id="if-a-requested-file-does-not-exists">If a requested file does not exists</h1>
-  <p>RewriteCond %{REQUEST_FILENAME} !-f</p>
+  <ul>
+    <li>
+      <h1 id="if-a-requested-file-does-not-exists">If a requested file does not exists</h1>
+    </li>
+    <li>RewriteCond %{REQUEST_FILENAME} !-f</li>
+  </ul>
 </blockquote>
 
-<h1 id="if-a-requested-directory-does-not-exist">If a requested directory does not exist</h1>
-<p>RewriteCond %{REQUEST_FILENAME} !-d</p>
-
-<h1 id="force-a-trailing-slash-to-the-request">Force a trailing slash to the request</h1>
-<p>RewriteRule [^/]$ %{REQUEST_URI}/ [R=301,L]</p>
+<ul>
+  <li>
+    <h1 id="if-a-requested-directory-does-not-exist">If a requested directory does not exist</h1>
+  </li>
+  <li>
+    <p>RewriteCond %{REQUEST_FILENAME} !-d</p>
+  </li>
+  <li>
+    <h1 id="force-a-trailing-slash-to-the-request">Force a trailing slash to the request</h1>
+  </li>
+  <li>RewriteRule [^/]$ %{REQUEST_URI}/ [R=301,L]</li>
+</ul>
 
 </div>
 

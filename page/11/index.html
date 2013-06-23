@@ -144,9 +144,13 @@ $ /etc/init.d/http restart</p>
 
   <div class="articletext"><p>This question came up on the php.general list today. And i have seen it before when writing an shell script in PHP.</p>
 
-<pre><code>#!/usr/local/bin/php
-passthru("printenv");
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="comment">#!/usr/local/bin/php</span>
+<span class="predefined">passthru</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">printenv</span><span class="delimiter">&quot;</span></span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>If you are sure the PHP executable can be found in that location. And the file is executable. But it still returns this error:</p>
 
@@ -284,10 +288,12 @@ To fix this either set the exec flag for the filesystem or move the script to a 
 <p>When the mod_deflate module is loaded in apache this is a pretty easy thing to do. Just add the following lines to a .htaccess file in the root of the web site / application.</p>
 
 <blockquote>
-  <p>AddOutputFilterByType DEFLATE text/html text/plain text/xml text/javascript text/css
-BrowserMatch ^Mozilla/4 gzip-only-text/html
-BrowserMatch ^Mozilla/4.0[678] no-gzip
-BrowserMatch \bMSIE !no-gzip !gzip-only-text/html</p>
+  <ul>
+    <li>AddOutputFilterByType DEFLATE text/html text/plain text/xml text/javascript text/css</li>
+    <li>BrowserMatch ^Mozilla/4 gzip-only-text/html</li>
+    <li>BrowserMatch ^Mozilla/4.0[678] no-gzip</li>
+    <li>BrowserMatch \bMSIE !no-gzip !gzip-only-text/html</li>
+  </ul>
 </blockquote>
 
 <p>The first line enables mod_deflate for the specified extensions. And the other three lines are there because of the way some older browsers handle gzipped data.</p>
@@ -692,15 +698,26 @@ But today one of the ladies here at the office noticed the contact form on one s
 <p>Both point to the same content. But a <a href="http://en.wikipedia.org/wiki/Web_crawler">crawler</a> would see this as two different URL’s. Which off course is correct. But this can lead to duplicate content being indexed in search engines. Which could result in penalties for the site in question. So to fix this problem we add three simple lines to the main .htaccess file</p>
 
 <blockquote>
-  <h1 id="if-a-requested-file-does-not-exists">If a requested file does not exists</h1>
-  <p>RewriteCond %{REQUEST_FILENAME} !-f</p>
+  <ul>
+    <li>
+      <h1 id="if-a-requested-file-does-not-exists">If a requested file does not exists</h1>
+    </li>
+    <li>RewriteCond %{REQUEST_FILENAME} !-f</li>
+  </ul>
 </blockquote>
 
-<h1 id="if-a-requested-directory-does-not-exist">If a requested directory does not exist</h1>
-<p>RewriteCond %{REQUEST_FILENAME} !-d</p>
-
-<h1 id="force-a-trailing-slash-to-the-request">Force a trailing slash to the request</h1>
-<p>RewriteRule [^/]$ %{REQUEST_URI}/ [R=301,L]</p>
+<ul>
+  <li>
+    <h1 id="if-a-requested-directory-does-not-exist">If a requested directory does not exist</h1>
+  </li>
+  <li>
+    <p>RewriteCond %{REQUEST_FILENAME} !-d</p>
+  </li>
+  <li>
+    <h1 id="force-a-trailing-slash-to-the-request">Force a trailing slash to the request</h1>
+  </li>
+  <li>RewriteRule [^/]$ %{REQUEST_URI}/ [R=301,L]</li>
+</ul>
 
 </div>
   
