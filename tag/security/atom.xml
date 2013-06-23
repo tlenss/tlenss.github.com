@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Security | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/security/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-06-23T13:41:08+02:00</updated>
+  <updated>2013-06-23T14:31:01+02:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -293,17 +293,25 @@ Some people would say this is solvable by implementing <a href="http://nl3.php.n
 
 <p>Code that adds the session ID as a validation key:</p>
 
-<pre><code>session_destory();
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+session_destory();
 session_regenerate_id();
-$_SESSION['valid_id'] = session_id(); 
-</code></pre>
+<span class="predefined">$_SESSION</span>[‘valid_id’] = session_id(); 
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <p>And the code to check if the session was properly initialized:</p>
 
-<pre><code>if ($_SESSION['valid_id'] !== session_id()) {
-  die('Invalid use of session ID');
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">if</span> (<span class="predefined">$_SESSION</span>[‘valid_id’] !== session_id()) {
+  <span class="predefined">die</span>(‘Invalid <span class="keyword">use</span> of session <span class="constant">ID’</span>);
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <p>Thank god the internal developer know this. And are working to fix this. For the past days there has been an interesting discussion going on on the <a href="http://news.php.net/php.internals">internals</a> list. About applying a patch that will fix this. The patch will add some new php.ini features and a new method validate_id() for the session save handler. Hopefully this will be available in version 5.4.</p>
 
