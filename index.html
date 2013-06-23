@@ -88,9 +88,9 @@
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Hash password with default algorithm</span><a href="http://php.net/manual/en/function.password-hash.php">password_hash() </a></figcaption> <div class="CodeRay">
   <div class="code"><pre>
-        <span class="local-variable">$password</span> = <span class="string"><span class="delimiter">'</span><span class="content">test-password</span><span class="delimiter">'</span></span>;
-        <span class="local-variable">$hash</span> = password_hash(<span class="local-variable">$password</span>, <span class="constant">PASSWORD_DEFAULT</span>);
-        <span class="predefined">var_dump</span>(<span class="local-variable">$hash</span>);
+<span class="local-variable">$password</span> = <span class="string"><span class="delimiter">'</span><span class="content">test-password</span><span class="delimiter">'</span></span>;
+<span class="local-variable">$hash</span> = password_hash(<span class="local-variable">$password</span>, <span class="constant">PASSWORD_DEFAULT</span>);
+<span class="predefined">var_dump</span>(<span class="local-variable">$hash</span>);
 </pre></div>
 </div>
  </figure></notextile></div>
@@ -111,9 +111,9 @@
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Hash password with BLOWFISH algorithm and options</span><a href="http://php.net/manual/en/function.password-hash.php">password_hash() </a></figcaption> <div class="CodeRay">
   <div class="code"><pre>
-        <span class="local-variable">$salt</span> = mcrypt_create_iv(<span class="integer">22</span>, <span class="constant">MCRYPT_DEV_URANDOM</span>); 
-        <span class="local-variable">$hash</span> = password_hash(<span class="local-variable">$password</span>, <span class="constant">PASSWORD_BCRYPT</span>, <span class="predefined">array</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">cost</span><span class="delimiter">&quot;</span></span> =&gt; <span class="integer">14</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">salt</span><span class="delimiter">&quot;</span></span> =&gt; <span class="local-variable">$salt</span>));
-        <span class="predefined">var_dump</span>(<span class="local-variable">$hash</span>);
+<span class="local-variable">$salt</span> = mcrypt_create_iv(<span class="integer">22</span>, <span class="constant">MCRYPT_DEV_URANDOM</span>); 
+<span class="local-variable">$hash</span> = password_hash(<span class="local-variable">$password</span>, <span class="constant">PASSWORD_BCRYPT</span>, <span class="predefined">array</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">cost</span><span class="delimiter">&quot;</span></span> =&gt; <span class="integer">14</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">salt</span><span class="delimiter">&quot;</span></span> =&gt; <span class="local-variable">$salt</span>));
+<span class="predefined">var_dump</span>(<span class="local-variable">$hash</span>);
 </pre></div>
 </div>
  </figure></notextile></div>
@@ -125,13 +125,13 @@
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Verify hash</span><a href="http://php.net/manual/en/function.password-verify.php">password_verify() </a></figcaption> <div class="CodeRay">
   <div class="code"><pre>
-        <span class="local-variable">$hash</span> = password_hash(<span class="local-variable">$password</span>, <span class="constant">PASSWORD_DEFAULT</span>);
+<span class="local-variable">$hash</span> = password_hash(<span class="local-variable">$password</span>, <span class="constant">PASSWORD_DEFAULT</span>);
 
-        <span class="keyword">if</span> (password_verify(<span class="local-variable">$password</span>, <span class="local-variable">$hash</span>)) {
-                    <span class="predefined">echo</span> <span class="string"><span class="delimiter">'</span><span class="content">Password is correct</span><span class="delimiter">'</span></span>;
-        } <span class="keyword">else</span> {
-                    <span class="predefined">echo</span> <span class="string"><span class="delimiter">'</span><span class="content">Password is incorrect</span><span class="delimiter">'</span></span>;
-        }
+<span class="keyword">if</span> (password_verify(<span class="local-variable">$password</span>, <span class="local-variable">$hash</span>)) {
+            <span class="predefined">echo</span> <span class="string"><span class="delimiter">'</span><span class="content">Password is correct</span><span class="delimiter">'</span></span>;
+} <span class="keyword">else</span> {
+            <span class="predefined">echo</span> <span class="string"><span class="delimiter">'</span><span class="content">Password is incorrect</span><span class="delimiter">'</span></span>;
+}
 </pre></div>
 </div>
  </figure></notextile></div>
@@ -165,9 +165,9 @@
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Check if a $hash needs to be rehashed</span><a href="http://php.net/manual/en/function.password-needs-rehash.php">password_needs_rehash() </a></figcaption> <div class="CodeRay">
   <div class="code"><pre>
-        <span class="keyword">if</span> (password_needs_rehash(<span class="local-variable">$hash</span>, <span class="constant">PASSWORD_BCRYPT</span>, <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">cost</span><span class="delimiter">'</span></span> =&gt; <span class="integer">8</span>))) {
-                <span class="comment">// Update the password hash</span>
-        }
+<span class="keyword">if</span> (password_needs_rehash(<span class="local-variable">$hash</span>, <span class="constant">PASSWORD_BCRYPT</span>, <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">cost</span><span class="delimiter">'</span></span> =&gt; <span class="integer">8</span>))) {
+        <span class="comment">// Update the password hash</span>
+}
 </pre></div>
 </div>
  </figure></notextile></div>
@@ -179,7 +179,7 @@
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Dereference object call </span></figcaption>
  <div class="CodeRay">
   <div class="code"><pre>
-        <span class="local-variable">$obj</span>-&gt;method()-&gt;returnObjMethod();
+<span class="local-variable">$obj</span>-&gt;method()-&gt;returnObjMethod();
 </pre></div>
 </div>
  </figure></notextile></div>
@@ -189,11 +189,11 @@
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Dereference strings / array </span></figcaption>
  <div class="CodeRay">
   <div class="code"><pre>
-        <span class="predefined">echo</span> <span class="predefined">array</span>(<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>)[<span class="integer">0</span>]; <span class="comment">//output 1</span>
-        <span class="predefined">echo</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">foobar</span><span class="delimiter">&quot;</span></span>[<span class="integer">2</span>]; <span class="comment">//output o</span>
-        <span class="predefined">echo</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">foobar</span><span class="delimiter">&quot;</span></span>[<span class="string"><span class="delimiter">&quot;</span><span class="content">foo</span><span class="delimiter">&quot;</span></span>][<span class="integer">0</span>] <span class="comment">// output f</span>
+<span class="predefined">echo</span> <span class="predefined">array</span>(<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>)[<span class="integer">0</span>]; <span class="comment">//output 1</span>
+<span class="predefined">echo</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">foobar</span><span class="delimiter">&quot;</span></span>[<span class="integer">2</span>]; <span class="comment">//output o</span>
+<span class="predefined">echo</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">foobar</span><span class="delimiter">&quot;</span></span>[<span class="string"><span class="delimiter">&quot;</span><span class="content">foo</span><span class="delimiter">&quot;</span></span>][<span class="integer">0</span>] <span class="comment">// output f</span>
  
-        <span class="predefined">echo</span> [<span class="integer">1</span>,<span class="integer">3</span>,<span class="integer">4</span>][<span class="integer">2</span>]; <span class="comment">//output 4</span>
+<span class="predefined">echo</span> [<span class="integer">1</span>,<span class="integer">3</span>,<span class="integer">4</span>][<span class="integer">2</span>]; <span class="comment">//output 4</span>
 </pre></div>
 </div>
  </figure></notextile></div>
@@ -205,13 +205,13 @@
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Class name resolution via ::class </span></figcaption>
  <div class="CodeRay">
   <div class="code"><pre>
-        <span class="keyword">namespace</span> <span class="constant">Vodka</span>\<span class="predefined">Crypt</span>;
+<span class="keyword">namespace</span> <span class="constant">Vodka</span>\<span class="predefined">Crypt</span>;
 
-        <span class="keyword">Class</span> <span class="constant">HashBuilder</span> {}
+<span class="keyword">Class</span> <span class="constant">HashBuilder</span> {}
 
-        <span class="keyword">use</span> <span class="constant">Vodka</span>\<span class="predefined">Crypt</span>\<span class="constant">HashBuilder</span>;
+<span class="keyword">use</span> <span class="constant">Vodka</span>\<span class="predefined">Crypt</span>\<span class="constant">HashBuilder</span>;
          
-        <span class="predefined">var_dump</span>(<span class="constant">HashBuilder</span>::<span class="keyword">class</span>);
+<span class="predefined">var_dump</span>(<span class="constant">HashBuilder</span>::<span class="keyword">class</span>);
 </pre></div>
 </div>
  </figure></notextile></div>
@@ -228,7 +228,7 @@
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Call empty() with closure </span></figcaption>
  <div class="CodeRay">
   <div class="code"><pre>
-        <span class="predefined">var_dump</span>( <span class="predefined">empty</span>(<span class="keyword">function</span>() {}) );
+<span class="predefined">var_dump</span>( <span class="predefined">empty</span>(<span class="keyword">function</span>() {}) );
 </pre></div>
 </div>
  </figure></notextile></div>
@@ -239,8 +239,8 @@
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Call empty() with function return value </span></figcaption>
  <div class="CodeRay">
   <div class="code"><pre>        
-        <span class="keyword">function</span> <span class="function">foo</span>() {}
-        <span class="predefined">var_dump</span>(<span class="predefined">empty</span>(foo()));
+<span class="keyword">function</span> <span class="function">foo</span>() {}
+<span class="predefined">var_dump</span>(<span class="predefined">empty</span>(foo()));
 </pre></div>
 </div>
  </figure></notextile></div>
@@ -253,12 +253,12 @@
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Call empty() with function return value </span></figcaption>
  <div class="CodeRay">
   <div class="code"><pre>
-        <span class="keyword">function</span> <span class="function">foo</span>(<span class="local-variable">$val</span>) { 
-                <span class="keyword">return</span> <span class="local-variable">$val</span>; 
-        }
+<span class="keyword">function</span> <span class="function">foo</span>(<span class="local-variable">$val</span>) { 
+        <span class="keyword">return</span> <span class="local-variable">$val</span>; 
+}
 
-        <span class="predefined">var_dump</span>( <span class="predefined">empty</span>(foo([])) );
-        <span class="predefined">var_dump</span>( <span class="predefined">empty</span>(foo(<span class="predefined-constant">true</span>)) );
+<span class="predefined">var_dump</span>( <span class="predefined">empty</span>(foo([])) );
+<span class="predefined">var_dump</span>( <span class="predefined">empty</span>(foo(<span class="predefined-constant">true</span>)) );
 </pre></div>
 </div>
  </figure></notextile></div>
@@ -274,21 +274,19 @@ bool(false)
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Support for list in foreach </span></figcaption>
  <div class="CodeRay">
   <div class="code"><pre>
-        <span class="local-variable">$messages</span> = <span class="predefined">array</span>(
-                <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">1</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-1</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">12</span>),
-                <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">2</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-2</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">12</span>),
-                <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">3</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-3</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">10</span>)
-        );
+<span class="local-variable">$messages</span> = <span class="predefined">array</span>(
+        <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">1</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-1</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">12</span>),
+        <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">2</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-2</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">12</span>),
+        <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">3</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-3</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">10</span>)
+);
 
-        <span class="comment">// Before</span>
-        <span class="keyword">foreach</span> (<span class="local-variable">$messages</span> <span class="keyword">as</span> <span class="local-variable">$message</span>) {
-            <span class="predefined">list</span>(<span class="local-variable">$id</span>, <span class="local-variable">$body</span>) = <span class="local-variable">$message</span>;
-        }
+<span class="comment">// Before</span>
+<span class="keyword">foreach</span> (<span class="local-variable">$messages</span> <span class="keyword">as</span> <span class="local-variable">$message</span>) {
+        <span class="predefined">list</span>(<span class="local-variable">$id</span>, <span class="local-variable">$body</span>) = <span class="local-variable">$message</span>;
+}
          
-        <span class="comment">// After</span>
-        <span class="keyword">foreach</span> (<span class="local-variable">$messages</span> <span class="keyword">as</span> <span class="predefined">list</span>(<span class="local-variable">$id</span>, <span class="local-variable">$body</span>)) {
-            
-        }
+<span class="comment">// After</span>
+<span class="keyword">foreach</span> (<span class="local-variable">$messages</span> <span class="keyword">as</span> <span class="predefined">list</span>(<span class="local-variable">$id</span>, <span class="local-variable">$body</span>)) {}
 </pre></div>
 </div>
  </figure></notextile></div>
@@ -305,13 +303,13 @@ bool(false)
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Fetch a column from a multi-dimensional array</span><a href="http://php.net/manual/en/function.array-column.php">array_column() </a></figcaption> <div class="CodeRay">
   <div class="code"><pre>
-        <span class="local-variable">$nestedArray</span> = <span class="predefined">array</span>(
-                <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">1</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-1</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">12</span>),
-                <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">2</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-2</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">12</span>),
-                <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">3</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-3</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">10</span>)
-        );
-        <span class="local-variable">$columns</span> = array_column(<span class="local-variable">$nestedArray</span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span>);
-        <span class="predefined">print_r</span>(<span class="local-variable">$columns</span>);
+<span class="local-variable">$nestedArray</span> = <span class="predefined">array</span>(
+        <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">1</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-1</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">12</span>),
+        <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">2</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-2</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">12</span>),
+        <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">3</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-3</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">10</span>)
+);
+<span class="local-variable">$columns</span> = array_column(<span class="local-variable">$nestedArray</span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span>);
+<span class="predefined">print_r</span>(<span class="local-variable">$columns</span>);
 </pre></div>
 </div>
  </figure></notextile></div>
@@ -328,8 +326,8 @@ bool(false)
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Fetch a column from a multi-dimensional array index by another field</span><a href="http://php.net/manual/en/function.array-column.php">array_column() </a></figcaption> <div class="CodeRay">
   <div class="code"><pre>
-        <span class="local-variable">$columns</span> = array_column(<span class="local-variable">$nestedArray</span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span>);
-        <span class="predefined">print_r</span>(<span class="local-variable">$columns</span>);
+<span class="local-variable">$columns</span> = array_column(<span class="local-variable">$nestedArray</span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span>);
+<span class="predefined">print_r</span>(<span class="local-variable">$columns</span>);
 </pre></div>
 </div>
  </figure></notextile></div>

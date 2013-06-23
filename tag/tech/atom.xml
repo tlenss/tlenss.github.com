@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tech | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/tech/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-06-23T12:25:03+02:00</updated>
+  <updated>2013-06-23T12:27:39+02:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -36,9 +36,9 @@
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Hash password with default algorithm</span><a href='http://php.net/manual/en/function.password-hash.php'>password_hash() </a></figcaption> <div class="CodeRay">
   <div class="code"><pre>
-        <span class="local-variable">$password</span> = ‘test-password’;
-        <span class="local-variable">$hash</span> = password_hash(<span class="local-variable">$password</span>, <span class="constant">PASSWORD_DEFAULT</span>);
-        <span class="predefined">var_dump</span>(<span class="local-variable">$hash</span>);
+<span class="local-variable">$password</span> = ‘test-password’;
+<span class="local-variable">$hash</span> = password_hash(<span class="local-variable">$password</span>, <span class="constant">PASSWORD_DEFAULT</span>);
+<span class="predefined">var_dump</span>(<span class="local-variable">$hash</span>);
 </pre></div>
 </div>
  </figure></notextile></div></p>
@@ -59,9 +59,9 @@
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Hash password with BLOWFISH algorithm and options</span><a href='http://php.net/manual/en/function.password-hash.php'>password_hash() </a></figcaption> <div class="CodeRay">
   <div class="code"><pre>
-        <span class="local-variable">$salt</span> = mcrypt_create_iv(<span class="integer">22</span>, <span class="constant">MCRYPT_DEV_URANDOM</span>); 
-        <span class="local-variable">$hash</span> = password_hash(<span class="local-variable">$password</span>, <span class="constant">PASSWORD_BCRYPT</span>, <span class="predefined">array</span>(“cost” =&amp;gt; <span class="integer">14</span>, “salt” =&amp;gt; <span class="local-variable">$salt</span>));
-        <span class="predefined">var_dump</span>(<span class="local-variable">$hash</span>);
+<span class="local-variable">$salt</span> = mcrypt_create_iv(<span class="integer">22</span>, <span class="constant">MCRYPT_DEV_URANDOM</span>); 
+<span class="local-variable">$hash</span> = password_hash(<span class="local-variable">$password</span>, <span class="constant">PASSWORD_BCRYPT</span>, <span class="predefined">array</span>(“cost” =&amp;gt; <span class="integer">14</span>, “salt” =&amp;gt; <span class="local-variable">$salt</span>));
+<span class="predefined">var_dump</span>(<span class="local-variable">$hash</span>);
 </pre></div>
 </div>
  </figure></notextile></div></p>
@@ -73,17 +73,18 @@
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Verify hash</span><a href='http://php.net/manual/en/function.password-verify.php'>password_verify() </a></figcaption> <div class="CodeRay">
   <div class="code"><pre>
-        <span class="local-variable">$hash</span> = password_hash(<span class="local-variable">$password</span>, <span class="constant">PASSWORD_DEFAULT</span>);&lt;/p&gt;
+$hash = password_hash($password, PASSWORD_DEFAULT);<span class="tag">&lt;/p&gt;</span>
 
-&lt;pre&gt;&lt;code&gt;<span class="keyword">if</span> (password_verify(<span class="local-variable">$password</span>, <span class="local-variable">$hash</span>)) {
-                <span class="predefined">echo</span> <span class="string"><span class="delimiter">'</span><span class="content">Password is correct</span><span class="delimiter">'</span></span>;
-} <span class="keyword">else</span> {
-                <span class="predefined">echo</span> <span class="string"><span class="delimiter">'</span><span class="content">Password is incorrect</span><span class="delimiter">'</span></span>;
-} </pre></div>
+<span class="tag">&lt;p&gt;</span>if (password_verify($password, $hash)) {
+            echo ‘Password is correct’;
+} else {
+            echo ‘Password is incorrect’;
+}
+</pre></div>
 </div>
- </figure></notextile></div>
+ </figure></notextile></div></p>
 
-Password is correct
+<pre><code>Password is correct
 </code></pre>
 
 <p>Get information about a valid hash created with password_hash(). The function returns an array with the use d algorithm and options</p>
@@ -112,9 +113,9 @@ Password is correct
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Check if a $hash needs to be rehashed</span><a href='http://php.net/manual/en/function.password-needs-rehash.php'>password_needs_rehash() </a></figcaption> <div class="CodeRay">
   <div class="code"><pre>
-        <span class="keyword">if</span> (password_needs_rehash(<span class="local-variable">$hash</span>, <span class="constant">PASSWORD_BCRYPT</span>, <span class="predefined">array</span>(‘cost’ =&amp;gt; <span class="integer">8</span>))) {
-                <span class="comment">// Update the password hash</span>
-        }
+<span class="keyword">if</span> (password_needs_rehash(<span class="local-variable">$hash</span>, <span class="constant">PASSWORD_BCRYPT</span>, <span class="predefined">array</span>(‘cost’ =&amp;gt; <span class="integer">8</span>))) {
+        <span class="comment">// Update the password hash</span>
+}
 </pre></div>
 </div>
  </figure></notextile></div></p>
@@ -126,7 +127,7 @@ Password is correct
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Dereference object call </span></figcaption>
  <div class="CodeRay">
   <div class="code"><pre>
-        <span class="local-variable">$obj</span>-&amp;gt;method()-&amp;gt;returnObjMethod();
+<span class="local-variable">$obj</span>-&amp;gt;method()-&amp;gt;returnObjMethod();
 </pre></div>
 </div>
  </figure></notextile></div></p>
@@ -136,14 +137,14 @@ Password is correct
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Dereference strings / array </span></figcaption>
  <div class="CodeRay">
   <div class="code"><pre>
-        <span class="predefined">echo</span> <span class="predefined">array</span>(<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>)[<span class="integer">0</span>]; <span class="comment">//output 1</span>
-        <span class="predefined">echo</span> “foobar”[<span class="integer">2</span>]; <span class="comment">//output o</span>
-        <span class="predefined">echo</span> “foobar”[“foo”][<span class="integer">0</span>] <span class="comment">// output f&lt;/p&gt;</span>
+echo array(1, 2, 3)[0]; //output 1
+echo “foobar”[2]; //output o
+echo “foobar”[“foo”][0] // output f<span class="tag">&lt;/p&gt;</span>
 
-&lt;pre&gt;&lt;code&gt;<span class="predefined">echo</span> [<span class="integer">1</span>,<span class="integer">3</span>,<span class="integer">4</span>][<span class="integer">2</span>]; <span class="comment">//output 4 </span></pre></div>
+<span class="tag">&lt;p&gt;</span>echo [1,3,4][2]; //output 4
+</pre></div>
 </div>
- </figure></notextile></div>
-</code></pre>
+ </figure></notextile></div></p>
 
 <p><strong><em>Class Name Resolution As Scalar Via “class” Keyword</em></strong></p>
 
@@ -152,17 +153,18 @@ Password is correct
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Class name resolution via ::class </span></figcaption>
  <div class="CodeRay">
   <div class="code"><pre>
-        <span class="keyword">namespace</span> <span class="constant">Vodka</span>\<span class="predefined">Crypt</span>;&lt;/p&gt;
+namespace Vodka\Crypt;<span class="tag">&lt;/p&gt;</span>
 
-&lt;pre&gt;&lt;code&gt;<span class="keyword">Class</span> <span class="constant">HashBuilder</span> {}
+<span class="tag">&lt;p&gt;</span>Class HashBuilder {}<span class="tag">&lt;/p&gt;</span>
 
-<span class="keyword">use</span> <span class="constant">Vodka</span>\<span class="predefined">Crypt</span>\<span class="constant">HashBuilder</span>;
- 
-<span class="predefined">var_dump</span>(<span class="constant">HashBuilder</span>::<span class="keyword">class</span>); </pre></div>
+<span class="tag">&lt;p&gt;</span>use Vodka\Crypt\HashBuilder;<span class="tag">&lt;/p&gt;</span>
+
+<span class="tag">&lt;p&gt;</span>var_dump(HashBuilder::class);
+</pre></div>
 </div>
- </figure></notextile></div>
+ </figure></notextile></div></p>
 
-string(23) "Vodka\Crypt\HashBuilder"
+<pre><code>string(23) "Vodka\Crypt\HashBuilder"
 </code></pre>
 
 <p><strong><em>Support for using empty() on the result of function calls and other expressions</em></strong></p>
@@ -174,7 +176,7 @@ string(23) "Vodka\Crypt\HashBuilder"
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Call empty() with closure </span></figcaption>
  <div class="CodeRay">
   <div class="code"><pre>
-        <span class="predefined">var_dump</span>( <span class="predefined">empty</span>(<span class="keyword">function</span>() {}) );
+<span class="predefined">var_dump</span>( <span class="predefined">empty</span>(<span class="keyword">function</span>() {}) );
 </pre></div>
 </div>
  </figure></notextile></div></p>
@@ -185,8 +187,8 @@ string(23) "Vodka\Crypt\HashBuilder"
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Call empty() with function return value </span></figcaption>
  <div class="CodeRay">
   <div class="code"><pre>        
-        <span class="keyword">function</span> <span class="function">foo</span>() {}
-        <span class="predefined">var_dump</span>(<span class="predefined">empty</span>(foo()));
+<span class="keyword">function</span> <span class="function">foo</span>() {}
+<span class="predefined">var_dump</span>(<span class="predefined">empty</span>(foo()));
 </pre></div>
 </div>
  </figure></notextile></div></p>
@@ -199,16 +201,17 @@ string(23) "Vodka\Crypt\HashBuilder"
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Call empty() with function return value </span></figcaption>
  <div class="CodeRay">
   <div class="code"><pre>
-        <span class="keyword">function</span> <span class="function">foo</span>(<span class="local-variable">$val</span>) { 
-                <span class="keyword">return</span> <span class="local-variable">$val</span>; 
-        }&lt;/p&gt;
+function foo($val) { 
+        return $val; 
+}<span class="tag">&lt;/p&gt;</span>
 
-&lt;pre&gt;&lt;code&gt;<span class="predefined">var_dump</span>( <span class="predefined">empty</span>(foo([])) );
-<span class="predefined">var_dump</span>( <span class="predefined">empty</span>(foo(<span class="predefined-constant">true</span>)) ); </pre></div>
+<span class="tag">&lt;p&gt;</span>var_dump( empty(foo([])) );
+var_dump( empty(foo(true)) );
+</pre></div>
 </div>
- </figure></notextile></div>
+ </figure></notextile></div></p>
 
-bool(true)
+<pre><code>bool(true)
 bool(false)
 </code></pre>
 
@@ -219,24 +222,22 @@ bool(false)
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Support for list in foreach </span></figcaption>
  <div class="CodeRay">
   <div class="code"><pre>
-        <span class="local-variable">$messages</span> = <span class="predefined">array</span>(
-                <span class="predefined">array</span>(‘id’ =&amp;gt; <span class="integer">1</span>, ‘body’ =&amp;gt; ‘test-<span class="integer">1</span>’, ‘code’ =&amp;gt; <span class="integer">12</span>),
-                <span class="predefined">array</span>(‘id’ =&amp;gt; <span class="integer">2</span>, ‘body’ =&amp;gt; ‘test-<span class="integer">2</span>’, ‘code’ =&amp;gt; <span class="integer">12</span>),
-                <span class="predefined">array</span>(‘id’ =&amp;gt; <span class="integer">3</span>, ‘body’ =&amp;gt; ‘test-<span class="integer">3</span>’, ‘code’ =&amp;gt; <span class="integer">10</span>)
-        );&lt;/p&gt;
+$messages = array(
+        array(‘id’ =<span class="entity">&amp;gt;</span> 1, ‘body’ =<span class="entity">&amp;gt;</span> ‘test-1’, ‘code’ =<span class="entity">&amp;gt;</span> 12),
+        array(‘id’ =<span class="entity">&amp;gt;</span> 2, ‘body’ =<span class="entity">&amp;gt;</span> ‘test-2’, ‘code’ =<span class="entity">&amp;gt;</span> 12),
+        array(‘id’ =<span class="entity">&amp;gt;</span> 3, ‘body’ =<span class="entity">&amp;gt;</span> ‘test-3’, ‘code’ =<span class="entity">&amp;gt;</span> 10)
+);<span class="tag">&lt;/p&gt;</span>
 
-&lt;pre&gt;&lt;code&gt;<span class="comment">// Before</span>
-<span class="keyword">foreach</span> (<span class="local-variable">$messages</span> <span class="keyword">as</span> <span class="local-variable">$message</span>) {
-    <span class="predefined">list</span>(<span class="local-variable">$id</span>, <span class="local-variable">$body</span>) = <span class="local-variable">$message</span>;
-}
- 
-<span class="comment">// After</span>
-<span class="keyword">foreach</span> (<span class="local-variable">$messages</span> <span class="keyword">as</span> <span class="predefined">list</span>(<span class="local-variable">$id</span>, <span class="local-variable">$body</span>)) {
-    
-} </pre></div>
+<span class="tag">&lt;p&gt;</span>// Before
+foreach ($messages as $message) {
+        list($id, $body) = $message;
+}<span class="tag">&lt;/p&gt;</span>
+
+<span class="tag">&lt;p&gt;</span>// After
+foreach ($messages as list($id, $body)) {}
+</pre></div>
 </div>
- </figure></notextile></div>
-</code></pre>
+ </figure></notextile></div></p>
 
 <p><strong><em>Zend Opcache extension and enable building it by default</em></strong></p>
 
@@ -251,13 +252,13 @@ bool(false)
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Fetch a column from a multi-dimensional array</span><a href='http://php.net/manual/en/function.array-column.php'>array_column() </a></figcaption> <div class="CodeRay">
   <div class="code"><pre>
-        <span class="local-variable">$nestedArray</span> = <span class="predefined">array</span>(
-                <span class="predefined">array</span>(‘id’ =&amp;gt; <span class="integer">1</span>, ‘body’ =&amp;gt; ‘test-<span class="integer">1</span>’, ‘code’ =&amp;gt; <span class="integer">12</span>),
-                <span class="predefined">array</span>(‘id’ =&amp;gt; <span class="integer">2</span>, ‘body’ =&amp;gt; ‘test-<span class="integer">2</span>’, ‘code’ =&amp;gt; <span class="integer">12</span>),
-                <span class="predefined">array</span>(‘id’ =&amp;gt; <span class="integer">3</span>, ‘body’ =&amp;gt; ‘test-<span class="integer">3</span>’, ‘code’ =&amp;gt; <span class="integer">10</span>)
-        );
-        <span class="local-variable">$columns</span> = array_column(<span class="local-variable">$nestedArray</span>, ‘code’);
-        <span class="predefined">print_r</span>(<span class="local-variable">$columns</span>);
+<span class="local-variable">$nestedArray</span> = <span class="predefined">array</span>(
+        <span class="predefined">array</span>(‘id’ =&amp;gt; <span class="integer">1</span>, ‘body’ =&amp;gt; ‘test-<span class="integer">1</span>’, ‘code’ =&amp;gt; <span class="integer">12</span>),
+        <span class="predefined">array</span>(‘id’ =&amp;gt; <span class="integer">2</span>, ‘body’ =&amp;gt; ‘test-<span class="integer">2</span>’, ‘code’ =&amp;gt; <span class="integer">12</span>),
+        <span class="predefined">array</span>(‘id’ =&amp;gt; <span class="integer">3</span>, ‘body’ =&amp;gt; ‘test-<span class="integer">3</span>’, ‘code’ =&amp;gt; <span class="integer">10</span>)
+);
+<span class="local-variable">$columns</span> = array_column(<span class="local-variable">$nestedArray</span>, ‘code’);
+<span class="predefined">print_r</span>(<span class="local-variable">$columns</span>);
 </pre></div>
 </div>
  </figure></notextile></div></p>
@@ -274,8 +275,8 @@ bool(false)
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Fetch a column from a multi-dimensional array index by another field</span><a href='http://php.net/manual/en/function.array-column.php'>array_column() </a></figcaption> <div class="CodeRay">
   <div class="code"><pre>
-        <span class="local-variable">$columns</span> = array_column(<span class="local-variable">$nestedArray</span>, ‘code’, ‘id’);
-        <span class="predefined">print_r</span>(<span class="local-variable">$columns</span>);
+<span class="local-variable">$columns</span> = array_column(<span class="local-variable">$nestedArray</span>, ‘code’, ‘id’);
+<span class="predefined">print_r</span>(<span class="local-variable">$columns</span>);
 </pre></div>
 </div>
  </figure></notextile></div></p>
