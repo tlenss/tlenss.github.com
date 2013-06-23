@@ -85,28 +85,31 @@
 <p>So now i can simply enable settings i need on a per vhost basis. For this site end some other sites i used the following config section in my vhost.</p>
 
 <blockquote>
-  <h1 id="mod-pagespeed">MOD-pagespeed</h1>
+  <ul>
+    <li>
+      <h1 id="mod-pagespeed">MOD-pagespeed</h1>
+    </li>
+    <li>SetOutputFilter MOD_PAGESPEED_OUTPUT_FILTER</li>
+    <li>ModPagespeed on</li>
+    <li>ModPagespeedUrlPrefix                “http://lenss.nl”</li>
+    <li></li>
+    <li>ModPagespeedFileCachePath            “/var/mod_pagespeed/cache/”</li>
+    <li>ModPagespeedGeneratedFilePrefix      “/var/mod_pagespeed/files/”</li>
+    <li></li>
+    <li>
+      <h1 id="modpagespeedrewritelevel-corefilters">ModPagespeedRewriteLevel CoreFilters</h1>
+    </li>
+    <li>ModPagespeedRewriteLevel PassThrough</li>
+    <li></li>
+    <li>ModPagespeedEnableFilters add_head</li>
+    <li>ModPagespeedEnableFilters collapse_whitespace</li>
+    <li>ModPagespeedEnableFilters elide_attributes</li>
+    <li>ModPagespeedEnableFilters remove_comments</li>
+    <li>ModPagespeedEnableFilters rewrite_css</li>
+    <li>ModPagespeedEnableFilters rewrite_javascript</li>
+    <li>ModPagespeedEnableFilters move_css_to_head</li>
+  </ul>
 </blockquote>
-
-<pre><code>        SetOutputFilter MOD_PAGESPEED_OUTPUT_FILTER
-        ModPagespeed on
-
-        ModPagespeedUrlPrefix                "http://lenss.nl"
-
-        ModPagespeedFileCachePath            "/var/mod_pagespeed/cache/"
-        ModPagespeedGeneratedFilePrefix      "/var/mod_pagespeed/files/"
-
-        #ModPagespeedRewriteLevel CoreFilters
-        ModPagespeedRewriteLevel PassThrough
-
-        ModPagespeedEnableFilters add_head
-        ModPagespeedEnableFilters collapse_whitespace
-        ModPagespeedEnableFilters elide_attributes
-        ModPagespeedEnableFilters remove_comments
-        ModPagespeedEnableFilters rewrite_css
-        ModPagespeedEnableFilters rewrite_javascript
-        ModPagespeedEnableFilters move_css_to_head
-</code></pre>
 
 <p>First of we enable mod_pagespeed of course. And then we set the current domain for this instance. After that we set the file paths for the altered and cached files. And we use ‘PassThrough’ instead of ‘CoreFilters’. So we can decide our self’s what filters we will be using.</p>
 
