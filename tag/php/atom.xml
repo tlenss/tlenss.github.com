@@ -4,7 +4,7 @@
   <title><![CDATA[Category: PHP | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/php/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-06-23T13:11:30+02:00</updated>
+  <updated>2013-06-23T13:14:55+02:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -30,7 +30,7 @@
 
 <p><strong><em>$algorithm</em></strong> The hashing algorithm to use of which two are available at the moment</p>
 
-<p><blockquote><p>PASSWORD_DEFAULT which uses bcrypt<br/>	PASSWORD_BCRYPT which uses blowfish</p></blockquote></p>
+<p><blockquote><p>PASSWORD_DEFAULT which uses bcrypt<br/>PASSWORD_BCRYPT which uses blowfish</p></blockquote></p>
 
 <p><strong><em>$options</em></strong> makes it possible to add a salt or set the cost for the hashing algorithm</p>
 
@@ -88,16 +88,20 @@ string(60) “$2y$14$6ZtnYJ0CyqCUx.vJu3MZEuUGgIN.ryxMa0Yh8BnCrbBDVnd3Me30i”
 $hash = password_hash($password, PASSWORD_DEFAULT);<span class="tag">&lt;/p&gt;</span>
 
 <span class="tag">&lt;p&gt;</span>if (password_verify($password, $hash)) {
-            echo ‘Password is correct’;
+  echo ‘Password is correct’;
 } else {
-            echo ‘Password is incorrect’;
+  echo ‘Password is incorrect’;
 }
 </pre></div>
 </div>
  </figure></notextile></div></p>
 
-<pre><code>Password is correct
-</code></pre>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+Password is correct
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <p>Get information about a valid hash created with password_hash(). The function returns an array with the use d algorithm and options</p>
 
@@ -111,15 +115,15 @@ $hash = password_hash($password, PASSWORD_DEFAULT);<span class="tag">&lt;/p&gt;<
 <p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
   <div class="code"><pre>
 array(3) {
-        [“algo”]=&amp;gt;
-        int(1)
-        [“algoName”]=&amp;gt;
-        string(6) “bcrypt”
-        [“options”]=&amp;gt;
-        array(1) {
-                [“cost”]=&amp;gt;
-                int(10)
-        }
+  [“algo”]=&amp;gt;
+  int(1)
+  [“algoName”]=&amp;gt;
+  string(6) “bcrypt”
+  [“options”]=&amp;gt;
+  array(1) {
+    [“cost”]=&amp;gt;
+    int(10)
+  }
 }
 </pre></div>
 </div>
@@ -130,7 +134,7 @@ array(3) {
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Check if a $hash needs to be rehashed</span><a href='http://php.net/manual/en/function.password-needs-rehash.php'>password_needs_rehash() </a></figcaption> <div class="CodeRay">
   <div class="code"><pre>
 <span class="keyword">if</span> (password_needs_rehash(<span class="local-variable">$hash</span>, <span class="constant">PASSWORD_BCRYPT</span>, <span class="predefined">array</span>(‘cost’ =&amp;gt; <span class="integer">8</span>))) {
-        <span class="comment">// Update the password hash</span>
+  <span class="comment">// Update the password hash</span>
 }
 </pre></div>
 </div>
@@ -220,7 +224,7 @@ string(23) “Vodka\Crypt\HashBuilder”
  <div class="CodeRay">
   <div class="code"><pre>
 function foo($val) { 
-        return $val; 
+  return $val; 
 }<span class="tag">&lt;/p&gt;</span>
 
 <span class="tag">&lt;p&gt;</span>var_dump( empty(foo([])) );
@@ -245,14 +249,14 @@ bool(false)
  <div class="CodeRay">
   <div class="code"><pre>
 $messages = array(
-        array(‘id’ =<span class="entity">&amp;gt;</span> 1, ‘body’ =<span class="entity">&amp;gt;</span> ‘test-1’, ‘code’ =<span class="entity">&amp;gt;</span> 12),
-        array(‘id’ =<span class="entity">&amp;gt;</span> 2, ‘body’ =<span class="entity">&amp;gt;</span> ‘test-2’, ‘code’ =<span class="entity">&amp;gt;</span> 12),
-        array(‘id’ =<span class="entity">&amp;gt;</span> 3, ‘body’ =<span class="entity">&amp;gt;</span> ‘test-3’, ‘code’ =<span class="entity">&amp;gt;</span> 10)
+  array(‘id’ =<span class="entity">&amp;gt;</span> 1, ‘body’ =<span class="entity">&amp;gt;</span> ‘test-1’, ‘code’ =<span class="entity">&amp;gt;</span> 12),
+  array(‘id’ =<span class="entity">&amp;gt;</span> 2, ‘body’ =<span class="entity">&amp;gt;</span> ‘test-2’, ‘code’ =<span class="entity">&amp;gt;</span> 12),
+  array(‘id’ =<span class="entity">&amp;gt;</span> 3, ‘body’ =<span class="entity">&amp;gt;</span> ‘test-3’, ‘code’ =<span class="entity">&amp;gt;</span> 10)
 );<span class="tag">&lt;/p&gt;</span>
 
 <span class="tag">&lt;p&gt;</span>// Before
 foreach ($messages as $message) {
-        list($id, $body) = $message;
+  list($id, $body) = $message;
 }<span class="tag">&lt;/p&gt;</span>
 
 <span class="tag">&lt;p&gt;</span>// After
@@ -265,8 +269,7 @@ foreach ($messages as list($id, $body)) {}
 
 <p>My short post about <a href="https://wiki.php.net/rfc/optimizerplus">Zend Optimizer+</a> in February this year. Kind of slipped my mind. And i was somehow under the impression <a href="http://pecl.php.net/package/APC">APC</a> would be integrated. But this of course has to be Zend Optimizer+. Finally an opcode cacher available be default. And configurable from php.ini</p>
 
-<p><blockquote><p>[opcache]<br/>	; Determines if Zend OPCache is enabled<br/>	opcache.enable=0<br/>	opcache.enable_cli=0</p></p><p><pre><code>; The OPcache shared memory storage size.<br/>opcache.memory_consumption=64</p><p>; The amount of memory for interned strings in Mbytes.<br/>opcache.interned_strings_buffer=4</p><p>; Max files in OPCode cache, use a number between 200 and 100000.<br/>opcache.max_accelerated_files=2000</p><p>; The maximum percentage of "wasted" memory until a restart is scheduled.<br/>opcache.max_wasted_percentage=5</p><p>; Append current working dir to script name<br/>opcache.use_cwd=1</p><p>How often a file should be validated<br/>opcache.revalidate_freq=2</p><p>; Enables or disables file search in include_path optimization<br/>opcache.revalidate_path=0</p><p>; Drop all PHPDoc comments<br/>opcache.save_comments=1</p></blockquote>
-</code></pre>
+<p><blockquote><p>[opcache]<br/>; Determines if Zend OPCache is enabled<br/>opcache.enable=0<br/>opcache.enable_cli=0</p></p><p><p>; The OPcache shared memory storage size.<br/>opcache.memory_consumption=64</p></p><p><p>; The amount of memory for interned strings in Mbytes.<br/>opcache.interned_strings_buffer=4</p></p><p><p>; Max files in OPCode cache, use a number between 200 and 100000.<br/>opcache.max_accelerated_files=2000</p></p><p><p>; The maximum percentage of “wasted” memory until a restart is scheduled.<br/>opcache.max_wasted_percentage=5</p></p><p><p>; Append current working dir to script name<br/>opcache.use_cwd=1</p></p><p><p>How often a file should be validated<br/>opcache.revalidate_freq=2</p></p><p><p>; Enables or disables file search in include_path optimization<br/>opcache.revalidate_path=0</p></p><p><p>; Drop all PHPDoc comments<br/>opcache.save_comments=1</p></blockquote></p>
 
 <p><strong><em>array_column function which returns a column in a multidimensional array</em></strong></p>
 
@@ -275,9 +278,9 @@ foreach ($messages as list($id, $body)) {}
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Fetch a column from a multi-dimensional array</span><a href='http://php.net/manual/en/function.array-column.php'>array_column() </a></figcaption> <div class="CodeRay">
   <div class="code"><pre>
 <span class="local-variable">$nestedArray</span> = <span class="predefined">array</span>(
-        <span class="predefined">array</span>(‘id’ =&amp;gt; <span class="integer">1</span>, ‘body’ =&amp;gt; ‘test-<span class="integer">1</span>’, ‘code’ =&amp;gt; <span class="integer">12</span>),
-        <span class="predefined">array</span>(‘id’ =&amp;gt; <span class="integer">2</span>, ‘body’ =&amp;gt; ‘test-<span class="integer">2</span>’, ‘code’ =&amp;gt; <span class="integer">12</span>),
-        <span class="predefined">array</span>(‘id’ =&amp;gt; <span class="integer">3</span>, ‘body’ =&amp;gt; ‘test-<span class="integer">3</span>’, ‘code’ =&amp;gt; <span class="integer">10</span>)
+  <span class="predefined">array</span>(‘id’ =&amp;gt; <span class="integer">1</span>, ‘body’ =&amp;gt; ‘test-<span class="integer">1</span>’, ‘code’ =&amp;gt; <span class="integer">12</span>),
+  <span class="predefined">array</span>(‘id’ =&amp;gt; <span class="integer">2</span>, ‘body’ =&amp;gt; ‘test-<span class="integer">2</span>’, ‘code’ =&amp;gt; <span class="integer">12</span>),
+  <span class="predefined">array</span>(‘id’ =&amp;gt; <span class="integer">3</span>, ‘body’ =&amp;gt; ‘test-<span class="integer">3</span>’, ‘code’ =&amp;gt; <span class="integer">10</span>)
 );
 <span class="local-variable">$columns</span> = array_column(<span class="local-variable">$nestedArray</span>, ‘code’);
 <span class="predefined">print_r</span>(<span class="local-variable">$columns</span>);
@@ -289,9 +292,9 @@ foreach ($messages as list($id, $body)) {}
   <div class="code"><pre>
 Array
 (
-        [0] =&amp;gt; 12
-        [1] =&amp;gt; 12
-        [2] =&amp;gt; 10
+  [0] =&amp;gt; 12
+  [1] =&amp;gt; 12
+  [2] =&amp;gt; 10
 )
 </pre></div>
 </div>
@@ -311,9 +314,9 @@ Array
   <div class="code"><pre>
 Array
 (
-        [145] =&amp;gt; 12
-        [20098] =&amp;gt; 12
-        [34] =&amp;gt; 10
+  [145] =&amp;gt; 12
+  [20098] =&amp;gt; 12
+  [34] =&amp;gt; 10
 )
 </pre></div>
 </div>
@@ -431,11 +434,11 @@ object(stdClass)#1 (2) {
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
   <div class="code"><pre>
-  int(0)
-  PHP Notice:  Undefined property: stdClass::$0 in foo.php on line 14
-  NULL
-  string(3) “foo”
-  string(3) “baz”
+int(0)
+PHP Notice:  Undefined property: stdClass::$0 in foo.php on line 14
+NULL
+string(3) “foo”
+string(3) “baz”
 </pre></div>
 </div>
  </figure></notextile></div></p>

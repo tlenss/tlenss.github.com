@@ -79,7 +79,7 @@
 
 <p><strong><em>$algorithm</em></strong> The hashing algorithm to use of which two are available at the moment</p>
 
-<blockquote><p>PASSWORD_DEFAULT which uses bcrypt<br />	PASSWORD_BCRYPT which uses blowfish</p></blockquote>
+<blockquote><p>PASSWORD_DEFAULT which uses bcrypt<br />PASSWORD_BCRYPT which uses blowfish</p></blockquote>
 
 <p><strong><em>$options</em></strong> makes it possible to add a salt or set the cost for the hashing algorithm</p>
 
@@ -137,16 +137,20 @@ string(60) &quot;$2y$14$6ZtnYJ0CyqCUx.vJu3MZEuUGgIN.ryxMa0Yh8BnCrbBDVnd3Me30i&qu
 <span class="local-variable">$hash</span> = password_hash(<span class="local-variable">$password</span>, <span class="constant">PASSWORD_DEFAULT</span>);
 
 <span class="keyword">if</span> (password_verify(<span class="local-variable">$password</span>, <span class="local-variable">$hash</span>)) {
-            <span class="predefined">echo</span> <span class="string"><span class="delimiter">'</span><span class="content">Password is correct</span><span class="delimiter">'</span></span>;
+  <span class="predefined">echo</span> <span class="string"><span class="delimiter">'</span><span class="content">Password is correct</span><span class="delimiter">'</span></span>;
 } <span class="keyword">else</span> {
-            <span class="predefined">echo</span> <span class="string"><span class="delimiter">'</span><span class="content">Password is incorrect</span><span class="delimiter">'</span></span>;
+  <span class="predefined">echo</span> <span class="string"><span class="delimiter">'</span><span class="content">Password is incorrect</span><span class="delimiter">'</span></span>;
 }
 </pre></div>
 </div>
  </figure></notextile></div>
 
-<pre><code>Password is correct
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+Password is correct
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Get information about a valid hash created with password_hash(). The function returns an array with the use d algorithm and options</p>
 
@@ -160,15 +164,15 @@ string(60) &quot;$2y$14$6ZtnYJ0CyqCUx.vJu3MZEuUGgIN.ryxMa0Yh8BnCrbBDVnd3Me30i&qu
 <div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
   <div class="code"><pre>
 array(3) {
-        [&quot;algo&quot;]=&gt;
-        int(1)
-        [&quot;algoName&quot;]=&gt;
-        string(6) &quot;bcrypt&quot;
-        [&quot;options&quot;]=&gt;
-        array(1) {
-                [&quot;cost&quot;]=&gt;
-                int(10)
-        }
+  [&quot;algo&quot;]=&gt;
+  int(1)
+  [&quot;algoName&quot;]=&gt;
+  string(6) &quot;bcrypt&quot;
+  [&quot;options&quot;]=&gt;
+  array(1) {
+    [&quot;cost&quot;]=&gt;
+    int(10)
+  }
 }
 </pre></div>
 </div>
@@ -179,7 +183,7 @@ array(3) {
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Check if a $hash needs to be rehashed</span><a href="http://php.net/manual/en/function.password-needs-rehash.php">password_needs_rehash() </a></figcaption> <div class="CodeRay">
   <div class="code"><pre>
 <span class="keyword">if</span> (password_needs_rehash(<span class="local-variable">$hash</span>, <span class="constant">PASSWORD_BCRYPT</span>, <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">cost</span><span class="delimiter">'</span></span> =&gt; <span class="integer">8</span>))) {
-        <span class="comment">// Update the password hash</span>
+  <span class="comment">// Update the password hash</span>
 }
 </pre></div>
 </div>
@@ -269,7 +273,7 @@ string(23) &quot;Vodka\Crypt\HashBuilder&quot;
  <div class="CodeRay">
   <div class="code"><pre>
 <span class="keyword">function</span> <span class="function">foo</span>(<span class="local-variable">$val</span>) { 
-        <span class="keyword">return</span> <span class="local-variable">$val</span>; 
+  <span class="keyword">return</span> <span class="local-variable">$val</span>; 
 }
 
 <span class="predefined">var_dump</span>( <span class="predefined">empty</span>(foo([])) );
@@ -294,14 +298,14 @@ bool(false)
  <div class="CodeRay">
   <div class="code"><pre>
 <span class="local-variable">$messages</span> = <span class="predefined">array</span>(
-        <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">1</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-1</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">12</span>),
-        <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">2</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-2</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">12</span>),
-        <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">3</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-3</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">10</span>)
+  <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">1</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-1</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">12</span>),
+  <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">2</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-2</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">12</span>),
+  <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">3</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-3</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">10</span>)
 );
 
 <span class="comment">// Before</span>
 <span class="keyword">foreach</span> (<span class="local-variable">$messages</span> <span class="keyword">as</span> <span class="local-variable">$message</span>) {
-        <span class="predefined">list</span>(<span class="local-variable">$id</span>, <span class="local-variable">$body</span>) = <span class="local-variable">$message</span>;
+  <span class="predefined">list</span>(<span class="local-variable">$id</span>, <span class="local-variable">$body</span>) = <span class="local-variable">$message</span>;
 }
          
 <span class="comment">// After</span>
@@ -314,7 +318,7 @@ bool(false)
 
 <p>My short post about <a href="https://wiki.php.net/rfc/optimizerplus">Zend Optimizer+</a> in February this year. Kind of slipped my mind. And i was somehow under the impression <a href="http://pecl.php.net/package/APC">APC</a> would be integrated. But this of course has to be Zend Optimizer+. Finally an opcode cacher available be default. And configurable from php.ini</p>
 
-<blockquote><p>[opcache]<br />	; Determines if Zend OPCache is enabled<br />	opcache.enable=0<br />	opcache.enable_cli=0</p><p>	; The OPcache shared memory storage size.<br />	opcache.memory_consumption=64</p><p>	; The amount of memory for interned strings in Mbytes.<br />	opcache.interned_strings_buffer=4</p><p>	; Max files in OPCode cache, use a number between 200 and 100000.<br />	opcache.max_accelerated_files=2000</p><p>	; The maximum percentage of &#8220;wasted&#8221; memory until a restart is scheduled.<br />	opcache.max_wasted_percentage=5</p><p>	; Append current working dir to script name<br />	opcache.use_cwd=1</p><p>	How often a file should be validated<br />	opcache.revalidate_freq=2</p><p>	; Enables or disables file search in include_path optimization<br />	opcache.revalidate_path=0</p><p>	; Drop all PHPDoc comments<br />	opcache.save_comments=1</p></blockquote>
+<blockquote><p>[opcache]<br />; Determines if Zend OPCache is enabled<br />opcache.enable=0<br />opcache.enable_cli=0</p><p>; The OPcache shared memory storage size.<br />opcache.memory_consumption=64</p><p>; The amount of memory for interned strings in Mbytes.<br />opcache.interned_strings_buffer=4</p><p>; Max files in OPCode cache, use a number between 200 and 100000.<br />opcache.max_accelerated_files=2000</p><p>; The maximum percentage of &#8220;wasted&#8221; memory until a restart is scheduled.<br />opcache.max_wasted_percentage=5</p><p>; Append current working dir to script name<br />opcache.use_cwd=1</p><p>How often a file should be validated<br />opcache.revalidate_freq=2</p><p>; Enables or disables file search in include_path optimization<br />opcache.revalidate_path=0</p><p>; Drop all PHPDoc comments<br />opcache.save_comments=1</p></blockquote>
 
 <p><strong><em>array_column function which returns a column in a multidimensional array</em></strong></p>
 
@@ -323,9 +327,9 @@ bool(false)
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Fetch a column from a multi-dimensional array</span><a href="http://php.net/manual/en/function.array-column.php">array_column() </a></figcaption> <div class="CodeRay">
   <div class="code"><pre>
 <span class="local-variable">$nestedArray</span> = <span class="predefined">array</span>(
-        <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">1</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-1</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">12</span>),
-        <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">2</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-2</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">12</span>),
-        <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">3</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-3</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">10</span>)
+  <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">1</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-1</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">12</span>),
+  <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">2</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-2</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">12</span>),
+  <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">3</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-3</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">10</span>)
 );
 <span class="local-variable">$columns</span> = array_column(<span class="local-variable">$nestedArray</span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span>);
 <span class="predefined">print_r</span>(<span class="local-variable">$columns</span>);
@@ -337,9 +341,9 @@ bool(false)
   <div class="code"><pre>
 Array
 (
-        [0] =&gt; 12
-        [1] =&gt; 12
-        [2] =&gt; 10
+  [0] =&gt; 12
+  [1] =&gt; 12
+  [2] =&gt; 10
 )
 </pre></div>
 </div>
@@ -359,9 +363,9 @@ Array
   <div class="code"><pre>
 Array
 (
-        [145] =&gt; 12
-        [20098] =&gt; 12
-        [34] =&gt; 10
+  [145] =&gt; 12
+  [20098] =&gt; 12
+  [34] =&gt; 10
 )
 </pre></div>
 </div>
