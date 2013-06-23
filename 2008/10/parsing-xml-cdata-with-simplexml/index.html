@@ -73,12 +73,16 @@
 
 <p>From a first glance at the PHP manual it it wasn’t clear what was going on. So i did some googleing. And found a good <a href="http://blog.agoraproduction.com/index.php?/archives/53-Quick-Tip-PHP,-SimpleXML-and-CDATA.html">post</a> by <a href="http://blog.agoraproduction.com/">David Coallier</a>. This post solved the problem. The example showed how to add an extra <a href="http://xmlsoft.org/">LIBXML</a> options to the <a href="http://nl2.php.net/manual/en/function.simplexml-load-string.php">simplexml_load_String</a> method. Although David provided the solution. I still wanted to make post. Maybe it will help somebody.</p>
 
-<pre><code>    // parsing with CDATA tags using the *_load_string method
-    $xml = simplexml_load_string($string, 'SimpleXMLElement', LIBXML_NOCDATA);
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="comment">// parsing with CDATA tags using the *_load_string method</span>
+<span class="local-variable">$xml</span> = simplexml_load_string(<span class="local-variable">$string</span>, <span class="string"><span class="delimiter">'</span><span class="content">SimpleXMLElement</span><span class="delimiter">'</span></span>, <span class="constant">LIBXML_NOCDATA</span>);
 
-    // parsing with CDATA tags using the OO way
-    $xml = new SimpleXMLElement($string, LIBXML_NOCDATA);
-</code></pre>
+<span class="comment">// parsing with CDATA tags using the OO way</span>
+<span class="local-variable">$xml</span> = <span class="keyword">new</span> <span class="constant">SimpleXMLElement</span>(<span class="local-variable">$string</span>, <span class="constant">LIBXML_NOCDATA</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>The LIBXML options that can be passed to the *_load methods and constructor can be found in the <a href="http://nl2.php.net/manual/en/libxml.constants.php">php documentation</a>.</p>
 
