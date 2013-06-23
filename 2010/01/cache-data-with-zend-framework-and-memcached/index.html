@@ -125,79 +125,107 @@ cache.backend.options.servers.1.retry_interval = 15</p>
 
 <p>Finally we can do some PHP code. To get the cache instance setup we add a _initCache() method to the bootstrap class. Inside this method we retrieve the config options by calling getOptions(). And setup the cache object. Which is then stored in the Registry for later use.</p>
 
-<pre><code>protected function _initCache()
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">protected</span> <span class="keyword">function</span> <span class="function">_initCache</span>()
 {
-        $options = $this-&gt;getOptions();
+  <span class="local-variable">$options</span> = <span class="local-variable">$this</span>-&gt;getOptions();
 
-        if (isset($options['cache'])) {
-            $cache = Zend_Cache::factory(
-                $options['cache']['frontend']['type'],
-                $options['cache']['backend']['type'],
-                $options['cache']['frontend']['options'],
-                $options['cache']['backend']['options']
-            );
+  <span class="keyword">if</span> (<span class="predefined">isset</span>(<span class="local-variable">$options</span>[<span class="string"><span class="delimiter">'</span><span class="content">cache</span><span class="delimiter">'</span></span>])) {
+    <span class="local-variable">$cache</span> = <span class="constant">Zend_Cache</span>::factory(
+      <span class="local-variable">$options</span>[<span class="string"><span class="delimiter">'</span><span class="content">cache</span><span class="delimiter">'</span></span>][<span class="string"><span class="delimiter">'</span><span class="content">frontend</span><span class="delimiter">'</span></span>][<span class="string"><span class="delimiter">'</span><span class="content">type</span><span class="delimiter">'</span></span>],
+      <span class="local-variable">$options</span>[<span class="string"><span class="delimiter">'</span><span class="content">cache</span><span class="delimiter">'</span></span>][<span class="string"><span class="delimiter">'</span><span class="content">backend</span><span class="delimiter">'</span></span>][<span class="string"><span class="delimiter">'</span><span class="content">type</span><span class="delimiter">'</span></span>],
+      <span class="local-variable">$options</span>[<span class="string"><span class="delimiter">'</span><span class="content">cache</span><span class="delimiter">'</span></span>][<span class="string"><span class="delimiter">'</span><span class="content">frontend</span><span class="delimiter">'</span></span>][<span class="string"><span class="delimiter">'</span><span class="content">options</span><span class="delimiter">'</span></span>],
+      <span class="local-variable">$options</span>[<span class="string"><span class="delimiter">'</span><span class="content">cache</span><span class="delimiter">'</span></span>][<span class="string"><span class="delimiter">'</span><span class="content">backend</span><span class="delimiter">'</span></span>][<span class="string"><span class="delimiter">'</span><span class="content">options</span><span class="delimiter">'</span></span>]
+    );
 
-            Zend_Registry::set('cache', $cache);
-            return $cache;
-        }
+    <span class="constant">Zend_Registry</span>::set(<span class="string"><span class="delimiter">'</span><span class="content">cache</span><span class="delimiter">'</span></span>, <span class="local-variable">$cache</span>);
+    <span class="keyword">return</span> <span class="local-variable">$cache</span>;
+  }
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>That’s all set. I used the caching for some REST service responses. So i will stick to that in this post as well. The class has a method for adding a cache object.</p>
 
-<pre><code>public function setCache(Zend_Cache_Core $cache) {
-    $this-&gt;cache = $cache;
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">public</span> <span class="keyword">function</span> <span class="function">setCache</span>(<span class="constant">Zend_Cache_Core</span> <span class="local-variable">$cache</span>) {
+  <span class="local-variable">$this</span>-&gt;cache = <span class="local-variable">$cache</span>;
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>So fetching the cache instance and passing it to the REST client will look something like this:</p>
 
-<pre><code>$cache = Zend_Registry::get('cache');
-$cache-&gt;setLifetime(86400);
-        
-$client = new Client();
-$client-&gt;setCache($cache);
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$cache</span> = <span class="constant">Zend_Registry</span>::get(<span class="string"><span class="delimiter">'</span><span class="content">cache</span><span class="delimiter">'</span></span>);
+<span class="local-variable">$cache</span>-&gt;setLifetime(<span class="integer">86400</span>);
+            
+<span class="local-variable">$client</span> = <span class="keyword">new</span> <span class="constant">Client</span>();
+<span class="local-variable">$client</span>-&gt;setCache(<span class="local-variable">$cache</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>The first thing we do inside the calling method is set a unique key for the cache entry.</p>
 
-<pre><code>$cache_id = 'getPage_' . $this-&gt;getDomain()
-            . $this-&gt;getPageName()
-            . $this-&gt;getCountry();
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$cache_id</span> = <span class="string"><span class="delimiter">'</span><span class="content">getPage_</span><span class="delimiter">'</span></span> . <span class="local-variable">$this</span>-&gt;getDomain()
+  . <span class="local-variable">$this</span>-&gt;getPageName()
+  . <span class="local-variable">$this</span>-&gt;getCountry();
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Then we check if the cache object is set. If that’s the case we check to see if the unique key is already available in the cache.</p>
 
-<pre><code>if (!isset($this-&gt;cache) || !($ret = $this-&gt;cache-&gt;load($cache_id))) {
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">if</span> (!<span class="predefined">isset</span>(<span class="local-variable">$this</span>-&gt;cache) || !(<span class="local-variable">$ret</span> = <span class="local-variable">$this</span>-&gt;cache-&gt;load(<span class="local-variable">$cache_id</span>))) {
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>If a value is returned from the cahce we will return it. If not then we will do the webservice call and store the return data in cache.</p>
 
-<pre><code> $ret = $this-&gt;restClient-&gt;call('getPage', array());
-
-if (isset($this-&gt;cache)) {
-    $this-&gt;cache-&gt;save($ret, $cache_id);
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$ret</span> = <span class="local-variable">$this</span>-&gt;restClient-&gt;call(<span class="string"><span class="delimiter">'</span><span class="content">getPage</span><span class="delimiter">'</span></span>, <span class="predefined">array</span>());
+    
+<span class="keyword">if</span> (<span class="predefined">isset</span>(<span class="local-variable">$this</span>-&gt;cache)) {
+  <span class="local-variable">$this</span>-&gt;cache-&gt;save(<span class="local-variable">$ret</span>, <span class="local-variable">$cache_id</span>);
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>The complete method looks something like this.</p>
 
-<pre><code>protected function getPageFromWebservice()
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">protected</span> <span class="keyword">function</span> <span class="function">getPageFromWebservice</span>()
 {
-        $cache_id = 'getPage_' . $this-&gt;getDomain()
-            . $this-&gt;getPageName()
-            . $this-&gt;getCountry();
+  <span class="local-variable">$cache_id</span> = <span class="string"><span class="delimiter">'</span><span class="content">getPage_</span><span class="delimiter">'</span></span> . <span class="local-variable">$this</span>-&gt;getDomain()
+    . <span class="local-variable">$this</span>-&gt;getPageName()
+    . <span class="local-variable">$this</span>-&gt;getCountry();
 
-        if (!isset($this-&gt;cache) || !($ret = $this-&gt;cache-&gt;load($cache_id))) {
-            $ret = $this-&gt;restClient-&gt;call('getPage', array());
+  <span class="keyword">if</span> (!<span class="predefined">isset</span>(<span class="local-variable">$this</span>-&gt;cache) || !(<span class="local-variable">$ret</span> = <span class="local-variable">$this</span>-&gt;cache-&gt;load(<span class="local-variable">$cache_id</span>))) {
+    <span class="local-variable">$ret</span> = <span class="local-variable">$this</span>-&gt;restClient-&gt;call(<span class="string"><span class="delimiter">'</span><span class="content">getPage</span><span class="delimiter">'</span></span>, <span class="predefined">array</span>());
 
-            if (isset($this-&gt;cache)) {
-                $this-&gt;cache-&gt;save($ret, $cache_id);
-            }
-        }
-        return $ret;
+    <span class="keyword">if</span> (<span class="predefined">isset</span>(<span class="local-variable">$this</span>-&gt;cache)) {
+      <span class="local-variable">$this</span>-&gt;cache-&gt;save(<span class="local-variable">$ret</span>, <span class="local-variable">$cache_id</span>);
+    }
+  }
+  <span class="keyword">return</span> <span class="local-variable">$ret</span>;
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>That’s all. It’s pretty basic stuff. But so cool!</p>
 </div>

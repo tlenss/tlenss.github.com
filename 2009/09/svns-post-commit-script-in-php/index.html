@@ -71,81 +71,105 @@
 
 <p>First we set the email address and the location of svnlook. </p>
 
-<pre><code>#!/usr/bin/php
-&lt;?php
-error_reporting(E_ALL | E_STRICT); 
-
-$address = 'some email address';
-$svnlook = '/usr/bin/svnlook';
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+#!/usr/bin/php
+<span class="inline-delimiter">&lt;?php</span>
+<span class="predefined">error_reporting</span>(<span class="exception">E_ALL</span> | <span class="exception">E_STRICT</span>); 
+    
+<span class="local-variable">$address</span> = <span class="string"><span class="delimiter">'</span><span class="content">some email address</span><span class="delimiter">'</span></span>;
+<span class="local-variable">$svnlook</span> = <span class="string"><span class="delimiter">'</span><span class="content">/usr/bin/svnlook</span><span class="delimiter">'</span></span>;
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Use the argv array to get to the commandline parameters and build up a SVN statement to get some basic info.</p>
 
-<pre><code>$repository = $_SERVER['argv'][1];
-$revision = $_SERVER['argv'][2];
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$repository</span> = <span class="predefined">$_SERVER</span>[<span class="string"><span class="delimiter">'</span><span class="content">argv</span><span class="delimiter">'</span></span>][<span class="integer">1</span>];
+<span class="local-variable">$revision</span> = <span class="predefined">$_SERVER</span>[<span class="string"><span class="delimiter">'</span><span class="content">argv</span><span class="delimiter">'</span></span>][<span class="integer">2</span>];
 
-$cmdInfo = "${svnlook} info ${repository} -r ${revision}";
+<span class="local-variable">$cmdInfo</span> = <span class="string"><span class="delimiter">&quot;</span><span class="local-variable">${svnlook}</span><span class="content"> info </span><span class="local-variable">${repository}</span><span class="content"> -r </span><span class="local-variable">${revision}</span><span class="delimiter">&quot;</span></span>;
 
-$output = array();
-exec($cmdInfo, $output);
+<span class="local-variable">$output</span> = <span class="predefined">array</span>();
+<span class="predefined">exec</span>(<span class="local-variable">$cmdInfo</span>, <span class="local-variable">$output</span>);
 
-$author = $output[0];
-$date = $output[1];
-$comment = $output[3];
-</code></pre>
+<span class="local-variable">$author</span> = <span class="local-variable">$output</span>[<span class="integer">0</span>];
+<span class="local-variable">$date</span> = <span class="local-variable">$output</span>[<span class="integer">1</span>];
+<span class="local-variable">$comment</span> = <span class="local-variable">$output</span>[<span class="integer">3</span>];
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Now let’s get the changes made in this revisions.</p>
 
-<pre><code>$output = array();
-$cmdChanges ="${svnlook} diff ${repository} -r ${revision}";
-exec($cmdChanges, $output);
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$output</span> = <span class="predefined">array</span>();
+<span class="local-variable">$cmdChanges</span> =<span class="string"><span class="delimiter">&quot;</span><span class="local-variable">${svnlook}</span><span class="content"> diff </span><span class="local-variable">${repository}</span><span class="content"> -r </span><span class="local-variable">${revision}</span><span class="delimiter">&quot;</span></span>;
+<span class="predefined">exec</span>(<span class="local-variable">$cmdChanges</span>, <span class="local-variable">$output</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Once we have the diff contents we can loop through the lines and use some simple regex to highlight the changes. I’ve added a bit more code to add pre tags for a better visual effect.</p>
 
-<pre><code>$patch = '&lt;pre class="codeBlock"&gt;';
-$lineCount = count($output);
-for ($x=0; $x&lt;=$lineCount; $x++) {
-    
-    if ($x &gt; 0 &amp;&amp; strstr($output[$x], 'Modified:')) {
-        $patch .= '&lt;/pre&gt;&lt;pre class="codeBlock"&gt;';
-    }
-    
-    $textColor = 'normal';
-    if (preg_match('/^\+/', $output[$x])) {
-        $textColor = 'positive';
-    }
-    else if (preg_match('/^-/', $output[$x])) {
-        $textColor = 'negative';
-    }
-    
-    $patch .= '&lt;span class="' . $textColor . '"&gt;' . htmlentities($output[$x]) . "&lt;/span&gt;&lt;br&gt;";
-    
-    if ($x == $lineCount) {
-        $patch .= "&lt;/pre&gt;";
-    }
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$patch</span> = <span class="string"><span class="delimiter">'</span><span class="content">&lt;pre class=&quot;codeBlock&quot;&gt;</span><span class="delimiter">'</span></span>;
+<span class="local-variable">$lineCount</span> = <span class="predefined">count</span>(<span class="local-variable">$output</span>);
+<span class="keyword">for</span> (<span class="local-variable">$x</span>=<span class="integer">0</span>; <span class="local-variable">$x</span>&lt;=<span class="local-variable">$lineCount</span>; <span class="local-variable">$x</span>++) {
+
+  <span class="keyword">if</span> (<span class="local-variable">$x</span> &gt; <span class="integer">0</span> &amp;&amp; <span class="predefined">strstr</span>(<span class="local-variable">$output</span>[<span class="local-variable">$x</span>], <span class="string"><span class="delimiter">'</span><span class="content">Modified:</span><span class="delimiter">'</span></span>)) {
+    <span class="local-variable">$patch</span> .= <span class="string"><span class="delimiter">'</span><span class="content">&lt;/pre&gt;&lt;pre class=&quot;codeBlock&quot;&gt;</span><span class="delimiter">'</span></span>;
+  }
+
+  <span class="local-variable">$textColor</span> = <span class="string"><span class="delimiter">'</span><span class="content">normal</span><span class="delimiter">'</span></span>;
+  <span class="keyword">if</span> (<span class="predefined">preg_match</span>(<span class="string"><span class="delimiter">'</span><span class="content">/^</span><span class="content">\+</span><span class="content">/</span><span class="delimiter">'</span></span>, <span class="local-variable">$output</span>[<span class="local-variable">$x</span>])) {
+    <span class="local-variable">$textColor</span> = <span class="string"><span class="delimiter">'</span><span class="content">positive</span><span class="delimiter">'</span></span>;
+  }
+  <span class="keyword">else</span> <span class="keyword">if</span> (<span class="predefined">preg_match</span>(<span class="string"><span class="delimiter">'</span><span class="content">/^-/</span><span class="delimiter">'</span></span>, <span class="local-variable">$output</span>[<span class="local-variable">$x</span>])) {
+    <span class="local-variable">$textColor</span> = <span class="string"><span class="delimiter">'</span><span class="content">negative</span><span class="delimiter">'</span></span>;
+  }
+
+  <span class="local-variable">$patch</span> .= <span class="string"><span class="delimiter">'</span><span class="content">&lt;span class=&quot;</span><span class="delimiter">'</span></span> . <span class="local-variable">$textColor</span> . <span class="string"><span class="delimiter">'</span><span class="content">&quot;&gt;</span><span class="delimiter">'</span></span> . <span class="predefined">htmlentities</span>(<span class="local-variable">$output</span>[<span class="local-variable">$x</span>]) . <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;/span&gt;&lt;br&gt;</span><span class="delimiter">&quot;</span></span>;
+
+  <span class="keyword">if</span> (<span class="local-variable">$x</span> == <span class="local-variable">$lineCount</span>) {
+    <span class="local-variable">$patch</span> .= <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;/pre&gt;</span><span class="delimiter">&quot;</span></span>;
+  }
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Now we can build the body for the email that will be generated.</p>
 
-<pre><code>$body .= "Author : " . $author . "&lt;br&gt;";
-$body .= "Date : " . $date . "&lt;br&gt;";
-$body .= "Comment : " . $comment . "&lt;br&gt;&lt;br&gt;";
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$body</span> .= <span class="string"><span class="delimiter">&quot;</span><span class="content">Author : </span><span class="delimiter">&quot;</span></span> . <span class="local-variable">$author</span> . <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;br&gt;</span><span class="delimiter">&quot;</span></span>;
+<span class="local-variable">$body</span> .= <span class="string"><span class="delimiter">&quot;</span><span class="content">Date : </span><span class="delimiter">&quot;</span></span> . <span class="local-variable">$date</span> . <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;br&gt;</span><span class="delimiter">&quot;</span></span>;
+<span class="local-variable">$body</span> .= <span class="string"><span class="delimiter">&quot;</span><span class="content">Comment : </span><span class="delimiter">&quot;</span></span> . <span class="local-variable">$comment</span> . <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;br&gt;&lt;br&gt;</span><span class="delimiter">&quot;</span></span>;
 
-$body .= $patch;
-</code></pre>
+<span class="local-variable">$body</span> .= <span class="local-variable">$patch</span>;
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Add a MIME header so my mail client displays it properly. And send it of through the build in mail() function. </p>
 
-<pre><code>$headers  = 'MIME-Version: 1.0' . "\r\n";
-$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$headers</span>  = <span class="string"><span class="delimiter">'</span><span class="content">MIME-Version: 1.0</span><span class="delimiter">'</span></span> . <span class="string"><span class="delimiter">&quot;</span><span class="char">\r</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>;
+<span class="local-variable">$headers</span> .= <span class="string"><span class="delimiter">'</span><span class="content">Content-type: text/html; charset=iso-8859-1</span><span class="delimiter">'</span></span> . <span class="string"><span class="delimiter">&quot;</span><span class="char">\r</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>;
 
-$bodyHTML = file_get_contents("/path/to/some/HTML/template");
-$bodyHTML = str_replace('{EMAIL}', $body, $bodyHTML);
+<span class="local-variable">$bodyHTML</span> = <span class="predefined">file_get_contents</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/path/to/some/HTML/template</span><span class="delimiter">&quot;</span></span>);
+<span class="local-variable">$bodyHTML</span> = <span class="predefined">str_replace</span>(<span class="string"><span class="delimiter">'</span><span class="content">{EMAIL}</span><span class="delimiter">'</span></span>, <span class="local-variable">$body</span>, <span class="local-variable">$bodyHTML</span>);
 
-mail($address, 'SVN post-commit', $bodyHTML, $headers);
-</code></pre>
+<span class="predefined">mail</span>(<span class="local-variable">$address</span>, <span class="string"><span class="delimiter">'</span><span class="content">SVN post-commit</span><span class="delimiter">'</span></span>, <span class="local-variable">$bodyHTML</span>, <span class="local-variable">$headers</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 </div>
 

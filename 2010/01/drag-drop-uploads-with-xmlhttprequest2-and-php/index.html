@@ -71,112 +71,144 @@
 
 <p>The new XMLHttpRequest object makes is possible to send files in a few different formats. The most important being the binary format. The code for sending a request with XMLHttpRequest2 looks the same as the previous version. Except for sendAsBinary() in this case.</p>
 
-<pre><code>var xhr = new XMLHttpRequest();
-
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();
+    
 fileUpload = xhr.upload,
-fileUpload.onload = function() {
-    console.log("Sent!");
+fileUpload.<span class="function">onload</span> = <span class="keyword">function</span>() {
+  console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">Sent!</span><span class="delimiter">&quot;</span></span>);
 }
-				
-xhr.open("POST", "upload.php", true);			
+                                    
+xhr.open(<span class="string"><span class="delimiter">&quot;</span><span class="content">POST</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">upload.php</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">true</span>);
 xhr.sendAsBinary(file.getAsBinary());
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>So let’s set things up for drag &amp; drop. We need a div that will be the main drop point. And we need some event listeners to catch the drag * drop events. Let start by creating the drop zone. For this we use two simple divs. The outer div will listen for the drag &amp; drop events. And the inner will catch the files.</p>
 
-<pre><code>&lt;div id="container"&gt;
-	&lt;div id="drop"&gt;&lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="tag">&lt;div</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">container</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">drop</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Now let’s create our upload code.</p>
 
-<pre><code>var upload = {
-    setup : function() {},
-    uploadFiles : function() {event}
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">var</span> upload = {
+  <span class="function">setup</span> : <span class="keyword">function</span>() {},
+  <span class="function">uploadFiles</span> : <span class="keyword">function</span>() {event}
 }
-window.addEventListener("load", upload.setup, false);
-</code></pre>
+window.addEventListener(<span class="string"><span class="delimiter">&quot;</span><span class="content">load</span><span class="delimiter">&quot;</span></span>, upload.setup, <span class="predefined-constant">false</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>The setup method will set all event listeners for drag &amp; drop. And register the upload handler.</p>
 
-<pre><code>var container = document.getElementById('container');
-var drop = document.getElementById('drop');
-			
-container.addEventListener("dragenter", function(event) {
-        drop.innerHTML = '';
-        event.stopPropagation();
-        event.preventDefault();
-    }, 
-    false
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">var</span> container = document.getElementById(<span class="string"><span class="delimiter">'</span><span class="content">container</span><span class="delimiter">'</span></span>);
+<span class="keyword">var</span> drop = document.getElementById(<span class="string"><span class="delimiter">'</span><span class="content">drop</span><span class="delimiter">'</span></span>);
+                
+container.addEventListener(<span class="string"><span class="delimiter">&quot;</span><span class="content">dragenter</span><span class="delimiter">&quot;</span></span>, <span class="keyword">function</span>(event) {
+    drop.innerHTML = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
+    event.stopPropagation();
+    event.preventDefault();
+  }, 
+  <span class="predefined-constant">false</span>
 );
 
-container.addEventListener("dragover", function(event) {
-        event.stopPropagation(); 
-	event.preventDefault();
-    }, 
-    false
+container.addEventListener(<span class="string"><span class="delimiter">&quot;</span><span class="content">dragover</span><span class="delimiter">&quot;</span></span>, <span class="keyword">function</span>(event) {
+    event.stopPropagation(); 
+    event.preventDefault();
+  }, 
+  <span class="predefined-constant">false</span>
 );
 
-container.addEventListener("drop", upload.uploadFiles, false);
-</code></pre>
+container.addEventListener(<span class="string"><span class="delimiter">&quot;</span><span class="content">drop</span><span class="delimiter">&quot;</span></span>, upload.uploadFiles, <span class="predefined-constant">false</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>As you could see above. the uploadFiles() method gets a event returned from the drag &amp; drop action. This is where the new <a href="http://dev.w3.org/2006/webapi/FileAPI/">file APi</a> comes in play. To get to the file property we access the dataTransfer object.</p>
 
-<pre><code>var files = event.dataTransfer.files;
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">var</span> files = event.dataTransfer.files;
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>The actual uploading is easy as cake.</p>
 
-<pre><code>for (var x = 0; x &lt; files.length; x++) {
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">for</span> (<span class="keyword">var</span> x = <span class="integer">0</span>; x &lt; files.length; x++) {
 
-    var file = files.item(x);
-    var xhr = new XMLHttpRequest();
- 
-     fileUpload = xhr.upload,
-     fileUpload.onload = function() {
-         console.log("Sent!");
-    }
-				
-    xhr.open("POST", "upload.php", true);
+  <span class="keyword">var</span> file = files.item(x);
+  <span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();
 
-    xhr.setRequestHeader("Cache-Control", "no-cache");
-    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-    xhr.setRequestHeader("X-File-Name", file.fileName);
-    xhr.setRequestHeader("X-File-Size", file.fileSize);
-    xhr.setRequestHeader("Content-Type", "multipart/form-data");
-					
-    xhr.sendAsBinary(file.getAsBinary());
+  fileUpload = xhr.upload;
+  fileUpload.<span class="function">onload</span> = <span class="keyword">function</span>() {
+    console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">Sent!</span><span class="delimiter">&quot;</span></span>);
+  }
+                        
+  xhr.open(<span class="string"><span class="delimiter">&quot;</span><span class="content">POST</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">upload.php</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">true</span>);
+
+  xhr.setRequestHeader(<span class="string"><span class="delimiter">&quot;</span><span class="content">Cache-Control</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">no-cache</span><span class="delimiter">&quot;</span></span>);
+  xhr.setRequestHeader(<span class="string"><span class="delimiter">&quot;</span><span class="content">X-Requested-With</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">XMLHttpRequest</span><span class="delimiter">&quot;</span></span>);
+  xhr.setRequestHeader(<span class="string"><span class="delimiter">&quot;</span><span class="content">X-File-Name</span><span class="delimiter">&quot;</span></span>, file.fileName);
+  xhr.setRequestHeader(<span class="string"><span class="delimiter">&quot;</span><span class="content">X-File-Size</span><span class="delimiter">&quot;</span></span>, file.fileSize);
+  xhr.setRequestHeader(<span class="string"><span class="delimiter">&quot;</span><span class="content">Content-Type</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">multipart/form-data</span><span class="delimiter">&quot;</span></span>);
+                                
+  xhr.sendAsBinary(file.getAsBinary());
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>That’s it for the client side. There is however a small problem on the receiving side. When handling uploaded files in PHP we expect the <strong>$_FILES</strong> array to be populated. This is not the case when streaming files from the client to the server. To get the needed file information we set some headers on the client side <strong>X-File-Name</strong> and <strong>X-File-Size</strong>. And since the <strong>$_FILES</strong> are is empty. We need an other way to get the file contents. So we will use php://input streams for that.</p>
 
 <p>The contents of upload.php look like this:</p>
 
-<pre><code>require_once('Streamer.php');
-
-$ft = new File_Streamer();
-$ft-&gt;setDestination('data/');
-$ft-&gt;receive();
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="predefined">require_once</span>(<span class="string"><span class="delimiter">'</span><span class="content">Streamer.php</span><span class="delimiter">'</span></span>);
+    
+<span class="local-variable">$ft</span> = <span class="keyword">new</span> <span class="constant">File_Streamer</span>();
+<span class="local-variable">$ft</span>-&gt;setDestination(<span class="string"><span class="delimiter">'</span><span class="content">data/</span><span class="delimiter">'</span></span>);
+<span class="local-variable">$ft</span>-&gt;receive();
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>With setDestination() the destination path for the uploaded files is set. And recieve() listens for any incoming files. Most of the magic is done in the recieve() method. So here’s the code.</p>
 
-<pre><code>public function receive()
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">public</span> <span class="keyword">function</span> <span class="function">receive</span>()
 {
-    if (!$this-&gt;isValid()) {
-        throw new Exception('No file uploaded!');
-    }
-		
-    file_put_contents(
-        $this-&gt;_destination . $this-&gt;_fileName, 
-        file_get_contents("php://input")
-    );
+  <span class="keyword">if</span> (!<span class="local-variable">$this</span>-&gt;isValid()) {
+    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="predefined-constant">Exception</span>(<span class="string"><span class="delimiter">'</span><span class="content">No file uploaded!</span><span class="delimiter">'</span></span>);
+  }
         
-    return true;
+  <span class="predefined">file_put_contents</span>(
+    <span class="local-variable">$this</span>-&gt;_destination . <span class="local-variable">$this</span>-&gt;_fileName, 
+    <span class="predefined">file_get_contents</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">php://input</span><span class="delimiter">&quot;</span></span>)
+  );
+    
+  <span class="keyword">return</span> <span class="predefined-constant">true</span>;
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>I am impressed! This promises a lot of good. And offers some interesting options. Let’s hope all browsers implement this gem. I still have one issue though. I can’t get this to work in firefox under linux. The drag &amp; drop events do not seem to function properly with files being dragged from the desktop. anybody know why? </p>
 

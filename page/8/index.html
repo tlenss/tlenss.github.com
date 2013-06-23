@@ -186,79 +186,107 @@ cache.backend.options.servers.1.retry_interval = 15</p>
 
 <p>Finally we can do some PHP code. To get the cache instance setup we add a _initCache() method to the bootstrap class. Inside this method we retrieve the config options by calling getOptions(). And setup the cache object. Which is then stored in the Registry for later use.</p>
 
-<pre><code>protected function _initCache()
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">protected</span> <span class="keyword">function</span> <span class="function">_initCache</span>()
 {
-        $options = $this-&gt;getOptions();
+  <span class="local-variable">$options</span> = <span class="local-variable">$this</span>-&gt;getOptions();
 
-        if (isset($options['cache'])) {
-            $cache = Zend_Cache::factory(
-                $options['cache']['frontend']['type'],
-                $options['cache']['backend']['type'],
-                $options['cache']['frontend']['options'],
-                $options['cache']['backend']['options']
-            );
+  <span class="keyword">if</span> (<span class="predefined">isset</span>(<span class="local-variable">$options</span>[<span class="string"><span class="delimiter">'</span><span class="content">cache</span><span class="delimiter">'</span></span>])) {
+    <span class="local-variable">$cache</span> = <span class="constant">Zend_Cache</span>::factory(
+      <span class="local-variable">$options</span>[<span class="string"><span class="delimiter">'</span><span class="content">cache</span><span class="delimiter">'</span></span>][<span class="string"><span class="delimiter">'</span><span class="content">frontend</span><span class="delimiter">'</span></span>][<span class="string"><span class="delimiter">'</span><span class="content">type</span><span class="delimiter">'</span></span>],
+      <span class="local-variable">$options</span>[<span class="string"><span class="delimiter">'</span><span class="content">cache</span><span class="delimiter">'</span></span>][<span class="string"><span class="delimiter">'</span><span class="content">backend</span><span class="delimiter">'</span></span>][<span class="string"><span class="delimiter">'</span><span class="content">type</span><span class="delimiter">'</span></span>],
+      <span class="local-variable">$options</span>[<span class="string"><span class="delimiter">'</span><span class="content">cache</span><span class="delimiter">'</span></span>][<span class="string"><span class="delimiter">'</span><span class="content">frontend</span><span class="delimiter">'</span></span>][<span class="string"><span class="delimiter">'</span><span class="content">options</span><span class="delimiter">'</span></span>],
+      <span class="local-variable">$options</span>[<span class="string"><span class="delimiter">'</span><span class="content">cache</span><span class="delimiter">'</span></span>][<span class="string"><span class="delimiter">'</span><span class="content">backend</span><span class="delimiter">'</span></span>][<span class="string"><span class="delimiter">'</span><span class="content">options</span><span class="delimiter">'</span></span>]
+    );
 
-            Zend_Registry::set('cache', $cache);
-            return $cache;
-        }
+    <span class="constant">Zend_Registry</span>::set(<span class="string"><span class="delimiter">'</span><span class="content">cache</span><span class="delimiter">'</span></span>, <span class="local-variable">$cache</span>);
+    <span class="keyword">return</span> <span class="local-variable">$cache</span>;
+  }
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>That’s all set. I used the caching for some REST service responses. So i will stick to that in this post as well. The class has a method for adding a cache object.</p>
 
-<pre><code>public function setCache(Zend_Cache_Core $cache) {
-    $this-&gt;cache = $cache;
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">public</span> <span class="keyword">function</span> <span class="function">setCache</span>(<span class="constant">Zend_Cache_Core</span> <span class="local-variable">$cache</span>) {
+  <span class="local-variable">$this</span>-&gt;cache = <span class="local-variable">$cache</span>;
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>So fetching the cache instance and passing it to the REST client will look something like this:</p>
 
-<pre><code>$cache = Zend_Registry::get('cache');
-$cache-&gt;setLifetime(86400);
-        
-$client = new Client();
-$client-&gt;setCache($cache);
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$cache</span> = <span class="constant">Zend_Registry</span>::get(<span class="string"><span class="delimiter">'</span><span class="content">cache</span><span class="delimiter">'</span></span>);
+<span class="local-variable">$cache</span>-&gt;setLifetime(<span class="integer">86400</span>);
+            
+<span class="local-variable">$client</span> = <span class="keyword">new</span> <span class="constant">Client</span>();
+<span class="local-variable">$client</span>-&gt;setCache(<span class="local-variable">$cache</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>The first thing we do inside the calling method is set a unique key for the cache entry.</p>
 
-<pre><code>$cache_id = 'getPage_' . $this-&gt;getDomain()
-            . $this-&gt;getPageName()
-            . $this-&gt;getCountry();
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$cache_id</span> = <span class="string"><span class="delimiter">'</span><span class="content">getPage_</span><span class="delimiter">'</span></span> . <span class="local-variable">$this</span>-&gt;getDomain()
+  . <span class="local-variable">$this</span>-&gt;getPageName()
+  . <span class="local-variable">$this</span>-&gt;getCountry();
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Then we check if the cache object is set. If that’s the case we check to see if the unique key is already available in the cache.</p>
 
-<pre><code>if (!isset($this-&gt;cache) || !($ret = $this-&gt;cache-&gt;load($cache_id))) {
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">if</span> (!<span class="predefined">isset</span>(<span class="local-variable">$this</span>-&gt;cache) || !(<span class="local-variable">$ret</span> = <span class="local-variable">$this</span>-&gt;cache-&gt;load(<span class="local-variable">$cache_id</span>))) {
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>If a value is returned from the cahce we will return it. If not then we will do the webservice call and store the return data in cache.</p>
 
-<pre><code> $ret = $this-&gt;restClient-&gt;call('getPage', array());
-
-if (isset($this-&gt;cache)) {
-    $this-&gt;cache-&gt;save($ret, $cache_id);
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$ret</span> = <span class="local-variable">$this</span>-&gt;restClient-&gt;call(<span class="string"><span class="delimiter">'</span><span class="content">getPage</span><span class="delimiter">'</span></span>, <span class="predefined">array</span>());
+    
+<span class="keyword">if</span> (<span class="predefined">isset</span>(<span class="local-variable">$this</span>-&gt;cache)) {
+  <span class="local-variable">$this</span>-&gt;cache-&gt;save(<span class="local-variable">$ret</span>, <span class="local-variable">$cache_id</span>);
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>The complete method looks something like this.</p>
 
-<pre><code>protected function getPageFromWebservice()
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">protected</span> <span class="keyword">function</span> <span class="function">getPageFromWebservice</span>()
 {
-        $cache_id = 'getPage_' . $this-&gt;getDomain()
-            . $this-&gt;getPageName()
-            . $this-&gt;getCountry();
+  <span class="local-variable">$cache_id</span> = <span class="string"><span class="delimiter">'</span><span class="content">getPage_</span><span class="delimiter">'</span></span> . <span class="local-variable">$this</span>-&gt;getDomain()
+    . <span class="local-variable">$this</span>-&gt;getPageName()
+    . <span class="local-variable">$this</span>-&gt;getCountry();
 
-        if (!isset($this-&gt;cache) || !($ret = $this-&gt;cache-&gt;load($cache_id))) {
-            $ret = $this-&gt;restClient-&gt;call('getPage', array());
+  <span class="keyword">if</span> (!<span class="predefined">isset</span>(<span class="local-variable">$this</span>-&gt;cache) || !(<span class="local-variable">$ret</span> = <span class="local-variable">$this</span>-&gt;cache-&gt;load(<span class="local-variable">$cache_id</span>))) {
+    <span class="local-variable">$ret</span> = <span class="local-variable">$this</span>-&gt;restClient-&gt;call(<span class="string"><span class="delimiter">'</span><span class="content">getPage</span><span class="delimiter">'</span></span>, <span class="predefined">array</span>());
 
-            if (isset($this-&gt;cache)) {
-                $this-&gt;cache-&gt;save($ret, $cache_id);
-            }
-        }
-        return $ret;
+    <span class="keyword">if</span> (<span class="predefined">isset</span>(<span class="local-variable">$this</span>-&gt;cache)) {
+      <span class="local-variable">$this</span>-&gt;cache-&gt;save(<span class="local-variable">$ret</span>, <span class="local-variable">$cache_id</span>);
+    }
+  }
+  <span class="keyword">return</span> <span class="local-variable">$ret</span>;
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>That’s all. It’s pretty basic stuff. But so cool!</p>
 </div>
@@ -322,112 +350,144 @@ if (isset($this-&gt;cache)) {
 
 <p>The new XMLHttpRequest object makes is possible to send files in a few different formats. The most important being the binary format. The code for sending a request with XMLHttpRequest2 looks the same as the previous version. Except for sendAsBinary() in this case.</p>
 
-<pre><code>var xhr = new XMLHttpRequest();
-
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();
+    
 fileUpload = xhr.upload,
-fileUpload.onload = function() {
-    console.log("Sent!");
+fileUpload.<span class="function">onload</span> = <span class="keyword">function</span>() {
+  console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">Sent!</span><span class="delimiter">&quot;</span></span>);
 }
-				
-xhr.open("POST", "upload.php", true);			
+                                    
+xhr.open(<span class="string"><span class="delimiter">&quot;</span><span class="content">POST</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">upload.php</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">true</span>);
 xhr.sendAsBinary(file.getAsBinary());
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>So let’s set things up for drag &amp; drop. We need a div that will be the main drop point. And we need some event listeners to catch the drag * drop events. Let start by creating the drop zone. For this we use two simple divs. The outer div will listen for the drag &amp; drop events. And the inner will catch the files.</p>
 
-<pre><code>&lt;div id="container"&gt;
-	&lt;div id="drop"&gt;&lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="tag">&lt;div</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">container</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">drop</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Now let’s create our upload code.</p>
 
-<pre><code>var upload = {
-    setup : function() {},
-    uploadFiles : function() {event}
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">var</span> upload = {
+  <span class="function">setup</span> : <span class="keyword">function</span>() {},
+  <span class="function">uploadFiles</span> : <span class="keyword">function</span>() {event}
 }
-window.addEventListener("load", upload.setup, false);
-</code></pre>
+window.addEventListener(<span class="string"><span class="delimiter">&quot;</span><span class="content">load</span><span class="delimiter">&quot;</span></span>, upload.setup, <span class="predefined-constant">false</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>The setup method will set all event listeners for drag &amp; drop. And register the upload handler.</p>
 
-<pre><code>var container = document.getElementById('container');
-var drop = document.getElementById('drop');
-			
-container.addEventListener("dragenter", function(event) {
-        drop.innerHTML = '';
-        event.stopPropagation();
-        event.preventDefault();
-    }, 
-    false
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">var</span> container = document.getElementById(<span class="string"><span class="delimiter">'</span><span class="content">container</span><span class="delimiter">'</span></span>);
+<span class="keyword">var</span> drop = document.getElementById(<span class="string"><span class="delimiter">'</span><span class="content">drop</span><span class="delimiter">'</span></span>);
+                
+container.addEventListener(<span class="string"><span class="delimiter">&quot;</span><span class="content">dragenter</span><span class="delimiter">&quot;</span></span>, <span class="keyword">function</span>(event) {
+    drop.innerHTML = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
+    event.stopPropagation();
+    event.preventDefault();
+  }, 
+  <span class="predefined-constant">false</span>
 );
 
-container.addEventListener("dragover", function(event) {
-        event.stopPropagation(); 
-	event.preventDefault();
-    }, 
-    false
+container.addEventListener(<span class="string"><span class="delimiter">&quot;</span><span class="content">dragover</span><span class="delimiter">&quot;</span></span>, <span class="keyword">function</span>(event) {
+    event.stopPropagation(); 
+    event.preventDefault();
+  }, 
+  <span class="predefined-constant">false</span>
 );
 
-container.addEventListener("drop", upload.uploadFiles, false);
-</code></pre>
+container.addEventListener(<span class="string"><span class="delimiter">&quot;</span><span class="content">drop</span><span class="delimiter">&quot;</span></span>, upload.uploadFiles, <span class="predefined-constant">false</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>As you could see above. the uploadFiles() method gets a event returned from the drag &amp; drop action. This is where the new <a href="http://dev.w3.org/2006/webapi/FileAPI/">file APi</a> comes in play. To get to the file property we access the dataTransfer object.</p>
 
-<pre><code>var files = event.dataTransfer.files;
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">var</span> files = event.dataTransfer.files;
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>The actual uploading is easy as cake.</p>
 
-<pre><code>for (var x = 0; x &lt; files.length; x++) {
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">for</span> (<span class="keyword">var</span> x = <span class="integer">0</span>; x &lt; files.length; x++) {
 
-    var file = files.item(x);
-    var xhr = new XMLHttpRequest();
- 
-     fileUpload = xhr.upload,
-     fileUpload.onload = function() {
-         console.log("Sent!");
-    }
-				
-    xhr.open("POST", "upload.php", true);
+  <span class="keyword">var</span> file = files.item(x);
+  <span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();
 
-    xhr.setRequestHeader("Cache-Control", "no-cache");
-    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-    xhr.setRequestHeader("X-File-Name", file.fileName);
-    xhr.setRequestHeader("X-File-Size", file.fileSize);
-    xhr.setRequestHeader("Content-Type", "multipart/form-data");
-					
-    xhr.sendAsBinary(file.getAsBinary());
+  fileUpload = xhr.upload;
+  fileUpload.<span class="function">onload</span> = <span class="keyword">function</span>() {
+    console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">Sent!</span><span class="delimiter">&quot;</span></span>);
+  }
+                        
+  xhr.open(<span class="string"><span class="delimiter">&quot;</span><span class="content">POST</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">upload.php</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">true</span>);
+
+  xhr.setRequestHeader(<span class="string"><span class="delimiter">&quot;</span><span class="content">Cache-Control</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">no-cache</span><span class="delimiter">&quot;</span></span>);
+  xhr.setRequestHeader(<span class="string"><span class="delimiter">&quot;</span><span class="content">X-Requested-With</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">XMLHttpRequest</span><span class="delimiter">&quot;</span></span>);
+  xhr.setRequestHeader(<span class="string"><span class="delimiter">&quot;</span><span class="content">X-File-Name</span><span class="delimiter">&quot;</span></span>, file.fileName);
+  xhr.setRequestHeader(<span class="string"><span class="delimiter">&quot;</span><span class="content">X-File-Size</span><span class="delimiter">&quot;</span></span>, file.fileSize);
+  xhr.setRequestHeader(<span class="string"><span class="delimiter">&quot;</span><span class="content">Content-Type</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">multipart/form-data</span><span class="delimiter">&quot;</span></span>);
+                                
+  xhr.sendAsBinary(file.getAsBinary());
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>That’s it for the client side. There is however a small problem on the receiving side. When handling uploaded files in PHP we expect the <strong>$_FILES</strong> array to be populated. This is not the case when streaming files from the client to the server. To get the needed file information we set some headers on the client side <strong>X-File-Name</strong> and <strong>X-File-Size</strong>. And since the <strong>$_FILES</strong> are is empty. We need an other way to get the file contents. So we will use php://input streams for that.</p>
 
 <p>The contents of upload.php look like this:</p>
 
-<pre><code>require_once('Streamer.php');
-
-$ft = new File_Streamer();
-$ft-&gt;setDestination('data/');
-$ft-&gt;receive();
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="predefined">require_once</span>(<span class="string"><span class="delimiter">'</span><span class="content">Streamer.php</span><span class="delimiter">'</span></span>);
+    
+<span class="local-variable">$ft</span> = <span class="keyword">new</span> <span class="constant">File_Streamer</span>();
+<span class="local-variable">$ft</span>-&gt;setDestination(<span class="string"><span class="delimiter">'</span><span class="content">data/</span><span class="delimiter">'</span></span>);
+<span class="local-variable">$ft</span>-&gt;receive();
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>With setDestination() the destination path for the uploaded files is set. And recieve() listens for any incoming files. Most of the magic is done in the recieve() method. So here’s the code.</p>
 
-<pre><code>public function receive()
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">public</span> <span class="keyword">function</span> <span class="function">receive</span>()
 {
-    if (!$this-&gt;isValid()) {
-        throw new Exception('No file uploaded!');
-    }
-		
-    file_put_contents(
-        $this-&gt;_destination . $this-&gt;_fileName, 
-        file_get_contents("php://input")
-    );
+  <span class="keyword">if</span> (!<span class="local-variable">$this</span>-&gt;isValid()) {
+    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="predefined-constant">Exception</span>(<span class="string"><span class="delimiter">'</span><span class="content">No file uploaded!</span><span class="delimiter">'</span></span>);
+  }
         
-    return true;
+  <span class="predefined">file_put_contents</span>(
+    <span class="local-variable">$this</span>-&gt;_destination . <span class="local-variable">$this</span>-&gt;_fileName, 
+    <span class="predefined">file_get_contents</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">php://input</span><span class="delimiter">&quot;</span></span>)
+  );
+    
+  <span class="keyword">return</span> <span class="predefined-constant">true</span>;
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>I am impressed! This promises a lot of good. And offers some interesting options. Let’s hope all browsers implement this gem. I still have one issue though. I can’t get this to work in firefox under linux. The drag &amp; drop events do not seem to function properly with files being dragged from the desktop. anybody know why? </p>
 
@@ -839,81 +899,105 @@ $ft-&gt;receive();
 
 <p>First we set the email address and the location of svnlook. </p>
 
-<pre><code>#!/usr/bin/php
-&lt;?php
-error_reporting(E_ALL | E_STRICT); 
-
-$address = 'some email address';
-$svnlook = '/usr/bin/svnlook';
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+#!/usr/bin/php
+<span class="inline-delimiter">&lt;?php</span>
+<span class="predefined">error_reporting</span>(<span class="exception">E_ALL</span> | <span class="exception">E_STRICT</span>); 
+    
+<span class="local-variable">$address</span> = <span class="string"><span class="delimiter">'</span><span class="content">some email address</span><span class="delimiter">'</span></span>;
+<span class="local-variable">$svnlook</span> = <span class="string"><span class="delimiter">'</span><span class="content">/usr/bin/svnlook</span><span class="delimiter">'</span></span>;
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Use the argv array to get to the commandline parameters and build up a SVN statement to get some basic info.</p>
 
-<pre><code>$repository = $_SERVER['argv'][1];
-$revision = $_SERVER['argv'][2];
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$repository</span> = <span class="predefined">$_SERVER</span>[<span class="string"><span class="delimiter">'</span><span class="content">argv</span><span class="delimiter">'</span></span>][<span class="integer">1</span>];
+<span class="local-variable">$revision</span> = <span class="predefined">$_SERVER</span>[<span class="string"><span class="delimiter">'</span><span class="content">argv</span><span class="delimiter">'</span></span>][<span class="integer">2</span>];
 
-$cmdInfo = "${svnlook} info ${repository} -r ${revision}";
+<span class="local-variable">$cmdInfo</span> = <span class="string"><span class="delimiter">&quot;</span><span class="local-variable">${svnlook}</span><span class="content"> info </span><span class="local-variable">${repository}</span><span class="content"> -r </span><span class="local-variable">${revision}</span><span class="delimiter">&quot;</span></span>;
 
-$output = array();
-exec($cmdInfo, $output);
+<span class="local-variable">$output</span> = <span class="predefined">array</span>();
+<span class="predefined">exec</span>(<span class="local-variable">$cmdInfo</span>, <span class="local-variable">$output</span>);
 
-$author = $output[0];
-$date = $output[1];
-$comment = $output[3];
-</code></pre>
+<span class="local-variable">$author</span> = <span class="local-variable">$output</span>[<span class="integer">0</span>];
+<span class="local-variable">$date</span> = <span class="local-variable">$output</span>[<span class="integer">1</span>];
+<span class="local-variable">$comment</span> = <span class="local-variable">$output</span>[<span class="integer">3</span>];
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Now let’s get the changes made in this revisions.</p>
 
-<pre><code>$output = array();
-$cmdChanges ="${svnlook} diff ${repository} -r ${revision}";
-exec($cmdChanges, $output);
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$output</span> = <span class="predefined">array</span>();
+<span class="local-variable">$cmdChanges</span> =<span class="string"><span class="delimiter">&quot;</span><span class="local-variable">${svnlook}</span><span class="content"> diff </span><span class="local-variable">${repository}</span><span class="content"> -r </span><span class="local-variable">${revision}</span><span class="delimiter">&quot;</span></span>;
+<span class="predefined">exec</span>(<span class="local-variable">$cmdChanges</span>, <span class="local-variable">$output</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Once we have the diff contents we can loop through the lines and use some simple regex to highlight the changes. I’ve added a bit more code to add pre tags for a better visual effect.</p>
 
-<pre><code>$patch = '&lt;pre class="codeBlock"&gt;';
-$lineCount = count($output);
-for ($x=0; $x&lt;=$lineCount; $x++) {
-    
-    if ($x &gt; 0 &amp;&amp; strstr($output[$x], 'Modified:')) {
-        $patch .= '&lt;/pre&gt;&lt;pre class="codeBlock"&gt;';
-    }
-    
-    $textColor = 'normal';
-    if (preg_match('/^\+/', $output[$x])) {
-        $textColor = 'positive';
-    }
-    else if (preg_match('/^-/', $output[$x])) {
-        $textColor = 'negative';
-    }
-    
-    $patch .= '&lt;span class="' . $textColor . '"&gt;' . htmlentities($output[$x]) . "&lt;/span&gt;&lt;br&gt;";
-    
-    if ($x == $lineCount) {
-        $patch .= "&lt;/pre&gt;";
-    }
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$patch</span> = <span class="string"><span class="delimiter">'</span><span class="content">&lt;pre class=&quot;codeBlock&quot;&gt;</span><span class="delimiter">'</span></span>;
+<span class="local-variable">$lineCount</span> = <span class="predefined">count</span>(<span class="local-variable">$output</span>);
+<span class="keyword">for</span> (<span class="local-variable">$x</span>=<span class="integer">0</span>; <span class="local-variable">$x</span>&lt;=<span class="local-variable">$lineCount</span>; <span class="local-variable">$x</span>++) {
+
+  <span class="keyword">if</span> (<span class="local-variable">$x</span> &gt; <span class="integer">0</span> &amp;&amp; <span class="predefined">strstr</span>(<span class="local-variable">$output</span>[<span class="local-variable">$x</span>], <span class="string"><span class="delimiter">'</span><span class="content">Modified:</span><span class="delimiter">'</span></span>)) {
+    <span class="local-variable">$patch</span> .= <span class="string"><span class="delimiter">'</span><span class="content">&lt;/pre&gt;&lt;pre class=&quot;codeBlock&quot;&gt;</span><span class="delimiter">'</span></span>;
+  }
+
+  <span class="local-variable">$textColor</span> = <span class="string"><span class="delimiter">'</span><span class="content">normal</span><span class="delimiter">'</span></span>;
+  <span class="keyword">if</span> (<span class="predefined">preg_match</span>(<span class="string"><span class="delimiter">'</span><span class="content">/^</span><span class="content">\+</span><span class="content">/</span><span class="delimiter">'</span></span>, <span class="local-variable">$output</span>[<span class="local-variable">$x</span>])) {
+    <span class="local-variable">$textColor</span> = <span class="string"><span class="delimiter">'</span><span class="content">positive</span><span class="delimiter">'</span></span>;
+  }
+  <span class="keyword">else</span> <span class="keyword">if</span> (<span class="predefined">preg_match</span>(<span class="string"><span class="delimiter">'</span><span class="content">/^-/</span><span class="delimiter">'</span></span>, <span class="local-variable">$output</span>[<span class="local-variable">$x</span>])) {
+    <span class="local-variable">$textColor</span> = <span class="string"><span class="delimiter">'</span><span class="content">negative</span><span class="delimiter">'</span></span>;
+  }
+
+  <span class="local-variable">$patch</span> .= <span class="string"><span class="delimiter">'</span><span class="content">&lt;span class=&quot;</span><span class="delimiter">'</span></span> . <span class="local-variable">$textColor</span> . <span class="string"><span class="delimiter">'</span><span class="content">&quot;&gt;</span><span class="delimiter">'</span></span> . <span class="predefined">htmlentities</span>(<span class="local-variable">$output</span>[<span class="local-variable">$x</span>]) . <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;/span&gt;&lt;br&gt;</span><span class="delimiter">&quot;</span></span>;
+
+  <span class="keyword">if</span> (<span class="local-variable">$x</span> == <span class="local-variable">$lineCount</span>) {
+    <span class="local-variable">$patch</span> .= <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;/pre&gt;</span><span class="delimiter">&quot;</span></span>;
+  }
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Now we can build the body for the email that will be generated.</p>
 
-<pre><code>$body .= "Author : " . $author . "&lt;br&gt;";
-$body .= "Date : " . $date . "&lt;br&gt;";
-$body .= "Comment : " . $comment . "&lt;br&gt;&lt;br&gt;";
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$body</span> .= <span class="string"><span class="delimiter">&quot;</span><span class="content">Author : </span><span class="delimiter">&quot;</span></span> . <span class="local-variable">$author</span> . <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;br&gt;</span><span class="delimiter">&quot;</span></span>;
+<span class="local-variable">$body</span> .= <span class="string"><span class="delimiter">&quot;</span><span class="content">Date : </span><span class="delimiter">&quot;</span></span> . <span class="local-variable">$date</span> . <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;br&gt;</span><span class="delimiter">&quot;</span></span>;
+<span class="local-variable">$body</span> .= <span class="string"><span class="delimiter">&quot;</span><span class="content">Comment : </span><span class="delimiter">&quot;</span></span> . <span class="local-variable">$comment</span> . <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;br&gt;&lt;br&gt;</span><span class="delimiter">&quot;</span></span>;
 
-$body .= $patch;
-</code></pre>
+<span class="local-variable">$body</span> .= <span class="local-variable">$patch</span>;
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Add a MIME header so my mail client displays it properly. And send it of through the build in mail() function. </p>
 
-<pre><code>$headers  = 'MIME-Version: 1.0' . "\r\n";
-$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$headers</span>  = <span class="string"><span class="delimiter">'</span><span class="content">MIME-Version: 1.0</span><span class="delimiter">'</span></span> . <span class="string"><span class="delimiter">&quot;</span><span class="char">\r</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>;
+<span class="local-variable">$headers</span> .= <span class="string"><span class="delimiter">'</span><span class="content">Content-type: text/html; charset=iso-8859-1</span><span class="delimiter">'</span></span> . <span class="string"><span class="delimiter">&quot;</span><span class="char">\r</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>;
 
-$bodyHTML = file_get_contents("/path/to/some/HTML/template");
-$bodyHTML = str_replace('{EMAIL}', $body, $bodyHTML);
+<span class="local-variable">$bodyHTML</span> = <span class="predefined">file_get_contents</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/path/to/some/HTML/template</span><span class="delimiter">&quot;</span></span>);
+<span class="local-variable">$bodyHTML</span> = <span class="predefined">str_replace</span>(<span class="string"><span class="delimiter">'</span><span class="content">{EMAIL}</span><span class="delimiter">'</span></span>, <span class="local-variable">$body</span>, <span class="local-variable">$bodyHTML</span>);
 
-mail($address, 'SVN post-commit', $bodyHTML, $headers);
-</code></pre>
+<span class="predefined">mail</span>(<span class="local-variable">$address</span>, <span class="string"><span class="delimiter">'</span><span class="content">SVN post-commit</span><span class="delimiter">'</span></span>, <span class="local-variable">$bodyHTML</span>, <span class="local-variable">$headers</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 </div>
   

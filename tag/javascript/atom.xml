@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Javascript | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/javascript/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-06-23T16:07:49+02:00</updated>
+  <updated>2013-06-23T19:46:59+02:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -347,112 +347,144 @@ Upload 29 MB file results in 0.4 MB memory usage</p>
 
 <p>The new XMLHttpRequest object makes is possible to send files in a few different formats. The most important being the binary format. The code for sending a request with XMLHttpRequest2 looks the same as the previous version. Except for sendAsBinary() in this case.</p>
 
-<pre><code>var xhr = new XMLHttpRequest();
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();&lt;<span class="regexp"><span class="delimiter">/</span><span class="content">p&gt;
 
-fileUpload = xhr.upload,
+&lt;p&gt;fileUpload = xhr.upload,
 fileUpload.onload = function() {
-    console.log("Sent!");
-}
-				
-xhr.open("POST", "upload.php", true);			
+  console.log(“Sent!”);
+}&lt;</span><span class="delimiter">/</span></span>p&gt;
+
+&lt;p&gt;xhr.open(<span class="error">“</span>POST<span class="error">”</span>, <span class="error">“</span>upload.php<span class="error">”</span>, <span class="predefined-constant">true</span>);
 xhr.sendAsBinary(file.getAsBinary());
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <p>So let’s set things up for drag &amp; drop. We need a div that will be the main drop point. And we need some event listeners to catch the drag * drop events. Let start by creating the drop zone. For this we use two simple divs. The outer div will listen for the drag &amp; drop events. And the inner will catch the files.</p>
 
-<pre><code>&lt;div id="container"&gt;
-	&lt;div id="drop"&gt;&lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="entity">&amp;lt;</span>div id=&quot;container&quot;<span class="entity">&amp;gt;</span>
+  <span class="entity">&amp;lt;</span>div id=&quot;drop&quot;<span class="entity">&amp;gt;</span><span class="entity">&amp;lt;</span>/div<span class="entity">&amp;gt;</span>
+<span class="entity">&amp;lt;</span>/div<span class="entity">&amp;gt;</span>
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <p>Now let’s create our upload code.</p>
 
-<pre><code>var upload = {
-    setup : function() {},
-    uploadFiles : function() {event}
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">var</span> upload = {
+  <span class="function">setup</span> : <span class="keyword">function</span>() {},
+  <span class="function">uploadFiles</span> : <span class="keyword">function</span>() {event}
 }
-window.addEventListener("load", upload.setup, false);
-</code></pre>
+window.addEventListener(<span class="error">“</span>load<span class="error">”</span>, upload.setup, <span class="predefined-constant">false</span>);
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <p>The setup method will set all event listeners for drag &amp; drop. And register the upload handler.</p>
 
-<pre><code>var container = document.getElementById('container');
-var drop = document.getElementById('drop');
-			
-container.addEventListener("dragenter", function(event) {
-        drop.innerHTML = '';
-        event.stopPropagation();
-        event.preventDefault();
-    }, 
-    false
-);
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">var</span> container = document.getElementById(<span class="error">‘</span>container<span class="error">’</span>);
+<span class="keyword">var</span> drop = document.getElementById(<span class="error">‘</span>drop<span class="error">’</span>);&lt;<span class="regexp"><span class="delimiter">/</span><span class="content">p&gt;
 
-container.addEventListener("dragover", function(event) {
-        event.stopPropagation(); 
-	event.preventDefault();
-    }, 
-    false
-);
+&lt;p&gt;container.addEventListener(“dragenter”, function(event) {
+    drop.innerHTML = ‘’;
+    event.stopPropagation();
+    event.preventDefault();
+  }, 
+  false
+);&lt;</span><span class="delimiter">/</span></span>p&gt;
 
-container.addEventListener("drop", upload.uploadFiles, false);
-</code></pre>
+<span class="tag">&lt;p&gt;</span>container.addEventListener(“dragover”, function(event) {
+    event.stopPropagation(); 
+    event.preventDefault();
+  }, 
+  false
+);<span class="tag">&lt;/p&gt;</span>
+
+&lt;p&gt;container.addEventListener(<span class="error">“</span>drop<span class="error">”</span>, upload.uploadFiles, <span class="predefined-constant">false</span>);
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <p>As you could see above. the uploadFiles() method gets a event returned from the drag &amp; drop action. This is where the new <a href="http://dev.w3.org/2006/webapi/FileAPI/">file APi</a> comes in play. To get to the file property we access the dataTransfer object.</p>
 
-<pre><code>var files = event.dataTransfer.files;
-</code></pre>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">var</span> files = event.dataTransfer.files;
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <p>The actual uploading is easy as cake.</p>
 
-<pre><code>for (var x = 0; x &lt; files.length; x++) {
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">for</span> (<span class="keyword">var</span> x = <span class="integer">0</span>; x &amp;lt; files.length; x++) {&lt;<span class="regexp"><span class="delimiter">/</span><span class="content">p&gt;
 
-    var file = files.item(x);
-    var xhr = new XMLHttpRequest();
- 
-     fileUpload = xhr.upload,
-     fileUpload.onload = function() {
-         console.log("Sent!");
-    }
-				
-    xhr.open("POST", "upload.php", true);
+&lt;p&gt;var file = files.item(x);
+  var xhr = new XMLHttpRequest();&lt;</span><span class="delimiter">/</span></span>p&gt;
 
-    xhr.setRequestHeader("Cache-Control", "no-cache");
-    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-    xhr.setRequestHeader("X-File-Name", file.fileName);
-    xhr.setRequestHeader("X-File-Size", file.fileSize);
-    xhr.setRequestHeader("Content-Type", "multipart/form-data");
-					
-    xhr.sendAsBinary(file.getAsBinary());
+<span class="tag">&lt;p&gt;</span>fileUpload = xhr.upload;
+  fileUpload.onload = function() {
+    console.log(“Sent!”);
+  }<span class="tag">&lt;/p&gt;</span>
+
+<span class="tag">&lt;p&gt;</span>xhr.open(“POST”, “upload.php”, true);<span class="tag">&lt;/p&gt;</span>
+
+<span class="tag">&lt;p&gt;</span>xhr.setRequestHeader(“Cache-Control”, “no-cache”);
+  xhr.setRequestHeader(“X-Requested-With”, “XMLHttpRequest”);
+  xhr.setRequestHeader(“X-File-Name”, file.fileName);
+  xhr.setRequestHeader(“X-File-Size”, file.fileSize);
+  xhr.setRequestHeader(“Content-Type”, “multipart/form-data”);<span class="tag">&lt;/p&gt;</span>
+
+&lt;p&gt;xhr.sendAsBinary(file.getAsBinary());
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <p>That’s it for the client side. There is however a small problem on the receiving side. When handling uploaded files in PHP we expect the <strong>$_FILES</strong> array to be populated. This is not the case when streaming files from the client to the server. To get the needed file information we set some headers on the client side <strong>X-File-Name</strong> and <strong>X-File-Size</strong>. And since the <strong>$_FILES</strong> are is empty. We need an other way to get the file contents. So we will use php://input streams for that.</p>
 
 <p>The contents of upload.php look like this:</p>
 
-<pre><code>require_once('Streamer.php');
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+require_once(‘Streamer.php’);<span class="tag">&lt;/p&gt;</span>
 
-$ft = new File_Streamer();
-$ft-&gt;setDestination('data/');
-$ft-&gt;receive();
-</code></pre>
+<span class="tag">&lt;p&gt;</span>$ft = new File_Streamer();
+$ft-<span class="entity">&amp;gt;</span>setDestination(‘data/’);
+$ft-<span class="entity">&amp;gt;</span>receive();
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <p>With setDestination() the destination path for the uploaded files is set. And recieve() listens for any incoming files. Most of the magic is done in the recieve() method. So here’s the code.</p>
 
-<pre><code>public function receive()
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+public function receive()
 {
-    if (!$this-&gt;isValid()) {
-        throw new Exception('No file uploaded!');
-    }
-		
-    file_put_contents(
-        $this-&gt;_destination . $this-&gt;_fileName, 
-        file_get_contents("php://input")
-    );
-        
-    return true;
+  if (!$this-<span class="entity">&amp;gt;</span>isValid()) {
+    throw new Exception(‘No file uploaded!’);
+  }<span class="tag">&lt;/p&gt;</span>
+
+<span class="tag">&lt;p&gt;</span>file_put_contents(
+    $this-<span class="entity">&amp;gt;</span>_destination . $this-<span class="entity">&amp;gt;</span>_fileName, 
+    file_get_contents(“php://input”)
+  );<span class="tag">&lt;/p&gt;</span>
+
+<span class="tag">&lt;p&gt;</span>return true;
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <p>I am impressed! This promises a lot of good. And offers some interesting options. Let’s hope all browsers implement this gem. I still have one issue though. I can’t get this to work in firefox under linux. The drag &amp; drop events do not seem to function properly with files being dragged from the desktop. anybody know why? </p>
 
