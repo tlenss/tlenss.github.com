@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tech | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/tech/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-06-23T11:40:35+02:00</updated>
+  <updated>2013-06-23T11:45:29+02:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -30,58 +30,67 @@
 
 <p><strong><em>$algorithm</em></strong> The hashing algorithm to use of which two are available at the moment</p>
 
-<p>{% blockquote Algorithm constants %}
-	PASSWORD_DEFAULT which uses bcrypt
-	PASSWORD_BCRYPT which uses blowfish 
-{% endblockquote %}</p>
+<p><blockquote><p>PASSWORD_DEFAULT which uses bcrypt<br/>	PASSWORD_BCRYPT which uses blowfish</p></blockquote></p>
 
 <p><strong><em>$options</em></strong> makes it possible to add a salt or set the cost for the hashing algorithm</p>
 
-<p>{% codeblock Hash password with default algorithm lang:php http://php.net/manual/en/function.password-hash.php password_hash() %}
-	$password = ‘test-password’;
-	$hash = password_hash($password, PASSWORD_DEFAULT);
-	var_dump($hash);
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Hash password with default algorithm </span><a href='http://php.net/manual/en/function.password-hash.php'>password_hash() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">	$password = ‘test-password’;</span>
+</span><span class='line'><span class="x">	$hash = password_hash($password, PASSWORD_DEFAULT);</span>
+</span><span class='line'><span class="x">	var_dump($hash);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <pre><code>string(60) "$2y$10$qGv1q5nT4F7HCtKSPPME2usrdJRcRpk9lEUMQsE8mqyDIy3fbJ4I."
 </code></pre>
 
-<p>{% codeblock Hash password with BLOWFISH algorithm lang:php http://php.net/manual/en/function.password-hash.php password_hash() %}
-	$hash = password_hash($password, PASSWORD_BCRYPT);
-	var_dump($hash);
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Hash password with BLOWFISH algorithm </span><a href='http://php.net/manual/en/function.password-hash.php'>password_hash() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">	$hash = password_hash($password, PASSWORD_BCRYPT);</span>
+</span><span class='line'><span class="x">	var_dump($hash);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <pre><code>string(60) "$2y$10$XtpNO/tFjtkq4u3ghcpqXeSwbHZxDQDTXRHfWBnZsmowUVl/MQys2"
 </code></pre>
 
-<p>{% codeblock Hash password with BLOWFISH algorithm and options lang:php http://php.net/manual/en/function.password-hash.php password_hash() %}
-	$salt = mcrypt_create_iv(22, MCRYPT_DEV_URANDOM); 
-	$hash = password_hash($password, PASSWORD_BCRYPT, array(“cost” =&gt; 14, “salt” =&gt; $salt));
-	var_dump($hash);
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Hash password with BLOWFISH algorithm and options </span><a href='http://php.net/manual/en/function.password-hash.php'>password_hash() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">	$salt = mcrypt_create_iv(22, MCRYPT_DEV_URANDOM); </span>
+</span><span class='line'><span class="x">	$hash = password_hash($password, PASSWORD_BCRYPT, array(“cost” =&amp;gt; 14, “salt” =&amp;gt; $salt));</span>
+</span><span class='line'><span class="x">	var_dump($hash);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <pre><code>string(60) "$2y$14$6ZtnYJ0CyqCUx.vJu3MZEuUGgIN.ryxMa0Yh8BnCrbBDVnd3Me30i"
 </code></pre>
 
 <p>Verify if a hash and password match. Return true if they do and false if they don’t</p>
 
-<p>{% codeblock Verify hash lang:php http://php.net/manual/en/function.password-verify.php password_verify() %}
-	$hash = password_hash($password, PASSWORD_DEFAULT);</p>
-
-<pre><code>if (password_verify($password, $hash)) {
-		echo 'Password is correct';
-} else {
-		echo 'Password is incorrect';
-} {% endcodeblock %}
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Verify hash </span><a href='http://php.net/manual/en/function.password-verify.php'>password_verify() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">	$hash = password_hash($password, PASSWORD_DEFAULT);&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt;if (password_verify($password, $hash)) {</span>
+</span><span class='line'><span class="x">		echo &#39;Password is correct&#39;;</span>
+</span><span class='line'><span class="x">} else {</span>
+</span><span class='line'><span class="x">		echo &#39;Password is incorrect&#39;;</span>
+</span><span class='line'><span class="x">} </span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 Password is correct
 </code></pre>
 
 <p>Get information about a valid hash created with password_hash(). The function returns an array with the use d algorithm and options</p>
 
-<p>{% codeblock Retrieve $hash information lang:php http://php.net/manual/en/function.password-get-info.php password_get_info() %}
-$info = password_get_info($hash);
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Retrieve $hash information </span><a href='http://php.net/manual/en/function.password-get-info.php'>password_get_info() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">$info = password_get_info($hash);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <pre><code>array(3) {
 	["algo"]=&gt;
@@ -98,42 +107,59 @@ $info = password_get_info($hash);
 
 <p>Check if the supplied hash was generated by the provided algorithm and options. This might come in handy when the hash needs to be updated</p>
 
-<p>{% codeblock Check if a $hash needs to be rehashed lang:php http://php.net/manual/en/function.password-needs-rehash.php password_needs_rehash() %}
-	if (password_needs_rehash($hash, PASSWORD_BCRYPT, array(‘cost’ =&gt; 8))) {
-		// Update the password hash
-	}
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Check if a $hash needs to be rehashed </span><a href='http://php.net/manual/en/function.password-needs-rehash.php'>password_needs_rehash() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">	if (password_needs_rehash($hash, PASSWORD_BCRYPT, array(‘cost’ =&amp;gt; 8))) {</span>
+</span><span class='line'><span class="x">		// Update the password hash</span>
+</span><span class='line'><span class="x">	}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p><strong><em>Support for constant array/string dereferencing</em></strong></p>
 
 <p>If you work with objects you might have worked with object dereferencing. This Is used to chain method calls. Or the so called fluent interfaces</p>
 
-<p>{% codeblock Dereference object call lang:php %}
-	$obj-&gt;method()-&gt;returnObjMethod();
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Dereference object call  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">	$obj-&amp;gt;method()-&amp;gt;returnObjMethod();</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Now the same is possible for arrays and strings</p>
 
-<p>{% codeblock Dereference strings / array lang:php %}
-	echo array(1, 2, 3)[0]; //output 1
-	echo “foobar”[2]; //output o
-	echo “foobar”[“foo”][0] // output f</p>
-
-<pre><code>echo [1,3,4][2]; //output 4 {% endcodeblock %}
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Dereference strings / array  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">	echo array(1, 2, 3)[0]; //output 1</span>
+</span><span class='line'><span class="x">	echo “foobar”[2]; //output o</span>
+</span><span class='line'><span class="x">	echo “foobar”[“foo”][0] // output f&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt;echo [1,3,4][2]; //output 4 </span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </code></pre>
 
 <p><strong><em>Class Name Resolution As Scalar Via “class” Keyword</em></strong></p>
 
 <p>An easy way to get the full class name </p>
 
-<p>{% codeblock Class name resolution via ::class lang:php %}
-	namespace Vodka\Crypt;</p>
-
-<pre><code>Class HashBuilder {}
-
-use Vodka\Crypt\HashBuilder;
- 
-var_dump(HashBuilder::class); {% endcodeblock %}
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Class name resolution via ::class  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">	namespace Vodka\Crypt;&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt;Class HashBuilder {}</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">use Vodka\Crypt\HashBuilder;</span>
+</span><span class='line'><span class="x"> </span>
+</span><span class='line'><span class="x">var_dump(HashBuilder::class); </span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 string(23) "Vodka\Crypt\HashBuilder"
 </code></pre>
@@ -144,30 +170,42 @@ string(23) "Vodka\Crypt\HashBuilder"
 
 <p><strong><em>5.3</em></strong></p>
 
-<p>{% codeblock Call empty() with closure lang:php %}
-	var_dump( empty(function() {}) );
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Call empty() with closure  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">	var_dump( empty(function() {}) );</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <pre><code>PHP Parse error:  syntax error, unexpected T_FUNCTION in
 </code></pre>
 
-<p>{% codeblock Call empty() with function return value lang:php %}	
-	function foo() {}
-	var_dump(empty(foo()));
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Call empty() with function return value  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">	</span>
+</span><span class='line'><span class="x">	function foo() {}</span>
+</span><span class='line'><span class="x">	var_dump(empty(foo()));</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <pre><code>PHP Fatal error:  Can't use function return value in write context in
 </code></pre>
 
 <p><strong><em>5.5</em></strong></p>
 
-<p>{% codeblock Call empty() with function return value lang:php %}
-	function foo($val) { 
-		return $val; 
-	}</p>
-
-<pre><code>var_dump( empty(foo([])) );
-var_dump( empty(foo(true)) ); {% endcodeblock %}
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Call empty() with function return value  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">	function foo($val) { </span>
+</span><span class='line'><span class="x">		return $val; </span>
+</span><span class='line'><span class="x">	}&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt;var_dump( empty(foo([])) );</span>
+</span><span class='line'><span class="x">var_dump( empty(foo(true)) ); </span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 bool(true)
 bool(false)
@@ -177,72 +215,66 @@ bool(false)
 
 <p>List has been added for foreach loops. Great for eliminating unused variables.</p>
 
-<p>{% codeblock Support for list in foreach lang:php %}
-	$messages = array(
-		array(‘id’ =&gt; 1, ‘body’ =&gt; ‘test-1’, ‘code’ =&gt; 12),
-		array(‘id’ =&gt; 2, ‘body’ =&gt; ‘test-2’, ‘code’ =&gt; 12),
-		array(‘id’ =&gt; 3, ‘body’ =&gt; ‘test-3’, ‘code’ =&gt; 10)
-	);</p>
-
-<pre><code>// Before
-foreach ($messages as $message) {
-    list($id, $body) = $message;
-}
- 
-// After
-foreach ($messages as list($id, $body)) {
-    
-} {% endcodeblock %}
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Support for list in foreach  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">	$messages = array(</span>
+</span><span class='line'><span class="x">		array(‘id’ =&amp;gt; 1, ‘body’ =&amp;gt; ‘test-1’, ‘code’ =&amp;gt; 12),</span>
+</span><span class='line'><span class="x">		array(‘id’ =&amp;gt; 2, ‘body’ =&amp;gt; ‘test-2’, ‘code’ =&amp;gt; 12),</span>
+</span><span class='line'><span class="x">		array(‘id’ =&amp;gt; 3, ‘body’ =&amp;gt; ‘test-3’, ‘code’ =&amp;gt; 10)</span>
+</span><span class='line'><span class="x">	);&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt;// Before</span>
+</span><span class='line'><span class="x">foreach ($messages as $message) {</span>
+</span><span class='line'><span class="x">    list($id, $body) = $message;</span>
+</span><span class='line'><span class="x">}</span>
+</span><span class='line'><span class="x"> </span>
+</span><span class='line'><span class="x">// After</span>
+</span><span class='line'><span class="x">foreach ($messages as list($id, $body)) {</span>
+</span><span class='line'><span class="x">    </span>
+</span><span class='line'><span class="x">} </span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </code></pre>
 
 <p><strong><em>Zend Opcache extension and enable building it by default</em></strong></p>
 
 <p>My short post about <a href="https://wiki.php.net/rfc/optimizerplus">Zend Optimizer+</a> in February this year. Kind of slipped my mind. And i was somehow under the impression <a href="http://pecl.php.net/package/APC">APC</a> would be integrated. But this of course has to be Zend Optimizer+. Finally an opcode cacher available be default. And configurable from php.ini</p>
 
-<p>{% blockquote Snippet from php.ini %}
-	[opcache]
-	; Determines if Zend OPCache is enabled
-	opcache.enable=0
-	opcache.enable_cli=0</p>
-
-<pre><code>; The OPcache shared memory storage size.
-opcache.memory_consumption=64
-
-; The amount of memory for interned strings in Mbytes.
-opcache.interned_strings_buffer=4
-
-; Max files in OPCode cache, use a number between 200 and 100000.
-opcache.max_accelerated_files=2000
-
-; The maximum percentage of "wasted" memory until a restart is scheduled.
-opcache.max_wasted_percentage=5
-
-; Append current working dir to script name
-opcache.use_cwd=1
-
-How often a file should be validated
-opcache.revalidate_freq=2
-
-; Enables or disables file search in include_path optimization
-opcache.revalidate_path=0
-
-; Drop all PHPDoc comments
-opcache.save_comments=1 {% endblockquote %}
+<p><blockquote><p>[opcache]<br/>	; Determines if Zend OPCache is enabled<br/>	opcache.enable=0<br/>	opcache.enable_cli=0</p></p><p><pre><code>; The OPcache shared memory storage size.<br/>opcache.memory_consumption=64</p><p>; The amount of memory for interned strings in Mbytes.<br/>opcache.interned_strings_buffer=4</p><p>; Max files in OPCode cache, use a number between 200 and 100000.<br/>opcache.max_accelerated_files=2000</p><p>; The maximum percentage of "wasted" memory until a restart is scheduled.<br/>opcache.max_wasted_percentage=5</p><p>; Append current working dir to script name<br/>opcache.use_cwd=1</p><p>How often a file should be validated<br/>opcache.revalidate_freq=2</p><p>; Enables or disables file search in include_path optimization<br/>opcache.revalidate_path=0</p><p>; Drop all PHPDoc comments<br/>opcache.save_comments=1</p></blockquote>
 </code></pre>
 
 <p><strong><em>array_column function which returns a column in a multidimensional array</em></strong></p>
 
 <p>Fetching a column from a multi-dimensional array is now possible with a single function call.</p>
 
-<p>{% codeblock Fetch a column from a multi-dimensional array lang:php http://php.net/manual/en/function.array-column.php array_column() %}
-	$nestedArray = array(
-		array(‘id’ =&gt; 1, ‘body’ =&gt; ‘test-1’, ‘code’ =&gt; 12),
-		array(‘id’ =&gt; 2, ‘body’ =&gt; ‘test-2’, ‘code’ =&gt; 12),
-		array(‘id’ =&gt; 3, ‘body’ =&gt; ‘test-3’, ‘code’ =&gt; 10)
-	);
-	$columns = array_column($nestedArray, ‘code’);
-	print_r($columns);
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Fetch a column from a multi-dimensional array </span><a href='http://php.net/manual/en/function.array-column.php'>array_column() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">	$nestedArray = array(</span>
+</span><span class='line'><span class="x">		array(‘id’ =&amp;gt; 1, ‘body’ =&amp;gt; ‘test-1’, ‘code’ =&amp;gt; 12),</span>
+</span><span class='line'><span class="x">		array(‘id’ =&amp;gt; 2, ‘body’ =&amp;gt; ‘test-2’, ‘code’ =&amp;gt; 12),</span>
+</span><span class='line'><span class="x">		array(‘id’ =&amp;gt; 3, ‘body’ =&amp;gt; ‘test-3’, ‘code’ =&amp;gt; 10)</span>
+</span><span class='line'><span class="x">	);</span>
+</span><span class='line'><span class="x">	$columns = array_column($nestedArray, ‘code’);</span>
+</span><span class='line'><span class="x">	print_r($columns);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <pre><code>Array
 (
@@ -254,10 +286,11 @@ opcache.save_comments=1 {% endblockquote %}
 
 <p>Or fetch status code indexed by id</p>
 
-<p>{% codeblock Fetch a column from a multi-dimensional array index by another field lang:php http://php.net/manual/en/function.array-column.php array_column() %}
-	$columns = array_column($nestedArray, ‘code’, ‘id’);
-	print_r($columns);
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Fetch a column from a multi-dimensional array index by another field </span><a href='http://php.net/manual/en/function.array-column.php'>array_column() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">	$columns = array_column($nestedArray, ‘code’, ‘id’);</span>
+</span><span class='line'><span class="x">	print_r($columns);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <div><div class="CodeRay">
   <div class="code"><pre><span class="global-variable">$columns</span> = array_column(<span class="global-variable">$nestedArray</span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span>);
@@ -290,11 +323,7 @@ print_r(<span class="global-variable">$columns</span>);
 
 <p>If you want to experience the new version first hand and you work on <a href="http://www.ubuntu.com/">Ubuntu</a>. You can add the experimental PPA and give it a shot.</p>
 
-<p>{% blockquote Install PHP 5.5.0 on Ubuntu %}
-	sudo add-apt-repository ppa:ondrej/php5-experimental
-	sudo apt-get update
-	sudo apt-get install php5
-{% endblockquote %}</p>
+<p><blockquote><p>sudo add-apt-repository ppa:ondrej/php5-experimental<br/>	sudo apt-get update<br/>	sudo apt-get install php5</p></blockquote></p>
 
 ]]></content>
   </entry>
