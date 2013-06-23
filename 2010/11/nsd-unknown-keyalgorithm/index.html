@@ -86,12 +86,14 @@
 <p>So after resetting the date and restarting <a href="http://www.nlnetlabs.nl/projects/nsd/">NSD</a>. The problem was resolved.</p>
 
 <blockquote>
-  <p>$ date -s ‘14 NOV 2010 01:37:00’
-$ /usr/sbin/nsdc update &gt; /dev/nul 2&gt;%1
-$ /usr/sbin/nsdc patch &gt; /dev/nul 2&gt;%1
-$ /usr/sbin/nsdc rebuild &gt; /dev/nul 2&gt;%1
-$ /usr/sbin/nsdc reload &gt; /dev/nul 2&gt;%1
-$ /usr/sbin/nsdc notify &gt; /dev/nul 2&gt;%1</p>
+  <ul>
+    <li>$ date -s ‘14 NOV 2010 01:37:00’</li>
+    <li>$ /usr/sbin/nsdc update &gt; /dev/nul 2&gt;%1</li>
+    <li>$ /usr/sbin/nsdc patch &gt; /dev/nul 2&gt;%1</li>
+    <li>$ /usr/sbin/nsdc rebuild &gt; /dev/nul 2&gt;%1</li>
+    <li>$ /usr/sbin/nsdc reload &gt; /dev/nul 2&gt;%1</li>
+    <li>$ /usr/sbin/nsdc notify &gt; /dev/nul 2&gt;%1</li>
+  </ul>
 </blockquote>
 
 </div>

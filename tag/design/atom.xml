@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Design | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/design/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-06-23T21:42:02+02:00</updated>
+  <updated>2013-06-23T21:46:43+02:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -64,10 +64,12 @@
 
 <p>A big thanks for this furry blue creature goes out to:</p>
 
-<p><a href="http://www.elroubio.net/naissance_elephpant.php">Vincent Pontier</a> 
-<a href="http://www.nexen.net/">Damien Seguy</a> 
-<a href="http://blog.hello-design.fr/">Christophe Villeneuve</a> 
-<a href="http://cesarodas.com/">Cesar Rodas</a></p>
+<ul>
+  <li><a href="http://www.elroubio.net/naissance_elephpant.php">Vincent Pontier</a> </li>
+  <li><a href="http://www.nexen.net/">Damien Seguy</a> </li>
+  <li><a href="http://blog.hello-design.fr/">Christophe Villeneuve</a> </li>
+  <li><a href="http://cesarodas.com/">Cesar Rodas</a></li>
+</ul>
 ]]></content>
   </entry>
   
