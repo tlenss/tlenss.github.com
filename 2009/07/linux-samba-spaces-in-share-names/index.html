@@ -67,25 +67,33 @@
 </header>
 
 
-<div class="articletext"><p>Yesterday i had to reconfigure the samba server at the office. And at the same time change some of the share names we&#8217;ve been using. One of the new names contained a space. And while setting this up on all Windows boxes i noticed no problem.</p>
+<div class="articletext"><p>Yesterday i had to reconfigure the samba server at the office. And at the same time change some of the share names we’ve been using. One of the new names contained a space. And while setting this up on all Windows boxes i noticed no problem. </p>
 
 <p>After all was finished i went to edit my fstab file so i get the new shares at boot. And after making changes to fstab i always do a simple test</p>
 
-<blockquote><p>sudo mount -a</p></blockquote>
+<blockquote>
+  <p>sudo mount -a</p>
+</blockquote>
 
 <p>This resulted in a syntax error from the fstab file</p>
 
-<blockquote><p>[mntent]: line 13 in /etc/fstab is bad</p></blockquote>
+<blockquote>
+</blockquote>
 
-<p>That&#8217;s nice. So Linux doesn&#8217;t like spaces in the share names. How strange :) So i tried a few escaping sequences.</p>
+<p>That’s nice. So Linux doesn’t like spaces in the share names. How strange :) So i tried a few escaping sequences.</p>
 
-<blockquote><p>&#8216;samba share&#8217;
-&#8220;samba share&#8221;
-samba\ share</p></blockquote>
+<blockquote>
+  <p>‘samba share’
+“samba share”
+samba\ share</p>
+</blockquote>
 
-<p>Non of that seemed to work. So after a bit of searching found the solution. You can use an octal number format to express the ASCII symbol. In this case that&#8217;s &#8216;040&#8217;. And escape it with a slash.</p>
+<p>Non of that seemed to work. So after a bit of searching found the solution. You can use an octal number format to express the ASCII symbol. In this case that’s ‘040’. And escape it with a slash.</p>
 
-<blockquote><p>samba\040share</p></blockquote>
+<blockquote>
+  <p>samba\040share</p>
+</blockquote>
+
 </div>
 
 
@@ -207,6 +215,8 @@ samba\ share</p></blockquote>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -224,8 +234,6 @@ samba\ share</p></blockquote>
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -246,7 +254,7 @@ samba\ share</p></blockquote>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

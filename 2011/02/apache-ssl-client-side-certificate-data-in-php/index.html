@@ -67,7 +67,7 @@
 </header>
 
 
-<div class="articletext"><p>What should have been a simple assignment turned out to be a hair pulling endeavour. The ultimate goal was to read the client side certificate data in PHP. I am by no means a system administrator. And the SSL part will probably be done by somebody more experienced. And the certificates will be signed by real CA&#8217;s. But for developing locally i need something functioning.</p>
+<div class="articletext"><p>What should have been a simple assignment turned out to be a hair pulling endeavour. The ultimate goal was to read the client side certificate data in PHP. I am by no means a system administrator. And the SSL part will probably be done by somebody more experienced. And the certificates will be signed by real CA’s. But for developing locally i need something functioning. </p>
 
 <p>So i spend the last hours trying to get client side certificates working. With absolutely no luck. I found a bunch of posts by doing Google searches. But none of them seem to offer the proper information for creating good client side certificates. Creating the CA and the server certificate is no problem at all. But creating a client side certificate seems impossible. Some of the post i tried:</p>
 
@@ -80,76 +80,92 @@
 
 <p>You would have thought that something like this would have been documented pretty well by now. But no luck for me. This only resulted in</p>
 
-<blockquote><p>[debug] ssl_engine_kernel.c(1879): OpenSSL: Read: SSLv3 read client certificate A
+<blockquote>
+  <p>[debug] ssl_engine_kernel.c(1879): OpenSSL: Read: SSLv3 read client certificate A
 [debug] ssl_engine_kernel.c(1898): OpenSSL: Exit: failed in SSLv3 read client certificate A
 [info] [client xxx.xxx.xxx.xx] SSL library error 1 in handshake (server lab:443)
-[info] SSL Library Error: 336151570 error:14094412:SSL routines:SSL3_READ_BYTES:sslv3 alert bad certificate Subject CN in certificate not server name or identical to CA!?</p></blockquote>
+[info] SSL Library Error: 336151570 error:14094412:SSL routines:SSL3_READ_BYTES:sslv3 alert bad certificate Subject CN in certificate not server name or identical to CA!?</p>
+</blockquote>
 
 <p>So after almost giving up i found the <em>CA.sh</em> script hidden in <em>/usr/lib/ssl/misc</em> this little sucker seems to do the job pretty well. Creating a CA, server certificate and client side certificate is extremely easy. So i settled for that.</p>
 
 <p><strong>Creating the CA</strong></p>
 
-<blockquote><p>$ cd /usr/lib/ssl/misc
+<blockquote>
+  <p>$ cd /usr/lib/ssl/misc
 $ /CA.sh -newca
-CA certificate filename (or enter to create)</p></blockquote>
+CA certificate filename (or enter to create)</p>
+</blockquote>
 
-<p>Making CA certificate &#8230;
+<p>Making CA certificate …
 Generating a 1024 bit RSA private key
-&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;..++++++
-&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;++++++
-writing new private key to &#8216;./demoCA/private/./cakey.pem&#8217;
+…………………..++++++
+………………………………++++++
+writing new private key to ‘./demoCA/private/./cakey.pem’
 Enter PEM pass phrase:
 Verifying - Enter PEM pass phrase:</p>
 
 <p>And fill out some basic certificate data</p>
 
-<blockquote><p>Country Name (2 letter code) [AU]:NL
+<blockquote>
+  <p>Country Name (2 letter code) [AU]:NL
 State or Province Name (full name) [Some-State]:NH
 Locality Name (eg, city) []:Purmerend
 Organization Name (eg, company) [Internet Widgits Pty Ltd]:Bluesignal
 Organizational Unit Name (eg, section) []:lab
 Common Name (eg, YOUR name) []:lab
-Email Address []:my@email.tld</p></blockquote>
+Email Address []:my@email.tld</p>
+</blockquote>
 
 <p><strong>Creating the server certificates</strong></p>
 
-<blockquote><p>$ ./CA.sh -newreq
+<blockquote>
+  <p>$ ./CA.sh -newreq
 Generating a 1024 bit RSA private key
 .++++++
-&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;++++++
-writing new private key to &#8216;newkey.pem&#8217;
+…………………………………………………………………………++++++
+writing new private key to ‘newkey.pem’
 Enter PEM pass phrase:
-Verifying - Enter PEM pass phrase:</p></blockquote>
+Verifying - Enter PEM pass phrase:</p>
+</blockquote>
 
 <p>Fill out the same basic certificate data</p>
 
-<blockquote><p>Country Name (2 letter code) [AU]:NL
+<blockquote>
+  <p>Country Name (2 letter code) [AU]:NL
 State or Province Name (full name) [Some-State]:NH
 Locality Name (eg, city) []:Purmerend
 Organization Name (eg, company) [Internet Widgits Pty Ltd]:Bluesignal
 Organizational Unit Name (eg, section) []:lab
 Common Name (eg, YOUR name) []:lab
-Email Address []:my@email.tld</p></blockquote>
+Email Address []:my@email.tld</p>
+</blockquote>
 
 <p><strong>Sign the sucker</strong></p>
 
-<blockquote><p>$ ./CA.sh -sign
+<blockquote>
+  <p>$ ./CA.sh -sign
 Using configuration from /etc/ssl/openssl.cnf
 Enter pass phrase for ./demoCA/private/cakey.pem:
 Check that the request matches the signature
-Signature ok</p></blockquote>
+Signature ok</p>
+</blockquote>
 
 <p>The only thing left to do is creating the client side certificate</p>
 
-<blockquote><p>openssl pkcs12 -export -in newcert.pem -inkey newkey.key -out username.p12 -name &#8220;Client Certificate&#8221;</p></blockquote>
+<blockquote>
+  <p>openssl pkcs12 -export -in newcert.pem -inkey newkey.key -out username.p12 -name “Client Certificate”</p>
+</blockquote>
 
 <p>Time to configure Apache2. I used the standard default-ssl virtual host and just reconfigured it</p>
 
-<blockquote><p>SSLEngine on
+<blockquote>
+  <p>SSLEngine on
 SSLProtocol -all +TLSv1 +SSLv3
 SSLCipherSuite HIGH:MEDIUM
 SSLProxyEngine off
-SSLOptions +StrictRequire +OptRenegotiate +StdEnvVars +ExportCertData</p></blockquote>
+SSLOptions +StrictRequire +OptRenegotiate +StdEnvVars +ExportCertData</p>
+</blockquote>
 
 <p>SSLCertificateFile /usr/lib/ssl/misc/newcert.pem
 SSLCertificateKeyFile /usr/lib/ssl/misc/newkey.pem
@@ -162,11 +178,15 @@ SSLCACertificateFile /usr/lib/ssl/misc/demoCA/cacert.pem</p>
 
 <p>reboot Apache2</p>
 
-<blockquote><p>$ /etc/init.d/apache2 restart</p></blockquote>
+<blockquote>
+  <p>$ /etc/init.d/apache2 restart</p>
+</blockquote>
 
 <p>The server side is ready. But it is still impossible to connect at this moment. We need to install the client certificate inside Firefox</p>
 
-<blockquote><p>Edit > Preferences > Advanced > View Certificates</p></blockquote>
+<blockquote>
+  <p>Edit &gt; Preferences &gt; Advanced &gt; View Certificates</p>
+</blockquote>
 
 <p>Choose import and browse to the newly created *.p12 certificate file.</p>
 
@@ -177,21 +197,23 @@ SSLCACertificateFile /usr/lib/ssl/misc/demoCA/cacert.pem</p>
 
 <p>Some of the stuff i was looking for</p>
 
-<blockquote><p>[SSL_CLIENT_S_DN_C] => NL
-[SSL_CLIENT_S_DN_ST] => NH
-[SSL_CLIENT_S_DN_L] => Purmerend
-[SSL_CLIENT_S_DN_O] => Bluesignal
-[SSL_CLIENT_S_DN_OU] => lab
-[SSL_CLIENT_S_DN_CN] => lab
-[SSL_CLIENT_S_DN_Email] => my@email.tld
-[SSL_CLIENT_I_DN_C] => NL
-[SSL_CLIENT_I_DN_ST] => NH
-[SSL_CLIENT_I_DN_O] => Bluesignal
-[SSL_CLIENT_I_DN_OU] => lab
-[SSL_CLIENT_I_DN_CN] => lab
-[SSL_CLIENT_I_DN_Email] => my@email.tld</p></blockquote>
+<blockquote>
+  <p>[SSL_CLIENT_S_DN_C] =&gt; NL
+[SSL_CLIENT_S_DN_ST] =&gt; NH
+[SSL_CLIENT_S_DN_L] =&gt; Purmerend
+[SSL_CLIENT_S_DN_O] =&gt; Bluesignal
+[SSL_CLIENT_S_DN_OU] =&gt; lab
+[SSL_CLIENT_S_DN_CN] =&gt; lab
+[SSL_CLIENT_S_DN_Email] =&gt; my@email.tld
+[SSL_CLIENT_I_DN_C] =&gt; NL
+[SSL_CLIENT_I_DN_ST] =&gt; NH
+[SSL_CLIENT_I_DN_O] =&gt; Bluesignal
+[SSL_CLIENT_I_DN_OU] =&gt; lab
+[SSL_CLIENT_I_DN_CN] =&gt; lab
+[SSL_CLIENT_I_DN_Email] =&gt; my@email.tld</p>
+</blockquote>
 
-<p>Now it&#8217;s time for the fun part.</p>
+<p>Now it’s time for the fun part. </p>
 </div>
 
 
@@ -313,6 +335,8 @@ SSLCACertificateFile /usr/lib/ssl/misc/demoCA/cacert.pem</p>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -330,8 +354,6 @@ SSLCACertificateFile /usr/lib/ssl/misc/demoCA/cacert.pem</p>
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -352,7 +374,7 @@ SSLCACertificateFile /usr/lib/ssl/misc/demoCA/cacert.pem</p>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

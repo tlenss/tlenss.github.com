@@ -67,7 +67,7 @@
 </header>
 
 
-<div class="articletext"><p>I finally had some time to read through my ever growing list must read items and play with some new software. While reading up on the new Firefox 3.6 i noticed it came with the new <a href="http://www.ideal.nl/">XMLHttpRequest</a> [<a href="http://www.w3.org/TR/XMLHttpRequest2/">2</a>] object based on the new <a href="http://dev.w3.org/2006/webapi/FileAPI/">file API</a>. And according to the new <a href="http://dev.w3.org/2006/webapi/FileAPI/">specs</a>. This would allow for easy file uploads. Now there&#8217;s been some <a href="http://hacks.mozilla.org/2009/12/uploading-files-with-xmlhttprequest/">examples</a> [<a href="http://arstechnica.com/open-source/news/2009/11/w3c-publishes-draft-of-new-file-api-spec.ars">2</a>] on the web already. But i just wanted to get my hands dirty.</p>
+<div class="articletext"><p>I finally had some time to read through my ever growing list must read items and play with some new software. While reading up on the new Firefox 3.6 i noticed it came with the new <a href="http://www.ideal.nl/">XMLHttpRequest</a> [<a href="http://www.w3.org/TR/XMLHttpRequest2/">2</a>] object based on the new <a href="http://dev.w3.org/2006/webapi/FileAPI/">file API</a>. And according to the new <a href="http://dev.w3.org/2006/webapi/FileAPI/">specs</a>. This would allow for easy file uploads. Now there’s been some <a href="http://hacks.mozilla.org/2009/12/uploading-files-with-xmlhttprequest/">examples</a> [<a href="http://arstechnica.com/open-source/news/2009/11/w3c-publishes-draft-of-new-file-api-spec.ars">2</a>] on the web already. But i just wanted to get my hands dirty.</p>
 
 <p>The new XMLHttpRequest object makes is possible to send files in a few different formats. The most important being the binary format. The code for sending a request with XMLHttpRequest2 looks the same as the previous version. Except for sendAsBinary() in this case.</p>
 
@@ -77,19 +77,19 @@ fileUpload = xhr.upload,
 fileUpload.onload = function() {
     console.log("Sent!");
 }
-
-xhr.open("POST", "upload.php", true);           
+				
+xhr.open("POST", "upload.php", true);			
 xhr.sendAsBinary(file.getAsBinary());
 </code></pre>
 
-<p>So let&#8217;s set things up for drag &amp; drop. We need a div that will be the main drop point. And we need some event listeners to catch the drag * drop events. Let start by creating the drop zone. For this we use two simple divs. The outer div will listen for the drag &amp; drop events. And the inner will catch the files.</p>
+<p>So let’s set things up for drag &amp; drop. We need a div that will be the main drop point. And we need some event listeners to catch the drag * drop events. Let start by creating the drop zone. For this we use two simple divs. The outer div will listen for the drag &amp; drop events. And the inner will catch the files.</p>
 
 <pre><code>&lt;div id="container"&gt;
-    &lt;div id="drop"&gt;&lt;/div&gt;
+	&lt;div id="drop"&gt;&lt;/div&gt;
 &lt;/div&gt;
 </code></pre>
 
-<p>Now let&#8217;s create our upload code.</p>
+<p>Now let’s create our upload code.</p>
 
 <pre><code>var upload = {
     setup : function() {},
@@ -102,7 +102,7 @@ window.addEventListener("load", upload.setup, false);
 
 <pre><code>var container = document.getElementById('container');
 var drop = document.getElementById('drop');
-
+			
 container.addEventListener("dragenter", function(event) {
         drop.innerHTML = '';
         event.stopPropagation();
@@ -113,7 +113,7 @@ container.addEventListener("dragenter", function(event) {
 
 container.addEventListener("dragover", function(event) {
         event.stopPropagation(); 
-    event.preventDefault();
+	event.preventDefault();
     }, 
     false
 );
@@ -132,12 +132,12 @@ container.addEventListener("drop", upload.uploadFiles, false);
 
     var file = files.item(x);
     var xhr = new XMLHttpRequest();
-
+ 
      fileUpload = xhr.upload,
      fileUpload.onload = function() {
          console.log("Sent!");
     }
-
+				
     xhr.open("POST", "upload.php", true);
 
     xhr.setRequestHeader("Cache-Control", "no-cache");
@@ -145,12 +145,12 @@ container.addEventListener("drop", upload.uploadFiles, false);
     xhr.setRequestHeader("X-File-Name", file.fileName);
     xhr.setRequestHeader("X-File-Size", file.fileSize);
     xhr.setRequestHeader("Content-Type", "multipart/form-data");
-
+					
     xhr.sendAsBinary(file.getAsBinary());
 }
 </code></pre>
 
-<p>That&#8217;s it for the client side. There is however a small problem on the receiving side. When handling uploaded files in PHP we expect the <strong>$_FILES</strong> array to be populated. This is not the case when streaming files from the client to the server. To get the needed file information we set some headers on the client side <strong>X-File-Name</strong> and <strong>X-File-Size</strong>. And since the <strong>$_FILES</strong> are is empty. We need an other way to get the file contents. So we will use php://input streams for that.</p>
+<p>That’s it for the client side. There is however a small problem on the receiving side. When handling uploaded files in PHP we expect the <strong>$_FILES</strong> array to be populated. This is not the case when streaming files from the client to the server. To get the needed file information we set some headers on the client side <strong>X-File-Name</strong> and <strong>X-File-Size</strong>. And since the <strong>$_FILES</strong> are is empty. We need an other way to get the file contents. So we will use php://input streams for that.</p>
 
 <p>The contents of upload.php look like this:</p>
 
@@ -161,28 +161,28 @@ $ft-&gt;setDestination('data/');
 $ft-&gt;receive();
 </code></pre>
 
-<p>With setDestination() the destination path for the uploaded files is set. And recieve() listens for any incoming files. Most of the magic is done in the recieve() method. So here&#8217;s the code.</p>
+<p>With setDestination() the destination path for the uploaded files is set. And recieve() listens for any incoming files. Most of the magic is done in the recieve() method. So here’s the code.</p>
 
 <pre><code>public function receive()
 {
     if (!$this-&gt;isValid()) {
         throw new Exception('No file uploaded!');
     }
-
+		
     file_put_contents(
         $this-&gt;_destination . $this-&gt;_fileName, 
         file_get_contents("php://input")
     );
-
+        
     return true;
 }
 </code></pre>
 
-<p>I am impressed! This promises a lot of good. And offers some interesting options. Let&#8217;s hope all browsers implement this gem. I still have one issue though. I can&#8217;t get this to work in firefox under linux. The drag &amp; drop events do not seem to function properly with files being dragged from the desktop. anybody know why?</p>
+<p>I am impressed! This promises a lot of good. And offers some interesting options. Let’s hope all browsers implement this gem. I still have one issue though. I can’t get this to work in firefox under linux. The drag &amp; drop events do not seem to function properly with files being dragged from the desktop. anybody know why? </p>
 
 <p>If you interested in the complete code. you can find it <a href="http://lenss.nl/code/dragDropUpload.tar.gz">here</a></p>
 
-<p><strong><strong>Small update</strong></strong>
+<p><strong>**Small update</strong>**
 <a href="http://lenss.nl/2010/09/drag-drop-uploads-with-xmlhttprequest2-and-php-revised/">http://lenss.nl/2010/09/drag-drop-uploads-with-xmlhttprequest2-and-php-revised/</a></p>
 </div>
 
@@ -305,6 +305,8 @@ $ft-&gt;receive();
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -322,8 +324,6 @@ $ft-&gt;receive();
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -344,7 +344,7 @@ $ft-&gt;receive();
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

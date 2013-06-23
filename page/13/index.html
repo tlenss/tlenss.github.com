@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Dutch PHP Group Meeting I didn&#8217;t post for some time now. Been working on my new house. And it just takes up every free minute i have. But &hellip;">
+  <meta name="description" content="ATP Is Seeking Web Developers For the past three years I’ve been working as a web developer for ATP in the Netherlands. This has been a great &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,13 +64,104 @@
 <header>
 	<header>
 	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2008/10/atp-is-seeking-web-developers/">ATP Is Seeking Web Developers</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>For the past three years I’ve been working as a web developer for ATP in the Netherlands. This has been a great experience. And still is. I have the pleasure of working with some really smart people here. Who are always eager to work with the newest technologies. This offers a great learning ground for all of us. The projects have evolved over the years. From simple websites to complex web applications.</p>
+
+<p>Right now we are looking for some experienced web developers to strengthen the team. we are looking for somebody who master the following skills.</p>
+
+<ul>
+  <li>
+    <p>PHP Specialist (a minimum of 3 years experience)</p>
+  </li>
+  <li>
+    <p>Object oriented experience</p>
+  </li>
+  <li>
+    <p>Good knowledge of XML, SQL, JavaScript en CSS</p>
+  </li>
+  <li>
+    <p>Experienced with web services (SOAP, XML-RPC)</p>
+  </li>
+  <li>
+    <p>You are flexible, pro-active, pragmatic and eager to learn</p>
+  </li>
+  <li>
+    <p>You can work alone or in a team</p>
+  </li>
+  <li>
+    <p>You have good communicative skills in Dutch and English</p>
+  </li>
+  <li>
+    <p>You are able to prioritize in hectic situations</p>
+  </li>
+</ul>
+
+<p>We offer a great working environment. Good secondary working conditions. A year contract with the intention to prolong.</p>
+
+<p>If you are located in the Schiphol / Amsterdam area. And are looking for a good job. take your chance. For more information take a look at <a href="http://www.atp.nl/home/vacatures.php">atp.nl</a>. If you are interested drop me a line.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-10-02T07:15:40+02:00" pubdate data-updated="true">Oct 2<span>nd</span>, 2008</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2008/10/atp-is-seeking-web-developers/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
 	  <h1 class="entry-title"><a href="http://lenss.nl/2008/09/dutch-php-group-meeting/">Dutch PHP Group Meeting</a></h1>
 	
 	</header>
 </header>
 
 
-  <div class="articletext"><p>I didn&#8217;t post for some time now. Been working on my new house. And it just takes up every free minute i</p>
+  <div class="articletext"><p>I didn’t post for some time now. Been working on my new house. And it just takes up every free minute i</p>
 
 <p><a href="http://www.phpgg.nl/node/864"><img src="http://www.phpgg.nl/files/images/phpgglogo.png" alt="" /></a>
 have. But today when i was reading through my RSS feeds i noticed the Dutch PHP Group (PHPGG) is</p>
@@ -135,48 +226,65 @@ have. But today when i was reading through my RSS feeds i noticed the Dutch PHP 
 </header>
 
 
-  <div class="articletext"><p>This should be pretty damn straight forward. However i ran into some problems while setting this up. At my daily work spot we use <a href="http://subversion.tigris.org/">SVN</a> over <a href="http://nl.wikipedia.org/wiki/Hypertext_Transfer_Protocol">HTTP</a> so we can do <a href="http://en.wikipedia.org/wiki/NTLM">NTLM</a> authentication. This sucks in many ways. But most of all it&#8217;s slow. And i mean really slow. Last week i tried to retrieve the log information for a project in the repository. This took my IDE 30 minutes. At first i thought my IDE was just being lame on me. But it turns out it&#8217;s SVN over HTTP that&#8217;s the culprit.</p>
+  <div class="articletext"><p>This should be pretty damn straight forward. However i ran into some problems while setting this up. At my daily work spot we use <a href="http://subversion.tigris.org/">SVN</a> over <a href="http://nl.wikipedia.org/wiki/Hypertext_Transfer_Protocol">HTTP</a> so we can do <a href="http://en.wikipedia.org/wiki/NTLM">NTLM</a> authentication. This sucks in many ways. But most of all it’s slow. And i mean really slow. Last week i tried to retrieve the log information for a project in the repository. This took my IDE 30 minutes. At first i thought my IDE was just being lame on me. But it turns out it’s SVN over HTTP that’s the culprit. </p>
 
-<p>So i started to do some testing over the standard svn:// protocol. And retrieving the logs on the same repository took about 2 seconds. Amazing. That&#8217;s enough reason to switch to the svn:// protocol. This however was not possible. Because our network policy doesn&#8217;t allow for multiple log ins. All is centrally stored on some M$ domain controllers. That&#8217;s why SVN over HTTP was used in the first place. End of story i thought.</p>
+<p>So i started to do some testing over the standard svn:// protocol. And retrieving the logs on the same repository took about 2 seconds. Amazing. That’s enough reason to switch to the svn:// protocol. This however was not possible. Because our network policy doesn’t allow for multiple log ins. All is centrally stored on some M$ domain controllers. That’s why SVN over HTTP was used in the first place. End of story i thought. </p>
 
-<p>But i couldn&#8217;t let go of this. The situation becomes less workable every day. So i decided to look around for other options. When i notice some log ins were merged to the <em>nix boxes. i immediately thought about using SSH in combination with SVN. Logging in on the </em>nix box was no problem. So let&#8217;s try that with SVN.</p>
+<p>But i couldn’t let go of this. The situation becomes less workable every day. So i decided to look around for other options. When i notice some log ins were merged to the *nix boxes. i immediately thought about using SSH in combination with SVN. Logging in on the *nix box was no problem. So let’s try that with SVN.</p>
 
-<blockquote><p>svn+ssh://location/of/repo</p></blockquote>
+<blockquote>
+  <p>svn+ssh://location/of/repo</p>
+</blockquote>
 
-<p>This gives an error about a mismatched handshake. And i just couldn&#8217;t get this to work until i found a post made by <a href="http://www.woodwardweb.com/java/000155.html">Martin Woodward</a>. He explains how to setup an environment variable on my local windows machine. To the tortoise PLink executable.</p>
+<p>This gives an error about a mismatched handshake. And i just couldn’t get this to work until i found a post made by <a href="http://www.woodwardweb.com/java/000155.html">Martin Woodward</a>. He explains how to setup an environment variable on my local windows machine. To the tortoise PLink executable.</p>
 
-<blockquote><p>Set the environment variable (by right-clicking on My Computer, Properties, Advanced, Environment Variables, New):-
+<blockquote>
+  <p>Set the environment variable (by right-clicking on My Computer, Properties, Advanced, Environment Variables, New):-
 Variable name: SVN_SSH
-Variable value: C:\Program Files\TortoiseSVN\bin\TortoisePlink.exe</p></blockquote>
+Variable value: C:\Program Files\TortoiseSVN\bin\TortoisePlink.exe</p>
+</blockquote>
 
-<p>This seemed to work i thought. i was presented with a login box. But no matter how i tried i couldn&#8217;t login. It just kept giving me the login box. So i opened a SSH session to the server and tried to do the same from there.</p>
+<p>This seemed to work i thought. i was presented with a login box. But no matter how i tried i couldn’t login. It just kept giving me the login box. So i opened a SSH session to the server and tried to do the same from there.</p>
 
-<blockquote><p>svn list svn+ssh://location/of/repo</p></blockquote>
+<blockquote>
+  <p>svn list svn+ssh://location/of/repo</p>
+</blockquote>
 
 <p>After hitting enter i typed my password and got the following message.</p>
 
-<blockquote><p>bash: line 1: svnserve: command not found
-svn: Connection closed unexpectedly</p></blockquote>
+<blockquote>
+  <p>bash: line 1: svnserve: command not found
+svn: Connection closed unexpectedly</p>
+</blockquote>
 
-<p>Now we&#8217;re getting somewhere. So svnserve could not be found. Probably because it&#8217;s not in the $PATH variable. So let&#8217;s add it there.</p>
+<p>Now we’re getting somewhere. So svnserve could not be found. Probably because it’s not in the $PATH variable. So let’s add it there.</p>
 
-<blockquote><p>vi .bashrc
-PATH=$PATH:/usr/local/bin</p></blockquote>
+<blockquote>
+  <p>vi .bashrc
+PATH=$PATH:/usr/local/bin</p>
+</blockquote>
 
-<p>So let&#8217;s try to get a listing of the repo.</p>
+<p>So let’s try to get a listing of the repo.</p>
 
-<blockquote><p>svn list svn+ssh://location/of/repo</p></blockquote>
+<blockquote>
+  <p>svn list svn+ssh://location/of/repo</p>
+</blockquote>
 
 <p>This gave me the following message:</p>
 
-<blockquote><p>svn: No repository found in &#8216;svn+ssh://location/of/repo&#8217;</p></blockquote>
+<blockquote>
+  <p>svn: No repository found in ‘svn+ssh://location/of/repo’</p>
+</blockquote>
 
 <p>Seems that when you use SVN over SSH you need to give the full location to the repository. Not the web server path but the complete file system path. After changing the webserver path for the file system path everything worked out. From here on adding the repository to eclipse is easy.
-I always open the repository view. From there i right click > New > repository Location. The URL to add will look something like</p>
+I always open the repository view. From there i right click &gt; New &gt; repository Location. The URL to add will look something like</p>
 
-<blockquote><p>svn+ssh://file/system/location/of/repository</p></blockquote>
+<blockquote>
+  <p>svn+ssh://file/system/location/of/repository</p>
+</blockquote>
 
-<p>So now we can enjoy the speed of the svn:// protocol. And the security of SSH. So let&#8217;s do some coding :)</p>
+<p>So now we can enjoy the speed of the svn:// protocol. And the security of SSH. So let’s do some coding :)</p>
+
 </div>
   
   
@@ -236,7 +344,9 @@ I always open the repository view. From there i right click > New > repository L
 
   <div class="articletext"><p>I was thinking about how to add theme support to an application that makes use of the Zend_Layout component. When i came across the Zend_Filter_Inflector class. This looks interesting. From teh ZF manual:</p>
 
-<blockquote><p>Zend_Filter_Inflector is a general purpose tool for rules-based inflection of strings to a given target.</p></blockquote>
+<blockquote>
+  <p>Zend_Filter_Inflector is a general purpose tool for rules-based inflection of strings to a given target.</p>
+</blockquote>
 
 <p>This little class makes it easy to convert string to for instance paths. Anyway. i was trying to configure this class in my Bootstrap class. And run into some problems. I was testing the example in the manual. which makes use of the Zend_Filter CalemCaseToUnderscore. But when i reloaded my page instead of the usual output i was treated by an error.</p>
 
@@ -247,9 +357,11 @@ $inflector-&gt;setRules(array(
 ));
 </code></pre>
 
-<blockquote><p>Zend_Loader_PluginLoader_Exception: Plugin by name CamelCaseToUnderscore was not found in the registry. in Zend\Loader\PluginLoader.php on line 370</p></blockquote>
+<blockquote>
+  <p>Zend_Loader_PluginLoader_Exception: Plugin by name CamelCaseToUnderscore was not found in the registry. in Zend\Loader\PluginLoader.php on line 370</p>
+</blockquote>
 
-<p>When i looked at the structure of the Zend folder. I noticed the CamelCaseToUnderscore filter was not available in the root of the Filter directory. Instead it&#8217;s placed inside the Filter/Word directory. So i prefixed the class name with Word_. And this works fine. The code now looks like this.</p>
+<p>When i looked at the structure of the Zend folder. I noticed the CamelCaseToUnderscore filter was not available in the root of the Filter directory. Instead it’s placed inside the Filter/Word directory. So i prefixed the class name with Word_. And this works fine. The code now looks like this.</p>
 
 <pre><code>$inflector = new Zend_Filter_Inflector(':script.:suffix');
 $inflector-&gt;setRules(array(
@@ -258,7 +370,7 @@ $inflector-&gt;setRules(array(
 ));
 </code></pre>
 
-<p>it&#8217;s a minor issue but i reported <a href="http://framework.zend.com/issues/browse/ZF-4011">it</a> anyway.</p>
+<p>it’s a minor issue but i reported <a href="http://framework.zend.com/issues/browse/ZF-4011">it</a> anyway.</p>
 </div>
   
   
@@ -316,78 +428,99 @@ $inflector-&gt;setRules(array(
 </header>
 
 
-  <div class="articletext"><p>When i first started out as a web developer. i didn&#8217;t really mind about structure. Almost every project had different directory structure. And <a href="http://en.wikipedia.org/wiki/Namespace">namespaces</a> i never heard off. I noticed that the longer i write code. The more I&#8217;m looking for a basic structure to start from. This can be the structure of a web application / site. but also the structure inside the <a href="http://subversion.tigris.org/">SVN</a> repository.</p>
+  <div class="articletext"><p>When i first started out as a web developer. i didn’t really mind about structure. Almost every project had different directory structure. And <a href="http://en.wikipedia.org/wiki/Namespace">namespaces</a> i never heard off. I noticed that the longer i write code. The more I’m looking for a basic structure to start from. This can be the structure of a web application / site. but also the structure inside the <a href="http://subversion.tigris.org/">SVN</a> repository.</p>
 
 <p>So today i took a bit of time to think about a good structure for our new SVN repository here at the office. After a bit of browsing the web. Looking at other proposals. And looking around our old SVN repository. I came up with a new structure.</p>
 
 <p>Our SVN repository will start off with three directories.</p>
 
-<blockquote><p>&#8211; Development
-&#8211; Design
-&#8211; ??</p></blockquote>
+<blockquote>
 
-<p>The Development directory is what i will be talking about. I can&#8217;t talk for the designers. Because.. well i&#8217;m not one of them. Although i did a lot of design work in the past. The ?? directory is for another part of our department. So let&#8217;s see what i came up with.</p>
+  <p>– Development
+– Design
+– ??</p>
+</blockquote>
+
+<p>The Development directory is what i will be talking about. I can’t talk for the designers. Because.. well i’m not one of them. Although i did a lot of design work in the past. The ?? directory is for another part of our department. So let’s see what i came up with.</p>
 
 <p>Inside the Development directory we start of with two directories.</p>
 
-<blockquote><p>&#8211; Projects
-&#8211; Library</p></blockquote>
+<blockquote>
+
+  <p>– Projects
+– Library</p>
+</blockquote>
 
 <p><strong>Projects:</strong>
-This directory will contain all projects. With projects i mean web applications / sites. All these projects will adhere to a basic structure. Which i will talk about a bit later. Besides the same basic structure. Every projects has the trunk, tags and branches sub directories. If a project contains &#8220;sub&#8221; projects. The trunk, tags and branches will shift one level deeper in the tree. Below is a small example.</p>
+This directory will contain all projects. With projects i mean web applications / sites. All these projects will adhere to a basic structure. Which i will talk about a bit later. Besides the same basic structure. Every projects has the trunk, tags and branches sub directories. If a project contains “sub” projects. The trunk, tags and branches will shift one level deeper in the tree. Below is a small example.</p>
 
-<blockquote><p>&#8211; Project_1
-&#8212;- trunk
-&#8212;- tags
-&#8212;- branches
-&#8211; Project_2
-&#8212;- www
-&#8212;&#8212; trunk
-&#8212;&#8212; tags
-&#8212;&#8212; branches
-&#8212;- intranet
-&#8212;&#8212; trunk
-&#8212;&#8212; tags
-&#8212;&#8212; branches</p></blockquote>
+<blockquote>
+
+  <p>– Project<em>1
+—- trunk
+—- tags
+—- branches
+– Project</em>2
+—- www
+—— trunk
+—— tags
+—— branches
+—- intranet
+—— trunk
+—— tags
+—— branches</p>
+</blockquote>
 
 <p><strong>Library:</strong>
-The library directory will contain all shared libraries. This can be third party libraries or internally developed libraries that will be used in multiple applications. Below is a small example. I&#8217;m not sure about the trunk, tags, branches directories yet. For the internally developed libraries we will implement this structure. For the third party libraries we won&#8217;t. I think :)</p>
+The library directory will contain all shared libraries. This can be third party libraries or internally developed libraries that will be used in multiple applications. Below is a small example. I’m not sure about the trunk, tags, branches directories yet. For the internally developed libraries we will implement this structure. For the third party libraries we won’t. I think :)</p>
 
-<blockquote><p>&#8211; Zend
-&#8211; DB
-&#8212;- trunk
-&#8212;- tags
-&#8212;- branches</p></blockquote>
+<blockquote>
 
-<p>Now this will cover most of the project parts. What&#8217;s left now is defining a basic structure for the projects that will ive inside the repository and on the web servers. For a basic structure i&#8217;m inspired by the layout of an <a href="http://framework.zend.com">Zend Framework</a> <a href="http://nl.wikipedia.org/wiki/Model-View-Controller-model">MVC</a> style project. Why? i already work with this structure for a while now. outside and inside the Zend Framework projects. It separates the code from the views / templates. It makes sure the code is outside the web root. And it just looks clean.</p>
+  <p>– Zend
+– DB
+—- trunk
+—- tags
+—- branches</p>
+</blockquote>
+
+<p>Now this will cover most of the project parts. What’s left now is defining a basic structure for the projects that will ive inside the repository and on the web servers. For a basic structure i’m inspired by the layout of an <a href="http://framework.zend.com">Zend Framework</a> <a href="http://nl.wikipedia.org/wiki/Model-View-Controller-model">MVC</a> style project. Why? i already work with this structure for a while now. outside and inside the Zend Framework projects. It separates the code from the views / templates. It makes sure the code is outside the web root. And it just looks clean.</p>
 
 <p>So for our projects i came up with this structure.</p>
 
-<p>The structure really consists of three parts. The first is &#8220;public&#8221;. This directory contains all data that should be globally accessible. We can think about images, stylesheetes, javascript libraries, etc.</p>
+<p>The structure really consists of three parts. The first is “public”. This directory contains all data that should be globally accessible. We can think about images, stylesheetes, javascript libraries, etc.</p>
 
-<blockquote><p>&#8211; public
-&#8212;- images
-&#8212;- css
-&#8212;- scripts
-&#8212;- index.*</p></blockquote>
+<blockquote>
+
+  <p>– public
+—- images
+—- css
+—- scripts
+—- index.*</p>
+</blockquote>
 
 <p>The application directory contains all the real code and views / templates. All views / templates will be stored in the views directory. All project specific code will be placed in the library directory. And if the project is MVC based. It will use the controllers directory to store the application controllers.</p>
 
-<blockquote><p>&#8211; application
-&#8212;- controllers
-&#8212;- library
-&#8212;- views</p></blockquote>
+<blockquote>
 
-<p>The final part of the structure is a collection of directories that can but are not always used in a project.</p>
+  <p>– application
+—- controllers
+—- library
+—- views</p>
+</blockquote>
+
+<p>The final part of the structure is a collection of directories that can but are not always used in a project. </p>
 
 <p>The logs directory can be handy for logging data of the application. But can also be used to store php error logs or maybe even Apache logs. The cache directory is there to store cached files. The structure inside this directory will depend on the cache mechanism used in the project. The files directory contains files that are somehow linked to the project but have no place in any other directories. Some test scripts or tools can be placed there. And last but not least the docs directory. Which will contain all project documentation.</p>
 
-<blockquote><p>&#8211; logs
-&#8211; cache
-&#8211; files
-&#8211; docs</p></blockquote>
+<blockquote>
 
-<p>I wanted to post this yesterday. But i just couldn&#8217;t find any time for it. Yesterday i showed the initial proposal to the rest of the team. But we didn&#8217;t decide yet. What the final structure will be.</p>
+  <p>– logs
+– cache
+– files
+– docs</p>
+</blockquote>
+
+<p>I wanted to post this yesterday. But i just couldn’t find any time for it. Yesterday i showed the initial proposal to the rest of the team. But we didn’t decide yet. What the final structure will be.</p>
 </div>
   
   
@@ -447,13 +580,13 @@ The library directory will contain all shared libraries. This can be third party
 
   <div class="articletext"><p>At the office here they are trying to make a portfolio about the stuff we build. The strange thing is they also want to add a list of day to day applications we use. The question came up if we need to add PHP to the list. One of our Delphi/Pascal programmers thought adding the Delphi programming language would be good. I argued that Delphi is not an application but a programming language. Turns out we have a different view on this.</p>
 
-<p>While we build almost every web related bit in PHP. i don&#8217;t see it as an application. And application is a layer between the low level computer and the user. The application does what the user wants to preform on the computer. An application can be anything from a simple text editor to a full blown IDE.</p>
+<p>While we build almost every web related bit in PHP. i don’t see it as an application. And application is a layer between the low level computer and the user. The application does what the user wants to preform on the computer. An application can be anything from a simple text editor to a full blown IDE.</p>
 
 <p>And all these applications have one thing in common. They are written in programming languages. Without programming languages there would not be any applications. O well. just my point of view :)</p>
 
 <p>UPDATE*</p>
 
-<p>Ok so i had a good discussion with one of the other Delphi guys. And seems we talk different about the same subject. As i work soly on PHP. PHP is my programming language. And it&#8217;s also the interpeter living on the server. So really it&#8217;s both an application and a programming language. Now i understand what the Delphi guys meant.</p>
+<p>Ok so i had a good discussion with one of the other Delphi guys. And seems we talk different about the same subject. As i work soly on PHP. PHP is my programming language. And it’s also the interpeter living on the server. So really it’s both an application and a programming language. Now i understand what the Delphi guys meant.</p>
 </div>
   
   
@@ -511,13 +644,13 @@ The library directory will contain all shared libraries. This can be third party
 </header>
 
 
-  <div class="articletext"><p>I&#8217;m a great fan of the <a href="http://www.zend.com/en/products/studio/">Zend Studio for Eclipse</a> IDE. But there is one think that just didn&#8217;t feel right. At first i started out using the <a href="http://www.zend.com/en/community/pdt">PDT</a>. Free version of Zend Studio for Eclipse. In this IDE it was possible to switch debuggers. So you were not only forced to use the ZendDebugger. you could also choose to make use of the best debugger out there. <a href="http://www.xdebug.org/">XDebug</a>. Although there is nothing wrong with the ZendDebugger. I just got used to XDebug.</p>
+  <div class="articletext"><p>I’m a great fan of the <a href="http://www.zend.com/en/products/studio/">Zend Studio for Eclipse</a> IDE. But there is one think that just didn’t feel right. At first i started out using the <a href="http://www.zend.com/en/community/pdt">PDT</a>. Free version of Zend Studio for Eclipse. In this IDE it was possible to switch debuggers. So you were not only forced to use the ZendDebugger. you could also choose to make use of the best debugger out there. <a href="http://www.xdebug.org/">XDebug</a>. Although there is nothing wrong with the ZendDebugger. I just got used to XDebug.</p>
 
-<p>So about an hour ago when i was reading my blog list i noticed a post from <a href="http://www.maxhorvath.com">Max Horvath</a>. In <a href="http://www.maxhorvath.com/2008/08/how-to-enable-the-xdebug-debugger-in-zend-studio-for-eclipse.html">this</a> post he explains how to enable the XDebugger in Zend Studio for Eclipse. Great news for a very slow monday morning. I will not copy his post so you can head over to Max&#8217;s Blog and read how to enable XDebug&#8217;s power.</p>
+<p>So about an hour ago when i was reading my blog list i noticed a post from <a href="http://www.maxhorvath.com">Max Horvath</a>. In <a href="http://www.maxhorvath.com/2008/08/how-to-enable-the-xdebug-debugger-in-zend-studio-for-eclipse.html">this</a> post he explains how to enable the XDebugger in Zend Studio for Eclipse. Great news for a very slow monday morning. I will not copy his post so you can head over to Max’s Blog and read how to enable XDebug’s power.</p>
 
 <p>Here is a document explaining how to enable XDebug in PDT: <a href="http://www.eclipse.org/pdt/documents/XDebugGuide.pdf">http://www.eclipse.org/pdt/documents/XDebugGuide.pdf</a></p>
 
-<p>One small think i noticed though. Was that when i enabled XDebug according to Max&#8217;s post. After enabling it. I went to the Preferences > PHP > Debug tab and noticed there was no PHP Executable to select. So i headed over to the Preferences > PHP > PHP Executables and added a new PHP executable. This seemed to work.</p>
+<p>One small think i noticed though. Was that when i enabled XDebug according to Max’s post. After enabling it. I went to the Preferences &gt; PHP &gt; Debug tab and noticed there was no PHP Executable to select. So i headed over to the Preferences &gt; PHP &gt; PHP Executables and added a new PHP executable. This seemed to work.</p>
 </div>
   
   
@@ -577,7 +710,7 @@ The library directory will contain all shared libraries. This can be third party
 
   <div class="articletext"><p>Back in May i attended the Dutch version of the PHP testFest. And today i noticed the post of <a href="http://www.ibuildings.com/blog/archives/1191-Dutch-PHP-TestFest-A-Big-Success.html">Stefan Koopmanschap</a> about the testFest results. It seems the Dutch testFest was a great success with 39 tests written from the 158 total. <a href="http://felix.phpbelgium.be/blog/">Felix de Vliegher</a> a Belgium member of the <a href="http://www.phpgg.nl/">PHPGG</a> group and starter of the Belgium <a href="http://phpbelgium.be/">PHP group</a> got CVS access to the PHP.net source. Good job.</p>
 
-<p>Although i didn&#8217;t write that much tests. It was a great day. and i learned a lot. Thanks to IBuildings and <a href="http://sebastian-bergmann.de/">Sebastian Bergmann</a> for making this happen. And i hope till next year.</p>
+<p>Although i didn’t write that much tests. It was a great day. and i learned a lot. Thanks to IBuildings and <a href="http://sebastian-bergmann.de/">Sebastian Bergmann</a> for making this happen. And i hope till next year.</p>
 </div>
   
   
@@ -635,23 +768,23 @@ The library directory will contain all shared libraries. This can be third party
 </header>
 
 
-  <div class="articletext"><p>Yesterday when working with some rather large XML files i noticed. That it&#8217;s not possible to do ->xpath() calls on sub nodes of a SimpleXMLElement. If that&#8217;s not clear. Here is a small example.</p>
+  <div class="articletext"><p>Yesterday when working with some rather large XML files i noticed. That it’s not possible to do -&gt;xpath() calls on sub nodes of a SimpleXMLElement. If that’s not clear. Here is a small example.</p>
 
 <pre><code>$xmlStr = '&lt;root&gt;
-    &lt;fareOption&gt;
-        &lt;fare&gt;
-            &lt;flight&gt;&lt;/flight&gt;
-            &lt;flight&gt;&lt;/flight&gt;
-            &lt;flight&gt;&lt;/flight&gt;
-        &lt;/fare&gt;
-    &lt;/fareOption&gt;
-    &lt;fareOption&gt;
-        &lt;fare&gt;
-            &lt;flight&gt;&lt;/flight&gt;
-            &lt;flight&gt;&lt;/flight&gt;
-            &lt;flight&gt;&lt;/flight&gt;
-        &lt;/fare&gt;
-    &lt;/fareOption&gt;
+	&lt;fareOption&gt;
+		&lt;fare&gt;
+			&lt;flight&gt;&lt;/flight&gt;
+			&lt;flight&gt;&lt;/flight&gt;
+			&lt;flight&gt;&lt;/flight&gt;
+		&lt;/fare&gt;
+	&lt;/fareOption&gt;
+	&lt;fareOption&gt;
+		&lt;fare&gt;
+			&lt;flight&gt;&lt;/flight&gt;
+			&lt;flight&gt;&lt;/flight&gt;
+			&lt;flight&gt;&lt;/flight&gt;
+		&lt;/fare&gt;
+	&lt;/fareOption&gt;
 &lt;/root&gt;';
 
 $objXML = simplexml_load_string($xmlStr);
@@ -663,9 +796,9 @@ foreach ($fareList as $fare) {
 }
 </code></pre>
 
-<p>So first i try to get all the fareOption elements from the XML structure. And loop through the extracted elements. In the loop i want to do a ->xpath call on $fare which is a instance of SimpleXMLElement. The result however is not what i expected. Instead of extracting all the flights of a $fare node. It extracts all flights from the root of the document. So instead of 3 flight nodes i get 6.</p>
+<p>So first i try to get all the fareOption elements from the XML structure. And loop through the extracted elements. In the loop i want to do a -&gt;xpath call on $fare which is a instance of SimpleXMLElement. The result however is not what i expected. Instead of extracting all the flights of a $fare node. It extracts all flights from the root of the document. So instead of 3 flight nodes i get 6.</p>
 
-<p>I couldn&#8217;t really find a solution for this problem. And from reading some bug reports i understand this is how the PHP implementation of xpath works at the moment. To solve this problem. There is a small work around though. Instead of running the ->xpath() call on the $fare node directly. We can create a new SimpleXMLElement from the $fare node. And do a ->xpath() call on that. This will look something like this.</p>
+<p>I couldn’t really find a solution for this problem. And from reading some bug reports i understand this is how the PHP implementation of xpath works at the moment. To solve this problem. There is a small work around though. Instead of running the -&gt;xpath() call on the $fare node directly. We can create a new SimpleXMLElement from the $fare node. And do a -&gt;xpath() call on that. This will look something like this.</p>
 
 <pre><code>foreach ($fareList as $fare) {
     $tempList = simplexml_load_string($fare-&gt;asXML());
@@ -732,9 +865,9 @@ foreach ($fareList as $fare) {
 </header>
 
 
-  <div class="articletext"><p>Today PHP 4 breathes it&#8217;s last breath. After serving the community for many years. It&#8217;s time to retire. And step up to a more mature PHP. So PHP 4 leaves us at version 4.4.9 which was released last week. For a version history check out the <a href="http://museum.php.net/php4/">PHP museum</a>. My thanks go out to <a href="http://derickrethans.nl/">Derick Rethans</a> for being the release master of the last PHP 4 versions. And of course the whole PHP development team. For giving a set of tools through which i can do my day to day job. You guys have done an amazing job. Bringing us the new OO model in PHP5, better XML support, PDO, Reflection and a whole lot more.</p>
+  <div class="articletext"><p>Today PHP 4 breathes it’s last breath. After serving the community for many years. It’s time to retire. And step up to a more mature PHP. So PHP 4 leaves us at version 4.4.9 which was released last week. For a version history check out the <a href="http://museum.php.net/php4/">PHP museum</a>. My thanks go out to <a href="http://derickrethans.nl/">Derick Rethans</a> for being the release master of the last PHP 4 versions. And of course the whole PHP development team. For giving a set of tools through which i can do my day to day job. You guys have done an amazing job. Bringing us the new OO model in PHP5, better XML support, PDO, Reflection and a whole lot more.</p>
 
-<p>PHP 5 has been out for some years now. And it&#8217;s matured a lot since the first release. At the time of writing RC 1 of <a href="http://wiki.php.net/todo/php53">5.3</a> is out and being tested. This is a great step forward. And more is coming in the form of unicode support in PHP 6.</p>
+<p>PHP 5 has been out for some years now. And it’s matured a lot since the first release. At the time of writing RC 1 of <a href="http://wiki.php.net/todo/php53">5.3</a> is out and being tested. This is a great step forward. And more is coming in the form of unicode support in PHP 6.</p>
 </div>
   
   
@@ -775,81 +908,6 @@ foreach ($fareList as $fare) {
     <div class="share">
 		<ul>
 			<li><a href="http://lenss.nl/2008/08/goodbye-php-4/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2008/07/highjacked-name-server-or-not/">Highjacked Name Server or Not?</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>Yesterday was a weird day. Nothing seemed to go as it should have. My coworker Marius noticed that one of my domains was not responding anymore. We tried to ping it. But forgot that our admins block outbound <a href="http://en.wikipedia.org/wiki/Internet_Control_Message_Protocol">ICMP</a> packages. At least we could see the domain resolved to the correct IP address.</p>
-
-<p>So we did a lookup on the domain. No weird things here. Then we decided to ping the name servers to see if they were responding. They were. But there was something strange. The domain in question runs on two name servers. namely ns1.cker.sc and ns2.cker.sc. ns1 was responding correctly. ns2 however was responding with a totally different and unknown IP address. This is weird. The normal settings would be:</p>
-
-<blockquote><p>ns1.cker.sc ( 208.69.125.116 )
-ns2.cker.sc ( 208.69.125.117 )</p></blockquote>
-
-<p>ns2 however responded with 208.69.34.132. The whois database at ripe.net told us it was in the IANA pool of addresses. But we couldn&#8217;t find a whois tool there. So i opened up a browser to go directly to this IP address. This showed a temporary <a href="http://opendns.com/">OpenDNS</a> page. Off to <a href="http://www.domaintools.com/">domaintools.com</a> to do a <a href="http://www.domaintools.com/reverse-ip/">reverse lookup</a> on this IP.</p>
-
-<p>This revealed one domain matching this IP address. Some weird long domain name. At first i was thinking somebody highjacked my DNS server or maybe some DNS cache poisoning. But after looking closely i noticed the domain was actually readable. The domain returned was : <a href="http://whois.domaintools.com/caffefiaschetteriaitaliana.com">Caffefiaschetteriaitaliana.com</a>. A google search returned some italian cafe with almost the same domain. <a href="http://whois.domaintools.com/caffefiaschetteriaitaliana.com"></a><a href="http://www.fiaschetteriaitaliana.it/">fiaschetteriaitaliana.it</a>.</p>
-
-<p>So we decided to do a whois query on the .com domain. This revealed some email addresses with similar domains. And technical contacts from aruba.it. By now we had the feeling somebody made a configuration error. So i decided to send an email to all the addresses matching this domain including OpenDNS. And after about an hour the nameserver was responding correctly again. So they either corrected a mistake or it was just a temporary fluke. I never got a reply from any of the addresses i wrote to.</p>
-
-<p>Although i&#8217;m happy the nameservers are responding properly again. I&#8217;m still stuck with the question. What the hell happened here? The most logical scenario for me is still a configuration error.</p>
-
-<p>UPDATE: 12-08-2008</p>
-
-<p>After some digging. I found out that the ip address &#8220;208.69.34.132&#8221; actually belongs to opendns.com. When a non existing sub -/ domain is quieried. This ip is returned. It&#8217;s just a way to make money from ads. the network i was connected to at that moment uses an opendns.com DNS cache server. That explains that part.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-07-22T09:44:51+02:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2008</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2008/07/highjacked-name-server-or-not/#disqus_thread">Comments</a></li>
 		</ul>
 	</div>
   </footer>
@@ -907,6 +965,8 @@ ns2.cker.sc ( 208.69.125.117 )</p></blockquote>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -924,8 +984,6 @@ ns2.cker.sc ( 208.69.125.117 )</p></blockquote>
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -946,7 +1004,7 @@ ns2.cker.sc ( 208.69.125.117 )</p></blockquote>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

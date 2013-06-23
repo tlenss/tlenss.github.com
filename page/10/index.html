@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Zend Server CE MyPHPAdmin Mysqli Not Loaded The last time i installed Zend Server i did it from source. Now it was time for the Ubuntu package &hellip;">
+  <meta name="description" content="Fraudulent Site, Please Shut Down Well the title says it all doesn’t it. Today at work i was checking my mail and noticed and email from RSA &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,30 +64,178 @@
 <header>
 	<header>
 	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2009/05/fraudulent-site-please-shut-down/">Fraudulent Site, Please Shut Down</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>Well the title says it all doesn’t it. Today at work i was checking my mail and noticed and email from <a href="http://rsa.com/">RSA security</a> with the subject line <strong>Fraudulent site, please shut down! [ING-NL 287] DOMAIN: lenss.nl</strong>. </p>
+
+<blockquote>
+  <p>RSA, an anti-fraud and security company, is under contract to assist ING
+Netherlands   in
+preventing or terminating online activity that targets, or may
+potentially target ING 
+Netherlands clients as potential fraud victims.</p>
+</blockquote>
+
+<p>RSA has been made aware that a domain name, which abuses ING Netherlands
+trademark, has been registered with you. This domain
+http://lenss.nl/bank/  not only violates ING Netherlands copyright,
+trademarks and other intellectual property rights, but may also become a
+host to a phishing attack, or other fraudulent scams against the bank
+and the bank’s clients.</p>
+
+<p>A few minutes after this email an other email came in from <a href="http://openprovider.nl">openprovider</a>. These guys manage my domains. The notified me the domain was no moved to their DNS servers and was there for blocked.</p>
+
+<blockquote>
+  <p>Wij ontvingen onderstaande klacht over een van uw domeinen, lenss.nl. Vanwege de ernst
+heb ik per direct het domein gedeactiveerd door het op lege nameservers te zetten.</p>
+</blockquote>
+
+<p>Ik verzoek u deze case met gepaste urgentie te behandelen en de aanklager daarvan op de
+hoogte te stellen.</p>
+
+<p>When i was reading the email from RSA i was pretty shocked. But when reading the email from Openprovider i just got pissed. Why on earth would they disable my domain without doing any research in the matter. They should have contacted me before they took action. So i contacted the guys at RSA and explained the situation. They advised me to send them an email with the explanation. And so i did. They responded quite fast with the following message:</p>
+
+<blockquote>
+  <p>Thank you for your co-operation in this matter.
+The AFCC can confirm that the site in question had no malicious content,
+while it did seem suspicious because of its content, it being freely
+accessible and its vague purpose.
+The current solution and explanation suggested below by the website
+owner is satisfying and will likely prevent such confusions in the
+future. Therefore the AFCC has no objection whatsoever to bringing the
+site in question back up.</p>
+</blockquote>
+
+<p>So the problem is solved i assumed. But an hour later my domain went offline. And i couldn’t get to my mailbox anymore. The domain was still running on the Openprovider DNS servers. So let’s give them a call i thought. But i guess today is just not my day. Their website was offline. And i couldn’t find any contact information. So i sat back and waited a bit. Didn’t really know what to do. After some time their site came back online. And i was able to find a phone number.</p>
+
+<p>After explaining my story i got the comment please send us an email. But this was not possible anymore since my DNS was changed. So after some pursuance i was put through with the person who emailed me in the first place. The reason they took it offline was because the complaint came from RSA. Which seems to be an authority on this subject. I explained the situation. And told them i was not very happy with the way the handled the situation. After blowing off some steam we agreed the DNS could be changed back again. Which they did!</p>
+
+<p>While checking my log files i noticed the insane long scan on this web server…</p>
+
+<blockquote>
+  <p>82.81.26.105 - - [14/May/2009:04:16:12 -0400] “GET /bank/Scrisoare.txt HTTP/1.1” 301 314 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”
+82.81.26.105 - - [14/May/2009:04:16:13 -0400] “GET /bank/scan2.txt HTTP/1.1” 301 310 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”
+82.81.26.105 - - [14/May/2009:04:16:13 -0400] “GET /bank/aScprivate.txt HTTP/1.1” 301 315 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”
+82.81.26.105 - - [14/May/2009:04:16:14 -0400] “GET /bank/a.tgz HTTP/1.1” 301 306 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”
+82.81.26.105 - - [14/May/2009:04:16:14 -0400] “GET /bank/forums.zip HTTP/1.1” 301 311 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”</p>
+</blockquote>
+
+<p>that just went on and on for several minutes. Which was done by some Israeli company?</p>
+
+<blockquote>
+  <p>82.81.26.105 - - [14/May/2009:04:21:44 -0400] “POST /bank/dom57.php HTTP/1.1” 301 310 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”
+82.81.26.105 - - [14/May/2009:04:21:45 -0400] “POST /bank/bl.php HTTP/1.1” 301 307 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”
+82.81.26.105 - - [14/May/2009:04:21:45 -0400] “POST /bank/people.php HTTP/1.1” 301 311 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”</p>
+</blockquote>
+
+<p>And a visit from the guys in Redmond.</p>
+
+<blockquote>
+  <p>131.107.0.114 - - [14/May/2009:04:20:59 -0400] “GET /bank HTTP/1.1” 301 300 “-“ “Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)”
+131.107.0.114 - - [14/May/2009:04:20:59 -0400] “GET /bank/ HTTP/1.1” 200 142 “-“ “Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)”</p>
+</blockquote>
+
+<p>My DSL provider..</p>
+
+<blockquote>
+  <p>82.93.147.119 - - [14/May/2009:04:25:23 -0400] “GET /bank HTTP/1.0” 301 300 “-“ “Wget/1.11.4”
+82.93.147.119 - - [14/May/2009:04:25:23 -0400] “GET /bank/ HTTP/1.0” 200 142 “-“ “Wget/1.11.4”</p>
+</blockquote>
+
+<p>My co-locator..</p>
+
+<blockquote>
+  <p>208.69.120.120 - - [14/May/2009:06:29:24 -0400] “GET /favicon.ico HTTP/1.1” 301 307 “-“ “Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.0.10) Gecko/2009042316 Firefox/3.0.10 (.NET CLR 3.5.30729)”
+208.69.120.120 - - [14/May/2009:06:29:24 -0400] “GET /favicon.ico/ HTTP/1.1” 404 20584 “-“ “Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.0.10) Gecko/2009042316 Firefox/3.0.10 (.NET CLR 3.5.30729)”</p>
+</blockquote>
+
+<p>And probably some more. It’s amazing how fast things go.</p>
+
+<p><em>So why did this all happen? Some time ago a friend pointed out that she could not go to the ING bank website from here work. So to help here out a bit. I created a small proxy script that made it possible for her to login to the bank website. This script was under /bank. I admit i should have password protected this page. But i didn’t see any evil in it. So i left it open. The only thing it did was proxy the requests through my server. Right now i just removed the whole script. And will keep it like that!</em></p>
+
+<p>The situation i got in today was not very pleasent. But i have to say i am happy with the work RSA Security does. And i am happy RSA and Openprovider assisted me in resolving this case. Thanks guys. But next time please do some more research!</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-05-14T15:13:17+02:00" pubdate data-updated="true">May 14<span>th</span>, 2009</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2009/05/fraudulent-site-please-shut-down/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
 	  <h1 class="entry-title"><a href="http://lenss.nl/2009/05/zend-server-ce-myphpadmin-mysqli-not-loaded/">Zend Server CE MyPHPAdmin Mysqli Not Loaded</a></h1>
 	
 	</header>
 </header>
 
 
-  <div class="articletext"><p>The last time i installed <a href="http://www.zend.com/products/server/">Zend Server</a> i did it from source. Now it was time for the Ubuntu package manager to do it for me. I&#8217;ll spare you the install process. Since it&#8217;s <a href="http://files.zend.com/help/Zend-Server/zend-server.htm#deb_installation.htm">documented</a> well by the Zend team.</p>
+  <div class="articletext"><p>The last time i installed <a href="http://www.zend.com/products/server/">Zend Server</a> i did it from source. Now it was time for the Ubuntu package manager to do it for me. I’ll spare you the install process. Since it’s <a href="http://files.zend.com/help/Zend-Server/zend-server.htm#deb_installation.htm">documented</a> well by the Zend team.</p>
 
-<p>After the install i walked through all pages of the ZS GUI. And all seemed to work great. So i checked the repository if there were anymore packages i could add to the ZS setup. And found the <a href="http://www.phpmyadmin.net/">myphpadmin</a> package. Just what i needed. And as i remember this was missing from the previous version. So i installed the package. And the GUI now showed a link to the phpmyadmin application. But when triggering the page i was confronted with an error message.</p>
+<p>After the install i walked through all pages of the ZS GUI. And all seemed to work great. So i checked the repository if there were anymore packages i could add to the ZS setup. And found the <a href="http://www.phpmyadmin.net/">myphpadmin</a> package. Just what i needed. And as i remember this was missing from the previous version. So i installed the package. And the GUI now showed a link to the phpmyadmin application. But when triggering the page i was confronted with an error message. </p>
 
 <p><a href="http://lenss.nl/images/2009/05/mysqli_error_zs.jpg"><img src="http://lenss.nl/images/2009/05/mysqli_error_zs-300x14.jpg" alt="mysqli_error_zs" /></a></p>
 
-<p>So mysqli was not loaded. Well that&#8217;s possible of course. But the repository showed it was installed. And so did the <a href="http://www.php.net/phpinfo">phpinfo()</a> page.</p>
+<p>So mysqli was not loaded. Well that’s possible of course. But the repository showed it was installed. And so did the <a href="http://www.php.net/phpinfo">phpinfo()</a> page.</p>
 
 <p><a href="http://lenss.nl/images/2009/05/phpinfo_mysqli_zs.jpg"><img src="http://lenss.nl/images/2009/05/phpinfo_mysqli_zs-220x300.jpg" alt="phpinfo_mysqli_zs" /></a></p>
 
-<p>So after looking around the config files for a while. It hit me. The ZS GUI is running on <a href="http://www.lighttpd.net/">lighttpd</a> and not apache. And just as i expected. Apache loaded the mysqli extension. But lighttpd didn&#8217;t.</p>
+<p>So after looking around the config files for a while. It hit me. The ZS GUI is running on <a href="http://www.lighttpd.net/">lighttpd</a> and not apache. And just as i expected. Apache loaded the mysqli extension. But lighttpd didn’t.</p>
 
 <p>A work around for this problem would be to leave of the :10081 port number in the GUI URL. So it points to 127.0.0.1/myphpadmin/. Or add the extensions to the lighthttpd setup. But adding a single line to the php-fcgi.ini file.</p>
 
-<blockquote><p>$ vi /usr/local/zend/gui/lighttpd/etc/php-fcgi.ini
-$ extension=mysqli.so</p></blockquote>
+<blockquote>
+  <p>$ vi /usr/local/zend/gui/lighttpd/etc/php-fcgi.ini
+$ extension=mysqli.so</p>
+</blockquote>
 
-<p>This makes it possible to load phpmyadmin from the GUI. But the mysqli missing error is still displayed. So it&#8217;s probably better to load it over Apache. I tried to find a bug report link or something for the ZS project but couldn&#8217;t find any&#8230;&#8230;</p>
+<p>This makes it possible to load phpmyadmin from the GUI. But the mysqli missing error is still displayed. So it’s probably better to load it over Apache. I tried to find a bug report link or something for the ZS project but couldn’t find any……</p>
+
 </div>
   
   
@@ -145,21 +293,21 @@ $ extension=mysqli.so</p></blockquote>
 </header>
 
 
-  <div class="articletext"><p>Some days ago i updated my Ubuntu <a href="http://releases.ubuntu.com/8.10/">Intrepid Ibex</a> to the new <a href="http://releases.ubuntu.com/9.04/">Jaunty Jackalope</a>. Besides some minor glitches everything works smoothly. One small issue however annoyed me.</p>
+  <div class="articletext"><p>Some days ago i updated my Ubuntu <a href="http://releases.ubuntu.com/8.10/">Intrepid Ibex</a> to the new <a href="http://releases.ubuntu.com/9.04/">Jaunty Jackalope</a>. Besides some minor glitches everything works smoothly. One small issue however annoyed me. </p>
 
-<p>I always work with a dual monitor setup. And i like to have a <a href="http://www.gnome.org/">GNOME</a> panel on every screen. So normally i would just create a new panel and drag it to the second screen. This doesn&#8217;t seem to work anymore. Or maybe it&#8217;s just a bug. After some playing around with the panel settings i found a small work around.</p>
+<p>I always work with a dual monitor setup. And i like to have a <a href="http://www.gnome.org/">GNOME</a> panel on every screen. So normally i would just create a new panel and drag it to the second screen. This doesn’t seem to work anymore. Or maybe it’s just a bug. After some playing around with the panel settings i found a small work around.</p>
 
-<p>So to add an extra panel to the desktop. Just right click on the main panel and choose &#8220;New Panel&#8221;.</p>
+<p>So to add an extra panel to the desktop. Just right click on the main panel and choose “New Panel”.</p>
 
-<p><a href="http://lenss.nl/images/2009/04/gnome_movepanel_1.png"><img src="http://lenss.nl/images/2009/04/gnome_movepanel_1.png" alt="gnome_movepanel_1" /></a></p>
+<p>[<img src="http://lenss.nl/images/2009/04/gnome_movepanel_1.png" alt="gnome_movepanel_1](http://lenss.nl/images/2009/04/gnome_movepanel_1.png)" /></p>
 
-<p> This will create a new panel at the bottom of the screen. When you right click this panel and ask for the properties. You can change the way the panel behaves. The expand checkbox is selected by default. So just uncheck it. And the bottom panel shrinks. The bottom panel now has two dotted areas on the left and right sight of the panel. Clicking and holding down these areas makes it possible to drag the panel across screens.</p>
+<p>This will create a new panel at the bottom of the screen. When you right click this panel and ask for the properties. You can change the way the panel behaves. The expand checkbox is selected by default. So just uncheck it. And the bottom panel shrinks. The bottom panel now has two dotted areas on the left and right sight of the panel. Clicking and holding down these areas makes it possible to drag the panel across screens.</p>
 
-<p><a href="http://lenss.nl/images/2009/04/gnome_movepanel_3.png"><img src="http://lenss.nl/images/2009/04/gnome_movepanel_3-215x300.png" alt="gnome_movepanel_3" /></a></p>
+<p>[<img src="http://lenss.nl/images/2009/04/gnome_movepanel_3.png" alt="gnome_movepanel_3](http://lenss.nl/images/2009/04/gnome_movepanel_3-215x300.png)" /></p>
 
 <p>When the panel is at the right location. Just drop it and check the expand box again. Which results to the image below.</p>
 
-<p><a href="http://lenss.nl/images/2009/04/gnome_movepanel_5.jpg"><img src="http://lenss.nl/images/2009/04/gnome_movepanel_5-300x93.jpg" alt="gnome_movepanel_5" /></a></p>
+<p>[<img src="http://lenss.nl/images/2009/04/gnome_movepanel_5.jpg" alt="gnome_movepanel_5](http://lenss.nl/images/2009/04/gnome_movepanel_5-300x93.jpg)" /></p>
 </div>
   
   
@@ -217,9 +365,9 @@ $ extension=mysqli.so</p></blockquote>
 </header>
 
 
-  <div class="articletext"><p>My feed reader today showed the <a href="http://ilia.ws/index.php?url=archives/197-5-Letter-Domain-ia.gd.html">post</a> from &#8221;<a href="http://ilia.ws/">Ilia Alshanetsky</a>&#8221; a well respected PHP core developer. The goal of Ilia was to find the shortest domain possible for his blog. So there will be no need to use URL shortener&#8217;s. This made me think about my own little travel over the Internet to find a two character domain. It took my quite some time to find a registrar and top-level domain that actually allowed registering domains shorter then 3 characters. Ilia found his relieve in the .gd (Grenada) domain. And i myself found mine in the .vc (Saint Vincent) domain. So it&#8217;s still possible to get short domain names. It just takes a bit of research and time :)</p>
+  <div class="articletext"><p>My feed reader today showed the <a href="http://ilia.ws/index.php?url=archives/197-5-Letter-Domain-ia.gd.html">post</a> from “<a href="http://ilia.ws/">Ilia Alshanetsky</a>” a well respected PHP core developer. The goal of Ilia was to find the shortest domain possible for his blog. So there will be no need to use URL shortener’s. This made me think about my own little travel over the Internet to find a two character domain. It took my quite some time to find a registrar and top-level domain that actually allowed registering domains shorter then 3 characters. Ilia found his relieve in the .gd (Grenada) domain. And i myself found mine in the .vc (Saint Vincent) domain. So it’s still possible to get short domain names. It just takes a bit of research and time :)</p>
 
-<p>I tried commenting on his post. But he either disabled the commenting. Or i just can&#8217;t get the CAPTCHA right.</p>
+<p>I tried commenting on his post. But he either disabled the commenting. Or i just can’t get the CAPTCHA right.</p>
 </div>
   
   
@@ -277,9 +425,10 @@ $ extension=mysqli.so</p></blockquote>
 </header>
 
 
-  <div class="articletext"><p>Last week was the big move for us. We were first located on the <a href="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Brouwersgracht,+Amsterdam&amp;sll=37.0625,-95.677068&amp;sspn=53.300127,114.257812&amp;ie=UTF8&amp;z=16&amp;iwloc=A">Brouwersgracht</a> in Amsterdam. But it was getting to small for us. Besides we wanted to team up with some other smart people. So we decided for a bigger office. This time on the <a href="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Herengracht+416,+Amsterdam&amp;sll=37.0625,-95.677068&amp;sspn=53.300127,114.257812&amp;ie=UTF8&amp;z=16">Herengracht</a> in some old &#8221;<a href="http://nl.wikipedia.org/wiki/Grachtenpand">grachtenpand</a>&#8221;. Right in the center of Amsterdam. What a location. And i am not even speaking of the great nostalgic looks of the office i am in right now. I will try to post some images later this week.</p>
+  <div class="articletext"><p>Last week was the big move for us. We were first located on the <a href="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Brouwersgracht,+Amsterdam&amp;sll=37.0625,-95.677068&amp;sspn=53.300127,114.257812&amp;ie=UTF8&amp;z=16&amp;iwloc=A">Brouwersgracht</a> in Amsterdam. But it was getting to small for us. Besides we wanted to team up with some other smart people. So we decided for a bigger office. This time on the <a href="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Herengracht+416,+Amsterdam&amp;sll=37.0625,-95.677068&amp;sspn=53.300127,114.257812&amp;ie=UTF8&amp;z=16">Herengracht</a> in some old “<a href="http://nl.wikipedia.org/wiki/Grachtenpand">grachtenpand</a>”. Right in the center of Amsterdam. What a location. And i am not even speaking of the great nostalgic looks of the office i am in right now. I will try to post some images later this week.</p>
 
-<p>It took us about a week to get ready in the new office. And not everything has it&#8217;s place yet. But that&#8217;s just a matter of time i guess. We are still waiting for a new fast Internet connection. So for the time being we are sharing a line with another office. This of course leads to some security issues. But we will manage until the new connection is delivered.</p>
+<p>It took us about a week to get ready in the new office. And not everything has it’s place yet. But that’s just a matter of time i guess. We are still waiting for a new fast Internet connection. So for the time being we are sharing a line with another office. This of course leads to some security issues. But we will manage until the new connection is delivered.</p>
+
 </div>
   
   
@@ -343,9 +492,12 @@ $ extension=mysqli.so</p></blockquote>
 
 <p>And although we all like Skype here. This is not what customers should see when they have Skype installed. My boss proposed to create an image instead of a text based phone number. This should work. But i did some Googling first. And found a <a href="http://forum.skype.com/index.php?showtopic=85053">post</a> on the Skype website. There seems to be a meta tag that disabled the Skype icons from being displayed on a website. So that was an easy fix.</p>
 
-<blockquote><p><meta name="SKYPE_TOOLBAR" content ="SKYPE_TOOLBAR_PARSER_COMPATIBLE"></p></blockquote>
+<blockquote>
+  <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />
 
-<p>I think it&#8217;s great that the Skype people provide a way to disable the icons. But i would like to have a bit more control over this.</p>
+</blockquote>
+
+<p>I think it’s great that the Skype people provide a way to disable the icons. But i would like to have a bit more control over this. </p>
 </div>
   
   
@@ -403,34 +555,40 @@ $ extension=mysqli.so</p></blockquote>
 </header>
 
 
-  <div class="articletext"><p>On almost all of my domains i rewrite the WWW sub domain to the <a href="http://no-www.org/">no-WWW</a> version. This however went wrong on my own site. And i didn&#8217;t even notice it. My friend <a href="http://www.lexternet.nl/">Alex</a> pointed out that he couldn&#8217;t post any comment to the site anymore. So what went wrong?</p>
+  <div class="articletext"><p>On almost all of my domains i rewrite the WWW sub domain to the <a href="http://no-www.org/">no-WWW</a> version. This however went wrong on my own site. And i didn’t even notice it. My friend <a href="http://www.lexternet.nl/">Alex</a> pointed out that he couldn’t post any comment to the site anymore. So what went wrong?</p>
 
 <p>Normally i use the following lines to do the rewrite.</p>
 
-<blockquote><p>RewriteCond %{HTTP_HOST} ^www.lenss.nl$ [NC]
-RewriteRule ^(.*)$ http://lenss.nl/$1 [R=301,L]</p></blockquote>
+<blockquote>
+  <p>RewriteCond %{HTTP_HOST} ^www.lenss.nl$ [NC]
+RewriteRule ^(.*)$ http://lenss.nl/$1 [R=301,L]</p>
+</blockquote>
 
-<p>My own site however still runs <a href="http://wordpress.org/">Wordpress</a> and this package comes with it&#8217;s own set of rewrite rules. And i just dropped my new lines under the Wordpress rewrite rules.</p>
+<p>My own site however still runs <a href="http://wordpress.org/">Wordpress</a> and this package comes with it’s own set of rewrite rules. And i just dropped my new lines under the Wordpress rewrite rules.</p>
 
-<blockquote><p>RewriteEngine On
+<blockquote>
+  <p>RewriteEngine On
 RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !<sup>.*[<sup>/]$</sup></sup>
-RewriteCond %{REQUEST_URI} !<sup>.<em>//.</em>$</sup>
-RewriteRule . index.php [L]</p></blockquote>
+RewriteCond %{REQUEST_URI} !^.<em>[^/]$
+RewriteCond %{REQUEST_URI} !^.</em>//.*$
+RewriteRule . index.php [L]</p>
+</blockquote>
 
-<p>The result was that the WWW sub domain got rewritten to the no-www version. But everything after the trailing slash got dismissed. So rewrites for blog posts didn&#8217;t work. And all request would land on the main index. So i did some testing and combined the two sets of rewrite rules. This seems to function properly :)</p>
+<p>The result was that the WWW sub domain got rewritten to the no-www version. But everything after the trailing slash got dismissed. So rewrites for blog posts didn’t work. And all request would land on the main index. So i did some testing and combined the two sets of rewrite rules. This seems to function properly :)</p>
 
-<blockquote><p>RewriteEngine On
+<blockquote>
+  <p>RewriteEngine On
 RewriteBase /
 RewriteCond %{HTTP_HOST} ^www.lenss.nl$ [NC]
-RewriteRule ^(.*)$ http://lenss.nl/$1 [R=301,L]
+RewriteRule ^(.<em>)$ http://lenss.nl/$1 [R=301,L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !<sup>.*[<sup>/]$</sup></sup>
-RewriteCond %{REQUEST_URI} !<sup>.<em>//.</em>$</sup>
-RewriteRule . index.php [L]</p></blockquote>
+RewriteCond %{REQUEST_URI} !^.</em>[^/]$
+RewriteCond %{REQUEST_URI} !^.<em>//.</em>$
+RewriteRule . index.php [L]</p>
+</blockquote>
 
 <p>Next time i just need to check my changes more thoroughly. And thank you Alex for point that out to me.</p>
 </div>
@@ -492,9 +650,10 @@ RewriteRule . index.php [L]</p></blockquote>
 
   <div class="articletext"><p>My wife just send me a link to <a href="http://www.security.nl/artikel/28043/1/Hacker_vindt_lek_in_websites_Nederlandse_banken_.html">security.nl</a>. Pointing to an article about <a href="http://ha.ckers.org/xss.html">XSS</a> vulnerability in Dutch banking websites. And since i am from the Netherlands. I thought to check this out a bit.</p>
 
-<p>security.nl states that a &#8221;<a href="http://security.zarco.nl/">security researcher</a>&#8221; found XSS bugs in most of Dutch websites. With a link that seems to point to the &#8220;researchers&#8221; blog. I don&#8217;t know about you. But i personally don&#8217;t trust websites that i never seen before. Let alone &#8220;researchers&#8221; that have absolutely no credibility in the scene. However the XSS bugs are real. But is this really something to write about? Showing an alert box on a screen shot seems very lame to me. I wonder if this is even exploitable at all?</p>
+<p>security.nl states that a “<a href="http://security.zarco.nl/">security researcher</a>” found XSS bugs in most of Dutch websites. With a link that seems to point to the “researchers” blog. I don’t know about you. But i personally don’t trust websites that i never seen before. Let alone “researchers” that have absolutely no credibility in the scene. However the XSS bugs are real. But is this really something to write about? Showing an alert box on a screen shot seems very lame to me. I wonder if this is even exploitable at all?</p>
 
 <p>One good point is that at least one bank responded in time and fixed the bug.</p>
+
 </div>
   
   
@@ -552,7 +711,7 @@ RewriteRule . index.php [L]</p></blockquote>
 </header>
 
 
-  <div class="articletext"><p>I have to admit this is probably not the best way to things like this. But it was fun to write the small bit of code. And it&#8217;s useful as well. For one of my sites i use a small script to check the status every 30 minutes. I&#8217;m doing this because the server the site is running on sometimes chooses to stop serving web pages. It&#8217;s a managed server so not much i can do about it.</p>
+  <div class="articletext"><p>I have to admit this is probably not the best way to things like this. But it was fun to write the small bit of code. And it’s useful as well. For one of my sites i use a small script to check the status every 30 minutes. I’m doing this because the server the site is running on sometimes chooses to stop serving web pages. It’s a managed server so not much i can do about it.</p>
 
 <p>So to check the status of the website / web server i wrote a small class that is triggered from a CRON job that runs every 30 minutes.</p>
 
@@ -561,16 +720,16 @@ RewriteRule . index.php [L]</p></blockquote>
 <pre><code>require_once "/full/path/to/class/siteStatus.php";
 
 try {
-    siteStatus::check(array(
-        'sites' =&gt; array(
-            'http://siteurl1.tld',
-            'http://siteurl2.tld'
-        ),
-        'agent' =&gt; 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)',
-        'email' =&gt; 'some+email.address'
-    ));
+	siteStatus::check(array(
+		'sites' =&gt; array(
+			'http://siteurl1.tld',
+			'http://siteurl2.tld'
+		),
+		'agent' =&gt; 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)',
+		'email' =&gt; 'some+email.address'
+	));
 } catch (Exception $e) {
-    echo $e-&gt;getMessage();
+	echo $e-&gt;getMessage();
 }
 </code></pre>
 
@@ -597,133 +756,133 @@ try {
  */
 Class siteStatus
 {
-    /**
+	/**
      * @var resource
      */
-    static private $_curl;
-
-    /**
+	static private $_curl;
+	
+	/**
      * @var string
      */
-    static private $_reportEmail;
-
-    /**
+	static private $_reportEmail;
+	
+	/**
      * @var string
      */
-    static private $_curlErrors;
-
-    /**
+	static private $_curlErrors;
+	
+	/**
      * This method loops through the lis tof sites provided by the
      * config array. And calls self::checkSite to do the actual checking.
      *
      * A config array will look something like this:
      * 
      * array(
-     *  'sites' =&gt; array(
-     *      'http://siteurl1.tld',
-     *      'http://siteurl2.tld'
-     *  ),
-     *  'agent' =&gt; 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)',
-     *  'email' =&gt; 'report+email.tld'
-     * ); 
+	 *	'sites' =&gt; array(
+	 *		'http://siteurl1.tld',
+	 *		'http://siteurl2.tld'
+	 *	),
+	 *	'agent' =&gt; 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)',
+	 *	'email' =&gt; 'report+email.tld'
+	 * ); 
      *
      * @param  array  $config   The config array
      * @return void
      */
-    static public function check(array $config)
-    {
-        self::setReportAddress($config);
-        self::createCurlResource();
-
-        foreach ($config['sites'] as $site) {
-            $checkDateTime = date('Y-m-d H:i:s');
-            if (!self::checkSite($site, $config['agent'])) {
-                self::sendReport($site, $checkDateTime);
-            }
-        }
-
-        curl_close(self::$_curl);
-    }
-
-    /**
+	static public function check(array $config)
+	{
+		self::setReportAddress($config);
+		self::createCurlResource();
+		
+		foreach ($config['sites'] as $site) {
+			$checkDateTime = date('Y-m-d H:i:s');
+			if (!self::checkSite($site, $config['agent'])) {
+				self::sendReport($site, $checkDateTime);
+			}
+		}
+		
+		curl_close(self::$_curl);
+	}
+	
+	/**
      * Sets the address to which the report has to be emailed.
      *
      * @param  array  $config   The config array
      * @return void
      */
-    static private function setReportAddress(array $config)
-    {
-        if (!isset($config['email']) || (strlen($config['email']) &lt;= 4)) {
-            throw new Exception("No report email address is set in the config.");
-        }
-
-        self::$_reportEmail = $config['email'];
-    }
-
-    /**
+	static private function setReportAddress(array $config)
+	{
+		if (!isset($config['email']) || (strlen($config['email']) &lt;= 4)) {
+			throw new Exception("No report email address is set in the config.");
+		}
+		
+		self::$_reportEmail = $config['email'];
+	}
+	
+	/**
      * Try to create a curl resource.
      *
      * @return void
      */
-    static private function createCurlResource()
-    {
-        self::$_curl = curl_init();
-        if (!self::$_curl) {
-            throw new Exception("Could not create a curl resource.");
-        }
-    }
-
-    /**
+	static private function createCurlResource()
+	{
+		self::$_curl = curl_init();
+		if (!self::$_curl) {
+			throw new Exception("Could not create a curl resource.");
+		}
+	}
+	
+	/**
      * Preform a call to the webserver. And check the status code provided by it.
      *
      * @param  string  $siteUrl   The site URL.
      * @param  string  $agent     Browser agent string.
      * @return boolean
      */
-    static private function checkSite($siteUrl, $agent)
-    {
-        curl_setopt(self::$_curl, CURLOPT_URL,            $siteUrl);
-        curl_setopt(self::$_curl, CURLOPT_USERAGENT,      $agent);
-        curl_setopt(self::$_curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt(self::$_curl, CURLOPT_VERBOSE,        false);
-        curl_setopt(self::$_curl, CURLOPT_TIMEOUT,        5);
-
-        if (curl_exec(self::$_curl) === false) {
-            self::$_curlErrors = curl_error(self::$_curl);
-        }
-        $httpcode = curl_getinfo(self::$_curl, CURLINFO_HTTP_CODE);
-
-        if($httpcode &gt;= 200 &amp;&amp; $httpcode &lt; 300) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
+	static private function checkSite($siteUrl, $agent)
+	{
+	    curl_setopt(self::$_curl, CURLOPT_URL,            $siteUrl);
+	    curl_setopt(self::$_curl, CURLOPT_USERAGENT,      $agent);
+	    curl_setopt(self::$_curl, CURLOPT_RETURNTRANSFER, 1);
+	    curl_setopt(self::$_curl, CURLOPT_VERBOSE,        false);
+	    curl_setopt(self::$_curl, CURLOPT_TIMEOUT,        5);
+	
+	    if (curl_exec(self::$_curl) === false) {
+	    	self::$_curlErrors = curl_error(self::$_curl);
+	    }
+	    $httpcode = curl_getinfo(self::$_curl, CURLINFO_HTTP_CODE);
+		
+	    if($httpcode &gt;= 200 &amp;&amp; $httpcode &lt; 300) {
+	        return true;
+	    }
+	
+	    return false;
+	}
+	
+	/**
      * Send a report after checking sites is done.
      *
      * @param  string $site     Site URL.
      * @param  string $dateTime DateTime the check was preformed.
      * @return void
      */
-    static private function sendReport($site, $dateTime)
-    {
-        $reportSubject = "Status report for {$site}\n\n";
-
-        $reportBody = "Site : {$site}\n";
-        $reportBody .= "Date : {$dateTime}\n";
-
-        if (strlen(self::$_curlErrors) &gt; 0) {
-            $reportBody .= "Errors : " . self::$_curlErrors . "\n";
-        }
-
-        mail(self::$_reportEmail, $reportSubject, $reportBody);
-    }
+	static private function sendReport($site, $dateTime)
+	{
+		$reportSubject = "Status report for {$site}\n\n";
+		
+		$reportBody = "Site : {$site}\n";
+		$reportBody .= "Date : {$dateTime}\n";
+		
+		if (strlen(self::$_curlErrors) &gt; 0) {
+			$reportBody .= "Errors : " . self::$_curlErrors . "\n";
+		}
+				
+		mail(self::$_reportEmail, $reportSubject, $reportBody);
+	}
 }
 </code></pre>
 
-<p>Like i said this is probably not the best way of doing this. To make it more solid it&#8217;s probably better to use some sort of SMS gateway to send out reports. But for now this suits my needs. It&#8217;s runs from my local workstation. Which is on 24/7 anyway.</p>
+<p>Like i said this is probably not the best way of doing this. To make it more solid it’s probably better to use some sort of SMS gateway to send out reports. But for now this suits my needs. It’s runs from my local workstation. Which is on 24/7 anyway.</p>
 </div>
   
   
@@ -783,10 +942,10 @@ Class siteStatus
 
   <div class="articletext"><p>In one of our sites we load content of a third party travel organization. And some of these calls can take some time. But when the pages are loading nothing really happens to the browser state. This is confusing for the users of the website. So i decided to add some animated preloader images. Just to show the users the site is still doing stuff.</p>
 
-<p>This however confronted me with a small problem. The preloader images are supposed to show up when a form is submitted. And this is exactly what&#8217;s causing the problem. In my first attempt i created the image object when the form was submitted. On submit a JavaScript function was called. This function created the image object and displayed it.</p>
+<p>This however confronted me with a small problem. The preloader images are supposed to show up when a form is submitted. And this is exactly what’s causing the problem. In my first attempt i created the image object when the form was submitted. On submit a JavaScript function was called. This function created the image object and displayed it.</p>
 
 <pre><code>function loader() {
-    var loaderImg = new Image();    
+	var loaderImg = new Image();	
         loaderImg.src = 'some/image/url/';
 }
 </code></pre>
@@ -794,11 +953,12 @@ Class siteStatus
 <p>This however resulted in an image displayed that had no active animation. This happens i think because the image is not fully loaded when the user hits submit on the form. So to fix this i had to load the images before the page was completely rendered.</p>
 
 <pre><code>var loaderImg = new Image();
-
+	
 window.onload = function() {
         loaderImg.src = 'some/image/url';
 }
 </code></pre>
+
 </div>
   
   
@@ -839,72 +999,6 @@ window.onload = function() {
     <div class="share">
 		<ul>
 			<li><a href="http://lenss.nl/2009/03/animated-loader-on-form-submit/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2009/03/centos-php5-and-mcrypt/">CentOS PHP5 and Mcrypt</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>For some strange reason (i didn&#8217;t investigate) CentOS 5 does not come with a pre build <a href="http://www.php.net/mcrypt">mcrypt</a> extension for PHP. This is pretty weird if you ask me. And building this extension from source is no option for me. There are way to much dependencies missing. And i don&#8217;t really like installing *dev packages on my server. So how to fix this?</p>
-
-<p>Luckily there are some rpm files floating around the net. So i just used <a href="http://rpmfind.net/linux/rpm2html/search.php?query=php-mcrypt">rpmfind</a> to find a fedora 5.2.6 version of the mcrypt extension. After downloading it&#8217;s a one line command to install. And a apache reboot to get it working.</p>
-
-<blockquote><p>Constantin was so nice to comment on the fact that the mcrypt library needs to be installed before installing the mcrypt PHP extension.</p>
-
-<p>$ wget ftp://rpmfind.net/linux/fedora/updates/7/i386/php-mcrypt-5.2.6-2.fc7.i386.rpm
-$ rpm -ivh &#8211;nodeps php-mcrypt-5.2.6-2.fc7.i386.rpm
-$ /etc/init.d/http restart</p></blockquote>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-03-17T11:40:27+01:00" pubdate data-updated="true">Mar 17<span>th</span>, 2009</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2009/03/centos-php5-and-mcrypt/#disqus_thread">Comments</a></li>
 		</ul>
 	</div>
   </footer>
@@ -962,6 +1056,8 @@ $ /etc/init.d/http restart</p></blockquote>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -979,8 +1075,6 @@ $ /etc/init.d/http restart</p></blockquote>
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -1001,7 +1095,7 @@ $ /etc/init.d/http restart</p></blockquote>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

@@ -71,20 +71,22 @@
 
 <p>So we did a lookup on the domain. No weird things here. Then we decided to ping the name servers to see if they were responding. They were. But there was something strange. The domain in question runs on two name servers. namely ns1.cker.sc and ns2.cker.sc. ns1 was responding correctly. ns2 however was responding with a totally different and unknown IP address. This is weird. The normal settings would be:</p>
 
-<blockquote><p>ns1.cker.sc ( 208.69.125.116 )
-ns2.cker.sc ( 208.69.125.117 )</p></blockquote>
+<blockquote>
+  <p>ns1.cker.sc ( 208.69.125.116 )
+ns2.cker.sc ( 208.69.125.117 )</p>
+</blockquote>
 
-<p>ns2 however responded with 208.69.34.132. The whois database at ripe.net told us it was in the IANA pool of addresses. But we couldn&#8217;t find a whois tool there. So i opened up a browser to go directly to this IP address. This showed a temporary <a href="http://opendns.com/">OpenDNS</a> page. Off to <a href="http://www.domaintools.com/">domaintools.com</a> to do a <a href="http://www.domaintools.com/reverse-ip/">reverse lookup</a> on this IP.</p>
+<p>ns2 however responded with 208.69.34.132. The whois database at ripe.net told us it was in the IANA pool of addresses. But we couldn’t find a whois tool there. So i opened up a browser to go directly to this IP address. This showed a temporary <a href="http://opendns.com/">OpenDNS</a> page. Off to <a href="http://www.domaintools.com/">domaintools.com</a> to do a <a href="http://www.domaintools.com/reverse-ip/">reverse lookup</a> on this IP.</p>
 
-<p>This revealed one domain matching this IP address. Some weird long domain name. At first i was thinking somebody highjacked my DNS server or maybe some DNS cache poisoning. But after looking closely i noticed the domain was actually readable. The domain returned was : <a href="http://whois.domaintools.com/caffefiaschetteriaitaliana.com">Caffefiaschetteriaitaliana.com</a>. A google search returned some italian cafe with almost the same domain. <a href="http://whois.domaintools.com/caffefiaschetteriaitaliana.com"></a><a href="http://www.fiaschetteriaitaliana.it/">fiaschetteriaitaliana.it</a>.</p>
+<p>This revealed one domain matching this IP address. Some weird long domain name. At first i was thinking somebody highjacked my DNS server or maybe some DNS cache poisoning. But after looking closely i noticed the domain was actually readable. The domain returned was : <a href="http://whois.domaintools.com/caffefiaschetteriaitaliana.com">Caffefiaschetteriaitaliana.com</a>. A google search returned some italian cafe with almost the same domain. [](http://whois.domaintools.com/caffefiaschetteriaitaliana.com)<a href="http://www.fiaschetteriaitaliana.it/">fiaschetteriaitaliana.it</a>.</p>
 
 <p>So we decided to do a whois query on the .com domain. This revealed some email addresses with similar domains. And technical contacts from aruba.it. By now we had the feeling somebody made a configuration error. So i decided to send an email to all the addresses matching this domain including OpenDNS. And after about an hour the nameserver was responding correctly again. So they either corrected a mistake or it was just a temporary fluke. I never got a reply from any of the addresses i wrote to.</p>
 
-<p>Although i&#8217;m happy the nameservers are responding properly again. I&#8217;m still stuck with the question. What the hell happened here? The most logical scenario for me is still a configuration error.</p>
+<p>Although i’m happy the nameservers are responding properly again. I’m still stuck with the question. What the hell happened here? The most logical scenario for me is still a configuration error.</p>
 
 <p>UPDATE: 12-08-2008</p>
 
-<p>After some digging. I found out that the ip address &#8220;208.69.34.132&#8221; actually belongs to opendns.com. When a non existing sub -/ domain is quieried. This ip is returned. It&#8217;s just a way to make money from ads. the network i was connected to at that moment uses an opendns.com DNS cache server. That explains that part.</p>
+<p>After some digging. I found out that the ip address “208.69.34.132” actually belongs to opendns.com. When a non existing sub -/ domain is quieried. This ip is returned. It’s just a way to make money from ads. the network i was connected to at that moment uses an opendns.com DNS cache server. That explains that part.</p>
 </div>
 
 
@@ -206,6 +208,8 @@ ns2.cker.sc ( 208.69.125.117 )</p></blockquote>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -223,8 +227,6 @@ ns2.cker.sc ( 208.69.125.117 )</p></blockquote>
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -245,7 +247,7 @@ ns2.cker.sc ( 208.69.125.117 )</p></blockquote>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Dutch PHP Conference In only two days it&#8217;s time for the Dutch PHP Conference. The second edition as far as i remember. Last year i also had &hellip;">
+  <meta name="description" content="PHP testFest Pays Off. It’ s been some time ago already. But on May the 10th. I joined some other Dutch PHP Developers in the PHP TestFest in &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,13 +64,73 @@
 <header>
 	<header>
 	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2008/06/php-testfest-pays-off/">PHP testFest Pays Off.</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>It’ s been some time ago already. But on May the 10th. I joined some other Dutch PHP Developers in the PHP <a href="http://testfest.php.net/">TestFest</a> in Roosendaal. It was a small group. But it’s always good to meet fellow developers. I wasn’t at my best that day. With a big party the day before. But never the less i made it to the testfest. And was half a sleep all day. Still one of my test made it into 5_3. No biggie. Just cool! And looking at the list of added tests. A lot of developers around the world did a great job. A thanks to <a href="http://www.phpgg.nl/blog">phpgg.nl</a> and <a href="http://www.sebastian-bergmann.de/">Sebastian Bergmann</a></p>
+
+<p><a href="http://cvs.php.net/viewvc.cgi/php-src/ext/reflection/tests/reflectionExtension_getClasses_basic.phpt?r1=1.1&amp;r2=1.2&amp;diff_format=u">CVS commit</a></p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-06-13T05:35:50+02:00" pubdate data-updated="true">Jun 13<span>th</span>, 2008</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2008/06/php-testfest-pays-off/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
 	  <h1 class="entry-title"><a href="http://lenss.nl/2008/06/dutch-php-conference/">Dutch PHP Conference</a></h1>
 	
 	</header>
 </header>
 
 
-  <div class="articletext"><p>In only two days it&#8217;s time for the Dutch <a href="http://php.net/">PHP</a> Conference. The second edition as far as i remember. Last year i also had the intention to go. And the ticket was ready. But two days before the conference i got sick. And stayed in bed for over a week. So this year i have a second chance. Looking at the list of speakers it&#8217;s gonna be a great day. With a lot of information to chew on for a while. For those who didn&#8217;t buy a ticket yet. At the time of writing there are still some <a href="http://phpconference.nl/register/">tickets</a> left. A big thanks to <a href="http://www.ibuildings.nl/">Ibuildings</a> for making this happen.</p>
+  <div class="articletext"><p>In only two days it’s time for the Dutch <a href="http://php.net/">PHP</a> Conference. The second edition as far as i remember. Last year i also had the intention to go. And the ticket was ready. But two days before the conference i got sick. And stayed in bed for over a week. So this year i have a second chance. Looking at the list of speakers it’s gonna be a great day. With a lot of information to chew on for a while. For those who didn’t buy a ticket yet. At the time of writing there are still some <a href="http://phpconference.nl/register/">tickets</a> left. A big thanks to <a href="http://www.ibuildings.nl/">Ibuildings</a> for making this happen.</p>
 
 <p><a href="http://phpconference.nl/"><img src="http://phpconference.nl/img/dpc08/logoDPC08_small.png" alt="" /></a></p>
 </div>
@@ -144,8 +204,8 @@
     // Attach the click event to the wrapper div
     $('toggle').addEvent('click', function(e) {
         e = new Event(e);
-    mySlide.toggle();
-    e.stop();
+	mySlide.toggle();
+	e.stop();
     });
 });
 </code></pre>
@@ -171,20 +231,20 @@ foo
 }
 </code></pre>
 
-<p>So this looks great. It functions well. And the sliding is very smooth. There is one small problem though. When the wrapper contains an element with a style attribute overflow set to &#8220;auto&#8221;. The sliding will cause a flicker effect on the page. This is probably caused by rescaling the wrapper. Witch in it&#8217;s turn rescales the element with attribute overflow set to auto.</p>
+<p>So this looks great. It functions well. And the sliding is very smooth. There is one small problem though. When the wrapper contains an element with a style attribute overflow set to “auto”. The sliding will cause a flicker effect on the page. This is probably caused by rescaling the wrapper. Witch in it’s turn rescales the element with attribute overflow set to auto.</p>
 
-<p>I didn&#8217;t really try to figure out why this happens. Maybe that&#8217;s a later project. But i did come up with a small fix. When a slide object is created. FX.Slide wraps a div around the container that will slide in and out. This wrapper has the attribute overflow set to hidden. I couldn&#8217;t figure out why overflow is set to hidden on this wrapper. So i added the ability to set it through the options object. When overflow is set to auto the flicker bug disappears. To add this feature we need to add some small changes to the FX.Slide class.</p>
+<p>I didn’t really try to figure out why this happens. Maybe that’s a later project. But i did come up with a small fix. When a slide object is created. FX.Slide wraps a div around the container that will slide in and out. This wrapper has the attribute overflow set to hidden. I couldn’t figure out why overflow is set to hidden on this wrapper. So i added the ability to set it through the options object. When overflow is set to auto the flicker bug disappears. To add this feature we need to add some small changes to the FX.Slide class.</p>
 
 <pre><code>options: {
-    mode: 'vertical'
+	mode: 'vertical'
 },
 </code></pre>
 
 <p>First we change the code above to reflect the code below:</p>
 
 <pre><code>options: {
-    mode: 'vertical',
-    overflow: 'hidden'
+	mode: 'vertical',
+	overflow: 'hidden'
 },
 </code></pre>
 
@@ -265,13 +325,14 @@ $('toggle').addEvent('click', function(e){
 </header>
 
 
-  <div class="articletext"><p>I&#8217;ve been using <a href="http://www.zend.com/en/products/studio/">Zend Studio for Eclipse</a> (ZendNeon) ever since it came out. I just love this IDE. The fact that i have all tools at my finger tips without needing to switch between applications is just great. Specially when using SVN. But one thing was bothering me. Every time i started a new project. I had to add the svn:ignore for the .project file. There is really no reason to store this in SVN.</p>
+  <div class="articletext"><p>I’ve been using <a href="http://www.zend.com/en/products/studio/">Zend Studio for Eclipse</a> (ZendNeon) ever since it came out. I just love this IDE. The fact that i have all tools at my finger tips without needing to switch between applications is just great. Specially when using SVN. But one thing was bothering me. Every time i started a new project. I had to add the svn:ignore for the .project file. There is really no reason to store this in SVN.</p>
 
-<p>Untill yesterday i just added the svn:ignore tag to every project i start. But my eye fell on <a href="http://tech.groups.yahoo.com/group/ZendNeonGroup/message/3058">this</a> post in the yahoo group for ZendNeon. It&#8217;s an old post. But yesterday some guy <a href="http://tech.groups.yahoo.com/group/ZendNeonGroup/message/3093">posted</a> a better way of settings this globally.</p>
+<p>Untill yesterday i just added the svn:ignore tag to every project i start. But my eye fell on <a href="http://tech.groups.yahoo.com/group/ZendNeonGroup/message/3058">this</a> post in the yahoo group for ZendNeon. It’s an old post. But yesterday some guy <a href="http://tech.groups.yahoo.com/group/ZendNeonGroup/message/3093">posted</a> a better way of settings this globally.</p>
 
 <p>So to exclude the .profile file from being committed to SVN do the following:</p>
 
-<p>Window > Preferences > Team > Ignored Resources and click the Add Pattern button.</p>
+<p>Window &gt; Preferences &gt; Team &gt; Ignored Resources and click the Add Pattern button.</p>
+
 </div>
   
   
@@ -329,9 +390,9 @@ $('toggle').addEvent('click', function(e){
 </header>
 
 
-  <div class="articletext"><p>Lately i&#8217;ve been working on a project. And one of the requirements is that the user interface works from IE 6 and up. Now i have to admit that it&#8217;s been a while since i did <a href="http://www.w3.org/Style/CSS/">CSS</a>. And forgot what a pain it is to get things working cross browser. There is always those little irritating IE 6 bugs that double your working time because you either need to fix a bug. Or because you need to create a different stylesheet for a certain browser.</p>
+  <div class="articletext"><p>Lately i’ve been working on a project. And one of the requirements is that the user interface works from IE 6 and up. Now i have to admit that it’s been a while since i did <a href="http://www.w3.org/Style/CSS/">CSS</a>. And forgot what a pain it is to get things working cross browser. There is always those little irritating IE 6 bugs that double your working time because you either need to fix a bug. Or because you need to create a different stylesheet for a certain browser.</p>
 
-<p>So when i hit the <a href="http://www.positioniseverything.net/explorer/threepxtest.html">3 pixel gap</a> bug in IE 6 again. I wanted to start and create a javascript based fix. But first did a google search. To see of nobody had the same genius idea. And low and behold. Somebody did. I found this great little Gem ie7-js It&#8217;s a Javascript library created by <a href="http://dean.edwards.name/">Dean Edwards</a>. For a lot of things their already were fixes floating around the web. But this has it all. It fixes the PNG alpha transparency bug in IE 5.5 and 6.0. Makes sure the :hover element is not only usable on <a> elements. And a whole lot more. The new IE8-js version is even more complete. And adds advanced CSS selectors and properties.</p>
+<p>So when i hit the <a href="http://www.positioniseverything.net/explorer/threepxtest.html">3 pixel gap</a> bug in IE 6 again. I wanted to start and create a javascript based fix. But first did a google search. To see of nobody had the same genius idea. And low and behold. Somebody did. I found this great little Gem ie7-js It’s a Javascript library created by <a href="http://dean.edwards.name/">Dean Edwards</a>. For a lot of things their already were fixes floating around the web. But this has it all. It fixes the <abbr title="Portable Network Graphics (format)">PNG</abbr> alpha transparency bug in IE 5.5 and 6.0. Makes sure the :hover element is not only usable on <a> elements. And a whole lot more. The new IE8-js version is even more complete. And adds advanced CSS selectors and properties.</a></p>
 
 <p>Using it is as simple as including this in the header section of your (X)HTML:</p>
 
@@ -345,7 +406,6 @@ $('toggle').addEvent('click', function(e){
 
 <p>*site <a href="http://code.google.com/p/ie7-js/">http://code.google.com/p/ie7-js/</a></p>
 
-<p>  *[PNG]: Portable Network Graphics (format)</p>
 </div>
   
   
@@ -441,6 +501,8 @@ $('toggle').addEvent('click', function(e){
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -458,8 +520,6 @@ $('toggle').addEvent('click', function(e){
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -480,7 +540,7 @@ $('toggle').addEvent('click', function(e){
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

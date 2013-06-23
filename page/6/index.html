@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Compiling PHP v1.0.8 Today Rasmus posted on twitter that he just compiled PHP v 1.0.8. And it actually worked. Is that great? :) He was in need of &hellip;">
+  <meta name="description" content="Google Mod_pagespeed Continued Last week i toyed with mod_pagespeed a bit. But just couldn’t get the hang of it. So the last two days permitted me &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,31 +64,214 @@
 <header>
 	<header>
 	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2010/11/google-mod_pagespeed-continued/">Google Mod_pagespeed Continued</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>Last week i <a href="http://lenss.nl/2010/11/google-mod_pagespeed/">toyed</a> with <a href="http://code.google.com/p/modpagespeed/">mod_pagespeed</a> a bit. But just couldn’t get the hang of it. So the last two days permitted me to play some more with this great Apache module. Only this time i choose to <a href="http://code.google.com/p/modpagespeed/wiki/HowToBuild">build from source</a> and ignore the binaries for a while. </p>
+
+<p>For me the main problem was. As soon as i enabled the module. It was active for all sites running on this server. And that should not be a problem. But some of these sites are Wordpress monsters. That are ready to take any server down with a bit of high load.</p>
+
+<p>So after a bit of trail and error. I figured out i could just disable mod_pagespeed globally by altering the main config file. After Apache reloaded mod_pagespeed was not active for the running sites.</p>
+
+<p>in /etc/apache2/mods-available/pagespeed.conf make sure ModPagespeed is set to ‘off’</p>
+
+<blockquote>
+  <p>ModPagespeed off</p>
+</blockquote>
+
+<p>So now i can simply enable settings i need on a per vhost basis. For this site end some other sites i used the following config section in my vhost.</p>
+
+<blockquote>
+  <h1 id="mod-pagespeed">MOD-pagespeed</h1>
+</blockquote>
+
+<pre><code>        SetOutputFilter MOD_PAGESPEED_OUTPUT_FILTER
+        ModPagespeed on
+
+        ModPagespeedUrlPrefix                "http://lenss.nl"
+
+        ModPagespeedFileCachePath            "/var/mod_pagespeed/cache/"
+        ModPagespeedGeneratedFilePrefix      "/var/mod_pagespeed/files/"
+
+        #ModPagespeedRewriteLevel CoreFilters
+        ModPagespeedRewriteLevel PassThrough
+
+        ModPagespeedEnableFilters add_head
+        ModPagespeedEnableFilters collapse_whitespace
+        ModPagespeedEnableFilters elide_attributes
+        ModPagespeedEnableFilters remove_comments
+        ModPagespeedEnableFilters rewrite_css
+        ModPagespeedEnableFilters rewrite_javascript
+        ModPagespeedEnableFilters move_css_to_head
+</code></pre>
+
+<p>First of we enable mod_pagespeed of course. And then we set the current domain for this instance. After that we set the file paths for the altered and cached files. And we use ‘PassThrough’ instead of ‘CoreFilters’. So we can decide our self’s what filters we will be using.</p>
+
+<p>This had a much better result then my previous attempts. The server was still happily serving pages. And the load was OK. So let’s check the sites if mod_pagespeed is actually running.</p>
+
+<blockquote>
+  <p>$ wget -O /dev/null –server-response http://lenss.nl 2&gt;&amp;1| grep -i ‘X-Mod-Pagespeed’
+  X-Mod-Pagespeed: 0.9.0.0-172</p>
+</blockquote>
+
+<p>Well that looks good. So now it’s time to do some testing. And this leaves me with a bit of a pickle. As i don’t have the required wget v 1.12 (i have a small patch for wget v1.11). Besides that i have some other problems running the tests</p>
+
+<blockquote>
+  <p>TEST: 404s are served and properly recorded.
+      wget -O /dev/null http://lenss.nl/mod_pagespeed/ic.a.bad.css 2&gt;&amp;1| grep -q ‘404 Not Found’
+      wget -q -O - –save-headers http://localhost:80/mod_pagespeed_statistics | grep -q ‘resource_404_count: 1’
+FAIL.</p>
+</blockquote>
+
+<p>This fails because the statistics page requested is not available because this site uses rewrites. And i haven’t found a way to go around this yet besides disabling them in .htaccess with mod_rewrite. So shortly disabling this made it possible to run the biggest part of the test suite without problems. </p>
+
+<blockquote>
+  <p>resource_fetches: 2
+total_page_load_ms: 0
+page_load_count: 0
+cache_extensions: 0
+not_cacheable: 0
+css_file_count_reduction: 0
+css_filter_files_minified: 13
+css_filter_minified_bytes_saved: 5082
+css_filter_parse_failures: 0
+css_elements: 0
+image_inline: 0
+image_rewrite_saved_bytes: 0
+image_rewrites: 0
+javascript_blocks_minified: 15
+javascript_bytes_saved: 380
+javascript_minification_failures: 0
+javascript_total_blocks: 15
+resource_url_domain_rejections: 0
+url_trims: 0
+url_trim_saved_bytes: 0
+resource<em>404_count: 2
+slurp</em>404_count: 0
+serf_fetch_request_count: 0
+serf_fetch_bytes_count: 0
+serf_fetch_time_duration_ms: 0
+serf_fetch_cancel_count: 0</p>
+</blockquote>
+
+<p>It fails on the image compression part and that’s fine. Because i will leave that for later. So let’s run the site through the pagespeed browser extension with mod_pagespeed disabled:</p>
+
+<blockquote>
+  <p>load time without : 2.193
+firebug/pagespeed score : 68</p>
+</blockquote>
+
+<p>Now the same thing but with mod_pagespeed enabled:</p>
+
+<blockquote>
+  <p>Load time with : 1.284
+firebug/pagespeed score : 90</p>
+</blockquote>
+
+<p>That looks pretty good. And the other sites i have tested preform way better with the mod_pagespeed module enabled.</p>
+
+<p>I still have some Javascript issues. Some things need further inspection because i have seen error like these coming along:</p>
+
+<blockquote>
+  <p>Permission denied for  to call method Location.toString on .</p>
+</blockquote>
+
+<p>Besides that. This morning my site was down due to Apache spitting segfaults. I disabled the ‘rewrite_javascript’ filter for now. And it seems to run a bit more stable.</p>
+
+<blockquote>
+  <p>[Thu Nov 11 07:38:24 2010] [notice] child pid 23608 exit signal Segmentation fault (11)</p>
+</blockquote>
+
+<p>So besides it being a beta i am pretty impressed by the current state of this module. And after running it for a couple of weeks the statistics are pretty impressive.</p>
+
+<p><img src="http://lenss.nl/images/2010/12/page-speed.jpg" alt="" /></p>
+
+<p>Manuel Lemos also wrote a nice article about <a href="http://www.phpclasses.org/blog/post/135-Accelerate-Web-Pages-Automatically-using-Google-ModPageSpeed-Unusual-Site-Speedup-Techniques-Part-4.html">mod_pagespeed</a> which is worth reading.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-11-11T12:08:45+01:00" pubdate data-updated="true">Nov 11<span>th</span>, 2010</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/google/'>Google</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2010/11/google-mod_pagespeed-continued/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
 	  <h1 class="entry-title"><a href="http://lenss.nl/2010/11/compiling-php-v1-0-8/">Compiling PHP v1.0.8</a></h1>
 	
 	</header>
 </header>
 
 
-  <div class="articletext"><p>Today <a href="http://lerdorf.com/bio.php">Rasmus</a> posted on <a href="http://twitter.com/#!/rasmus">twitter</a> that he just compiled PHP v 1.0.8. And it actually worked. Is that great? :) He was in need of this for his upcoming talk this week in Paris. But i couldn&#8217;t resist and try to compile this ancient piece of work ;)</p>
+  <div class="articletext"><p>Today <a href="http://lerdorf.com/bio.php">Rasmus</a> posted on <a href="http://twitter.com/#!/rasmus">twitter</a> that he just compiled PHP v 1.0.8. And it actually worked. Is that great? :) He was in need of this for his upcoming talk this week in Paris. But i couldn’t resist and try to compile this ancient piece of work ;)</p>
 
-<blockquote><p>$ wget http://museum.php.net/php1/php-108.tar.gz
+<blockquote>
+  <p>$ wget http://museum.php.net/php1/php-108.tar.gz
 $ tar xfvz php-108.tar.gz
-$ cd php</p></blockquote>
+$ cd php </p>
+</blockquote>
 
 <p>If you need to change any config setting do it now. And hit make!</p>
 
-<blockquote><p>$ vi config.h
-$ make</p></blockquote>
+<blockquote>
+  <p>$ vi config.h
+$ make</p>
+</blockquote>
 
-<p>This creates a few .cgi files. So it actually does still build</p>
+<p>This creates a few .cgi files. So it actually does still build </p>
 
-<blockquote><p>phpf.cgi
+<blockquote>
+  <p>phpf.cgi
 phpl.cgi
 phplmon.cgi
-phplview.cgi</p></blockquote>
+phplview.cgi</p>
+</blockquote>
 
-<p>Let&#8217;s copy that to my cgi-bin and run it through Apache.</p>
+<p>Let’s copy that to my cgi-bin and run it through Apache.</p>
 
 <p><a href="http://lenss.nl/images/2010/11/php-1.0.8.jpg"><img src="http://lenss.nl/images/2010/11/php-1.0.8-300x263.jpg" alt="" /></a></p>
 </div>
@@ -150,79 +333,99 @@ phplview.cgi</p></blockquote>
 
   <div class="articletext"><p><a href="http://mariadb.org/"><img src="http://lenss.nl/images/2010/11/mariadb.png" alt="" /></a>Ok so i quit smoking 4 days ago now. And i am having some serious sleep issues at the moment. i have been up half the night sitting here staring at my screen. But nothing really productive comes out of my hands. So while doing a bit of browsing i hit the <a href="http://mariadb.org/">MariaDB</a> page. And has been while since i was here. The last time there was no real downloadable package yet. But this has all changed.</p>
 
-<p>So that made me think about last week. I think it was on Friday. but there was some up stirring about <a href="http://www.mysql.com/products/">MySQL</a> (Oracle) asking a license fee for using the <a href="http://www.innodb.com/">InnoDB</a> storage engine. And quite a big fee if you ask me :) This really sucks. I love the InnoDB engine. What would we do without it&#8230;? That&#8217;s where MariaDB comes into play. It uses the <a href="https://launchpad.net/percona-xtradb">XtraDB</a> storage engine which is basically InnoDB on steroids. XtraDB is developed and maintained by <a href="http://www.percona.com/">Percona</a>. Some really smart MySQL guys :) At the moment it&#8217;s under the <a href="http://www.gnu.org/licenses/gpl.html">GPL</a> license. And i can only hope it will be freely available for a long time.</p>
+<p>So that made me think about last week. I think it was on Friday. but there was some up stirring about <a href="http://www.mysql.com/products/">MySQL</a> (Oracle) asking a license fee for using the <a href="http://www.innodb.com/">InnoDB</a> storage engine. And quite a big fee if you ask me :) This really sucks. I love the InnoDB engine. What would we do without it…? That’s where MariaDB comes into play. It uses the <a href="https://launchpad.net/percona-xtradb">XtraDB</a> storage engine which is basically InnoDB on steroids. XtraDB is developed and maintained by <a href="http://www.percona.com/">Percona</a>. Some really smart MySQL guys :) At the moment it’s under the <a href="http://www.gnu.org/licenses/gpl.html">GPL</a> license. And i can only hope it will be freely available for a long time.</p>
 
 <p>So i went ahead and took a look at how hard / easy it is to change MySQL for MariaDB. I tried this on a Debian Lenny machine which made the process quite easy i have to mention.</p>
 
 <p>First get the PGP key from the server and import the repository locations. After that hit update to refresh the local database.</p>
 
-<blockquote><p>$ wget -O- http://ourdelta.org/deb/ourdelta.gpg | sudo apt-key add -
+<blockquote>
+  <p>$ wget -O- http://ourdelta.org/deb/ourdelta.gpg | sudo apt-key add -
 $ cd /etc/apt/sources.list.d; wget http://mirror.ourdelta.org/deb/sources/lenny-mariadb-ourdelta.list
-$ aptitude update</p></blockquote>
+$ aptitude update</p>
+</blockquote>
 
 <p>As we can see we have some new packages</p>
 
 <p>Get:8 http://mirror.ourdelta.org lenny/mariadb-ourdelta Sources [864B]
 Current status: 3 updates [+3], 232 new [+11].</p>
 
-<p>Searching for &#8216;mariadb&#8217; gives the following packages</p>
+<p>Searching for ‘mariadb’ gives the following packages</p>
 
-<blockquote><p>$ aptitude search mariadb</p></blockquote>
+<blockquote>
+  <p>$ aptitude search mariadb</p>
+</blockquote>
 
 <p>p   libmariadbclient-dev              - MariaDB database development files
 p   libmariadbclient16                - MariaDB database client library
-v   libmariadbclient16-dev            - MariaDB embedded database development files
+v   libmariadbclient16-dev            - MariaDB embedded database development files 
 p   mariadb-client                    - MariaDB database client (metapackage depending on the latest version)
 p   mariadb-client-5.1                - MariaDB database client binaries
 p   mariadb-client-core-5.1           - MariaDB database core client binaries
-v   mariadb-common
+v   mariadb-common 
 p   mariadb-server                    - MariaDB database server (metapackage depending on the latest version)
 p   mariadb-server-5.1                - MariaDB database server binaries
 p   mariadb-test                      - MariaDB database regression test suite (metapackage depending on the latest version)
 p   mariadb-test-5.1                  - MariaDB database regression test suite</p>
 
-<p>So let&#8217;s go ahead and install the server and see what happens.</p>
+<p>So let’s go ahead and install the server and see what happens.</p>
 
-<blockquote><p>$ aptitude install mariadb-server</p></blockquote>
+<blockquote>
+  <p>$ aptitude install mariadb-server</p>
+</blockquote>
 
 <p>Some mysql files get removed the mysql-common package gets updated and the new MariaDB packages get installed.</p>
 
-<blockquote><p><strong>The following NEW packages will be installed:</strong>
-  libmariadbclient16{a}
-  libmysqlclient16{a}
-  mariadb-client-5.1{a}
-  mariadb-client-core-5.1{a}
-  mariadb-server
-  mariadb-server-5.1{a}</p>
+<blockquote>
 
-<p><strong>The following packages will be REMOVED:</strong>
-  mysql-client-5.0{a}
-  mysql-server{a}
-  mysql-server-5.0{a}</p>
+  <p><strong>The following NEW packages will be installed:</strong>
+  libmariadbclient16{a} 
+  libmysqlclient16{a} 
+  mariadb-client-5.1{a} 
+  mariadb-client-core-5.1{a} 
+  mariadb-server 
+  mariadb-server-5.1{a} </p>
+</blockquote>
 
-<p><strong>The following packages will be upgraded:</strong>
-  mysql-common</p></blockquote>
+<blockquote>
 
-<p>Now that&#8217;s done. Let&#8217;s check MySQL&#8217;s output</p>
+  <p><strong>The following packages will be REMOVED:</strong>
+  mysql-client-5.0{a} 
+  mysql-server{a} 
+  mysql-server-5.0{a} </p>
+</blockquote>
 
-<blockquote><p>$ mysql &#8211;version
-mysql  Ver 14.16 Distrib 5.1.49-MariaDB, for debian-linux-gnu (i486) using readline 5.1</p></blockquote>
+<blockquote>
 
-<p>Just as i expected. Nothing really changed here. The whole MySQL API is till available for calling. Only the base system is now replaced by MariaDB. So let&#8217;s see what storage engines are available.</p>
+  <p><strong>The following packages will be upgraded:</strong>
+  mysql-common</p>
+</blockquote>
 
-<blockquote><p>$ mysql -uroot -p</p></blockquote>
+<p>Now that’s done. Let’s check MySQL’s output</p>
 
-<p>MariaDB [(none)]> show engines;
+<blockquote>
+  <p>$ mysql –version
+mysql  Ver 14.16 Distrib 5.1.49-MariaDB, for debian-linux-gnu (i486) using readline 5.1</p>
+</blockquote>
+
+<p>Just as i expected. Nothing really changed here. The whole MySQL API is till available for calling. Only the base system is now replaced by MariaDB. So let’s see what storage engines are available.</p>
+
+<blockquote>
+
+  <p>$ mysql -uroot -p</p>
+</blockquote>
+
+<p>MariaDB [(none)]&gt; show engines;
 <strong>BLACKHOLE</strong>     <em>/dev/null storage engine (anything you write to it disappears) _
-<strong>MRG_MYISAM</strong>  </em>Collection of identical MyISAM tables _
-<strong>FEDERATED</strong>     <em>FederatedX pluggable storage engine  _
-<strong>MARIA</strong>            </em>Crash-safe tables with MyISAM heritage _
-<strong>CSV </strong>              _ CSV storage engine _
-<strong>MEMORY </strong>        <em>Hash based, stored in memory, useful for temporary tables  _
-<strong>ARCHIVE </strong>        </em>Archive storage engine  _
-<strong>MyISAM</strong>          <em>Default engine as of MySQL 3.23 with great performance  _
-<strong>InnoDB</strong>           </em>Supports transactions, row-level locking, and foreign keys _
-<strong>PBXT</strong>              <em>High performance, multi-versioning transactional engine</em></p>
+<strong>MRG_MYISAM</strong>  _Collection of identical MyISAM tables _
+<strong>FEDERATED</strong>     _FederatedX pluggable storage engine  _
+<strong>MARIA</strong>            _Crash-safe tables with MyISAM heritage _
+<strong>CSV **              _ CSV storage engine _
+**MEMORY **        _Hash based, stored in memory, useful for temporary tables  _
+**ARCHIVE **        _Archive storage engine  _
+**MyISAM</strong>          _Default engine as of MySQL 3.23 with great performance  _
+<strong>InnoDB</strong>           _Supports transactions, row-level locking, and foreign keys _
+<strong>PBXT</strong>              _High performance, multi-versioning transactional engine</em></p>
 
 <p>And because the MySQL APi is still in tact. From PHP we can keep using the mysql and mysqli interfaces. This is great stuff!</p>
 </div>
@@ -286,16 +489,20 @@ mysql  Ver 14.16 Distrib 5.1.49-MariaDB, for debian-linux-gnu (i486) using readl
 
 <p>And this seems like a very promising project indeed. It mainly is a suite that provides web optimisation features to make your sites run faster. Right now 15 of such features are available.</p>
 
-<blockquote><p>including optimising caching, minimising client-server round trips and minimising payload size.</p></blockquote>
+<blockquote>
+  <p>including optimising caching, minimising client-server round trips and minimising payload size.</p>
+</blockquote>
 
 <p>So no more manual image compressing and javascript, html and css minifying.</p>
 
-<p>It uses the Apache <em>SetOutputFilter</em> to register the output filter. And from thereon you can use <em>ModPagespeedEnableFilters</em> to enable certain filters.</p>
+<p>It uses the Apache <em>SetOutputFilter</em> to register the output filter. And from thereon you can use <em>ModPagespeedEnableFilters</em> to enable certain filters. </p>
 
 <p>Filters like:</p>
 
-<blockquote><p><strong>add_head</strong>
-<em>Add the head section if missing</em></p></blockquote>
+<blockquote>
+  <p><strong>add_head</strong>
+<em>Add the head section if missing</em></p>
+</blockquote>
 
 <p><strong>move_css_to_head</strong>
 <em>Moves CSS into the head of the page (needs add_head)</em></p>
@@ -311,15 +518,17 @@ mysql  Ver 14.16 Distrib 5.1.49-MariaDB, for debian-linux-gnu (i486) using readl
 
 <p>More info about the filters can be found <a href="http://code.google.com/speed/page-speed/docs/filters.html">here</a></p>
 
-<p>So i went ahead and <a href="http://code.google.com/speed/page-speed/download.html">downloaded</a> the Debian version to give it a try. And as always it&#8217;s straight forward from here.</p>
+<p>So i went ahead and <a href="http://code.google.com/speed/page-speed/download.html">downloaded</a> the Debian version to give it a try. And as always it’s straight forward from here.</p>
 
-<blockquote><p>dpkg -i mod-pagespeed-beta_current_i386.deb</p></blockquote>
+<blockquote>
+  <p>dpkg -i mod-pagespeed-beta_current_i386.deb</p>
+</blockquote>
 
 <p>It hooks nicely into Apache and creates the .load and .conf files in <em>/etc/apache2/mods-available</em>. After a Apache restart everything looked fine. And the pages did seem to load faster. Google also offers a <a href="http://www.modpagespeed.com/">test suite</a> to see the result of this module in action.</p>
 
 <p>Running the tests showed a small speed increase. But at the moment my daytime hours are spend behind a horrible firewall that really screws with web output. So i have to redo those for more accurate results. Never the less. This is a module to keep an eye on.</p>
 
-<p>It&#8217;s still a very young project. And i did have some server issues today. So related or not. Be careful :)</p>
+<p>It’s still a very young project. And i did have some server issues today. So related or not. Be careful :)</p>
 </div>
   
   
@@ -379,7 +588,7 @@ mysql  Ver 14.16 Distrib 5.1.49-MariaDB, for debian-linux-gnu (i486) using readl
 
   <div class="articletext"><p>Today i was in need of a basic image slicer. An there must be a million of these things out there. But i wanted to see how hard / easy it would be to create this myself.</p>
 
-<p>Conclusion. It&#8217;s not that hard when using the jquery library. which is becoming my Javascript framework of choice.</p>
+<p>Conclusion. It’s not that hard when using the jquery library. which is becoming my Javascript framework of choice.</p>
 
 <pre><code>&lt;script src="js/jquery-1.4.3.min.js" type="text/javascript"&gt;&lt;/script&gt;
 &lt;script src="js/jquery-ui-1.8.5.custom.min.js" type="text/javascript"&gt;&lt;/script&gt;
@@ -393,17 +602,17 @@ mysql  Ver 14.16 Distrib 5.1.49-MariaDB, for debian-linux-gnu (i486) using readl
 <p>Then i added the placeholder for the to be scaled image. And a div that will represent the slicer borders.</p>
 
 <pre><code>&lt;div id="image_slicer_canvas"&gt;
-
+    
         &lt;img src="images/sample.jpg" alt="" border="0" id="image_slicer_image"&gt;&lt;/img&gt;
-
+        
         &lt;div id="image_slicer"&gt;
             &lt;div id="image_slicer_scaler" class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se"&gt;&lt;/div&gt;
         &lt;/div&gt;
-
+        
     &lt;/div&gt;
 </code></pre>
 
-<p>The next thing to do is setup the scaling canvas. So let&#8217;s make it draggable and resizeable.</p>
+<p>The next thing to do is setup the scaling canvas. So let’s make it draggable and resizeable.</p>
 
 <pre><code>// Create a draggable / scalable slicer
        $(function() {
@@ -413,8 +622,8 @@ mysql  Ver 14.16 Distrib 5.1.49-MariaDB, for debian-linux-gnu (i486) using readl
 
             // set the slicer canvas size
             resizeCanvas(
-                $('#image_slicer_image').width(),
-                $('#image_slicer_image').height()
+            	$('#image_slicer_image').width(),
+            	$('#image_slicer_image').height()
             );
        });
 </code></pre>
@@ -423,14 +632,14 @@ mysql  Ver 14.16 Distrib 5.1.49-MariaDB, for debian-linux-gnu (i486) using readl
 
 <pre><code>// handle slicer actions
        $('#image_slicer').resizable({
-          stop: function(event, ui) { 
-              var pos = $('#image_slicer').position();
-              // width, height, left, top
-              $('#scaler_width').val($('#image_slicer').width());
-              $('#scaler_height').val($('#image_slicer').height());
-              $('#scaler_left').val(pos.left);
-              $('#scaler_top').val(pos.top);
-          }
+   	      stop: function(event, ui) { 
+   	          var pos = $('#image_slicer').position();
+   	          // width, height, left, top
+   	          $('#scaler_width').val($('#image_slicer').width());
+      	      $('#scaler_height').val($('#image_slicer').height());
+        	  $('#scaler_left').val(pos.left);
+        	  $('#scaler_top').val(pos.top);
+   	      }
        });
 </code></pre>
 
@@ -455,7 +664,7 @@ imagedestroy($dest);
 imagedestroy($src);
 </code></pre>
 
-<p>That&#8217;s all. All files can be downloaded <a href="http://lenss.nl/images/2010/11/imageSlice.tar.gz">here</a></p>
+<p>That’s all. All files can be downloaded <a href="http://lenss.nl/images/2010/11/imageSlice.tar.gz">here</a></p>
 </div>
   
   
@@ -515,7 +724,7 @@ imagedestroy($src);
 
   <div class="articletext"><p>I cam across this page today and it made me laugh :) With thanks to the <a href="http://www.gnu.org/fun/jokes/">GNU jokes archive</a>.</p>
 
-<p>How the way people code &#8220;Hello World&#8221; varies depending on their age and job:</p>
+<p>How the way people code “Hello World” varies depending on their age and job:</p>
 
 <p><strong>High School/Jr. High</strong></p>
 
@@ -525,16 +734,20 @@ imagedestroy($src);
 
 <p><strong>First year in College</strong></p>
 
-<blockquote><p>program Hello(input, output)
+<blockquote>
+  <p>program Hello(input, output)
  begin
- writeln(&#8216;Hello World&#8217;)
- end.</p></blockquote>
+ writeln(‘Hello World’)
+ end.</p>
+</blockquote>
 
 <p>Senior year in College</p>
 
-<blockquote><p>(defun hello
+<blockquote>
+  <p>(defun hello
  (print
- (cons &#8216;Hello (list &#8216;World))))</p></blockquote>
+ (cons ‘Hello (list ‘World))))</p>
+</blockquote>
 
 <p><strong>New professional</strong></p>
 
@@ -623,10 +836,10 @@ imagedestroy($src);
  $msg="Hello, world.\n";
  if ($#ARGV &gt;= 0) {
      while(defined($arg=shift(@ARGV))) {
-     $outfilename = $arg;
-     open(FILE, "&gt;" . $outfilename) || die "Can't write $arg: $!\n";
-     print (FILE $msg);
-     close(FILE) || die "Can't close $arg: $!\n";
+	 $outfilename = $arg;
+	 open(FILE, "&gt;" . $outfilename) || die "Can't write $arg: $!\n";
+	 print (FILE $msg);
+	 close(FILE) || die "Can't close $arg: $!\n";
      }
  } else {
      print ($msg);
@@ -651,8 +864,10 @@ imagedestroy($src);
 
 <p><strong>Guru Hacker</strong></p>
 
-<blockquote><p>% cat
- Hello, world.</p></blockquote>
+<blockquote>
+  <p>% cat
+ Hello, world.</p>
+</blockquote>
 
 <p><strong>New Manager (do you remember?)</strong></p>
 
@@ -689,20 +904,21 @@ imagedestroy($src);
 
 <p><strong>Research Scientist</strong></p>
 
-<blockquote><p>PROGRAM HELLO</p>
-
-<pre><code>PRINT *, 'Hello World'
-END
-</code></pre></blockquote>
+<blockquote>
+  <p>PROGRAM HELLO
+	PRINT *, ‘Hello World’
+	END</p>
+</blockquote>
 
 <p><strong>Older research Scientist</strong></p>
 
-<blockquote><p>WRITE (6, 100)</p>
+<blockquote>
+  <p>WRITE (6, 100)
+    100 FORMAT (1H ,11HHELLO WORLD)
+	CALL EXIT
+	END</p>
+</blockquote>
 
-<pre><code>100 FORMAT (1H ,11HHELLO WORLD)
-CALL EXIT
-END
-</code></pre></blockquote>
 </div>
   
   
@@ -760,46 +976,55 @@ END
 </header>
 
 
-  <div class="articletext"><p>Zend Studio added a new great <a href="http://www.zend.com/en/products/studio/vmware-workstation-deployment#discount">feature</a> to there already impressive stack of features. The IDE just keeps growing in the right direction.</p>
+  <div class="articletext"><p>Zend Studio added a new great <a href="http://www.zend.com/en/products/studio/vmware-workstation-deployment#discount">feature</a> to there already impressive stack of features. The IDE just keeps growing in the right direction. </p>
 
-<p>So the new 8 version which at the time of writing is in Beta added VMWare support. This is a feature i was looking forward to. And couldn&#8217;t wait to give this a try. So when i got a email that the new beta is out. I didn&#8217;t wait and downloaded the behemoth.</p>
+<p>So the new 8 version which at the time of writing is in Beta added VMWare support. This is a feature i was looking forward to. And couldn’t wait to give this a try. So when i got a email that the new beta is out. I didn’t wait and downloaded the behemoth.</p>
 
-<p>Adding VMWare support to the IDE seems like a logical thing to do. Specially since everything is virtualized now a days. I thought about this a while. But you can use it in different setups. For me it is an extra on my development environment. I&#8217;m a big Linux enthusiast. But at the office i work on windows. So now i can develop in my own virtual Linux environment. But it&#8217;s also a great solution for running Unit Test on a production VM. Or just to test on a production VM.</p>
+<p>Adding VMWare support to the IDE seems like a logical thing to do. Specially since everything is virtualized now a days. I thought about this a while. But you can use it in different setups. For me it is an extra on my development environment. I’m a big Linux enthusiast. But at the office i work on windows. So now i can develop in my own virtual Linux environment. But it’s also a great solution for running Unit Test on a production VM. Or just to test on a production VM.</p>
 
-<p>My first try was on my OS of choice which is Ubuntu. That however didn&#8217;t go to well. As soon as i started the &#8220;Run as VMWare application&#8221; my IDE would die on me. I quickly gave up on this mainly because i am running Maverick which is not considered stable. And VMWare already had some problems building the kernel modules. If anybody is interested in the crash logs. I still have some.</p>
+<p>My first try was on my OS of choice which is Ubuntu. That however didn’t go to well. As soon as i started the “Run as VMWare application” my IDE would die on me. I quickly gave up on this mainly because i am running Maverick which is not considered stable. And VMWare already had some problems building the kernel modules. If anybody is interested in the crash logs. I still have some.</p>
 
 <p>So back to windows. Windows 7 in particular. I always keep a Windows partition laying around. For games and stuff. So i downloaded the following files.</p>
 
-<blockquote><ul>
-<li>Ubuntu-Server</li>
-<li>Zend Studio 8 Beta (<a href="http://www.zend.com/en/products/studio/download-8-beta">trial</a>)</li>
-<li>VMWare 7.1.2        (<a href="http://downloads.vmware.com/d/info/desktop_downloads/vmware_workstation/7_0">trial</a>)</li>
-</ul>
+<blockquote>
+
+  <ul>
+    <li>Ubuntu-Server</li>
+    <li>Zend Studio 8 Beta (<a href="http://www.zend.com/en/products/studio/download-8-beta">trial</a>)</li>
+    <li>VMWare 7.1.2        (<a href="http://downloads.vmware.com/d/info/desktop_downloads/vmware_workstation/7_0">trial</a>)</li>
+  </ul>
 </blockquote>
 
-<p>Installing VMWare and Zend Studio is a since. Nothing to make note off here. After that was done i installed Ubuntu 10.04 Server edition. And installed Zend Server inside of it. That should be all.. right? So let&#8217;s launch the IDE and give it a shot. Well it launched but i got back an error like below.</p>
+<p>Installing VMWare and Zend Studio is a since. Nothing to make note off here. After that was done i installed Ubuntu 10.04 Server edition. And installed Zend Server inside of it. That should be all.. right? So let’s launch the IDE and give it a shot. Well it launched but i got back an error like below.</p>
 
 <p><a href="http://lenss.nl/images/2010/09/zend-server-vm-noconnect.png"><img src="http://lenss.nl/images/2010/09/zend-server-vm-noconnect_s.jpg" alt="" /></a></p>
 
-<p>At first i had no clue what was going on. But i had the feeling there was something wrong with the VMWare client tools. After digging through the Zend Studio manual i found the <a href="http://files.zend.com/help/Beta/Zend_Studio_8_0/zend-studio.htm#integrating_with_vmware_workstation.htm">answer</a> The &#8216;hgfs&#8217; was not mounted on teh client OS. And this was because the vmware tools did not have enough libraries to build everything. To build the complete VMWare tools on the client OS we need</p>
+<p>At first i had no clue what was going on. But i had the feeling there was something wrong with the VMWare client tools. After digging through the Zend Studio manual i found the <a href="http://files.zend.com/help/Beta/Zend_Studio_8_0/zend-studio.htm#integrating_with_vmware_workstation.htm">answer</a> The ‘hgfs’ was not mounted on teh client OS. And this was because the vmware tools did not have enough libraries to build everything. To build the complete VMWare tools on the client OS we need</p>
 
-<blockquote><ul>
-<li>gcc</li>
-<li>make</li>
-<li>build-essential</li>
-<li>linux-headers-(current version)</li>
-</ul>
+<blockquote>
+
+  <ul>
+    <li>gcc</li>
+    <li>make</li>
+    <li>build-essential</li>
+    <li>linux-headers-(current version)</li>
+  </ul>
 </blockquote>
 
-<p>When that&#8217;s done it necessary to attach the linux version of the VMWare tools to the virtual CDRom drive. So we can mount it inside the VM.</p>
+<p>When that’s done it necessary to attach the linux version of the VMWare tools to the virtual CDRom drive. So we can mount it inside the VM.</p>
 
-<blockquote><p>/usr/lib/vmware/isoimages/linux.iso</p>
+<blockquote>
+  <p>/usr/lib/vmware/isoimages/linux.iso</p>
+</blockquote>
 
-<p>mount /dev/cdrom /mnt</p></blockquote>
+<blockquote>
 
-<p>Copy the file somewhere and unmount the /mnt or the build will fail. Unpack the VMWare tools and run the perl script inside to install. Once that&#8217;s done follow the VMWare instructions. Or reboot the VM.</p>
+  <p>mount /dev/cdrom /mnt</p>
+</blockquote>
 
-<p>Now we are all set. Now it&#8217;s just a matter of writing code. And running it on the VM. When running an application as a VMWare application the IDE syncs the files with the shared folder on the VM. After that the internal browser is launched to see the result.</p>
+<p>Copy the file somewhere and unmount the /mnt or the build will fail. Unpack the VMWare tools and run the perl script inside to install. Once that’s done follow the VMWare instructions. Or reboot the VM.</p>
+
+<p>Now we are all set. Now it’s just a matter of writing code. And running it on the VM. When running an application as a VMWare application the IDE syncs the files with the shared folder on the VM. After that the internal browser is launched to see the result.</p>
 
 <p>The first time you will be asked for the VM to use. Just point it to the VM image created by VMWare.</p>
 
@@ -873,17 +1098,23 @@ END
 
 <p>The post i made showed some code snippets to make this possible. And the Javascript part is all fine and dandy. But last week i had an interesting mail conversation with <a href="http://braincracking.org/">Jean-Pierre Vincent</a> about the memory consumption on the server side of things.</p>
 
-<p>The result of some testing revealed the server would need at least the amount of memory equal to the file size. For small files this is no problem. But with bigger files this becomes a problem. Although i couldn&#8217;t reproduce Jean-Pierre&#8217;s results. I wasn&#8217;t very happy with the test results.</p>
+<p>The result of some testing revealed the server would need at least the amount of memory equal to the file size. For small files this is no problem. But with bigger files this becomes a problem. Although i couldn’t reproduce Jean-Pierre’s results. I wasn’t very happy with the test results.</p>
 
-<blockquote><p>Upload 2.8 MB file results in 3.1 MB memory usage
-Upload 29 MB file results in 30 MB memory usage</p></blockquote>
+<blockquote>
 
-<p>A bit more testing revealed that <a href="http://php.net/manual/function.file-put-contents.php">file_put_contents()</a> was the culprit. Which seems logical if you think about it. It reads the file into memory and dumps it again. Not very elegant for big files. Besides we are trying to stream files. So why should we read them completely in to memory? We shouldn&#8217;t :)</p>
+  <p>Upload 2.8 MB file results in 3.1 MB memory usage
+Upload 29 MB file results in 30 MB memory usage</p>
+</blockquote>
+
+<p>A bit more testing revealed that <a href="http://php.net/manual/function.file-put-contents.php">file_put_contents()</a> was the culprit. Which seems logical if you think about it. It reads the file into memory and dumps it again. Not very elegant for big files. Besides we are trying to stream files. So why should we read them completely in to memory? We shouldn’t :)</p>
 
 <p>Jean-Pierre decided to go with the DataForm object to solve the issue. I still want to look into that. But have not found any information about. Besides that i knew the problem was on the server side. So i rewrote the receive() method to be less memory intensive. The results are considerably better then before.</p>
 
-<blockquote><p>Upload 2.8 MB file results in 0.4 MB memory usage
-Upload 29 MB file results in 0.4 MB memory usage</p></blockquote>
+<blockquote>
+
+  <p>Upload 2.8 MB file results in 0.4 MB memory usage
+Upload 29 MB file results in 0.4 MB memory usage</p>
+</blockquote>
 
 <p>The memory usage was measured with <a href="http://php.net/manual/function.memory-get-peak-usage.php">memory_get_peak_usage()</a>. And the new code is posted below:</p>
 
@@ -892,7 +1123,7 @@ Upload 29 MB file results in 0.4 MB memory usage</p></blockquote>
     if (!$this-&gt;isValid()) {
         throw new Exception('No file uploaded!');
     }
-
+		
     $fileReader = fopen('php://input', "r");
     $fileWriter = fopen($this-&gt;_destination . $this-&gt;_fileName, "w+");
 
@@ -910,6 +1141,7 @@ Upload 29 MB file results in 0.4 MB memory usage</p></blockquote>
     return false;
 }
 </code></pre>
+
 </div>
   
   
@@ -988,6 +1220,7 @@ $filter = function(&amp;$input) use (&amp;$filter) {
 $filter($arr);
 var_dump($arr);
 </code></pre>
+
 </div>
   
   
@@ -1045,7 +1278,7 @@ var_dump($arr);
 </header>
 
 
-  <div class="articletext"><p>I entered a design for the PHP Community <a href="http://php-spirit.strutta.com/">Spirit T-Shirt Design Competition</a>. And it got approved today. It&#8217;s a simple design that uses the PHP logo colors and font. If you like it you can vote for it by following the design below.</p>
+  <div class="articletext"><p>I entered a design for the PHP Community <a href="http://php-spirit.strutta.com/">Spirit T-Shirt Design Competition</a>. And it got approved today. It’s a simple design that uses the PHP logo colors and font. If you like it you can vote for it by following the design below.</p>
 
 <p><a href="http://php-spirit.strutta.com/entries/72596"><img src="http://www.strutta.com/image-cacher/f:640:360/aHR0cDovL3VwbG9hZHMuZmlsZXMuc3RydXR0YS5jb20vZW50cnkvMTU0NTk5Ni8xMjgxNzczMjQx" alt="" /></a></p>
 </div>
@@ -1088,68 +1321,6 @@ var_dump($arr);
     <div class="share">
 		<ul>
 			<li><a href="http://lenss.nl/2010/08/php-community-spirit-t-shirt-design-competition/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2010/08/new-elephpant/">New elePHPant :)</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>After purchasing a new batch of the friendly blue guys. <a href="http://www.nexen.net/">Damien Seguy</a> was so friendly to send me an early Christmas present :)</p>
-
-<p><a href="http://lenss.nl/images/2010/08/elephpant.jpg"><img src="http://lenss.nl/images/2010/08/elephpant-300x225.jpg" alt="" /></a></p>
-
-<p>I have some small versions left by the way. So if you are one of those people looking. Drop me a line or leave a comment.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-08-06T12:22:59+02:00" pubdate data-updated="true">Aug 6<span>th</span>, 2010</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2010/08/new-elephpant/#disqus_thread">Comments</a></li>
 		</ul>
 	</div>
   </footer>
@@ -1207,6 +1378,8 @@ var_dump($arr);
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -1224,8 +1397,6 @@ var_dump($arr);
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -1246,7 +1417,7 @@ var_dump($arr);
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

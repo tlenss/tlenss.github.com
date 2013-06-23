@@ -67,48 +67,65 @@
 </header>
 
 
-<div class="articletext"><p>This should be pretty damn straight forward. However i ran into some problems while setting this up. At my daily work spot we use <a href="http://subversion.tigris.org/">SVN</a> over <a href="http://nl.wikipedia.org/wiki/Hypertext_Transfer_Protocol">HTTP</a> so we can do <a href="http://en.wikipedia.org/wiki/NTLM">NTLM</a> authentication. This sucks in many ways. But most of all it&#8217;s slow. And i mean really slow. Last week i tried to retrieve the log information for a project in the repository. This took my IDE 30 minutes. At first i thought my IDE was just being lame on me. But it turns out it&#8217;s SVN over HTTP that&#8217;s the culprit.</p>
+<div class="articletext"><p>This should be pretty damn straight forward. However i ran into some problems while setting this up. At my daily work spot we use <a href="http://subversion.tigris.org/">SVN</a> over <a href="http://nl.wikipedia.org/wiki/Hypertext_Transfer_Protocol">HTTP</a> so we can do <a href="http://en.wikipedia.org/wiki/NTLM">NTLM</a> authentication. This sucks in many ways. But most of all it’s slow. And i mean really slow. Last week i tried to retrieve the log information for a project in the repository. This took my IDE 30 minutes. At first i thought my IDE was just being lame on me. But it turns out it’s SVN over HTTP that’s the culprit. </p>
 
-<p>So i started to do some testing over the standard svn:// protocol. And retrieving the logs on the same repository took about 2 seconds. Amazing. That&#8217;s enough reason to switch to the svn:// protocol. This however was not possible. Because our network policy doesn&#8217;t allow for multiple log ins. All is centrally stored on some M$ domain controllers. That&#8217;s why SVN over HTTP was used in the first place. End of story i thought.</p>
+<p>So i started to do some testing over the standard svn:// protocol. And retrieving the logs on the same repository took about 2 seconds. Amazing. That’s enough reason to switch to the svn:// protocol. This however was not possible. Because our network policy doesn’t allow for multiple log ins. All is centrally stored on some M$ domain controllers. That’s why SVN over HTTP was used in the first place. End of story i thought. </p>
 
-<p>But i couldn&#8217;t let go of this. The situation becomes less workable every day. So i decided to look around for other options. When i notice some log ins were merged to the <em>nix boxes. i immediately thought about using SSH in combination with SVN. Logging in on the </em>nix box was no problem. So let&#8217;s try that with SVN.</p>
+<p>But i couldn’t let go of this. The situation becomes less workable every day. So i decided to look around for other options. When i notice some log ins were merged to the *nix boxes. i immediately thought about using SSH in combination with SVN. Logging in on the *nix box was no problem. So let’s try that with SVN.</p>
 
-<blockquote><p>svn+ssh://location/of/repo</p></blockquote>
+<blockquote>
+  <p>svn+ssh://location/of/repo</p>
+</blockquote>
 
-<p>This gives an error about a mismatched handshake. And i just couldn&#8217;t get this to work until i found a post made by <a href="http://www.woodwardweb.com/java/000155.html">Martin Woodward</a>. He explains how to setup an environment variable on my local windows machine. To the tortoise PLink executable.</p>
+<p>This gives an error about a mismatched handshake. And i just couldn’t get this to work until i found a post made by <a href="http://www.woodwardweb.com/java/000155.html">Martin Woodward</a>. He explains how to setup an environment variable on my local windows machine. To the tortoise PLink executable.</p>
 
-<blockquote><p>Set the environment variable (by right-clicking on My Computer, Properties, Advanced, Environment Variables, New):-
+<blockquote>
+  <p>Set the environment variable (by right-clicking on My Computer, Properties, Advanced, Environment Variables, New):-
 Variable name: SVN_SSH
-Variable value: C:\Program Files\TortoiseSVN\bin\TortoisePlink.exe</p></blockquote>
+Variable value: C:\Program Files\TortoiseSVN\bin\TortoisePlink.exe</p>
+</blockquote>
 
-<p>This seemed to work i thought. i was presented with a login box. But no matter how i tried i couldn&#8217;t login. It just kept giving me the login box. So i opened a SSH session to the server and tried to do the same from there.</p>
+<p>This seemed to work i thought. i was presented with a login box. But no matter how i tried i couldn’t login. It just kept giving me the login box. So i opened a SSH session to the server and tried to do the same from there.</p>
 
-<blockquote><p>svn list svn+ssh://location/of/repo</p></blockquote>
+<blockquote>
+  <p>svn list svn+ssh://location/of/repo</p>
+</blockquote>
 
 <p>After hitting enter i typed my password and got the following message.</p>
 
-<blockquote><p>bash: line 1: svnserve: command not found
-svn: Connection closed unexpectedly</p></blockquote>
+<blockquote>
+  <p>bash: line 1: svnserve: command not found
+svn: Connection closed unexpectedly</p>
+</blockquote>
 
-<p>Now we&#8217;re getting somewhere. So svnserve could not be found. Probably because it&#8217;s not in the $PATH variable. So let&#8217;s add it there.</p>
+<p>Now we’re getting somewhere. So svnserve could not be found. Probably because it’s not in the $PATH variable. So let’s add it there.</p>
 
-<blockquote><p>vi .bashrc
-PATH=$PATH:/usr/local/bin</p></blockquote>
+<blockquote>
+  <p>vi .bashrc
+PATH=$PATH:/usr/local/bin</p>
+</blockquote>
 
-<p>So let&#8217;s try to get a listing of the repo.</p>
+<p>So let’s try to get a listing of the repo.</p>
 
-<blockquote><p>svn list svn+ssh://location/of/repo</p></blockquote>
+<blockquote>
+  <p>svn list svn+ssh://location/of/repo</p>
+</blockquote>
 
 <p>This gave me the following message:</p>
 
-<blockquote><p>svn: No repository found in &#8216;svn+ssh://location/of/repo&#8217;</p></blockquote>
+<blockquote>
+  <p>svn: No repository found in ‘svn+ssh://location/of/repo’</p>
+</blockquote>
 
 <p>Seems that when you use SVN over SSH you need to give the full location to the repository. Not the web server path but the complete file system path. After changing the webserver path for the file system path everything worked out. From here on adding the repository to eclipse is easy.
-I always open the repository view. From there i right click > New > repository Location. The URL to add will look something like</p>
+I always open the repository view. From there i right click &gt; New &gt; repository Location. The URL to add will look something like</p>
 
-<blockquote><p>svn+ssh://file/system/location/of/repository</p></blockquote>
+<blockquote>
+  <p>svn+ssh://file/system/location/of/repository</p>
+</blockquote>
 
-<p>So now we can enjoy the speed of the svn:// protocol. And the security of SSH. So let&#8217;s do some coding :)</p>
+<p>So now we can enjoy the speed of the svn:// protocol. And the security of SSH. So let’s do some coding :)</p>
+
 </div>
 
 
@@ -230,6 +247,8 @@ I always open the repository view. From there i right click > New > repository L
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -247,8 +266,6 @@ I always open the repository view. From there i right click > New > repository L
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -269,7 +286,7 @@ I always open the repository view. From there i right click > New > repository L
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

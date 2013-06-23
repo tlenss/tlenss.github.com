@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="PHP CLI Bad Interpreter: Permission Denied This question came up on the php.general list today. And i have seen it before when writing an shell &hellip;">
+  <meta name="description" content="CentOS PHP5 and Mcrypt For some strange reason (i didn’t investigate) CentOS 5 does not come with a pre build mcrypt extension for PHP. This is &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,78 @@
 <header>
 	<header>
 	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2009/03/centos-php5-and-mcrypt/">CentOS PHP5 and Mcrypt</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>For some strange reason (i didn’t investigate) CentOS 5 does not come with a pre build <a href="http://www.php.net/mcrypt">mcrypt</a> extension for PHP. This is pretty weird if you ask me. And building this extension from source is no option for me. There are way to much dependencies missing. And i don’t really like installing *dev packages on my server. So how to fix this?</p>
+
+<p>Luckily there are some rpm files floating around the net. So i just used <a href="http://rpmfind.net/linux/rpm2html/search.php?query=php-mcrypt">rpmfind</a> to find a fedora 5.2.6 version of the mcrypt extension. After downloading it’s a one line command to install. And a apache reboot to get it working.</p>
+
+<blockquote>
+  <p>Constantin was so nice to comment on the fact that the mcrypt library needs to be installed before installing the mcrypt PHP extension.</p>
+</blockquote>
+
+<blockquote>
+
+  <p>$ wget ftp://rpmfind.net/linux/fedora/updates/7/i386/php-mcrypt-5.2.6-2.fc7.i386.rpm
+$ rpm -ivh –nodeps php-mcrypt-5.2.6-2.fc7.i386.rpm
+$ /etc/init.d/http restart</p>
+</blockquote>
+
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-03-17T11:40:27+01:00" pubdate data-updated="true">Mar 17<span>th</span>, 2009</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2009/03/centos-php5-and-mcrypt/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
 	  <h1 class="entry-title"><a href="http://lenss.nl/2009/03/php-cli-bad-interpreter-permission-denied/">PHP CLI Bad Interpreter: Permission Denied</a></h1>
 	
 	</header>
@@ -78,7 +150,9 @@ passthru("printenv");
 
 <p>If you are sure the PHP executable can be found in that location. And the file is executable. But it still returns this error:</p>
 
-<blockquote><p>/usr/local/bin/php: bad interpreter: Permission denied</p></blockquote>
+<blockquote>
+  <p>/usr/local/bin/php: bad interpreter: Permission denied</p>
+</blockquote>
 
 <p>Big change the file you are trying to execute is on a filesystem with the noexec flag set.
 To fix this either set the exec flag for the filesystem or move the script to a place where it can be executed.</p>
@@ -139,13 +213,13 @@ To fix this either set the exec flag for the filesystem or move the script to a 
 </header>
 
 
-  <div class="articletext"><p>Good thing i sometimes use my wife&#8217;s computer for backup. I found my lost pictures again :) Say hi to my blue family.</p>
+  <div class="articletext"><p>Good thing i sometimes use my wife’s computer for backup. I found my lost pictures again :) Say hi to my blue family.</p>
 
-<p><a href="http://lenss.nl/images/2009/02/img_1364.jpg"><img src="http://lenss.nl/images/2009/02/img_1364-300x225.jpg" alt="img_1364" /></a></p>
+<p>[<img src="http://lenss.nl/images/2009/02/img_1364.jpg" alt="img_1364](http://lenss.nl/images/2009/02/img_1364-300x225.jpg)" /></p>
 
-<p><a href="http://lenss.nl/images/2009/02/img_1365.jpg"><img src="http://lenss.nl/images/2009/02/img_1365-300x225.jpg" alt="img_1365" /></a></p>
+<p>[<img src="http://lenss.nl/images/2009/02/img_1365.jpg" alt="img_1365](http://lenss.nl/images/2009/02/img_1365-300x225.jpg)" /></p>
 
-<p><a href="http://lenss.nl/images/2009/02/img_1372.jpg"><img src="http://lenss.nl/images/2009/02/img_1372-300x225.jpg" alt="img_1372" /></a></p>
+<p>[<img src="http://lenss.nl/images/2009/02/img_1372.jpg" alt="img_1372](http://lenss.nl/images/2009/02/img_1372-300x225.jpg)" /></p>
 </div>
   
   
@@ -209,31 +283,43 @@ To fix this either set the exec flag for the filesystem or move the script to a 
 
 <p>When the mod_deflate module is loaded in apache this is a pretty easy thing to do. Just add the following lines to a .htaccess file in the root of the web site / application.</p>
 
-<blockquote><p>AddOutputFilterByType DEFLATE text/html text/plain text/xml text/javascript text/css
+<blockquote>
+  <p>AddOutputFilterByType DEFLATE text/html text/plain text/xml text/javascript text/css
 BrowserMatch ^Mozilla/4 gzip-only-text/html
 BrowserMatch ^Mozilla/4.0[678] no-gzip
-BrowserMatch \bMSIE !no-gzip !gzip-only-text/html</p></blockquote>
+BrowserMatch \bMSIE !no-gzip !gzip-only-text/html</p>
+</blockquote>
 
 <p>The first line enables mod_deflate for the specified extensions. And the other three lines are there because of the way some older browsers handle gzipped data.</p>
 
-<p>To test if the the content is transmitted over the line in gzipped format i used the <a href="https://addons.mozilla.org/en-US/firefox/addon/3829">Live HTTP Header</a> Firefox extensions. This let&#8217;s you watch the Live HTTP headers as the fly by.</p>
+<p>To test if the the content is transmitted over the line in gzipped format i used the <a href="https://addons.mozilla.org/en-US/firefox/addon/3829">Live HTTP Header</a> Firefox extensions. This let’s you watch the Live HTTP headers as the fly by. </p>
 
 <p>Check the HTTP/ 1.x 200 OK response from the webserver for the following line</p>
 
-<blockquote><p>Content-Encoding: gzip</p></blockquote>
+<blockquote>
 
-<p>And to test what happens if a browser doesn&#8217;t support gzipped data. You can set a configuration parameter in Firefox <a href="http://kb.mozillazine.org/Firefox_:_FAQs_:_About:config_Entries">about:config</a>.</p>
+  <p>Content-Encoding: gzip</p>
+</blockquote>
+
+<p>And to test what happens if a browser doesn’t support gzipped data. You can set a configuration parameter in Firefox <a href="http://kb.mozillazine.org/Firefox_:_FAQs_:_About:config_Entries">about:config</a>.</p>
 
 <p>gzip, deflate enabled:</p>
 
-<blockquote><p>network.http.accept-encoding = gzip,deflate</p></blockquote>
+<blockquote>
+
+  <p>network.http.accept-encoding = gzip,deflate</p>
+</blockquote>
 
 <p>gzip, deflate disabled:</p>
 
-<blockquote><p>network.http.accept-encoding =</p></blockquote>
+<blockquote>
+
+  <p>network.http.accept-encoding = </p>
+</blockquote>
 
 <p>References :
 <a href="http://www.howtoforge.com/apache2_mod_deflate">http://www.howtoforge.com/apache2_mod_deflate</a></p>
+
 </div>
   
   
@@ -351,7 +437,7 @@ BrowserMatch \bMSIE !no-gzip !gzip-only-text/html</p></blockquote>
 </header>
 
 
-  <div class="articletext"><p>This week <a href="http://www.zend.com/">Zend</a> released a Beta version of the new <a href="http://www.zend.com/en/products/server/">Zend Server</a> and <a href="http://www.zend.com/en/community/zend-server-ce">Zend Zerver CE</a> (Community Edition). So last night i couldn&#8217;t sleep and decided to take a look at the CE version of the two.</p>
+  <div class="articletext"><p>This week <a href="http://www.zend.com/">Zend</a> released a Beta version of the new <a href="http://www.zend.com/en/products/server/">Zend Server</a> and <a href="http://www.zend.com/en/community/zend-server-ce">Zend Zerver CE</a> (Community Edition). So last night i couldn’t sleep and decided to take a look at the CE version of the two. </p>
 
 <p><strong>Zend Server CE</strong>
 The package is a nice stack of applications / components that build up a solid PHP development environment. The package consists of the following main parts. And of course some 3rd party libraries to support the PHP extensions.</p>
@@ -365,7 +451,7 @@ The package is a nice stack of applications / components that build up a solid P
 <a href="http://www.zend.com/en/products/guard/optimizer/">Zend Optimizer+ v4.0.27</a>
 <a href="http://framework.zend.com/">Zend Framework v1.7.4</a></p>
 
-<p>Like i said it&#8217;s a great stack of applications and components that gives you a solid PHP development environment up and running in seconds. On top of that it provides the nice looking web GUI in which you can easily configure most of the suite. It&#8217;s a breeze to activate or deactivate PHP extensions and Zend components. And almost all PHP ini settings can be configured here as well. There&#8217;s some logging functionality that&#8217;s always handy.</p>
+<p>Like i said it’s a great stack of applications and components that gives you a solid PHP development environment up and running in seconds. On top of that it provides the nice looking web GUI in which you can easily configure most of the suite. It’s a breeze to activate or deactivate PHP extensions and Zend components. And almost all PHP ini settings can be configured here as well. There’s some logging functionality that’s always handy. </p>
 
 <p><del>Although it would have been nice if there would be some way to configure the web server from the interface as well. And maybe some integration with <a href="http://pear.php.net">PEAR</a>?</del> It would have been nice if the web interface had some configuration options for Apache and <a href="http://pear.php.net">PEAR</a> as well. But besides that. I like the package and think Zend did a great job on this one. The application is pretty self explanatory so i will not spend more words on it. Besides Zend did a great job at documenting it all.</p>
 
@@ -374,27 +460,27 @@ The package is a nice stack of applications / components that build up a solid P
 
 <p>Below i posted some screen shots of Zend Server CE in action:</p>
 
-<p>[caption id=&#8221;attachment_291&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Zend Server Dashboard&#8221;]<a href="http://lenss.nl/images/2009/02/zs_dash.png"><img src="http://lenss.nl/images/2009/02/zs_dash-300x154.png" alt="Zend Server Dashboard" /></a>[/caption]</p>
+<p>[caption id=”attachment_291” align=”aligncenter” width=”300” caption=”Zend Server Dashboard”]<a href="http://lenss.nl/images/2009/02/zs_dash.png"><img src="http://lenss.nl/images/2009/02/zs_dash-300x154.png" alt="Zend Server Dashboard" /></a>[/caption]</p>
 
-<p>After logging in we are greeted with a nice dashboard screen. That provides shortcuts to the rest of the application.</p>
+<p>After logging in we are greeted with a nice dashboard screen. That provides shortcuts to the rest of the application. </p>
 
-<p>[caption id=&#8221;attachment_310&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Zend Server info&#8221;]<a href="http://lenss.nl/images/2009/02/zs_server.png"><img src="http://lenss.nl/images/2009/02/zs_server-300x154.png" alt="Zend Server info" /></a>[/caption]</p>
+<p>[caption id=”attachment_310” align=”aligncenter” width=”300” caption=”Zend Server info”]<a href="http://lenss.nl/images/2009/02/zs_server.png"><img src="http://lenss.nl/images/2009/02/zs_server-300x154.png" alt="Zend Server info" /></a>[/caption]</p>
 
 <p>The Server info page shows everything running under the hood of Zend Server CE.</p>
 
-<p>[caption id=&#8221;attachment_297&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Zend Server PHP extensions&#8221;]<a href="http://lenss.nl/images/2009/02/zs_extensions.png"><img src="http://lenss.nl/images/2009/02/zs_extensions-300x155.png" alt="Zend Server PHP extensions" /></a>[/caption]</p>
+<p>[caption id=”attachment_297” align=”aligncenter” width=”300” caption=”Zend Server PHP extensions”]<a href="http://lenss.nl/images/2009/02/zs_extensions.png"><img src="http://lenss.nl/images/2009/02/zs_extensions-300x155.png" alt="Zend Server PHP extensions" /></a>[/caption]</p>
 
-<p>[caption id=&#8221;attachment_299&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Zend Server turn off extensions&#8221;]<a href="http://lenss.nl/images/2009/02/zs_extension_turnoff.png"><img src="http://lenss.nl/images/2009/02/zs_extension_turnoff-300x154.png" alt="Zend Server turn off extensions" /></a>[/caption]</p>
+<p>[caption id=”attachment_299” align=”aligncenter” width=”300” caption=”Zend Server turn off extensions”]<a href="http://lenss.nl/images/2009/02/zs_extension_turnoff.png"><img src="http://lenss.nl/images/2009/02/zs_extension_turnoff-300x154.png" alt="Zend Server turn off extensions" /></a>[/caption]</p>
 
 <p>Configuring and activating or deactivating PHP extension sis a breeze.</p>
 
-<p>[caption id=&#8221;attachment_287&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Zend Server application components&#8221;]<a href="http://lenss.nl/images/2009/02/zs_components.png"><img src="http://lenss.nl/images/2009/02/zs_components-300x155.png" alt="Zend Server application components" /></a>[/caption]</p>
+<p>[caption id=”attachment_287” align=”aligncenter” width=”300” caption=”Zend Server application components”]<a href="http://lenss.nl/images/2009/02/zs_components.png"><img src="http://lenss.nl/images/2009/02/zs_components-300x155.png" alt="Zend Server application components" /></a>[/caption]</p>
 
-<p>[caption id=&#8221;attachment_289&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Zend Server turn off components&#8221;]<a href="http://lenss.nl/images/2009/02/zs_components_turnoff.png"><img src="http://lenss.nl/images/2009/02/zs_components_turnoff-300x154.png" alt="Zend Server turn off components" /></a>[/caption]</p>
+<p>[caption id=”attachment_289” align=”aligncenter” width=”300” caption=”Zend Server turn off components”]<a href="http://lenss.nl/images/2009/02/zs_components_turnoff.png"><img src="http://lenss.nl/images/2009/02/zs_components_turnoff-300x154.png" alt="Zend Server turn off components" /></a>[/caption]</p>
 
 <p>The same counts for the Zend components which can be configured and activated or deactivated at will.</p>
 
-<p>[caption id=&#8221;attachment_301&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Zend Server PHP directives&#8221;]<a href="http://lenss.nl/images/2009/02/zs_ini.png"><img src="http://lenss.nl/images/2009/02/zs_ini-300x155.png" alt="Zend Server PHP directives" /></a>[/caption]</p>
+<p>[caption id=”attachment_301” align=”aligncenter” width=”300” caption=”Zend Server PHP directives”]<a href="http://lenss.nl/images/2009/02/zs_ini.png"><img src="http://lenss.nl/images/2009/02/zs_ini-300x155.png" alt="Zend Server PHP directives" /></a>[/caption]</p>
 
 <p>Configuring PHP ini settings has never been this easy</p>
 </div>
@@ -458,9 +544,10 @@ The package is a nice stack of applications / components that build up a solid P
 
 <p>So maybe some bright mind could shed a light on the following situation.</p>
 
-<p>We have two domains for example a.nl and a.be. Two separate domains that point to the same website. Just because people in Belgium would probably feel more confident buying something from a local website then one based in an other country. But the content under both domains is identical. The reason behind this is. In Belgium (.be) and The Netherlands (.nl) people speak Dutch. So there&#8217;s not really an option in providing content in a different language.</p>
+<p>We have two domains for example a.nl and a.be. Two separate domains that point to the same website. Just because people in Belgium would probably feel more confident buying something from a local website then one based in an other country. But the content under both domains is identical. The reason behind this is. In Belgium (.be) and The Netherlands (.nl) people speak Dutch. So there’s not really an option in providing content in a different language.</p>
 
 <p>Now the question does Google or any other search engine see this as duplicate content? And if yes what can be done about it. My thought was to add 301 responses to the .be site and do everything over the .nl site. But this would render .be useless in my opinion.</p>
+
 </div>
   
   
@@ -519,21 +606,25 @@ The package is a nice stack of applications / components that build up a solid P
 
 
   <div class="articletext"><p>Earlier this week i implemented the forcing of trailing slashes for some websites. And this worked out great.
-But today one of the ladies here at the office noticed the contact form on one site wasn&#8217;t functioning properly anymore.</p>
+But today one of the ladies here at the office noticed the contact form on one site wasn’t functioning properly anymore. </p>
 
-<p>So i did some debugging and quickly came to the conclusion the POST data array was empty after a submit of the form. That&#8217;s weird i thought. And didn&#8217;t really have a clue where to start looking. The code wasn&#8217;t touched for a couple of weeks. Bu then i remembered adding the forcing of the trailing slash.</p>
+<p>So i did some debugging and quickly came to the conclusion the POST data array was empty after a submit of the form. That’s weird i thought. And didn’t really have a clue where to start looking. The code wasn’t touched for a couple of weeks. Bu then i remembered adding the forcing of the trailing slash.</p>
 
-<p>So i browsed to the contact form and did a view source. And there was the problem. The form submitted to</p>
+<p>So i browsed to the contact form and did a view source. And there was the problem. The form submitted to </p>
 
-<blockquote><p>/contact/verstuurd</p></blockquote>
+<blockquote>
+  <p>/contact/verstuurd</p>
+</blockquote>
 
-<p>A URL without a trailing slash. This causes apache to rewrite the url to</p>
+<p>A URL without a trailing slash. This causes apache to rewrite the url to </p>
 
-<blockquote><p>/contact/verstuurd/</p></blockquote>
+<blockquote>
+  <p>/contact/verstuurd/</p>
+</blockquote>
 
 <p>And this also seems to turn the POST into a GET request.</p>
 
-<p>So to fix it just changed to URL in the form to reflect the correct end point. But i have to say i didn&#8217;t expect this to happen. I understand why it happens. And it&#8217;s pretty logical. But i wonder if there&#8217;s a way around this behavior?</p>
+<p>So to fix it just changed to URL in the form to reflect the correct end point. But i have to say i didn’t expect this to happen. I understand why it happens. And it’s pretty logical. But i wonder if there’s a way around this behavior?</p>
 </div>
   
   
@@ -591,24 +682,26 @@ But today one of the ladies here at the office noticed the contact form on one s
 </header>
 
 
-  <div class="articletext"><p>I&#8217;m doing some <a href="http://en.wikipedia.org/wiki/Search_engine_optimization">SEO</a> optimization for a couple of websites. And one of the small steps is to force a trailing slash on all URL&#8217;s that do not point to a file on the server. The reason I&#8217;m doing this is to go around the duplicate content problem.</p>
+  <div class="articletext"><p>I’m doing some <a href="http://en.wikipedia.org/wiki/Search_engine_optimization">SEO</a> optimization for a couple of websites. And one of the small steps is to force a trailing slash on all URL’s that do not point to a file on the server. The reason I’m doing this is to go around the duplicate content problem.</p>
 
-<blockquote><p>/trip/80
-/trip/80/</p></blockquote>
+<blockquote>
+  <p>/trip/80
+/trip/80/</p>
+</blockquote>
 
-<p>Both point to the same content. But a <a href="http://en.wikipedia.org/wiki/Web_crawler">crawler</a> would see this as two different URL&#8217;s. Which off course is correct. But this can lead to duplicate content being indexed in search engines. Which could result in penalties for the site in question. So to fix this problem we add three simple lines to the main .htaccess file</p>
+<p>Both point to the same content. But a <a href="http://en.wikipedia.org/wiki/Web_crawler">crawler</a> would see this as two different URL’s. Which off course is correct. But this can lead to duplicate content being indexed in search engines. Which could result in penalties for the site in question. So to fix this problem we add three simple lines to the main .htaccess file</p>
 
-<blockquote><h1>If a requested file does not exists</h1>
+<blockquote>
+  <h1 id="if-a-requested-file-does-not-exists">If a requested file does not exists</h1>
+  <p>RewriteCond %{REQUEST_FILENAME} !-f</p>
+</blockquote>
 
-<p>RewriteCond %{REQUEST_FILENAME} !-f</p></blockquote>
-
-<h1>If a requested directory does not exist</h1>
-
+<h1 id="if-a-requested-directory-does-not-exist">If a requested directory does not exist</h1>
 <p>RewriteCond %{REQUEST_FILENAME} !-d</p>
 
-<h1>Force a trailing slash to the request</h1>
+<h1 id="force-a-trailing-slash-to-the-request">Force a trailing slash to the request</h1>
+<p>RewriteRule [^/]$ %{REQUEST_URI}/ [R=301,L]</p>
 
-<p>RewriteRule [<sup>/]$</sup> %{REQUEST_URI}/ [R=301,L]</p>
 </div>
   
   
@@ -666,9 +759,9 @@ But today one of the ladies here at the office noticed the contact form on one s
 </header>
 
 
-  <div class="articletext"><p>Every morning i browse through the messages on <a href="http://news.php.net/php.internals">php.internals</a>. To keep me up to date with what happens under the PHP hood. It&#8217;s great stuff to learn about new features. Today one of the posts caught my attention. Titled &#8217;<a href="http://wiki.php.net/rfc/newinis">New INI&#8217;s for PHP</a>&#8217;. The post provides a URL to the PHP wiki page.</p>
+  <div class="articletext"><p>Every morning i browse through the messages on <a href="http://news.php.net/php.internals">php.internals</a>. To keep me up to date with what happens under the PHP hood. It’s great stuff to learn about new features. Today one of the posts caught my attention. Titled ‘<a href="http://wiki.php.net/rfc/newinis">New INI’s for PHP</a>’. The post provides a URL to the PHP wiki page.</p>
 
-<p>It&#8217;s still a proposal. But as i read it. The php.ini file will be separated into two files. One for development and one for production. The first thing that crossed my mind was. Cool! I can test my production code without uploading. I just change the ini. But does this really make sense?</p>
+<p>It’s still a proposal. But as i read it. The php.ini file will be separated into two files. One for development and one for production. The first thing that crossed my mind was. Cool! I can test my production code without uploading. I just change the ini. But does this really make sense?</p>
 
 <p>When i build a web application. I keep all the settings and configurations inside of the application. The framework i use makes it easy to switch between development and production. The way i look at it this should not be done on PHP level. But rather on application level.</p>
 </div>
@@ -711,80 +804,6 @@ But today one of the ladies here at the office noticed the contact form on one s
     <div class="share">
 		<ul>
 			<li><a href="http://lenss.nl/2009/02/new-inis-for-php/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2009/02/google-earth-libcrypto-crash/">Google Earth Libcrypto Crash</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>I was reading up on some new features the guys at google pushed into <a href="http://earth.google.nl/">google-earth</a>. And i was curious enough to give it a try. So i downloaded the installer for Linux and installed the application without any errors. But when i tried launching it from a command line. I was surprised to see the application crash and burn with the following message:</p>
-
-<blockquote><p>Warning: Unable to create prefs directory &#8216;/home/user/.googleearth&#8217;. File exists.
-./googleearth-bin: relocation error: /usr/lib/i686/cmov/libssl.so.0.9.8: symbol BIO_test_flags, version OPENSSL_0.9.8 not defined in file libcrypto.so.0.9.8 with link time reference</p></blockquote>
-
-<p>Seems the libcrypto.so is linked against some wrong libraries. Thankfully this is pretty easy to fix. Just browse to the google-earth install directory and run the following commands:</p>
-
-<blockquote><p>$ rm libcrypto.so.0.9.8
-$ ln -s /usr/lib/libcrypto.so libcrypto.so.0.9.8</p></blockquote>
-
-<p>The main reason i installed google-earth was to check out the new ocean view feature. So i selected a piece of coastline near the Netherlands.</p>
-
-<p><img src="http://lenss.nl/images/2009/02/nl_coast.jpg" alt="nl_coast" /></p>
-
-<p>Although i was looking for some ocean life. The first thing i found was an airplane :)</p>
-
-<p><img src="http://lenss.nl/images/2009/02/plane.jpg" alt="plane" /></p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-02-09T07:50:26+01:00" pubdate data-updated="true">Feb 9<span>th</span>, 2009</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/-home/'>/home</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2009/02/google-earth-libcrypto-crash/#disqus_thread">Comments</a></li>
 		</ul>
 	</div>
   </footer>
@@ -842,6 +861,8 @@ $ ln -s /usr/lib/libcrypto.so libcrypto.so.0.9.8</p></blockquote>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -859,8 +880,6 @@ $ ln -s /usr/lib/libcrypto.so libcrypto.so.0.9.8</p></blockquote>
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -881,7 +900,7 @@ $ ln -s /usr/lib/libcrypto.so libcrypto.so.0.9.8</p></blockquote>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

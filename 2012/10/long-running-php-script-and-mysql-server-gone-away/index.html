@@ -67,45 +67,51 @@
 </header>
 
 
-<div class="articletext"><p>At the moment i am writing some workers that interact with a <a href="http://kr.github.com/beanstalkd/">beanstalk</a> server. When data gets pushed into the beanstalk server. My workers will be triggered to process this data. So the workers are sitting idle for most of the time. And just wait for some data to process. No rocket science there. But during testing i kept running into <a href="http://www.mysql.com/">MySQL</a> issues. The script seemed to lose connection to the MySQL server when it was idle for longer then a minute. And would respond with a</p>
+<div class="articletext"><p>At the moment i am writing some workers that interact with a <a href="http://kr.github.com/beanstalkd/">beanstalk</a> server. When data gets pushed into the beanstalk server. My workers will be triggered to process this data. So the workers are sitting idle for most of the time. And just wait for some data to process. No rocket science there. But during testing i kept running into <a href="http://www.mysql.com/">MySQL</a> issues. The script seemed to lose connection to the MySQL server when it was idle for longer then a minute. And would respond with a </p>
 
-<blockquote><p>Warning: <a href="http://php.net/mysql_query">mysql_query</a>(): MySQL server has gone away in /path/to/some/mysql4/class.php on line xxx</p></blockquote>
+<blockquote>
+  <p>Warning: <a href="http://php.net/mysql_query">mysql_query</a>(): MySQL server has gone away in /path/to/some/mysql4/class.php on line xxx</p>
+</blockquote>
 
-<p>So whats going on here? Well actually it&#8217;s quite simple. When my script initializes the database connection it doesn&#8217;t use it. It just sits there waiting for incoming data. Once received it will process it and try to store it in the database. But when the waiting period exceeds the time for PHP to keep the MySQL connection open it responds with the warning mentioned above. Now in previous versions of PHP this would not be a big issue. As PHP would just initiate a reconnect when the connection is lost. But from PHP 5.0.3 and up this functionality has been disabled by default. For MySQLI this is no problem at all.</p>
+<p>So whats going on here? Well actually it’s quite simple. When my script initializes the database connection it doesn’t use it. It just sits there waiting for incoming data. Once received it will process it and try to store it in the database. But when the waiting period exceeds the time for PHP to keep the MySQL connection open it responds with the warning mentioned above. Now in previous versions of PHP this would not be a big issue. As PHP would just initiate a reconnect when the connection is lost. But from PHP 5.0.3 and up this functionality has been disabled by default. For MySQLI this is no problem at all. </p>
 
 <p>MySQLi:</p>
 
-<blockquote><p>mysqli.reconnect = Off to On</p></blockquote>
+<blockquote>
+  <p>mysqli.reconnect = Off to On</p>
+</blockquote>
 
-<p>Unfortunately i am working with PHP&#8217;s core mysql_* functions (don&#8217;t get me started) and there doesn&#8217;t seem to be an easy way to resolve this. According to the MySQL documentation</p>
+<p>Unfortunately i am working with PHP’s core mysql_* functions (don’t get me started) and there doesn’t seem to be an easy way to resolve this. According to the MySQL documentation</p>
 
 <pre><code>mysql_options(&amp;mysql;, MYSQL_OPT_RECONNECT, &amp;reconnect;);
 </code></pre>
 
-<p>Should do the trick. But passing <strong>MYSQL_OPT_RECONNECT</strong> in anyway to <a href="http://php.net/mysql_connect">mysql_connect</a> didn&#8217;t result in the result i was looking for. So what now? Porting the database code to make use of the newer and better PDO or MySQLi is no option. As it would consume way to much time. Fortunately the mysql_* core functions come with mysql_ping. I never had to use this before. But in this case it comes in quite handy.</p>
+<p>Should do the trick. But passing <strong>MYSQL_OPT_RECONNECT</strong> in anyway to <a href="http://php.net/mysql_connect">mysql_connect</a> didn’t result in the result i was looking for. So what now? Porting the database code to make use of the newer and better PDO or MySQLi is no option. As it would consume way to much time. Fortunately the mysql_* core functions come with mysql_ping. I never had to use this before. But in this case it comes in quite handy.</p>
 
 <p><strong>From the PHP manual:</strong></p>
 
 <pre><code>bool mysql_ping ([ resource $link_identifier = NULL ] )
 </code></pre>
 
-<blockquote><p>Checks whether or not the connection to the server is working. If it has gone down, an automatic reconnection is attempted. This function can be used by scripts that remain idle for a long while, to check whether or not the server has closed the connection and reconnect if necessary.</p></blockquote>
+<blockquote>
+  <p>Checks whether or not the connection to the server is working. If it has gone down, an automatic reconnection is attempted. This function can be used by scripts that remain idle for a long while, to check whether or not the server has closed the connection and reconnect if necessary.</p>
+</blockquote>
 
 <p>Note:
-<strong>Automatic reconnection is disabled by default in versions of MySQL >= 5.0.3.</strong></p>
+<strong>Automatic reconnection is disabled by default in versions of MySQL &gt;= 5.0.3.</strong></p>
 
-<p>Adding the mysql_ping function call was rather straight forward. And didn&#8217;t require all that much work to be done. I extended the database class to include a ping method. That would simply throw an exception when it failed to reconnect.</p>
+<p>Adding the mysql_ping function call was rather straight forward. And didn’t require all that much work to be done. I extended the database class to include a ping method. That would simply throw an exception when it failed to reconnect. </p>
 
 <pre><code>public function ping()
 {
     if (!mysql_ping($this-&gt;db_connect_id)) {
         throw new Mollie_Database_Exception("Connection was lost");
-    }   
+    }	
     return true;
 }
 </code></pre>
 
-<p>And after that i started poking around the userland implementation. The worker is running inside a <strong>while(true)</strong> loop. A first test with <strong>->ping()</strong> being called inside this loop proved to resolve the issue at hand. But running the ping function that often is overkill. And who knows it might actually result in <strong>DoS</strong> of the database server. So i decided to ping the server every one minute or so.</p>
+<p>And after that i started poking around the userland implementation. The worker is running inside a <strong>while(true)</strong> loop. A first test with <strong>-&gt;ping()</strong> being called inside this loop proved to resolve the issue at hand. But running the ping function that often is overkill. And who knows it might actually result in <strong>DoS</strong> of the database server. So i decided to ping the server every one minute or so.</p>
 
 <pre><code>$start = time();
 while (true) 
@@ -126,7 +132,7 @@ while (true)
 }
 </code></pre>
 
-<p>I&#8217;m not a big fan of this solution. And would rather be implementing MySQLi functions. But this functions well. And will do for now.</p>
+<p>I’m not a big fan of this solution. And would rather be implementing MySQLi functions. But this functions well. And will do for now.</p>
 </div>
 
 
@@ -248,6 +254,8 @@ while (true)
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -265,8 +273,6 @@ while (true)
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -287,7 +293,7 @@ while (true)
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

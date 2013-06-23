@@ -67,9 +67,9 @@
 </header>
 
 
-<div class="articletext"><p>Today i got a question from <a href="http://www.usablenet.co.uk/">Richard</a>. About the flicker bug and how to implement the fix. The problem that he had with Javascript throwing an illegal character error was because of copy pasting from this blog. I&#8217;m not sure why the single quotes get screwed up. But i will have a look at it. I also didn&#8217;t state which version of <a href="http://mootools.net/">mootools</a> i was using. It was 1.1 at the time. And i was using the full uncompressed version.</p>
+<div class="articletext"><p>Today i got a question from <a href="http://www.usablenet.co.uk/">Richard</a>. About the flicker bug and how to implement the fix. The problem that he had with Javascript throwing an illegal character error was because of copy pasting from this blog. I’m not sure why the single quotes get screwed up. But i will have a look at it. I also didn’t state which version of <a href="http://mootools.net/">mootools</a> i was using. It was 1.1 at the time. And i was using the full uncompressed version.</p>
 
-<p>But since then version 1.2 of <a href="http://mootools.net/">mootools</a> came out. And id didn&#8217;t really had time yet to look into it. But this version also has the same annoying bug. So i looked at the code. The <a href="http://docs.mootools.net/Plugins/Fx.Slide">FX.Slide</a> class changed a bit. And the core and  plugins are split up into separate files now. But the fix remains the same. And since i don&#8217;t really want to write a whole article about it right now. I decided to create two sets of archives. One with the fix for version 1.1 and one for version 1.2. The changes i made are explained in the previous article. But for 1.1 they are around line 4453 and 4458. For 1.2 if you only use the FX.Slide plugin it&#8217;s around line 17 and 29.</p>
+<p>But since then version 1.2 of <a href="http://mootools.net/">mootools</a> came out. And id didn’t really had time yet to look into it. But this version also has the same annoying bug. So i looked at the code. The <a href="http://docs.mootools.net/Plugins/Fx.Slide">FX.Slide</a> class changed a bit. And the core and  plugins are split up into separate files now. But the fix remains the same. And since i don’t really want to write a whole article about it right now. I decided to create two sets of archives. One with the fix for version 1.1 and one for version 1.2. The changes i made are explained in the previous article. But for 1.1 they are around line 4453 and 4458. For 1.2 if you only use the FX.Slide plugin it’s around line 17 and 29.</p>
 
 <p>You can download the archives here:
 <a href="http://we.designandco.de/code/mootools.1.1.slide.flickerbug.tar.gz">version 1.1</a>
@@ -195,6 +195,8 @@
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -212,8 +214,6 @@
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -234,7 +234,7 @@
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

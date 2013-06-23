@@ -4,7 +4,7 @@
   <title><![CDATA[Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-03-28T21:51:39+01:00</updated>
+  <updated>2013-06-23T11:37:38+02:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -14,11 +14,323 @@
 
   
   <entry>
+    <title type="html"><![CDATA[PHP 5.5.0 released]]></title>
+    <link href="http://lenss.nl/2013/06/php-55-released/"/>
+    <updated>2013-06-22T21:56:12+02:00</updated>
+    <id>http://lenss.nl/2013/06/php-55-released</id>
+    <content type="html"><![CDATA[<p>PHP reached a new milestone 3 days ago. And as always it’s quite exciting news. Some of the new features are already outlined by Evert Pot’s post which you can find <a href="http://evertpot.com/php-55-released/">here</a>. And all of this of course can be found on the <a href="https://wiki.php.net/rfc">wiki</a> and in the <a href="http://php.net/ChangeLog-5.php#5.5.0">change log</a>. </p>
+
+<p>I’ll just outline some of the new and exiting features, deprecated notices and removed functions.</p>
+
+<p><strong><em>Simplified password hashing API</em></strong></p>
+
+<p>Hashing passwords with <a href="http://php.net/manual/en/function.md5.php">md5()</a> and <a href="http://php.net/manual/en/function.sha1.php">sha1()</a> just isn’t enough anymore. So a new, secure and easy way to hash passwords has been added. And besides hashing includes some other useful functions.</p>
+
+<p><strong><em>$password</em></strong> The password string to hash</p>
+
+<p><strong><em>$algorithm</em></strong> The hashing algorithm to use of which two are available at the moment</p>
+
+<blockquote><p>PASSWORD_DEFAULT which uses bcrypt<br />	PASSWORD_BCRYPT which uses blowfish</p></blockquote>
+
+<p><strong><em>$options</em></strong> makes it possible to add a salt or set the cost for the hashing algorithm</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Hash password with default algorithm </span><a href="http://php.net/manual/en/function.password-hash.php">password_hash() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">	$password = &#39;test-password&#39;;</span>
+</span><span class="line"><span class="x">	$hash = password_hash($password, PASSWORD_DEFAULT);</span>
+</span><span class="line"><span class="x">	var_dump($hash);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<pre><code>string(60) "$2y$10$qGv1q5nT4F7HCtKSPPME2usrdJRcRpk9lEUMQsE8mqyDIy3fbJ4I."
+</code></pre>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Hash password with BLOWFISH algorithm </span><a href="http://php.net/manual/en/function.password-hash.php">password_hash() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">	$hash = password_hash($password, PASSWORD_BCRYPT);</span>
+</span><span class="line"><span class="x">	var_dump($hash);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<pre><code>string(60) "$2y$10$XtpNO/tFjtkq4u3ghcpqXeSwbHZxDQDTXRHfWBnZsmowUVl/MQys2"
+</code></pre>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Hash password with BLOWFISH algorithm and options </span><a href="http://php.net/manual/en/function.password-hash.php">password_hash() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">	$salt = mcrypt_create_iv(22, MCRYPT_DEV_URANDOM); </span>
+</span><span class="line"><span class="x">	$hash = password_hash($password, PASSWORD_BCRYPT, array(&quot;cost&quot; =&gt; 14, &quot;salt&quot; =&gt; $salt));</span>
+</span><span class="line"><span class="x">	var_dump($hash);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<pre><code>string(60) "$2y$14$6ZtnYJ0CyqCUx.vJu3MZEuUGgIN.ryxMa0Yh8BnCrbBDVnd3Me30i"
+</code></pre>
+
+<p>Verify if a hash and password match. Return true if they do and false if they don’t</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Verify hash </span><a href="http://php.net/manual/en/function.password-verify.php">password_verify() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">	$hash = password_hash($password, PASSWORD_DEFAULT);</span>
+</span><span class="line">
+</span><span class="line"><span class="x">	if (password_verify($password, $hash)) {</span>
+</span><span class="line"><span class="x">    		echo &#39;Password is correct&#39;;</span>
+</span><span class="line"><span class="x">	} else {</span>
+</span><span class="line"><span class="x">    		echo &#39;Password is incorrect&#39;;</span>
+</span><span class="line"><span class="x">	}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<pre><code>Password is correct
+</code></pre>
+
+<p>Get information about a valid hash created with password_hash(). The function returns an array with the use d algorithm and options</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Retrieve $hash information </span><a href="http://php.net/manual/en/function.password-get-info.php">password_get_info() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">$info = password_get_info($hash);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<pre><code>array(3) {
+	["algo"]=&gt;
+	int(1)
+	["algoName"]=&gt;
+	string(6) "bcrypt"
+	["options"]=&gt;
+	array(1) {
+		["cost"]=&gt;
+		int(10)
+	}
+}
+</code></pre>
+
+<p>Check if the supplied hash was generated by the provided algorithm and options. This might come in handy when the hash needs to be updated</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Check if a $hash needs to be rehashed </span><a href="http://php.net/manual/en/function.password-needs-rehash.php">password_needs_rehash() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">	if (password_needs_rehash($hash, PASSWORD_BCRYPT, array(&#39;cost&#39; =&gt; 8))) {</span>
+</span><span class="line"><span class="x">		// Update the password hash</span>
+</span><span class="line"><span class="x">	}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><strong><em>Support for constant array/string dereferencing</em></strong></p>
+
+<p>If you work with objects you might have worked with object dereferencing. This Is used to chain method calls. Or the so called fluent interfaces</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Dereference object call  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">	$obj-&gt;method()-&gt;returnObjMethod();</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Now the same is possible for arrays and strings</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Dereference strings / array  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">	echo array(1, 2, 3)[0]; //output 1</span>
+</span><span class="line"><span class="x">	echo &quot;foobar&quot;[2]; //output o</span>
+</span><span class="line"><span class="x">	echo &quot;foobar&quot;[&quot;foo&quot;][0] // output f</span>
+</span><span class="line"><span class="x"> </span>
+</span><span class="line"><span class="x">	echo [1,3,4][2]; //output 4</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><strong><em>Class Name Resolution As Scalar Via “class” Keyword</em></strong></p>
+
+<p>An easy way to get the full class name </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Class name resolution via ::class  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">	namespace Vodka\Crypt;</span>
+</span><span class="line">
+</span><span class="line"><span class="x">	Class HashBuilder {}</span>
+</span><span class="line">
+</span><span class="line"><span class="x">	use Vodka\Crypt\HashBuilder;</span>
+</span><span class="line"><span class="x">	 </span>
+</span><span class="line"><span class="x">	var_dump(HashBuilder::class);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<pre><code>string(23) "Vodka\Crypt\HashBuilder"
+</code></pre>
+
+<p><strong><em>Support for using empty() on the result of function calls and other expressions</em></strong></p>
+
+<p>Normally <a href="http://php.net/manual/en/function.empty.php">empty()</a> and <a href="http://php.net/manual/en/function.isset.php">isset()</a> could only be used on variables. In 5.5 it’s possible to test expression and return values from functions</p>
+
+<p><strong><em>5.3</em></strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Call empty() with closure  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">	var_dump( empty(function() {}) );</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<pre><code>PHP Parse error:  syntax error, unexpected T_FUNCTION in
+</code></pre>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Call empty() with function return value  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">	</span>
+</span><span class="line"><span class="x">	function foo() {}</span>
+</span><span class="line"><span class="x">	var_dump(empty(foo()));</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<pre><code>PHP Fatal error:  Can't use function return value in write context in
+</code></pre>
+
+<p><strong><em>5.5</em></strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Call empty() with function return value  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">	function foo($val) { </span>
+</span><span class="line"><span class="x">		return $val; </span>
+</span><span class="line"><span class="x">	}</span>
+</span><span class="line">
+</span><span class="line"><span class="x">	var_dump( empty(foo([])) );</span>
+</span><span class="line"><span class="x">	var_dump( empty(foo(true)) );</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<pre><code>bool(true)
+bool(false)
+</code></pre>
+
+<p><strong><em>Support for list in foreach</em></strong></p>
+
+<p>List has been added for foreach loops. Great for eliminating unused variables.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Support for list in foreach  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">	$messages = array(</span>
+</span><span class="line"><span class="x">		array(&#39;id&#39; =&gt; 1, &#39;body&#39; =&gt; &#39;test-1&#39;, &#39;code&#39; =&gt; 12),</span>
+</span><span class="line"><span class="x">		array(&#39;id&#39; =&gt; 2, &#39;body&#39; =&gt; &#39;test-2&#39;, &#39;code&#39; =&gt; 12),</span>
+</span><span class="line"><span class="x">		array(&#39;id&#39; =&gt; 3, &#39;body&#39; =&gt; &#39;test-3&#39;, &#39;code&#39; =&gt; 10)</span>
+</span><span class="line"><span class="x">	);</span>
+</span><span class="line">
+</span><span class="line"><span class="x">	// Before</span>
+</span><span class="line"><span class="x">	foreach ($messages as $message) {</span>
+</span><span class="line"><span class="x">	    list($id, $body) = $message;</span>
+</span><span class="line"><span class="x">	}</span>
+</span><span class="line"><span class="x">	 </span>
+</span><span class="line"><span class="x">	// After</span>
+</span><span class="line"><span class="x">	foreach ($messages as list($id, $body)) {</span>
+</span><span class="line"><span class="x">	    </span>
+</span><span class="line"><span class="x">	}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><strong><em>Zend Opcache extension and enable building it by default</em></strong></p>
+
+<p>My short post about <a href="https://wiki.php.net/rfc/optimizerplus">Zend Optimizer+</a> in February this year. Kind of slipped my mind. And i was somehow under the impression <a href="http://pecl.php.net/package/APC">APC</a> would be integrated. But this of course has to be Zend Optimizer+. Finally an opcode cacher available be default. And configurable from php.ini</p>
+
+<blockquote><p>[opcache]<br />	; Determines if Zend OPCache is enabled<br />	opcache.enable=0<br />	opcache.enable_cli=0</p><p>	; The OPcache shared memory storage size.<br />	opcache.memory_consumption=64</p><p>	; The amount of memory for interned strings in Mbytes.<br />	opcache.interned_strings_buffer=4</p><p>	; Max files in OPCode cache, use a number between 200 and 100000.<br />	opcache.max_accelerated_files=2000</p><p>	; The maximum percentage of &#8220;wasted&#8221; memory until a restart is scheduled.<br />	opcache.max_wasted_percentage=5</p><p>	; Append current working dir to script name<br />	opcache.use_cwd=1</p><p>	How often a file should be validated<br />	opcache.revalidate_freq=2</p><p>	; Enables or disables file search in include_path optimization<br />	opcache.revalidate_path=0</p><p>	; Drop all PHPDoc comments<br />	opcache.save_comments=1</p></blockquote>
+
+<p><strong><em>array_column function which returns a column in a multidimensional array</em></strong></p>
+
+<p>Fetching a column from a multi-dimensional array is now possible with a single function call.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Fetch a column from a multi-dimensional array </span><a href="http://php.net/manual/en/function.array-column.php">array_column() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">	$nestedArray = array(</span>
+</span><span class="line"><span class="x">		array(&#39;id&#39; =&gt; 1, &#39;body&#39; =&gt; &#39;test-1&#39;, &#39;code&#39; =&gt; 12),</span>
+</span><span class="line"><span class="x">		array(&#39;id&#39; =&gt; 2, &#39;body&#39; =&gt; &#39;test-2&#39;, &#39;code&#39; =&gt; 12),</span>
+</span><span class="line"><span class="x">		array(&#39;id&#39; =&gt; 3, &#39;body&#39; =&gt; &#39;test-3&#39;, &#39;code&#39; =&gt; 10)</span>
+</span><span class="line"><span class="x">	);</span>
+</span><span class="line"><span class="x">	$columns = array_column($nestedArray, &#39;code&#39;);</span>
+</span><span class="line"><span class="x">	print_r($columns);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<pre><code>Array
+(
+	[0] =&gt; 12
+	[1] =&gt; 12
+	[2] =&gt; 10
+)
+</code></pre>
+
+<p>Or fetch status code indexed by id</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Fetch a column from a multi-dimensional array index by another field </span><a href="http://php.net/manual/en/function.array-column.php">array_column() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">	$columns = array_column($nestedArray, &#39;code&#39;, &#39;id&#39;);</span>
+</span><span class="line"><span class="x">	print_r($columns);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="global-variable">$columns</span> = array_column(<span class="global-variable">$nestedArray</span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span>);
+print_r(<span class="global-variable">$columns</span>);
+</pre></div>
+</div>
+</div>
+
+<pre><code>Array
+(
+	[145] =&gt; 12
+	[20098] =&gt; 12
+	[34] =&gt; 10
+)
+</code></pre>
+
+<p><strong><em>deprecated</em></strong></p>
+
+<p>The following mcrypt functions have been deprecated <a href="http://php.net/manual/en/function.mcrypt-ecb.php">mcrypt_ecb()</a>, <a href="http://php.net/manual/en/function.mcrypt-cbc.php">mcrypt_cbc()</a>, <a href="http://php.net/manual/en/function.mcrypt-cfb.php">mcrypt_cfb()</a>, <a href="http://php.net/manual/en/function.mcrypt-ofb.php">mcrypt_ofb()</a> and will now throw <a href="http://php.net/manual/en/errorfunc.constants.php">E_DEPRECATED</a>.</p>
+
+<p>The mysql extension has finally been deprecated, and deprecation warnings will be generated when connections are established to databases via <a href="http://php.net/manual/en/function.mysql-connect.php">mysql_connect()</a>, <a href="http://php.net/manual/en/function.mysql-pconnect.php">mysql_pconnect()</a></p>
+
+<p>use <a href="http://php.net/manual/en/book.mysqli.php">MySQLi</a> or <a href="http://php.net/manual/en/ref.pdo-mysql.php">PDO_MySQL</a> extensions instead.</p>
+
+<p><strong><em>removed</em></strong></p>
+
+<p>The following (not so useful) functions have been removed from the core <a href="http://php.net/manual/en/function.php-logo-guid.php">php_logo_guid()</a>, php_egg_logo_guid(), php_real_logo_guid(), <a href="http://www.php.net/manual/en/function.zend-logo-guid.php">zend_logo_guid()</a>. And support for the ancient operating systems Windows XP and 2003 has been dropped!</p>
+
+<p><strong><em>Install 5.5 on Ubuntu (experimental)</em></strong></p>
+
+<p>If you want to experience the new version first hand and you work on <a href="http://www.ubuntu.com/">Ubuntu</a>. You can add the experimental PPA and give it a shot.</p>
+
+<blockquote><p>sudo add-apt-repository ppa:ondrej/php5-experimental<br />	sudo apt-get update<br />	sudo apt-get install php5</p></blockquote>
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Casting weirdness with PHP]]></title>
     <link href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"/>
     <updated>2013-03-28T22:20:34+01:00</updated>
     <id>http://lenss.nl/2013/03/casting-weirdness-with-PHP</id>
-    <content type="html"><![CDATA[<p>When my coworker today asked if he could cast an array to a object. I couldn&#8217;t really answer the question. Don&#8217;t think i ever done that. So let&#8217;s try. right?</p>
+    <content type="html"><![CDATA[<p>When my coworker today asked if he could cast an array to a object. I couldn’t really answer the question. Don’t think i ever done that. So let’s try. right?</p>
 
 <pre><code>$arr = array('foo' =&gt; 'baz');
 $obj = (object) $arr;
@@ -31,7 +343,7 @@ object(stdClass)#1 (1) {
 }
 </code></pre>
 
-<p>Ha that&#8217;s cool. It actually works. But wait. What happens when we use a numeric index?</p>
+<p>Ha that’s cool. It actually works. But wait. What happens when we use a numeric index?</p>
 
 <pre><code>$arr = array(0 =&gt; 'bar', 'foo' =&gt; 'baz');
 $obj = (object) $arr;
@@ -46,15 +358,17 @@ object(stdClass)#1 (2) {
 }
 </code></pre>
 
-<p>WTF? We just created <strong><em>$obj->0</em></strong> which should not be allowed in PHP as far as i know. So let&#8217;s make sure i am not mistaking.</p>
+<p>WTF? We just created <strong><em>$obj-&gt;0</em></strong> which should not be allowed in PHP as far as i know. So let’s make sure i am not mistaking.</p>
 
 <pre><code>$foo = new stdClass();
 $foo-&gt;0 = 'bar';
 </code></pre>
 
-<blockquote><p>PHP Parse error:  syntax error, unexpected &#8216;0&#8217; (T_LNUMBER), expecting identifier (T_STRING) or variable (T_VARIABLE) or &#8216;{&#8217; or &#8216;$&#8217; in foo.php on line 5</p></blockquote>
+<blockquote>
+  <p>PHP Parse error:  syntax error, unexpected ‘0’ (T_LNUMBER), expecting identifier (T_STRING) or variable (T_VARIABLE) or ‘{‘ or ‘$’ in foo.php on line 5</p>
+</blockquote>
 
-<p>But casting the array didn&#8217;t complain about a thing. Can we access this property? Well! Not calling it directly. At least not that i know of. But looping over the object&#8217;s properties does seem to work.</p>
+<p>But casting the array didn’t complain about a thing. Can we access this property? Well! Not calling it directly. At least not that i know of. But looping over the object’s properties does seem to work. </p>
 
 <pre><code>// Parse error
 // var_dump($obj-&gt;0);
@@ -71,7 +385,7 @@ string(3) "foo"
 string(3) "baz"
 </code></pre>
 
-<p>It&#8217;s not that i was planning on ever using this. Or advising other people to use it. In the contrary. But i guess it&#8217;s not completely useless. But care is required when doing so.</p>
+<p>It’s not that i was planning on ever using this. Or advising other people to use it. In the contrary. But i guess it’s not completely useless. But care is required when doing so.</p>
 ]]></content>
   </entry>
   
@@ -93,21 +407,21 @@ string(3) "baz"
     <link href="http://lenss.nl/2013/02/phpness-serious-wtf/"/>
     <updated>2013-02-27T11:58:26+01:00</updated>
     <id>http://lenss.nl/2013/02/phpness-serious-wtf</id>
-    <content type="html"><![CDATA[<p>It&#8217;s been a while since i last blogged. And i don&#8217;t really have anything new to offer. But i would like to comment on some current event. There has been some commotion about a free t shirt that was distributed on the SunshinePHP conference this year.</p>
+    <content type="html"><![CDATA[<p>It’s been a while since i last blogged. And i don’t really have anything new to offer. But i would like to comment on some current event. There has been some commotion about a free t shirt that was distributed on the SunshinePHP conference this year. </p>
 
 <p><a href="http://lenss.nl/images/2013/02/web-and-php-img.png"><img src="http://lenss.nl/images/2013/02/web-and-php-img.png" alt="" /></a></p>
 
-<p>The first time i saw the shirt i could not make out what was so offending that people would start blogging about it. Somebody had to point that out for me. So what&#8217;s the deal here? Apparently the shirt&#8217;s slogan was intentionally created with a slight sexual undertone. The idea comes from the enlarge your penis SPAM we all know!</p>
+<p>The first time i saw the shirt i could not make out what was so offending that people would start blogging about it. Somebody had to point that out for me. So what’s the deal here? Apparently the shirt’s slogan was intentionally created with a slight sexual undertone. The idea comes from the enlarge your penis SPAM we all know! </p>
 
-<p>Some people have perceived this as being sexist. And even go so far as to personally attack the people behind the shirt.</p>
+<p>Some people have perceived this as being sexist. And even go so far as to personally attack the people behind the shirt. </p>
 
-<p>Personally i don&#8217;t think the shirt is sexist or offensive at all. And don&#8217;t really understand all the fuss. Sex has never been an issue for me in the PHP community. I learn just as much from female developers as i do from the male ones. We are all equal. People that feel the need to defend the opposite sex are probably the ones that see a difference. Even so! Why make such a big deal of something so small? I never seen anybody blog about the programming with attitude poster.</p>
+<p>Personally i don’t think the shirt is sexist or offensive at all. And don’t really understand all the fuss. Sex has never been an issue for me in the PHP community. I learn just as much from female developers as i do from the male ones. We are all equal. People that feel the need to defend the opposite sex are probably the ones that see a difference. Even so! Why make such a big deal of something so small? I never seen anybody blog about the programming with attitude poster. </p>
 
 <p><a href="http://lenss.nl/images/2013/02/php-programming.jpg"><img src="http://lenss.nl/images/2013/02/php-programming.jpg" alt="" /></a></p>
 
-<p>I think the PHP community has just lost a bit of it&#8217;s shine and coolness. I&#8217;ve always been under the impression the PHP community consisted of free thinking people that do what they love. Develop stuff. And that&#8217;s exactly what attracted me to it 12 years ago in the first place.</p>
+<p>I think the PHP community has just lost a bit of it’s shine and coolness. I’ve always been under the impression the PHP community consisted of free thinking people that do what they love. Develop stuff. And that’s exactly what attracted me to it 12 years ago in the first place.</p>
 
-<p>The community has grown quite a lot in that period of time. The thing with every communities is that it brings forth vocal people. Which is a great thing in general. But not so good when people forget their responsibility towards the rest of the community. And that&#8217;s exactly what happened the last few days. Personal issues have become public. To me it seems many of you have missed the boat completely. You don&#8217;t have to like the shirt. But there is absolutely no reason to bash the initiative in public.</p>
+<p>The community has grown quite a lot in that period of time. The thing with every communities is that it brings forth vocal people. Which is a great thing in general. But not so good when people forget their responsibility towards the rest of the community. And that’s exactly what happened the last few days. Personal issues have become public. To me it seems many of you have missed the boat completely. You don’t have to like the shirt. But there is absolutely no reason to bash the initiative in public.</p>
 
 <p>Here are some of the articles the spawned over the last couple days:</p>
 
@@ -127,7 +441,7 @@ string(3) "baz"
 
 <p><a href="http://blog.ircmaxell.com/2013/02/on-equality-sexism-and-even-hand.html">On Equality, Sexism and an Even Hand</a></p>
 
-<p>So let&#8217;s all just respect one another. And keep the PHP community a friendly place. This kind of nonsense has no positive impact on anybody.</p>
+<p>So let’s all just respect one another. And keep the PHP community a friendly place. This kind of nonsense has no positive impact on anybody.</p>
 ]]></content>
   </entry>
   
@@ -136,21 +450,23 @@ string(3) "baz"
     <link href="http://lenss.nl/2012/11/publish-google-reader-shared-items/"/>
     <updated>2012-11-07T15:55:26+01:00</updated>
     <id>http://lenss.nl/2012/11/publish-google-reader-shared-items</id>
-    <content type="html"><![CDATA[<p>A lot of people are using the shared items feature in <a href="http://www.google.nl/reader/">Google Reader</a> to publish what they are reading on a blog. It&#8217;s like having a live blogroll widget on your website. And gives your readers a good impression of what you are actually interested in.</p>
+    <content type="html"><![CDATA[<p>A lot of people are using the shared items feature in <a href="http://www.google.nl/reader/">Google Reader</a> to publish what they are reading on a blog. It’s like having a live blogroll widget on your website. And gives your readers a good impression of what you are actually interested in.</p>
 
-<p>I never bothered adding this to my blog. But i do like to share. So last night i was trying to figure out how to integrate this with my current blog. I was hoping for an easy implementation. But the information is scarce. So i had to do some digging. I did find a couple of <a href="https://www.google.nl/search?q=wordpress+plugin+google+reader">Wordpress plugins</a>. But most of them were not updated for at least a year. And i am not putting code like that life on my website.</p>
+<p>I never bothered adding this to my blog. But i do like to share. So last night i was trying to figure out how to integrate this with my current blog. I was hoping for an easy implementation. But the information is scarce. So i had to do some digging. I did find a couple of <a href="https://www.google.nl/search?q=wordpress+plugin+google+reader">Wordpress plugins</a>. But most of them were not updated for at least a year. And i am not putting code like that life on my website. </p>
 
-<p>After some Googling i came across a couple of feed URL&#8217;s that seem to share their <strong>shared</strong> items in feed form. Using the Google Reader URL and a user id. So the URL for my shared items would look like the one below. Getting your user id by the way is easy. Go to your Google reader page. Click all <strong>All items</strong> and the <strong>UID</strong> will show up in the address bar.</p>
+<p>After some Googling i came across a couple of feed URL’s that seem to share their <strong>shared</strong> items in feed form. Using the Google Reader URL and a user id. So the URL for my shared items would look like the one below. Getting your user id by the way is easy. Go to your Google reader page. Click all <strong>All items</strong> and the <strong>UID</strong> will show up in the address bar.</p>
 
-<blockquote><p>http://www.google.com/reader/shared/16525759780220726764</p></blockquote>
+<blockquote>
+  <p>http://www.google.com/reader/shared/16525759780220726764</p>
+</blockquote>
 
 <p>The problem with this however. Non of my shared posts show up on this page. And i have not figured out a way to populate it just yet. So i came up with an other path to get this data on my server.</p>
 
-<p>In the Google Reader pages it&#8217;s possible to add sharing functionality. This is done by going to the <strong>Send To</strong> tab</p>
+<p>In the Google Reader pages it’s possible to add sharing functionality. This is done by going to the <strong>Send To</strong> tab</p>
 
 <p><a href="http://lenss.nl/images/2012/11/Send-To.png"><img src="http://lenss.nl/images/2012/11/Send-To-300x22.png" alt="" /></a></p>
 
-<p>From here it&#8217;s possible to select a service to share data with. Non of these services are any good for what i am trying to do. But the great thing about this page is. You can provide custom URL&#8217;s for sharing data. Just incorporate the specified parameters in the URL and your done.</p>
+<p>From here it’s possible to select a service to share data with. Non of these services are any good for what i am trying to do. But the great thing about this page is. You can provide custom URL’s for sharing data. Just incorporate the specified parameters in the URL and your done.</p>
 
 <p><a href="http://lenss.nl/images/2012/11/Custom-Site.png"><img src="http://lenss.nl/images/2012/11/Custom-Site-300x178.png" alt="" /></a></p>
 
@@ -158,7 +474,7 @@ string(3) "baz"
 
 <p><a href="http://lenss.nl/images/2012/11/Favorite-Site.png"><img src="http://lenss.nl/images/2012/11/Favorite-Site-300x125.png" alt="" /></a></p>
 
-<p>That&#8217;s it for this part. Actually sharing items is quite easy now. When back in the Google Reader under each post there is Send to link. If you click this link the newly created custom URL will show up. And you can share the post.</p>
+<p>That’s it for this part. Actually sharing items is quite easy now. When back in the Google Reader under each post there is Send to link. If you click this link the newly created custom URL will show up. And you can share the post.</p>
 
 <p><a href="http://lenss.nl/images/2012/11/Tag-Article.png"><img src="http://lenss.nl/images/2012/11/Tag-Article-300x41.png" alt="" /></a></p>
 
@@ -166,48 +482,49 @@ string(3) "baz"
 
 <pre><code>Class GoogleReaderShare
 {
-    const GOOGLE_REMOTE_IP = '95.97.54.3';
-
-    const GOOGLE_REFERER = 'http://www.google.nl/reader/view/';
-
-    protected static $_whitelist = array('source', 'title', 'url', 'short');
-
-    public static function CheckSource($remoteAddr, $referer) 
-    {
-        if (($remoteAddr == self::GOOGLE_REMOTE_IP) 
-                &amp;&amp; ($referer == self::GOOGLE_REFERER)) {
-            return true;
-        }
-        return false;
-    }
-
-    protected static function _CheckIncomingData($data)
-    {
-        if (!is_array($data)) {
-            return false;
-        }
-
-        foreach ($data as $key =&gt; $value) {
-            if (!in_array($key, self::$_whitelist)) {
-                return false;
-            }
-        }
-    }
-
-    public static function Process($data) 
-    {
-        if (!self::_CheckIncomingData($data)) {
-            throw new Exception("Unrecognized or no incoming data");
-        }
-
-        // process the data
-    }
+	const GOOGLE_REMOTE_IP = '95.97.54.3';
+	
+	const GOOGLE_REFERER = 'http://www.google.nl/reader/view/';
+	
+	protected static $_whitelist = array('source', 'title', 'url', 'short');
+	
+	public static function CheckSource($remoteAddr, $referer) 
+	{
+		if (($remoteAddr == self::GOOGLE_REMOTE_IP) 
+				&amp;&amp; ($referer == self::GOOGLE_REFERER)) {
+			return true;
+		}
+		return false;
+	}
+	
+	protected static function _CheckIncomingData($data)
+	{
+		if (!is_array($data)) {
+			return false;
+		}
+			
+		foreach ($data as $key =&gt; $value) {
+			if (!in_array($key, self::$_whitelist)) {
+				return false;
+			}
+		}
+	}
+	
+	public static function Process($data) 
+	{
+		if (!self::_CheckIncomingData($data)) {
+			throw new Exception("Unrecognized or no incoming data");
+		}
+		
+		// process the data
+	}
 }
 
 if (GoogleReaderShare::CheckSource($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_REFERER'])) {
-    GoogleReaderShare::Process($_GET);
+	GoogleReaderShare::Process($_GET);
 }
 </code></pre>
+
 ]]></content>
   </entry>
   
@@ -216,45 +533,51 @@ if (GoogleReaderShare::CheckSource($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_REFER
     <link href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/"/>
     <updated>2012-10-29T14:39:26+01:00</updated>
     <id>http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away</id>
-    <content type="html"><![CDATA[<p>At the moment i am writing some workers that interact with a <a href="http://kr.github.com/beanstalkd/">beanstalk</a> server. When data gets pushed into the beanstalk server. My workers will be triggered to process this data. So the workers are sitting idle for most of the time. And just wait for some data to process. No rocket science there. But during testing i kept running into <a href="http://www.mysql.com/">MySQL</a> issues. The script seemed to lose connection to the MySQL server when it was idle for longer then a minute. And would respond with a</p>
+    <content type="html"><![CDATA[<p>At the moment i am writing some workers that interact with a <a href="http://kr.github.com/beanstalkd/">beanstalk</a> server. When data gets pushed into the beanstalk server. My workers will be triggered to process this data. So the workers are sitting idle for most of the time. And just wait for some data to process. No rocket science there. But during testing i kept running into <a href="http://www.mysql.com/">MySQL</a> issues. The script seemed to lose connection to the MySQL server when it was idle for longer then a minute. And would respond with a </p>
 
-<blockquote><p>Warning: <a href="http://php.net/mysql_query">mysql_query</a>(): MySQL server has gone away in /path/to/some/mysql4/class.php on line xxx</p></blockquote>
+<blockquote>
+  <p>Warning: <a href="http://php.net/mysql_query">mysql_query</a>(): MySQL server has gone away in /path/to/some/mysql4/class.php on line xxx</p>
+</blockquote>
 
-<p>So whats going on here? Well actually it&#8217;s quite simple. When my script initializes the database connection it doesn&#8217;t use it. It just sits there waiting for incoming data. Once received it will process it and try to store it in the database. But when the waiting period exceeds the time for PHP to keep the MySQL connection open it responds with the warning mentioned above. Now in previous versions of PHP this would not be a big issue. As PHP would just initiate a reconnect when the connection is lost. But from PHP 5.0.3 and up this functionality has been disabled by default. For MySQLI this is no problem at all.</p>
+<p>So whats going on here? Well actually it’s quite simple. When my script initializes the database connection it doesn’t use it. It just sits there waiting for incoming data. Once received it will process it and try to store it in the database. But when the waiting period exceeds the time for PHP to keep the MySQL connection open it responds with the warning mentioned above. Now in previous versions of PHP this would not be a big issue. As PHP would just initiate a reconnect when the connection is lost. But from PHP 5.0.3 and up this functionality has been disabled by default. For MySQLI this is no problem at all. </p>
 
 <p>MySQLi:</p>
 
-<blockquote><p>mysqli.reconnect = Off to On</p></blockquote>
+<blockquote>
+  <p>mysqli.reconnect = Off to On</p>
+</blockquote>
 
-<p>Unfortunately i am working with PHP&#8217;s core mysql_* functions (don&#8217;t get me started) and there doesn&#8217;t seem to be an easy way to resolve this. According to the MySQL documentation</p>
+<p>Unfortunately i am working with PHP’s core mysql_* functions (don’t get me started) and there doesn’t seem to be an easy way to resolve this. According to the MySQL documentation</p>
 
 <pre><code>mysql_options(&amp;mysql;, MYSQL_OPT_RECONNECT, &amp;reconnect;);
 </code></pre>
 
-<p>Should do the trick. But passing <strong>MYSQL_OPT_RECONNECT</strong> in anyway to <a href="http://php.net/mysql_connect">mysql_connect</a> didn&#8217;t result in the result i was looking for. So what now? Porting the database code to make use of the newer and better PDO or MySQLi is no option. As it would consume way to much time. Fortunately the mysql_* core functions come with mysql_ping. I never had to use this before. But in this case it comes in quite handy.</p>
+<p>Should do the trick. But passing <strong>MYSQL_OPT_RECONNECT</strong> in anyway to <a href="http://php.net/mysql_connect">mysql_connect</a> didn’t result in the result i was looking for. So what now? Porting the database code to make use of the newer and better PDO or MySQLi is no option. As it would consume way to much time. Fortunately the mysql_* core functions come with mysql_ping. I never had to use this before. But in this case it comes in quite handy.</p>
 
 <p><strong>From the PHP manual:</strong></p>
 
 <pre><code>bool mysql_ping ([ resource $link_identifier = NULL ] )
 </code></pre>
 
-<blockquote><p>Checks whether or not the connection to the server is working. If it has gone down, an automatic reconnection is attempted. This function can be used by scripts that remain idle for a long while, to check whether or not the server has closed the connection and reconnect if necessary.</p></blockquote>
+<blockquote>
+  <p>Checks whether or not the connection to the server is working. If it has gone down, an automatic reconnection is attempted. This function can be used by scripts that remain idle for a long while, to check whether or not the server has closed the connection and reconnect if necessary.</p>
+</blockquote>
 
 <p>Note:
-<strong>Automatic reconnection is disabled by default in versions of MySQL >= 5.0.3.</strong></p>
+<strong>Automatic reconnection is disabled by default in versions of MySQL &gt;= 5.0.3.</strong></p>
 
-<p>Adding the mysql_ping function call was rather straight forward. And didn&#8217;t require all that much work to be done. I extended the database class to include a ping method. That would simply throw an exception when it failed to reconnect.</p>
+<p>Adding the mysql_ping function call was rather straight forward. And didn’t require all that much work to be done. I extended the database class to include a ping method. That would simply throw an exception when it failed to reconnect. </p>
 
 <pre><code>public function ping()
 {
     if (!mysql_ping($this-&gt;db_connect_id)) {
         throw new Mollie_Database_Exception("Connection was lost");
-    }   
+    }	
     return true;
 }
 </code></pre>
 
-<p>And after that i started poking around the userland implementation. The worker is running inside a <strong>while(true)</strong> loop. A first test with <strong>->ping()</strong> being called inside this loop proved to resolve the issue at hand. But running the ping function that often is overkill. And who knows it might actually result in <strong>DoS</strong> of the database server. So i decided to ping the server every one minute or so.</p>
+<p>And after that i started poking around the userland implementation. The worker is running inside a <strong>while(true)</strong> loop. A first test with <strong>-&gt;ping()</strong> being called inside this loop proved to resolve the issue at hand. But running the ping function that often is overkill. And who knows it might actually result in <strong>DoS</strong> of the database server. So i decided to ping the server every one minute or so.</p>
 
 <pre><code>$start = time();
 while (true) 
@@ -275,7 +598,7 @@ while (true)
 }
 </code></pre>
 
-<p>I&#8217;m not a big fan of this solution. And would rather be implementing MySQLi functions. But this functions well. And will do for now.</p>
+<p>I’m not a big fan of this solution. And would rather be implementing MySQLi functions. But this functions well. And will do for now.</p>
 ]]></content>
   </entry>
   
@@ -284,24 +607,28 @@ while (true)
     <link href="http://lenss.nl/2012/10/git-rebase-on-pull-by-default/"/>
     <updated>2012-10-25T14:20:22+02:00</updated>
     <id>http://lenss.nl/2012/10/git-rebase-on-pull-by-default</id>
-    <content type="html"><![CDATA[<p>I was a bit surprised today when <a href="http://git-scm.com/">git</a> presented me a merge message window after i did a pull. This should not happen as the normal behavior here should be to <a href="http://git-scm.com/book/en/Git-Branching-Rebasing">rebase</a> the changes. But apparently that didn&#8217;t happen this time. When i asked one of the other <a href="http://www.scriptorama.nl/">dev</a> &#8216;s what could be the issue. We quickly figured out i was just missing some <strong>config</strong> entry in <strong>.git/config</strong>. This probably happened some time ago when i did a fresh checkout.</p>
+    <content type="html"><![CDATA[<p>I was a bit surprised today when <a href="http://git-scm.com/">git</a> presented me a merge message window after i did a pull. This should not happen as the normal behavior here should be to <a href="http://git-scm.com/book/en/Git-Branching-Rebasing">rebase</a> the changes. But apparently that didn’t happen this time. When i asked one of the other <a href="http://www.scriptorama.nl/">dev</a> ‘s what could be the issue. We quickly figured out i was just missing some <strong>config</strong> entry in <strong>.git/config</strong>. This probably happened some time ago when i did a fresh checkout.</p>
 
 <p>So to make sure rebasing is done by default. You can run a simple git command or modify the <strong>.git/config</strong> file manually.</p>
 
-<blockquote><p>$ git config branch.autosetuprebase always</p></blockquote>
+<blockquote>
+  <p>$ git config branch.autosetuprebase always</p>
+</blockquote>
 
 <p>or do</p>
 
-<blockquote><p>$ vi .git/config</p></blockquote>
+<blockquote>
+  <p>$ vi .git/config</p>
+</blockquote>
 
-<p>Make sure <strong>[branch &#8220;master&#8221;]</strong> has <strong>rebase</strong> set to true. It should look like the snippet below.</p>
+<p>Make sure <strong>[branch “master”]</strong> has <strong>rebase</strong> set to true. It should look like the snippet below.</p>
 
-<blockquote><p>[branch &#8220;master&#8221;]</p>
-
-<pre><code>remote = origin
-merge = refs/heads/master
-rebase = true
-</code></pre></blockquote>
+<blockquote>
+  <p>[branch “master”]
+	remote = origin
+	merge = refs/heads/master
+	rebase = true</p>
+</blockquote>
 
 <p>Starting to really like git. A couple of more quirks and things will be running fine.</p>
 ]]></content>
@@ -314,24 +641,32 @@ rebase = true
     <id>http://lenss.nl/2012/10/workaround-ubuntu-12-04-mysterious-system-freezes</id>
     <content type="html"><![CDATA[<p>I have two machines running <a href="http://releases.ubuntu.com/12.04/">Ubuntu 12.04</a>. One of them is very stable. And hardly ever gets rebooted. The other machine is displaying some odd behavior every now and then. And with odd behavior i mean. It just completely freezing up. The only thing functioning at that moment is the mouse.</p>
 
-<p>I use this machine daily. And i can&#8217;t afford to lose work due to system crashes. So i could spend numerous hours trying to figure out what&#8217;s going on. But that&#8217;s probably something better left for the Ubuntu devs them selfs. Besides that there are plenty of bug reports floating around that describe this behavior. And one of those <a href="https://bugs.launchpad.net/ubuntu/+source/linux/+bug/999910">posts</a> seemed to resolve the issue for me.</p>
+<p>I use this machine daily. And i can’t afford to lose work due to system crashes. So i could spend numerous hours trying to figure out what’s going on. But that’s probably something better left for the Ubuntu devs them selfs. Besides that there are plenty of bug reports floating around that describe this behavior. And one of those <a href="https://bugs.launchpad.net/ubuntu/+source/linux/+bug/999910">posts</a> seemed to resolve the issue for me. </p>
 
-<p>Apparently the bug that causes these crashes is fixed in 12.10. But the changes will only be backported when 12.10 is released. So that leaves me in quite a pickle. But according to the thread. Upgrading the kernel should do the trick. So that&#8217;s exactly what i did. The kernel packages i used can be found here <a href="http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/">http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/</a></p>
+<p>Apparently the bug that causes these crashes is fixed in 12.10. But the changes will only be backported when 12.10 is released. So that leaves me in quite a pickle. But according to the thread. Upgrading the kernel should do the trick. So that’s exactly what i did. The kernel packages i used can be found here <a href="http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/">http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/</a></p>
 
-<blockquote><p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-headers-3.4.0-030400_3.4.0-030400.201205210521_all.deb
-$ sudo dpkg -i linux-headers-3.4.0-030400_3.4.0-030400.201205210521_all.deb</p>
+<blockquote>
+  <p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-headers-3.4.0-030400<em>3.4.0-030400.201205210521_all.deb 
+$ sudo dpkg -i linux-headers-3.4.0-030400</em>3.4.0-030400.201205210521_all.deb</p>
+</blockquote>
 
-<p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-headers-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb
-$ sudo dpkg -i linux-headers-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb</p>
+<blockquote>
+  <p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-headers-3.4.0-030400-generic<em>3.4.0-030400.201205210521_amd64.deb
+$ sudo dpkg -i linux-headers-3.4.0-030400-generic</em>3.4.0-030400.201205210521_amd64.deb</p>
+</blockquote>
 
-<p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-image-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb
-$ sudo dpkg -i linux-image-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb</p></blockquote>
+<blockquote>
+  <p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-image-3.4.0-030400-generic<em>3.4.0-030400.201205210521_amd64.deb
+$ sudo dpkg -i linux-image-3.4.0-030400-generic</em>3.4.0-030400.201205210521_amd64.deb</p>
+</blockquote>
 
-<p>This comes with a downside of course. All modules compiled for the current kernel need to be recompiled. And i haven&#8217;t figured out how to rebuild all of them at once. So i just ran the command below for <a href="https://www.virtualbox.org/">VirtualBox</a> and the <a href="http://www.nvidia.com">NVidia</a> drivers.</p>
+<p>This comes with a downside of course. All modules compiled for the current kernel need to be recompiled. And i haven’t figured out how to rebuild all of them at once. So i just ran the command below for <a href="https://www.virtualbox.org/">VirtualBox</a> and the <a href="http://www.nvidia.com">NVidia</a> drivers.</p>
 
-<blockquote><p>$ sudo dpkg-reconfigure package-name</p></blockquote>
+<blockquote>
+  <p>$ sudo dpkg-reconfigure package-name</p>
+</blockquote>
 
-<p>It&#8217;s probably a better idea to keep the stable kernel for now. But if system crashes are really bugging you. Then this might resolve the issue. Just be careful.</p>
+<p>It’s probably a better idea to keep the stable kernel for now. But if system crashes are really bugging you. Then this might resolve the issue. Just be careful.</p>
 ]]></content>
   </entry>
   
@@ -340,11 +675,11 @@ $ sudo dpkg -i linux-image-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.
     <link href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"/>
     <updated>2012-09-24T21:39:17+02:00</updated>
     <id>http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress</id>
-    <content type="html"><![CDATA[<p>This has been bugging me for a while. But not enough to actually look into it. And Google searches for <a href="http://wordpress.org/">Wordpress</a> display wrong characters results in a whole forest of threads about UTF-8 encoding. This has nothing to do with that. So what&#8217;s the issue here?</p>
+    <content type="html"><![CDATA[<p>This has been bugging me for a while. But not enough to actually look into it. And Google searches for <a href="http://wordpress.org/">Wordpress</a> display wrong characters results in a whole forest of threads about UTF-8 encoding. This has nothing to do with that. So what’s the issue here?</p>
 
-<p>Wordpress is replacing characters in my posts. The most annoying being the replacement of &#8211; <del>is</del> with - . Which makes no sense at all. Specially when creating code samples. Or command line parameters. My thought is why on earth would you do that? But it probably has something to do with typography&#8230;</p>
+<p>Wordpress is replacing characters in my posts. The most annoying being the replacement of – <del>is</del> with - . Which makes no sense at all. Specially when creating code samples. Or command line parameters. My thought is why on earth would you do that? But it probably has something to do with typography…</p>
 
-<p>Anyways. Searching for it today made me stumble onto <a href="http://blog.paulbetts.org/index.php/2007/06/01/stop-wordpress-from-turning-double-dash-into-long-dash/">this</a> post from 2007 by <a href="http://blog.paulbetts.org/">Paul Betts</a>. And believe it or not. Wordpress is still doing that. The code has changed slightly tough. So i created a quick patch as a temporary solution. And need to figure out if this can be circumvented by a plugin or something. If that doesn&#8217;t exists already :)</p>
+<p>Anyways. Searching for it today made me stumble onto <a href="http://blog.paulbetts.org/index.php/2007/06/01/stop-wordpress-from-turning-double-dash-into-long-dash/">this</a> post from 2007 by <a href="http://blog.paulbetts.org/">Paul Betts</a>. And believe it or not. Wordpress is still doing that. The code has changed slightly tough. So i created a quick patch as a temporary solution. And need to figure out if this can be circumvented by a plugin or something. If that doesn’t exists already :)</p>
 
 <p>The patch will replace the following lines</p>
 
@@ -364,12 +699,14 @@ $static_replacements = $cockneyreplace;
 
 <p><strong>This patch was created for v3.4.2. And will most likely fail on other versions of Wordpress.</strong></p>
 
-<blockquote><p>$ cd wp-includes/
+<blockquote>
+  <p>$ cd wp-includes/
 $ wget <a href="https://raw.github.com/tlenss/misc/master/patch/wordpress-charreplace.patch">https://raw.github.com/tlenss/misc/master/patch/wordpress-charreplace.patch</a>
 $ patch -p0 &lt; wordpress-charreplace.patch
-patching file formatting.php</p></blockquote>
+patching file formatting.php</p>
+</blockquote>
 
-<p>That&#8217;s all.</p>
+<p>That’s all.</p>
 ]]></content>
   </entry>
   
@@ -380,94 +717,128 @@ patching file formatting.php</p></blockquote>
     <id>http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive</id>
     <content type="html"><![CDATA[<p>Using <a href="http://vagrantup.com/">Vagrant</a> as a development environment is great. But you have to watch the available disk space when doing some funky database benchmarking. Last Friday i wrote a script to populate a test database with over 60 million records. And left it running over the weekend. With the idea it would be finished when i returned to the office on Monday. Well it actually was still running. But the Vagrant instance was out of disk space when i logged in. Damn. Should have made sure i had a big disk attached to this instance.</p>
 
-<p>O well. My first idea was to just drop the database that i wanted to use for testing. But due to no space available on the system. I could not drop it. I really couldn&#8217;t do anything on the system. Even writing config files failed. So where did all the disk space go?</p>
+<p>O well. My first idea was to just drop the database that i wanted to use for testing. But due to no space available on the system. I could not drop it. I really couldn’t do anything on the system. Even writing config files failed. So where did all the disk space go?</p>
 
-<blockquote><p>$ df -h
+<blockquote>
+  <p>$ df -h
 Filesystem            Size    Used    Avail    Use%    Mounted on
-/dev/mapper/debian-605-root    10G    9.8G    0.2G    99%    /</p></blockquote>
+/dev/mapper/debian-605-root    10G    9.8G    0.2G    99%    /</p>
+</blockquote>
 
-<p>That&#8217;s really not that much space left. And /var/mysql/ibdata1 for the <a href="http://www.innodb.com/">InnoDB</a> tables was taking up 7 GB. And since i have a couple of InnoDB tables i can&#8217;t just delete this file. So need to come up with something else. And after a bit of Googling. I came across <a href="http://jjperezaguinaga.wordpress.com/2012/04/03/a-happy-ending-story-with-vagrant-resizing-a-lucid32-vmdk-box/">this</a> post. Which seemed promising. But the most important part is left out. And instead linked to some horrible garbled page. That is completely unreadable. So i had to do some digging to figure this out on my own. For cloning the disks i followed the steps in the article however. The Virtual Box files are located in the user folder in the following path</p>
+<p>That’s really not that much space left. And /var/mysql/ibdata1 for the <a href="http://www.innodb.com/">InnoDB</a> tables was taking up 7 GB. And since i have a couple of InnoDB tables i can’t just delete this file. So need to come up with something else. And after a bit of Googling. I came across <a href="http://jjperezaguinaga.wordpress.com/2012/04/03/a-happy-ending-story-with-vagrant-resizing-a-lucid32-vmdk-box/">this</a> post. Which seemed promising. But the most important part is left out. And instead linked to some horrible garbled page. That is completely unreadable. So i had to do some digging to figure this out on my own. For cloning the disks i followed the steps in the article however. The Virtual Box files are located in the user folder in the following path</p>
 
-<blockquote><p>$ cd ~/VirtualBox VMs/development_*</p></blockquote>
+<blockquote>
+  <p>$ cd ~/VirtualBox VMs/development_*</p>
+</blockquote>
 
-<p>The first thing i did was convert the <a href="http://sanbarrow.com/vmdk-handbook.html">VMDK</a> image to a <a href="http://en.wikipedia.org/wiki/VDI_(file_format">VDI</a>) image so we can actually do some partition resizing.</p>
+<p>The first thing i did was convert the <a href="http://sanbarrow.com/vmdk-handbook.html">VMDK</a> image to a <a href="http://en.wikipedia.org/wiki/VDI_(file_format)">VDI</a> image so we can actually do some partition resizing.</p>
 
-<blockquote><p>$ VBoxManage clonehd box-disk1.vmdk box-disk1.vdi &#8211;format VDI</p></blockquote>
+<blockquote>
+  <p>$ VBoxManage clonehd box-disk1.vmdk box-disk1.vdi –format VDI</p>
+</blockquote>
 
 <p>So now we have a new VDI image. And we need to resize it so it has sufficient space for what we are trying to do. In my case 20 GB is sufficient.</p>
 
-<blockquote><p>$ VBoxManage modifyhd box-disk1.vdi &#8211;resize 20000</p></blockquote>
+<blockquote>
+  <p>$ VBoxManage modifyhd box-disk1.vdi –resize 20000</p>
+</blockquote>
 
 <p>Now that the new disk is created it needs to be attached to the vagrant virtual machine. This is easily achieved by doing right click on the VM in <a href="https://www.virtualbox.org/">VirtualBox</a> and select Settings</p>
 
-<blockquote><p>Storage > SATA Controller > Add hard disk (select existing and point to the new VDI image)</p></blockquote>
+<blockquote>
+  <p>Storage &gt; SATA Controller &gt; Add hard disk (select existing and point to the new VDI image)</p>
+</blockquote>
 
 <p>Now boot the Vagrant image in VirtualBox so we have a screen to work with. When it has booted up. Login.</p>
 
-<p>First create a new Primary partition in the unused space of type Linux LVM (8e) with <a href="http://linux.die.net/man/8/cfdisk">cfdisk</a>.</p>
+<p>First create a new Primary partition in the unused space of type Linux LVM (8e) with <a href="http://linux.die.net/man/8/cfdisk">cfdisk</a>. </p>
 
-<blockquote><p>$ cfdisk /dev/sda</p></blockquote>
+<blockquote>
+  <p>$ cfdisk /dev/sda</p>
+</blockquote>
 
-<p>When the partition table has been written. It&#8217;s time to create a new physical volume on the new partition with the help of <a href="http://linux.about.com/library/cmd/blcmdl8_pvcreate.htm">pvcreate</a></p>
+<p>When the partition table has been written. It’s time to create a new physical volume on the new partition with the help of <a href="http://linux.about.com/library/cmd/blcmdl8_pvcreate.htm">pvcreate</a></p>
 
-<blockquote><p>$ pvcreate /dev/sda3
-  successfully created</p></blockquote>
+<blockquote>
+  <p>$ pvcreate /dev/sda3
+  successfully created</p>
+</blockquote>
 
 <p>For the next steps we will be needing the Volume Group name. We will get this by running <a href="http://linux.about.com/library/cmd/blcmdl8_pvdisplay.htm">pvdisplay</a></p>
 
-<blockquote><p>$ pvdisplay | grep &#8220;VG Name&#8221;
- VG Name    debian-605</p></blockquote>
+<blockquote>
+  <p>$ pvdisplay | grep “VG Name”
+ VG Name    debian-605</p>
+</blockquote>
 
 <p>So now we have all the bits ready. And its time to extend the root partition with the newly created partition.</p>
 
-<blockquote><p>$ vgextend debian-605 /dev/sda3
- Volume group &#8220;debian-605&#8221; successfully extended</p></blockquote>
+<blockquote>
+  <p>$ vgextend debian-605 /dev/sda3
+ Volume group “debian-605” successfully extended</p>
+</blockquote>
 
 <p>Awesome! next step extending the logical partition</p>
 
-<blockquote><p>$ lvextend /dev/debian-605/root /dev/sda3
+<blockquote>
+  <p>$ lvextend /dev/debian-605/root /dev/sda3
  Extending logical volume root to 18.84 GiB
- Logical volume root successfully resized</p></blockquote>
+ Logical volume root successfully resized</p>
+</blockquote>
 
 <p>Almost there. The last thing left to do is resize the filesystem to make all space available.</p>
 
-<blockquote><p>$ resize2fs /dev/debian-605/root
+<blockquote>
+  <p>$ resize2fs /dev/debian-605/root
  resize2fs 1.41.12 (17-May-2010)
 Filesystem at /dev/debian-605/root is mounted on /; on-line resizing required old desc_blocks = 1, new_desc_blocks = 2
 Performing an on-line resize of /dev/debian-605/root to 4937728 (4k) blocks.
-The filesystem on /dev/debian-605/root is now 4937728 blocks long.</p></blockquote>
+The filesystem on /dev/debian-605/root is now 4937728 blocks long.</p>
+</blockquote>
 
-<p>It&#8217;s that simple really. So let&#8217;s check.</p>
+<p>It’s that simple really. So let’s check.</p>
 
-<blockquote><p>$ df -h
+<blockquote>
+  <p>$ df -h
 Filesystem            Size    Used    Avail    Use%    Mounted on
-/dev/mapper/debian-605-root    19G    8.6G    9.1G    49%    /</p></blockquote>
+/dev/mapper/debian-605-root    19G    8.6G    9.1G    49%    /</p>
+</blockquote>
 
 <p>After this i did not bother to convert the VDI image back to a VDMK image. But if you have to for some reason. You could do that with the commands below. And some manual editing of the VirtualBox xml config.</p>
 
-<blockquote><p>$ VBoxManage internalcommands sethduuid box-disk1.vdi
-$ VBoxManage clonehd box-disk1.vdi box-disk1.vmdk &#8211;format VMDK</p></blockquote>
+<blockquote>
+  <p>$ VBoxManage internalcommands sethduuid box-disk1.vdi
+$ VBoxManage clonehd box-disk1.vdi box-disk1.vmdk –format VMDK</p>
+</blockquote>
 
-<p>So that&#8217;s it really for resizing the Vagrant hard drive. The only thing left for me was to cleanup the large ibdata1 file. And setup Mysql to use separate ibdata files for InnoDB table.</p>
+<p>So that’s it really for resizing the Vagrant hard drive. The only thing left for me was to cleanup the large ibdata1 file. And setup Mysql to use separate ibdata files for InnoDB table.</p>
 
-<blockquote><p>$ vi /etc/mysql/my.cnf
+<blockquote>
+  <p>$ vi /etc/mysql/my.cnf
 [mysqld]
-innodb_file_per_table</p></blockquote>
+innodb_file_per_table</p>
+</blockquote>
 
 <p>Restart Mysql and dump all needed databases except the system tables like (mysql, information_schema).</p>
 
-<blockquote><p>$ /etc/init.d/mysql restart
-$ echo &#8216;show databases;&#8217; | mysql -uroot -p | grep -v ^Database$ | grep -v ^information_schema$ | grep -v ^mysql$ | xargs mysqldump -uroot -p  &#8211;databases > dump.sql</p></blockquote>
+<blockquote>
+  <p>$ /etc/init.d/mysql restart
+$ echo ‘show databases;’ | mysql -uroot -p | grep -v ^Database$ | grep -v ^information_schema$ | grep -v ^mysql$ | xargs mysqldump -uroot -p  –databases &gt; dump.sql </p>
+</blockquote>
 
-<p>When that&#8217;s done. Drop all InnoDB database tables. Remove the ibdata and in_log files from /var/lib/mysql.</p>
+<p>When that’s done. Drop all InnoDB database tables. Remove the ibdata and in_log files from /var/lib/mysql.</p>
 
-<blockquote><p>$ /etc/init.d/mysql stop
-$ rm /var/mysql/ibdata1<em> /var/mysql/ib_log</em></p></blockquote>
+<blockquote>
+  <p>$ /etc/init.d/mysql stop
+$ rm /var/mysql/ibdata1* /var/mysql/ib_log*</p>
+</blockquote>
 
 <p>Now we restart Mysql. And reimport the databases.</p>
 
-<blockquote><p>$ /etc/init.d/mysql start
-$ mysql -uroot -p &lt; dump.sql</p></blockquote>
+<blockquote>
+  <p>$ /etc/init.d/mysql start
+$ mysql -uroot -p &lt; dump.sql</p>
+</blockquote>
 
 <p>Some of the resources i used for solving this issue:</p>
 
@@ -488,44 +859,60 @@ $ mysql -uroot -p &lt; dump.sql</p></blockquote>
     <link href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"/>
     <updated>2012-09-12T09:09:37+02:00</updated>
     <id>http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow</id>
-    <content type="html"><![CDATA[<p>A new environment to work in always brings new challenges. And this one is no exception. And i will be working with <a href="http://git-scm.com/">git</a> from now on. I tried switching before. But always went back to subversion. Because of my job. And for somebody who worked with <a href="http://subversion.apache.org/">subversion</a> solely for the past&#8230; say 5 to 7 years it&#8217;s kind of a new concept and takes some time to get a grasp on. Ok ok. It&#8217;s just another version control system. But it takes some getting used to.</p>
+    <content type="html"><![CDATA[<p>A new environment to work in always brings new challenges. And this one is no exception. And i will be working with <a href="http://git-scm.com/">git</a> from now on. I tried switching before. But always went back to subversion. Because of my job. And for somebody who worked with <a href="http://subversion.apache.org/">subversion</a> solely for the past… say 5 to 7 years it’s kind of a new concept and takes some time to get a grasp on. Ok ok. It’s just another version control system. But it takes some getting used to.</p>
 
-<p>And two days ago i kinda got stuck in <a href="http://git-scm.com/docs/git-rebase">rebase</a> hell. And had to take some time to figure this all out without doing any damage. Which resulted in another problem. There simply is no revert command like in subversion. But git is pretty smart about this kinda things. So getting the branch full of failed merges back to it&#8217;s original state can easily be achieved with two commands and some concentration.</p>
+<p>And two days ago i kinda got stuck in <a href="http://git-scm.com/docs/git-rebase">rebase</a> hell. And had to take some time to figure this all out without doing any damage. Which resulted in another problem. There simply is no revert command like in subversion. But git is pretty smart about this kinda things. So getting the branch full of failed merges back to it’s original state can easily be achieved with two commands and some concentration.</p>
 
 <p>First check the <strong>reflog</strong> for a point where to start from</p>
 
-<blockquote><p>$ git reflog</p></blockquote>
+<blockquote>
+  <p>$ git reflog</p>
+</blockquote>
 
 <p>From the output pick the point where to revert back to. Which looks something like HEAD{2}. And run</p>
 
-<blockquote><p>$ git reset &#8211;hard HEAD{2}</p></blockquote>
+<blockquote>
+  <p>$ git reset –hard HEAD{2}  </p>
+</blockquote>
 
-<p>So back to square one. My main problem was that i had not kept my branch up to date with the remote repository. Which you can do with the pull command while on the master branch. Or with the <strong>rebase</strong> command while working on a local branch. <strong>Rebase</strong> is git&#8217;s alternative way of bringing changes together. So the idea behind it is that when your local branch is up to date. The final merge will become as straight forward as possible.</p>
+<p>So back to square one. My main problem was that i had not kept my branch up to date with the remote repository. Which you can do with the pull command while on the master branch. Or with the <strong>rebase</strong> command while working on a local branch. <strong>Rebase</strong> is git’s alternative way of bringing changes together. So the idea behind it is that when your local branch is up to date. The final merge will become as straight forward as possible. </p>
 
 <p>I finally managed to get my changes merged in to master. But did not feel very confident about the whole process. So I  need to come up with a steady work flow. And stick to it. To not waste time and run into these <strong>rebase</strong> disasters.</p>
 
 <p>This is what i have so far. And seems to be a solid routine. Start with a nice new checkout of the project at hand. And branch it for the changes to be done.</p>
 
-<blockquote><p>$ git clone git://some.repository.url:repos.git
-$ git branch dev-branch</p></blockquote>
+<blockquote>
 
-<p>After working on the newly created branch for a while. Some changes are bound to be ready to be pulled into master. Keeping an eye on the build logs or commit messages should work fine. When this happens it&#8217;s time to bring those changes into the dev-branch. After pulling them into master.</p>
+  <p>$ git clone git://some.repository.url:repos.git
+$ git branch dev-branch</p>
+</blockquote>
 
-<blockquote><p>$ git checkout master
+<p>After working on the newly created branch for a while. Some changes are bound to be ready to be pulled into master. Keeping an eye on the build logs or commit messages should work fine. When this happens it’s time to bring those changes into the dev-branch. After pulling them into master.</p>
+
+<blockquote>
+
+  <p>$ git checkout master
 $ git pull
-$ git checkout dev-branch</p></blockquote>
+$ git checkout dev-branch</p>
+</blockquote>
 
-<p>If there is a need to <strong>rebase</strong> the branch with for instance master. This is the moment. This might cause <a href="http://stackoverflow.com/questions/559917/git-rebase-and-git-push-non-fast-forward-why-use">non-fast-forward issues</a>. But i have not completely figured out why i run into these issues every now and then. A way to solve this might be to use the <em>&#8211;force</em> switch when pushing to remote. But i am not a big fan of forcing things like this.</p>
+<p>If there is a need to <strong>rebase</strong> the branch with for instance master. This is the moment. This might cause <a href="http://stackoverflow.com/questions/559917/git-rebase-and-git-push-non-fast-forward-why-use">non-fast-forward issues</a>. But i have not completely figured out why i run into these issues every now and then. A way to solve this might be to use the <em>–force</em> switch when pushing to remote. But i am not a big fan of forcing things like this.</p>
 
-<blockquote><p>$ git rebase</p></blockquote>
+<blockquote>
 
-<p>If everything is fine some more work can be done on the dev branch. Until a new change in master is ready to be pulled in. In which case it&#8217;s rinse and repeat the previous part. When the changeset is ready to be merged back into master. Switch to master bring it up up o date with a pull. And merge the changes from the dev-branch.</p>
+  <p>$ git rebase</p>
+</blockquote>
 
-<blockquote><p>$ git checkout master
+<p>If everything is fine some more work can be done on the dev branch. Until a new change in master is ready to be pulled in. In which case it’s rinse and repeat the previous part. When the changeset is ready to be merged back into master. Switch to master bring it up up o date with a pull. And merge the changes from the dev-branch.</p>
+
+<blockquote>
+
+  <p>$ git checkout master
 $ git pull
-$ git push dev-branch</p></blockquote>
+$ git push dev-branch</p>
+</blockquote>
 
-<p>Again when all is fine all changes will be available in master. If something goes wrong during git-rebase and / or merging. Git will kindly state so. And some manual merging with git&#8217;s <a href="http://git-scm.com/docs/git-mergetool">mergetool</a> will have to be done. But that&#8217;s something for another day.</p>
+<p>Again when all is fine all changes will be available in master. If something goes wrong during git-rebase and / or merging. Git will kindly state so. And some manual merging with git’s <a href="http://git-scm.com/docs/git-mergetool">mergetool</a> will have to be done. But that’s something for another day.</p>
 ]]></content>
   </entry>
   
@@ -534,16 +921,18 @@ $ git push dev-branch</p></blockquote>
     <link href="http://lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/"/>
     <updated>2012-09-02T23:48:36+02:00</updated>
     <id>http://lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu</id>
-    <content type="html"><![CDATA[<p>After a fresh install i couldn&#8217;t get <a href="http://eu.battle.net/wow/en/">WoW</a> to work. I&#8217;m not that big on playing games lately. But this bugged me. Good thing we have the interwebs.</p>
+    <content type="html"><![CDATA[<p>After a fresh install i couldn’t get <a href="http://eu.battle.net/wow/en/">WoW</a> to work. I’m not that big on playing games lately. But this bugged me. Good thing we have the interwebs.</p>
 
 <p>Starting the battle.net agent manually before firing up the WoW launcher solved the launcher crashing.</p>
 
-<blockquote><p>wine ~/.wine/drive_c/users/Public/Application\ Data/Battle.net/Agent/Agent.1267/Agent.exe &#8211;nohttpauth &amp;
-wine ~/.wine/drive_c/Program\ Files\ (x86)/World\ of\ Warcraft/Launcher.exe &amp;</p></blockquote>
+<blockquote>
+  <p>wine ~/.wine/drive_c/users/Public/Application\ Data/Battle.net/Agent/Agent.1267/Agent.exe –nohttpauth &amp;
+wine ~/.wine/drive_c/Program\ Files\ (x86)/World\ of\ Warcraft/Launcher.exe &amp;</p>
+</blockquote>
 
 <p>And installing <strong>vcrun2008</strong> with <a href="http://wiki.winehq.org/winetricks/">winetricks</a> solved the problem with the updater hanging.</p>
 
-<p>[1] <a href="http://appdb.winehq.org/objectManager.php?sClass=version&amp;iId=25610&amp;iTestingId=70352">http://appdb.winehq.org/objectManager.php?sClass=version&iId;=25610&iTestingId;=70352</a>
+<p>[1] <a href="http://appdb.winehq.org/objectManager.php?sClass=version&amp;iId=25610&amp;iTestingId=70352">http://appdb.winehq.org/objectManager.php?sClass=version&amp;iId;=25610&amp;iTestingId;=70352</a>
 [2] <a href="http://www.codeweavers.com/compatibility/browse/name/?forum=1;app_id=7714;mhl=130618;msg=130314">http://www.codeweavers.com/compatibility/browse/name/?forum=1;app_id=7714;mhl=130618;msg=130314</a></p>
 ]]></content>
   </entry>
@@ -555,7 +944,7 @@ wine ~/.wine/drive_c/Program\ Files\ (x86)/World\ of\ Warcraft/Launcher.exe &amp
     <id>http://lenss.nl/2012/08/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo</id>
     <content type="html"><![CDATA[<p>So there are plenty of posts about this out there already. And this is nothing new i guess. But i am going to post it anyway. This weekend i spend some time playing with vagrant. And every setup guide seemed to be missing some steps the make the whole process a bit of a hassle. So i compiled my own steps in the post below. The goal was to create a basic <a href="http://www.debian.org/">Debian</a> box for my <a href="http://www.php.net/">PHP</a> development. From which i could serve my local development files.</p>
 
-<p>So to start of we need some packages.</p>
+<p>So to start of we need some packages. </p>
 
 <p><strong>Virtualbox</strong></p>
 
@@ -569,123 +958,169 @@ wine ~/.wine/drive_c/Program\ Files\ (x86)/World\ of\ Warcraft/Launcher.exe &amp
 
 <p>To package the virtual image and manage newly created box</p>
 
-<blockquote><p>$ sudo apt-get install virtualbox vagrant nfs-common nfs-kernel-server</p></blockquote>
+<blockquote>
+  <p>$ sudo apt-get install virtualbox vagrant nfs-common nfs-kernel-server</p>
+</blockquote>
 
 <p>Now is a good moment to download any Linux distro you want. I chose Debian. As it´s the most common in my day to day work.</p>
 
-<blockquote><p>$ wget <a href="http://cdimage.debian.org/debian-cd/6.0.5/i386/iso-cd/debian-6.0.5-i386-netinst.iso">http://cdimage.debian.org/debian-cd/6.0.5/i386/iso-cd/debian-6.0.5-i386-netinst.iso</a></p></blockquote>
+<blockquote>
+
+  <p>$ wget <a href="http://cdimage.debian.org/debian-cd/6.0.5/i386/iso-cd/debian-6.0.5-i386-netinst.iso">http://cdimage.debian.org/debian-cd/6.0.5/i386/iso-cd/debian-6.0.5-i386-netinst.iso</a></p>
+</blockquote>
 
 <p>Now launch <a href="https://www.virtualbox.org/">virtualbox</a> and create a new virtual machine. Just do what you normally do when you create a VM. But make sure to choose VMDK `Virtual Machine Disk´ as the format. The rest should be ok. When the VM is created start it up and choose the freshly downloaded Linux ISO to start the installation.</p>
 
-<p>I only installed the base system + the SSH server. And when that&#8217;s all done. And the VM is running. Login as root and install some packages vagrant needs.</p>
+<p>I only installed the base system + the SSH server. And when that’s all done. And the VM is running. Login as root and install some packages vagrant needs.</p>
 
-<blockquote><p>$ apt-get install sudo ruby ruby-dev libopenssl-ruby rdoc ri irb build-essential ssl-cert curl rubygems puppet</p></blockquote>
+<blockquote>
+  <p>$ apt-get install sudo ruby ruby-dev libopenssl-ruby rdoc ri irb build-essential ssl-cert curl rubygems puppet</p>
+</blockquote>
 
-<p>I won&#8217;t be setting up a <a href="http://www.opscode.com/chef/">Chef</a> server to manage the vagrant images. But i will be using <a href="http://wiki.opscode.com/display/chef/Installing+Chef+Client+and+Chef+Solo">Chef-Solo</a> to manage installing packages. So let&#8217;s install Chef.</p>
+<p>I won’t be setting up a <a href="http://www.opscode.com/chef/">Chef</a> server to manage the vagrant images. But i will be using <a href="http://wiki.opscode.com/display/chef/Installing+Chef+Client+and+Chef+Solo">Chef-Solo</a> to manage installing packages. So let’s install Chef.</p>
 
 <p><strong>install chef</strong></p>
 
 <p>Setup the opscode package repositories for APT</p>
 
-<blockquote><p>$ echo &#8220;deb http://apt.opscode.com/ <code>lsb_release -cs</code>-0.10 main&#8221; | tee /etc/apt/sources.list.d/opscode.list
-$ gpg &#8211;keyserver keys.gnupg.net &#8211;recv-keys 83EF826A
-$ gpg &#8211;export packages@opscode.com | tee /etc/apt/trusted.gpg.d/opscode-keyring.gpg > /dev/null</p></blockquote>
+<blockquote>
+
+  <p>$ echo “deb http://apt.opscode.com/ <code>lsb_release -cs</code>-0.10 main” | tee /etc/apt/sources.list.d/opscode.list
+$ gpg –keyserver keys.gnupg.net –recv-keys 83EF826A
+$ gpg –export packages@opscode.com | tee /etc/apt/trusted.gpg.d/opscode-keyring.gpg &gt; /dev/null</p>
+</blockquote>
 
 <p>And finally install the opscode keymanager and and of course Chef.</p>
 
-<blockquote><p>$ apt-get update
+<blockquote>
+
+  <p>$ apt-get update
 $ apt-get install opscode-keyring
-$ apt-get install chef</p></blockquote>
+$ apt-get install chef</p>
+</blockquote>
 
 <p>The installer will ask for the chef URL. I used <strong>none</strong> because i will be using chef solo</p>
 
 <p>Now we need to add a user for <a href="http://vagrantup.com/">vagrant</a> to connect with.</p>
 
-<blockquote><p>$ adduser vagrant
+<blockquote>
+
+  <p>$ adduser vagrant 
   passwrd : vagrant
 $ groupadd admin
-$ usermod -a -G admin vagrant</p></blockquote>
+$ usermod -a -G admin vagrant</p>
+</blockquote>
 
 <p>Make sure the admin users can <strong>sudo</strong> without a password.</p>
 
-<blockquote><p>$ visudo
-%admin  ALL=(ALL) NOPASSWD: ALL</p></blockquote>
+<blockquote>
+
+  <p>$ visudo
+%admin  ALL=(ALL) NOPASSWD: ALL</p>
+</blockquote>
 
 <p>Disable DNS for the SSH server. This should be a performance gain.</p>
 
-<blockquote><p>$ vi /etc/etc/ssh/sshd_config
-UseDNS no</p></blockquote>
+<blockquote>
+
+  <p>$ vi /etc/etc/ssh/sshd_config
+UseDNS no</p>
+</blockquote>
 
 <p>Change the MOTD to something nice</p>
 
-<blockquote><p>$ bash -c &#8220;echo &#8216;Sweeet! A Vagrant box cooked by Chef!!&#8217; > /etc/motd&#8221;
-$ chmod 0777 /etc/motd</p></blockquote>
+<blockquote>
+  <p>$ bash -c “echo ‘Sweeet! A Vagrant box cooked by Chef!!’ &gt; /etc/motd”
+$ chmod 0777 /etc/motd</p>
+</blockquote>
 
 <p>Switch to the vagrant user to setup the <strong>insecure</strong> vagrant public SSH key.</p>
 
-<blockquote><p>$ su vagrant
+<blockquote>
+  <p>$ su vagrant
 mkdir -p ~/.ssh
 chmod 0700 ~/.ssh
 curl -o ~/.ssh/authorized_keys https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub
-chmod 0600 ~/.ssh/authorized_keys</p></blockquote>
+chmod 0600 ~/.ssh/authorized_keys </p>
+</blockquote>
 
-<p>That&#8217;s it for the VM. Now it&#8217;s time for vagrant to do some magic. First we need to create a vagrant package from the newly created VM.</p>
+<p>That’s it for the VM. Now it’s time for vagrant to do some magic. First we need to create a vagrant package from the newly created VM.</p>
 
-<blockquote><p>$ vagrant package &#8211;base devbox
-$ mv package.box devbox.box</p></blockquote>
+<blockquote>
+  <p>$ vagrant package –base devbox
+$ mv package.box devbox.box</p>
+</blockquote>
 
-<p>Done! Let&#8217;s test it.</p>
+<p>Done! Let’s test it.</p>
 
-<blockquote><p>$ vagrant box add devbox devbox.box
+<blockquote>
+  <p>$ vagrant box add devbox devbox.box
 $ mkdir test &amp;&amp; cd test
 $ vagrant init devbox
 $ vagrant up
-$ vagrant ssh</p></blockquote>
+$ vagrant ssh</p>
+</blockquote>
 
-<p>Voila ssh&#8217;d into the VM</p>
+<p>Voila ssh’d into the VM</p>
 
-<blockquote><p>$ exit
+<blockquote>
+
+  <p>$ exit
 $ vagrant halt
-$ vagrant destroy</p></blockquote>
+$ vagrant destroy</p>
+</blockquote>
 
-<p>So that&#8217;s all fine and dandy. But a base system with SSH is not that useful. So that&#8217;s where Chef comes in. Like i mentioned earlier i won&#8217;t be using a Chef-Server. I will be using Chef-Solo. And will be doing a very basic setup.</p>
+<p>So that’s all fine and dandy. But a base system with SSH is not that useful. So that’s where Chef comes in. Like i mentioned earlier i won’t be using a Chef-Server. I will be using Chef-Solo. And will be doing a very basic setup.</p>
 
 <p>A Chef install script is called a <a href="http://wiki.opscode.com/display/chef/Cookbooks">cookbook</a>. And they can be found all over the place. But the main repository is over here (find more here https://github.com/opscode/cookbooks). So in our vagrant folder we create a folder called cookbooks.</p>
 
-<blockquote><p>$ mkdir cookbooks
-$ cd cookbooks</p></blockquote>
+<blockquote>
+  <p>$ mkdir cookbooks
+$ cd cookbooks</p>
+</blockquote>
 
 <p>And we install some basic cookbooks. Plus a very simple one i hacked together to install the latest <a href="http://www.dotdeb.org/">dotdeb</a> package repositories.</p>
 
 <p><a href="https://github.com/tlenss/misc/tree/master/chef/cookbooks/dotdeb">https://github.com/tlenss/misc/tree/master/chef/cookbooks/dotdeb</a></p>
 
-<blockquote><p>$ git clone <a href="https://github.com/opscode/cookbooks">https://github.com/opscode/cookbooks</a></p></blockquote>
+<blockquote>
+
+  <p>$ git clone <a href="https://github.com/opscode/cookbooks">https://github.com/opscode/cookbooks</a></p>
+</blockquote>
 
 <p>This will be enough for now. And will allow for some basic PHP development. To enable these package we have to edit the <strong>Vagrantfile</strong> file.</p>
 
-<blockquote><p>$ vi Vagrantfile</p></blockquote>
+<blockquote>
+  <p>$ vi Vagrantfile</p>
+</blockquote>
 
 <p>Add these lines for apache forwarding and NFS sharing</p>
 
-<blockquote><p>config.vm.share_folder &#8220;www&#8221;, &#8220;/var/www&#8221;, &#8220;/dev/location&#8221;</p></blockquote>
+<blockquote>
+
+  <p>config.vm.share_folder “www”, “/var/www”, “/dev/location”</p>
+</blockquote>
 
 <p>uncomment the :hostonly line so we can acces apache from our local box. And setup a hosts file mapping</p>
 
-<blockquote><p>config.vm.network :hostonly, &#8220;192.168.164.123&#8221;
-$ sudo sed -i &#8216;$ a\
-192.168.164.123 dev.box&#8217; /etc/hosts</p></blockquote>
+<blockquote>
+  <p>config.vm.network :hostonly, “192.168.164.123”
+$ sudo sed -i ‘$ a\
+192.168.164.123	dev.box’ /etc/hosts</p>
+</blockquote>
 
-<p>Configure chef&#8217;s cookbook path and add some recipes from the cloned cookbooks.</p>
+<p>Configure chef’s cookbook path and add some recipes from the cloned cookbooks.</p>
 
-<blockquote><p>config.vm.provision :chef_solo do |chef|</p>
+<blockquote>
 
-<pre><code>chef.json = {
-    "mysql" =&gt; {
-        "server_root_password" =&gt; "somepassword"
-    "bind_address" =&gt; "127.0.0.1"
-    }
-}
-</code></pre></blockquote>
+  <p>config.vm.provision :chef_solo do |chef|
+    chef.json = {
+        “mysql” =&gt; {
+            “server_root_password” =&gt; “somepassword”
+	    “bind_address” =&gt; “127.0.0.1”
+        }
+    }</p>
+</blockquote>
 
 <pre><code>chef.cookbooks_path = "cookbooks"
 chef.add_recipe("dotdeb")
@@ -702,33 +1137,38 @@ chef.add_recipe("php")
 chef.add_recipe("php::module_curl")
 chef.add_recipe("php::module_mysql")
 chef.add_recipe("php::module_memcache")
-chef.add_recipe("php::module_sqlite3")
+chef.add_recipe("php::module_sqlite3") end
 </code></pre>
 
-<p>end</p>
+<p>Time to call vagrant again. And this time the startup takes a bit longer. All the selected packages get installed. And once that’s done. And a fresh development box is waiting.</p>
 
-<p>Time to call vagrant again. And this time the startup takes a bit longer. All the selected packages get installed. And once that&#8217;s done. And a fresh development box is waiting.</p>
+<blockquote>
 
-<blockquote><p>$ vagrant up
-$ vagrant ssh</p></blockquote>
+  <p>$ vagrant up
+$ vagrant ssh</p>
+</blockquote>
 
-<p>Let&#8217;s check PHP</p>
+<p>Let’s check PHP</p>
 
-<blockquote><p>$ php -v
-PHP 5.4.6-1~dotdeb.0 (cli) (built: Aug 19 2012 08:45:58)
+<blockquote>
+  <p>$ php -v
+PHP 5.4.6-1~dotdeb.0 (cli) (built: Aug 19 2012 08:45:58) 
 Copyright (c) 1997-2012 The PHP Group
-Zend Engine v2.4.0, Copyright (c) 1998-2012 Zend Technologies</p></blockquote>
+Zend Engine v2.4.0, Copyright (c) 1998-2012 Zend Technologies</p>
+</blockquote>
 
 <p>What about apache?</p>
 
-<blockquote><p>$ ps -aux | grep apache
+<blockquote>
+  <p>$ ps -aux | grep apache
 root       790  0.1  0.2   5352  2580 ?        Ss   23:40   0:00 /usr/sbin/apache2 -k start
 www-data   793  0.0  0.1   5124  1764 ?        S    23:40   0:00 /usr/sbin/apache2 -k start
 www-data   797  0.0  0.2 546408  2412 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start
 www-data   798  0.0  0.2 546408  2404 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start
-www-data   811  0.0  0.2 546408  2424 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start</p></blockquote>
+www-data   811  0.0  0.2 546408  2424 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start</p>
+</blockquote>
 
-<p>Nice! And Pointing the browser to http://localhost:8080 loads the NFS shared folder up through Apache. That&#8217;s it for now. Time to sleep&#8230;</p>
+<p>Nice! And Pointing the browser to http://localhost:8080 loads the NFS shared folder up through Apache. That’s it for now. Time to sleep…</p>
 
 <p>Some sources i used:
 [1] <a href="http://vagrantup.com/v1/docs/base_boxes.html">http://vagrantup.com/v1/docs/base_boxes.html</a>
@@ -744,16 +1184,18 @@ www-data   811  0.0  0.2 546408  2424 ?        Sl   23:40   0:00 /usr/sbin/apach
     <id>http://lenss.nl/2012/05/adding-colors-to-php-cli-script-output</id>
     <content type="html"><![CDATA[<p>I always loved writing CLI scripts. And in <a href="http://php.net/manual/en/features.commandline.php">PHP</a> this is no different. I write a lot of CLI importers, scrapers, reporters, etc. And sometimes i want a bit more funk in my output then the standard black and white. When output is important i will add some colors to make things more clear. And this is not hard at all.</p>
 
-<p>First of it&#8217;s probably a good thing to gather some of the available colors. A good resource is available <a href="https://wiki.archlinux.org/index.php/Color_Bash_Prompt">here</a>. Some of the colors and their corresponding codes can be found below.</p>
+<p>First of it’s probably a good thing to gather some of the available colors. A good resource is available <a href="https://wiki.archlinux.org/index.php/Color_Bash_Prompt">here</a>. Some of the colors and their corresponding codes can be found below.</p>
 
-<blockquote><p>Black         0;30
+<blockquote>
+
+  <p>Black         0;30
 Blue          0;34
 Green         0;32
 Cyan          0;36
 Red           0;31
 Purple        0;35
 Brown         0;33
-Light Gray    0;37
+Light Gray    0;37 
 Dark Gray     1;30
 Light Blue    1;34
 Light Green   1;32
@@ -761,19 +1203,20 @@ Light Cyan    1;36
 Light Red     1;31
 Light Purple  1;35
 Yellow        1;33
-White         1;37</p></blockquote>
+White         1;37</p>
+</blockquote>
 
-<p>So how do i output colors you ask? Well that&#8217;s just plain easy. It&#8217;s a bit like setting up colors in your linux PS1 env variable.</p>
+<p>So how do i output colors you ask? Well that’s just plain easy. It’s a bit like setting up colors in your linux PS1 env variable.</p>
 
-<p>Display a line in red for instance can be simply done by &#8216;echoing&#8217; from the script with some extra formatting for bash to pickup. I will try to explain everything in the line below a bit later.</p>
+<p>Display a line in red for instance can be simply done by ‘echoing’ from the script with some extra formatting for bash to pickup. I will try to explain everything in the line below a bit later.</p>
 
 <pre><code>echo "\033[31m some colored text \033[31m"; // red
 echo "\033[37m some colored text \033[37m"; // green
 </code></pre>
 
-<p>So what&#8217;s going on here. First we use an escape character so we can actually define a output color. This is done with <strong>\033</strong> (\e). Then we open the color statement with <strong>[31m</strong>. Red in this case. The &#8220;some colored text&#8221; will be the text outputted in a different color. And after that we have to close the color statement the same way.</p>
+<p>So what’s going on here. First we use an escape character so we can actually define a output color. This is done with <strong>\033</strong> (\e). Then we open the color statement with <strong>[31m</strong>. Red in this case. The “some colored text” will be the text outputted in a different color. And after that we have to close the color statement the same way.</p>
 
-<p>Easy as cake&#8230; that&#8217;s all!</p>
+<p>Easy as cake… that’s all!</p>
 ]]></content>
   </entry>
   
@@ -782,58 +1225,112 @@ echo "\033[37m some colored text \033[37m"; // green
     <link href="http://lenss.nl/2012/05/abbywinters-is-looking-for-new-developers/"/>
     <updated>2012-05-24T15:04:02+02:00</updated>
     <id>http://lenss.nl/2012/05/abbywinters-is-looking-for-new-developers</id>
-    <content type="html"><![CDATA[<p><a href="http://careers.abbywinters.com/job-opportunities/senior-php-developer/"><img src="http://lenss.nl/images/2011/11/aw-logo-roundel-blue.png" alt="" /></a> If you&#8217;re looking for a new challenging and exiting Senior Webdeveloper position. Don&#8217;t look any further. If you already think you have the job of your dreams. Think again!</p>
+    <content type="html"><![CDATA[<p><a href="http://careers.abbywinters.com/job-opportunities/senior-php-developer/"><img src="http://lenss.nl/images/2011/11/aw-logo-roundel-blue.png" alt="" /></a> If you’re looking for a new challenging and exiting Senior Webdeveloper position. Don’t look any further. If you already think you have the job of your dreams. Think again!</p>
 
 <p><em><a href="http://www.abbywinters.com">abbywinters.com</a> <strong>(NSFW)</strong> is one of the largest and most ethical, highly rated, well designed, and successful erotic websites in the world today. abbywinters.com is the WINNER of the AVN 2011 Awards for Best Membership site!</em></p>
 
-<p>And we are looking to hire a new talented webdeveloper to expand our small team. What would you think about joining our small Agile team of highly qualified professionals?</p>
+<p>And we are looking to hire a new talented webdeveloper to expand our small team. What would you think about joining our small Agile team of highly qualified professionals? </p>
 
 <p>You will be creating sexy, exiting and game changing experiences for the web, work for one of the industry leaders. And just be part of an awesome company. Some of the jobs key elements are:</p>
 
 <ul>
-<li><p>Implementing development projects</p></li>
-<li><p>Leading informal mentoring during day-to-day work</p></li>
-<li><p>Contribute to design of development projects</p></li>
-<li><p>Track, reduce, and prevent technical debt in Web Development projects</p></li>
+  <li>
+    <p>Implementing development projects</p>
+  </li>
+  <li>
+    <p>Leading informal mentoring during day-to-day work</p>
+  </li>
+  <li>
+    <p>Contribute to design of development projects</p>
+  </li>
+  <li>
+    <p>Track, reduce, and prevent technical debt in Web Development projects</p>
+  </li>
 </ul>
 
+<blockquote>
+  <p>Motivated by principles of social responsibility, we deliver provocative media by embracing imagination, creativity and emerging technologies. Our models, customers and business partners are inspired by our fervid passion.</p>
 
-<blockquote><p>Motivated by principles of social responsibility, we deliver provocative media by embracing imagination, creativity and emerging technologies. Our models, customers and business partners are inspired by our fervid passion.</p>
+</blockquote>
 
-<p>Our experienced staff use state-of-the-art content production facilities to produce 10 shoots a week from concept to finished art, utilizing the most advanced digital capture, post production and delivery systems in the world.</p>
+<blockquote>
 
-<p>You will be working directly with our Web Dev Manager, Lead developer and colleagues in the web dev team. We need each individual to contribute for us to continue as a pioneer in our industry.</p></blockquote>
+  <p>Our experienced staff use state-of-the-art content production facilities to produce 10 shoots a week from concept to finished art, utilizing the most advanced digital capture, post production and delivery systems in the world.</p>
 
-<p>If you posses a &#8220;Can do&#8221; attitude. Would like to work in the center of Amsterdam. And are able to identify your self in the criteria below. You might want to head over to our <a href="http://careers.abbywinters.com/job-opportunities/senior-php-developer/">career portal</a> for a more detailed description.</p>
+</blockquote>
+
+<blockquote>
+
+  <p>You will be working directly with our Web Dev Manager, Lead developer and colleagues in the web dev team. We need each individual to contribute for us to continue as a pioneer in our industry.</p>
+</blockquote>
+
+<p>If you posses a “Can do” attitude. Would like to work in the center of Amsterdam. And are able to identify your self in the criteria below. You might want to head over to our <a href="http://careers.abbywinters.com/job-opportunities/senior-php-developer/">career portal</a> for a more detailed description.  </p>
 
 <p><strong>Technical competencies – Required</strong></p>
 
 <ul>
-<li><p>High level of skill with PHP 5</p></li>
-<li><p>High level of skill with Object Oriented Programming</p></li>
-<li><p>High level of skill with HTML/CSS</p></li>
-<li><p>High level of skill with JavaScript</p></li>
-<li><p>High level of skill with Internet Applications</p></li>
-<li><p>Moderate level of skill with Unit Testing and Test Driven Design</p></li>
-<li><p>Moderate level of skill with MySQL</p></li>
-<li><p>Moderate level of skill with Windows XP operating system</p></li>
-<li><p>Experience with the GNU/Linux operating system</p></li>
-<li><p>Competent with Revision Control systems (Subversion)</p></li>
-<li><p>Bachelor of Science in Computer Science, or equivalent experience</p></li>
-<li><p>Zend Certified Engineer, or equivalent experience</p></li>
-<li><p>At least 5 years experience in Web Application Development</p></li>
+  <li>
+    <p>High level of skill with PHP 5</p>
+  </li>
+  <li>
+    <p>High level of skill with Object Oriented Programming</p>
+  </li>
+  <li>
+    <p>High level of skill with HTML/CSS</p>
+  </li>
+  <li>
+    <p>High level of skill with JavaScript</p>
+  </li>
+  <li>
+    <p>High level of skill with Internet Applications</p>
+  </li>
+  <li>
+    <p>Moderate level of skill with Unit Testing and Test Driven Design</p>
+  </li>
+  <li>
+    <p>Moderate level of skill with MySQL</p>
+  </li>
+  <li>
+    <p>Moderate level of skill with Windows XP operating system</p>
+  </li>
+  <li>
+    <p>Experience with the GNU/Linux operating system</p>
+  </li>
+  <li>
+    <p>Competent with Revision Control systems (Subversion)</p>
+  </li>
+  <li>
+    <p>Bachelor of Science in Computer Science, or equivalent experience</p>
+  </li>
+  <li>
+    <p>Zend Certified Engineer, or equivalent experience</p>
+  </li>
+  <li>
+    <p>At least 5 years experience in Web Application Development</p>
+  </li>
 </ul>
-
 
 <p><strong>Technical competencies – Desired</strong></p>
 
 <ul>
-<li><p>Moderate level of skill with the Apache HTTP server</p></li>
-<li><p>Good understanding of the Model-View-Controller pattern</p></li>
-<li><p>Good understanding of the ActiveRecord Object-Relational-Mapping pattern</p></li>
-<li><p>Familiarity with Agile software development practices (Scrum)</p></li>
-<li><p>E-commerce</p></li>
-<li><p>Agile development experience</p></li>
+  <li>
+    <p>Moderate level of skill with the Apache HTTP server</p>
+  </li>
+  <li>
+    <p>Good understanding of the Model-View-Controller pattern</p>
+  </li>
+  <li>
+    <p>Good understanding of the ActiveRecord Object-Relational-Mapping pattern</p>
+  </li>
+  <li>
+    <p>Familiarity with Agile software development practices (Scrum)</p>
+  </li>
+  <li>
+    <p>E-commerce</p>
+  </li>
+  <li>
+    <p>Agile development experience</p>
+  </li>
 </ul>
 
 ]]></content>
@@ -851,10 +1348,12 @@ preg_match("/^Get(.+)Repository$/", "GetFooBarRepository", $matches);
 var_dump($matches);
 </code></pre>
 
-<blockquote><p>array(2) {
-  [0] => string(19) &#8220;GetFooBarRepository&#8221;
-  [1] => string(6) &#8220;FooBar&#8221;
-}</p></blockquote>
+<blockquote>
+  <p>array(2) {
+  [0] =&gt; string(19) “GetFooBarRepository”
+  [1] =&gt; string(6) “FooBar”
+}</p>
+</blockquote>
 
 <p>And there is nothing wrong with that. Except for the fact that numeric indexes are not always easy to work with. And it does not look all that clean in the code itself. SO last week my LD pointed out the fact that the likes using name based indexes for the matched patterns. And this is pretty sweet. I have seen it before but never bothered to adopt it myself. And the result looks like</p>
 
@@ -863,11 +1362,13 @@ preg_match("/^Get(?&lt;repositoryname&gt;.+)Repository$/", "GetFooBarRepository"
 var_dump($matches);
 </code></pre>
 
-<blockquote><p>array(3) {
-  [0] => string(19) &#8220;GetFooBarRepository&#8221;
-  &#8216;repositoryName&#8217; => string(6) &#8220;FooBar&#8221;
-  [1] => string(6) &#8220;FooBar&#8221;
-}</p></blockquote>
+<blockquote>
+  <p>array(3) {
+  [0] =&gt; string(19) “GetFooBarRepository”
+  ‘repositoryName’ =&gt; string(6) “FooBar”
+  [1] =&gt; string(6) “FooBar”
+}</p>
+</blockquote>
 
 <p>And i have to say. It looks a lot cleaner. So i added this to my bag of tricks. And will be using it from now on.</p>
 ]]></content>
@@ -878,18 +1379,19 @@ var_dump($matches);
     <link href="http://lenss.nl/2012/03/php-only-variables-should-be-passed-by-reference/"/>
     <updated>2012-03-26T11:19:20+02:00</updated>
     <id>http://lenss.nl/2012/03/php-only-variables-should-be-passed-by-reference</id>
-    <content type="html"><![CDATA[<p>Last week i got this error while doing some coding with a new library. And at first i didn&#8217;t quite get what was causing this. The line in question looked like</p>
+    <content type="html"><![CDATA[<p>Last week i got this error while doing some coding with a new library. And at first i didn’t quite get what was causing this. The line in question looked like</p>
 
 <pre><code>$url = reset($file-&gt;getPaths());
 </code></pre>
 
-<p>So how can that throw an error like &#8220;Only variables should be passed by reference&#8221; you might ask? Well as it turns out to be. PHP functions don&#8217;t like arguments returned from another function. As with this case. The ->getPaths() method holds a reference to the returned array. Which it shouldn&#8217;t but that&#8217;s another thing.</p>
+<p>So how can that throw an error like “Only variables should be passed by reference” you might ask? Well as it turns out to be. PHP functions don’t like arguments returned from another function. As with this case. The -&gt;getPaths() method holds a reference to the returned array. Which it shouldn’t but that’s another thing.</p>
 
 <p>So i guess from now i will doing the thing below. Or check for references beforehand!</p>
 
 <pre><code>$paths = $file-&gt;getPaths();
 $url = reset($paths);
 </code></pre>
+
 ]]></content>
   </entry>
   
@@ -898,18 +1400,23 @@ $url = reset($paths);
     <link href="http://lenss.nl/2012/02/using-ssh-key-authentication-with-egit-in-zendstudio/"/>
     <updated>2012-02-28T16:17:19+01:00</updated>
     <id>http://lenss.nl/2012/02/using-ssh-key-authentication-with-egit-in-zendstudio</id>
-    <content type="html"><![CDATA[<p>For the past few months i have been switching some projects over to <a href="http://git-scm.com/">git</a> from <a href="http://subversion.tigris.org/">Subversion</a>. And have been trying to get the hang of all the command line options available. And i will be doing that for a while longer until i get completely comfortable. And for communication to the remote git server i have been using SSH key authentication. Which works smoothly just like it did with Subversion.</p>
+    <content type="html"><![CDATA[<p>For the past few months i have been switching some projects over to <a href="http://git-scm.com/">git</a> from <a href="http://subversion.tigris.org/">Subversion</a>. And have been trying to get the hang of all the command line options available. And i will be doing that for a while longer until i get completely comfortable. And for communication to the remote git server i have been using SSH key authentication. Which works smoothly just like it did with Subversion. </p>
 
 <p>But i wanted to check out the GIT support available in <a href="http://www.zend.com/products/studio/">Zend Studio 9</a>. And hit a problem pretty quickly. But i will describe that below. First i will create a local clone of my git project.</p>
 
-<blockquote><p>$ git clone ssh://[somehost]/~/git/project.git</p></blockquote>
+<blockquote>
+  <p>$ git clone ssh://[somehost]/~/git/project.git</p>
+</blockquote>
 
 <p>To test if everything is working i do a test commit. If that succeeds if push it out to the remote master.</p>
 
-<blockquote><p>$ cd project.git
+<blockquote>
+
+  <p>$ cd project.git
 $ touch TEST
-$ git commit
-$ git push origin master</p></blockquote>
+$ git commit 
+$ git push origin master</p>
+</blockquote>
 
 <p>So that works fine. Now time to see how Zen Studio handles this. To create a project i use the <strong>Create from Git</strong> option. And select the local checkout i just created. This will read the whole repository configuration. And you are basically done from here. But as i mentioned earlier, i had some difficulties getting things running smoothly. I discovered that when it was time to push changes to the master repository.</p>
 
@@ -921,14 +1428,20 @@ $ git push origin master</p></blockquote>
 
 <p>So lets download this JSch library and update it manually. The library (JSch v 0.1.46) can be found <a href="http://www.jcraft.com/jsch/">here</a>.</p>
 
-<blockquote><p>$ cd ZendStudio9
-$ find . -name &#8217;<em>jsch</em>&#8217; -type f</p></blockquote>
+<blockquote>
 
-<p>Found it <strong>plugins/com.jcraft.jsch_0.1.41.v201101211617.jar</strong>. So let&#8217;s try to update that.</p>
+  <p>$ cd ZendStudio9
+$ find . -name ‘<em>jsch</em>’ -type f</p>
+</blockquote>
 
-<blockquote><p>$ cp plugins/com.jcraft.jsch_0.1.41.v201101211617.jar plugins/com.jcraft.jsch_0.1.41.v201101211617.jar.backup
+<p>Found it <strong>plugins/com.jcraft.jsch_0.1.41.v201101211617.jar</strong>. So let’s try to update that.</p>
+
+<blockquote>
+
+  <p>$ cp plugins/com.jcraft.jsch<em>0.1.41.v201101211617.jar plugins/com.jcraft.jsch</em>0.1.41.v201101211617.jar.backup
 $ wget http://sourceforge.net/projects/jsch/files/jsch.jar/0.1.46/jsch-0.1.46.jar/download
-$ mv jsch-0.1.46.jar plugins/com.jcraft.jsch_0.1.41.v201101211617.jar</p></blockquote>
+$ mv jsch-0.1.46.jar plugins/com.jcraft.jsch_0.1.41.v201101211617.jar</p>
+</blockquote>
 
 <p>After restarting ZS everything worked fine again. Another problem solved! Thanks to the guys who posted in the EGit bug thread. Some good community Karma here! Time for other things. Hope it helps!</p>
 ]]></content>
@@ -939,15 +1452,15 @@ $ mv jsch-0.1.46.jar plugins/com.jcraft.jsch_0.1.41.v201101211617.jar</p></block
     <link href="http://lenss.nl/2012/02/recruiter-rant/"/>
     <updated>2012-02-21T23:14:03+01:00</updated>
     <id>http://lenss.nl/2012/02/recruiter-rant</id>
-    <content type="html"><![CDATA[<p>While doing our routine <a href="http://sites.google.com/site/agiledevelopmentsite/process/sprint-retrospective">sprint retrospective</a> today. We got interrupted by our office manager Wendy. An important phone call for me. Hmm&#8230; Should have known.</p>
+    <content type="html"><![CDATA[<p>While doing our routine <a href="http://sites.google.com/site/agiledevelopmentsite/process/sprint-retrospective">sprint retrospective</a> today. We got interrupted by our office manager Wendy. An important phone call for me. Hmm… Should have known.</p>
 
-<p>I picked up the phone. And the guy (<a href="http://www.amoriabond.com/">Amoria Bond</a>) on the other end immediately started his sales pitch. O shit another one of those nasty recruiters. So after listening to him for a few seconds i quickly interrupted him. Told him i was not interested in a new job at all. And that he was a jerk and extremely unprofessional for calling me at the office. Completely unaware (or maybe intentionally?) what impact this might have if for instance my manager picks up the phone. Besides it&#8217;s just plain rude.</p>
+<p>I picked up the phone. And the guy (<a href="http://www.amoriabond.com/">Amoria Bond</a>) on the other end immediately started his sales pitch. O shit another one of those nasty recruiters. So after listening to him for a few seconds i quickly interrupted him. Told him i was not interested in a new job at all. And that he was a jerk and extremely unprofessional for calling me at the office. Completely unaware (or maybe intentionally?) what impact this might have if for instance my manager picks up the phone. Besides it’s just plain rude. </p>
 
-<p>Now don&#8217;t get me wrong. It&#8217;s not a rant for nothing. I don&#8217;t hate recruiters. And have worked with some professional ones in the past. I&#8217;ve always enjoyed communicating with linda-lotte while she was still working for <a href="http://www.recruit4it.nl/">Recruit4it</a>. And the guys at <a href="http://www.starapple.nl">Starapple</a> are OK as well. But this guy today really pissed me off with his aggressive unmannered approach. It&#8217;s a shame i didn&#8217;t catch his name while i was in rant mode. But please don&#8217;t ever call me again.</p>
+<p>Now don’t get me wrong. It’s not a rant for nothing. I don’t hate recruiters. And have worked with some professional ones in the past. I’ve always enjoyed communicating with linda-lotte while she was still working for <a href="http://www.recruit4it.nl/">Recruit4it</a>. And the guys at <a href="http://www.starapple.nl">Starapple</a> are OK as well. But this guy today really pissed me off with his aggressive unmannered approach. It’s a shame i didn’t catch his name while i was in rant mode. But please don’t ever call me again.</p>
 
 <p><strong>Update:</strong></p>
 
-<p>It seems to be some form of new tactic to call developers in the office where they work. This happened a couple of times more after this post. So this is for the next recruiter that calls me in the office. I&#8217;ll personally come over and kick your ass!!</p>
+<p>It seems to be some form of new tactic to call developers in the office where they work. This happened a couple of times more after this post. So this is for the next recruiter that calls me in the office. I’ll personally come over and kick your ass!!</p>
 ]]></content>
   </entry>
   
@@ -958,18 +1471,23 @@ $ mv jsch-0.1.46.jar plugins/com.jcraft.jsch_0.1.41.v201101211617.jar</p></block
     <id>http://lenss.nl/2012/02/wordpress-install-compromised</id>
     <content type="html"><![CDATA[<p>Last week i got an email from the Dutch <a href="https://www.ncsc.nl/">NCSC</a> (Nationaal Cyber Security Centrum). Apparently one of the nodes i manage for a customer was part of a <a href="http://en.wikipedia.org/wiki/Botnet">botnet</a>. There were no further demands. They just informed me about the issue. Damn cool! Being part of a <a href="http://en.wikipedia.org/wiki/Botnet">botnet</a> however. Not so cool!</p>
 
-<p>With the email came a small excerpt of a IRC channel log. I recognized the node. So SSH&#8217;ed into that specific node. And used <a href="http://linux.die.net/man/8/netstat">netstat</a> to check for any strange connections. A connection on port 20 to the C&C; node of the <a href="http://en.wikipedia.org/wiki/Botnet">botnet</a>. Thats not good.</p>
+<p>With the email came a small excerpt of a IRC channel log. I recognized the node. So SSH’ed into that specific node. And used <a href="http://linux.die.net/man/8/netstat">netstat</a> to check for any strange connections. A connection on port 20 to the C&amp;C; node of the <a href="http://en.wikipedia.org/wiki/Botnet">botnet</a>. Thats not good.</p>
 
-<blockquote><p>$ netstat -an
+<blockquote>
+
+  <p>$ netstat -an
 Active Internet connections (servers and established)
 Proto Recv-Q Send-Q Local Address           Foreign Address         State
-tcp        0      0 xxx.xxx.xxx.xx:20       69.162.80.62:20         ESTABLISHED</p></blockquote>
+tcp        0      0 xxx.xxx.xxx.xx:20       69.162.80.62:20         ESTABLISHED</p>
+</blockquote>
 
-<p>In the email from NCSC it was mentioned to look for files called <strong>wp-rss3.php</strong>. But a search for this file did not return any hits. Hmmm. And i still  had no idea which site it concerned. Since a couple were running on this particular node. The only thing certain. It&#8217;s <a href="http://wordpress.org">Wordpress</a> related. So i started searching for recent <a href="http://wordpress.org">Wordpress</a> compromises. And found a lot of hits on Google for the <a href="http://code.google.com/p/timthumb/">timThumb</a> and <a href="http://code.google.com/p/wps3slider/">wps3slider</a> plugins. But checking the log files for these plugins revealed nothing. And for some weird reason i just cleaned up the log partition a couple of days before. So not much luck there.</p>
+<p>In the email from NCSC it was mentioned to look for files called <strong>wp-rss3.php</strong>. But a search for this file did not return any hits. Hmmm. And i still  had no idea which site it concerned. Since a couple were running on this particular node. The only thing certain. It’s <a href="http://wordpress.org">Wordpress</a> related. So i started searching for recent <a href="http://wordpress.org">Wordpress</a> compromises. And found a lot of hits on Google for the <a href="http://code.google.com/p/timthumb/">timThumb</a> and <a href="http://code.google.com/p/wps3slider/">wps3slider</a> plugins. But checking the log files for these plugins revealed nothing. And for some weird reason i just cleaned up the log partition a couple of days before. So not much luck there.</p>
 
 <p>Some more Googling <a href="http://markmaunder.com/2011/08/01/zero-day-vulnerability-in-many-wordpress-themes/">told</a> me to do a search on the Wordpress installs for the PHP function <a href="http://php.net/manual/en/function.base64-decode.php">base64_decode()</a>. O well. Lets give it a try. Some suspicious files did show up instantly.</p>
 
-<blockquote><p>$ find . -type f -exec grep -l &#8216;base64_decode&#8217; {} \;
+<blockquote>
+
+  <p>$ find . -type f -exec grep -l ‘base64_decode’ {} \;
 ./uploads/2010/06/wp-rss4.php (<a href="http://pastebin.com/rWD1Tfxk">source</a>)
 ./uploads/2011/05/alienee.php (<a href="http://pastebin.com/LwDaSFUK">source</a>)
 ./plugins/wps3slider/temp/34e3a3a74f6e2d0f236bdd3ba70c0c03.php (<a href="http://pastebin.com/fG6pDWC2">source</a>)
@@ -978,21 +1496,27 @@ tcp        0      0 xxx.xxx.xxx.xx:20       69.162.80.62:20         ESTABLISHED<
 ./plugins/wps3slider/temp/2b3753ea4769084f2e571737b695b03a.php (<a href="http://pastebin.com/RLgsTerk">encoded</a>) (<a href="http://pastebin.com/KwgqCS8R">decoded</a>)
 ./plugins/wps3slider/temp/7228f168d9692eafeafc54dbc3a1ab49.php (<a href="http://pastebin.com/HeE3PdnJ">encoded</a>) (<a href="http://pastebin.com/FzCqSfg6">decoded</a>)
 ./plugins/wps3slider/uploads/1.php (<a href="http://pastebin.com/YJ17ygSL">source</a>)
-/var/tmp/dc.pl (<a href="http://pastebin.com/YTusrVZk">encoded</a>) (<a href="http://pastebin.com/0WfqZt0R">decoded</a>)</p></blockquote>
+/var/tmp/dc.pl (<a href="http://pastebin.com/YTusrVZk">encoded</a>) (<a href="http://pastebin.com/0WfqZt0R">decoded</a>)</p>
+</blockquote>
 
-<p>Interesting. A quick look at the files showed that most of them were obfuscated. But not all. Two of the files were IRC bots written in <a href="http://www.php.net/">PHP</a>. At this moment i couldn&#8217;t resist but crack a little smile. But its also a reminder of how fragile the web really is. I quickly moved the files out of the way. And rebooted the machine. When it  came back online i monitored all connections for a while. But the connection to the C&C; node was not restored. So i informed NCSC. And went back to bed!</p>
+<p>Interesting. A quick look at the files showed that most of them were obfuscated. But not all. Two of the files were IRC bots written in <a href="http://www.php.net/">PHP</a>. At this moment i couldn’t resist but crack a little smile. But its also a reminder of how fragile the web really is. I quickly moved the files out of the way. And rebooted the machine. When it  came back online i monitored all connections for a while. But the connection to the C&amp;C; node was not restored. So i informed NCSC. And went back to bed!</p>
 
 <p>The Wordpress admin should have kept the sites up to date. Lesson learned i hope! of course i could not resist to come back to it later. And so i did. I started by searching the Apache log files for <strong>wp-rss4.php</strong>. And found a couple of instances where this file was directly called. From a total of 4 different IP addresses.</p>
 
-<blockquote><p>69.162.80.62</p></blockquote>
+<blockquote>
+  <p>69.162.80.62</p>
+</blockquote>
 
-<p>This is the IP address of the C&C; server.</p>
+<p>This is the IP address of the C&amp;C; server.</p>
 
-<blockquote><p>186.241.16.25
+<blockquote>
+
+  <p>186.241.16.25
 201.8.237.18
-201.8.226.109</p></blockquote>
+201.8.226.109</p>
+</blockquote>
 
-<p>These IP addresses are all originating from Brasil. No further information is available at this moment. After that i started poking around the trojans / IRC bots found earlier. And as mentioned earlier. There were two bots installed on the server, One was running. The other wasn&#8217;t. This is configuration snippet from both bots.</p>
+<p>These IP addresses are all originating from Brasil. No further information is available at this moment. After that i started poking around the trojans / IRC bots found earlier. And as mentioned earlier. There were two bots installed on the server, One was running. The other wasn’t. This is configuration snippet from both bots.</p>
 
 <p>The first bot. And the one i was informed about.</p>
 
@@ -1025,115 +1549,143 @@ tcp        0      0 xxx.xxx.xxx.xx:20       69.162.80.62:20         ESTABLISHED<
                      );
 </code></pre>
 
-<p>Notice the **<sup>M**</sup> characters at the end. Seems like somebody is using windows. So now we have login details for two C&C; servers. Why not take a look.</p>
+<p>Notice the <strong>^M</strong> characters at the end. Seems like somebody is using windows. So now we have login details for two C&amp;C; servers. Why not take a look. </p>
 
-<blockquote><p>$ ircii
-/server antesedepois.servegame.com:20</p></blockquote>
+<blockquote>
+
+  <p>$ ircii 
+/server antesedepois.servegame.com:20</p>
+</blockquote>
 
 <p>Some standard IRC stuff</p>
 
-<blockquote><p><strong><em> Connecting to port 20 of server antesedepois.servegame.com
-</em></strong> Welcome to the Internet Relay Chat Network, root (from IRCPRIVATE)
-<strong><em> /etc/irc/script/local V0.5 for Debian finished. Welcome to ircII.
-</em></strong> If you have not already done so, please read the new user information with /HELP NEWUSER
-<strong><em> Your host is IRCPRIVATE, running version 1.2.1546
-</em></strong> This server was created jan 27 2012 at 06: 29:02 HodB (Serial # 00-00-00)
-<strong><em> channel modes available abdefghijklmnopqrstuvwxyzACEFIKLMOPT
-</em></strong> IRCX
-<strong><em> There are 6 users and 362 invisible on 1 servers
-</em></strong> 7 channels have been formed
-<strong><em> This server has 368 clients and 0 servers connected
-</em></strong> Current local users:  368  Max: 989
-<strong><em> Current global users:  368  Max: 989
-</em></strong> MOTD Not Present</p></blockquote>
+<blockquote>
+  <p><em>** Connecting to port 20 of server antesedepois.servegame.com
+**</em> Welcome to the Internet Relay Chat Network, root (from IRCPRIVATE)
+<em>** /etc/irc/script/local V0.5 for Debian finished. Welcome to ircII.
+**</em> If you have not already done so, please read the new user information with /HELP NEWUSER
+<em>** Your host is IRCPRIVATE, running version 1.2.1546
+**</em> This server was created jan 27 2012 at 06: 29:02 HodB (Serial # 00-00-00)
+<em>** channel modes available abdefghijklmnopqrstuvwxyzACEFIKLMOPT
+**</em> IRCX 
+<em>** There are 6 users and 362 invisible on 1 servers
+**</em> 7 channels have been formed
+<em>** This server has 368 clients and 0 servers connected
+**</em> Current local users:  368  Max: 989
+<em>** Current global users:  368  Max: 989
+**</em> MOTD Not Present</p>
+</blockquote>
 
-<p>So let&#8217;s check the channels on this thing</p>
+<p>So let’s check the channels on this thing</p>
 
-<blockquote><p>/list</p></blockquote>
+<blockquote>
+  <p>/list</p>
+</blockquote>
 
-<p><strong><em> Channel    Users  Topic
-</em></strong> #depoiswp  360    Entrou = Ban :)
-<strong><em> #grmteam   6    <br/>
-</em></strong> #depoisSca 4      Entrou = Ban :)
-<strong><em> #depoisSca 4      Entrou = Ban :)
-</em></strong> #depoisVul 6      Entrou = Ban :)
-<strong><em> #rfi       3    <br/>
-</em></strong> #sql       1</p>
+<p><em>** Channel    Users  Topic
+**</em> #depoiswp  360    Entrou = Ban :)
+<em>** #grmteam   6    <br />
+**</em> #depoisSca 4      Entrou = Ban :)
+<em>** #depoisSca 4      Entrou = Ban :)
+**</em> #depoisVul 6      Entrou = Ban :)
+<em>** #rfi       3    <br />
+**</em> #sql       1  </p>
 
 <p>I entered all of the channels and waited for a while. But no activity took place. The only really interested channel is #depoiswp. This is the channel where all the bots connect. At the time i logged in there were about 360 of them  available. I immediately recognized the log excerpt send to me by the NCSC.</p>
 
-<blockquote><p><strong><em> Topic for #depoiswp: Entrou = Ban :)
-</em></strong> #depoiswp SYSTEM 1327945185
+<blockquote>
+  <p><em>** Topic for #depoiswp: Entrou = Ban :)
+**</em> #depoiswp SYSTEM 1327945185
 (#depoiswp/#depoiswp) Entrou = Ban :)
-<strong><em> [A]depois88802849 (~depois48170648@68.233.238.XX) has joined channel #depoiswp
-</em></strong> #depoiswp 1327653297
-<strong><em> [A]depois13436992 (~depois92951214@212.227.114.XX) has joined channel #depoiswp
-</em></strong> [A]depois18833547 (~depois69088341@184.154.130.XX) has joined channel #depoiswp
-<strong><em> [A]depois80116634 (~depois13242297@213.251.189.XXX) has joined channel #depoiswp
-</em></strong> [A]depois31855907 (~depois23946193@82.85.28.XXX) has joined channel #depoiswp
-<strong><em> [A]depois25458508 (~depois64120008@87.106.214.XX) has joined channel #depoiswp
-</em></strong> [A]depois17803105 (~depois55004207@74.208.16.XX) has joined channel #depoiswp
-<strong><em> [A]depois96800217 (~depois89042073@174.121.216.XXX) has joined channel #depoiswp
-</em></strong> [A]depois17108432 (~depois51961332@209.68.1.XXX) has joined channel #depoiswp
-<strong><em> [A]depois95432403 (~depois13925479@209.68.1.XXX) has joined channel #depoiswp
-</em></strong> [A]depois96515275 (~depois10767943@195.74.38.XXX) has joined channel #depoiswp
-<strong><em> [A]depois73596561 (~depois90562179@69.89.31.XXX) has joined channel #depoiswp
-</em></strong> [A]depois85357227 (~depois31697723@64.191.115.XX) has joined channel #depoiswp
-<strong><em> [A]depois07993697 (~depois40240585@79.96.128.XX) has joined channel #depoiswp
-</em></strong> [A]depois97441253 (~depois19633359@193.189.74.XX) has joined channel #depoiswp
-<strong><em> [A]depois76843389 (~depois55419325@176.9.34.XXX) has joined channel #depoiswp
-</em></strong> [I]depois16679788 (~depois28004829@213.171.218.XXX) has joined channel #depoiswp
+<em>** [A]depois88802849 (~depois48170648@68.233.238.XX) has joined channel #depoiswp
+**</em> #depoiswp 1327653297
+<em>** [A]depois13436992 (~depois92951214@212.227.114.XX) has joined channel #depoiswp
+**</em> [A]depois18833547 (~depois69088341@184.154.130.XX) has joined channel #depoiswp
+<em>** [A]depois80116634 (~depois13242297@213.251.189.XXX) has joined channel #depoiswp
+**</em> [A]depois31855907 (~depois23946193@82.85.28.XXX) has joined channel #depoiswp
+<em>** [A]depois25458508 (~depois64120008@87.106.214.XX) has joined channel #depoiswp
+**</em> [A]depois17803105 (~depois55004207@74.208.16.XX) has joined channel #depoiswp
+<em>** [A]depois96800217 (~depois89042073@174.121.216.XXX) has joined channel #depoiswp
+**</em> [A]depois17108432 (~depois51961332@209.68.1.XXX) has joined channel #depoiswp
+<em>** [A]depois95432403 (~depois13925479@209.68.1.XXX) has joined channel #depoiswp
+**</em> [A]depois96515275 (~depois10767943@195.74.38.XXX) has joined channel #depoiswp
+<em>** [A]depois73596561 (~depois90562179@69.89.31.XXX) has joined channel #depoiswp
+**</em> [A]depois85357227 (~depois31697723@64.191.115.XX) has joined channel #depoiswp
+<em>** [A]depois07993697 (~depois40240585@79.96.128.XX) has joined channel #depoiswp
+**</em> [A]depois97441253 (~depois19633359@193.189.74.XX) has joined channel #depoiswp
+<em>** [A]depois76843389 (~depois55419325@176.9.34.XXX) has joined channel #depoiswp
+**</em> [I]depois16679788 (~depois28004829@213.171.218.XXX) has joined channel #depoiswp
 *** [A]depois88178285 (~depois05296405@74.220.215.XXX) has joined channel #depoiswp</p>
+</blockquote>
 
-<p>&lt;[A]depois16231776> [Attack Finalizado!]: 1749605 MB enviados / Pacotes enviados: 14580 MB/s
-&lt;[I]depois60130568> [Attack Finalizado!]: 75 MB enviados / Pacotes enviados: 1 MB/s
-&lt;[I]depois48664304> [Attack Finalizado!]: 75 MB enviados / Pacotes enviados: 1 MB/s
-&lt;[I]depois65415449> [Attack Finalizado!]: 75 MB enviados / Pacotes enviados: 1 MB/s
-&lt;[I]depois11325010> [Attack Finalizado!]: 75 MB enviados / Pacotes enviados: 1 MB/s
-<strong><em> [A]depois40994506 (~depois72760562@79.98.28.XX) has joined channel #depoiswp
-&lt;[A]depois07568398> [Attack Finalizado!]: 2187317 MB enviados / Pacotes enviados: 18228 MB/s
-&lt;[A]depois55402758> [Attack Finalizado!]: 11425 MB enviados / Pacotes enviados: 95 MB/s
-</em></strong> [A]depois03383512 (~depois52457929@74.220.215.XX) has joined channel #depoiswp
-&lt;[A]depois37064023> [Attack Finalizado!]: 1264043 MB enviados / Pacotes enviados: 10534 MB/s
-&lt;[A]depois69234369> [Attack Finalizado!]: 2205504 MB enviados / Pacotes enviados: 18379 MB/s
-<strong><em> [A]depois74911768 (~depois04730096@74.220.215.XX) has joined channel #depoiswp
-</em></strong> Signoff: [A]depois31575043 (Connection reset by peer)
-&lt;[I]depois17710498> [Attack Finalizado!]: 81 MB enviados / Pacotes enviados: 1 MB/s
-&lt;[I]depois28464134> [Attack Finalizado!]: 81 MB enviados / Pacotes enviados: 1 MB/s</p></blockquote>
+<blockquote>
+
+  <p>&lt;[A]depois16231776&gt; [Attack Finalizado!]: 1749605 MB enviados / Pacotes enviados: 14580 MB/s 
+&lt;[I]depois60130568&gt; [Attack Finalizado!]: 75 MB enviados / Pacotes enviados: 1 MB/s 
+&lt;[I]depois48664304&gt; [Attack Finalizado!]: 75 MB enviados / Pacotes enviados: 1 MB/s 
+&lt;[I]depois65415449&gt; [Attack Finalizado!]: 75 MB enviados / Pacotes enviados: 1 MB/s 
+&lt;[I]depois11325010&gt; [Attack Finalizado!]: 75 MB enviados / Pacotes enviados: 1 MB/s 
+<em>** [A]depois40994506 (~depois72760562@79.98.28.XX) has joined channel #depoiswp
+&lt;[A]depois07568398&gt; [Attack Finalizado!]: 2187317 MB enviados / Pacotes enviados: 18228 MB/s 
+&lt;[A]depois55402758&gt; [Attack Finalizado!]: 11425 MB enviados / Pacotes enviados: 95 MB/s 
+**</em> [A]depois03383512 (~depois52457929@74.220.215.XX) has joined channel #depoiswp
+&lt;[A]depois37064023&gt; [Attack Finalizado!]: 1264043 MB enviados / Pacotes enviados: 10534 MB/s 
+&lt;[A]depois69234369&gt; [Attack Finalizado!]: 2205504 MB enviados / Pacotes enviados: 18379 MB/s 
+<em>** [A]depois74911768 (~depois04730096@74.220.215.XX) has joined channel #depoiswp
+**</em> Signoff: [A]depois31575043 (Connection reset by peer)
+&lt;[I]depois17710498&gt; [Attack Finalizado!]: 81 MB enviados / Pacotes enviados: 1 MB/s 
+&lt;[I]depois28464134&gt; [Attack Finalizado!]: 81 MB enviados / Pacotes enviados: 1 MB/s</p>
+</blockquote>
 
 <p>Thats fine and all. I disconnected shortly after that. I really have no reason  to be poking around there now do i ;) Besides who want to  interfere with an ongoing investigation. So poking around the files a bit more didnot  reveal  all that information.Except for the fact that besides a IRC bot a backdoor was also installed in the form of a perl script dc.pl installed in /var/tmp. So who knows. The server might be rooted at this point.</p>
 
 <p>I spend some more time on decoding the bot and trojan contents. And posted them on pastebin if you are interested. The server is going to be  decommissioned soon. So i am not going to pay much more attention to it.</p>
 
-<blockquote><p>1.php and b2dabd0e2c42b55fabf741bcac29f857.php</p></blockquote>
+<blockquote>
+  <p>1.php and b2dabd0e2c42b55fabf741bcac29f857.php</p>
+</blockquote>
 
 <p>Web Shell by boff</p>
 
-<blockquote><p>2b3753ea4769084f2e571737b695b03a.php</p></blockquote>
+<blockquote>
+  <p>2b3753ea4769084f2e571737b695b03a.php</p>
+</blockquote>
 
 <p>This file was base64 encoded but once decoded reveled to be a simple script by v0pCr3w and nob0dyCr3w to run system commands on the server. Also included was a simple upload form.</p>
 
-<blockquote><p>34e3a3a74f6e2d0f236bdd3ba70c0c03.php</p></blockquote>
+<blockquote>
+  <p>34e3a3a74f6e2d0f236bdd3ba70c0c03.php</p>
+</blockquote>
 
-<p> c99 injector v1</p>
+<p>c99 injector v1</p>
 
-<blockquote><p>771b821c974131c67e34c83d8d2db725.php</p></blockquote>
+<blockquote>
+  <p>771b821c974131c67e34c83d8d2db725.php</p>
+</blockquote>
 
 <p>This script was rot13 and base64 encoded and was trying to cleanup after the hacker. And install a second back door.</p>
 
-<blockquote><p>7228f168d9692eafeafc54dbc3a1ab49.php and cce0a37ffc138a8908da05977639bed1.php</p></blockquote>
+<blockquote>
+  <p>7228f168d9692eafeafc54dbc3a1ab49.php and cce0a37ffc138a8908da05977639bed1.php</p>
+</blockquote>
 
-<p>Again rot13 and base64 encoded.But this script contained something that looks like a control panel. The page title was &#8216;Hacked by Sherif #oishi @ ALLnet&#8217;</p>
+<p>Again rot13 and base64 encoded.But this script contained something that looks like a control panel. The page title was ‘Hacked by Sherif #oishi @ ALLnet’</p>
 
-<blockquote><p>alienee.php</p></blockquote>
+<blockquote>
+  <p>alienee.php</p>
+</blockquote>
 
 <p>Still working on this one</p>
 
-<blockquote><p>cf2cdb3ad3249b9692de07290f16f287.php and ded3244749701c4eb5a29b959ad56736.php</p></blockquote>
+<blockquote>
+  <p>cf2cdb3ad3249b9692de07290f16f287.php and ded3244749701c4eb5a29b959ad56736.php</p>
+</blockquote>
 
 <p>These files contained a second bot that was connecting to a whole different server. Probably exploited by another crew?</p>
 
-<blockquote><p>dc.pl</p></blockquote>
+<blockquote>
+  <p>dc.pl</p>
+</blockquote>
 
 <p>This Perl backdoor was created by one  of the IRC bot scripts. And was hiding in /var/tmp after creation.</p>
 
@@ -1142,19 +1694,6 @@ tcp        0      0 xxx.xxx.xxx.xx:20       69.162.80.62:20         ESTABLISHED<
 http://eromang.zataz.com/2012/01/08/gangbang-mytijn-org-malware-spreader-down/</a>
 <a href="http://www.madirish.net/content/hookworm-stealth-php-backdoor">http://www.madirish.net/content/hookworm-stealth-php-backdoor</a>
 <a href="http://markmaunder.com/2011/08/01/zero-day-vulnerability-in-many-wordpress-themes/">http://markmaunder.com/2011/08/01/zero-day-vulnerability-in-many-wordpress-themes/</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[PHP critical bug CVE-2012-0830]]></title>
-    <link href="http://lenss.nl/2012/02/php-critical-bug-cve-2012-0830/"/>
-    <updated>2012-02-05T13:39:43+01:00</updated>
-    <id>http://lenss.nl/2012/02/php-critical-bug-cve-2012-0830</id>
-    <content type="html"><![CDATA[<p>Ok it&#8217;s a bit late But i have been laying under a rock for the last week. And i guess it can&#8217;t hurt!</p>
-
-<p>Last week a critical bug was discovered in PHP. Which affects versions 5.3.9 and 5.2.17. The bug could be exploited to run arbitrary code on a remote PHP system. So upgrade your systems. And of course Stefan Esser <a href="http://news.php.net/php.internals/57655">popped up</a> with some wise words :)&#8230; O well i still think the guy does great work.</p>
-
-<p>More info about the issue can be found on packetstorm (<a href="http://packetstormsecurity.org/files/cve/CVE-2012-0830">CVE-2012-0830</a>)</p>
 ]]></content>
   </entry>
   

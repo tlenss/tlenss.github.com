@@ -69,7 +69,7 @@
 
 <div class="articletext"><p>I decided to give the <a href="http://framework.zend.com/">Zend Framework</a> a try. The first attempt to create a simple SOAP based login.</p>
 
-<p>In the first few hours i had absolutely now problems building my small application. But for some strange reason after a few hours ZF started to throw error&#8217;s. Mainly for files it was trying to include. These files were in the correct location. Nothing changed. The include path was still set correctly. I found a few bug reports with similar problems. Although there were some solutions. I was not satisfied with them. And had the feeling the problems were caused by something else.</p>
+<p>In the first few hours i had absolutely now problems building my small application. But for some strange reason after a few hours ZF started to throw error’s. Mainly for files it was trying to include. These files were in the correct location. Nothing changed. The include path was still set correctly. I found a few bug reports with similar problems. Although there were some solutions. I was not satisfied with them. And had the feeling the problems were caused by something else.</p>
 
 <p>So after i read threw all code. I notice a few lines i copied from <a href="http://www.calevans.com/">Cal Evans</a> <a href="http://phparch.com/c/books/id/9780973862157">book</a>. These lines mainly set the include_path for the current application. And it looked something like this:</p>
 
@@ -80,7 +80,7 @@ $inc_path = implode(PATH_SEPARATOR, $lib_paths);
 set_include_path($inc_path);
 </code></pre>
 
-<p>I noticed the application directory was added first. So this is also the first part where PHP starts looking for it&#8217;s include files. So i decided to switch them. So the code looks like this now:</p>
+<p>I noticed the application directory was added first. So this is also the first part where PHP starts looking for it’s include files. So i decided to switch them. So the code looks like this now:</p>
 
 <pre><code>$lib_paths = array();
 $lib_paths[] = "/path/to/library";
@@ -89,7 +89,7 @@ $inc_path = implode(PATH_SEPARATOR, $lib_paths);
 set_include_path($inc_path);
 </code></pre>
 
-<p>After this change the problem seems to have been resolved. I still would like to figure out why ZF has problems with finding it&#8217;s own include files. Maybe it&#8217;s a combination of the wrong include order and the .htaccess file not working well together.</p>
+<p>After this change the problem seems to have been resolved. I still would like to figure out why ZF has problems with finding it’s own include files. Maybe it’s a combination of the wrong include order and the .htaccess file not working well together.</p>
 </div>
 
 
@@ -211,6 +211,8 @@ set_include_path($inc_path);
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -228,8 +230,6 @@ set_include_path($inc_path);
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -250,7 +250,7 @@ set_include_path($inc_path);
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

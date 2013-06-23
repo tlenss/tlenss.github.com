@@ -67,50 +67,65 @@
 </header>
 
 
-<div class="articletext"><p>So we have a PHP based importer script that does some heavy duty media processing at the office. And i had to import some new media today. But for some reason a couple of files weren&#8217;t picked up without a message. So i cleaned up the upload folder. The only files left were the files not being processed. And when i started the importer. The result was.</p>
+<div class="articletext"><p>So we have a PHP based importer script that does some heavy duty media processing at the office. And i had to import some new media today. But for some reason a couple of files weren’t picked up without a message. So i cleaned up the upload folder. The only files left were the files not being processed. And when i started the importer. The result was.</p>
 
-<blockquote><p>Importer found (0) files to import!</p></blockquote>
+<blockquote>
 
-<p>Hmmm. That&#8217;s not right. So i had a look at the code behind the importer. Which basically is a loop using a <a href="http://nl2.php.net/manual/en/class.directoryiterator.php">DirectoryIterator</a> object. And some var_dump calls revealed the issue. For some reason <a href="http://nl2.php.net/manual/en/splfileinfo.isfile.php">->isFile()</a> was returning <em>(false)</em> for regular files. WTF! Let&#8217;s test that on the command line.</p>
+  <p>Importer found (0) files to import!</p>
+</blockquote>
 
-<blockquote><p>$ php -r &#8220;var_dump(is_file(&#8216;/some/file.ext&#8217;));&#8221;;
-<em>bool(false)</em></p></blockquote>
+<p>Hmmm. That’s not right. So i had a look at the code behind the importer. Which basically is a loop using a <a href="http://nl2.php.net/manual/en/class.directoryiterator.php">DirectoryIterator</a> object. And some var_dump calls revealed the issue. For some reason <a href="http://nl2.php.net/manual/en/splfileinfo.isfile.php">-&gt;isFile()</a> was returning <em>(false)</em> for regular files. WTF! Let’s test that on the command line.</p>
+
+<blockquote>
+  <p>$ php -r “var_dump(is_file(‘/some/file.ext’));”;
+<em>bool(false)</em></p>
+</blockquote>
 
 <p>Ok so we have an issue here. How big are these files really. A inspection revealed they are all over 2GB. Maybe some 32 bit issue? As the platform the code is running on is a 32 bit server. So i asked my colleagues, Googled a bit and read through php.net. To find out that there is an issue with PHP and files larger then 2GB.</p>
 
-<blockquote><p><a href="https://bugs.php.net/bug.php?id=27792">https://bugs.php.net/bug.php?id=27792</a>
+<blockquote>
+  <p><a href="https://bugs.php.net/bug.php?id=27792">https://bugs.php.net/bug.php?id=27792</a>
 <a href="https://bugs.php.net/bug.php?id=48886">https://bugs.php.net/bug.php?id=48886</a>
-<a href="http://nl.php.net/manual/en/function.filesize.php">http://nl.php.net/manual/en/function.filesize.php</a></p></blockquote>
+<a href="http://nl.php.net/manual/en/function.filesize.php">http://nl.php.net/manual/en/function.filesize.php</a></p>
+</blockquote>
 
-<p>Those however all seem related to filesize. The filesize function manual page even has a note about it. Maybe it&#8217;s related?</p>
+<p>Those however all seem related to filesize. The filesize function manual page even has a note about it. Maybe it’s related?</p>
 
-<blockquote><p>   <strong>Note:</strong> Because PHP&#8217;s integer type is signed and many platforms use 32bit integers, <strong>filesize() </strong> may return unexpected results for files which are larger than <strong>2GB</strong>. For files between 2GB and 4GB in size this can usually be overcome by using <strong>sprintf(&#8220;%u&#8221;, filesize($file))</strong>.</p></blockquote>
+<blockquote>
+  <p><strong>Note:</strong> Because PHP’s integer type is signed and many platforms use 32bit integers, <strong>filesize() ** may return unexpected results for files which are larger than **2GB</strong>. For files between 2GB and 4GB in size this can usually be overcome by using <strong>sprintf(“%u”, filesize($file))</strong>. </p>
+</blockquote>
 
-<p>But i can&#8217;t apply that patch on a production server. So i came up with a simple solution for now. I extended the <a href="http://nl2.php.net/manual/en/class.directoryiterator.php">DirectoryIterator</a> class and have overwritten the <em>isFile</em> method. Which works for now (don&#8217;t think this will work on windows).</p>
+<p>But i can’t apply that patch on a production server. So i came up with a simple solution for now. I extended the <a href="http://nl2.php.net/manual/en/class.directoryiterator.php">DirectoryIterator</a> class and have overwritten the <em>isFile</em> method. Which works for now (don’t think this will work on windows).</p>
 
 <pre><code>Class MyDirectoryIterator extends DirectoryIterator {
-    public function isFile() {
-        return (integer) exec("[ -f {$this-&gt;getPathname()} ] &amp;&amp; echo 1 || echo 0");
-    }
+	public function isFile() {
+		return (integer) exec("[ -f {$this-&gt;getPathname()} ] &amp;&amp; echo 1 || echo 0");
+	}
 }
 </code></pre>
 
 <p>Convinced it was a 32 bit issue. I came home later that day. And wanted to try it out on my own desktop. That is a 32 bit system and runs Ubuntu 11.04. To my surprise the result was different then i expected.</p>
 
-<blockquote><p>$ php -r &#8220;var_dump(is_file(&#8216;/some/file.ext&#8217;));&#8221;;
-<em>bool(true)</em></p></blockquote>
+<blockquote>
+  <p>$ php -r “var_dump(is_file(‘/some/file.ext’));”;
+<em>bool(true)</em></p>
+</blockquote>
 
-<p>I used the same files as before. And tested some more big files. But the result was the same. Weird. Let&#8217;s try some other 32 bit machines.</p>
+<p>I used the same files as before. And tested some more big files. But the result was the same. Weird. Let’s try some other 32 bit machines.</p>
 
-<blockquote><p>Ubuntu 11.04: bool(true)</p></blockquote>
+<blockquote>
+  <p>Ubuntu 11.04: bool(true)</p>
+</blockquote>
 
 <p>CentOS release 5.6 (Final): bool(false)
 Debian 6.0.2 (squeeze): bool(false)</p>
 
 <p>Only my desktop at home seems to have a good result. Ubuntu must have some patch somewhere to fix this issue? To confirm i compiled PHP 5.3.8 from source. And did the same test again on Ubuntu 11.04. And this time it was <em>(false)</em>.</p>
 
-<blockquote><p>$ php -r &#8220;var_dump(is_file(&#8216;/some/file.ext&#8217;));&#8221;;
-<em>bool(false)</em></p></blockquote>
+<blockquote>
+  <p>$ php -r “var_dump(is_file(‘/some/file.ext’));”;
+<em>bool(false)</em></p>
+</blockquote>
 
 <p>I am not really in the mood to search the Ubuntu <a href="http://changelogs.ubuntu.com/changelogs/pool/main/p/php5/">changelog</a>. And for now the work around will do. But i really would like to know what patch is applied to resolve the issue.</p>
 
@@ -144,9 +159,12 @@ $timestamp = strtotime($stat[0]);
 return $timestamp;
 </code></pre>
 
-<p>Hopefully that will do for now. On a side note the issue is solvable by setting certain <strong>CFLAGS</strong> when compiling PHP. I have no idea what the impact of that will be on the PHP binary. But it does seem to solve the issue. Not sure how one would apply that when PHP is installed from the distro&#8217;s repository though.</p>
+<p>Hopefully that will do for now. On a side note the issue is solvable by setting certain <strong>CFLAGS</strong> when compiling PHP. I have no idea what the impact of that will be on the PHP binary. But it does seem to solve the issue. Not sure how one would apply that when PHP is installed from the distro’s repository though.</p>
 
-<blockquote><p>CFLAGS=&#8221;-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64&#8221; ./configure</p></blockquote>
+<blockquote>
+  <p>CFLAGS=”-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64” ./configure</p>
+</blockquote>
+
 </div>
 
 
@@ -268,6 +286,8 @@ return $timestamp;
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -285,8 +305,6 @@ return $timestamp;
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -307,7 +325,7 @@ return $timestamp;
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

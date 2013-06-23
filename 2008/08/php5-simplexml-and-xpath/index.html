@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="PHP5 SimpleXML and Xpath Yesterday when working with some rather large XML files i noticed. That it&#8217;s not possible to do ->xpath() calls on &hellip;">
+  <meta name="description" content="PHP5 SimpleXML and Xpath Yesterday when working with some rather large XML files i noticed. That it’s not possible to do -&gt;xpath() calls on sub &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,23 +67,23 @@
 </header>
 
 
-<div class="articletext"><p>Yesterday when working with some rather large XML files i noticed. That it&#8217;s not possible to do ->xpath() calls on sub nodes of a SimpleXMLElement. If that&#8217;s not clear. Here is a small example.</p>
+<div class="articletext"><p>Yesterday when working with some rather large XML files i noticed. That it’s not possible to do -&gt;xpath() calls on sub nodes of a SimpleXMLElement. If that’s not clear. Here is a small example.</p>
 
 <pre><code>$xmlStr = '&lt;root&gt;
-    &lt;fareOption&gt;
-        &lt;fare&gt;
-            &lt;flight&gt;&lt;/flight&gt;
-            &lt;flight&gt;&lt;/flight&gt;
-            &lt;flight&gt;&lt;/flight&gt;
-        &lt;/fare&gt;
-    &lt;/fareOption&gt;
-    &lt;fareOption&gt;
-        &lt;fare&gt;
-            &lt;flight&gt;&lt;/flight&gt;
-            &lt;flight&gt;&lt;/flight&gt;
-            &lt;flight&gt;&lt;/flight&gt;
-        &lt;/fare&gt;
-    &lt;/fareOption&gt;
+	&lt;fareOption&gt;
+		&lt;fare&gt;
+			&lt;flight&gt;&lt;/flight&gt;
+			&lt;flight&gt;&lt;/flight&gt;
+			&lt;flight&gt;&lt;/flight&gt;
+		&lt;/fare&gt;
+	&lt;/fareOption&gt;
+	&lt;fareOption&gt;
+		&lt;fare&gt;
+			&lt;flight&gt;&lt;/flight&gt;
+			&lt;flight&gt;&lt;/flight&gt;
+			&lt;flight&gt;&lt;/flight&gt;
+		&lt;/fare&gt;
+	&lt;/fareOption&gt;
 &lt;/root&gt;';
 
 $objXML = simplexml_load_string($xmlStr);
@@ -95,9 +95,9 @@ foreach ($fareList as $fare) {
 }
 </code></pre>
 
-<p>So first i try to get all the fareOption elements from the XML structure. And loop through the extracted elements. In the loop i want to do a ->xpath call on $fare which is a instance of SimpleXMLElement. The result however is not what i expected. Instead of extracting all the flights of a $fare node. It extracts all flights from the root of the document. So instead of 3 flight nodes i get 6.</p>
+<p>So first i try to get all the fareOption elements from the XML structure. And loop through the extracted elements. In the loop i want to do a -&gt;xpath call on $fare which is a instance of SimpleXMLElement. The result however is not what i expected. Instead of extracting all the flights of a $fare node. It extracts all flights from the root of the document. So instead of 3 flight nodes i get 6.</p>
 
-<p>I couldn&#8217;t really find a solution for this problem. And from reading some bug reports i understand this is how the PHP implementation of xpath works at the moment. To solve this problem. There is a small work around though. Instead of running the ->xpath() call on the $fare node directly. We can create a new SimpleXMLElement from the $fare node. And do a ->xpath() call on that. This will look something like this.</p>
+<p>I couldn’t really find a solution for this problem. And from reading some bug reports i understand this is how the PHP implementation of xpath works at the moment. To solve this problem. There is a small work around though. Instead of running the -&gt;xpath() call on the $fare node directly. We can create a new SimpleXMLElement from the $fare node. And do a -&gt;xpath() call on that. This will look something like this.</p>
 
 <pre><code>foreach ($fareList as $fare) {
     $tempList = simplexml_load_string($fare-&gt;asXML());
@@ -228,6 +228,8 @@ foreach ($fareList as $fare) {
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -245,8 +247,6 @@ foreach ($fareList as $fare) {
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -267,7 +267,7 @@ foreach ($fareList as $fare) {
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

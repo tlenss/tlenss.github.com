@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Making PHP Mail Work on Ubuntu Through Postfix While writing a small mail application in PHP i noticed i couldn&#8217;t send mail from my local &hellip;">
+  <meta name="description" content="Google Earth Libcrypto Crash I was reading up on some new features the guys at google pushed into google-earth. And i was curious enough to give it &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,32 +64,122 @@
 <header>
 	<header>
 	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2009/02/google-earth-libcrypto-crash/">Google Earth Libcrypto Crash</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>I was reading up on some new features the guys at google pushed into <a href="http://earth.google.nl/">google-earth</a>. And i was curious enough to give it a try. So i downloaded the installer for Linux and installed the application without any errors. But when i tried launching it from a command line. I was surprised to see the application crash and burn with the following message:</p>
+
+<blockquote>
+
+  <p>Warning: Unable to create prefs directory ‘/home/user/.googleearth’. File exists.
+./googleearth-bin: relocation error: /usr/lib/i686/cmov/libssl.so.0.9.8: symbol BIO_test_flags, version OPENSSL_0.9.8 not defined in file libcrypto.so.0.9.8 with link time reference</p>
+</blockquote>
+
+<p>Seems the libcrypto.so is linked against some wrong libraries. Thankfully this is pretty easy to fix. Just browse to the google-earth install directory and run the following commands:</p>
+
+<blockquote>
+
+  <p>$ rm libcrypto.so.0.9.8
+$ ln -s /usr/lib/libcrypto.so libcrypto.so.0.9.8</p>
+</blockquote>
+
+<p>The main reason i installed google-earth was to check out the new ocean view feature. So i selected a piece of coastline near the Netherlands.</p>
+
+<p><img src="http://lenss.nl/images/2009/02/nl_coast.jpg" alt="nl_coast" /></p>
+
+<p>Although i was looking for some ocean life. The first thing i found was an airplane :)</p>
+
+<p><img src="http://lenss.nl/images/2009/02/plane.jpg" alt="plane" /></p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-02-09T07:50:26+01:00" pubdate data-updated="true">Feb 9<span>th</span>, 2009</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/-home/'>/home</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2009/02/google-earth-libcrypto-crash/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
 	  <h1 class="entry-title"><a href="http://lenss.nl/2009/01/making-php-mail-work-on-ubuntu-through-postfix/">Making PHP Mail Work on Ubuntu Through Postfix</a></h1>
 	
 	</header>
 </header>
 
 
-  <div class="articletext"><p>While writing a small mail application in PHP i noticed i couldn&#8217;t send mail from my local machine. Even with telnet i couldn&#8217;t send out emails. I quickly found out that postfix and sendmail on the same system is not a good idea. Seems it was a left over from some testing i did. So after wiping sendmail and postfix from the system. And reinstalling only postfix i got an error when starting Postfix</p>
+  <div class="articletext"><p>While writing a small mail application in PHP i noticed i couldn’t send mail from my local machine. Even with telnet i couldn’t send out emails. I quickly found out that postfix and sendmail on the same system is not a good idea. Seems it was a left over from some testing i did. So after wiping sendmail and postfix from the system. And reinstalling only postfix i got an error when starting Postfix</p>
 
-<blockquote><p>postfix: fatal: /etc/postfix/postfix-script: No such file or directory</p></blockquote>
+<blockquote>
+  <p>postfix: fatal: /etc/postfix/postfix-script: No such file or directory</p>
+</blockquote>
 
-<p>So let&#8217;s try and completely remove the postfix package and purge all files.</p>
+<p>So let’s try and completely remove the postfix package and purge all files.</p>
 
-<blockquote><p>$ sudo dpkg &#8211;remove postfix
-$ sudo dpkg &#8211;purge postfix</p></blockquote>
+<blockquote>
+
+  <p>$ sudo dpkg –remove postfix
+$ sudo dpkg –purge postfix</p>
+</blockquote>
 
 <p>And a clean install of postfix:</p>
 
-<blockquote><p>$ sudo apt-get -V install postfix</p></blockquote>
+<blockquote>
+  <p>$ sudo apt-get -V install postfix</p>
+</blockquote>
 
 <p>Now i can telnet in and try to send some mail. And this seemed to work. The mail got delivered.</p>
 
-<blockquote><p>$ telnet localhost 25</p></blockquote>
+<blockquote>
 
-<p>Trying 127.0.0.1&#8230;
+  <p>$ telnet localhost 25</p>
+</blockquote>
+
+<p>Trying 127.0.0.1…
 Connected to localhost.
-Escape character is &#8217;<sup>]&#8217;.</sup>
+Escape character is ‘^]’.
 220 0x0 ESMTP Postfix (Ubuntu)</p>
 
 <p>helo test.nl
@@ -99,49 +189,58 @@ mail from: test@test.nl
 rcpt to: some@working.address
 250 2.1.5 Ok
 data
-354 End data with
+354 End data with 
 testing
 .
 250 2.0.0 Ok: queued as ED97311C412F</p>
 
-<p>So now let&#8217;s make sure it also works from PHP. I tested it through a CLI script and through apache2. With the most basic mail script you can imagine.</p>
+<p>So now let’s make sure it also works from PHP. I tested it through a CLI script and through apache2. With the most basic mail script you can imagine. </p>
 
 <pre><code>    mail('some@working.address', 'test', 'test message');
 </code></pre>
 
 <p>The mail however gets bounced.</p>
 
-<blockquote><p>Jan  7 22:31:48 0x0 postfix/pickup[10249]: 035BF11C4133: uid=1 from=
-Jan  7 22:31:48 0x0 postfix/cleanup[11726]: 035BF11C4133: message-id=&lt;20090107213148.035BF11C4133@0x0>
-Jan  7 22:31:48 0x0 postfix/qmgr[10250]: 035BF11C4133: from=<a href="&#109;&#97;&#x69;&#x6c;&#x74;&#111;&#x3a;&#100;&#x61;&#x65;&#x6d;&#x6f;&#110;&#x40;&#105;&#110;&#116;&#x65;&#114;&#110;&#x61;&#x6c;&#46;&#110;&#97;&#109;&#x65;">&#x64;&#97;&#x65;&#x6d;&#111;&#x6e;&#64;&#x69;&#x6e;&#116;&#x65;&#x72;&#110;&#97;&#108;&#x2e;&#110;&#x61;&#x6d;&#x65;</a>, size=303, nrcpt=1 (queue active)
-Jan  7 22:31:48 0x0 postfix/smtp[11728]: 035BF11C4133: to=<a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#111;&#x3a;&#115;&#111;&#109;&#x65;&#x40;&#119;&#x6f;&#x72;&#107;&#105;&#x6e;&#x67;&#x2e;&#97;&#100;&#100;&#114;&#x65;&#115;&#x73;">&#x73;&#x6f;&#109;&#101;&#x40;&#119;&#111;&#114;&#x6b;&#105;&#110;&#x67;&#x2e;&#97;&#x64;&#100;&#114;&#101;&#x73;&#115;</a>, relay=working.mail.server[xx.xxx.xx.xx]:25, delay=0.68, delays=0.02/0/0.48/0.18, dsn=5.0.0, status=bounced (host working.mail.server[xx.xxx.xx.xx] said: 553 sorry, your envelope sender domain must exist (#5.7.1) (in reply to MAIL FROM command))
-Jan  7 22:31:48 0x0 postfix/cleanup[11726]: C5C2911C4134: message-id=&lt;20090107213148.C5C2911C4134@0x0>
-Jan  7 22:31:48 0x0 postfix/qmgr[10250]: C5C2911C4134: from=&lt;>, size=2064, nrcpt=1 (queue active)
+<blockquote>
+
+  <p>Jan  7 22:31:48 0x0 postfix/pickup[10249]: 035BF11C4133: uid=1 from=
+Jan  7 22:31:48 0x0 postfix/cleanup[11726]: 035BF11C4133: message-id=&lt;20090107213148.035BF11C4133@0x0&gt;
+Jan  7 22:31:48 0x0 postfix/qmgr[10250]: 035BF11C4133: from=<a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#100;&#097;&#101;&#109;&#111;&#110;&#064;&#105;&#110;&#116;&#101;&#114;&#110;&#097;&#108;&#046;&#110;&#097;&#109;&#101;">&#100;&#097;&#101;&#109;&#111;&#110;&#064;&#105;&#110;&#116;&#101;&#114;&#110;&#097;&#108;&#046;&#110;&#097;&#109;&#101;</a>, size=303, nrcpt=1 (queue active)
+Jan  7 22:31:48 0x0 postfix/smtp[11728]: 035BF11C4133: to=<a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;">&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;</a>, relay=working.mail.server[xx.xxx.xx.xx]:25, delay=0.68, delays=0.02/0/0.48/0.18, dsn=5.0.0, status=bounced (host working.mail.server[xx.xxx.xx.xx] said: 553 sorry, your envelope sender domain must exist (#5.7.1) (in reply to MAIL FROM command))
+Jan  7 22:31:48 0x0 postfix/cleanup[11726]: C5C2911C4134: message-id=&lt;20090107213148.C5C2911C4134@0x0&gt;
+Jan  7 22:31:48 0x0 postfix/qmgr[10250]: C5C2911C4134: from=&lt;&gt;, size=2064, nrcpt=1 (queue active)
 Jan  7 22:31:48 0x0 postfix/bounce[11729]: 035BF11C4133: sender non-delivery notification: C5C2911C4134
 Jan  7 22:31:48 0x0 postfix/qmgr[10250]: 035BF11C4133: removed
-Jan  7 22:31:49 0x0 postfix/smtp[11728]: C5C2911C4134: to=<a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#x64;&#x61;&#x65;&#109;&#111;&#110;&#64;&#x69;&#x6e;&#116;&#x65;&#114;&#x6e;&#x61;&#108;&#x2e;&#110;&#97;&#109;&#x65;">&#100;&#97;&#101;&#109;&#111;&#x6e;&#x40;&#105;&#110;&#x74;&#x65;&#x72;&#110;&#97;&#x6c;&#x2e;&#110;&#x61;&#109;&#101;</a>, relay=working.mail.server[xx.xxx.xx.xx]:25, delay=0.75, delays=0.01/0/0.41/0.34, dsn=2.0.0, status=sent (250 ok 1231363909 qp 10204)
-Jan  7 22:31:49 0x0 postfix/qmgr[10250]: C5C2911C4134: removed</p></blockquote>
+Jan  7 22:31:49 0x0 postfix/smtp[11728]: C5C2911C4134: to=<a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#100;&#097;&#101;&#109;&#111;&#110;&#064;&#105;&#110;&#116;&#101;&#114;&#110;&#097;&#108;&#046;&#110;&#097;&#109;&#101;">&#100;&#097;&#101;&#109;&#111;&#110;&#064;&#105;&#110;&#116;&#101;&#114;&#110;&#097;&#108;&#046;&#110;&#097;&#109;&#101;</a>, relay=working.mail.server[xx.xxx.xx.xx]:25, delay=0.75, delays=0.01/0/0.41/0.34, dsn=2.0.0, status=sent (250 ok 1231363909 qp 10204)
+Jan  7 22:31:49 0x0 postfix/qmgr[10250]: C5C2911C4134: removed</p>
+</blockquote>
 
-<p>From looking at the log files i can tell it bounced because the from address is set to <strong>daemon@internal.name</strong>. And internal.name is not known by my mail server. Let&#8217;s try that again. But this time specifically set the FROM header.</p>
+<p>From looking at the log files i can tell it bounced because the from address is set to <strong>daemon@internal.name</strong>. And internal.name is not known by my mail server. Let’s try that again. But this time specifically set the FROM header.</p>
 
 <pre><code>    $headers .= 'To: Name &lt;some@working.addressl&gt;' . "\n";
     $headers .= 'From: test &lt;some@working.address&gt;' . "\n";
     mail('some@working.address', 'test', 'test message', $headers);
 </code></pre>
 
-<p>The result is the same. The FROM header didn&#8217;t change at all. So although it&#8217;s possible to set the from header. The message is always send by a system user.. So after doing some research on Google about this problem it seems possible to pass an extra parameter to the mail() function. This parameter can contain a string which will be passed to the postfix binary as an extra parameter. So adding <strong>-fsome@orking.address</strong> makes the problem go away.</p>
+<p>The result is the same. The FROM header didn’t change at all. So although it’s possible to set the from header. The message is always send by a system user.. So after doing some research on Google about this problem it seems possible to pass an extra parameter to the mail() function. This parameter can contain a string which will be passed to the postfix binary as an extra parameter. So adding <strong>-fsome@orking.address</strong> makes the problem go away.</p>
 
-<blockquote><p>Jan  7 22:36:58 0x0 postfix/pickup[10249]: 687CA11C4133: uid=1 from=<a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#111;&#58;&#x73;&#111;&#109;&#101;&#64;&#119;&#111;&#114;&#107;&#105;&#x6e;&#x67;&#46;&#x61;&#100;&#100;&#x72;&#101;&#x73;&#115;">&#115;&#x6f;&#109;&#101;&#64;&#x77;&#111;&#x72;&#107;&#105;&#x6e;&#x67;&#46;&#x61;&#x64;&#100;&#x72;&#x65;&#115;&#115;</a>
-Jan  7 22:36:58 0x0 postfix/cleanup[11847]: 687CA11C4133: message-id=&lt;20090107213658.687CA11C4133@0x0>
-Jan  7 22:36:58 0x0 postfix/qmgr[10250]: 687CA11C4133: from=<a href="&#x6d;&#97;&#x69;&#108;&#x74;&#x6f;&#58;&#115;&#x6f;&#x6d;&#x65;&#x40;&#119;&#x6f;&#114;&#x6b;&#x69;&#110;&#103;&#x2e;&#x61;&#100;&#100;&#x72;&#x65;&#x73;&#115;">&#x73;&#111;&#109;&#x65;&#64;&#119;&#111;&#114;&#x6b;&#x69;&#110;&#103;&#46;&#x61;&#x64;&#x64;&#114;&#101;&#x73;&#x73;</a>, size=276, nrcpt=1 (queue active)
-Jan  7 22:36:59 0x0 postfix/smtp[11849]: 687CA11C4133: to=<a href="&#x6d;&#97;&#x69;&#108;&#x74;&#x6f;&#58;&#115;&#x6f;&#x6d;&#101;&#64;&#119;&#x6f;&#x72;&#107;&#x69;&#x6e;&#103;&#x2e;&#97;&#100;&#x64;&#114;&#x65;&#115;&#x73;">&#x73;&#111;&#x6d;&#101;&#64;&#x77;&#111;&#114;&#107;&#x69;&#x6e;&#103;&#46;&#97;&#x64;&#100;&#114;&#101;&#x73;&#115;</a>, relay=working.mail.server[xx.xxx.xx.xx]:25, delay=1.4, delays=0.02/0/0.59/0.76, dsn=2.0.0, status=sent (250 ok 1231364219 qp 10582)
-Jan  7 22:36:59 0x0 postfix/qmgr[10250]: 687CA11C4133: removed</p></blockquote>
+<blockquote>
 
-<p>But this would mean that i always have to pass the extra parameter. And if i use a third party class or function. i may not be able to do so without hacking the code. So although it solves the problem it&#8217;s not the final solution. After i bit of browsing i found out that changing the <strong>myorigin</strong> parameter in <strong>/etc/postfix/main.cf</strong> to a known mail server. I could start the send out mail. So i changed it to the domain my mail server runs under.</p>
+  <p>Jan  7 22:36:58 0x0 postfix/pickup[10249]: 687CA11C4133: uid=1 from=<a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;">&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;</a>
+Jan  7 22:36:58 0x0 postfix/cleanup[11847]: 687CA11C4133: message-id=&lt;20090107213658.687CA11C4133@0x0&gt;
+Jan  7 22:36:58 0x0 postfix/qmgr[10250]: 687CA11C4133: from=<a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;">&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;</a>, size=276, nrcpt=1 (queue active)
+Jan  7 22:36:59 0x0 postfix/smtp[11849]: 687CA11C4133: to=<a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;">&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;</a>, relay=working.mail.server[xx.xxx.xx.xx]:25, delay=1.4, delays=0.02/0/0.59/0.76, dsn=2.0.0, status=sent (250 ok 1231364219 qp 10582)
+Jan  7 22:36:59 0x0 postfix/qmgr[10250]: 687CA11C4133: removed</p>
+</blockquote>
 
-<blockquote><p>myorigin = mail.server</p></blockquote>
+<p>But this would mean that i always have to pass the extra parameter. And if i use a third party class or function. i may not be able to do so without hacking the code. So although it solves the problem it’s not the final solution. After i bit of browsing i found out that changing the <strong>myorigin</strong> parameter in <strong>/etc/postfix/main.cf</strong> to a known mail server. I could start the send out mail. So i changed it to the domain my mail server runs under.</p>
 
-<p>And now sending mail from PHP works.</p>
+<blockquote>
+
+  <p>myorigin = mail.server</p>
+</blockquote>
+
+<p>And now sending mail from PHP works. </p>
 </div>
   
   
@@ -199,7 +298,7 @@ Jan  7 22:36:59 0x0 postfix/qmgr[10250]: 687CA11C4133: removed</p></blockquote>
 </header>
 
 
-  <div class="articletext"><p>It&#8217;s been a while since i last wrote something. I just couldn&#8217;t put my self to it. The last two weeks of the years paid it&#8217;s tole on me. And the new year started of busy like always. So no time to reflect on last year. Any way i wish everybody a happy and good 2009.</p>
+  <div class="articletext"><p>It’s been a while since i last wrote something. I just couldn’t put my self to it. The last two weeks of the years paid it’s tole on me. And the new year started of busy like always. So no time to reflect on last year. Any way i wish everybody a happy and good 2009.</p>
 </div>
   
   
@@ -261,15 +360,16 @@ Jan  7 22:36:59 0x0 postfix/qmgr[10250]: 687CA11C4133: removed</p></blockquote>
 
 <p>So this will not be seen on a lot of systems i figure :)</p>
 
-<blockquote><p>PHP 5.2.7 (cli) (built: Dec  5 2008 11:18:04)
+<blockquote>
+  <p>PHP 5.2.7 (cli) (built: Dec  5 2008 11:18:04)
 Copyright (c) 1997-2008 The PHP Group
 Zend Engine v2.2.0, Copyright (c) 1998-2008 Zend Technologies
-with Xdebug v2.0.3, Copyright (c) 2002-2007, by Derick Rethans</p></blockquote>
+with Xdebug v2.0.3, Copyright (c) 2002-2007, by Derick Rethans</p>
+</blockquote>
 
 <ul>
-<li>Update</li>
+  <li>Update</li>
 </ul>
-
 
 <p>According to a <a href="http://www.php.net/archive/2008.php#id2008-12-08-1">post</a> from Ilia on php.net. The <a href="http://www.php.net/downloads.php">5.2.8</a> version is released. And solves the previous named problem. Everybody is ad viced to upgrade the 5.2.7 version.</p>
 </div>
@@ -329,20 +429,24 @@ with Xdebug v2.0.3, Copyright (c) 2002-2007, by Derick Rethans</p></blockquote>
 </header>
 
 
-  <div class="articletext"><p>Yesterday my colleague was complaining he couldn&#8217;t do a normal check out of one of the projects in Subversion. At first i thought it was just something wrong with his local settings. Because i could do the check out just fine. Today when i was thinking about this problem. I quickly realized we are on two different platforms. He works on Windows while I&#8217;m on Linux.</p>
+  <div class="articletext"><p>Yesterday my colleague was complaining he couldn’t do a normal check out of one of the projects in Subversion. At first i thought it was just something wrong with his local settings. Because i could do the check out just fine. Today when i was thinking about this problem. I quickly realized we are on two different platforms. He works on Windows while I’m on Linux.</p>
 
 <p>And since i had to do some Photoshop work today. I took the chance to install Subversion on my Windows partition. When i did a checkout of the failing project. I ran into the same problems as my colleague did before. Two different errors were preventing me from making a complete checkout. The first error:</p>
 
-<blockquote><p><em>svn: In directory &#8216;path/to/some/images&#8217;
-svn: Can&#8217;t copy &#8216;path/to/some/images/image.JPG.svn-base&#8217; to &#8216;path/to/some/image.JPG.tmp&#8217;: No such file or directory</em></p></blockquote>
+<blockquote>
+  <p><em>svn: In directory ‘path/to/some/images’
+svn: Can’t copy ‘path/to/some/images/image.JPG.svn-base’ to ‘path/to/some/image.JPG.tmp’: No such file or directory</em></p>
+</blockquote>
 
 <p>Is caused by multiple files with the same name. At  least to windows it looks like this. Because image.jpg and image.JPG are two different files on Linux. On windows however these two files are one and the same. This causes Subversion to choke. After manually deleting all duplicates from the repositorie it self the problem dissapeared.</p>
 
 <p>The second error was something like:</p>
 
-<blockquote><p>svn: Working copy &#8216;/some/path/\ &#8217; is missing or not locked</p></blockquote>
+<blockquote>
+  <p>svn: Working copy ‘/some/path/\ ‘ is missing or not locked</p>
+</blockquote>
 
-<p>This one was actually pretty obvious. A file name with an illigal character. I wonder how it got in the repository. The folder name causeing the problems was a folder called &#8216;\ &#8216;. Which was empty. After removing this. I could do a complete checkout again.</p>
+<p>This one was actually pretty obvious. A file name with an illigal character. I wonder how it got in the repository. The folder name causeing the problems was a folder called ‘\ ‘. Which was empty. After removing this. I could do a complete checkout again.</p>
 </div>
   
   
@@ -400,21 +504,21 @@ svn: Can&#8217;t copy &#8216;path/to/some/images/image.JPG.svn-base&#8217; to &#
 </header>
 
 
-  <div class="articletext"><p>At work we have a local dev box. This box is running <a href="http://www.ubuntu.com/">Ubuntu</a> 8.04 and some tools we need for developing. Nothing special. This box get&#8217;s it&#8217;s IP address from the <a href="http://nl.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol">DHCP</a> server that runs on the router. And this caused some problems because we are running a local <a href="http://nl.wikipedia.org/wiki/Domain_Name_System">DNS</a> server for the dev box. Mainly to use internal domains for testing.</p>
+  <div class="articletext"><p>At work we have a local dev box. This box is running <a href="http://www.ubuntu.com/">Ubuntu</a> 8.04 and some tools we need for developing. Nothing special. This box get’s it’s IP address from the <a href="http://nl.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol">DHCP</a> server that runs on the router. And this caused some problems because we are running a local <a href="http://nl.wikipedia.org/wiki/Domain_Name_System">DNS</a> server for the dev box. Mainly to use internal domains for testing.</p>
 
-<p>To make this work we changed the resolv.conf to use the new local DNS server. This works fine wouldn&#8217;t it be for Ubuntu changing the file back to it&#8217;s original settings on every DHCP request. So every 900 sec the file gets overwritten. To solve this the first time i simply made the file read only. This however caused some problems with the DHCP client requesting an IP address over and over again. This caused the load on the dev box to rise&#8230;.</p>
+<p>To make this work we changed the resolv.conf to use the new local DNS server. This works fine wouldn’t it be for Ubuntu changing the file back to it’s original settings on every DHCP request. So every 900 sec the file gets overwritten. To solve this the first time i simply made the file read only. This however caused some problems with the DHCP client requesting an IP address over and over again. This caused the load on the dev box to rise….</p>
 
-<p>Further inspection showed that it&#8217;s the dhclient-script the overwrites the resolv.conf file. I tried commenting out parts of the dhclient-script. But this just created more problems. So i did a search on the Ubuntu package list. And found a promising program called <a href="http://packages.ubuntu.com/source/dapper/resolvconf">resolvconf</a>. This program takes over from resolv.conf. And with this program installed it&#8217;s possible to make permanent changes without creating any problems.</p>
+<p>Further inspection showed that it’s the dhclient-script the overwrites the resolv.conf file. I tried commenting out parts of the dhclient-script. But this just created more problems. So i did a search on the Ubuntu package list. And found a promising program called <a href="http://packages.ubuntu.com/source/dapper/resolvconf">resolvconf</a>. This program takes over from resolv.conf. And with this program installed it’s possible to make permanent changes without creating any problems.</p>
 
 <p>After installing the package and doing a search for resolvconf. I found a directory in /etc which had a resolv.conf inside. This seemed to be the template used for overwriting the original resolv.conf. After changing this file all problems were resolved.</p>
 
-<blockquote><p>/etc/resolvconf/run/resolv.conf</p></blockquote>
+<blockquote>
+  <p>/etc/resolvconf/run/resolv.conf</p>
+</blockquote>
 
-<h1>Dynamic resolv.conf(5) file for glibc resolver(3) generated by resolvconf(8)</h1>
-
-<h1>DO NOT EDIT THIS FILE BY HAND &#8211; YOUR CHANGES WILL BE OVERWRITTEN</h1>
-
-<p>search example.com
+<h1 id="dynamic-resolvconf5-file-for-glibc-resolver3-generated-by-resolvconf8">Dynamic resolv.conf(5) file for glibc resolver(3) generated by resolvconf(8)</h1>
+<p>#     DO NOT EDIT THIS FILE BY HAND – YOUR CHANGES WILL BE OVERWRITTEN
+search example.com
 domain example.com
 nameserver xxx.xxx.x.xx</p>
 
@@ -424,8 +528,10 @@ nameserver xxx.xxx.x.xx</p>
 
 <p>change the following lines in /etc/dhcp3/dhclient.conf</p>
 
-<blockquote><p>supersede domain-name &#8220;example.com&#8221;
-prepend domain-name-server xxx.xxx.xxx.1, xxx.xxx.xxx.2</p></blockquote>
+<blockquote>
+  <p>supersede domain-name “example.com”
+prepend domain-name-server xxx.xxx.xxx.1, xxx.xxx.xxx.2</p>
+</blockquote>
 </div>
   
   
@@ -483,168 +589,118 @@ prepend domain-name-server xxx.xxx.xxx.1, xxx.xxx.xxx.2</p></blockquote>
 </header>
 
 
-  <div class="articletext"><p>I was up early last Sunday. just couldn&#8217;t sleep anymore. So i decided to do a fresh OS install on my main workstation. One or two weeks ago i updated my Ubuntu 8.04 to the latest 8.10 Interpid. This went without real big problems. And the system was running stable. Besides at the office i did some clean installs of Ubuntu 8.10. And there were no real problems to name.</p>
+  <div class="articletext"><p>I was up early last Sunday. just couldn’t sleep anymore. So i decided to do a fresh OS install on my main workstation. One or two weeks ago i updated my Ubuntu 8.04 to the latest 8.10 Interpid. This went without real big problems. And the system was running stable. Besides at the office i did some clean installs of Ubuntu 8.10. And there were no real problems to name.</p>
 
-<p>So i thought what the hell. Let&#8217;s do a clean install here at home also. I created a backup of my important files. and downloaded the new .iso image (couldn&#8217;t find the previous downloaded one). And started of the install. It was nice weather and i thought if i finish this fast. I can go and enjoy a nice Sunday.</p>
+<p>So i thought what the hell. Let’s do a clean install here at home also. I created a backup of my important files. and downloaded the new .iso image (couldn’t find the previous downloaded one). And started of the install. It was nice weather and i thought if i finish this fast. I can go and enjoy a nice Sunday.</p>
 
 <p>The install went without problems. And after rebooting it booted up fine. First thing i did was run an update through synaptic. Installed the new kernel and a whole lot of other packages. Did a reboot. And everything was still fine and dandy. Now it was time to install the Nvidia driver. I used the Restricted Hardware manager in Ubuntu to select the NVidia 177 driver. Which did the job before the install. And rebooted the machine after the install was complete.</p>
 
 <p>When it booted backup. I was surprised to see a tty screen. and not the GDM i expected :). The error message on the screen stated no screens found. So i logged in and checked the xorg.conf file. Which had a pretty default setup. So i thought running nvidia-xconfig would solve the problem. This generated the same xorg.conf. After rebooting a few times and trying to change the xorg.conf file. I was getting a bit frustrated.</p>
 
-<p>In my hurry i by accident removed my backup partition. So i was getting more frustrated every minute. I do have to say i have a dual Head system. With two PCI-e video cards. And for some strange reason nvidia-xconfig didn&#8217;t find the correct hardware. And running nvidia-settings from command line is not possible. So i was stuck. Removing the nvidia-glx driver and the rest of the nvidia-177 files. Got me back in X. Running a very low resolution.</p>
+<p>In my hurry i by accident removed my backup partition. So i was getting more frustrated every minute. I do have to say i have a dual Head system. With two PCI-e video cards. And for some strange reason nvidia-xconfig didn’t find the correct hardware. And running nvidia-settings from command line is not possible. So i was stuck. Removing the nvidia-glx driver and the rest of the nvidia-177 files. Got me back in X. Running a very low resolution.</p>
 
-<p>Googling revealed i was not the only one with this problem. But there were no real solutions. At least none that worked on my system. So i decided to reinstall Ubuntu 8.04. Updated the whole damn system. Installed the nvidia-glx-new driver. And got everything to work. After this i did a distupdate to 8.10. And everything kept working. This was weird. I was happy the system is up and running again. But i wasn&#8217;t satisfied.</p>
+<p>Googling revealed i was not the only one with this problem. But there were no real solutions. At least none that worked on my system. So i decided to reinstall Ubuntu 8.04. Updated the whole damn system. Installed the nvidia-glx-new driver. And got everything to work. After this i did a distupdate to 8.10. And everything kept working. This was weird. I was happy the system is up and running again. But i wasn’t satisfied.</p>
 
 <p>I made a backup of my xorg.conf file. And again did a complete new install of Ubuntu 8.10. After the install i updated to the new kernel. And after a reboot installed the nvidia-177 driver. But this time before i rebooted i copied my old xorg.conf file over the one generated by nvidia-xconfig. Rebooted the machine. Everything worked.</p>
 
-<p>Conclusion. nvidia-xconfig doesn&#8217;t create a correct xorg.conf file. I got two different errors from the nvidia driver at boot up. One saying &#8220;no screens found&#8217; The other one saying &#8220;Device is not PCI&#8221; or something like that.</p>
+<p>Conclusion. nvidia-xconfig doesn’t create a correct xorg.conf file. I got two different errors from the nvidia driver at boot up. One saying “no screens found’ The other one saying “Device is not PCI” or something like that.</p>
 
-<p>I&#8217;ll add my xorg.conf file here. Maybe it&#8217;s of any use</p>
+<p>I’ll add my xorg.conf file here. Maybe it’s of any use</p>
 
-<blockquote><h1>nvidia-settings: X configuration file generated by nvidia-settings</h1>
+<blockquote>
 
-<h1>nvidia-settings:  version 1.0  (buildd@vernadsky)  Thu Jun  5 09:26:53 UTC 2008</h1></blockquote>
+  <h1 id="nvidia-settings-x-configuration-file-generated-by-nvidia-settings">nvidia-settings: X configuration file generated by nvidia-settings</h1>
+  <p># nvidia-settings:  version 1.0  (buildd@vernadsky)  Thu Jun  5 09:26:53 UTC 2008</p>
+</blockquote>
 
-<h1>xorg.conf (X.Org X Window System server configuration file)</h1>
+<h1 id="xorgconf-xorg-x-window-system-server-configuration-file">xorg.conf (X.Org X Window System server configuration file)</h1>
+<p>#
+# This file was generated by dexconf, the Debian X Configuration tool, using
+# values from the debconf database.
+#
+# Edit this file with caution, and see the xorg.conf manual page.
+# (Type “man xorg.conf” at the shell prompt.)
+#
+# This file is automatically updated on xserver-xorg package upgrades <em>only</em>
+# if it has not been modified since the last upgrade of the xserver-xorg
+# package.
+#
+# If you have edited this file but would like it to be automatically updated
+# again, run the following command:
+#   sudo dpkg-reconfigure -phigh xserver-xorg</p>
 
-<p>#</p>
+<p>Section “ServerLayout”
+    Identifier     “Default Layout”
+    Screen      0  “Screen0” 0 0
+EndSection</p>
 
-<h1>This file was generated by dexconf, the Debian X Configuration tool, using</h1>
+<p>Section “Module”
+    Load           “glx”
+EndSection</p>
 
-<h1>values from the debconf database.</h1>
+<p>Section “ServerFlags”
+    Option         “Xinerama” “0”
+EndSection</p>
 
-<p>#</p>
+<h1 id="commented-out-by-update-manager-hal-is-now-used">commented out by update-manager, HAL is now used</h1>
+<p>#Section “InputDevice”
+#    Identifier     “Generic Keyboard”
+#    Driver         “kbd”
+#    Option         “XkbRules” “xorg”
+#    Option         “XkbModel” “pc105”
+#    Option         “XkbLayout” “us”
+#EndSection</p>
 
-<h1>Edit this file with caution, and see the xorg.conf manual page.</h1>
+<h1 id="commented-out-by-update-manager-hal-is-now-used-1">commented out by update-manager, HAL is now used</h1>
+<p>#Section “InputDevice”
+#    Identifier     “Configured Mouse”
+#    Driver         “mouse”
+#    Option         “CorePointer”
+#EndSection</p>
 
-<h1>(Type &#8220;man xorg.conf&#8221; at the shell prompt.)</h1>
+<p>Section “Monitor”
+    Identifier     “Configured Monitor”
+EndSection</p>
 
-<p>#</p>
+<p>Section “Monitor”
+    Identifier     “Monitor0”
+    VendorName     “Unknown”
+    ModelName      “Iiyama PL2201W”
+    HorizSync       30.0 - 80.0
+    VertRefresh     55.0 - 75.0
+EndSection</p>
 
-<h1>This file is automatically updated on xserver-xorg package upgrades <em>only</em></h1>
+<p>Section “Device”
+    Identifier     “Configured Video Device”
+    Driver         “nvidia”
+    Option         “NoLogo” “True”
+EndSection</p>
 
-<h1>if it has not been modified since the last upgrade of the xserver-xorg</h1>
+<p>Section “Device”
+    Identifier     “Videocard0”
+    Driver         “nvidia”
+    VendorName     “NVIDIA Corporation”
+    BoardName      “GeForce 8600 GT”
+    BusID          “PCI:1:0:0”
+EndSection</p>
 
-<h1>package.</h1>
+<p>Section “Screen”
+    Identifier     “Default Screen”
+    Device         “Configured Video Device”
+    Monitor        “Configured Monitor”
+    DefaultDepth    24
+EndSection</p>
 
-<p>#</p>
+<p>Section “Screen”
+    Identifier     “Screen0”
+    Device         “Videocard0”
+    Monitor        “Monitor0”
+    DefaultDepth    24
+    Option         “TwinView” “1”
+    Option         “TwinViewXineramaInfoOrder” “DFP-0”
+    Option         “metamodes” “DFP-0: nvidia-auto-select +0+0, DFP-1: nvidia-auto-select +1680+0”
+EndSection </p>
 
-<h1>If you have edited this file but would like it to be automatically updated</h1>
-
-<h1>again, run the following command:</h1>
-
-<h1>sudo dpkg-reconfigure -phigh xserver-xorg</h1>
-
-<p>Section &#8220;ServerLayout&#8221;</p>
-
-<pre><code>Identifier     "Default Layout"
-Screen      0  "Screen0" 0 0
-</code></pre>
-
-<p>EndSection</p>
-
-<p>Section &#8220;Module&#8221;</p>
-
-<pre><code>Load           "glx"
-</code></pre>
-
-<p>EndSection</p>
-
-<p>Section &#8220;ServerFlags&#8221;</p>
-
-<pre><code>Option         "Xinerama" "0"
-</code></pre>
-
-<p>EndSection</p>
-
-<h1>commented out by update-manager, HAL is now used</h1>
-
-<h1>Section &#8220;InputDevice&#8221;</h1>
-
-<h1>Identifier     &#8220;Generic Keyboard&#8221;</h1>
-
-<h1>Driver         &#8220;kbd&#8221;</h1>
-
-<h1>Option         &#8220;XkbRules&#8221; &#8220;xorg&#8221;</h1>
-
-<h1>Option         &#8220;XkbModel&#8221; &#8220;pc105&#8221;</h1>
-
-<h1>Option         &#8220;XkbLayout&#8221; &#8220;us&#8221;</h1>
-
-<h1>EndSection</h1>
-
-<h1>commented out by update-manager, HAL is now used</h1>
-
-<h1>Section &#8220;InputDevice&#8221;</h1>
-
-<h1>Identifier     &#8220;Configured Mouse&#8221;</h1>
-
-<h1>Driver         &#8220;mouse&#8221;</h1>
-
-<h1>Option         &#8220;CorePointer&#8221;</h1>
-
-<h1>EndSection</h1>
-
-<p>Section &#8220;Monitor&#8221;</p>
-
-<pre><code>Identifier     "Configured Monitor"
-</code></pre>
-
-<p>EndSection</p>
-
-<p>Section &#8220;Monitor&#8221;</p>
-
-<pre><code>Identifier     "Monitor0"
-VendorName     "Unknown"
-ModelName      "Iiyama PL2201W"
-HorizSync       30.0 - 80.0
-VertRefresh     55.0 - 75.0
-</code></pre>
-
-<p>EndSection</p>
-
-<p>Section &#8220;Device&#8221;</p>
-
-<pre><code>Identifier     "Configured Video Device"
-Driver         "nvidia"
-Option         "NoLogo" "True"
-</code></pre>
-
-<p>EndSection</p>
-
-<p>Section &#8220;Device&#8221;</p>
-
-<pre><code>Identifier     "Videocard0"
-Driver         "nvidia"
-VendorName     "NVIDIA Corporation"
-BoardName      "GeForce 8600 GT"
-BusID          "PCI:1:0:0"
-</code></pre>
-
-<p>EndSection</p>
-
-<p>Section &#8220;Screen&#8221;</p>
-
-<pre><code>Identifier     "Default Screen"
-Device         "Configured Video Device"
-Monitor        "Configured Monitor"
-DefaultDepth    24
-</code></pre>
-
-<p>EndSection</p>
-
-<p>Section &#8220;Screen&#8221;</p>
-
-<pre><code>Identifier     "Screen0"
-Device         "Videocard0"
-Monitor        "Monitor0"
-DefaultDepth    24
-Option         "TwinView" "1"
-Option         "TwinViewXineramaInfoOrder" "DFP-0"
-Option         "metamodes" "DFP-0: nvidia-auto-select +0+0, DFP-1: nvidia-auto-select +1680+0"
-</code></pre>
-
-<p>EndSection</p>
 </div>
   
   
@@ -702,11 +758,11 @@ Option         "metamodes" "DFP-0: nvidia-auto-select +0+0, DFP-1: nvidia-auto-s
 </header>
 
 
-  <div class="articletext"><p>It&#8217;s been a while since i blogged last time. But i&#8217;m still here. And still planning to continue this blog. I just need to make some time to write. And time is not something that comes cheap latley :)</p>
+  <div class="articletext"><p>It’s been a while since i blogged last time. But i’m still here. And still planning to continue this blog. I just need to make some time to write. And time is not something that comes cheap latley :)</p>
 
-<p>Some months ago i move to my new appartment. But i&#8217;m still working on it. It probably would have been better if i completed it completly befor emoving there. But it has to be done. So it takes up a lot of my time.</p>
+<p>Some months ago i move to my new appartment. But i’m still working on it. It probably would have been better if i completed it completly befor emoving there. But it has to be done. So it takes up a lot of my time.</p>
 
-<p>And besides that two weeks ago i started my new job here in Amsterdam. And this takes up the rest of my time. Trying to read into a new code base. And trying to understand everything that goes on around the office. It&#8217;s a hectic place. But it feels great so far.</p>
+<p>And besides that two weeks ago i started my new job here in Amsterdam. And this takes up the rest of my time. Trying to read into a new code base. And trying to understand everything that goes on around the office. It’s a hectic place. But it feels great so far.</p>
 </div>
   
   
@@ -768,7 +824,7 @@ Option         "metamodes" "DFP-0: nvidia-auto-select +0+0, DFP-1: nvidia-auto-s
 
 <p>When we both saw the SOAP response was in perfect shape. We started to poke around on the PHP side. The strange thing was all tag names were taken from the response correctly. It was just the data that was missing.  Then we noticed the data missing was inside <a href="http://en.wikipedia.org/wiki/CDATA">CDATA</a> tags.</p>
 
-<p>From a first glance at the PHP manual it it wasn&#8217;t clear what was going on. So i did some googleing. And found a good <a href="http://blog.agoraproduction.com/index.php?/archives/53-Quick-Tip-PHP,-SimpleXML-and-CDATA.html">post</a> by <a href="http://blog.agoraproduction.com/">David Coallier</a>. This post solved the problem. The example showed how to add an extra <a href="http://xmlsoft.org/">LIBXML</a> options to the <a href="http://nl2.php.net/manual/en/function.simplexml-load-string.php">simplexml_load_String</a> method. Although David provided the solution. I still wanted to make post. Maybe it will help somebody.</p>
+<p>From a first glance at the PHP manual it it wasn’t clear what was going on. So i did some googleing. And found a good <a href="http://blog.agoraproduction.com/index.php?/archives/53-Quick-Tip-PHP,-SimpleXML-and-CDATA.html">post</a> by <a href="http://blog.agoraproduction.com/">David Coallier</a>. This post solved the problem. The example showed how to add an extra <a href="http://xmlsoft.org/">LIBXML</a> options to the <a href="http://nl2.php.net/manual/en/function.simplexml-load-string.php">simplexml_load_String</a> method. Although David provided the solution. I still wanted to make post. Maybe it will help somebody.</p>
 
 <pre><code>    // parsing with CDATA tags using the *_load_string method
     $xml = simplexml_load_string($string, 'SimpleXMLElement', LIBXML_NOCDATA);
@@ -779,7 +835,7 @@ Option         "metamodes" "DFP-0: nvidia-auto-select +0+0, DFP-1: nvidia-auto-s
 
 <p>The LIBXML options that can be passed to the *_load methods and constructor can be found in the <a href="http://nl2.php.net/manual/en/libxml.constants.php">php documentation</a>.</p>
 
-<p>It&#8217;s pretty damn weird though. I want to parse the CDATA tags inside my XML. And can only do so by providing the NOCDATA option.</p>
+<p>It’s pretty damn weird though. I want to parse the CDATA tags inside my XML. And can only do so by providing the NOCDATA option.</p>
 </div>
   
   
@@ -848,13 +904,13 @@ Option         "metamodes" "DFP-0: nvidia-auto-select +0+0, DFP-1: nvidia-auto-s
 
 <p>this.overlay is undefined</p>
 
-<p>Looking through the MOOdalBox source. I noticed the this.overlay property was set inside the init() method. So let&#8217;s try that before we call the open() method.</p>
+<p>Looking through the MOOdalBox source. I noticed the this.overlay property was set inside the init() method. So let’s try that before we call the open() method.</p>
 
 <pre><code>MOOdalBox.init();
 MOOdalBox.open(url, title, sizes);
 </code></pre>
 
-<p>This actually worked. I was pretty happy with the result. untill i opened IE 7 to test the same page. Nothing happened. No error&#8217;s and no MOOdalBox. Let&#8217;s try something else. Whenever i need to load something on page load in IE i use the window.onload method.</p>
+<p>This actually worked. I was pretty happy with the result. untill i opened IE 7 to test the same page. Nothing happened. No error’s and no MOOdalBox. Let’s try something else. Whenever i need to load something on page load in IE i use the window.onload method.</p>
 
 <pre><code>window.onload = function()
     MOOdalBox.init();
@@ -862,7 +918,7 @@ MOOdalBox.open(url, title, sizes);
 }
 </code></pre>
 
-<p>Now the overlay was loaded. But still no MOOdalBox on top of it. I figured it had something to do with the DOM not being fully loaded. But i couldn&#8217;t really think of a solution. So of to Google. After a bit of browsing i found somebody with the same problem. And a <a href="http://forum.e-magine.ro/topic/please-help-with-ie">reply</a> from the original author of MOOdalBox. Add a domready event to make it work.</p>
+<p>Now the overlay was loaded. But still no MOOdalBox on top of it. I figured it had something to do with the DOM not being fully loaded. But i couldn’t really think of a solution. So of to Google. After a bit of browsing i found somebody with the same problem. And a <a href="http://forum.e-magine.ro/topic/please-help-with-ie">reply</a> from the original author of MOOdalBox. Add a domready event to make it work.</p>
 
 <pre><code>window.addEvent('domready', loadMOOdal);
 function loadMOOdal() {
@@ -911,82 +967,6 @@ function loadMOOdal() {
     <div class="share">
 		<ul>
 			<li><a href="http://lenss.nl/2008/10/load-moodalboxes-without-clicking-links/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2008/10/atp-is-seeking-web-developers/">ATP Is Seeking Web Developers</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>For the past three years I&#8217;ve been working as a web developer for ATP in the Netherlands. This has been a great experience. And still is. I have the pleasure of working with some really smart people here. Who are always eager to work with the newest technologies. This offers a great learning ground for all of us. The projects have evolved over the years. From simple websites to complex web applications.</p>
-
-<p>Right now we are looking for some experienced web developers to strengthen the team. we are looking for somebody who master the following skills.</p>
-
-<ul>
-<li><p>PHP Specialist (a minimum of 3 years experience)</p></li>
-<li><p>Object oriented experience</p></li>
-<li><p>Good knowledge of XML, SQL, JavaScript en CSS</p></li>
-<li><p>Experienced with web services (SOAP, XML-RPC)</p></li>
-<li><p>You are flexible, pro-active, pragmatic and eager to learn</p></li>
-<li><p>You can work alone or in a team</p></li>
-<li><p>You have good communicative skills in Dutch and English</p></li>
-<li><p>You are able to prioritize in hectic situations</p></li>
-</ul>
-
-
-<p>We offer a great working environment. Good secondary working conditions. A year contract with the intention to prolong.</p>
-
-<p>If you are located in the Schiphol / Amsterdam area. And are looking for a good job. take your chance. For more information take a look at <a href="http://www.atp.nl/home/vacatures.php">atp.nl</a>. If you are interested drop me a line.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-10-02T07:15:40+02:00" pubdate data-updated="true">Oct 2<span>nd</span>, 2008</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2008/10/atp-is-seeking-web-developers/#disqus_thread">Comments</a></li>
 		</ul>
 	</div>
   </footer>
@@ -1044,6 +1024,8 @@ function loadMOOdal() {
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -1061,8 +1043,6 @@ function loadMOOdal() {
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -1083,7 +1063,7 @@ function loadMOOdal() {
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

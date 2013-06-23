@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Google Mod_pagespeed Continued Last week i toyed with mod_pagespeed a bit. But just couldn&#8217;t get the hang of it. So the last two days &hellip;">
+  <meta name="description" content="Google Mod_pagespeed Continued Last week i toyed with mod_pagespeed a bit. But just couldn’t get the hang of it. So the last two days permitted me &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,19 +67,23 @@
 </header>
 
 
-<div class="articletext"><p>Last week i <a href="http://lenss.nl/2010/11/google-mod_pagespeed/">toyed</a> with <a href="http://code.google.com/p/modpagespeed/">mod_pagespeed</a> a bit. But just couldn&#8217;t get the hang of it. So the last two days permitted me to play some more with this great Apache module. Only this time i choose to <a href="http://code.google.com/p/modpagespeed/wiki/HowToBuild">build from source</a> and ignore the binaries for a while.</p>
+<div class="articletext"><p>Last week i <a href="http://lenss.nl/2010/11/google-mod_pagespeed/">toyed</a> with <a href="http://code.google.com/p/modpagespeed/">mod_pagespeed</a> a bit. But just couldn’t get the hang of it. So the last two days permitted me to play some more with this great Apache module. Only this time i choose to <a href="http://code.google.com/p/modpagespeed/wiki/HowToBuild">build from source</a> and ignore the binaries for a while. </p>
 
 <p>For me the main problem was. As soon as i enabled the module. It was active for all sites running on this server. And that should not be a problem. But some of these sites are Wordpress monsters. That are ready to take any server down with a bit of high load.</p>
 
 <p>So after a bit of trail and error. I figured out i could just disable mod_pagespeed globally by altering the main config file. After Apache reloaded mod_pagespeed was not active for the running sites.</p>
 
-<p>in /etc/apache2/mods-available/pagespeed.conf make sure ModPagespeed is set to &#8216;off&#8217;</p>
+<p>in /etc/apache2/mods-available/pagespeed.conf make sure ModPagespeed is set to ‘off’</p>
 
-<blockquote><p>ModPagespeed off</p></blockquote>
+<blockquote>
+  <p>ModPagespeed off</p>
+</blockquote>
 
 <p>So now i can simply enable settings i need on a per vhost basis. For this site end some other sites i used the following config section in my vhost.</p>
 
-<blockquote><h1>MOD-pagespeed</h1></blockquote>
+<blockquote>
+  <h1 id="mod-pagespeed">MOD-pagespeed</h1>
+</blockquote>
 
 <pre><code>        SetOutputFilter MOD_PAGESPEED_OUTPUT_FILTER
         ModPagespeed on
@@ -101,26 +105,28 @@
         ModPagespeedEnableFilters move_css_to_head
 </code></pre>
 
-<p>First of we enable mod_pagespeed of course. And then we set the current domain for this instance. After that we set the file paths for the altered and cached files. And we use &#8216;PassThrough&#8217; instead of &#8216;CoreFilters&#8217;. So we can decide our self&#8217;s what filters we will be using.</p>
+<p>First of we enable mod_pagespeed of course. And then we set the current domain for this instance. After that we set the file paths for the altered and cached files. And we use ‘PassThrough’ instead of ‘CoreFilters’. So we can decide our self’s what filters we will be using.</p>
 
-<p>This had a much better result then my previous attempts. The server was still happily serving pages. And the load was OK. So let&#8217;s check the sites if mod_pagespeed is actually running.</p>
+<p>This had a much better result then my previous attempts. The server was still happily serving pages. And the load was OK. So let’s check the sites if mod_pagespeed is actually running.</p>
 
-<blockquote><p>$ wget -O /dev/null &#8211;server-response http://lenss.nl 2>&amp;1| grep -i &#8216;X-Mod-Pagespeed&#8217;
-  X-Mod-Pagespeed: 0.9.0.0-172</p></blockquote>
+<blockquote>
+  <p>$ wget -O /dev/null –server-response http://lenss.nl 2&gt;&amp;1| grep -i ‘X-Mod-Pagespeed’
+  X-Mod-Pagespeed: 0.9.0.0-172</p>
+</blockquote>
 
-<p>Well that looks good. So now it&#8217;s time to do some testing. And this leaves me with a bit of a pickle. As i don&#8217;t have the required wget v 1.12 (i have a small patch for wget v1.11). Besides that i have some other problems running the tests</p>
+<p>Well that looks good. So now it’s time to do some testing. And this leaves me with a bit of a pickle. As i don’t have the required wget v 1.12 (i have a small patch for wget v1.11). Besides that i have some other problems running the tests</p>
 
-<blockquote><p>TEST: 404s are served and properly recorded.</p>
+<blockquote>
+  <p>TEST: 404s are served and properly recorded.
+      wget -O /dev/null http://lenss.nl/mod_pagespeed/ic.a.bad.css 2&gt;&amp;1| grep -q ‘404 Not Found’
+      wget -q -O - –save-headers http://localhost:80/mod_pagespeed_statistics | grep -q ‘resource_404_count: 1’
+FAIL.</p>
+</blockquote>
 
-<pre><code>  wget -O /dev/null http://lenss.nl/mod_pagespeed/ic.a.bad.css 2&gt;&amp;1| grep -q '404 Not Found'
-  wget -q -O - --save-headers http://localhost:80/mod_pagespeed_statistics | grep -q 'resource_404_count: 1'
-</code></pre>
+<p>This fails because the statistics page requested is not available because this site uses rewrites. And i haven’t found a way to go around this yet besides disabling them in .htaccess with mod_rewrite. So shortly disabling this made it possible to run the biggest part of the test suite without problems. </p>
 
-<p>FAIL.</p></blockquote>
-
-<p>This fails because the statistics page requested is not available because this site uses rewrites. And i haven&#8217;t found a way to go around this yet besides disabling them in .htaccess with mod_rewrite. So shortly disabling this made it possible to run the biggest part of the test suite without problems.</p>
-
-<blockquote><p>resource_fetches: 2
+<blockquote>
+  <p>resource_fetches: 2
 total_page_load_ms: 0
 page_load_count: 0
 cache_extensions: 0
@@ -140,32 +146,41 @@ javascript_total_blocks: 15
 resource_url_domain_rejections: 0
 url_trims: 0
 url_trim_saved_bytes: 0
-resource_404_count: 2
-slurp_404_count: 0
+resource<em>404_count: 2
+slurp</em>404_count: 0
 serf_fetch_request_count: 0
 serf_fetch_bytes_count: 0
 serf_fetch_time_duration_ms: 0
-serf_fetch_cancel_count: 0</p></blockquote>
+serf_fetch_cancel_count: 0</p>
+</blockquote>
 
-<p>It fails on the image compression part and that&#8217;s fine. Because i will leave that for later. So let&#8217;s run the site through the pagespeed browser extension with mod_pagespeed disabled:</p>
+<p>It fails on the image compression part and that’s fine. Because i will leave that for later. So let’s run the site through the pagespeed browser extension with mod_pagespeed disabled:</p>
 
-<blockquote><p>load time without : 2.193
-firebug/pagespeed score : 68</p></blockquote>
+<blockquote>
+  <p>load time without : 2.193
+firebug/pagespeed score : 68</p>
+</blockquote>
 
 <p>Now the same thing but with mod_pagespeed enabled:</p>
 
-<blockquote><p>Load time with : 1.284
-firebug/pagespeed score : 90</p></blockquote>
+<blockquote>
+  <p>Load time with : 1.284
+firebug/pagespeed score : 90</p>
+</blockquote>
 
 <p>That looks pretty good. And the other sites i have tested preform way better with the mod_pagespeed module enabled.</p>
 
 <p>I still have some Javascript issues. Some things need further inspection because i have seen error like these coming along:</p>
 
-<blockquote><p>Permission denied for  to call method Location.toString on .</p></blockquote>
+<blockquote>
+  <p>Permission denied for  to call method Location.toString on .</p>
+</blockquote>
 
-<p>Besides that. This morning my site was down due to Apache spitting segfaults. I disabled the &#8216;rewrite_javascript&#8217; filter for now. And it seems to run a bit more stable.</p>
+<p>Besides that. This morning my site was down due to Apache spitting segfaults. I disabled the ‘rewrite_javascript’ filter for now. And it seems to run a bit more stable.</p>
 
-<blockquote><p>[Thu Nov 11 07:38:24 2010] [notice] child pid 23608 exit signal Segmentation fault (11)</p></blockquote>
+<blockquote>
+  <p>[Thu Nov 11 07:38:24 2010] [notice] child pid 23608 exit signal Segmentation fault (11)</p>
+</blockquote>
 
 <p>So besides it being a beta i am pretty impressed by the current state of this module. And after running it for a couple of weeks the statistics are pretty impressive.</p>
 
@@ -293,6 +308,8 @@ firebug/pagespeed score : 90</p></blockquote>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -310,8 +327,6 @@ firebug/pagespeed score : 90</p></blockquote>
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -332,7 +347,7 @@ firebug/pagespeed score : 90</p></blockquote>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

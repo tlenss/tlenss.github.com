@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="PEAR Install Weirdness This morning i wanted to play around with firePHP a bit. And wanted to install the PEAR package. When i found out i didn&# &hellip;">
+  <meta name="description" content="Highjacked Name Server or Not? Yesterday was a weird day. Nothing seemed to go as it should have. My coworker Marius noticed that one of my domains &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,28 +64,111 @@
 <header>
 	<header>
 	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2008/07/highjacked-name-server-or-not/">Highjacked Name Server or Not?</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>Yesterday was a weird day. Nothing seemed to go as it should have. My coworker Marius noticed that one of my domains was not responding anymore. We tried to ping it. But forgot that our admins block outbound <a href="http://en.wikipedia.org/wiki/Internet_Control_Message_Protocol">ICMP</a> packages. At least we could see the domain resolved to the correct IP address.</p>
+
+<p>So we did a lookup on the domain. No weird things here. Then we decided to ping the name servers to see if they were responding. They were. But there was something strange. The domain in question runs on two name servers. namely ns1.cker.sc and ns2.cker.sc. ns1 was responding correctly. ns2 however was responding with a totally different and unknown IP address. This is weird. The normal settings would be:</p>
+
+<blockquote>
+  <p>ns1.cker.sc ( 208.69.125.116 )
+ns2.cker.sc ( 208.69.125.117 )</p>
+</blockquote>
+
+<p>ns2 however responded with 208.69.34.132. The whois database at ripe.net told us it was in the IANA pool of addresses. But we couldn’t find a whois tool there. So i opened up a browser to go directly to this IP address. This showed a temporary <a href="http://opendns.com/">OpenDNS</a> page. Off to <a href="http://www.domaintools.com/">domaintools.com</a> to do a <a href="http://www.domaintools.com/reverse-ip/">reverse lookup</a> on this IP.</p>
+
+<p>This revealed one domain matching this IP address. Some weird long domain name. At first i was thinking somebody highjacked my DNS server or maybe some DNS cache poisoning. But after looking closely i noticed the domain was actually readable. The domain returned was : <a href="http://whois.domaintools.com/caffefiaschetteriaitaliana.com">Caffefiaschetteriaitaliana.com</a>. A google search returned some italian cafe with almost the same domain. [](http://whois.domaintools.com/caffefiaschetteriaitaliana.com)<a href="http://www.fiaschetteriaitaliana.it/">fiaschetteriaitaliana.it</a>.</p>
+
+<p>So we decided to do a whois query on the .com domain. This revealed some email addresses with similar domains. And technical contacts from aruba.it. By now we had the feeling somebody made a configuration error. So i decided to send an email to all the addresses matching this domain including OpenDNS. And after about an hour the nameserver was responding correctly again. So they either corrected a mistake or it was just a temporary fluke. I never got a reply from any of the addresses i wrote to.</p>
+
+<p>Although i’m happy the nameservers are responding properly again. I’m still stuck with the question. What the hell happened here? The most logical scenario for me is still a configuration error.</p>
+
+<p>UPDATE: 12-08-2008</p>
+
+<p>After some digging. I found out that the ip address “208.69.34.132” actually belongs to opendns.com. When a non existing sub -/ domain is quieried. This ip is returned. It’s just a way to make money from ads. the network i was connected to at that moment uses an opendns.com DNS cache server. That explains that part.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-07-22T09:44:51+02:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2008</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2008/07/highjacked-name-server-or-not/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
 	  <h1 class="entry-title"><a href="http://lenss.nl/2008/07/pear-install-weirdness/">PEAR Install Weirdness</a></h1>
 	
 	</header>
 </header>
 
 
-  <div class="articletext"><p>This morning i wanted to play around with <a href="http://www.firephp.org/">firePHP</a> a bit. And wanted to install the PEAR package. When i found out i didn&#8217;t have <a href="http://pear.php.net/">PEAR</a> running on my local (win32 xp) box. So off to the pear install. The first thing i notice was that PEAR now is packaged as a nice <a href="http://nl.php.net/phar">PHAR</a> file (PHP 5.2.6) . So i hoped the install process would be smoother then normally. This was not the case. First thing i did was run the go-pear.bat file. Which resulted in an error.</p>
+  <div class="articletext"><p>This morning i wanted to play around with <a href="http://www.firephp.org/">firePHP</a> a bit. And wanted to install the PEAR package. When i found out i didn’t have <a href="http://pear.php.net/">PEAR</a> running on my local (win32 xp) box. So off to the pear install. The first thing i notice was that PEAR now is packaged as a nice <a href="http://nl.php.net/phar">PHAR</a> file (PHP 5.2.6) . So i hoped the install process would be smoother then normally. This was not the case. First thing i did was run the go-pear.bat file. Which resulted in an error.</p>
 
-<blockquote><p>phar &#8220;[path]go-pear.phar&#8221; does not have a signature
+<blockquote>
+  <p>phar “[path]go-pear.phar” does not have a signature
 Warning: require_once(phar://go-pear.phar/index.php): failed to open stream: pha
-r &#8220;[path]go-pear.phar&#8221; does not have a signature in [path]\PEAR\go-pear.phar on line 1236</p></blockquote>
+r “[path]go-pear.phar” does not have a signature in [path]\PEAR\go-pear.phar on line 1236</p>
+</blockquote>
 
-<p>Fatal error: require_once(): Failed opening required &#8216;phar://go-pear.phar/index.
-php&#8217; (include_path=&#8217;.;[path][path]\PEAR&#8217;) in [path]\PEAR\go-pear.phar on line 1236</p>
+<p>Fatal error: require_once(): Failed opening required ‘phar://go-pear.phar/index.
+php’ (include_path=’.;[path][path]\PEAR’) in [path]\PEAR\go-pear.phar on line 1236</p>
 
-<p>Ok. So that didn&#8217;t work out like i wanted. I checked the go-pear.bat file. And copied the command to windows command line. This resulted in the same error. So i thought. Let&#8217;s try this from the PEAR directory. cd PEAR and let&#8217;s try that again.</p>
+<p>Ok. So that didn’t work out like i wanted. I checked the go-pear.bat file. And copied the command to windows command line. This resulted in the same error. So i thought. Let’s try this from the PEAR directory. cd PEAR and let’s try that again.</p>
 
-<blockquote><p>php.exe -d phar.require_hash=0 go-pear.phar</p></blockquote>
+<blockquote>
+  <p>php.exe -d phar.require_hash=0 go-pear.phar</p>
+</blockquote>
 
 <p>Now the PEAR install runs fine.</p>
 
-<blockquote><p>For more information about PEAR, see:</p></blockquote>
+<blockquote>
+  <p>For more information about PEAR, see:</p>
+</blockquote>
 
 <p>http://pear.php.net/faq.php
 http://pear.php.net/manual/</p>
@@ -94,7 +177,7 @@ http://pear.php.net/manual/</p>
 
 <p>Update *</p>
 
-<p>Although this solution seems to have resolved the problem for me. Cal Evans has a good <a href="http://blog.calevans.com/2009/07/11/xampp-php-5-3-pear-and-phar-what-a-mess">post</a> how to resolve this issue as well. My workaround didn&#8217;t solve the problem for Cal but his did for me. So here&#8217;s the <a href="http://blog.calevans.com/2009/07/11/xampp-php-5-3-pear-and-phar-what-a-mess/">link</a></p>
+<p>Although this solution seems to have resolved the problem for me. Cal Evans has a good <a href="http://blog.calevans.com/2009/07/11/xampp-php-5-3-pear-and-phar-what-a-mess">post</a> how to resolve this issue as well. My workaround didn’t solve the problem for Cal but his did for me. So here’s the <a href="http://blog.calevans.com/2009/07/11/xampp-php-5-3-pear-and-phar-what-a-mess/">link</a></p>
 </div>
   
   
@@ -152,12 +235,12 @@ http://pear.php.net/manual/</p>
 </header>
 
 
-  <div class="articletext"><p>Today on <a href="http://www.planet-php.net/">planet-php.net</a> there are some posts [<a href="http://blogs.linux.ie/kenguest/2008/07/14/andrii-nikitin%e2%80%99s-son-needs-help-asap/">1</a>] [<a href="http://www.phpcult.com/blog/andrii-nikitis-son-needs-our-help/">2</a>] about <a href="http://www.mysql.com/about/help-ivan.html">Andrii Nikitin</a> a MySQL support engineer based in Ukraine. Andrii&#8217;s (2,5 year old) son Ivan is in need of a bone marrow transplant. The cost for this operation is somewhere bewteen $150.000 and $250.000. Which is a lot of money. So he asked the MySQL community for help. Although i don&#8217;t know the guy. I do use MySQL regularly. And i feel for him and his family. So decided to add a donation. I&#8217;m in no way rich and just bought a new house. But i think every body should pitch in and help out this guy. And offer his son a fair chance at life.</p>
+  <div class="articletext"><p>Today on <a href="http://www.planet-php.net/">planet-php.net</a> there are some posts [<a href="http://blogs.linux.ie/kenguest/2008/07/14/andrii-nikitin%e2%80%99s-son-needs-help-asap/">1</a>] [<a href="http://www.phpcult.com/blog/andrii-nikitis-son-needs-our-help/">2</a>] about <a href="http://www.mysql.com/about/help-ivan.html">Andrii Nikitin</a> a MySQL support engineer based in Ukraine. Andrii’s (2,5 year old) son Ivan is in need of a bone marrow transplant. The cost for this operation is somewhere bewteen $150.000 and $250.000. Which is a lot of money. So he asked the MySQL community for help. Although i don’t know the guy. I do use MySQL regularly. And i feel for him and his family. So decided to add a donation. I’m in no way rich and just bought a new house. But i think every body should pitch in and help out this guy. And offer his son a fair chance at life.</p>
 
 <p><strong>Paypal:</strong>
 <a href="http://tinyurl.com/6rxjsz">http://tinyurl.com/6rxjsz </a>
 Or
-<strong>by check payable to: </strong></p>
+**by check payable to: **</p>
 
 <p>MySQL, Inc.
 Mail to: MySQL, Inc.
@@ -247,7 +330,7 @@ SWIFT: NDEASESS</p>
 
 <p>This works great. But the current development structure lacks some good rewrite rules. And having the baseUrl is always a good thing. So i did some searching on Google. To figure out if somebody already has a solution for this problem. After a few minutes i found a post written by <a href="http://www.spotsec.com/blog/archive/2007/12/14/zend-framework-baseurl-view-helper/">Yusak Setiawan</a> from <a href="http://www.zendindonesia.com/">zendindonesia</a> (which is defaced by the way) explaining how to add a placeholder in the bootstrap file. Now this is a good solution. But i like to keep my bootstrap file as clean as possible. So i decided to add a Helper that would do the trick.</p>
 
-<p>Create a file called &#8216;BaseUrl.php&#8217; inside the Helper directory. And fill it with the following code.</p>
+<p>Create a file called ‘BaseUrl.php’ inside the Helper directory. And fill it with the following code.</p>
 
 <pre><code>class Zend_View_Helper_BaseUrl
 {
@@ -259,7 +342,7 @@ SWIFT: NDEASESS</p>
 }
 </code></pre>
 
-<p>After that it&#8217;s extremly easy to get the baseUrl in your views, layouts or controllers.</p>
+<p>After that it’s extremly easy to get the baseUrl in your views, layouts or controllers.</p>
 
 <p>Inside the view or layout you can call:</p>
 
@@ -329,27 +412,27 @@ SWIFT: NDEASESS</p>
 </header>
 
 
-  <div class="articletext"><p>Seems a lot of people publish their list of most used Firefox add-ons. And since i get this questions regulary. I decided to make a list of the firefox add-ons i mostly use. Although some don&#8217;t have firefox 3 support yet. These tools have made life as a developer easier. And in some cases speed things up :)</p>
+  <div class="articletext"><p>Seems a lot of people publish their list of most used Firefox add-ons. And since i get this questions regulary. I decided to make a list of the firefox add-ons i mostly use. Although some don’t have firefox 3 support yet. These tools have made life as a developer easier. And in some cases speed things up :)</p>
 
 <p><a href="https://addons.mozilla.org/en-US/firefox/addon/1843">Firebug</a></p>
 
-<p>This is one of those tools that are indispensable in every web developers toolkit. It&#8217;s a great tool for debugging interfaces. You can actively step through the DOM elements. It also allows for dynamically updating the CSS and HTML. But one of the greatest features for me is the displaying of asynchronous JavaScript calls. This makes debugging Ajax applications a lot easier.</p>
+<p>This is one of those tools that are indispensable in every web developers toolkit. It’s a great tool for debugging interfaces. You can actively step through the DOM elements. It also allows for dynamically updating the CSS and HTML. But one of the greatest features for me is the displaying of asynchronous JavaScript calls. This makes debugging Ajax applications a lot easier.</p>
 
 <p><a href="https://addons.mozilla.org/en-US/firefox/addon/6149">FirePHP</a></p>
 
-<p>This tool integrates nicely with firebug. It makes it possible to show PHP debug information on the firebug console. So the debug data doesn&#8217;t interfere with the page your working on. I have to admit. I don&#8217;t use it very often. But it&#8217;s still a great tool.</p>
+<p>This tool integrates nicely with firebug. It makes it possible to show PHP debug information on the firebug console. So the debug data doesn’t interfere with the page your working on. I have to admit. I don’t use it very often. But it’s still a great tool.</p>
 
 <p><a href="https://addons.mozilla.org/en-US/firefox/addon/748">Greasemonkey</a></p>
 
-<p>An extremely power full tool. That let&#8217;s you add scripts to automate tasks. Or to trigger certain attack vector&#8217;s :)</p>
+<p>An extremely power full tool. That let’s you add scripts to automate tasks. Or to trigger certain attack vector’s :)</p>
 
 <p><a href="https://addons.mozilla.org/en-US/firefox/addon/722">NoScript</a></p>
 
-<p>If you&#8217;re scared of malicious JavaScript or just want to block those annoying ads. Then this is a great tool.</p>
+<p>If you’re scared of malicious JavaScript or just want to block those annoying ads. Then this is a great tool.</p>
 
 <p><a href="https://addons.mozilla.org/en-US/firefox/addon/5369">YSlow</a></p>
 
-<p>Amazing tool from Yahoo. it let&#8217;s you analyze the page load process. It&#8217;s great to
+<p>Amazing tool from Yahoo. it let’s you analyze the page load process. It’s great to
 track down problems with slow loading pages. Or just a tool to help with optimization.</p>
 
 <p><a href="https://addons.mozilla.org/en-US/firefox/addon/1100">Event Spy</a></p>
@@ -366,7 +449,7 @@ track down problems with slow loading pages. Or just a tool to help with optimiz
 
 <p><a href="https://addons.mozilla.org/en-US/firefox/addon/539">Measurit</a></p>
 
-<p>A virtual ruler to use inside your browser. It&#8217;s always good to be able to visually measure something</p>
+<p>A virtual ruler to use inside your browser. It’s always good to be able to visually measure something</p>
 
 <p><a href="https://addons.mozilla.org/en-US/firefox/addon/967">Modify Headers</a></p>
 
@@ -379,19 +462,27 @@ track down problems with slow loading pages. Or just a tool to help with optimiz
 <p><a href="https://addons.mozilla.org/en-US/firefox/addon/4665">Technika</a></p>
 
 <p>This is an awsome tool from the <a href="http://www.gnucitizen.org/">GNUcitizen</a> project. It adds an active scripting envirement to the browsers. In which it is possible to script almost everything. From the current page to the browser chrome. This add-on acts as the base for other tools. For more information head over the <a href="http://www.gnucitizen.org/">GNUcitizen</a>.
-<a href="http://www.zend.com/en/downloads/"></a></p>
+[](http://www.zend.com/en/downloads/)</p>
 
 <p><a href="http://www.zend.com/en/downloads/">Zend Studio Toolbar</a></p>
 
-<p>The toolbar that comes with Zend Studio or Zend Studio for Eclipse. It add some PHP IDE features to the browser. Like debugging and profiling. Just a shame that it&#8217;s a toolbar and not some status bar icon. The toolbar takes up a lot of space.</p>
+<p>The toolbar that comes with Zend Studio or Zend Studio for Eclipse. It add some PHP IDE features to the browser. Like debugging and profiling. Just a shame that it’s a toolbar and not some status bar icon. The toolbar takes up a lot of space.</p>
 
 <p><a href="https://addons.mozilla.org/en-US/firefox/addon/770">LeetKey</a></p>
 
-<p>This tool adds some text transformation features to the right click menu. When enabled it&#8217;s possible to transform / encrypt text with the following encoding / encryption (L337, ROT13, BASE64, HEX, URL, BIN, DES, AES, Morse code)</p>
+<p>This tool adds some text transformation features to the right click menu. When enabled it’s possible to transform / encrypt text with the following encoding / encryption (L337, ROT13, BASE64, HEX, URL, BIN, DES, AES, Morse code)</p>
 
 <p><a href="https://addons.mozilla.org/en-US/firefox/addon/5235">Unicode Input Tool / Converter</a></p>
 
-<p>Conver hexidecimal || decimal entities or characters to unicode.</p>
+<table>
+  <tbody>
+    <tr>
+      <td>Conver hexidecimal</td>
+      <td> </td>
+      <td>decimal entities or characters to unicode.</td>
+    </tr>
+  </tbody>
+</table>
 </div>
   
   
@@ -451,7 +542,7 @@ track down problems with slow loading pages. Or just a tool to help with optimiz
 
   <div class="articletext"><p>I decided to give the <a href="http://framework.zend.com/">Zend Framework</a> a try. The first attempt to create a simple SOAP based login.</p>
 
-<p>In the first few hours i had absolutely now problems building my small application. But for some strange reason after a few hours ZF started to throw error&#8217;s. Mainly for files it was trying to include. These files were in the correct location. Nothing changed. The include path was still set correctly. I found a few bug reports with similar problems. Although there were some solutions. I was not satisfied with them. And had the feeling the problems were caused by something else.</p>
+<p>In the first few hours i had absolutely now problems building my small application. But for some strange reason after a few hours ZF started to throw error’s. Mainly for files it was trying to include. These files were in the correct location. Nothing changed. The include path was still set correctly. I found a few bug reports with similar problems. Although there were some solutions. I was not satisfied with them. And had the feeling the problems were caused by something else.</p>
 
 <p>So after i read threw all code. I notice a few lines i copied from <a href="http://www.calevans.com/">Cal Evans</a> <a href="http://phparch.com/c/books/id/9780973862157">book</a>. These lines mainly set the include_path for the current application. And it looked something like this:</p>
 
@@ -462,7 +553,7 @@ $inc_path = implode(PATH_SEPARATOR, $lib_paths);
 set_include_path($inc_path);
 </code></pre>
 
-<p>I noticed the application directory was added first. So this is also the first part where PHP starts looking for it&#8217;s include files. So i decided to switch them. So the code looks like this now:</p>
+<p>I noticed the application directory was added first. So this is also the first part where PHP starts looking for it’s include files. So i decided to switch them. So the code looks like this now:</p>
 
 <pre><code>$lib_paths = array();
 $lib_paths[] = "/path/to/library";
@@ -471,7 +562,7 @@ $inc_path = implode(PATH_SEPARATOR, $lib_paths);
 set_include_path($inc_path);
 </code></pre>
 
-<p>After this change the problem seems to have been resolved. I still would like to figure out why ZF has problems with finding it&#8217;s own include files. Maybe it&#8217;s a combination of the wrong include order and the .htaccess file not working well together.</p>
+<p>After this change the problem seems to have been resolved. I still would like to figure out why ZF has problems with finding it’s own include files. Maybe it’s a combination of the wrong include order and the .htaccess file not working well together.</p>
 </div>
   
   
@@ -529,22 +620,31 @@ set_include_path($inc_path);
 </header>
 
 
-  <div class="articletext"><p>When designing pages for multiple browsers. It&#8217;s pretty much a pain in the ass to get things looking similar cross all browsers. There are many Javascript libraries to help and ease the pain. But it doesn&#8217;t solve all. And hoping people will stop using IE 6 also doesn&#8217;t really help. So we are stuck in getting things work in all those quirky browsers. So a developer / designer probably has multiple browsers installed. On my dev box i only use Firefox.</p>
+  <div class="articletext"><p>When designing pages for multiple browsers. It’s pretty much a pain in the ass to get things looking similar cross all browsers. There are many Javascript libraries to help and ease the pain. But it doesn’t solve all. And hoping people will stop using IE 6 also doesn’t really help. So we are stuck in getting things work in all those quirky browsers. So a developer / designer probably has multiple browsers installed. On my dev box i only use Firefox.</p>
 
-<p>But when i have to build a design. I need to check al those browsers. So i have Firefox, Opera and Internet Explorer installed. The problem with internet explorer is that you can&#8217;t run multiple versions on the same machine. Well at least not without a long hacking session. To solve this problem most of the time i used something like Virtual Machine or Virtual Desktop. The problem is that applications like that eat memory. And there is always the minor annoyances with losing focus on my <a href="http://www.zend.com/en/products/studio/">IDE</a> because the VM window is still active.</p>
+<p>But when i have to build a design. I need to check al those browsers. So i have Firefox, Opera and Internet Explorer installed. The problem with internet explorer is that you can’t run multiple versions on the same machine. Well at least not without a long hacking session. To solve this problem most of the time i used something like Virtual Machine or Virtual Desktop. The problem is that applications like that eat memory. And there is always the minor annoyances with losing focus on my <a href="http://www.zend.com/en/products/studio/">IDE</a> because the VM window is still active.</p>
 
-<p>Some time ago. My coworker Bart send a link to a tool called <a href="http://www.my-debugbar.com/wiki/IETester/HomePage">IETester</a>. This nice little (24mb) tool let&#8217;s you run multiple versions of Internet explorer on one machine. It&#8217;s possible to test pages in version 5.5 and up. even the upcomming (still in beta) version 8 is supported. At the time of writing it is still in alpha stage. But it works great. I did have some unexplainable crashes. And there are some known issue&#8217;s like:</p>
+<p>Some time ago. My coworker Bart send a link to a tool called <a href="http://www.my-debugbar.com/wiki/IETester/HomePage">IETester</a>. This nice little (24mb) tool let’s you run multiple versions of Internet explorer on one machine. It’s possible to test pages in version 5.5 and up. even the upcomming (still in beta) version 8 is supported. At the time of writing it is still in alpha stage. But it works great. I did have some unexplainable crashes. And there are some known issue’s like:</p>
 
 <ul>
-<li><p>When resizing, the content may disappear. I am working to correct it on the next version.</p></li>
-<li><p>The Previous/Next buttons are not working properly</p></li>
-<li><p>Focus is not working properly</p></li>
-<li><p>Java applets are not working</p></li>
-<li><p>Flash is not working on IE6 instance.</p></li>
+  <li>
+    <p>When resizing, the content may disappear. I am working to correct it on the next version.</p>
+  </li>
+  <li>
+    <p>The Previous/Next buttons are not working properly</p>
+  </li>
+  <li>
+    <p>Focus is not working properly</p>
+  </li>
+  <li>
+    <p>Java applets are not working</p>
+  </li>
+  <li>
+    <p>Flash is not working on IE6 instance.</p>
+  </li>
 </ul>
 
-
-<p>Besides that it does what it&#8217;s build for. A nice tool to add to your arsenal.</p>
+<p>Besides that it does what it’s build for. A nice tool to add to your arsenal.</p>
 </div>
   
   
@@ -602,9 +702,9 @@ set_include_path($inc_path);
 </header>
 
 
-  <div class="articletext"><p>Today i got a question from <a href="http://www.usablenet.co.uk/">Richard</a>. About the flicker bug and how to implement the fix. The problem that he had with Javascript throwing an illegal character error was because of copy pasting from this blog. I&#8217;m not sure why the single quotes get screwed up. But i will have a look at it. I also didn&#8217;t state which version of <a href="http://mootools.net/">mootools</a> i was using. It was 1.1 at the time. And i was using the full uncompressed version.</p>
+  <div class="articletext"><p>Today i got a question from <a href="http://www.usablenet.co.uk/">Richard</a>. About the flicker bug and how to implement the fix. The problem that he had with Javascript throwing an illegal character error was because of copy pasting from this blog. I’m not sure why the single quotes get screwed up. But i will have a look at it. I also didn’t state which version of <a href="http://mootools.net/">mootools</a> i was using. It was 1.1 at the time. And i was using the full uncompressed version.</p>
 
-<p>But since then version 1.2 of <a href="http://mootools.net/">mootools</a> came out. And id didn&#8217;t really had time yet to look into it. But this version also has the same annoying bug. So i looked at the code. The <a href="http://docs.mootools.net/Plugins/Fx.Slide">FX.Slide</a> class changed a bit. And the core and  plugins are split up into separate files now. But the fix remains the same. And since i don&#8217;t really want to write a whole article about it right now. I decided to create two sets of archives. One with the fix for version 1.1 and one for version 1.2. The changes i made are explained in the previous article. But for 1.1 they are around line 4453 and 4458. For 1.2 if you only use the FX.Slide plugin it&#8217;s around line 17 and 29.</p>
+<p>But since then version 1.2 of <a href="http://mootools.net/">mootools</a> came out. And id didn’t really had time yet to look into it. But this version also has the same annoying bug. So i looked at the code. The <a href="http://docs.mootools.net/Plugins/Fx.Slide">FX.Slide</a> class changed a bit. And the core and  plugins are split up into separate files now. But the fix remains the same. And since i don’t really want to write a whole article about it right now. I decided to create two sets of archives. One with the fix for version 1.1 and one for version 1.2. The changes i made are explained in the previous article. But for 1.1 they are around line 4453 and 4458. For 1.2 if you only use the FX.Slide plugin it’s around line 17 and 29.</p>
 
 <p>You can download the archives here:
 <a href="http://we.designandco.de/code/mootools.1.1.slide.flickerbug.tar.gz">version 1.1</a>
@@ -666,13 +766,13 @@ set_include_path($inc_path);
 </header>
 
 
-  <div class="articletext"><p>Normally i have no problems installing PHP. So when i decided to upgrade 5.2.5 to 5.2.6 on my windows dev box. I was surprised to see that php_mysql.dll and php_pgsql.dll were not loading after a clean install. No matter what i tried. I kept getting the &#8220;PHP Startup: Unable to load dynamic library&#8221; error.</p>
+  <div class="articletext"><p>Normally i have no problems installing PHP. So when i decided to upgrade 5.2.5 to 5.2.6 on my windows dev box. I was surprised to see that php_mysql.dll and php_pgsql.dll were not loading after a clean install. No matter what i tried. I kept getting the “PHP Startup: Unable to load dynamic library” error.</p>
 
-<p>Some years ago this problem was obvious. The problem was always solved by copying the libmysql.dll to windows/system32. But this changed. For the last year i never had to copy this file. So i couldn&#8217;t really believe this was the problem. But after trying for some hours. I gave up. Copied the libmysql.dll file to windows/system32. And voila&#8230;. the mysql extension now loads. But i still have no solution for the pgsql extension. Which i really need by the way. WTF happened here? How is it possible that two of the most used extensions do not load after a clean install?</p>
+<p>Some years ago this problem was obvious. The problem was always solved by copying the libmysql.dll to windows/system32. But this changed. For the last year i never had to copy this file. So i couldn’t really believe this was the problem. But after trying for some hours. I gave up. Copied the libmysql.dll file to windows/system32. And voila…. the mysql extension now loads. But i still have no solution for the pgsql extension. Which i really need by the way. WTF happened here? How is it possible that two of the most used extensions do not load after a clean install?</p>
 
 <p>UPDATE*</p>
 
-<p>The postgres problem is solvable by installing the postgres server. And adding the PostgreSQL\8.3\bin to the PATH variable. Weird stuff&#8230;</p>
+<p>The postgres problem is solvable by installing the postgres server. And adding the PostgreSQL\8.3\bin to the PATH variable. Weird stuff…</p>
 </div>
   
   
@@ -730,23 +830,30 @@ set_include_path($inc_path);
 </header>
 
 
-  <div class="articletext"><p>I wanted to finish this post last weekend, But i was feelings so bad (flew). I haven&#8217;t really been near my computer untill now. So here goes. Last Saturday me, Bart and Robbert headed over to the second edition of the <a href="http://phpconference.nl/">Dutch PHP Conference</a>. After getting the name tags. We headed over to the main room. Where i scored a nice <a href="http://www.phpwomen.org/">PHPWoman</a> t&#8217; shirt for my wife :) Not much later the first keynotes started.</p>
+  <div class="articletext"><p>I wanted to finish this post last weekend, But i was feelings so bad (flew). I haven’t really been near my computer untill now. So here goes. Last Saturday me, Bart and Robbert headed over to the second edition of the <a href="http://phpconference.nl/">Dutch PHP Conference</a>. After getting the name tags. We headed over to the main room. Where i scored a nice <a href="http://www.phpwomen.org/">PHPWoman</a> t’ shirt for my wife :) Not much later the first keynotes started.</p>
 
-<p>The first keynote was by <a href="http://suraski.net/blog/">Zeev</a>. Which i had high hopes for. It&#8217;s a opportunity to hear one of the guys that made PHP to what it is. Give a talk. It was mainly about the history of PHP. Because nobody in the audience seemed to know about it. Or they just wanted to hear it from the master himself. I don&#8217;t know. I enjoyed the talk.</p>
+<p>The first keynote was by <a href="http://suraski.net/blog/">Zeev</a>. Which i had high hopes for. It’s a opportunity to hear one of the guys that made PHP to what it is. Give a talk. It was mainly about the history of PHP. Because nobody in the audience seemed to know about it. Or they just wanted to hear it from the master himself. I don’t know. I enjoyed the talk.</p>
 
-<p>After Zeev <a href="http://mtabini.blogspot.com/">Marco Tabini</a> hit the stage. Which was pretty funny. This guy has a way of talking. And his slides connect to that perfectly. It was amusing and interesting. Although i had some problems getting comfortable in the main room chairs. the name of the talk was &#8220;PHP and the Taste of Mayo&#8221;. And it was mainly about keeping it simple. And choosing the right tools for the job.</p>
+<p>After Zeev <a href="http://mtabini.blogspot.com/">Marco Tabini</a> hit the stage. Which was pretty funny. This guy has a way of talking. And his slides connect to that perfectly. It was amusing and interesting. Although i had some problems getting comfortable in the main room chairs. the name of the talk was “PHP and the Taste of Mayo”. And it was mainly about keeping it simple. And choosing the right tools for the job.</p>
 
-<p>After the keynotes it was time for lunch. Because i was feeling a bit sick i wasn&#8217;t really hungry. But the food was good. All kinds of sandwiches and the tasty <a href="http://nl.wikipedia.org/wiki/Saucijzenbroodje">saucijzenbroodjes</a>. Just good variety. Outside we sniffed some fresh air.. And tried to figure out to which talk we wanted to go. Since we don&#8217;t do anything with unit testing at the moment. We decided to go to <a href="http://sebastian-bergmann.de/authors/1-Sebastian-Bergmann">Sebastian Bergmann</a>&#8217;s talk about <a href="http://sebastian-bergmann.de/archives/795-New-Features-in-PHPUnit-3.3.html">PHPUnit 3.3</a>.</p>
+<p>After the keynotes it was time for lunch. Because i was feeling a bit sick i wasn’t really hungry. But the food was good. All kinds of sandwiches and the tasty <a href="http://nl.wikipedia.org/wiki/Saucijzenbroodje">saucijzenbroodjes</a>. Just good variety. Outside we sniffed some fresh air.. And tried to figure out to which talk we wanted to go. Since we don’t do anything with unit testing at the moment. We decided to go to <a href="http://sebastian-bergmann.de/authors/1-Sebastian-Bergmann">Sebastian Bergmann</a>’s talk about <a href="http://sebastian-bergmann.de/archives/795-New-Features-in-PHPUnit-3.3.html">PHPUnit 3.3</a>.</p>
 
-<p>Sebastian quickly skimmed through the basics of PHPUnit. How to create a test class and the use of mock objects. After that he showed some new features in PHPUnit 3.3. One of wich is based on behavior based development. It was a story based testing. With the use of method chaining phrases can be build to execute the execute scenario&#8217;s. I have to say it&#8217;s a strange way. And the code looks kinda weird. I had the feeling Sebastian was also not to happy about it. I guess he tries to keep his users happy. He dropped some words about a new project. I think it was PHP Depend. But i kinda forgot. Couldn&#8217;t find any info about it on the net. So we keep that for another time. I had the feeling Sebastian was rushing a bit. He didn&#8217;t have enough time. But it was good talk. His slides can be found <a href="http://sebastian-bergmann.de/archives/795-New-Features-in-PHPUnit-3.3.html">here</a>.</p>
+<p>Sebastian quickly skimmed through the basics of PHPUnit. How to create a test class and the use of mock objects. After that he showed some new features in PHPUnit 3.3. One of wich is based on behavior based development. It was a story based testing. With the use of method chaining phrases can be build to execute the execute scenario’s. I have to say it’s a strange way. And the code looks kinda weird. I had the feeling Sebastian was also not to happy about it. I guess he tries to keep his users happy. He dropped some words about a new project. I think it was PHP Depend. But i kinda forgot. Couldn’t find any info about it on the net. So we keep that for another time. I had the feeling Sebastian was rushing a bit. He didn’t have enough time. But it was good talk. His slides can be found <a href="http://sebastian-bergmann.de/archives/795-New-Features-in-PHPUnit-3.3.html">here</a>.</p>
 
 <p>After the first talk we took something to drink and walked around a bit. Waiting for the next talk to start. We decided to go to <a href="http://mayflower.de/">Mayflower</a> and <a href="http://www.sektioneins.de/">Sektioneins</a> security talk. Which was something different then i expected. It was not as technical as i had hoped. But it touched some nice topics. I had hoped <a href="http://www.hardened-php.net/index.24.html">Stefan Esser</a> would be there also. But Johann-Peter Hartmann did a great job. The talk was mainly was about Risk assessment. How to identify risk points in your application flow. And how to anticipate to those points. The talk also showed some malicious web trends. Some nice graphs that hacking web applications is not for fun anymore.</p>
 
-<p>When the second talk was over we went outside. i was feeling pretty bad. Seems every time when there&#8217;s a conference i come down with the flew. Was thinking about going home. But decided i didn&#8217;t want to miss the last two talks. So we headed back to the main room. After getting a nice cold coke. We picked some nice seats and waited for <a href="http://www.priebsch.de/">Stefan Priebsch</a> to begin his talk about PHP 5.3 and PHP 6. This was one of the best talks i think. it was pretty interesting to hear about some new features. Although i knew about most. There was a bit of e discussion about namespaces. Some guy in the audience was screaming for attention. Although he made some points. I had the feeling i was sitting near a real life troll :) Anyway Stefan&#8217;s talk was good. A bit of irony about the up coming PHP 6 with Unicode support. And some new features in PHP5.3 like, Garbage Collection, SPL, Late static binding which was very interesting. With some nice examples. I ended with a small plug for his new book. Which you can buy over at <a href="http://www.phparch.com/">PHP|Architect</a>. The slides for his talk can be found <a href="http://www.slideshare.net/spriebsch/php-53-and-php-6-a-look-ahead-dpc-2008-amsterdam/">here</a>.</p>
+<table>
+  <tbody>
+    <tr>
+      <td>When the second talk was over we went outside. i was feeling pretty bad. Seems every time when there’s a conference i come down with the flew. Was thinking about going home. But decided i didn’t want to miss the last two talks. So we headed back to the main room. After getting a nice cold coke. We picked some nice seats and waited for <a href="http://www.priebsch.de/">Stefan Priebsch</a> to begin his talk about PHP 5.3 and PHP 6. This was one of the best talks i think. it was pretty interesting to hear about some new features. Although i knew about most. There was a bit of e discussion about namespaces. Some guy in the audience was screaming for attention. Although he made some points. I had the feeling i was sitting near a real life troll :) Anyway Stefan’s talk was good. A bit of irony about the up coming PHP 6 with Unicode support. And some new features in PHP5.3 like, Garbage Collection, SPL, Late static binding which was very interesting. With some nice examples. I ended with a small plug for his new book. Which you can buy over at [PHP</td>
+      <td>Architect](http://www.phparch.com/). The slides for his talk can be found <a href="http://www.slideshare.net/spriebsch/php-53-and-php-6-a-look-ahead-dpc-2008-amsterdam/">here</a>.</td>
+    </tr>
+  </tbody>
+</table>
 
-<p>The final talk was given by <a href="http://terrychay.com/">Terry chay</a> (the PHP terrorist). I looked forward to this talk. I heard and read a lot about his way of presenting in front of a crowd. And i can tell you. This guy rocks. The talk was of course not without some <a href="http://www.rubyonrails.org/">Ruby on Rails</a> bashing. I had to say this was one hell of an inspiring talk. The talk was titled The Internet is an Ogre: Finding Art in the internet Architecture. His talk was about what he called the four s&#8217;s (Stability, Scalability, Speed, and Security). How to build an application the right way. From the bottom up. I didn&#8217;t find any slides to the talk yet. They will probably pop up somewhere.</p>
+<p>The final talk was given by <a href="http://terrychay.com/">Terry chay</a> (the PHP terrorist). I looked forward to this talk. I heard and read a lot about his way of presenting in front of a crowd. And i can tell you. This guy rocks. The talk was of course not without some <a href="http://www.rubyonrails.org/">Ruby on Rails</a> bashing. I had to say this was one hell of an inspiring talk. The talk was titled The Internet is an Ogre: Finding Art in the internet Architecture. His talk was about what he called the four s’s (Stability, Scalability, Speed, and Security). How to build an application the right way. From the bottom up. I didn’t find any slides to the talk yet. They will probably pop up somewhere.</p>
 
-<p>After the last talk ended. All speakers got on stage and received some goodies and a big applause from the audience. The conference was over. And because i wasn&#8217;t feeling to well. I went home immediately. Overall i think it was a great day. I learned some new thing. Witch for me is the main thing about conferences. On our way out we picked up a goody bag. Which had a very nice t&#8217; shirt. And some promotion materials. Thanks to all the people who made this happen. And hope till next year</p>
+<p>After the last talk ended. All speakers got on stage and received some goodies and a big applause from the audience. The conference was over. And because i wasn’t feeling to well. I went home immediately. Overall i think it was a great day. I learned some new thing. Witch for me is the main thing about conferences. On our way out we picked up a goody bag. Which had a very nice t’ shirt. And some promotion materials. Thanks to all the people who made this happen. And hope till next year</p>
 
 <p>By now some pictures are apearring on <a href="http://www.flickr.com/photos/tags/dpc08">flickr</a>.</p>
 </div>
@@ -789,66 +896,6 @@ set_include_path($inc_path);
     <div class="share">
 		<ul>
 			<li><a href="http://lenss.nl/2008/06/dutch-php-conference-2008-20/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2008/06/php-testfest-pays-off/">PHP testFest Pays Off.</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>It&#8217; s been some time ago already. But on May the 10th. I joined some other Dutch PHP Developers in the PHP <a href="http://testfest.php.net/">TestFest</a> in Roosendaal. It was a small group. But it&#8217;s always good to meet fellow developers. I wasn&#8217;t at my best that day. With a big party the day before. But never the less i made it to the testfest. And was half a sleep all day. Still one of my test made it into 5_3. No biggie. Just cool! And looking at the list of added tests. A lot of developers around the world did a great job. A thanks to <a href="http://www.phpgg.nl/blog">phpgg.nl</a> and <a href="http://www.sebastian-bergmann.de/">Sebastian Bergmann</a></p>
-
-<p><a href="http://cvs.php.net/viewvc.cgi/php-src/ext/reflection/tests/reflectionExtension_getClasses_basic.phpt?r1=1.1&amp;r2=1.2&amp;diff_format=u">CVS commit</a></p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-06-13T05:35:50+02:00" pubdate data-updated="true">Jun 13<span>th</span>, 2008</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2008/06/php-testfest-pays-off/#disqus_thread">Comments</a></li>
 		</ul>
 	</div>
   </footer>
@@ -906,6 +953,8 @@ set_include_path($inc_path);
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -923,8 +972,6 @@ set_include_path($inc_path);
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -945,7 +992,7 @@ set_include_path($inc_path);
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

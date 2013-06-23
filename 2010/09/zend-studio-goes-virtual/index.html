@@ -67,46 +67,55 @@
 </header>
 
 
-<div class="articletext"><p>Zend Studio added a new great <a href="http://www.zend.com/en/products/studio/vmware-workstation-deployment#discount">feature</a> to there already impressive stack of features. The IDE just keeps growing in the right direction.</p>
+<div class="articletext"><p>Zend Studio added a new great <a href="http://www.zend.com/en/products/studio/vmware-workstation-deployment#discount">feature</a> to there already impressive stack of features. The IDE just keeps growing in the right direction. </p>
 
-<p>So the new 8 version which at the time of writing is in Beta added VMWare support. This is a feature i was looking forward to. And couldn&#8217;t wait to give this a try. So when i got a email that the new beta is out. I didn&#8217;t wait and downloaded the behemoth.</p>
+<p>So the new 8 version which at the time of writing is in Beta added VMWare support. This is a feature i was looking forward to. And couldn’t wait to give this a try. So when i got a email that the new beta is out. I didn’t wait and downloaded the behemoth.</p>
 
-<p>Adding VMWare support to the IDE seems like a logical thing to do. Specially since everything is virtualized now a days. I thought about this a while. But you can use it in different setups. For me it is an extra on my development environment. I&#8217;m a big Linux enthusiast. But at the office i work on windows. So now i can develop in my own virtual Linux environment. But it&#8217;s also a great solution for running Unit Test on a production VM. Or just to test on a production VM.</p>
+<p>Adding VMWare support to the IDE seems like a logical thing to do. Specially since everything is virtualized now a days. I thought about this a while. But you can use it in different setups. For me it is an extra on my development environment. I’m a big Linux enthusiast. But at the office i work on windows. So now i can develop in my own virtual Linux environment. But it’s also a great solution for running Unit Test on a production VM. Or just to test on a production VM.</p>
 
-<p>My first try was on my OS of choice which is Ubuntu. That however didn&#8217;t go to well. As soon as i started the &#8220;Run as VMWare application&#8221; my IDE would die on me. I quickly gave up on this mainly because i am running Maverick which is not considered stable. And VMWare already had some problems building the kernel modules. If anybody is interested in the crash logs. I still have some.</p>
+<p>My first try was on my OS of choice which is Ubuntu. That however didn’t go to well. As soon as i started the “Run as VMWare application” my IDE would die on me. I quickly gave up on this mainly because i am running Maverick which is not considered stable. And VMWare already had some problems building the kernel modules. If anybody is interested in the crash logs. I still have some.</p>
 
 <p>So back to windows. Windows 7 in particular. I always keep a Windows partition laying around. For games and stuff. So i downloaded the following files.</p>
 
-<blockquote><ul>
-<li>Ubuntu-Server</li>
-<li>Zend Studio 8 Beta (<a href="http://www.zend.com/en/products/studio/download-8-beta">trial</a>)</li>
-<li>VMWare 7.1.2        (<a href="http://downloads.vmware.com/d/info/desktop_downloads/vmware_workstation/7_0">trial</a>)</li>
-</ul>
+<blockquote>
+
+  <ul>
+    <li>Ubuntu-Server</li>
+    <li>Zend Studio 8 Beta (<a href="http://www.zend.com/en/products/studio/download-8-beta">trial</a>)</li>
+    <li>VMWare 7.1.2        (<a href="http://downloads.vmware.com/d/info/desktop_downloads/vmware_workstation/7_0">trial</a>)</li>
+  </ul>
 </blockquote>
 
-<p>Installing VMWare and Zend Studio is a since. Nothing to make note off here. After that was done i installed Ubuntu 10.04 Server edition. And installed Zend Server inside of it. That should be all.. right? So let&#8217;s launch the IDE and give it a shot. Well it launched but i got back an error like below.</p>
+<p>Installing VMWare and Zend Studio is a since. Nothing to make note off here. After that was done i installed Ubuntu 10.04 Server edition. And installed Zend Server inside of it. That should be all.. right? So let’s launch the IDE and give it a shot. Well it launched but i got back an error like below.</p>
 
 <p><a href="http://lenss.nl/images/2010/09/zend-server-vm-noconnect.png"><img src="http://lenss.nl/images/2010/09/zend-server-vm-noconnect_s.jpg" alt="" /></a></p>
 
-<p>At first i had no clue what was going on. But i had the feeling there was something wrong with the VMWare client tools. After digging through the Zend Studio manual i found the <a href="http://files.zend.com/help/Beta/Zend_Studio_8_0/zend-studio.htm#integrating_with_vmware_workstation.htm">answer</a> The &#8216;hgfs&#8217; was not mounted on teh client OS. And this was because the vmware tools did not have enough libraries to build everything. To build the complete VMWare tools on the client OS we need</p>
+<p>At first i had no clue what was going on. But i had the feeling there was something wrong with the VMWare client tools. After digging through the Zend Studio manual i found the <a href="http://files.zend.com/help/Beta/Zend_Studio_8_0/zend-studio.htm#integrating_with_vmware_workstation.htm">answer</a> The ‘hgfs’ was not mounted on teh client OS. And this was because the vmware tools did not have enough libraries to build everything. To build the complete VMWare tools on the client OS we need</p>
 
-<blockquote><ul>
-<li>gcc</li>
-<li>make</li>
-<li>build-essential</li>
-<li>linux-headers-(current version)</li>
-</ul>
+<blockquote>
+
+  <ul>
+    <li>gcc</li>
+    <li>make</li>
+    <li>build-essential</li>
+    <li>linux-headers-(current version)</li>
+  </ul>
 </blockquote>
 
-<p>When that&#8217;s done it necessary to attach the linux version of the VMWare tools to the virtual CDRom drive. So we can mount it inside the VM.</p>
+<p>When that’s done it necessary to attach the linux version of the VMWare tools to the virtual CDRom drive. So we can mount it inside the VM.</p>
 
-<blockquote><p>/usr/lib/vmware/isoimages/linux.iso</p>
+<blockquote>
+  <p>/usr/lib/vmware/isoimages/linux.iso</p>
+</blockquote>
 
-<p>mount /dev/cdrom /mnt</p></blockquote>
+<blockquote>
 
-<p>Copy the file somewhere and unmount the /mnt or the build will fail. Unpack the VMWare tools and run the perl script inside to install. Once that&#8217;s done follow the VMWare instructions. Or reboot the VM.</p>
+  <p>mount /dev/cdrom /mnt</p>
+</blockquote>
 
-<p>Now we are all set. Now it&#8217;s just a matter of writing code. And running it on the VM. When running an application as a VMWare application the IDE syncs the files with the shared folder on the VM. After that the internal browser is launched to see the result.</p>
+<p>Copy the file somewhere and unmount the /mnt or the build will fail. Unpack the VMWare tools and run the perl script inside to install. Once that’s done follow the VMWare instructions. Or reboot the VM.</p>
+
+<p>Now we are all set. Now it’s just a matter of writing code. And running it on the VM. When running an application as a VMWare application the IDE syncs the files with the shared folder on the VM. After that the internal browser is launched to see the result.</p>
 
 <p>The first time you will be asked for the VM to use. Just point it to the VM image created by VMWare.</p>
 
@@ -240,6 +249,8 @@
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -257,8 +268,6 @@
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -279,7 +288,7 @@
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

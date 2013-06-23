@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Reserved Keywords, Corrupt Cache and Stack Errors What a day. Every now and then there are such days where you wished you stayed in bed. Today was &hellip;">
+  <meta name="description" content="Memcached Telnet Interface Commands I was looking for the list of Memcached telnet commands. And couldn’t find much in the docs. So after some &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,179 @@
 <header>
 	<header>
 	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2011/07/memcached-telnet-interface-commands/">Memcached Telnet Interface Commands</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p><del>I was looking for the list of <a href="http://memcached.org/">Memcached</a> telnet commands. And couldn’t find much in the docs. So after some Google searching i finally found the list. And will keep it here for future reference.</del></p>
+
+<p>So i did a bit of reading while working on a memcache tool in PHP. I found some good <a href="https://github.com/memcached/memcached/blob/master/doc/protocol.txt">documentation</a> on the <a href="http://memcached.org/">memcached.org</a> website.</p>
+
+<p>Command
+Description
+Example</p>
+
+<p>get</p>
+
+<p>Reads a value</p>
+
+<p>get mykey</p>
+
+<p>set</p>
+
+<p>Set a key unconditionally</p>
+
+<p>set mykey 0 60 5</p>
+
+<p>add</p>
+
+<p>Add a new key</p>
+
+<p>add newkey 0 60 5</p>
+
+<p>replace</p>
+
+<p>Overwrite existing key</p>
+
+<p>replace key 0 60 5</p>
+
+<p>append</p>
+
+<p>Append data to existing key</p>
+
+<p>append key 0 60 15</p>
+
+<p>prepend</p>
+
+<p>Prepend data to existing key</p>
+
+<p>prepend key 0 60 15</p>
+
+<p>incr</p>
+
+<p>Increments numerical key value by given number</p>
+
+<p>incr mykey 2</p>
+
+<p>decr</p>
+
+<p>Decrements numerical key value by given number</p>
+
+<p>decr mykey 5</p>
+
+<p>delete</p>
+
+<p>Deletes an existing key</p>
+
+<p>delete mykey</p>
+
+<p>flush_all</p>
+
+<p>Invalidate specific items immediately</p>
+
+<p>flush_all</p>
+
+<p>Invalidate all items in n seconds</p>
+
+<p>flush_all 900</p>
+
+<p>stats</p>
+
+<p>Prints general statistics</p>
+
+<p>stats</p>
+
+<p>Prints memory statistics</p>
+
+<p>stats slabs</p>
+
+<p>Prints memory statistics</p>
+
+<p>stats malloc</p>
+
+<p>Print higher level allocation statistics</p>
+
+<p>stats items</p>
+
+<p>stats detail</p>
+
+<p>stats sizes</p>
+
+<p>Resets statistics</p>
+
+<p>stats reset</p>
+
+<p>version</p>
+
+<p>Prints server version.</p>
+
+<p>version</p>
+
+<p>verbosity</p>
+
+<p>Increases log level</p>
+
+<p>verbosity</p>
+
+<p>quit</p>
+
+<p>Terminate telnet session</p>
+
+<p>quit</p>
+
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-12T11:02:50+02:00" pubdate data-updated="true">Jul 12<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2011/07/memcached-telnet-interface-commands/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
 	  <h1 class="entry-title"><a href="http://lenss.nl/2011/06/reserved-keywords_corrupt-cache-and-stack-errors/">Reserved Keywords, Corrupt Cache and Stack Errors</a></h1>
 	
 	</header>
@@ -74,36 +247,70 @@
 
 <p><strong>Reserved keyword</strong></p>
 
-<p>So i have been banging my head over this issue for way to long today. And had to find out the hard way it was a simple little thing as usual. But <a href="http://www.doctrine-project.org/">Doctrine</a> (version 1 if anybody asks) didn&#8217;t offer me any good info with the error message it was displaying. Nor did <a href="http://www.php.net/">PHP</a> or <a href="http://www.mysql.com/">MySQL</a> (should be <a href="http://mariadb.org/">MariaDB</a> if you ask me).</p>
+<p>So i have been banging my head over this issue for way to long today. And had to find out the hard way it was a simple little thing as usual. But <a href="http://www.doctrine-project.org/">Doctrine</a> (version 1 if anybody asks) didn’t offer me any good info with the error message it was displaying. Nor did <a href="http://www.php.net/">PHP</a> or <a href="http://www.mysql.com/">MySQL</a> (should be <a href="http://mariadb.org/">MariaDB</a> if you ask me).</p>
 
-<p>While working on a very heavy Doctrine based project. I ran into a at first glance weird error. Yesterday i created a class structure. All good and well. The class i was working on was called <em>Shows</em>. But it represented a single <em>Show</em> entity and therefore should have been called <strong>Show</strong>. So i decided to do a rename action. Pretty complex because of different dependencies. But after a few tries i got it right. Except Doctrine was failing with a syntax error. After a code inspection i still couldn&#8217;t spot the issue. The only thing i didn&#8217;t do yet was output the query and run it from a shell. And this failed with the same syntax error message. Damn!</p>
+<p>While working on a very heavy Doctrine based project. I ran into a at first glance weird error. Yesterday i created a class structure. All good and well. The class i was working on was called <em>Shows</em>. But it represented a single <em>Show</em> entity and therefore should have been called <strong>Show</strong>. So i decided to do a rename action. Pretty complex because of different dependencies. But after a few tries i got it right. Except Doctrine was failing with a syntax error. After a code inspection i still couldn’t spot the issue. The only thing i didn’t do yet was output the query and run it from a shell. And this failed with the same syntax error message. Damn!</p>
 
-<blockquote><p>INNER JOIN show s ON &#8230;</p></blockquote>
+<blockquote>
+  <p>INNER JOIN show s ON …</p>
+</blockquote>
 
-<p>Checked the whole query. Still couldn&#8217;t spot the issue. Then for some weird reason i decided to escape the table name with <a href="http://en.wikipedia.org/wiki/Grave_accent">backticks</a> <strong><code>Show</code></strong>. Everything worked again. Wow! So Doctrine doesn&#8217;t escape table names. But why did it fail in the first place? By now i had the feeling i was using a reserved keyword. And a check <a href="http://dev.mysql.com/doc/mysqld-version-reference/en/mysqld-version-reference-reservedwords-5-6.html">confirmed</a> this. An error would have been helpful here. I had a bit of luck though. As it turned out the table should have been named different anyway. I made a small workaround for it in my code. But decided that was not the way to go  So the lesson of the day for me was don&#8217;t use reserved words for class / table names. A good thread on the issue can be found <a href="http://www.doctrine-project.org/jira/browse/DBAL-40">here</a>.</p>
+<p>Checked the whole query. Still couldn’t spot the issue. Then for some weird reason i decided to escape the table name with <a href="http://en.wikipedia.org/wiki/Grave_accent">backticks</a> <strong><code>Show</code></strong>. Everything worked again. Wow! So Doctrine doesn’t escape table names. But why did it fail in the first place? By now i had the feeling i was using a reserved keyword. And a check <a href="http://dev.mysql.com/doc/mysqld-version-reference/en/mysqld-version-reference-reservedwords-5-6.html">confirmed</a> this. An error would have been helpful here. I had a bit of luck though. As it turned out the table should have been named different anyway. I made a small workaround for it in my code. But decided that was not the way to go  So the lesson of the day for me was don’t use reserved words for class / table names. A good thread on the issue can be found <a href="http://www.doctrine-project.org/jira/browse/DBAL-40">here</a>.</p>
 
 <p><strong>APC object corruption</strong></p>
 
-<p>The second issue to bite my ass was a nice one as well. And this time no indication of an error at all. While working on the same classes discusses shortly above. I renamed the class names and the file names on disk. And after a page reload in the browser. The framework was complaining it couldn&#8217;t load the changed class. I checked the class and file names and all were correct. After toying with it for 20 minutes i decided to ask my colleague. And he suggested to restart Apache. for the second time today i was stumped. Everything worked again. Turns out that APC couldn&#8217;t find the already in memory loaded class. After renaming the corresponding filename (seems logical now that i think of it). A restart of Apache flushed the APC cache and therefore the issue. This sounds like a bug though. And requires some further inspection or a bug report. We will see.</p>
+<p>The second issue to bite my ass was a nice one as well. And this time no indication of an error at all. While working on the same classes discusses shortly above. I renamed the class names and the file names on disk. And after a page reload in the browser. The framework was complaining it couldn’t load the changed class. I checked the class and file names and all were correct. After toying with it for 20 minutes i decided to ask my colleague. And he suggested to restart Apache. for the second time today i was stumped. Everything worked again. Turns out that APC couldn’t find the already in memory loaded class. After renaming the corresponding filename (seems logical now that i think of it). A restart of Apache flushed the APC cache and therefore the issue. This sounds like a bug though. And requires some further inspection or a bug report. We will see.</p>
 
 <p><strong>PHP Fatal error</strong></p>
 
 <p>Last week while setting up <a href="https://github.com/sebastianbergmann/phpunit/">PHPUnit</a> i ran into a weird issue while testing PHPUnit from a shell on my local desktop. The whole test suite would run from start to end. But at the end would display the following not so descriptive error message.</p>
 
-<blockquote><p>PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0</p></blockquote>
+<blockquote>
+  <p>PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0 </p>
+</blockquote>
 
 <p>This kept me busy for some hours. This happened somewhere in a large framework. And there was no clear sign of what was causing the issue. Some <a href="http://www.google.com/search?client=ubuntu&amp;channel=fs&amp;q=Exception+thrown+without+a+stack+frame+in+Unknown+on+line+0&amp;ie=utf-8&amp;oe=utf-8">googling</a> did reveal some cases in which this error may occur.</p>
 
-<blockquote><ul>
-<li><p>There was an exception while handling an exception</p></li>
-<li><p>There was an exception while running a destructor</p></li>
-<li><p>There was an exception while closing the session</p></li>
-<li><p>There was an exception while running a shutdown function</p></li>
-<li><p>There was an exception while running a autoload function</p></li>
-</ul>
+<blockquote>
+
 </blockquote>
 
-<p>The issue in my case was the fact that the configuration file wasn&#8217;t loaded yet. And therefore the log file location was not set correctly. Logging in this framework is done in a plugin system which is pretty cool. We can basically assign plugins for certain log levels (and more). This was the FileLogger. This all still does not explain why it failed with this particular error message. But a bit of digging in the Log/Plugin system revealed the issue.</p>
+<blockquote>
+  <ul>
+    <li>There was an exception while handling an exception</li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>There was an exception while running a destructor</li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>There was an exception while closing the session</li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>There was an exception while running a shutdown function</li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>There was an exception while running a autoload function</li>
+  </ul>
+
+</blockquote>
+
+<p>The issue in my case was the fact that the configuration file wasn’t loaded yet. And therefore the log file location was not set correctly. Logging in this framework is done in a plugin system which is pretty cool. We can basically assign plugins for certain log levels (and more). This was the FileLogger. This all still does not explain why it failed with this particular error message. But a bit of digging in the Log/Plugin system revealed the issue. </p>
 
 <pre><code>register_shutdown_function(array(__CLASS__, 'Shutdown'));
 </code></pre>
@@ -166,51 +373,54 @@
 </header>
 
 
-  <div class="articletext"><p><a href="http://lenss.nl/images/2011/05/dpc11.jpg"><img src="http://lenss.nl/images/2011/05/dpc11.jpg" alt="" /></a> Last week was the 5th <a href="http://www.phpconference.nl">DPC</a> (Dutch PHP Conference) in the <a href="http://www.rai.nl/">Amsterdam Rai</a>. And thanks to my awesome employer i once again had the chance to be there. This year with a full conference ticket (including the tutorial days). And i had a blast. I wanted to do this post earlier this weekend but due to some current injury i wasn&#8217;t able to. So here goes.</p>
+  <div class="articletext"><p><a href="http://lenss.nl/images/2011/05/dpc11.jpg"><img src="http://lenss.nl/images/2011/05/dpc11.jpg" alt="" /></a> Last week was the 5th <a href="http://www.phpconference.nl">DPC</a> (Dutch PHP Conference) in the <a href="http://www.rai.nl/">Amsterdam Rai</a>. And thanks to my awesome employer i once again had the chance to be there. This year with a full conference ticket (including the tutorial days). And i had a blast. I wanted to do this post earlier this weekend but due to some current injury i wasn’t able to. So here goes.</p>
 
 <p>The kick off for the DPC11 were the tutorial days. And they had some pretty cool tutorial lined up for this year. But as always you have to choose. So me and Geoff chose to visit two of the tutorials we would benefit from the most. Since we are in pretty heavy database driven environment. We chose:</p>
 
 <p><strong>Optimizing <a href="http://www.mysql.com/">MySQL</a> Essentials</strong></p>
 
-<p>This session was presented by <a href="http://www.khankennels.com/blog/">Ligaya Turmelle</a> &amp; Raymond DeRoo, And these two have a great chemistry between them. All the ingredients for a good sessions. And a good session it was. Even though i missed the larges part of the first 1.5 hours because i got stuck in traffic.</p>
+<p>This session was presented by <a href="http://www.khankennels.com/blog/">Ligaya Turmelle</a> &amp; Raymond DeRoo, And these two have a great chemistry between them. All the ingredients for a good sessions. And a good session it was. Even though i missed the larges part of the first 1.5 hours because i got stuck in traffic. </p>
 
 <p>The second part of the tutorial was aimed at profiling and optimizing slow queries. It was Ligaya time to talk and Raymond took his stand on the soapbox a few times to makes things more clear. Or to interact with the audience in his special way. The session mainly describe how to enable and configure the MySQL slow query log. And what to look for once that is up and running. Ligaya continued with a real world example from joined.in. And show how the medium sized queries could be optimized quite a bit. Although not completely finished. The result was quite nice.</p>
 
 <p>After talking about the slow query log we went into a bit more detail as to how to do query optimization. And what tools to use for the job. MySQl comes with some nice features that can be used in this process. The basics to get more information about your queries</p>
 
-<blockquote><ul>
-<li>show create</li>
-<li>table status</li>
-<li>show indexes</li>
-<li>explain [ extended ]</li>
-</ul>
+<blockquote>
+  <ul>
+    <li>show create</li>
+    <li>table status</li>
+    <li>show indexes</li>
+    <li>explain [ extended ]</li>
+  </ul>
 </blockquote>
 
 <p>I made quite a few notes during this sessions. And learned some cool new things. Some of the main items for me were</p>
 
 <p>If possible move where clauses inside the join statements
-Don&#8217;t use subselects. But if you really have to use them in the <code>AS</code> form</p>
+Don’t use subselects. But if you really have to use them in the <code>AS</code> form </p>
 
-<blockquote><p>SELECT
-  t.id,
+<blockquote>
+  <p>SELECT 
+  t.id, 
   (SELECT t2foo FROM table t2 WHERE t2foo = t.bar) AS foo
-FROM table t</p></blockquote>
+FROM table t</p>
+</blockquote>
 
 <p>Indexing key order is very important
 Use a sequence table to generate date based reports</p>
 
 <p><strong>Doctrine 2</strong></p>
 
-<p>I was really looking forward to the <a href="http://www.doctrine-project.org/">Doctrine 2</a> session with <a href="http://dev.juokaz.com/">Juozas Kaziukėnas</a>. And it was a good session as well. Although a bit fast. And i had some issues getting Doctrine to work on my laptop. But because we make very heavy use of Doctrine 1. I was very interested in what version two has to offer over version 1. And i think Juozas did a great job in explaining the structure of Doctrine 2 and the most basic inner workings.</p>
+<p>I was really looking forward to the <a href="http://www.doctrine-project.org/">Doctrine 2</a> session with <a href="http://dev.juokaz.com/">Juozas Kaziukėnas</a>. And it was a good session as well. Although a bit fast. And i had some issues getting Doctrine to work on my laptop. But because we make very heavy use of Doctrine 1. I was very interested in what version two has to offer over version 1. And i think Juozas did a great job in explaining the structure of Doctrine 2 and the most basic inner workings. </p>
 
 <p>I was very happy to see the new Doctrine 2 models are completely decoupled from the Doctrine base classes. This is awesome. And makes for a way more portable application then with the Doctrine 1 base. Which basically ties you into using Doctrine forever.</p>
 
 <p><strong>That was tutorial day</strong>
-That was day one. I had fun although quit painful with my current injury. I really enjoyed the sessions. And on our way out we were presented with a nice surprise. A copy of &#8221;<a href="http://qualityassuranceinphpprojects.com/">Real-World Solutions for Developing High-Quality PHP Frameworks and Applications</a>&#8221; by Sebastian Bergmann and Stefan Priebsch. A great addition to my private library. And to top things of we all got a 20% discount on the 5.3 <a href="http://www.zend.com/services/certification/">ZCE</a> exam.</p>
+That was day one. I had fun although quit painful with my current injury. I really enjoyed the sessions. And on our way out we were presented with a nice surprise. A copy of “<a href="http://qualityassuranceinphpprojects.com/">Real-World Solutions for Developing High-Quality PHP Frameworks and Applications</a>” by Sebastian Bergmann and Stefan Priebsch. A great addition to my private library. And to top things of we all got a 20% discount on the 5.3 <a href="http://www.zend.com/services/certification/">ZCE</a> exam. </p>
 
 <p><strong>Next up, Day 2</strong></p>
 
-<p>I missed the opening talk by <a href="http://www.harrieverveer.nl/">Harry Verveer</a> which is a shame. Geoff told me it was a very good inspiring and energetic talk. It got people enthusiastic. That&#8217;s what we need. At arrival it was visible that there were quite some developers here. It&#8217;s always a big difference with the tutorial day. Like the first day i missed a big part of the morning due.. to well you know. But i attended 4 cool sessions non the less.</p>
+<p>I missed the opening talk by <a href="http://www.harrieverveer.nl/">Harry Verveer</a> which is a shame. Geoff told me it was a very good inspiring and energetic talk. It got people enthusiastic. That’s what we need. At arrival it was visible that there were quite some developers here. It’s always a big difference with the tutorial day. Like the first day i missed a big part of the morning due.. to well you know. But i attended 4 cool sessions non the less.</p>
 
 <p><strong>Cooking up your Development Environment</strong> by <a href="http://www.designdisclosure.com/">Alistair Stead</a></p>
 
@@ -218,13 +428,13 @@ That was day one. I had fun although quit painful with my current injury. I real
 
 <p>And then he continued about explaining his day to day work day. And how he would setup his virtual work environment each morning by running a simple command that generates a fresh virtual machine to work with. Then he went into detail how Chef Solo (Distributed infrastructure management) and Chef Server (Centralized infrastructure management) work together. And how you can setup and deploy packages on the virtual machines and basically how to manage your instances from a cool and simple web GUI.</p>
 
-<p>He went on explaining this hooks into Amazone&#8217;s AWS and Rackspace cloud services as well. So skies the limit. An awesome tool.</p>
+<p>He went on explaining this hooks into Amazone’s AWS and Rackspace cloud services as well. So skies the limit. An awesome tool.</p>
 
 <p><strong>Simplify your External Dependency Management</strong> by <a href="http://blog.bitexpert.de/author/stephan-hochdoerfer/">Stephan Hochdörfer</a></p>
 
 <p>This session was aimed at working better with project dependencies. I was quite interested in this talk. Since we work with svn:externals. Which at times can be quite a pain. Specially when the amount of applications build on a single framework tend to grow. And BC breakage is a sin.</p>
 
-<p>I was a bit sad to see that this session didn&#8217;t really target managing the local dependencies. But was more aimed at handling the dependencies when deploying packages on servers. Until now this has never been an issues. Even though i was a bit disappointed. The sessions did have some valuable information.</p>
+<p>I was a bit sad to see that this session didn’t really target managing the local dependencies. But was more aimed at handling the dependencies when deploying packages on servers. Until now this has never been an issues. Even though i was a bit disappointed. The sessions did have some valuable information.</p>
 
 <p>And went into some detail how to setup an own PEAR channel to deploy packages but also touched the Java system Maven. Which i did work whit a few years back.</p>
 
@@ -234,15 +444,15 @@ That was day one. I had fun although quit painful with my current injury. I real
 
 <p><strong>Advanced OO patterns</strong> by <a href="http://schlitt.info/">Tobias Schlitt</a></p>
 
-<p>The best session of the day. Tobias is a real speaker. One that say the right things. And makes the audience laugh. I really enjoyed listening to to him talk. But a subject like Advanced OO patterns can only be cool. So i guess i he chose the right talk to give. Like most talkers he gave some props to Martin Fowler and the Gang of Four. For writing on patterns and refactoring. And basically it&#8217;s a refreshment of studying design patterns. Which i do an a daily basis.</p>
+<p>The best session of the day. Tobias is a real speaker. One that say the right things. And makes the audience laugh. I really enjoyed listening to to him talk. But a subject like Advanced OO patterns can only be cool. So i guess i he chose the right talk to give. Like most talkers he gave some props to Martin Fowler and the Gang of Four. For writing on patterns and refactoring. And basically it’s a refreshment of studying design patterns. Which i do an a daily basis.</p>
 
-<p>There was one real gem however in this session that i hadn&#8217;t come across yet. Which basically is a way to do lazy loading with objects. This is nothing new. But the framework he used for the talk. Used the new 5.3 closures for this. And i really liked that. So besides the fact that i learned a cool pattern. I also learned a new way of using closures in PHP 5.3.</p>
+<p>There was one real gem however in this session that i hadn’t come across yet. Which basically is a way to do lazy loading with objects. This is nothing new. But the framework he used for the talk. Used the new 5.3 closures for this. And i really liked that. So besides the fact that i learned a cool pattern. I also learned a new way of using closures in PHP 5.3.</p>
 
 <p><strong>A great conference</strong></p>
 
-<p>That basically was the conference for me. I really was looking forward to listing in on <a href="http://derickrethans.nl/">Derick&#8217;s</a> talk about profiling PHP applications. But due to my condition i had to stay home the last day and miss this talk. A bit sad. Thankfully he has pretty detailed <a href="http://derickrethans.nl/talks/profiling-dpc11.pdf">PDF</a> up on his site about the talk.</p>
+<p>That basically was the conference for me. I really was looking forward to listing in on <a href="http://derickrethans.nl/">Derick’s</a> talk about profiling PHP applications. But due to my condition i had to stay home the last day and miss this talk. A bit sad. Thankfully he has pretty detailed <a href="http://derickrethans.nl/talks/profiling-dpc11.pdf">PDF</a> up on his site about the talk. </p>
 
-<p>Once again <a href="http://www.ibuildings.nl/">IBuildings</a> did a great job in organizing this event. Thanks guys. You once again did an awesome job. I do have some small notes however. During the sessions i heard a lot of speakers say. This is a sessions for 60 minutes. And i only have 45 minutes. So i have to skip some stuff. I mean come on how long was it known that this event was going to happen. Either give the speakers more time. Or speakers adjust your talks.</p>
+<p>Once again <a href="http://www.ibuildings.nl/">IBuildings</a> did a great job in organizing this event. Thanks guys. You once again did an awesome job. I do have some small notes however. During the sessions i heard a lot of speakers say. This is a sessions for 60 minutes. And i only have 45 minutes. So i have to skip some stuff. I mean come on how long was it known that this event was going to happen. Either give the speakers more time. Or speakers adjust your talks. </p>
 
 <p>Besides the fact that i sometimes had the feeling i was visiting the IBuildings headquarters. It was a great event. Hope to see you there next year.</p>
 </div>
@@ -302,13 +512,15 @@ That was day one. I had fun although quit painful with my current injury. I real
 </header>
 
 
-  <div class="articletext"><p>So lenss.nl was offline Thursday for about 5 hours. When i was getting ready for the <a href="http://www.phpconference.nl/">DPC11</a> tutorial day i got a notification that one of my servers was down. So i quickly setup a ssh connection. And that still seemed to work. The only thing off was. Apache wasn&#8217;t running anymore. So tried a restart. And was unpleasantly surprised by the result. Which looked something like this.</p>
+  <div class="articletext"><p>So lenss.nl was offline Thursday for about 5 hours. When i was getting ready for the <a href="http://www.phpconference.nl/">DPC11</a> tutorial day i got a notification that one of my servers was down. So i quickly setup a ssh connection. And that still seemed to work. The only thing off was. Apache wasn’t running anymore. So tried a restart. And was unpleasantly surprised by the result. Which looked something like this.</p>
 
-<blockquote><p>/usr/sbin/apache2ctl line 82 (core dumped) $HTTPD ${APACHE_ARGUMENTS} -k $ARGV</p></blockquote>
+<blockquote>
+  <p>/usr/sbin/apache2ctl line 82 (core dumped) $HTTPD ${APACHE_ARGUMENTS} -k $ARGV</p>
+</blockquote>
 
-<p>Googling didn&#8217;t provide any useful information about the issue. So i contacted support and asked them to take a look at it. So i could move in the direction of the DPC11. After some horrible traffic and a closed road due to an accident. I finally made it to the DPC 2 hours late. But when i plugged my laptop in i noticed apache was still not running. Contacted support again. They couldn&#8217;t find any serious issues. I already missed the first part of &#8221;<a href="http://www.phpconference.nl/tutorials#optimizing-mysql-essentials">Optimizing MySQL Essentials</a>&#8221;. So decided to do the tutorial first.</p>
+<p>Googling didn’t provide any useful information about the issue. So i contacted support and asked them to take a look at it. So i could move in the direction of the DPC11. After some horrible traffic and a closed road due to an accident. I finally made it to the DPC 2 hours late. But when i plugged my laptop in i noticed apache was still not running. Contacted support again. They couldn’t find any serious issues. I already missed the first part of “<a href="http://www.phpconference.nl/tutorials#optimizing-mysql-essentials">Optimizing MySQL Essentials</a>”. So decided to do the tutorial first. </p>
 
-<p>While i was sitting there i got the idea of disabling the apache modules. Which turned out to be a good idea. So after the tutorial session finished i logged in to the server. Disabled all apache modules and got apache working again. After some testing the cause of the problem seemed to be the Google <a href="http://code.google.com/p/modpagespeed/">mod_pagespeed</a> apache module. That&#8217;s the second time this happened after a upgrade. Will leave it disabled for now.</p>
+<p>While i was sitting there i got the idea of disabling the apache modules. Which turned out to be a good idea. So after the tutorial session finished i logged in to the server. Disabled all apache modules and got apache working again. After some testing the cause of the problem seemed to be the Google <a href="http://code.google.com/p/modpagespeed/">mod_pagespeed</a> apache module. That’s the second time this happened after a upgrade. Will leave it disabled for now. </p>
 
 <p>On a side note.. Where is all the direct traffic coming from all of the sudden?</p>
 </div>
@@ -368,121 +580,154 @@ That was day one. I had fun although quit painful with my current injury. I real
 </header>
 
 
-  <div class="articletext"><p><a href="http://www.vim.org/"><img src="http://lenss.nl/images/2011/04/vim_logo.png" alt="" /></a>For my coding work i mostly use <a href="http://www.zend.com/en/products/studio/">Zend Studio</a>. And i am a big fan of this IDE. But i also do a lot of work in the shell. And that asks for at least basic <a href="http://www.vim.org/">vim</a> knowledge. My colleague is a big vim fan. And does most of his work in vim. So last week i was compiling a cheat-sheet for my self. And came across a <a href="http://www.slideshare.net/ZendCon/vim-for-php-programmers-presentation">slideshow</a> of one of <a href="http://zmievski.org/">Andrei Zmievski</a>&#8217;s talks. This slide show got me inspired enough to start playing around with vim a bit. And this is the result of it.</p>
+  <div class="articletext"><p><a href="http://www.vim.org/"><img src="http://lenss.nl/images/2011/04/vim_logo.png" alt="" /></a>For my coding work i mostly use <a href="http://www.zend.com/en/products/studio/">Zend Studio</a>. And i am a big fan of this IDE. But i also do a lot of work in the shell. And that asks for at least basic <a href="http://www.vim.org/">vim</a> knowledge. My colleague is a big vim fan. And does most of his work in vim. So last week i was compiling a cheat-sheet for my self. And came across a <a href="http://www.slideshare.net/ZendCon/vim-for-php-programmers-presentation">slideshow</a> of one of <a href="http://zmievski.org/">Andrei Zmievski</a>’s talks. This slide show got me inspired enough to start playing around with vim a bit. And this is the result of it.</p>
 
 <p>We need to have vim installed of course.</p>
 
-<blockquote><p>$ sudo aptitude install vim</p></blockquote>
+<blockquote>
+  <p>$ sudo aptitude install vim</p>
+</blockquote>
 
-<p>Vim doesn&#8217;t seem to create the user folder automatically. So we need to create these our self. We&#8217;ll start off with a folder for plugins, color schemes and syntax settings.</p>
+<p>Vim doesn’t seem to create the user folder automatically. So we need to create these our self. We’ll start off with a folder for plugins, color schemes and syntax settings.</p>
 
-<blockquote><p>$ mkdir ~/.vim
-$ mkdir ~/.vim/{syntax,colors,plugin}</p></blockquote>
+<blockquote>
+  <p>$ mkdir ~/.vim
+$ mkdir ~/.vim/{syntax,colors,plugin}</p>
+</blockquote>
 
-<p>Most of the time i will be editing <strong>.php</strong> files. So i want some good syntax support for that. Vim has a nice plugin system. And there does seem to be a syntax file for PHP <a href="http://www.vim.org/scripts/script.php?script_id=1571">available</a>. It&#8217;s a bit outdated. But will do for now. The only thing to do to enable it is copy it to the plugin directory.</p>
+<p>Most of the time i will be editing <strong>.php</strong> files. So i want some good syntax support for that. Vim has a nice plugin system. And there does seem to be a syntax file for PHP <a href="http://www.vim.org/scripts/script.php?script_id=1571">available</a>. It’s a bit outdated. But will do for now. The only thing to do to enable it is copy it to the plugin directory.</p>
 
-<blockquote><p>$ mv php.vim ~/.vim/syntax</p></blockquote>
+<blockquote>
+  <p>$ mv php.vim ~/.vim/syntax</p>
+</blockquote>
 
-<p>Now we have a very powerful but basic PHP editor. That&#8217;s nice and all. I would like to at least have some sort of a project manager. And there is a plugin for that as well. <a href="http://www.vim.org/scripts/script.php?script_id=69">Download</a> &amp; copy!</p>
+<p>Now we have a very powerful but basic PHP editor. That’s nice and all. I would like to at least have some sort of a project manager. And there is a plugin for that as well. <a href="http://www.vim.org/scripts/script.php?script_id=69">Download</a> &amp; copy!</p>
 
-<blockquote><p>$ mv project.vim ~/.vim/plugin</p></blockquote>
+<blockquote>
+  <p>$ mv project.vim ~/.vim/plugin</p>
+</blockquote>
 
-<p>Ok that&#8217;s pretty cool. But it still looks like crap. Time for some theme sugar. It actually took me quite some time to find a theme i like. Guess i am picky. The theme / colour scheme i settled for is called wombat. The <a href="http://dengmao.wordpress.com/2007/01/22/vim-color-scheme-wombat/">original</a> file didn&#8217;t do much for me. But i found a <a href="http://www.vim.org/scripts/script.php?script_id=2465">good</a> 256 colour version.</p>
+<p>Ok that’s pretty cool. But it still looks like crap. Time for some theme sugar. It actually took me quite some time to find a theme i like. Guess i am picky. The theme / colour scheme i settled for is called wombat. The <a href="http://dengmao.wordpress.com/2007/01/22/vim-color-scheme-wombat/">original</a> file didn’t do much for me. But i found a <a href="http://www.vim.org/scripts/script.php?script_id=2465">good</a> 256 colour version.</p>
 
-<blockquote><p>$ mv wombat256mod.vim ~/.vim/colors</p></blockquote>
+<blockquote>
+  <p>$ mv wombat256mod.vim ~/.vim/colors</p>
+</blockquote>
 
 <p><a href="http://lenss.nl/images/2011/04/wombat-html.png"><img src="http://lenss.nl/images/2011/04/wombat-html-300x60.png" alt="" /></a></p>
 
 <p><a href="http://lenss.nl/images/2011/04/wombat-php.png"><img src="http://lenss.nl/images/2011/04/wombat-php-300x128.png" alt="" /></a></p>
 
-<p>That&#8217;s starting to look like a pretty nice setup. Time to make some settings permanent and to enable some other features.</p>
+<p>That’s starting to look like a pretty nice setup. Time to make some settings permanent and to enable some other features.</p>
 
-<blockquote><p>$ vim ~/.vimrc</p></blockquote>
+<blockquote>
+  <p>$ vim ~/.vimrc</p>
+</blockquote>
 
 <p>And add some settings</p>
 
-<blockquote><p>set rule
+<blockquote>
+
+  <p>set rule
 set wrapscan
 set number
-set backspace=start,indent,eol</p></blockquote>
+set backspace=start,indent,eol</p>
+</blockquote>
 
 <p>set t_Co=256
 colorscheme wombat256mod</p>
 
 <p>autocmd FileType php set omnifunc=phpcomplete#CompletePHP</p>
 
-<p>In the meantime i found this interesting post on Matthew Weier O&#8217;Phinney&#8217;s blog about using <a href="http://weierophinney.net/matthew/archives/134-exuberant-ctags-with-PHP-in-Vim.html">ctags , VIM and PHP</a>. That looks like interesting stuff. So let&#8217;s add it. With <a href="http://ctags.sourceforge.net/">ctags</a> it&#8217;s possible to scan a source tree. And compile a sort of index file that vim can use for lookups.</p>
+<p>In the meantime i found this interesting post on Matthew Weier O’Phinney’s blog about using <a href="http://weierophinney.net/matthew/archives/134-exuberant-ctags-with-PHP-in-Vim.html">ctags , VIM and PHP</a>. That looks like interesting stuff. So let’s add it. With <a href="http://ctags.sourceforge.net/">ctags</a> it’s possible to scan a source tree. And compile a sort of index file that vim can use for lookups. </p>
 
-<blockquote><p>$ sudo aptitude install exuberant-ctags
-$ mkdir ~/.vim/tags</p></blockquote>
+<blockquote>
+  <p>$ sudo aptitude install exuberant-ctags
+$ mkdir ~/.vim/tags</p>
+</blockquote>
 
 <p>Creating an index file is a piece of cake. Move to a source directory and issue the following command.</p>
 
-<blockquote><p>$ cd /some/path
-$ ctags-exuberant -R -f ~/.vim/tags/filename -h &#8220;.php&#8221;
-&#8211;exclude=&#8221;.svn&#8221; &#8211;totals=yes
-&#8211;tag-relative=yes &#8211;PHP-kinds=+cf
-&#8211;regex-PHP=&#8217;/abstract class ([^ ]<em>)/\1/c/&#8217;
-&#8211;regex-PHP=&#8217;/interface ([^ ]</em>)/\1/c/&#8217;
-&#8211;regex-PHP=&#8217;/(public |static |abstract |protected |private )+function ([^ (]*)/\2/f/&#8217;</p></blockquote>
+<blockquote>
+  <p>$ cd /some/path
+$ ctags-exuberant -R -f ~/.vim/tags/filename -h “.php” 
+–exclude=”.svn” –totals=yes 
+–tag-relative=yes –PHP-kinds=+cf 
+–regex-PHP=’/abstract class ([^ ]<em>)/\1/c/’ 
+–regex-PHP=’/interface ([^ ]</em>)/\1/c/’ 
+–regex-PHP=’/(public |static |abstract |protected |private )+function ([^ (]*)/\2/f/’</p>
+</blockquote>
 
-<p>This will scan the whole directory structure recursively while using the regular expressions to extract useful information from the source files it finds. When done and when the parameter <em>&#8211;totals=yes</em> is used the following output is displayed. But probably with different numbers.</p>
+<p>This will scan the whole directory structure recursively while using the regular expressions to extract useful information from the source files it finds. When done and when the parameter <em>–totals=yes</em> is used the following output is displayed. But probably with different numbers.</p>
 
-<blockquote><p>2375 files, 466018 lines (14628 kB) scanned in 11.7 seconds (1246 kB/s)
+<blockquote>
+  <p>2375 files, 466018 lines (14628 kB) scanned in 11.7 seconds (1246 kB/s)
 199296 tags added to tag file
-199296 tags sorted in 0.00 seconds</p></blockquote>
+199296 tags sorted in 0.00 seconds</p>
+</blockquote>
 
 <p>Time to enable tags. I want to use multiple files. Some standard files for common frameworks / libraries. And a tag file per project.</p>
 
-<blockquote><p>$ vim ~/.vimrc
-set tags=tags;~/.vim/tags/filename</p></blockquote>
+<blockquote>
+  <p>$ vim ~/.vimrc 
+set tags=tags;~/.vim/tags/filename</p>
+</blockquote>
 
-<p>So let&#8217;s start vim and have a look at what we have so far. The first thing we do when vim has started is launch the :Project plugin.</p>
+<p>So let’s start vim and have a look at what we have so far. The first thing we do when vim has started is launch the :Project plugin.</p>
 
-<blockquote><p>$ vim
-:Project</p></blockquote>
+<blockquote>
+  <p>$ vim
+:Project</p>
+</blockquote>
 
 <p><a href="http://lenss.nl/images/2011/04/vim-project-1.png"><img src="http://lenss.nl/images/2011/04/vim-project-1-300x175.png" alt="" /></a></p>
 
 <p><a href="http://lenss.nl/images/2011/04/vim-project-2.png"><img src="http://lenss.nl/images/2011/04/vim-project-2-300x174.png" alt="" /></a></p>
 
-<p>The project plugin took some time to get used to. But it&#8217;s a very convenient plugin. And easy to get the hang of. It&#8217;s possible to create the project settings by hand. But the plugin comes with a build in tool for this. While in <em>:Project</em> mode and hitting <em>\C</em> will make it easy to create new projects.</p>
+<p>The project plugin took some time to get used to. But it’s a very convenient plugin. And easy to get the hang of. It’s possible to create the project settings by hand. But the plugin comes with a build in tool for this. While in <em>:Project</em> mode and hitting <em>\C</em> will make it easy to create new projects.</p>
 
-<blockquote><p>$ vim
+<blockquote>
+  <p>$ vim
 :Project
-\C</p></blockquote>
+\C</p>
+</blockquote>
 
 <p>This will guide you through the process with a few short and simple questions.</p>
 
-<blockquote><p>Enter the Name of the Entry: [ project name ]
+<blockquote>
+  <p>Enter the Name of the Entry: [ project name ]
 Enter the Absolute Directory to Load: [ absolute path ]
 Enter the CD parameter: [ path to move into ]
-Enter the File Filter: [ file filter : *.php ]</p></blockquote>
+Enter the File Filter: [ file filter : *.php ]</p>
+</blockquote>
 
-<p>When that&#8217;s done the screen will be in edit mode inside the .vimproject file. Displaying something like this.</p>
+<p>When that’s done the screen will be in edit mode inside the .vimproject file. Displaying something like this.</p>
 
-<blockquote><p>Project name=/path/to/project CD=/path/to/project filter=&#8221;*.php&#8221; {
+<blockquote>
+
+  <p>Project name=/path/to/project CD=/path/to/project filter=”*.php” {
   filename.ext
-  folder&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;-
-}</p></blockquote>
+  folder———————————————————-
+}</p>
+</blockquote>
 
-<p>It&#8217;s possible to alter the project setup here. Like adding more files. Or even adding files from other locations outside of the project.</p>
+<p>It’s possible to alter the project setup here. Like adding more files. Or even adding files from other locations outside of the project.</p>
 
-<blockquote><p>Project name=/path/to/project CD=/path/to/project filter=&#8221;*.php&#8221; {
+<blockquote>
+  <p>Project name=/path/to/project CD=/path/to/project filter=”*.php” {
   filename.ext
-  folder&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;-</p></blockquote>
+  folder———————————————————-</p>
+</blockquote>
 
-<p>  External=/some/other/path CD=/some/other/path filter=&#8221;*.php&#8221; {</p>
-
-<pre><code>filename.ext
-</code></pre>
-
-<p>  }
+<p>External=/some/other/path CD=/some/other/path filter=”*.php” {
+    filename.ext
+  }
 }</p>
 
 <p>When done editing. Just do like normally in vim.</p>
 
-<blockquote><p>:w</p></blockquote>
+<blockquote>
+  <p>:w</p>
+</blockquote>
 
 <p>Pretty cool we have a project browser on the left. That is easy to navigate with the arrow keys. And a work canvas on the right.</p>
 
@@ -492,7 +737,7 @@ Enter the File Filter: [ file filter : *.php ]</p></blockquote>
 
 <p><a href="http://lenss.nl/images/2011/04/vim-autocomplete.png"><img src="http://lenss.nl/images/2011/04/vim-autocomplete-300x134.png" alt="" /></a></p>
 
-<p>That&#8217;s about it. I had good fun exploring all the features and possibilities. And have only scratched the surface. One more thing i found on Matthew&#8217;s blog was a way to test and run PHP script from vim. Awesome stuff. You can read about it <a href="http://weierophinney.net/matthew/archives/164-Vim-Productivity-Tips-for-PHP-Developers.html">here</a>. Although i like vim. I don&#8217;t think i will be leaving ZS any time soon.</p>
+<p>That’s about it. I had good fun exploring all the features and possibilities. And have only scratched the surface. One more thing i found on Matthew’s blog was a way to test and run PHP script from vim. Awesome stuff. You can read about it <a href="http://weierophinney.net/matthew/archives/164-Vim-Productivity-Tips-for-PHP-Developers.html">here</a>. Although i like vim. I don’t think i will be leaving ZS any time soon.</p>
 </div>
   
   
@@ -550,28 +795,30 @@ Enter the File Filter: [ file filter : *.php ]</p></blockquote>
 </header>
 
 
-  <div class="articletext"><p>While trying to load a very basic XML template with <a href="http://nl.php.net/manual/en/domdocument.load.php">DOMDocument::load()</a> i ran into some issues last Friday. During the weekend i completely forgot about this. Thank god :) But since it&#8217;s Monday i have no other option then to solve it. The problem i was experiencing was page loads took about 2 minutes for every controller action in the application. My first thought was that it would be related to permissions. The application not being able to write certain files. But after checking all permissions the problems still remained.</p>
+  <div class="articletext"><p>While trying to load a very basic XML template with <a href="http://nl.php.net/manual/en/domdocument.load.php">DOMDocument::load()</a> i ran into some issues last Friday. During the weekend i completely forgot about this. Thank god :) But since it’s Monday i have no other option then to solve it. The problem i was experiencing was page loads took about 2 minutes for every controller action in the application. My first thought was that it would be related to permissions. The application not being able to write certain files. But after checking all permissions the problems still remained.</p>
 
-<p>The logs weren&#8217;t showing anything. No errors, nothing. Time to enable the <a href="http://www.xdebug.org/">XDebug</a> profiler. And after doing a few requests and loading them up in <a href="http://kcachegrind.sourceforge.net/html/Home.html">KCachegrind</a> i found the root of the problem quite fast. A call to the mkDom method was causing the slow load.</p>
+<p>The logs weren’t showing anything. No errors, nothing. Time to enable the <a href="http://www.xdebug.org/">XDebug</a> profiler. And after doing a few requests and loading them up in <a href="http://kcachegrind.sourceforge.net/html/Home.html">KCachegrind</a> i found the root of the problem quite fast. A call to the mkDom method was causing the slow load.</p>
 
 <p><a href="http://lenss.nl/images/2011/03/php-dom_1.png"><img src="http://lenss.nl/images/2011/03/php-dom_1-300x59.png" alt="" /></a></p>
 
-<p>But because there are no errors or other indications something is wrong. I added some debug statements to the code in question. And found out that it was PHP&#8217;s native DOMDocument::load() that was taking two minutes to load a 200k XML template. That&#8217;s not good. So what&#8217;s going on here?</p>
+<p>But because there are no errors or other indications something is wrong. I added some debug statements to the code in question. And found out that it was PHP’s native DOMDocument::load() that was taking two minutes to load a 200k XML template. That’s not good. So what’s going on here?</p>
 
 <p><a href="http://lenss.nl/images/2011/03/php-dom_2.png"><img src="http://lenss.nl/images/2011/03/php-dom_2-300x41.png" alt="" /></a></p>
 
-<p>First let&#8217;s check why there are no errors. Turns out that for some specific reason <a href="http://nl2.php.net/manual/en/libxml.constants.php">LIBXML_NOERROR</a> is set. And after disabling this i was presented with an error.</p>
+<p>First let’s check why there are no errors. Turns out that for some specific reason <a href="http://nl2.php.net/manual/en/libxml.constants.php">LIBXML_NOERROR</a> is set. And after disabling this i was presented with an error.</p>
 
-<blockquote><p>Caught exception: ErrorException: DOMDocument::load()
-Entity &#8216;nbsp&#8217; not defined in /some/file.tal.html, line: 363</p></blockquote>
+<blockquote>
+  <p>Caught exception: ErrorException: DOMDocument::load() 
+Entity ‘nbsp’ not defined in /some/file.tal.html, line: 363</p>
+</blockquote>
 
-<p>WTF? HTML entities inside a XML template. O well. So i changed the  &#8216;s inside the template to their XML equivalent</p>
+<p>WTF? HTML entities inside a XML template. O well. So i changed the  ‘s inside the template to their XML equivalent  </p>
 
-<p>Reloaded the page and everything is fast again. This solved my problem. But i wasn&#8217;t happy yet. Nobody else was experiencing this issue in the office. So there had to be some other issue. That&#8217;s when Geoff notified me about the fact that DTD checks are disabled by using <a href="http://nl2.php.net/manual/en/libxml.constants.php">LIBXML_NONET</a>. For this to work however there needs to be an extra W3C package installed.</p>
+<p>Reloaded the page and everything is fast again. This solved my problem. But i wasn’t happy yet. Nobody else was experiencing this issue in the office. So there had to be some other issue. That’s when Geoff notified me about the fact that DTD checks are disabled by using <a href="http://nl2.php.net/manual/en/libxml.constants.php">LIBXML_NONET</a>. For this to work however there needs to be an extra W3C package installed.</p>
 
 <p><a href="http://lenss.nl/images/2011/03/php-dom_3.png"><img src="http://lenss.nl/images/2011/03/php-dom_3-300x7.png" alt="" /></a></p>
 
-<p>This was one of those hard to track errors. But it&#8217;s fixed and everything is running smooth again.</p>
+<p>This was one of those hard to track errors. But it’s fixed and everything is running smooth again.</p>
 </div>
   
   
@@ -629,25 +876,28 @@ Entity &#8216;nbsp&#8217; not defined in /some/file.tal.html, line: 363</p></blo
 </header>
 
 
-  <div class="articletext"><p><img src="http://lenss.nl/images/2011/03/wordpress.jpg" alt="" /> In the spirit of <a href="http://lenss.nl/2011/03/ideas-of-march/">Ideas for March</a> i should really be blogging more. Somehow i just can&#8217;t think of anything interesting at the moment. Will give it a shot anyway.</p>
+  <div class="articletext"><p><img src="http://lenss.nl/images/2011/03/wordpress.jpg" alt="" /> In the spirit of <a href="http://lenss.nl/2011/03/ideas-of-march/">Ideas for March</a> i should really be blogging more. Somehow i just can’t think of anything interesting at the moment. Will give it a shot anyway.</p>
 
-<p>Last week i created my first ever <a href="http://wordpress.org/">Wordpress</a> <a href="http://codex.wordpress.org/Writing_a_Plugin">plugin</a>. It&#8217;s an extremely simple one. And for sure nothing new or special. But it was a fun experience. I have always dreaded the WP code base. The mixture of OO and procedural programming just looks plain ugly to me. But i don&#8217;t want to be bash WP. I use it myself. So i took the dive and spend a few hours hacking and <a href="http://codex.wordpress.org/Plugin_API">reading</a>. And the result is my <strong>DWOTD</strong> (Dutch Word Of The Day) plugin.</p>
+<p>Last week i created my first ever <a href="http://wordpress.org/">Wordpress</a> <a href="http://codex.wordpress.org/Writing_a_Plugin">plugin</a>. It’s an extremely simple one. And for sure nothing new or special. But it was a fun experience. I have always dreaded the WP code base. The mixture of OO and procedural programming just looks plain ugly to me. But i don’t want to be bash WP. I use it myself. So i took the dive and spend a few hours hacking and <a href="http://codex.wordpress.org/Plugin_API">reading</a>. And the result is my <strong>DWOTD</strong> (Dutch Word Of The Day) plugin.</p>
 
-<p>To get some inspiration for this i took a look at some plugin code available on the internet. This gave me a basic understanding of how the plugin system works. Together with the docs writing a plugin wasn&#8217;t that hard. The code that i saw however was pretty bad. And i wanted something that at least looked better then all the global statements swarming around. So i created a small OO wrapper for the plugin. The basic plugin structure looks something like this</p>
+<p>To get some inspiration for this i took a look at some plugin code available on the internet. This gave me a basic understanding of how the plugin system works. Together with the docs writing a plugin wasn’t that hard. The code that i saw however was pretty bad. And i wanted something that at least looked better then all the global statements swarming around. So i created a small OO wrapper for the plugin. The basic plugin structure looks something like this</p>
 
-<blockquote><p>&#8211; plugin
-&#8212;&#8211; css
-&#8212;&#8212;&#8212;- dwotd.css
-&#8212;&#8211; lib
-&#8212;&#8212;&#8212;- Dwotd.php
-&#8212;&#8212;&#8212;- Widget.php
-&#8212;&#8211; template
-&#8212;&#8212;&#8212;- Widget.php
-&#8211; dwotd.php</p></blockquote>
+<blockquote>
+
+  <p>– plugin
+—– css
+———- dwotd.css
+—– lib
+———- Dwotd.php
+———- Widget.php
+—– template
+———- Widget.php
+– dwotd.php</p>
+</blockquote>
 
 <p>The file in the root is the bootstrap file. It includes the main plugin class and registers the widget class. The two files in lib contain the plugin and Widget classes. The rest is self explanatory i think.</p>
 
-<p>The first lines of the bootstrap file contain a comment block that is used by WP to show some more information about the plugin inside the admin.</p>
+<p>The first lines of the bootstrap file contain a comment block that is used by WP to show some more information about the plugin inside the admin. </p>
 
 <pre><code>/*
 Plugin Name: DWOTD
@@ -671,8 +921,8 @@ wp_enqueue_style('dwotd', "{$DWOTD-&gt;getPluginDir()}/css/dwotd.css");
 <p>If the logged in user is a admin hooks for <em>installing</em> and <em>uninstalling</em> the plugin will be activated.</p>
 
 <pre><code>if ( is_admin() ) {
-    register_activation_hook(__FILE__, array($DWOTD, 'install'));
-    register_deactivation_hook(__FILE__, array($DWOTD, 'uninstall'));
+	register_activation_hook(__FILE__, array($DWOTD, 'install'));
+	register_deactivation_hook(__FILE__, array($DWOTD, 'uninstall'));
 }
 </code></pre>
 
@@ -685,41 +935,41 @@ wp_enqueue_style('dwotd', "{$DWOTD-&gt;getPluginDir()}/css/dwotd.css");
 
 <pre><code>class DWOTD_Widget extends WP_Widget 
 {
-    protected $_dwotd;
+	protected $_dwotd;
+	
+	public function DWOTD_Widget() 
+	{
+		$this-&gt;_dwotd = new DWOTD_Plugin();
+		parent::WP_Widget(false, $name = 'DWOTD Plugin');
+	}
 
-    public function DWOTD_Widget() 
-    {
-        $this-&gt;_dwotd = new DWOTD_Plugin();
-        parent::WP_Widget(false, $name = 'DWOTD Plugin');
-    }
-
-    public function widget($args, $instance) 
-    {
-        $result = $this-&gt;_dwotd-&gt;getFromCache();
-        if (!$result || $result-&gt;used_on != date('Y-m-d')) {
-            try {
-                $result = $this-&gt;_dwotd-&gt;fetchRandomWord();
-                $this-&gt;_dwotd-&gt;writeToCache($result);
-            } catch (Exception $e) {
-                return new WP_Error('broke', __($e-&gt;getMessage()));
-            }
-        }
-
-        $this-&gt;_renderView($result);
-    }
-
-    protected function _renderView($data)
-    {
-        ob_start();
-        include $this-&gt;_dwotd-&gt;getTemplate();
-        ob_get_contents();
-    }
-
-    public function update($new_instance, $old_instance) 
-    {
-        $instance = $old_instance;
-        return $instance;
-    }
+	public function widget($args, $instance) 
+	{
+		$result = $this-&gt;_dwotd-&gt;getFromCache();
+		if (!$result || $result-&gt;used_on != date('Y-m-d')) {
+			try {
+				$result = $this-&gt;_dwotd-&gt;fetchRandomWord();
+				$this-&gt;_dwotd-&gt;writeToCache($result);
+			} catch (Exception $e) {
+				return new WP_Error('broke', __($e-&gt;getMessage()));
+			}
+		}
+		
+		$this-&gt;_renderView($result);
+	}
+	
+	protected function _renderView($data)
+	{
+		ob_start();
+		include $this-&gt;_dwotd-&gt;getTemplate();
+		ob_get_contents();
+	}
+	
+	public function update($new_instance, $old_instance) 
+	{
+		$instance = $old_instance;
+		return $instance;
+	}
 }
 </code></pre>
 
@@ -730,34 +980,34 @@ require_once(dirname(__FILE__).'/Widget.php');
 
 Class DWOTD_Plugin
 {
-    public function __construct()
-    {
-        global $wpdb, $table_prefix;
+	public function __construct()
+	{
+		global $wpdb, $table_prefix;
                 // set some class vars and include some files
-    }
-
-    public function install() 
-    {
+	}
+	
+	public function install() 
+	{
                 // create database and insert data
-        add_option('dwotd_quote','1');
-    }   
-
-    public function uninstall() 
-    {
-        $this-&gt;_dbh-&gt;query("DROP TABLE IF EXISTS `{$this-&gt;_dbName}`");
-        delete_option('dwotd_quote');
-    }
-
-    public function getPluginDir()
-    {
-        return $this-&gt;_wpContent.'/plugins/dwotd';
-    }
+		add_option('dwotd_quote','1');
+	}	
+	
+	public function uninstall() 
+	{
+		$this-&gt;_dbh-&gt;query("DROP TABLE IF EXISTS `{$this-&gt;_dbName}`");
+		delete_option('dwotd_quote');
+	}
+	
+	public function getPluginDir()
+	{
+		return $this-&gt;_wpContent.'/plugins/dwotd';
+	}
 }
 </code></pre>
 
-<p>The code is just a small part of the real code. Which you can download <a href="http://lenss.nl/projects/dwotd-plugin/dwotd.tar.gz">here</a>. After that it&#8217;s quite easy. Create a folder for the plugin in <em>wp-content/plugins</em> and copy the files there. Enable it from the plugin manager and enable it in the widget menu (which didn&#8217;t work for me because my theme has no sidebar.. well not the wp one :)). So i had to use a manual approach.</p>
+<p>The code is just a small part of the real code. Which you can download <a href="http://lenss.nl/projects/dwotd-plugin/dwotd.tar.gz">here</a>. After that it’s quite easy. Create a folder for the plugin in <em>wp-content/plugins</em> and copy the files there. Enable it from the plugin manager and enable it in the widget menu (which didn’t work for me because my theme has no sidebar.. well not the wp one :)). So i had to use a manual approach.</p>
 
-<p>After copying the files to the plugin folder login to <em>wp-admin</em> and browse to <em>Plugins/Plugins</em>. Search for the plugin and click activate.</p>
+<p>After copying the files to the plugin folder login to <em>wp-admin</em> and browse to <em>Plugins/Plugins</em>. Search for the plugin and click activate. </p>
 
 <p><a href="http://lenss.nl/images/2011/03/widget-install.png"><img src="http://lenss.nl/images/2011/03/widget-install-300x38.png" alt="" /></a></p>
 
@@ -774,7 +1024,7 @@ $widget = new DWOTD_Widget();
 $widget-&gt;widget($args,$instance);
 </code></pre>
 
-<p>That&#8217;s all. The result can be viewed on the right top side. I build the plugin for fun and use on an Intranet. So don&#8217;t go blaming me if it breaks something. Besides that everybody is free to do with the code as they please.</p>
+<p>That’s all. The result can be viewed on the right top side. I build the plugin for fun and use on an Intranet. So don’t go blaming me if it breaks something. Besides that everybody is free to do with the code as they please.</p>
 </div>
   
   
@@ -834,22 +1084,27 @@ $widget-&gt;widget($args,$instance);
 
   <div class="articletext"><p>This post has been waiting in my draft list for a few days already. And March is almost over. So better get it out now. Christ Shiflett has an <a href="http://shiflett.org/blog/2011/mar/ideas-of-march">good post</a> about the fact that a lot discussions have moved from the <a href="http://en.wikipedia.org/wiki/Blogosphere">blogosphere</a> to twitter. And this is sad but true. Chris calls for a blog revival. Which i think is a great initiative. And i already blogged a bit more this month then i normally do. I have never been a big fan of twitter my self. Most of the time the stream of information is mind boggling. But i do follow a some interesting people. Which does keep me updated in what happens in the web development world. I prefer a good blog post over any twitter message though.</p>
 
-<p>So Chris Shiflett&#8217;s idea is for people to create a blog post called <em>Ideas of March</em> that:</p>
+<p>So Chris Shiflett’s idea is for people to create a blog post called <em>Ideas of March</em> that:</p>
 
 <ul>
-<li><p>Lists some reasons why you like blogs (Read below)</p></li>
-<li><p>pledge to blog more the rest of the month (Working on it)</p></li>
-<li><p>share your thoughts on twitter with the <a href="http://search.twitter.com/search?q=%23ideasofmarch">#ideasofmarch</a> hashtag (Done!)</p></li>
+  <li>
+    <p>Lists some reasons why you like blogs (Read below)</p>
+  </li>
+  <li>
+    <p>pledge to blog more the rest of the month (Working on it)</p>
+  </li>
+  <li>
+    <p>share your thoughts on twitter with the <a href="http://search.twitter.com/search?q=%23ideasofmarch">#ideasofmarch</a> hashtag (Done!)</p>
+  </li>
 </ul>
-
 
 <p><strong>I like blogs because ..</strong>
 they offer me a platform where i can express my self without any limitations. And because more people tend to have this need to express them self. It leads to a great flow of valuable and creative information. Combine that with the ability to interact with a user base. And you have a great platform for having discussions. No need for rushed answers. You can just sit down and reflect your thoughts in a comment and start a discussion with the author. In short i offers freedom.</p>
 
 <p><strong>And ..</strong>
-It&#8217;s also a great exercise platform. I myself are not native English speaker. So by blogging in English i tend to improve my own English language knowledge. Plus way more people speak English then <a href="http://en.wikipedia.org/wiki/Dutch_language">Dutch</a>. The second reasons is to improve once writing skills. Not that i have aspirations to become a write one day. but it never hurts to improve your skills.</p>
+It’s also a great exercise platform. I myself are not native English speaker. So by blogging in English i tend to improve my own English language knowledge. Plus way more people speak English then <a href="http://en.wikipedia.org/wiki/Dutch_language">Dutch</a>. The second reasons is to improve once writing skills. Not that i have aspirations to become a write one day. but it never hurts to improve your skills.</p>
 
-<p>Besides that it&#8217;s a great way to harvest your own thoughts over a period of time. And always have them at your disposal.</p>
+<p>Besides that it’s a great way to harvest your own thoughts over a period of time. And always have them at your disposal.</p>
 
 <p>So if you read this. Write the <em>Ideas of March</em> post your self. And pledge to do more blogging this month. Some people who have already taken the time to express the thoughts on this initiative can be found below.</p>
 
@@ -916,36 +1171,92 @@ It&#8217;s also a great exercise platform. I myself are not native English speak
 </header>
 
 
-  <div class="articletext"><p><a href="http://aws.amazon.com/"><img src="http://lenss.nl/images/2011/03/logo_aws.gif" alt="" /></a> Finally back online again. Somewhere today the site went down. And i couldn&#8217;t reach the server. Which resulted in me jumping the gun and write an pissed off <a href="http://twitter.com/m0s/status/48089219616354304">tweet</a> about Amazon&#8217;s EC2 service. Which turned out to be false. After i noticed i tried to login to the AWS dashboard. But instead of my running instance i was presented with a validation screen. I had to validate my account by phone. That&#8217;s weird. I came to conclusion to early and thought Amazon had suspended my account for what whatever reason possible. It turns out it&#8217;s the annoying Amazon password bug that bit my ass. After poking around i came to the conclusion i have two Amazon accounts on the same email address but with different passwords. One has EC2 enabled the other doesn&#8217;t. Good to know. But the site was still down. So on my way home i missed a call from the Amazon support desk (really more companies should act like Amazon does). But got into an email conversation with them later on. After i apologised for the tweet. The Dev at Amazon figured out the server was running out of resources and was swapping. And just couldn&#8217;t do much more then that. Only a reboot resolved the issue. Hey! It&#8217;s not a micro instance for nothing.</p>
+  <div class="articletext"><p><a href="http://aws.amazon.com/"><img src="http://lenss.nl/images/2011/03/logo_aws.gif" alt="" /></a> Finally back online again. Somewhere today the site went down. And i couldn’t reach the server. Which resulted in me jumping the gun and write an pissed off <a href="http://twitter.com/m0s/status/48089219616354304">tweet</a> about Amazon’s EC2 service. Which turned out to be false. After i noticed i tried to login to the AWS dashboard. But instead of my running instance i was presented with a validation screen. I had to validate my account by phone. That’s weird. I came to conclusion to early and thought Amazon had suspended my account for what whatever reason possible. It turns out it’s the annoying Amazon password bug that bit my ass. After poking around i came to the conclusion i have two Amazon accounts on the same email address but with different passwords. One has EC2 enabled the other doesn’t. Good to know. But the site was still down. So on my way home i missed a call from the Amazon support desk (really more companies should act like Amazon does). But got into an email conversation with them later on. After i apologised for the tweet. The Dev at Amazon figured out the server was running out of resources and was swapping. And just couldn’t do much more then that. Only a reboot resolved the issue. Hey! It’s not a micro instance for nothing.</p>
 
-<p>I might as well write a post about the move to the Amazon Cloud late last year. Ever since this website went up in 2008. It has been running on one of my own servers. And this has done the job well for two years. Some people would say if it ain&#8217;t broke don&#8217;t try to fix it. But i like to try out new things. And running a server isn&#8217;t cheap. So if i can find a more affordable way of hosting this site i may be interested enough to move. So where do i move this site too. Some other hosting provider? Let&#8217;s try something different and host it from the cloud. I didn&#8217;t really want to go over the whole hassle of finding a suitable hosting provider. And i was doing some small project with Amazon Web-services. So my choice was made quite easy. Let&#8217;s try the wide array of options Amazon&#8217;s Web-services have to offer.</p>
+<p>I might as well write a post about the move to the Amazon Cloud late last year. Ever since this website went up in 2008. It has been running on one of my own servers. And this has done the job well for two years. Some people would say if it ain’t broke don’t try to fix it. But i like to try out new things. And running a server isn’t cheap. So if i can find a more affordable way of hosting this site i may be interested enough to move. So where do i move this site too. Some other hosting provider? Let’s try something different and host it from the cloud. I didn’t really want to go over the whole hassle of finding a suitable hosting provider. And i was doing some small project with Amazon Web-services. So my choice was made quite easy. Let’s try the wide array of options Amazon’s Web-services have to offer.</p>
 
-<p>No way i was going to pay a fortune to set something up. So after some reading and some googling of course. I came to the <a href="http://aws.amazon.com/free/">Free Usage Tier</a> page. This basically is a way to get familiar with the AWS system. And it offer quite a nice set of features to use. One year of free usage as long as you don&#8217;t go over the limit set for this microsystem.. Read more about the terms <a href="http://aws.amazon.com/free/terms/">here</a> . Some of the highlights are:</p>
+<p>No way i was going to pay a fortune to set something up. So after some reading and some googling of course. I came to the <a href="http://aws.amazon.com/free/">Free Usage Tier</a> page. This basically is a way to get familiar with the AWS system. And it offer quite a nice set of features to use. One year of free usage as long as you don’t go over the limit set for this microsystem.. Read more about the terms <a href="http://aws.amazon.com/free/terms/">here</a> . Some of the highlights are:</p>
 
-<blockquote><p><strong>AWS Free Usage Tier (Per Month):</strong></p>
+<blockquote>
+  <p><strong>AWS Free Usage Tier (Per Month):</strong></p>
+</blockquote>
 
-<ul>
-<li><p>750 hours of <a href="http://aws.amazon.com/ec2">Amazon EC2</a> Linux Micro Instance usage (613 MB of memory and 32-bit and 64-bit  platform support) – enough hours to run continuously each month<code>*</code></p></li>
-<li><p>750 hours of an <a href="http://aws.amazon.com/elasticloadbalancing/">Elastic Load Balancer</a> plus 15 GB data processing*</p></li>
-<li><p>10 GB of <a href="http://aws.amazon.com/ebs">Amazon Elastic Block Storage</a>, plus 1 million I/Os, 1 GB of snapshot storage, 10,000 snapshot Get Requests and 1,000 snapshot Put Requests<code>*</code></p></li>
-<li><p>5 GB of <a href="http://aws.amazon.com/s3">Amazon S3 storage</a>, 20,000 Get Requests, and 2,000 Put Requests<code>*</code></p></li>
-<li><p>30 GB per of internet data transfer (15 GB of data transfer “in”  and 15 GB of data transfer “out” across all services except Amazon  CloudFront)<code>*</code></p></li>
-<li><p>25 <a href="http://aws.amazon.com/simpledb">Amazon SimpleDB</a> Machine Hours and 1 GB of Storage<code>**</code></p></li>
-<li><p>100,000 Requests of <a href="http://aws.amazon.com/sqs">Amazon Simple Queue Service</a><code>**</code></p></li>
-<li><p>100,000 Requests, 100,000 HTTP notifications and 1,000 email notifications for <a href="http://aws.amazon.com/sns">Amazon Simple Notification Service</a><code>**</code></p></li>
-<li><p>10 <a href="http://aws.amazon.com/cloudwatch">Amazon Cloudwatch</a> alarms<code>**</code></p></li>
-</ul>
+<blockquote>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>750 hours of <a href="http://aws.amazon.com/ec2">Amazon EC2</a> Linux Micro Instance usage (613 MB of memory and 32-bit and 64-bit  platform support) – enough hours to run continuously each month<code>*</code></li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>750 hours of an <a href="http://aws.amazon.com/elasticloadbalancing/">Elastic Load Balancer</a> plus 15 GB data processing*</li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>10 GB of <a href="http://aws.amazon.com/ebs">Amazon Elastic Block Storage</a>, plus 1 million I/Os, 1 GB of snapshot storage, 10,000 snapshot Get Requests and 1,000 snapshot Put Requests<code>*</code></li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>5 GB of <a href="http://aws.amazon.com/s3">Amazon S3 storage</a>, 20,000 Get Requests, and 2,000 Put Requests<code>*</code></li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>30 GB per of internet data transfer (15 GB of data transfer “in”  and 15 GB of data transfer “out” across all services except Amazon  CloudFront)<code>*</code></li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>25 <a href="http://aws.amazon.com/simpledb">Amazon SimpleDB</a> Machine Hours and 1 GB of Storage<code>**</code></li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>100,000 Requests of <a href="http://aws.amazon.com/sqs">Amazon Simple Queue Service</a><code>**</code></li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>100,000 Requests, 100,000 HTTP notifications and 1,000 email notifications for <a href="http://aws.amazon.com/sns">Amazon Simple Notification Service</a><code>**</code></li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>10 <a href="http://aws.amazon.com/cloudwatch">Amazon Cloudwatch</a> alarms<code>**</code></li>
+  </ul>
+
 </blockquote>
 
 <p>In addition to these services, the <a href="http://aws.amazon.com/console">AWS Management Console</a> is available at no charge to help you build and manage your application on AWS.</p>
 
-<p>So that looks like a pretty nice offer from Amazon. Of course you don&#8217;t have to expect some multi core system waiting for you. But maybe it will do. I was interested enough to give it try. After logging in the place to start is the <a href="https://console.aws.amazon.com/ec2">ec2</a> control panel. The first thing i did was create a new instance running Debian.</p>
+<p>So that looks like a pretty nice offer from Amazon. Of course you don’t have to expect some multi core system waiting for you. But maybe it will do. I was interested enough to give it try. After logging in the place to start is the <a href="https://console.aws.amazon.com/ec2">ec2</a> control panel. The first thing i did was create a new instance running Debian.</p>
 
-<p>Make sure the right region is set in the region box. I logged in after creating my first image and couldn&#8217;t find it anywhere. Because the default region was not the one i used. From the dashboard i can just click the launch instance button and it gives me a list of different images to use as a virtual instance. There is plenty of flavour to choose from. I picked a community Debian instance.</p>
+<p>Make sure the right region is set in the region box. I logged in after creating my first image and couldn’t find it anywhere. Because the default region was not the one i used. From the dashboard i can just click the launch instance button and it gives me a list of different images to use as a virtual instance. There is plenty of flavour to choose from. I picked a community Debian instance.</p>
 
 <p><a href="http://lenss.nl/images/2011/03/request-instance2.png"><img src="http://lenss.nl/images/2011/03/request-instance2-300x195.png" alt="" /></a></p>
 
-<p>The next screen is important because it sets the instance type to use. The Micro (t1.micro) is what i am looking for this time.</p>
+<p>The next screen is important because it sets the instance type to use. The Micro (t1.micro) is what i am looking for this time. </p>
 
 <p><a href="http://lenss.nl/images/2011/03/request-instance-micro.png"><img src="http://lenss.nl/images/2011/03/request-instance-micro-300x204.png" alt="" /></a></p>
 
@@ -963,12 +1274,15 @@ It&#8217;s also a great exercise platform. I myself are not native English speak
 
 <p>If all is well i should be able to login by SSH.</p>
 
-<blockquote><p>$ ssh -i [key name].pem ec2-user@[ip address].eu-west-1.compute.amazonaws.com
-$ sudo bash</p></blockquote>
+<blockquote>
+  <p>$ ssh -i [key name].pem ec2-user@[ip address].eu-west-1.compute.amazonaws.com 
+$ sudo bash</p>
+</blockquote>
 
-<p>That&#8217;s it. I configured the instance using Zend Server and didn&#8217;t even bother to setup an RDS storage engine. I just installed MySQL. And used that for the site. Last but not least. Open port 80 on the firewall. This is easily done from the EC2 dashboard. I also opened up ports 10081 - 10083 bound to my home IP address so i can control Zend Server.</p>
+<p>That’s it. I configured the instance using Zend Server and didn’t even bother to setup an RDS storage engine. I just installed MySQL. And used that for the site. Last but not least. Open port 80 on the firewall. This is easily done from the EC2 dashboard. I also opened up ports 10081 - 10083 bound to my home IP address so i can control Zend Server.</p>
 
-<p>I was quite impressed with the AWS interface and the possibilities. But the cost is pretty high. The first month was nearly free. But while traffic keeps growing the cost keeps rising. This ended up me paying more for a single instance a month then for a complete server on which i can run multiple sites. So while extremely easy to use, flexible and just plain cool to work with. It&#8217;s not for this site. I thank Amazon for the available possibilities. And the Support i had today. But i am moving back to my own server as we speak.</p>
+<p>I was quite impressed with the AWS interface and the possibilities. But the cost is pretty high. The first month was nearly free. But while traffic keeps growing the cost keeps rising. This ended up me paying more for a single instance a month then for a complete server on which i can run multiple sites. So while extremely easy to use, flexible and just plain cool to work with. It’s not for this site. I thank Amazon for the available possibilities. And the Support i had today. But i am moving back to my own server as we speak.</p>
+
 </div>
   
   
@@ -1026,11 +1340,12 @@ $ sudo bash</p></blockquote>
 </header>
 
 
-  <div class="articletext"><p><a href="http://www.zend.com/en/products/studio/vmware-workstation-deployment"><img src="http://lenss.nl/images/2011/03/zend-vmware.gif" alt="" /></a>A while back i was contacted by <a href="http://twitter.com/vlaxmi">Vijay Laxmi</a>. Vijay is a Sr Partner Marketing Manager over at Zend Technologies. And she was interested in doing a podcast like interview about the brand new and shiny <a href="http://www.zend.com/en/products/studio/vmware-workstation-deployment">VMWare &amp; Zend Studio</a> integration. And because i am a big fan of this feature. I didn&#8217;t see why not. So we had a few chat sessions. Along the way <a href="http://twitter.com/jsolomin">Joshua Solomin</a> from Zend and Michael Paiko from VMWare joined the party. And after some preparation we recorded the session. Considering i have never been much of a speaker. This was quite fun to do.</p>
+  <div class="articletext"><p><a href="http://www.zend.com/en/products/studio/vmware-workstation-deployment"><img src="http://lenss.nl/images/2011/03/zend-vmware.gif" alt="" /></a>A while back i was contacted by <a href="http://twitter.com/vlaxmi">Vijay Laxmi</a>. Vijay is a Sr Partner Marketing Manager over at Zend Technologies. And she was interested in doing a podcast like interview about the brand new and shiny <a href="http://www.zend.com/en/products/studio/vmware-workstation-deployment">VMWare &amp; Zend Studio</a> integration. And because i am a big fan of this feature. I didn’t see why not. So we had a few chat sessions. Along the way <a href="http://twitter.com/jsolomin">Joshua Solomin</a> from Zend and Michael Paiko from VMWare joined the party. And after some preparation we recorded the session. Considering i have never been much of a speaker. This was quite fun to do. </p>
 
 <p>Michael send me the end result. And everybody seemed happy with it. After that life resumed and i have been incredibly busy every since. So i kinda forgot about the whole thing. Till Vijay mailed me today (ty! Vijay). VMWare put the <a href="http://blogs.vmware.com/workstation/">recording</a> on their website. And a customer mailing has been transmitted over the wire.  Cool stuff!</p>
 
 <p><a href="http://lenss.nl/images/2011/03/2011-02-07-VMware-Zend-VOC-Podcast.mp3">2011-02-07 VMware-Zend VOC Podcast</a></p>
+
 </div>
   
   
@@ -1071,106 +1386,6 @@ $ sudo bash</p></blockquote>
     <div class="share">
 		<ul>
 			<li><a href="http://lenss.nl/2011/03/vmware-workstation-listen-to-voice-of-the-customer/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2011/03/phps-current-trend-status/">PHP&#8217;s Current Trend Status</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>Kevin Schroeder has a nice <a href="http://www.eschrade.com/page/what-to-make-of-tiobe-php/">post</a> about the current state of PHP in the <a href="http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html">TIOBE index</a>. And i have seen this TIOBE index pop up every now and then in blog posts. It never really interested me. I am not a big fan of trend statistics and certainly don&#8217;t care for what is the hottest language of the moment. But reading Kevin&#8217;s article got me interested. He mentions the fact that if you do manual searches on different search engine with a query like <a href="http://www.google.nl/search?source=ig&amp;hl=nl&amp;rlz=&amp;=&amp;q=%2B%22PHP+programming%22&amp;btnG=Google+zoeken&amp;aq=f&amp;aqi=&amp;aql=&amp;oq=">+&#8221;PHP programming&#8221;</a> vs <a href="http://www.google.nl/search?hl=nl&amp;q=%2B%22Python+programming%22&amp;btnG=Zoeken&amp;aq=f&amp;aqi=&amp;aql=&amp;oq=">+&#8221;Python programming&#8221;</a> you will get a different view then what the TIOBE index is displaying. And this is true. So let&#8217;s give that a try.</p>
-
-<blockquote><p>+&#8221;PHP programming&#8221;
-Google : 1.460.000
-Yahoo  : 132,000,000
-Bing    : 133.000.000
-Baidu  : 100,000,000</p></blockquote>
-
-<p>Let&#8217;s do the same for Python.</p>
-
-<blockquote><p>+&#8221;Python programming&#8221;
-Google : 952.000
-Yahoo  : 22,700,000
-Bing    : 27.200.000
-Baidu  : 1,860,000</p></blockquote>
-
-<p>But this only displays the fact that there is way more content about PHP on the web then there is about Python. It does not reflect the current request and interest in the two subjects. Plus i know some Python programmers. And i also know for a fact that the demand for Python developers has been growing slowly. More <a href="http://www.djangocon.eu/">conferences</a> are popping up. So the community is live and kicking. So how about the PHP community? There is still a steady flow of fresh content, <a href="http://www.phpdeveloper.org/">blog posts</a>, new and old conferences, activity in <a href="http://news.php.net/php.general">php.general</a> (dropped a little), new versions are delivered, <a href="http://news.php.net/php.internals">php.internals</a> is busy as always and the demand for PHP developers is at an all time high. At least here it is. So this community is live and kicking as well.</p>
-
-<p>So this got me reading the <a href="http://www.tiobe.com/index.php/content/paperinfo/tpci/tpci_definition.htm">TIOBE Programming Community Index Definition</a> to see if i could figure out how they calculate the final result. I am by no means a mathematics person. But the formula seems straight forward. What happens inside the hits() and hits50() function is not clear however. So matching their findings against mine is not really possible.</p>
-
-<blockquote><p>((hits(PL,SE1)/hits50(SE1) + &#8230; + hits(PL,SEn)/hits50(SEn))/n</p></blockquote>
-
-<p>So how else can we see the current state of PHP then. Let&#8217;s try Google trends. That&#8217;s what it&#8217;s there for.</p>
-
-<p><strong>Compare search requests for <a href="http://www.google.com/trends?q=PHP%2C+Python">&#8220;PHP&#8221; vs &#8220;Python&#8221;</a></strong></p>
-
-<p>Interesting results. This shows that the interest for PHP has been steadily dropping since somewhere around 2004. When people started getting scared of PHP5 i assume. Python on the other hand is nearly visible but steady.</p>
-
-<p><a href="http://lenss.nl/images/2011/03/php-python.png"><img src="http://lenss.nl/images/2011/03/php-python.png" alt="" /></a></p>
-
-<p><strong>Let&#8217;s try a more precise query <a href="http://www.google.com/trends?q=PHP+programming%2C+Python+programming&amp;ctab=0&amp;geo=all&amp;date=all&amp;sort=0">&#8220;PHP programming&#8221; vs &#8220;Python programming&#8221;</a></strong></p>
-
-<p>That will display something i did not hope for. But something i was expecting non the less. The interest for Python programming has risen over the past years.</p>
-
-<p><a href="http://lenss.nl/images/2011/03/phppro-pythonpro.png"><img src="http://lenss.nl/images/2011/03/phppro-pythonpro.png" alt="" /></a></p>
-
-<p><strong>One more comparison for the road <a href="http://www.google.com/trends?q=PHP+developer%2C+Python+developer&amp;ctab=0&amp;geo=all&amp;date=all&amp;sort=0">&#8220;PHP developer&#8221; vs &#8220;Python developer&#8221;</a></strong></p>
-
-<p>Well that&#8217;s kind of a relieve. It shows the demand for Python developers is growing. But they have a long way to go to catch up on PHP :)</p>
-
-<p><a href="http://lenss.nl/images/2011/03/phpdev-pythondev.png"><img src="http://lenss.nl/images/2011/03/phpdev-pythondev.png" alt="" /></a></p>
-
-<p>Conclusion for me is. I still have no clue what the TIOBE index does. Google trend shows a drop in PHP&#8217;s popularity and a rise in Pythons Popularity. Personally i don&#8217;t see much change in the PHP community compared to resent years. And i have no real opinion of what is going on inside the Python community. But i am happy to stick with PHP anyway.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-03-06T18:09:32+01:00" pubdate data-updated="true">Mar 6<span>th</span>, 2011</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/google/'>Google</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2011/03/phps-current-trend-status/#disqus_thread">Comments</a></li>
 		</ul>
 	</div>
   </footer>
@@ -1228,6 +1443,8 @@ Baidu  : 1,860,000</p></blockquote>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -1245,8 +1462,6 @@ Baidu  : 1,860,000</p></blockquote>
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -1267,7 +1482,7 @@ Baidu  : 1,860,000</p></blockquote>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

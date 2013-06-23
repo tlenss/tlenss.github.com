@@ -67,7 +67,7 @@
 </header>
 
 
-<div class="articletext"><p>I am working on a small API for my own backend and i wanted a modular architecture. I have done this before using the Zend Framework. But this time i wanted a bit more control while loading the modules. And adding a <a href="http://framework.zend.com/manual/1.10/en/zend.application.quick-start.html">Bootstrap</a> class would seem like a good option. The only example i could find involved loading all bootstraps on every request. Which doesn&#8217;t seem like a good idea. So after reading through the Manual and some blog posts. I decided to give it s shot my self.</p>
+<div class="articletext"><p>I am working on a small API for my own backend and i wanted a modular architecture. I have done this before using the Zend Framework. But this time i wanted a bit more control while loading the modules. And adding a <a href="http://framework.zend.com/manual/1.10/en/zend.application.quick-start.html">Bootstrap</a> class would seem like a good option. The only example i could find involved loading all bootstraps on every request. Which doesn’t seem like a good idea. So after reading through the Manual and some blog posts. I decided to give it s shot my self.</p>
 
 <p>The structure i want looks like this.</p>
 
@@ -75,12 +75,14 @@
 
 <p>The application.ini file has the following contents:</p>
 
-<blockquote><p>includePaths.library = APPLICATION_PATH &#8220;/../library&#8221;
-bootstrap.path = APPLICATION_PATH &#8220;/Bootstrap.php&#8221;
-bootstrap.class = &#8220;Bootstrap&#8221;
-resources.frontController.moduleDirectory = APPLICATION_PATH &#8220;/modules&#8221;
-resources.modules[] = &#8220;default&#8221;
-resources.modules[] = &#8220;admin&#8221;</p></blockquote>
+<blockquote>
+  <p>includePaths.library = APPLICATION_PATH “/../library”
+bootstrap.path = APPLICATION_PATH “/Bootstrap.php”
+bootstrap.class = “Bootstrap”
+resources.frontController.moduleDirectory = APPLICATION_PATH “/modules”
+resources.modules[] = “default”
+resources.modules[] = “admin”</p>
+</blockquote>
 
 <p><strong>includePaths</strong>
 This sets the applications local library location. Any shared code for this application goes here.</p>
@@ -103,32 +105,34 @@ Define the modules location and create a list of modules.</p>
 
 <pre><code>    protected function _initConfiguration()
     {
-        $app = $this-&gt;getApplication();
-        $config = $app-&gt;getOptions();
-
-        if (APPLICATION_ENV == 'development') {
-                error_reporting(E_ALL &amp; E_STRICT);
-                if (isset($config['phpsettings'])) {
-                        foreach ($config['phpsettings'] as $setting =&gt; $value) {
-                            ini_set($setting, $value);
-                        }  
-                }
-        }
+    	$app = $this-&gt;getApplication();
+    	$config = $app-&gt;getOptions();
+    	
+    	if (APPLICATION_ENV == 'development') {
+	    	    error_reporting(E_ALL &amp; E_STRICT);
+	    	    if (isset($config['phpsettings'])) {
+		    	        foreach ($config['phpsettings'] as $setting =&gt; $value) {
+		    		        ini_set($setting, $value);
+		    	        }  
+	    	    }
+    	}
     }
 </code></pre>
 
-<p>We need autoloading here because we are using a class from the application library. Right now this causes a problem. A notice is thrown</p>
+<p>We need autoloading here because we are using a class from the application library. Right now this causes a problem. A notice is thrown </p>
 
-<blockquote><p>Warning: include_once(FrontController.php) [function.include-once]: failed to open stream: No such file or directory in Zend/Loader.php  on line 147</p></blockquote>
+<blockquote>
+  <p>Warning: include_once(FrontController.php) [function.include-once]: failed to open stream: No such file or directory in Zend/Loader.php  on line 147</p>
+</blockquote>
 
 <p>The application responds fine. And this problem seems to be a recurring issue (<a href="http://framework.zend.com/issues/browse/ZF-7224">ZF-7224</a>, <a href="http://framework.zend.com/issues/browse/ZF-7550">ZF-7550</a>) for the framework. Until now i have not find a graceful fix for this. besides a small <a href="http://framework.zend.com/issues/secure/attachment/12131/BootstrapAbstract.patch">patch</a> reversion.</p>
 
 <pre><code>    protected function _initAutoload()
     {
-            $autoloader = Zend_Loader_Autoloader::getInstance();
-            $autoloader-&gt;setFallbackAutoloader(true);
-
-            return $autoloader;
+		    $autoloader = Zend_Loader_Autoloader::getInstance();
+		    $autoloader-&gt;setFallbackAutoloader(true);
+		
+		    return $autoloader;
     }
 </code></pre>
 
@@ -136,24 +140,24 @@ Define the modules location and create a list of modules.</p>
 
 <pre><code>   protected function _initController()
     {
-        $this-&gt;bootstrap('FrontController'); 
-        $controller = $this-&gt;getResource('FrontController');
+    	$this-&gt;bootstrap('FrontController'); 
+    	$controller = $this-&gt;getResource('FrontController');
        $modules = $controller-&gt;getControllerDirectory();
        $controller-&gt;setParam('prefixDefaultModule', true);
-
+		
         $controller-&gt;registerPlugin(
                new Bluess_Modules_Loader($modules)
         );
-
+    	
         return $controller;
     }
 </code></pre>
 
-<p>Now the last method. which is a bit weird. And i am probably missing a key factor here. But if this method <strong>resource</strong> is not declared only the default module functions. When declared empty all modules function as they should. This would indicate that this method could be used to load the modules. But i haven&#8217;t found a way to achieve this yet. Except for loading all modules in a row. Which makes no sense for this purpose. So we leave it empty.</p>
+<p>Now the last method. which is a bit weird. And i am probably missing a key factor here. But if this method <strong>resource</strong> is not declared only the default module functions. When declared empty all modules function as they should. This would indicate that this method could be used to load the modules. But i haven’t found a way to achieve this yet. Except for loading all modules in a row. Which makes no sense for this purpose. So we leave it empty.</p>
 
 <pre><code>protected function _initModules()
     {
-        // Call to prevent ZF from loading all modules
+		// Call to prevent ZF from loading all modules
     }
 </code></pre>
 
@@ -163,51 +167,53 @@ Define the modules location and create a list of modules.</p>
 
 <pre><code>class Bluess_Modules_Loader extends Zend_Controller_Plugin_Abstract
 {
-    protected $_modules;
+	protected $_modules;
 </code></pre>
 
 <p>Setup the plug-in by passing the applications module list.</p>
 
-<pre><code>    public function __construct(array $modulesList) 
-    {
-        $this-&gt;_modules = $modulesList;
-    }
+<pre><code>	public function __construct(array $modulesList) 
+	{
+		$this-&gt;_modules = $modulesList;
+	}
 </code></pre>
 
 <p>The <strong>dispatchLoopStartup</strong> method will be called on every request and will do the magic. Based on the current module name we create a new <strong>Zend_Application</strong> with the current modules config file <strong>module.ini</strong>. And we bootstrap it.</p>
 
-<pre><code>    public function dispatchLoopStartup(Zend_Controller_Request_Abstract $request)
-    {
-        $module = $request-&gt;getModuleName();
+<pre><code>	public function dispatchLoopStartup(Zend_Controller_Request_Abstract $request)
+	{
+		$module = $request-&gt;getModuleName();
+		
+		if (!isset($this-&gt;_modules[$module])) {
+			throw new Exception("Module does not exist!");
+		}
 
-        if (!isset($this-&gt;_modules[$module])) {
-            throw new Exception("Module does not exist!");
-        }
-
-        $bootstrapPath = $this-&gt;_modules[$module];
-
-        $bootstrapFile = dirname($bootstrapPath) . '/Bootstrap.php';
+		$bootstrapPath = $this-&gt;_modules[$module];
+		
+		$bootstrapFile = dirname($bootstrapPath) . '/Bootstrap.php';
         $class         = ucfirst($module) . '_Bootstrap';
         $application   = new Zend_Application(
-            APPLICATION_ENV,
-            APPLICATION_PATH . '/modules/' . $module . '/configs/module.ini'
-        );  
+        	APPLICATION_ENV,
+    		APPLICATION_PATH . '/modules/' . $module . '/configs/module.ini'
+		);  
 
         if (Zend_Loader::loadFile('Bootstrap.php', dirname($bootstrapPath)) 
-            &amp;&amp; class_exists($class)) {
+        	&amp;&amp; class_exists($class)) {
             $bootstrap = new $class($application);
             $bootstrap-&gt;bootstrap();
         }
-    }
+	}
 }
 </code></pre>
 
-<p>Now setup the default module. Once this is done it&#8217;s a nice example for further modules. Make sure the module has it&#8217;s own layout set.</p>
+<p>Now setup the default module. Once this is done it’s a nice example for further modules. Make sure the module has it’s own layout set. </p>
 
 <p><strong>application/modules/default/configs/module.ini</strong></p>
 
-<blockquote><p>default.resources.layout.layout = &#8220;default&#8221;
-default.resources.layout.layoutPath = APPLICATION_PATH &#8220;/modules/default/layout&#8221;</p></blockquote>
+<blockquote>
+  <p>default.resources.layout.layout = “default”
+default.resources.layout.layoutPath = APPLICATION_PATH “/modules/default/layout”</p>
+</blockquote>
 
 <p>Setup the modules bootstrap and use it to set the modules model location.</p>
 
@@ -215,23 +221,23 @@ default.resources.layout.layoutPath = APPLICATION_PATH &#8220;/modules/default/l
 
 <pre><code>class Default_Bootstrap extends Zend_Application_Module_Bootstrap 
 {
-    protected $_moduleName = 'default';
-
-    protected function _initConfiguration()
+	protected $_moduleName = 'default';
+	
+	protected function _initConfiguration()
     {
-        $options = $this-&gt;getApplication()-&gt;getOptions();
-
-        set_include_path(implode(PATH_SEPARATOR, array(
-            realpath(APPLICATION_PATH . '/modules/' . $this-&gt;_moduleName . '/models'),
-            get_include_path(),
-        )));
-
-        return $options;
+		$options = $this-&gt;getApplication()-&gt;getOptions();
+		
+    	set_include_path(implode(PATH_SEPARATOR, array(
+		    realpath(APPLICATION_PATH . '/modules/' . $this-&gt;_moduleName . '/models'),
+		    get_include_path(),
+		)));
+		
+		return $options;
     }
 }
 </code></pre>
 
-<p>That&#8217;s all. Now make sure your layout is set correctly and the controllers are prefixed</p>
+<p>That’s all. Now make sure your layout is set correctly and the controllers are prefixed</p>
 
 <p><strong>application/modules/default/layout/default.phtml</strong></p>
 
@@ -244,11 +250,11 @@ default.resources.layout.layoutPath = APPLICATION_PATH &#8220;/modules/default/l
 {
 </code></pre>
 
-<p>It took me a while to get this working like i had it in my mind. But it&#8217;s going the right way. If your interested in a working copy. You can download one <a href="http://lenss.nl/code/ZFBootstrappedModules.tar.gz">here</a>.</p>
+<p>It took me a while to get this working like i had it in my mind. But it’s going the right way. If your interested in a working copy. You can download one <a href="http://lenss.nl/code/ZFBootstrappedModules.tar.gz">here</a>.</p>
 
 <p><strong>UPDATE</strong></p>
 
-<p>Matthew has a nice <a href="http://weierophinney.net/matthew/archives/234-Module-Bootstraps-in-Zend-Framework-Dos-and-Donts.html#extended">post </a>about some do&#8217;s and don&#8217;ts concerning module based applications</p>
+<p>Matthew has a nice <a href="http://weierophinney.net/matthew/archives/234-Module-Bootstraps-in-Zend-Framework-Dos-and-Donts.html#extended">post </a>about some do’s and don’ts concerning module based applications</p>
 </div>
 
 
@@ -370,6 +376,8 @@ default.resources.layout.layoutPath = APPLICATION_PATH &#8220;/modules/default/l
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -387,8 +395,6 @@ default.resources.layout.layoutPath = APPLICATION_PATH &#8220;/modules/default/l
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -409,7 +415,7 @@ default.resources.layout.layoutPath = APPLICATION_PATH &#8220;/modules/default/l
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

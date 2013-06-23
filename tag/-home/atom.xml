@@ -4,7 +4,7 @@
   <title><![CDATA[Category: /home | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/-home/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-03-28T21:51:39+01:00</updated>
+  <updated>2013-06-23T11:40:35+02:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -18,21 +18,21 @@
     <link href="http://lenss.nl/2013/02/phpness-serious-wtf/"/>
     <updated>2013-02-27T11:58:26+01:00</updated>
     <id>http://lenss.nl/2013/02/phpness-serious-wtf</id>
-    <content type="html"><![CDATA[<p>It's been a while since i last blogged. And i don't really have anything new to offer. But i would like to comment on some current event. There has been some commotion about a free t shirt that was distributed on the SunshinePHP conference this year.</p>
+    <content type="html"><![CDATA[<p>It’s been a while since i last blogged. And i don’t really have anything new to offer. But i would like to comment on some current event. There has been some commotion about a free t shirt that was distributed on the SunshinePHP conference this year. </p>
 
 <p><a href="http://lenss.nl/images/2013/02/web-and-php-img.png"><img src="http://lenss.nl/images/2013/02/web-and-php-img.png" alt="" /></a></p>
 
-<p>The first time i saw the shirt i could not make out what was so offending that people would start blogging about it. Somebody had to point that out for me. So what's the deal here? Apparently the shirt's slogan was intentionally created with a slight sexual undertone. The idea comes from the enlarge your penis SPAM we all know!</p>
+<p>The first time i saw the shirt i could not make out what was so offending that people would start blogging about it. Somebody had to point that out for me. So what’s the deal here? Apparently the shirt’s slogan was intentionally created with a slight sexual undertone. The idea comes from the enlarge your penis SPAM we all know! </p>
 
-<p>Some people have perceived this as being sexist. And even go so far as to personally attack the people behind the shirt.</p>
+<p>Some people have perceived this as being sexist. And even go so far as to personally attack the people behind the shirt. </p>
 
-<p>Personally i don't think the shirt is sexist or offensive at all. And don't really understand all the fuss. Sex has never been an issue for me in the PHP community. I learn just as much from female developers as i do from the male ones. We are all equal. People that feel the need to defend the opposite sex are probably the ones that see a difference. Even so! Why make such a big deal of something so small? I never seen anybody blog about the programming with attitude poster.</p>
+<p>Personally i don’t think the shirt is sexist or offensive at all. And don’t really understand all the fuss. Sex has never been an issue for me in the PHP community. I learn just as much from female developers as i do from the male ones. We are all equal. People that feel the need to defend the opposite sex are probably the ones that see a difference. Even so! Why make such a big deal of something so small? I never seen anybody blog about the programming with attitude poster. </p>
 
 <p><a href="http://lenss.nl/images/2013/02/php-programming.jpg"><img src="http://lenss.nl/images/2013/02/php-programming.jpg" alt="" /></a></p>
 
-<p>I think the PHP community has just lost a bit of it's shine and coolness. I've always been under the impression the PHP community consisted of free thinking people that do what they love. Develop stuff. And that's exactly what attracted me to it 12 years ago in the first place.</p>
+<p>I think the PHP community has just lost a bit of it’s shine and coolness. I’ve always been under the impression the PHP community consisted of free thinking people that do what they love. Develop stuff. And that’s exactly what attracted me to it 12 years ago in the first place.</p>
 
-<p>The community has grown quite a lot in that period of time. The thing with every communities is that it brings forth vocal people. Which is a great thing in general. But not so good when people forget their responsibility towards the rest of the community. And that's exactly what happened the last few days. Personal issues have become public. To me it seems many of you have missed the boat completely. You don't have to like the shirt. But there is absolutely no reason to bash the initiative in public.</p>
+<p>The community has grown quite a lot in that period of time. The thing with every communities is that it brings forth vocal people. Which is a great thing in general. But not so good when people forget their responsibility towards the rest of the community. And that’s exactly what happened the last few days. Personal issues have become public. To me it seems many of you have missed the boat completely. You don’t have to like the shirt. But there is absolutely no reason to bash the initiative in public.</p>
 
 <p>Here are some of the articles the spawned over the last couple days:</p>
 
@@ -52,7 +52,7 @@
 
 <p><a href="http://blog.ircmaxell.com/2013/02/on-equality-sexism-and-even-hand.html">On Equality, Sexism and an Even Hand</a></p>
 
-<p>So let's all just respect one another. And keep the PHP community a friendly place. This kind of nonsense has no positive impact on anybody.</p>
+<p>So let’s all just respect one another. And keep the PHP community a friendly place. This kind of nonsense has no positive impact on anybody.</p>
 ]]></content>
   </entry>
   
@@ -61,21 +61,23 @@
     <link href="http://lenss.nl/2012/11/publish-google-reader-shared-items/"/>
     <updated>2012-11-07T15:55:26+01:00</updated>
     <id>http://lenss.nl/2012/11/publish-google-reader-shared-items</id>
-    <content type="html"><![CDATA[<p>A lot of people are using the shared items feature in <a href="http://www.google.nl/reader/">Google Reader</a> to publish what they are reading on a blog. It's like having a live blogroll widget on your website. And gives your readers a good impression of what you are actually interested in.</p>
+    <content type="html"><![CDATA[<p>A lot of people are using the shared items feature in <a href="http://www.google.nl/reader/">Google Reader</a> to publish what they are reading on a blog. It’s like having a live blogroll widget on your website. And gives your readers a good impression of what you are actually interested in.</p>
 
-<p>I never bothered adding this to my blog. But i do like to share. So last night i was trying to figure out how to integrate this with my current blog. I was hoping for an easy implementation. But the information is scarce. So i had to do some digging. I did find a couple of <a href="https://www.google.nl/search?q=wordpress+plugin+google+reader">Wordpress plugins</a>. But most of them were not updated for at least a year. And i am not putting code like that life on my website.</p>
+<p>I never bothered adding this to my blog. But i do like to share. So last night i was trying to figure out how to integrate this with my current blog. I was hoping for an easy implementation. But the information is scarce. So i had to do some digging. I did find a couple of <a href="https://www.google.nl/search?q=wordpress+plugin+google+reader">Wordpress plugins</a>. But most of them were not updated for at least a year. And i am not putting code like that life on my website. </p>
 
-<p>After some Googling i came across a couple of feed URL's that seem to share their <strong>shared</strong> items in feed form. Using the Google Reader URL and a user id. So the URL for my shared items would look like the one below. Getting your user id by the way is easy. Go to your Google reader page. Click all <strong>All items</strong> and the <strong>UID</strong> will show up in the address bar.</p>
+<p>After some Googling i came across a couple of feed URL’s that seem to share their <strong>shared</strong> items in feed form. Using the Google Reader URL and a user id. So the URL for my shared items would look like the one below. Getting your user id by the way is easy. Go to your Google reader page. Click all <strong>All items</strong> and the <strong>UID</strong> will show up in the address bar.</p>
 
-<blockquote><p>http://www.google.com/reader/shared/16525759780220726764</p></blockquote>
+<blockquote>
+  <p>http://www.google.com/reader/shared/16525759780220726764</p>
+</blockquote>
 
 <p>The problem with this however. Non of my shared posts show up on this page. And i have not figured out a way to populate it just yet. So i came up with an other path to get this data on my server.</p>
 
-<p>In the Google Reader pages it's possible to add sharing functionality. This is done by going to the <strong>Send To</strong> tab</p>
+<p>In the Google Reader pages it’s possible to add sharing functionality. This is done by going to the <strong>Send To</strong> tab</p>
 
 <p><a href="http://lenss.nl/images/2012/11/Send-To.png"><img src="http://lenss.nl/images/2012/11/Send-To-300x22.png" alt="" /></a></p>
 
-<p>From here it's possible to select a service to share data with. Non of these services are any good for what i am trying to do. But the great thing about this page is. You can provide custom URL's for sharing data. Just incorporate the specified parameters in the URL and your done.</p>
+<p>From here it’s possible to select a service to share data with. Non of these services are any good for what i am trying to do. But the great thing about this page is. You can provide custom URL’s for sharing data. Just incorporate the specified parameters in the URL and your done.</p>
 
 <p><a href="http://lenss.nl/images/2012/11/Custom-Site.png"><img src="http://lenss.nl/images/2012/11/Custom-Site-300x178.png" alt="" /></a></p>
 
@@ -83,7 +85,7 @@
 
 <p><a href="http://lenss.nl/images/2012/11/Favorite-Site.png"><img src="http://lenss.nl/images/2012/11/Favorite-Site-300x125.png" alt="" /></a></p>
 
-<p>That's it for this part. Actually sharing items is quite easy now. When back in the Google Reader under each post there is Send to link. If you click this link the newly created custom URL will show up. And you can share the post.</p>
+<p>That’s it for this part. Actually sharing items is quite easy now. When back in the Google Reader under each post there is Send to link. If you click this link the newly created custom URL will show up. And you can share the post.</p>
 
 <p><a href="http://lenss.nl/images/2012/11/Tag-Article.png"><img src="http://lenss.nl/images/2012/11/Tag-Article-300x41.png" alt="" /></a></p>
 
@@ -91,48 +93,49 @@
 
 <pre><code>Class GoogleReaderShare
 {
-    const GOOGLE_REMOTE_IP = '95.97.54.3';
-
-    const GOOGLE_REFERER = 'http://www.google.nl/reader/view/';
-
-    protected static $_whitelist = array('source', 'title', 'url', 'short');
-
-    public static function CheckSource($remoteAddr, $referer) 
-    {
-        if (($remoteAddr == self::GOOGLE_REMOTE_IP) 
-                &amp;&amp; ($referer == self::GOOGLE_REFERER)) {
-            return true;
-        }
-        return false;
-    }
-
-    protected static function _CheckIncomingData($data)
-    {
-        if (!is_array($data)) {
-            return false;
-        }
-
-        foreach ($data as $key =&gt; $value) {
-            if (!in_array($key, self::$_whitelist)) {
-                return false;
-            }
-        }
-    }
-
-    public static function Process($data) 
-    {
-        if (!self::_CheckIncomingData($data)) {
-            throw new Exception("Unrecognized or no incoming data");
-        }
-
-        // process the data
-    }
+	const GOOGLE_REMOTE_IP = '95.97.54.3';
+	
+	const GOOGLE_REFERER = 'http://www.google.nl/reader/view/';
+	
+	protected static $_whitelist = array('source', 'title', 'url', 'short');
+	
+	public static function CheckSource($remoteAddr, $referer) 
+	{
+		if (($remoteAddr == self::GOOGLE_REMOTE_IP) 
+				&amp;&amp; ($referer == self::GOOGLE_REFERER)) {
+			return true;
+		}
+		return false;
+	}
+	
+	protected static function _CheckIncomingData($data)
+	{
+		if (!is_array($data)) {
+			return false;
+		}
+			
+		foreach ($data as $key =&gt; $value) {
+			if (!in_array($key, self::$_whitelist)) {
+				return false;
+			}
+		}
+	}
+	
+	public static function Process($data) 
+	{
+		if (!self::_CheckIncomingData($data)) {
+			throw new Exception("Unrecognized or no incoming data");
+		}
+		
+		// process the data
+	}
 }
 
 if (GoogleReaderShare::CheckSource($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_REFERER'])) {
-    GoogleReaderShare::Process($_GET);
+	GoogleReaderShare::Process($_GET);
 }
 </code></pre>
+
 ]]></content>
   </entry>
   
@@ -143,24 +146,32 @@ if (GoogleReaderShare::CheckSource($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_REFER
     <id>http://lenss.nl/2012/10/workaround-ubuntu-12-04-mysterious-system-freezes</id>
     <content type="html"><![CDATA[<p>I have two machines running <a href="http://releases.ubuntu.com/12.04/">Ubuntu 12.04</a>. One of them is very stable. And hardly ever gets rebooted. The other machine is displaying some odd behavior every now and then. And with odd behavior i mean. It just completely freezing up. The only thing functioning at that moment is the mouse.</p>
 
-<p>I use this machine daily. And i can't afford to lose work due to system crashes. So i could spend numerous hours trying to figure out what's going on. But that's probably something better left for the Ubuntu devs them selfs. Besides that there are plenty of bug reports floating around that describe this behavior. And one of those <a href="https://bugs.launchpad.net/ubuntu/+source/linux/+bug/999910">posts</a> seemed to resolve the issue for me.</p>
+<p>I use this machine daily. And i can’t afford to lose work due to system crashes. So i could spend numerous hours trying to figure out what’s going on. But that’s probably something better left for the Ubuntu devs them selfs. Besides that there are plenty of bug reports floating around that describe this behavior. And one of those <a href="https://bugs.launchpad.net/ubuntu/+source/linux/+bug/999910">posts</a> seemed to resolve the issue for me. </p>
 
-<p>Apparently the bug that causes these crashes is fixed in 12.10. But the changes will only be backported when 12.10 is released. So that leaves me in quite a pickle. But according to the thread. Upgrading the kernel should do the trick. So that's exactly what i did. The kernel packages i used can be found here <a href="http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/">http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/</a></p>
+<p>Apparently the bug that causes these crashes is fixed in 12.10. But the changes will only be backported when 12.10 is released. So that leaves me in quite a pickle. But according to the thread. Upgrading the kernel should do the trick. So that’s exactly what i did. The kernel packages i used can be found here <a href="http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/">http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/</a></p>
 
-<blockquote><p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-headers-3.4.0-030400_3.4.0-030400.201205210521_all.deb
-$ sudo dpkg -i linux-headers-3.4.0-030400_3.4.0-030400.201205210521_all.deb</p>
+<blockquote>
+  <p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-headers-3.4.0-030400<em>3.4.0-030400.201205210521_all.deb 
+$ sudo dpkg -i linux-headers-3.4.0-030400</em>3.4.0-030400.201205210521_all.deb</p>
+</blockquote>
 
-<p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-headers-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb
-$ sudo dpkg -i linux-headers-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb</p>
+<blockquote>
+  <p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-headers-3.4.0-030400-generic<em>3.4.0-030400.201205210521_amd64.deb
+$ sudo dpkg -i linux-headers-3.4.0-030400-generic</em>3.4.0-030400.201205210521_amd64.deb</p>
+</blockquote>
 
-<p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-image-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb
-$ sudo dpkg -i linux-image-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb</p></blockquote>
+<blockquote>
+  <p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-image-3.4.0-030400-generic<em>3.4.0-030400.201205210521_amd64.deb
+$ sudo dpkg -i linux-image-3.4.0-030400-generic</em>3.4.0-030400.201205210521_amd64.deb</p>
+</blockquote>
 
-<p>This comes with a downside of course. All modules compiled for the current kernel need to be recompiled. And i haven't figured out how to rebuild all of them at once. So i just ran the command below for <a href="https://www.virtualbox.org/">VirtualBox</a> and the <a href="http://www.nvidia.com">NVidia</a> drivers.</p>
+<p>This comes with a downside of course. All modules compiled for the current kernel need to be recompiled. And i haven’t figured out how to rebuild all of them at once. So i just ran the command below for <a href="https://www.virtualbox.org/">VirtualBox</a> and the <a href="http://www.nvidia.com">NVidia</a> drivers.</p>
 
-<blockquote><p>$ sudo dpkg-reconfigure package-name</p></blockquote>
+<blockquote>
+  <p>$ sudo dpkg-reconfigure package-name</p>
+</blockquote>
 
-<p>It's probably a better idea to keep the stable kernel for now. But if system crashes are really bugging you. Then this might resolve the issue. Just be careful.</p>
+<p>It’s probably a better idea to keep the stable kernel for now. But if system crashes are really bugging you. Then this might resolve the issue. Just be careful.</p>
 ]]></content>
   </entry>
   
@@ -169,58 +180,112 @@ $ sudo dpkg -i linux-image-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.
     <link href="http://lenss.nl/2012/05/abbywinters-is-looking-for-new-developers/"/>
     <updated>2012-05-24T15:04:02+02:00</updated>
     <id>http://lenss.nl/2012/05/abbywinters-is-looking-for-new-developers</id>
-    <content type="html"><![CDATA[<p><a href="http://careers.abbywinters.com/job-opportunities/senior-php-developer/"><img src="http://lenss.nl/images/2011/11/aw-logo-roundel-blue.png" alt="" /></a> If you're looking for a new challenging and exiting Senior Webdeveloper position. Don't look any further. If you already think you have the job of your dreams. Think again!</p>
+    <content type="html"><![CDATA[<p><a href="http://careers.abbywinters.com/job-opportunities/senior-php-developer/"><img src="http://lenss.nl/images/2011/11/aw-logo-roundel-blue.png" alt="" /></a> If you’re looking for a new challenging and exiting Senior Webdeveloper position. Don’t look any further. If you already think you have the job of your dreams. Think again!</p>
 
 <p><em><a href="http://www.abbywinters.com">abbywinters.com</a> <strong>(NSFW)</strong> is one of the largest and most ethical, highly rated, well designed, and successful erotic websites in the world today. abbywinters.com is the WINNER of the AVN 2011 Awards for Best Membership site!</em></p>
 
-<p>And we are looking to hire a new talented webdeveloper to expand our small team. What would you think about joining our small Agile team of highly qualified professionals?</p>
+<p>And we are looking to hire a new talented webdeveloper to expand our small team. What would you think about joining our small Agile team of highly qualified professionals? </p>
 
 <p>You will be creating sexy, exiting and game changing experiences for the web, work for one of the industry leaders. And just be part of an awesome company. Some of the jobs key elements are:</p>
 
 <ul>
-<li><p>Implementing development projects</p></li>
-<li><p>Leading informal mentoring during day-to-day work</p></li>
-<li><p>Contribute to design of development projects</p></li>
-<li><p>Track, reduce, and prevent technical debt in Web Development projects</p></li>
+  <li>
+    <p>Implementing development projects</p>
+  </li>
+  <li>
+    <p>Leading informal mentoring during day-to-day work</p>
+  </li>
+  <li>
+    <p>Contribute to design of development projects</p>
+  </li>
+  <li>
+    <p>Track, reduce, and prevent technical debt in Web Development projects</p>
+  </li>
 </ul>
 
+<blockquote>
+  <p>Motivated by principles of social responsibility, we deliver provocative media by embracing imagination, creativity and emerging technologies. Our models, customers and business partners are inspired by our fervid passion.</p>
 
-<blockquote><p>Motivated by principles of social responsibility, we deliver provocative media by embracing imagination, creativity and emerging technologies. Our models, customers and business partners are inspired by our fervid passion.</p>
+</blockquote>
 
-<p>Our experienced staff use state-of-the-art content production facilities to produce 10 shoots a week from concept to finished art, utilizing the most advanced digital capture, post production and delivery systems in the world.</p>
+<blockquote>
 
-<p>You will be working directly with our Web Dev Manager, Lead developer and colleagues in the web dev team. We need each individual to contribute for us to continue as a pioneer in our industry.</p></blockquote>
+  <p>Our experienced staff use state-of-the-art content production facilities to produce 10 shoots a week from concept to finished art, utilizing the most advanced digital capture, post production and delivery systems in the world.</p>
 
-<p>If you posses a "Can do" attitude. Would like to work in the center of Amsterdam. And are able to identify your self in the criteria below. You might want to head over to our <a href="http://careers.abbywinters.com/job-opportunities/senior-php-developer/">career portal</a> for a more detailed description.</p>
+</blockquote>
+
+<blockquote>
+
+  <p>You will be working directly with our Web Dev Manager, Lead developer and colleagues in the web dev team. We need each individual to contribute for us to continue as a pioneer in our industry.</p>
+</blockquote>
+
+<p>If you posses a “Can do” attitude. Would like to work in the center of Amsterdam. And are able to identify your self in the criteria below. You might want to head over to our <a href="http://careers.abbywinters.com/job-opportunities/senior-php-developer/">career portal</a> for a more detailed description.  </p>
 
 <p><strong>Technical competencies – Required</strong></p>
 
 <ul>
-<li><p>High level of skill with PHP 5</p></li>
-<li><p>High level of skill with Object Oriented Programming</p></li>
-<li><p>High level of skill with HTML/CSS</p></li>
-<li><p>High level of skill with JavaScript</p></li>
-<li><p>High level of skill with Internet Applications</p></li>
-<li><p>Moderate level of skill with Unit Testing and Test Driven Design</p></li>
-<li><p>Moderate level of skill with MySQL</p></li>
-<li><p>Moderate level of skill with Windows XP operating system</p></li>
-<li><p>Experience with the GNU/Linux operating system</p></li>
-<li><p>Competent with Revision Control systems (Subversion)</p></li>
-<li><p>Bachelor of Science in Computer Science, or equivalent experience</p></li>
-<li><p>Zend Certified Engineer, or equivalent experience</p></li>
-<li><p>At least 5 years experience in Web Application Development</p></li>
+  <li>
+    <p>High level of skill with PHP 5</p>
+  </li>
+  <li>
+    <p>High level of skill with Object Oriented Programming</p>
+  </li>
+  <li>
+    <p>High level of skill with HTML/CSS</p>
+  </li>
+  <li>
+    <p>High level of skill with JavaScript</p>
+  </li>
+  <li>
+    <p>High level of skill with Internet Applications</p>
+  </li>
+  <li>
+    <p>Moderate level of skill with Unit Testing and Test Driven Design</p>
+  </li>
+  <li>
+    <p>Moderate level of skill with MySQL</p>
+  </li>
+  <li>
+    <p>Moderate level of skill with Windows XP operating system</p>
+  </li>
+  <li>
+    <p>Experience with the GNU/Linux operating system</p>
+  </li>
+  <li>
+    <p>Competent with Revision Control systems (Subversion)</p>
+  </li>
+  <li>
+    <p>Bachelor of Science in Computer Science, or equivalent experience</p>
+  </li>
+  <li>
+    <p>Zend Certified Engineer, or equivalent experience</p>
+  </li>
+  <li>
+    <p>At least 5 years experience in Web Application Development</p>
+  </li>
 </ul>
-
 
 <p><strong>Technical competencies – Desired</strong></p>
 
 <ul>
-<li><p>Moderate level of skill with the Apache HTTP server</p></li>
-<li><p>Good understanding of the Model-View-Controller pattern</p></li>
-<li><p>Good understanding of the ActiveRecord Object-Relational-Mapping pattern</p></li>
-<li><p>Familiarity with Agile software development practices (Scrum)</p></li>
-<li><p>E-commerce</p></li>
-<li><p>Agile development experience</p></li>
+  <li>
+    <p>Moderate level of skill with the Apache HTTP server</p>
+  </li>
+  <li>
+    <p>Good understanding of the Model-View-Controller pattern</p>
+  </li>
+  <li>
+    <p>Good understanding of the ActiveRecord Object-Relational-Mapping pattern</p>
+  </li>
+  <li>
+    <p>Familiarity with Agile software development practices (Scrum)</p>
+  </li>
+  <li>
+    <p>E-commerce</p>
+  </li>
+  <li>
+    <p>Agile development experience</p>
+  </li>
 </ul>
 
 ]]></content>
@@ -231,18 +296,23 @@ $ sudo dpkg -i linux-image-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.
     <link href="http://lenss.nl/2012/02/using-ssh-key-authentication-with-egit-in-zendstudio/"/>
     <updated>2012-02-28T16:17:19+01:00</updated>
     <id>http://lenss.nl/2012/02/using-ssh-key-authentication-with-egit-in-zendstudio</id>
-    <content type="html"><![CDATA[<p>For the past few months i have been switching some projects over to <a href="http://git-scm.com/">git</a> from <a href="http://subversion.tigris.org/">Subversion</a>. And have been trying to get the hang of all the command line options available. And i will be doing that for a while longer until i get completely comfortable. And for communication to the remote git server i have been using SSH key authentication. Which works smoothly just like it did with Subversion.</p>
+    <content type="html"><![CDATA[<p>For the past few months i have been switching some projects over to <a href="http://git-scm.com/">git</a> from <a href="http://subversion.tigris.org/">Subversion</a>. And have been trying to get the hang of all the command line options available. And i will be doing that for a while longer until i get completely comfortable. And for communication to the remote git server i have been using SSH key authentication. Which works smoothly just like it did with Subversion. </p>
 
 <p>But i wanted to check out the GIT support available in <a href="http://www.zend.com/products/studio/">Zend Studio 9</a>. And hit a problem pretty quickly. But i will describe that below. First i will create a local clone of my git project.</p>
 
-<blockquote><p>$ git clone ssh://[somehost]/~/git/project.git</p></blockquote>
+<blockquote>
+  <p>$ git clone ssh://[somehost]/~/git/project.git</p>
+</blockquote>
 
 <p>To test if everything is working i do a test commit. If that succeeds if push it out to the remote master.</p>
 
-<blockquote><p>$ cd project.git
+<blockquote>
+
+  <p>$ cd project.git
 $ touch TEST
-$ git commit
-$ git push origin master</p></blockquote>
+$ git commit 
+$ git push origin master</p>
+</blockquote>
 
 <p>So that works fine. Now time to see how Zen Studio handles this. To create a project i use the <strong>Create from Git</strong> option. And select the local checkout i just created. This will read the whole repository configuration. And you are basically done from here. But as i mentioned earlier, i had some difficulties getting things running smoothly. I discovered that when it was time to push changes to the master repository.</p>
 
@@ -254,14 +324,20 @@ $ git push origin master</p></blockquote>
 
 <p>So lets download this JSch library and update it manually. The library (JSch v 0.1.46) can be found <a href="http://www.jcraft.com/jsch/">here</a>.</p>
 
-<blockquote><p>$ cd ZendStudio9
-$ find . -name '<em>jsch</em>' -type f</p></blockquote>
+<blockquote>
 
-<p>Found it <strong>plugins/com.jcraft.jsch_0.1.41.v201101211617.jar</strong>. So let's try to update that.</p>
+  <p>$ cd ZendStudio9
+$ find . -name ‘<em>jsch</em>’ -type f</p>
+</blockquote>
 
-<blockquote><p>$ cp plugins/com.jcraft.jsch_0.1.41.v201101211617.jar plugins/com.jcraft.jsch_0.1.41.v201101211617.jar.backup
+<p>Found it <strong>plugins/com.jcraft.jsch_0.1.41.v201101211617.jar</strong>. So let’s try to update that.</p>
+
+<blockquote>
+
+  <p>$ cp plugins/com.jcraft.jsch<em>0.1.41.v201101211617.jar plugins/com.jcraft.jsch</em>0.1.41.v201101211617.jar.backup
 $ wget http://sourceforge.net/projects/jsch/files/jsch.jar/0.1.46/jsch-0.1.46.jar/download
-$ mv jsch-0.1.46.jar plugins/com.jcraft.jsch_0.1.41.v201101211617.jar</p></blockquote>
+$ mv jsch-0.1.46.jar plugins/com.jcraft.jsch_0.1.41.v201101211617.jar</p>
+</blockquote>
 
 <p>After restarting ZS everything worked fine again. Another problem solved! Thanks to the guys who posted in the EGit bug thread. Some good community Karma here! Time for other things. Hope it helps!</p>
 ]]></content>

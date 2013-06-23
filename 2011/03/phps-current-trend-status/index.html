@@ -67,49 +67,56 @@
 </header>
 
 
-<div class="articletext"><p>Kevin Schroeder has a nice <a href="http://www.eschrade.com/page/what-to-make-of-tiobe-php/">post</a> about the current state of PHP in the <a href="http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html">TIOBE index</a>. And i have seen this TIOBE index pop up every now and then in blog posts. It never really interested me. I am not a big fan of trend statistics and certainly don&#8217;t care for what is the hottest language of the moment. But reading Kevin&#8217;s article got me interested. He mentions the fact that if you do manual searches on different search engine with a query like <a href="http://www.google.nl/search?source=ig&amp;hl=nl&amp;rlz=&amp;=&amp;q=%2B%22PHP+programming%22&amp;btnG=Google+zoeken&amp;aq=f&amp;aqi=&amp;aql=&amp;oq=">+&#8221;PHP programming&#8221;</a> vs <a href="http://www.google.nl/search?hl=nl&amp;q=%2B%22Python+programming%22&amp;btnG=Zoeken&amp;aq=f&amp;aqi=&amp;aql=&amp;oq=">+&#8221;Python programming&#8221;</a> you will get a different view then what the TIOBE index is displaying. And this is true. So let&#8217;s give that a try.</p>
+<div class="articletext"><p>Kevin Schroeder has a nice <a href="http://www.eschrade.com/page/what-to-make-of-tiobe-php/">post</a> about the current state of PHP in the <a href="http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html">TIOBE index</a>. And i have seen this TIOBE index pop up every now and then in blog posts. It never really interested me. I am not a big fan of trend statistics and certainly don’t care for what is the hottest language of the moment. But reading Kevin’s article got me interested. He mentions the fact that if you do manual searches on different search engine with a query like <a href="http://www.google.nl/search?source=ig&amp;hl=nl&amp;rlz=&amp;=&amp;q=%2B%22PHP+programming%22&amp;btnG=Google+zoeken&amp;aq=f&amp;aqi=&amp;aql=&amp;oq=">+”PHP programming”</a> vs <a href="http://www.google.nl/search?hl=nl&amp;q=%2B%22Python+programming%22&amp;btnG=Zoeken&amp;aq=f&amp;aqi=&amp;aql=&amp;oq=">+”Python programming”</a> you will get a different view then what the TIOBE index is displaying. And this is true. So let’s give that a try.</p>
 
-<blockquote><p>+&#8221;PHP programming&#8221;
+<blockquote>
+
+  <p>+”PHP programming”
 Google : 1.460.000
 Yahoo  : 132,000,000
 Bing    : 133.000.000
-Baidu  : 100,000,000</p></blockquote>
+Baidu  : 100,000,000</p>
+</blockquote>
 
-<p>Let&#8217;s do the same for Python.</p>
+<p>Let’s do the same for Python.</p>
 
-<blockquote><p>+&#8221;Python programming&#8221;
-Google : 952.000
+<blockquote>
+  <p>+”Python programming”
+Google : 952.000 
 Yahoo  : 22,700,000
 Bing    : 27.200.000
-Baidu  : 1,860,000</p></blockquote>
+Baidu  : 1,860,000</p>
+</blockquote>
 
 <p>But this only displays the fact that there is way more content about PHP on the web then there is about Python. It does not reflect the current request and interest in the two subjects. Plus i know some Python programmers. And i also know for a fact that the demand for Python developers has been growing slowly. More <a href="http://www.djangocon.eu/">conferences</a> are popping up. So the community is live and kicking. So how about the PHP community? There is still a steady flow of fresh content, <a href="http://www.phpdeveloper.org/">blog posts</a>, new and old conferences, activity in <a href="http://news.php.net/php.general">php.general</a> (dropped a little), new versions are delivered, <a href="http://news.php.net/php.internals">php.internals</a> is busy as always and the demand for PHP developers is at an all time high. At least here it is. So this community is live and kicking as well.</p>
 
 <p>So this got me reading the <a href="http://www.tiobe.com/index.php/content/paperinfo/tpci/tpci_definition.htm">TIOBE Programming Community Index Definition</a> to see if i could figure out how they calculate the final result. I am by no means a mathematics person. But the formula seems straight forward. What happens inside the hits() and hits50() function is not clear however. So matching their findings against mine is not really possible.</p>
 
-<blockquote><p>((hits(PL,SE1)/hits50(SE1) + &#8230; + hits(PL,SEn)/hits50(SEn))/n</p></blockquote>
+<blockquote>
+  <p>((hits(PL,SE1)/hits50(SE1) + … + hits(PL,SEn)/hits50(SEn))/n</p>
+</blockquote>
 
-<p>So how else can we see the current state of PHP then. Let&#8217;s try Google trends. That&#8217;s what it&#8217;s there for.</p>
+<p>So how else can we see the current state of PHP then. Let’s try Google trends. That’s what it’s there for.</p>
 
-<p><strong>Compare search requests for <a href="http://www.google.com/trends?q=PHP%2C+Python">&#8220;PHP&#8221; vs &#8220;Python&#8221;</a></strong></p>
+<p><strong>Compare search requests for <a href="http://www.google.com/trends?q=PHP%2C+Python">“PHP” vs “Python”</a></strong></p>
 
 <p>Interesting results. This shows that the interest for PHP has been steadily dropping since somewhere around 2004. When people started getting scared of PHP5 i assume. Python on the other hand is nearly visible but steady.</p>
 
 <p><a href="http://lenss.nl/images/2011/03/php-python.png"><img src="http://lenss.nl/images/2011/03/php-python.png" alt="" /></a></p>
 
-<p><strong>Let&#8217;s try a more precise query <a href="http://www.google.com/trends?q=PHP+programming%2C+Python+programming&amp;ctab=0&amp;geo=all&amp;date=all&amp;sort=0">&#8220;PHP programming&#8221; vs &#8220;Python programming&#8221;</a></strong></p>
+<p><strong>Let’s try a more precise query <a href="http://www.google.com/trends?q=PHP+programming%2C+Python+programming&amp;ctab=0&amp;geo=all&amp;date=all&amp;sort=0">“PHP programming” vs “Python programming”</a></strong></p>
 
 <p>That will display something i did not hope for. But something i was expecting non the less. The interest for Python programming has risen over the past years.</p>
 
 <p><a href="http://lenss.nl/images/2011/03/phppro-pythonpro.png"><img src="http://lenss.nl/images/2011/03/phppro-pythonpro.png" alt="" /></a></p>
 
-<p><strong>One more comparison for the road <a href="http://www.google.com/trends?q=PHP+developer%2C+Python+developer&amp;ctab=0&amp;geo=all&amp;date=all&amp;sort=0">&#8220;PHP developer&#8221; vs &#8220;Python developer&#8221;</a></strong></p>
+<p><strong>One more comparison for the road <a href="http://www.google.com/trends?q=PHP+developer%2C+Python+developer&amp;ctab=0&amp;geo=all&amp;date=all&amp;sort=0">“PHP developer” vs “Python developer”</a></strong></p>
 
-<p>Well that&#8217;s kind of a relieve. It shows the demand for Python developers is growing. But they have a long way to go to catch up on PHP :)</p>
+<p>Well that’s kind of a relieve. It shows the demand for Python developers is growing. But they have a long way to go to catch up on PHP :)</p>
 
 <p><a href="http://lenss.nl/images/2011/03/phpdev-pythondev.png"><img src="http://lenss.nl/images/2011/03/phpdev-pythondev.png" alt="" /></a></p>
 
-<p>Conclusion for me is. I still have no clue what the TIOBE index does. Google trend shows a drop in PHP&#8217;s popularity and a rise in Pythons Popularity. Personally i don&#8217;t see much change in the PHP community compared to resent years. And i have no real opinion of what is going on inside the Python community. But i am happy to stick with PHP anyway.</p>
+<p>Conclusion for me is. I still have no clue what the TIOBE index does. Google trend shows a drop in PHP’s popularity and a rise in Pythons Popularity. Personally i don’t see much change in the PHP community compared to resent years. And i have no real opinion of what is going on inside the Python community. But i am happy to stick with PHP anyway.</p>
 </div>
 
 
@@ -231,6 +238,8 @@ Baidu  : 1,860,000</p></blockquote>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -248,8 +257,6 @@ Baidu  : 1,860,000</p></blockquote>
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -270,7 +277,7 @@ Baidu  : 1,860,000</p></blockquote>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

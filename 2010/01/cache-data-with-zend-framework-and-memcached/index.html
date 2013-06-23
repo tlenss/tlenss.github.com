@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Cache Data With Zend Framework and Memcached Last week i had the chance to work with memcache. Something i hadn&#8217;t done before. For caching i &hellip;">
+  <meta name="description" content="Cache Data With Zend Framework and Memcached Last week i had the chance to work with memcache. Something i hadn’t done before. For caching i mostly &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,48 +67,61 @@
 </header>
 
 
-<div class="articletext"><p>Last week i had the chance to work with memcache. Something i hadn&#8217;t done before. For caching i mostly rely on APC for bytecode. And file based caching for content. Using memecache extension for PHP and de memcached service gives a whole range of features for caching data. And an easy way to manage all this cached data.</p>
+<div class="articletext"><p>Last week i had the chance to work with memcache. Something i hadn’t done before. For caching i mostly rely on APC for bytecode. And file based caching for content. Using memecache extension for PHP and de memcached service gives a whole range of features for caching data. And an easy way to manage all this cached data.</p>
 
-<p>The project i am working on is based on Zend Framework. And there for this post will reflect working with memcache in ZF only. With ZF and memcache it&#8217;s possible to do frontend and backend caching. I will focuse on the backend side for now. But will setup the frontend as well.</p>
+<p>The project i am working on is based on Zend Framework. And there for this post will reflect working with memcache in ZF only. With ZF and memcache it’s possible to do frontend and backend caching. I will focuse on the backend side for now. But will setup the frontend as well.</p>
 
-<p>If you don&#8217;t have memcache installed do it now. It&#8217;s not that hard. On my debian box it went somethign like this:</p>
+<p>If you don’t have memcache installed do it now. It’s not that hard. On my debian box it went somethign like this:</p>
 
-<blockquote><p>$ aptitude install memcached
-$ aptitude install php5-memcache</p></blockquote>
+<blockquote>
+  <p>$ aptitude install memcached
+$ aptitude install php5-memcache</p>
+</blockquote>
 
 <p>Now a days evrything seems to go automatic. So no need to edit the php.ini or anyhting. To check if PHP loaded the memcache extension you can do:</p>
 
-<blockquote><p>$ php -m | grep memcache
-memcache</p></blockquote>
+<blockquote>
+  <p>$ php -m | grep memcache
+memcache</p>
+</blockquote>
 
-<p>Memached is automatically started after install. So let&#8217;s check if everything went ok.</p>
+<p>Memached is automatically started after install. So let’s check if everything went ok.</p>
 
-<blockquote><p>$ ps -aux | grep memcached
+<blockquote>
+  <p>$ ps -aux | grep memcached
 nobody   20965  0.0  0.5  42900 23072 ?        S    Jan28   0:01 /usr/bin/memcached -m 64 -p 11211 -u nobody -l 127.0.0.1
 root     22393  0.0  0.0  87940   776 pts/0    R+   12:06   0:00 grep memcached</p>
+</blockquote>
 
-<p>$ netstat -an | grep 11211
-tcp        0      0 127.0.0.1:11211         0.0.0.0:*               LISTEN</p></blockquote>
+<blockquote>
 
-<p>Looking good. Now it&#8217;s time to do some configuration in ZF.</p>
+  <p>$ netstat -an | grep 11211
+tcp        0      0 127.0.0.1:11211         0.0.0.0:*               LISTEN</p>
+</blockquote>
 
-<p>First of the frontend settings. With &#8216;type&#8217; we set the cache method for the frontend. We chose the standard Core class for this. With &#8216;lifetime&#8217; we set the time for which a cached entity is valid. The &#8216;cache_id_prefix&#8217; is a nice way to group for instnace cache data by controller. So just give it a name.</p>
+<p>Looking good. Now it’s time to do some configuration in ZF.</p>
 
-<blockquote><p>cache.frontend.type = Core
+<p>First of the frontend settings. With ‘type’ we set the cache method for the frontend. We chose the standard Core class for this. With ‘lifetime’ we set the time for which a cached entity is valid. The ‘cache_id_prefix’ is a nice way to group for instnace cache data by controller. So just give it a name.</p>
+
+<blockquote>
+  <p>cache.frontend.type = Core
 cache.frontend.options.lifetime = 600
 cache.frontend.options.automatic_serialization = true
 cache.frontend.options.cache_id_prefix = [some string]
-cache.frontend.options.cache = true</p></blockquote>
+cache.frontend.options.cache = true</p>
+</blockquote>
 
-<p>Now it&#8217;s the backends turn to get configured. For &#8216;type&#8217; we choose Memcached. More types are available. For more info read the ZF manual. The rest of the settings are basic memcached settings like host, port and persitance.</p>
+<p>Now it’s the backends turn to get configured. For ‘type’ we choose Memcached. More types are available. For more info read the ZF manual. The rest of the settings are basic memcached settings like host, port and persitance.</p>
 
-<blockquote><p>cache.backend.type = Memcached
+<blockquote>
+  <p>cache.backend.type = Memcached
 cache.backend.options.servers.1.host = 127.0.0.1
 cache.backend.options.servers.1.port = 11211
 cache.backend.options.servers.1.persistent = true
 cache.backend.options.servers.1.weight = 1
 cache.backend.options.servers.1.timeout = 5
-cache.backend.options.servers.1.retry_interval = 15</p></blockquote>
+cache.backend.options.servers.1.retry_interval = 15</p>
+</blockquote>
 
 <p>Finally we can do some PHP code. To get the cache instance setup we add a _initCache() method to the bootstrap class. Inside this method we retrieve the config options by calling getOptions(). And setup the cache object. Which is then stored in the Registry for later use.</p>
 
@@ -130,7 +143,7 @@ cache.backend.options.servers.1.retry_interval = 15</p></blockquote>
 }
 </code></pre>
 
-<p>That&#8217;s all set. I used the caching for some REST service responses. So i will stick to that in this post as well. The class has a method for adding a cache object.</p>
+<p>That’s all set. I used the caching for some REST service responses. So i will stick to that in this post as well. The class has a method for adding a cache object.</p>
 
 <pre><code>public function setCache(Zend_Cache_Core $cache) {
     $this-&gt;cache = $cache;
@@ -141,7 +154,7 @@ cache.backend.options.servers.1.retry_interval = 15</p></blockquote>
 
 <pre><code>$cache = Zend_Registry::get('cache');
 $cache-&gt;setLifetime(86400);
-
+        
 $client = new Client();
 $client-&gt;setCache($cache);
 </code></pre>
@@ -153,7 +166,7 @@ $client-&gt;setCache($cache);
             . $this-&gt;getCountry();
 </code></pre>
 
-<p>Then we check if the cache object is set. If that&#8217;s the case we check to see if the unique key is already available in the cache.</p>
+<p>Then we check if the cache object is set. If that’s the case we check to see if the unique key is already available in the cache.</p>
 
 <pre><code>if (!isset($this-&gt;cache) || !($ret = $this-&gt;cache-&gt;load($cache_id))) {
 </code></pre>
@@ -186,7 +199,7 @@ if (isset($this-&gt;cache)) {
 }
 </code></pre>
 
-<p>That&#8217;s all. It&#8217;s pretty basic stuff. But so cool!</p>
+<p>That’s all. It’s pretty basic stuff. But so cool!</p>
 </div>
 
 
@@ -308,6 +321,8 @@ if (isset($this-&gt;cache)) {
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -325,8 +340,6 @@ if (isset($this-&gt;cache)) {
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -347,7 +360,7 @@ if (isset($this-&gt;cache)) {
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

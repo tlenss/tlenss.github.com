@@ -1,0 +1,637 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>PHP 5.5.0 released - Thijs Lensselink's Blog</title>
+  <meta name="author" content="Thijs Lensselink">
+
+  
+  <meta name="description" content="PHP 5.5.0 Released PHP reached a new milestone 3 days ago. And as always it’s quite exciting news. Some of the new features are already outlined by &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lenss.nl/2013/06/php-55-released/">
+  <link href="http://lenss.nl/favicon.png" rel="icon">
+  <link href="http://lenss.nl/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="http://lenss.nl/javascripts/libs/jquery-1.8.1.js"></script>
+  <script src="http://lenss.nl/javascripts/modernizr-2.0.js"></script>
+  <script src="http://lenss.nl/javascripts/ender.js"></script>
+  <script src="http://lenss.nl/javascripts/octopress.js"></script>
+  <script src="http://lenss.nl/javascripts/github.js"></script>
+  <script src="http://lenss.nl/javascripts/twitter.js"></script>
+  <link href="http://feeds.feedburner.com/ThijsLensselinksBlog" rel="alternate" title="Thijs Lensselink's Blog" type="application/atom+xml">
+  
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-8003524-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  <script type="text/javascript">
+	$(document).ready(function() {
+		$('#logo').click(function() {
+			window.location = '/';
+		});
+	});
+  </script>
+</head>
+
+<body   >
+<div id="content">
+	<div class="inner">
+        <div>
+<article class="hentry" role="article">
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title">PHP 5.5.0 Released</h1>
+	
+	</header>
+</header>
+
+
+<div class="articletext"><p>PHP reached a new milestone 3 days ago. And as always it’s quite exciting news. Some of the new features are already outlined by Evert Pot’s post which you can find <a href="http://evertpot.com/php-55-released/">here</a>. And all of this of course can be found on the <a href="https://wiki.php.net/rfc">wiki</a> and in the <a href="http://php.net/ChangeLog-5.php#5.5.0">change log</a>. </p>
+
+<p>I’ll just outline some of the new and exiting features, deprecated notices and removed functions.</p>
+
+<p><strong><em>Simplified password hashing API</em></strong></p>
+
+<p>Hashing passwords with <a href="http://php.net/manual/en/function.md5.php">md5()</a> and <a href="http://php.net/manual/en/function.sha1.php">sha1()</a> just isn’t enough anymore. So a new, secure and easy way to hash passwords has been added. And besides hashing includes some other useful functions.</p>
+
+<p><strong><em>$password</em></strong> The password string to hash</p>
+
+<p><strong><em>$algorithm</em></strong> The hashing algorithm to use of which two are available at the moment</p>
+
+<blockquote><p>PASSWORD_DEFAULT which uses bcrypt<br />	PASSWORD_BCRYPT which uses blowfish</p></blockquote>
+
+<p><strong><em>$options</em></strong> makes it possible to add a salt or set the cost for the hashing algorithm</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Hash password with default algorithm </span><a href="http://php.net/manual/en/function.password-hash.php">password_hash() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">	$password = &#39;test-password&#39;;</span>
+</span><span class="line"><span class="x">	$hash = password_hash($password, PASSWORD_DEFAULT);</span>
+</span><span class="line"><span class="x">	var_dump($hash);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<pre><code>string(60) "$2y$10$qGv1q5nT4F7HCtKSPPME2usrdJRcRpk9lEUMQsE8mqyDIy3fbJ4I."
+</code></pre>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Hash password with BLOWFISH algorithm </span><a href="http://php.net/manual/en/function.password-hash.php">password_hash() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">	$hash = password_hash($password, PASSWORD_BCRYPT);</span>
+</span><span class="line"><span class="x">	var_dump($hash);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<pre><code>string(60) "$2y$10$XtpNO/tFjtkq4u3ghcpqXeSwbHZxDQDTXRHfWBnZsmowUVl/MQys2"
+</code></pre>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Hash password with BLOWFISH algorithm and options </span><a href="http://php.net/manual/en/function.password-hash.php">password_hash() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">	$salt = mcrypt_create_iv(22, MCRYPT_DEV_URANDOM); </span>
+</span><span class="line"><span class="x">	$hash = password_hash($password, PASSWORD_BCRYPT, array(&quot;cost&quot; =&gt; 14, &quot;salt&quot; =&gt; $salt));</span>
+</span><span class="line"><span class="x">	var_dump($hash);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<pre><code>string(60) "$2y$14$6ZtnYJ0CyqCUx.vJu3MZEuUGgIN.ryxMa0Yh8BnCrbBDVnd3Me30i"
+</code></pre>
+
+<p>Verify if a hash and password match. Return true if they do and false if they don’t</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Verify hash </span><a href="http://php.net/manual/en/function.password-verify.php">password_verify() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">	$hash = password_hash($password, PASSWORD_DEFAULT);</span>
+</span><span class="line">
+</span><span class="line"><span class="x">	if (password_verify($password, $hash)) {</span>
+</span><span class="line"><span class="x">    		echo &#39;Password is correct&#39;;</span>
+</span><span class="line"><span class="x">	} else {</span>
+</span><span class="line"><span class="x">    		echo &#39;Password is incorrect&#39;;</span>
+</span><span class="line"><span class="x">	}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<pre><code>Password is correct
+</code></pre>
+
+<p>Get information about a valid hash created with password_hash(). The function returns an array with the use d algorithm and options</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Retrieve $hash information </span><a href="http://php.net/manual/en/function.password-get-info.php">password_get_info() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">$info = password_get_info($hash);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<pre><code>array(3) {
+	["algo"]=&gt;
+	int(1)
+	["algoName"]=&gt;
+	string(6) "bcrypt"
+	["options"]=&gt;
+	array(1) {
+		["cost"]=&gt;
+		int(10)
+	}
+}
+</code></pre>
+
+<p>Check if the supplied hash was generated by the provided algorithm and options. This might come in handy when the hash needs to be updated</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Check if a $hash needs to be rehashed </span><a href="http://php.net/manual/en/function.password-needs-rehash.php">password_needs_rehash() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">	if (password_needs_rehash($hash, PASSWORD_BCRYPT, array(&#39;cost&#39; =&gt; 8))) {</span>
+</span><span class="line"><span class="x">		// Update the password hash</span>
+</span><span class="line"><span class="x">	}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><strong><em>Support for constant array/string dereferencing</em></strong></p>
+
+<p>If you work with objects you might have worked with object dereferencing. This Is used to chain method calls. Or the so called fluent interfaces</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Dereference object call  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">	$obj-&gt;method()-&gt;returnObjMethod();</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Now the same is possible for arrays and strings</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Dereference strings / array  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">	echo array(1, 2, 3)[0]; //output 1</span>
+</span><span class="line"><span class="x">	echo &quot;foobar&quot;[2]; //output o</span>
+</span><span class="line"><span class="x">	echo &quot;foobar&quot;[&quot;foo&quot;][0] // output f</span>
+</span><span class="line"><span class="x"> </span>
+</span><span class="line"><span class="x">	echo [1,3,4][2]; //output 4</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><strong><em>Class Name Resolution As Scalar Via “class” Keyword</em></strong></p>
+
+<p>An easy way to get the full class name </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Class name resolution via ::class  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">	namespace Vodka\Crypt;</span>
+</span><span class="line">
+</span><span class="line"><span class="x">	Class HashBuilder {}</span>
+</span><span class="line">
+</span><span class="line"><span class="x">	use Vodka\Crypt\HashBuilder;</span>
+</span><span class="line"><span class="x">	 </span>
+</span><span class="line"><span class="x">	var_dump(HashBuilder::class);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<pre><code>string(23) "Vodka\Crypt\HashBuilder"
+</code></pre>
+
+<p><strong><em>Support for using empty() on the result of function calls and other expressions</em></strong></p>
+
+<p>Normally <a href="http://php.net/manual/en/function.empty.php">empty()</a> and <a href="http://php.net/manual/en/function.isset.php">isset()</a> could only be used on variables. In 5.5 it’s possible to test expression and return values from functions</p>
+
+<p><strong><em>5.3</em></strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Call empty() with closure  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">	var_dump( empty(function() {}) );</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<pre><code>PHP Parse error:  syntax error, unexpected T_FUNCTION in
+</code></pre>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Call empty() with function return value  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">	</span>
+</span><span class="line"><span class="x">	function foo() {}</span>
+</span><span class="line"><span class="x">	var_dump(empty(foo()));</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<pre><code>PHP Fatal error:  Can't use function return value in write context in
+</code></pre>
+
+<p><strong><em>5.5</em></strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Call empty() with function return value  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">	function foo($val) { </span>
+</span><span class="line"><span class="x">		return $val; </span>
+</span><span class="line"><span class="x">	}</span>
+</span><span class="line">
+</span><span class="line"><span class="x">	var_dump( empty(foo([])) );</span>
+</span><span class="line"><span class="x">	var_dump( empty(foo(true)) );</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<pre><code>bool(true)
+bool(false)
+</code></pre>
+
+<p><strong><em>Support for list in foreach</em></strong></p>
+
+<p>List has been added for foreach loops. Great for eliminating unused variables.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Support for list in foreach  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">	$messages = array(</span>
+</span><span class="line"><span class="x">		array(&#39;id&#39; =&gt; 1, &#39;body&#39; =&gt; &#39;test-1&#39;, &#39;code&#39; =&gt; 12),</span>
+</span><span class="line"><span class="x">		array(&#39;id&#39; =&gt; 2, &#39;body&#39; =&gt; &#39;test-2&#39;, &#39;code&#39; =&gt; 12),</span>
+</span><span class="line"><span class="x">		array(&#39;id&#39; =&gt; 3, &#39;body&#39; =&gt; &#39;test-3&#39;, &#39;code&#39; =&gt; 10)</span>
+</span><span class="line"><span class="x">	);</span>
+</span><span class="line">
+</span><span class="line"><span class="x">	// Before</span>
+</span><span class="line"><span class="x">	foreach ($messages as $message) {</span>
+</span><span class="line"><span class="x">	    list($id, $body) = $message;</span>
+</span><span class="line"><span class="x">	}</span>
+</span><span class="line"><span class="x">	 </span>
+</span><span class="line"><span class="x">	// After</span>
+</span><span class="line"><span class="x">	foreach ($messages as list($id, $body)) {</span>
+</span><span class="line"><span class="x">	    </span>
+</span><span class="line"><span class="x">	}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><strong><em>Zend Opcache extension and enable building it by default</em></strong></p>
+
+<p>My short post about <a href="https://wiki.php.net/rfc/optimizerplus">Zend Optimizer+</a> in February this year. Kind of slipped my mind. And i was somehow under the impression <a href="http://pecl.php.net/package/APC">APC</a> would be integrated. But this of course has to be Zend Optimizer+. Finally an opcode cacher available be default. And configurable from php.ini</p>
+
+<blockquote><p>[opcache]<br />	; Determines if Zend OPCache is enabled<br />	opcache.enable=0<br />	opcache.enable_cli=0</p><p>	; The OPcache shared memory storage size.<br />	opcache.memory_consumption=64</p><p>	; The amount of memory for interned strings in Mbytes.<br />	opcache.interned_strings_buffer=4</p><p>	; Max files in OPCode cache, use a number between 200 and 100000.<br />	opcache.max_accelerated_files=2000</p><p>	; The maximum percentage of &#8220;wasted&#8221; memory until a restart is scheduled.<br />	opcache.max_wasted_percentage=5</p><p>	; Append current working dir to script name<br />	opcache.use_cwd=1</p><p>	How often a file should be validated<br />	opcache.revalidate_freq=2</p><p>	; Enables or disables file search in include_path optimization<br />	opcache.revalidate_path=0</p><p>	; Drop all PHPDoc comments<br />	opcache.save_comments=1</p></blockquote>
+
+<p><strong><em>array_column function which returns a column in a multidimensional array</em></strong></p>
+
+<p>Fetching a column from a multi-dimensional array is now possible with a single function call.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Fetch a column from a multi-dimensional array </span><a href="http://php.net/manual/en/function.array-column.php">array_column() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">	$nestedArray = array(</span>
+</span><span class="line"><span class="x">		array(&#39;id&#39; =&gt; 1, &#39;body&#39; =&gt; &#39;test-1&#39;, &#39;code&#39; =&gt; 12),</span>
+</span><span class="line"><span class="x">		array(&#39;id&#39; =&gt; 2, &#39;body&#39; =&gt; &#39;test-2&#39;, &#39;code&#39; =&gt; 12),</span>
+</span><span class="line"><span class="x">		array(&#39;id&#39; =&gt; 3, &#39;body&#39; =&gt; &#39;test-3&#39;, &#39;code&#39; =&gt; 10)</span>
+</span><span class="line"><span class="x">	);</span>
+</span><span class="line"><span class="x">	$columns = array_column($nestedArray, &#39;code&#39;);</span>
+</span><span class="line"><span class="x">	print_r($columns);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<pre><code>Array
+(
+	[0] =&gt; 12
+	[1] =&gt; 12
+	[2] =&gt; 10
+)
+</code></pre>
+
+<p>Or fetch status code indexed by id</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Fetch a column from a multi-dimensional array index by another field </span><a href="http://php.net/manual/en/function.array-column.php">array_column() </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="x">	$columns = array_column($nestedArray, &#39;code&#39;, &#39;id&#39;);</span>
+</span><span class="line"><span class="x">	print_r($columns);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="global-variable">$columns</span> = array_column(<span class="global-variable">$nestedArray</span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span>);
+print_r(<span class="global-variable">$columns</span>);
+</pre></div>
+</div>
+</div>
+
+<pre><code>Array
+(
+	[145] =&gt; 12
+	[20098] =&gt; 12
+	[34] =&gt; 10
+)
+</code></pre>
+
+<p><strong><em>deprecated</em></strong></p>
+
+<p>The following mcrypt functions have been deprecated <a href="http://php.net/manual/en/function.mcrypt-ecb.php">mcrypt_ecb()</a>, <a href="http://php.net/manual/en/function.mcrypt-cbc.php">mcrypt_cbc()</a>, <a href="http://php.net/manual/en/function.mcrypt-cfb.php">mcrypt_cfb()</a>, <a href="http://php.net/manual/en/function.mcrypt-ofb.php">mcrypt_ofb()</a> and will now throw <a href="http://php.net/manual/en/errorfunc.constants.php">E_DEPRECATED</a>.</p>
+
+<p>The mysql extension has finally been deprecated, and deprecation warnings will be generated when connections are established to databases via <a href="http://php.net/manual/en/function.mysql-connect.php">mysql_connect()</a>, <a href="http://php.net/manual/en/function.mysql-pconnect.php">mysql_pconnect()</a></p>
+
+<p>use <a href="http://php.net/manual/en/book.mysqli.php">MySQLi</a> or <a href="http://php.net/manual/en/ref.pdo-mysql.php">PDO_MySQL</a> extensions instead.</p>
+
+<p><strong><em>removed</em></strong></p>
+
+<p>The following (not so useful) functions have been removed from the core <a href="http://php.net/manual/en/function.php-logo-guid.php">php_logo_guid()</a>, php_egg_logo_guid(), php_real_logo_guid(), <a href="http://www.php.net/manual/en/function.zend-logo-guid.php">zend_logo_guid()</a>. And support for the ancient operating systems Windows XP and 2003 has been dropped!</p>
+
+<p><strong><em>Install 5.5 on Ubuntu (experimental)</em></strong></p>
+
+<p>If you want to experience the new version first hand and you work on <a href="http://www.ubuntu.com/">Ubuntu</a>. You can add the experimental PPA and give it a shot.</p>
+
+<blockquote><p>sudo add-apt-repository ppa:ondrej/php5-experimental<br />	sudo apt-get update<br />	sudo apt-get install php5</p></blockquote>
+
+</div>
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-22T21:56:12+02:00" pubdate data-updated="true">Jun 22<span>nd</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/" title="Previous Post: Casting weirdness with PHP">&laquo; Casting weirdness with PHP</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+<div style="padding:10px;">
+
+  <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lenss.nl/2013/06/php-55-released/" data-via="tlenss" data-counturl="http://lenss.nl/2013/06/php-55-released/" >Tweet</a>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+</div>
+
+<section class="ad">
+	<script type="text/javascript"><!--
+	google_ad_client = "ca-pub-0921745317573569";
+	/* nlblue_content */
+	google_ad_slot = "0947700644";
+	google_ad_width = 728;
+	google_ad_height = 90;
+	//-->
+	</script>
+	<script type="text/javascript"
+	src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+	</script>
+</section>
+
+	</div>
+</div>
+
+<div id="sidebar">
+  
+    
+<div id="logo" class="sidebox">
+	<div id="logo-main">lenss<span class="nl">nl</span></div>
+	<div id="logo-sub"><span class="nl">Thijs Lensselink's Blog</span></div>
+</div>
+
+<div class="sidebox">
+	<a href="http://www.facebook.com/thijs.lensselink#!/" class="social facebook"></a>
+	<a href="https://plus.google.com/117496548747841671883" class="social google"></a>
+	<a href="http://twitter.com/tlenss" class="social twitter"></a>
+	<a href="http://feeds.feedburner.com/ThijsLensselinksBlog" class="social rss"></a>
+	<div style="clear:both;"></div>
+</div>
+
+<div class="sidebox">
+	<h1>Me</h1>
+	<div class="me">
+		<a href="http://www.zend.com/store/education/certification/yellow-pages.php#show-ClientCandidateID=ZEND006598"><img src="http://lenss.nl/images/php5-zce-logo-new.gif" height="58" /></a>
+		<a href="http://stackoverflow.com/users/476697/tlenss">
+			<img src="http://stackoverflow.com/users/flair/476697.png?theme=dark" width="208" height="58" alt="profile for tlenss at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for tlenss at Stack Overflow, Q&amp;A for professional and enthusiast programmers">
+		</a>
+		<div class="gpg">
+			Key ID : <a href="http://lenss.nl/6AD79CEF.asc">0x6AD79CEF</a><br/>
+			FP : FB53 B9D6 D7F1 9A16 1456 4DB3 3D35 402F 6AD7 9CEF
+		</div>
+	</div>
+</div>
+
+<section>
+  <div class="sidebox">
+	<h1>Recent entries</h1>
+	<ul class="linklist">
+		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
+		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
+		
+		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
+		
+		<li><a href="http://lenss.nl/2013/02/phpness-serious-wtf/"><span class="higlight">February, 2013</span> PHPness Serious WTF</a></li>
+		
+		<li><a href="http://lenss.nl/2012/11/publish-google-reader-shared-items/"><span class="higlight">November, 2012</span> Publish Google Reader shared items</a></li>
+		
+		<li><a href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/"><span class="higlight">October, 2012</span> Long running PHP script and MySQL server gone away</a></li>
+		
+		<li><a href="http://lenss.nl/2012/10/git-rebase-on-pull-by-default/"><span class="higlight">October, 2012</span> Git: Rebase on pull by default</a></li>
+		
+		<li><a href="http://lenss.nl/2012/10/workaround-ubuntu-12-04-mysterious-system-freezes/"><span class="higlight">October, 2012</span> Workaround Ubuntu 12.04 mysterious system freezes</a></li>
+		
+		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
+		
+		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
+		
+	</ul>
+</div>
+</section>
+
+<div class="sidebox ad">
+	<script type="text/javascript"><!--
+	google_ad_client = "ca-pub-0921745317573569";
+	/* nlblue_side */
+	google_ad_slot = "7706621160";
+	google_ad_width = 300;
+	google_ad_height = 250;
+	//-->
+	</script>
+	<script type="text/javascript"
+	src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+	</script>
+</div>
+<div class="sidebox">
+	<h1>Tags</h1>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
+	<div style="clear:both;"></div>
+</div>
+<section>
+  <div class="sidebox">
+	<h1>GitHub Repos</h1>
+	
+	<ul class="linklist" id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/tlenss" class="github-follow-button">Follow On GitHub</a>
+  <script type="text/javascript" src="http://octophile.com/widgets.js"></script>
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = 'http://lenss.nl/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'tlenss',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="http://lenss.nl/javascripts/github.js" type="text/javascript"> </script>
+</div>
+</section>
+
+<section>
+  <div class="sidebox">
+	<h1>Latest Tweets</h1>
+	<ul class="linklist" id="tweets">
+    <li class="loading"><span class="higlight">Status updating...</span></li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("tlenss", 4, false);
+    });
+  </script>
+  <script src="http://lenss.nl/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/tlenss" class="twitter-follow-button" data-show-count="false">Follow @tlenss</a>
+  
+</div>
+</section>
+
+
+  
+</div>
+
+<footer role="contentinfo">
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'tlenss';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://lenss.nl/2013/06/php-55-released/';
+        var disqus_url = 'http://lenss.nl/2013/06/php-55-released/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

@@ -69,7 +69,7 @@
 
 <div class="articletext"><p>I was kinda bored yesterday. And was poking around the SVN hooks scripts. When i noticed the post-commit script i was using was written in Python. Nothing wrong with that. I just wondered how hard it would be to do the same in PHP. So i came up with a little test. Which at this moment lacks error checking and just looks plain ugly. But it does the job. and i only needed a working PHP CLI executable to make it work.</p>
 
-<p>First we set the email address and the location of svnlook.</p>
+<p>First we set the email address and the location of svnlook. </p>
 
 <pre><code>#!/usr/bin/php
 &lt;?php
@@ -94,23 +94,23 @@ $date = $output[1];
 $comment = $output[3];
 </code></pre>
 
-<p>Now let&#8217;s get the changes made in this revisions.</p>
+<p>Now let’s get the changes made in this revisions.</p>
 
 <pre><code>$output = array();
 $cmdChanges ="${svnlook} diff ${repository} -r ${revision}";
 exec($cmdChanges, $output);
 </code></pre>
 
-<p>Once we have the diff contents we can loop through the lines and use some simple regex to highlight the changes. I&#8217;ve added a bit more code to add pre tags for a better visual effect.</p>
+<p>Once we have the diff contents we can loop through the lines and use some simple regex to highlight the changes. I’ve added a bit more code to add pre tags for a better visual effect.</p>
 
 <pre><code>$patch = '&lt;pre class="codeBlock"&gt;';
 $lineCount = count($output);
 for ($x=0; $x&lt;=$lineCount; $x++) {
-
+    
     if ($x &gt; 0 &amp;&amp; strstr($output[$x], 'Modified:')) {
         $patch .= '&lt;/pre&gt;&lt;pre class="codeBlock"&gt;';
     }
-
+    
     $textColor = 'normal';
     if (preg_match('/^\+/', $output[$x])) {
         $textColor = 'positive';
@@ -118,9 +118,9 @@ for ($x=0; $x&lt;=$lineCount; $x++) {
     else if (preg_match('/^-/', $output[$x])) {
         $textColor = 'negative';
     }
-
+    
     $patch .= '&lt;span class="' . $textColor . '"&gt;' . htmlentities($output[$x]) . "&lt;/span&gt;&lt;br&gt;";
-
+    
     if ($x == $lineCount) {
         $patch .= "&lt;/pre&gt;";
     }
@@ -136,7 +136,7 @@ $body .= "Comment : " . $comment . "&lt;br&gt;&lt;br&gt;";
 $body .= $patch;
 </code></pre>
 
-<p>Add a MIME header so my mail client displays it properly. And send it of through the build in mail() function.</p>
+<p>Add a MIME header so my mail client displays it properly. And send it of through the build in mail() function. </p>
 
 <pre><code>$headers  = 'MIME-Version: 1.0' . "\r\n";
 $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
@@ -146,6 +146,7 @@ $bodyHTML = str_replace('{EMAIL}', $body, $bodyHTML);
 
 mail($address, 'SVN post-commit', $bodyHTML, $headers);
 </code></pre>
+
 </div>
 
 
@@ -267,6 +268,8 @@ mail($address, 'SVN post-commit', $bodyHTML, $headers);
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -284,8 +287,6 @@ mail($address, 'SVN post-commit', $bodyHTML, $headers);
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -306,7 +307,7 @@ mail($address, 'SVN post-commit', $bodyHTML, $headers);
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

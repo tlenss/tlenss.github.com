@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Writing a Simple Wordpress Plugin In the spirit of Ideas for March i should really be blogging more. Somehow i just can&#8217;t think of anything &hellip;">
+  <meta name="description" content="Writing a Simple Wordpress Plugin In the spirit of Ideas for March i should really be blogging more. Somehow i just can’t think of anything &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,25 +67,28 @@
 </header>
 
 
-<div class="articletext"><p><img src="http://lenss.nl/images/2011/03/wordpress.jpg" alt="" /> In the spirit of <a href="http://lenss.nl/2011/03/ideas-of-march/">Ideas for March</a> i should really be blogging more. Somehow i just can&#8217;t think of anything interesting at the moment. Will give it a shot anyway.</p>
+<div class="articletext"><p><img src="http://lenss.nl/images/2011/03/wordpress.jpg" alt="" /> In the spirit of <a href="http://lenss.nl/2011/03/ideas-of-march/">Ideas for March</a> i should really be blogging more. Somehow i just can’t think of anything interesting at the moment. Will give it a shot anyway.</p>
 
-<p>Last week i created my first ever <a href="http://wordpress.org/">Wordpress</a> <a href="http://codex.wordpress.org/Writing_a_Plugin">plugin</a>. It&#8217;s an extremely simple one. And for sure nothing new or special. But it was a fun experience. I have always dreaded the WP code base. The mixture of OO and procedural programming just looks plain ugly to me. But i don&#8217;t want to be bash WP. I use it myself. So i took the dive and spend a few hours hacking and <a href="http://codex.wordpress.org/Plugin_API">reading</a>. And the result is my <strong>DWOTD</strong> (Dutch Word Of The Day) plugin.</p>
+<p>Last week i created my first ever <a href="http://wordpress.org/">Wordpress</a> <a href="http://codex.wordpress.org/Writing_a_Plugin">plugin</a>. It’s an extremely simple one. And for sure nothing new or special. But it was a fun experience. I have always dreaded the WP code base. The mixture of OO and procedural programming just looks plain ugly to me. But i don’t want to be bash WP. I use it myself. So i took the dive and spend a few hours hacking and <a href="http://codex.wordpress.org/Plugin_API">reading</a>. And the result is my <strong>DWOTD</strong> (Dutch Word Of The Day) plugin.</p>
 
-<p>To get some inspiration for this i took a look at some plugin code available on the internet. This gave me a basic understanding of how the plugin system works. Together with the docs writing a plugin wasn&#8217;t that hard. The code that i saw however was pretty bad. And i wanted something that at least looked better then all the global statements swarming around. So i created a small OO wrapper for the plugin. The basic plugin structure looks something like this</p>
+<p>To get some inspiration for this i took a look at some plugin code available on the internet. This gave me a basic understanding of how the plugin system works. Together with the docs writing a plugin wasn’t that hard. The code that i saw however was pretty bad. And i wanted something that at least looked better then all the global statements swarming around. So i created a small OO wrapper for the plugin. The basic plugin structure looks something like this</p>
 
-<blockquote><p>&#8211; plugin
-&#8212;&#8211; css
-&#8212;&#8212;&#8212;- dwotd.css
-&#8212;&#8211; lib
-&#8212;&#8212;&#8212;- Dwotd.php
-&#8212;&#8212;&#8212;- Widget.php
-&#8212;&#8211; template
-&#8212;&#8212;&#8212;- Widget.php
-&#8211; dwotd.php</p></blockquote>
+<blockquote>
+
+  <p>– plugin
+—– css
+———- dwotd.css
+—– lib
+———- Dwotd.php
+———- Widget.php
+—– template
+———- Widget.php
+– dwotd.php</p>
+</blockquote>
 
 <p>The file in the root is the bootstrap file. It includes the main plugin class and registers the widget class. The two files in lib contain the plugin and Widget classes. The rest is self explanatory i think.</p>
 
-<p>The first lines of the bootstrap file contain a comment block that is used by WP to show some more information about the plugin inside the admin.</p>
+<p>The first lines of the bootstrap file contain a comment block that is used by WP to show some more information about the plugin inside the admin. </p>
 
 <pre><code>/*
 Plugin Name: DWOTD
@@ -109,8 +112,8 @@ wp_enqueue_style('dwotd', "{$DWOTD-&gt;getPluginDir()}/css/dwotd.css");
 <p>If the logged in user is a admin hooks for <em>installing</em> and <em>uninstalling</em> the plugin will be activated.</p>
 
 <pre><code>if ( is_admin() ) {
-    register_activation_hook(__FILE__, array($DWOTD, 'install'));
-    register_deactivation_hook(__FILE__, array($DWOTD, 'uninstall'));
+	register_activation_hook(__FILE__, array($DWOTD, 'install'));
+	register_deactivation_hook(__FILE__, array($DWOTD, 'uninstall'));
 }
 </code></pre>
 
@@ -123,41 +126,41 @@ wp_enqueue_style('dwotd', "{$DWOTD-&gt;getPluginDir()}/css/dwotd.css");
 
 <pre><code>class DWOTD_Widget extends WP_Widget 
 {
-    protected $_dwotd;
+	protected $_dwotd;
+	
+	public function DWOTD_Widget() 
+	{
+		$this-&gt;_dwotd = new DWOTD_Plugin();
+		parent::WP_Widget(false, $name = 'DWOTD Plugin');
+	}
 
-    public function DWOTD_Widget() 
-    {
-        $this-&gt;_dwotd = new DWOTD_Plugin();
-        parent::WP_Widget(false, $name = 'DWOTD Plugin');
-    }
-
-    public function widget($args, $instance) 
-    {
-        $result = $this-&gt;_dwotd-&gt;getFromCache();
-        if (!$result || $result-&gt;used_on != date('Y-m-d')) {
-            try {
-                $result = $this-&gt;_dwotd-&gt;fetchRandomWord();
-                $this-&gt;_dwotd-&gt;writeToCache($result);
-            } catch (Exception $e) {
-                return new WP_Error('broke', __($e-&gt;getMessage()));
-            }
-        }
-
-        $this-&gt;_renderView($result);
-    }
-
-    protected function _renderView($data)
-    {
-        ob_start();
-        include $this-&gt;_dwotd-&gt;getTemplate();
-        ob_get_contents();
-    }
-
-    public function update($new_instance, $old_instance) 
-    {
-        $instance = $old_instance;
-        return $instance;
-    }
+	public function widget($args, $instance) 
+	{
+		$result = $this-&gt;_dwotd-&gt;getFromCache();
+		if (!$result || $result-&gt;used_on != date('Y-m-d')) {
+			try {
+				$result = $this-&gt;_dwotd-&gt;fetchRandomWord();
+				$this-&gt;_dwotd-&gt;writeToCache($result);
+			} catch (Exception $e) {
+				return new WP_Error('broke', __($e-&gt;getMessage()));
+			}
+		}
+		
+		$this-&gt;_renderView($result);
+	}
+	
+	protected function _renderView($data)
+	{
+		ob_start();
+		include $this-&gt;_dwotd-&gt;getTemplate();
+		ob_get_contents();
+	}
+	
+	public function update($new_instance, $old_instance) 
+	{
+		$instance = $old_instance;
+		return $instance;
+	}
 }
 </code></pre>
 
@@ -168,34 +171,34 @@ require_once(dirname(__FILE__).'/Widget.php');
 
 Class DWOTD_Plugin
 {
-    public function __construct()
-    {
-        global $wpdb, $table_prefix;
+	public function __construct()
+	{
+		global $wpdb, $table_prefix;
                 // set some class vars and include some files
-    }
-
-    public function install() 
-    {
+	}
+	
+	public function install() 
+	{
                 // create database and insert data
-        add_option('dwotd_quote','1');
-    }   
-
-    public function uninstall() 
-    {
-        $this-&gt;_dbh-&gt;query("DROP TABLE IF EXISTS `{$this-&gt;_dbName}`");
-        delete_option('dwotd_quote');
-    }
-
-    public function getPluginDir()
-    {
-        return $this-&gt;_wpContent.'/plugins/dwotd';
-    }
+		add_option('dwotd_quote','1');
+	}	
+	
+	public function uninstall() 
+	{
+		$this-&gt;_dbh-&gt;query("DROP TABLE IF EXISTS `{$this-&gt;_dbName}`");
+		delete_option('dwotd_quote');
+	}
+	
+	public function getPluginDir()
+	{
+		return $this-&gt;_wpContent.'/plugins/dwotd';
+	}
 }
 </code></pre>
 
-<p>The code is just a small part of the real code. Which you can download <a href="http://lenss.nl/projects/dwotd-plugin/dwotd.tar.gz">here</a>. After that it&#8217;s quite easy. Create a folder for the plugin in <em>wp-content/plugins</em> and copy the files there. Enable it from the plugin manager and enable it in the widget menu (which didn&#8217;t work for me because my theme has no sidebar.. well not the wp one :)). So i had to use a manual approach.</p>
+<p>The code is just a small part of the real code. Which you can download <a href="http://lenss.nl/projects/dwotd-plugin/dwotd.tar.gz">here</a>. After that it’s quite easy. Create a folder for the plugin in <em>wp-content/plugins</em> and copy the files there. Enable it from the plugin manager and enable it in the widget menu (which didn’t work for me because my theme has no sidebar.. well not the wp one :)). So i had to use a manual approach.</p>
 
-<p>After copying the files to the plugin folder login to <em>wp-admin</em> and browse to <em>Plugins/Plugins</em>. Search for the plugin and click activate.</p>
+<p>After copying the files to the plugin folder login to <em>wp-admin</em> and browse to <em>Plugins/Plugins</em>. Search for the plugin and click activate. </p>
 
 <p><a href="http://lenss.nl/images/2011/03/widget-install.png"><img src="http://lenss.nl/images/2011/03/widget-install-300x38.png" alt="" /></a></p>
 
@@ -212,7 +215,7 @@ $widget = new DWOTD_Widget();
 $widget-&gt;widget($args,$instance);
 </code></pre>
 
-<p>That&#8217;s all. The result can be viewed on the right top side. I build the plugin for fun and use on an Intranet. So don&#8217;t go blaming me if it breaks something. Besides that everybody is free to do with the code as they please.</p>
+<p>That’s all. The result can be viewed on the right top side. I build the plugin for fun and use on an Intranet. So don’t go blaming me if it breaks something. Besides that everybody is free to do with the code as they please.</p>
 </div>
 
 
@@ -334,6 +337,8 @@ $widget-&gt;widget($args,$instance);
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -351,8 +356,6 @@ $widget-&gt;widget($args,$instance);
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -373,7 +376,7 @@ $widget-&gt;widget($args,$instance);
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

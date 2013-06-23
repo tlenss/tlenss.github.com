@@ -78,13 +78,13 @@
 
 <p>this.overlay is undefined</p>
 
-<p>Looking through the MOOdalBox source. I noticed the this.overlay property was set inside the init() method. So let&#8217;s try that before we call the open() method.</p>
+<p>Looking through the MOOdalBox source. I noticed the this.overlay property was set inside the init() method. So let’s try that before we call the open() method.</p>
 
 <pre><code>MOOdalBox.init();
 MOOdalBox.open(url, title, sizes);
 </code></pre>
 
-<p>This actually worked. I was pretty happy with the result. untill i opened IE 7 to test the same page. Nothing happened. No error&#8217;s and no MOOdalBox. Let&#8217;s try something else. Whenever i need to load something on page load in IE i use the window.onload method.</p>
+<p>This actually worked. I was pretty happy with the result. untill i opened IE 7 to test the same page. Nothing happened. No error’s and no MOOdalBox. Let’s try something else. Whenever i need to load something on page load in IE i use the window.onload method.</p>
 
 <pre><code>window.onload = function()
     MOOdalBox.init();
@@ -92,7 +92,7 @@ MOOdalBox.open(url, title, sizes);
 }
 </code></pre>
 
-<p>Now the overlay was loaded. But still no MOOdalBox on top of it. I figured it had something to do with the DOM not being fully loaded. But i couldn&#8217;t really think of a solution. So of to Google. After a bit of browsing i found somebody with the same problem. And a <a href="http://forum.e-magine.ro/topic/please-help-with-ie">reply</a> from the original author of MOOdalBox. Add a domready event to make it work.</p>
+<p>Now the overlay was loaded. But still no MOOdalBox on top of it. I figured it had something to do with the DOM not being fully loaded. But i couldn’t really think of a solution. So of to Google. After a bit of browsing i found somebody with the same problem. And a <a href="http://forum.e-magine.ro/topic/please-help-with-ie">reply</a> from the original author of MOOdalBox. Add a domready event to make it work.</p>
 
 <pre><code>window.addEvent('domready', loadMOOdal);
 function loadMOOdal() {
@@ -222,6 +222,8 @@ function loadMOOdal() {
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -239,8 +241,6 @@ function loadMOOdal() {
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -261,7 +261,7 @@ function loadMOOdal() {
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

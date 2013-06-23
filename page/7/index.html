@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Returning Blocks From Controllers Without Layout Attached in Magento When working in the admin environment of Magento i had to add a controller &hellip;">
+  <meta name="description" content="New elePHPant :) After purchasing a new batch of the friendly blue guys. Damien Seguy was so friendly to send me an early Christmas present :) I &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,18 +64,80 @@
 <header>
 	<header>
 	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2010/08/new-elephpant/">New elePHPant :)</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>After purchasing a new batch of the friendly blue guys. <a href="http://www.nexen.net/">Damien Seguy</a> was so friendly to send me an early Christmas present :)</p>
+
+<p><a href="http://lenss.nl/images/2010/08/elephpant.jpg"><img src="http://lenss.nl/images/2010/08/elephpant-300x225.jpg" alt="" /></a></p>
+
+<p>I have some small versions left by the way. So if you are one of those people looking. Drop me a line or leave a comment.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-08-06T12:22:59+02:00" pubdate data-updated="true">Aug 6<span>th</span>, 2010</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2010/08/new-elephpant/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
 	  <h1 class="entry-title"><a href="http://lenss.nl/2010/07/returning-blocks-from-controllers-without-layout-attached-in-magento/">Returning Blocks From Controllers Without Layout Attached in Magento</a></h1>
 	
 	</header>
 </header>
 
 
-  <div class="articletext"><p>When working in the admin environment of Magento i had to add a controller action that was called by an Ajax request. The problem however is that all layout data is returned as well when calling</p>
+  <div class="articletext"><p>When working in the admin environment of Magento i had to add a controller action that was called by an Ajax request. The problem however is that all layout data is returned as well when calling </p>
 
 <pre><code>$this-&gt;renderLayout();
 </code></pre>
 
-<p>from the controller. So my next attempt was to try to render the block separately and adding it to the layout.</p>
+<p>from the controller. So my next attempt was to try to render the block separately and adding it to the layout. </p>
 
 <pre><code>$this-&gt;_initCustomer();
 $this-&gt;getResponse()-&gt;setBody(
@@ -87,14 +149,14 @@ $this-&gt;getResponse()-&gt;setBody(
 );
 </code></pre>
 
-<p>This kinda worked. But now i had no more control over the template used. Or maybe i missed that part. But i don&#8217;t like to specify my Block anyway Magento should pick this up automatically.</p>
+<p>This kinda worked. But now i had no more control over the template used. Or maybe i missed that part. But i don’t like to specify my Block anyway Magento should pick this up automatically.</p>
 
-<p>Solving this issue is actually quite easy. The only thing we need to do is change the layout structure of the module. We change the name to root. And that&#8217;s it!</p>
+<p>Solving this issue is actually quite easy. The only thing we need to do is change the layout structure of the module. We change the name to root. And that’s it!</p>
 
 <pre><code>&lt;block type="block/location" name="root" template="template/location"&gt;&lt;/block&gt;
 </code></pre>
 
-<p>The name attribute tells Magento it is a root block so no need for the rest of the layout.</p>
+<p>The name attribute tells Magento it is a root block so no need for the rest of the layout. </p>
 </div>
   
   
@@ -212,9 +274,9 @@ $this-&gt;getResponse()-&gt;setBody(
 </header>
 
 
-  <div class="articletext"><p>The last time i had to rewrite one of the core Magento blocks. And that turned out to be quite easy. My new challenge was to rewrite / overwrite one of the Core admin controllers. In this case the Mage_Adminhtml_CustomerController.</p>
+  <div class="articletext"><p>The last time i had to rewrite one of the core Magento blocks. And that turned out to be quite easy. My new challenge was to rewrite / overwrite one of the Core admin controllers. In this case the Mage_Adminhtml_CustomerController. </p>
 
-<p>I had no idea where to start so i did some googling beforehand. And came to the conclusion that a lot of people are trying to do this. Because of this there is a long list of solutions to solve this. And in most cases developers just advice to drop the Core class in the local folder and work from there. But that doesn&#8217;t really make sense. First of all it code duplication in the worst form. And besides that all cool <a href="http://en.wikipedia.org/wiki/Object-oriented_programming">OO</a> stuff like extending is gone.</p>
+<p>I had no idea where to start so i did some googling beforehand. And came to the conclusion that a lot of people are trying to do this. Because of this there is a long list of solutions to solve this. And in most cases developers just advice to drop the Core class in the local folder and work from there. But that doesn’t really make sense. First of all it code duplication in the worst form. And besides that all cool <a href="http://en.wikipedia.org/wiki/Object-oriented_programming">OO</a> stuff like extending is gone.</p>
 
 <p>And since Magento is such a flexible system. There must be a good clean way to solve this. One <a href="http://www.magentocommerce.com/boards/viewthread/16224/">thread</a> i found had some good info. And i used it as my starting point. There was one problem with this thread. The XML used seems to be an old form of rewriting in Magento.
 I found a (lost it) post by one of the Magento devs that shows a new and more clean way of defining this in XML.</p>
@@ -229,7 +291,9 @@ I found a (lost it) post by one of the Magento devs that shows a new and more cl
     &lt;/depends&gt;
 </code></pre>
 
-<blockquote><p>create local/Namespace/Adminhtml/controllers/CustomerController.php</p></blockquote>
+<blockquote>
+  <p>create local/Namespace/Adminhtml/controllers/CustomerController.php</p>
+</blockquote>
 
 <p>The next thing to do is create the actual controller. And add an include line on top to the original file. Magento does not use autoloading for the controllers in this way.</p>
 
@@ -237,10 +301,10 @@ I found a (lost it) post by one of the Magento devs that shows a new and more cl
 
 class [namespace]_Adminhtml_CustomerController extends Mage_Adminhtml_CustomerController
 {
-    public function somenewAction()
-    {
-
-    }
+	public function somenewAction()
+	{
+		
+	}
 }
 </code></pre>
 
@@ -248,25 +312,27 @@ class [namespace]_Adminhtml_CustomerController extends Mage_Adminhtml_CustomerCo
 
 <p>The only thing left is to create the config file for this module. And tell it to rewrite to the new [namespace]</p>
 
-<blockquote><p>Create local/[namespace]/Adminhtml/etc/config.xml</p></blockquote>
+<blockquote>
+  <p>Create local/[namespace]/Adminhtml/etc/config.xml</p>
+</blockquote>
 
 <pre><code>&lt;config&gt;
-    &lt;modules&gt;
+	&lt;modules&gt;
         &lt;[namespace]_Adminhtml&gt;
             &lt;version&gt;0.1.0&lt;/version&gt;
         &lt;[namespace]_Adminhtml&gt;
     &lt;/modules&gt;
-
-    &lt;admin&gt;
-        &lt;routers&gt;
-            &lt;adminhtml&gt;
-                &lt;args&gt;
-                    &lt;modules&gt;
-                        &lt;[namespace]_Adminhtml before="Mage_Adminhtml"&gt;[namespace]_Adminhtml
-                    &lt;/modules&gt;
-                &lt;/args&gt;
-            &lt;/adminhtml&gt;
-        &lt;/routers&gt;
+    
+	&lt;admin&gt;
+    	&lt;routers&gt;
+    		&lt;adminhtml&gt;
+    			&lt;args&gt;
+    				&lt;modules&gt;
+    					&lt;[namespace]_Adminhtml before="Mage_Adminhtml"&gt;[namespace]_Adminhtml
+    				&lt;/modules&gt;
+    			&lt;/args&gt;
+    		&lt;/adminhtml&gt;
+    	&lt;/routers&gt;
     &lt;/admin&gt;
 &lt;/config&gt;
 </code></pre>
@@ -331,17 +397,21 @@ class [namespace]_Adminhtml_CustomerController extends Mage_Adminhtml_CustomerCo
 
   <div class="articletext"><p>The last few days i have been toying with <a href="http://www.magentocommerce.com/">Magento</a>. and mainly trying to wrap my head around the file structure. It takes quite some time to find all files. So i will be making notes here to keep track of my own progress :)</p>
 
-<p>Today i wanted to add a tab in the customer section of the admin. I am working on a new module and this should be configurable on a per user basis. There for i needed an extra tab to the customer > Manage customers > [customer x] page.</p>
+<p>Today i wanted to add a tab in the customer section of the admin. I am working on a new module and this should be configurable on a per user basis. There for i needed an extra tab to the customer &gt; Manage customers &gt; [customer x] page.</p>
 
-<p>The first challenge was to figure out where Magento stores the tab menu data. I was hoping this came from a database. But after some searching i couldn&#8217;t find any reference. It seems to be hard coded in tab files. The customer tab in question can be found here:</p>
+<p>The first challenge was to figure out where Magento stores the tab menu data. I was hoping this came from a database. But after some searching i couldn’t find any reference. It seems to be hard coded in tab files. The customer tab in question can be found here:</p>
 
-<blockquote><p>app/code/core/Mage/Adminhtml/Block/Customer/Edit/tabs.php</p></blockquote>
+<blockquote>
+  <p>app/code/core/Mage/Adminhtml/Block/Customer/Edit/tabs.php</p>
+</blockquote>
 
-<p>We could of course edit this class. But that&#8217;s not according the Magento way. We need to create a local copy of this class. preferably under my own namespace.</p>
+<p>We could of course edit this class. But that’s not according the Magento way. We need to create a local copy of this class. preferably under my own namespace.</p>
 
 <p>To make this happen we first need to tell Magento we are rewriting core modules. So we start of by creating the following file</p>
 
-<blockquote><p>app/etc/modules/[namespace]_All.xml</p></blockquote>
+<blockquote>
+  <p>app/etc/modules/[namespace]_All.xml</p>
+</blockquote>
 
 <p>And we add the following lines</p>
 
@@ -362,7 +432,9 @@ class [namespace]_Adminhtml_CustomerController extends Mage_Adminhtml_CustomerCo
 
 <p>Next we need to setup the [namespace]_Core module. We create the folder structure under our own namspace</p>
 
-<blockquote><p>app/code/local/[namespace]/Core/etc</p></blockquote>
+<blockquote>
+  <p>app/code/local/[namespace]/Core/etc</p>
+</blockquote>
 
 <p>And we create a new config file here (config.xml) where we will do the actual class rewriting.</p>
 
@@ -370,43 +442,48 @@ class [namespace]_Adminhtml_CustomerController extends Mage_Adminhtml_CustomerCo
     &lt;modules&gt;
         &lt;[namespace]_Core&gt;
             &lt;version&gt;0.1.0&lt;/version&gt;
-
+        
     &lt;/modules&gt;
     &lt;global&gt;
         &lt;blocks&gt;
-            &lt;adminhtml&gt;
-                &lt;rewrite&gt;
-                    &lt;customer_edit_tabs&gt;[namespace]_Adminhtml_Block_Customer_Edit_Tabs&lt;/customer_edit_tabs&gt;
-                &lt;/rewrite&gt;
-            &lt;/adminhtml&gt;
+        	&lt;adminhtml&gt;
+        		&lt;rewrite&gt;
+        			&lt;customer_edit_tabs&gt;[namespace]_Adminhtml_Block_Customer_Edit_Tabs&lt;/customer_edit_tabs&gt;
+        		&lt;/rewrite&gt;
+        	&lt;/adminhtml&gt;
         &lt;/blocks&gt;
     &lt;/global&gt;
 &lt;/config&gt;
 </code></pre>
 
-<p>We use the  tag to tell Magento we are rewriting a Block class. And then we setup the actual rewrite.</p>
+<p>We use the  tag to tell Magento we are rewriting a Block class. And then we setup the actual rewrite. </p>
 
-<blockquote><p>Mage_Adminhtml_Block_Customer_Edit_Tabs is now rewritten too [namespace]_Adminhtml_Block_Customer_Edit_Tabs</p></blockquote>
+<blockquote>
+  <p>Mage_Adminhtml_Block_Customer_Edit_Tabs is now rewritten too [namespace]_Adminhtml_Block_Customer_Edit_Tabs</p>
+</blockquote>
 
-<p>The only thing left now is to create the Block class which is located in</p>
+<p>The only thing left now is to create the Block class which is located in </p>
 
-<blockquote><p>app/code/local/[namespace]/Adminhtml/Block/Customer/Edit/Tabs.php</p></blockquote>
+<blockquote>
+  <p>app/code/local/[namespace]/Adminhtml/Block/Customer/Edit/Tabs.php</p>
+</blockquote>
 
 <pre><code>class [namespace]_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Customer_Edit_Tabs
 {
     protected function _beforeToHtml()
     {
-    $this-&gt;addTab('modulename', array(
+	$this-&gt;addTab('modulename', array(
             'label'     =&gt; Mage::helper('customer')-&gt;__('Modulename'),
             'class'     =&gt; 'ajax',
             'url'       =&gt; $this-&gt;getUrl('*/*/modulename', array('_current' =&gt; true)),
         ));
-
+        
         $this-&gt;_updateActiveTab();
         return parent::_beforeToHtml();
     }
 }
 </code></pre>
+
 </div>
   
   
@@ -464,14 +541,14 @@ class [namespace]_Adminhtml_CustomerController extends Mage_Adminhtml_CustomerCo
 </header>
 
 
-  <div class="articletext"><p>Ok so i had nothing todo for a few minutes and found a <a href="http://www.nerdtests.com/ft_nq.php">link</a> to this page. I am never really into this stuff. But it looked funny and i had nothing to do. So i walked through the questions&#8230; and the result :)</p>
+  <div class="articletext"><p>Ok so i had nothing todo for a few minutes and found a <a href="http://www.nerdtests.com/ft_nq.php">link</a> to this page. I am never really into this stuff. But it looked funny and i had nothing to do. So i walked through the questions… and the result :)</p>
 
 <p><strong>Supreme Nerd. Apply for a professorship at MIT now!!!.</strong></p>
 
 <p><a href="http://www.nerdtests.com/ft_nq.php">
 <img src="http://www.nerdtests.com/images/ft/nq/bfcfa5649e.gif" alt="I am nerdier than 91% of all people. Are you a nerd? Click here to take the Nerd Test, get nerdy images and jokes, and write on the nerd forum!" /></a></p>
 
-<p>Another nerdy thing i picked up was that Ilia Alshanetsky&#8217;s <a href="http://ilia.ws/archives/217-Scalar-Type-Hints-are-Here!.html">scalar type hints</a> patch has been merged with the PHP trunk. Great stuff. Have been waiting for this for a while.</p>
+<p>Another nerdy thing i picked up was that Ilia Alshanetsky’s <a href="http://ilia.ws/archives/217-Scalar-Type-Hints-are-Here!.html">scalar type hints</a> patch has been merged with the PHP trunk. Great stuff. Have been waiting for this for a while.</p>
 </div>
   
   
@@ -587,19 +664,35 @@ class [namespace]_Adminhtml_CustomerController extends Mage_Adminhtml_CustomerCo
 </header>
 
 
-  <div class="articletext"><p>After a successful experiment a while back <a href="http://blog.php-security.org/archives/71-Month-of-PHP-Bugs-and-PHP-5.2.1.html">Month of the PHP Bugs</a>. Stefan Esser and <a href="http://www.sektioneins.com/">SektionEins</a> is at it again. This time with Month of PHP Security. A gathering for PHP and security gurus a like. The call for papers is <a href="http://www.php-security.org/">open for submission</a>.</p>
+  <div class="articletext"><p>After a successful experiment a while back <a href="http://blog.php-security.org/archives/71-Month-of-PHP-Bugs-and-PHP-5.2.1.html">Month of the PHP Bugs</a>. Stefan Esser and <a href="http://www.sektioneins.com/">SektionEins</a> is at it again. This time with Month of PHP Security. A gathering for PHP and security gurus a like. The call for papers is <a href="http://www.php-security.org/">open for submission</a>. </p>
 
 <p>There are some nice prices to walk away with. So what you waiting for?</p>
 
 <ul>
-<li><p>New vulnerability in PHP [1] (not simple safe_mode, open_basedir bypass vulnerabilities)</p></li>
-<li><p>New vulnerability in PHP related software [1] (popular 3rd party PHP extensions/patches)</p></li>
-<li><p>Explain a single topic of PHP application security in detail (such as guidelines on how to store passwords)</p></li>
-<li><p>Explain a complicated vulnerability in/attack against a PHP widespread application [1]</p></li>
-<li><p>Explain a complicated topic of attacking PHP (e.g. explain how to exploit heap overflows in PHP&#8217;s heap implementation)</p></li>
-<li><p>Explain how to attack encrypted PHP applications</p></li>
-<li><p>Release of a new open source PHP security tool</p></li>
-<li><p>Other topics related to PHP or PHP application security</p></li>
+  <li>
+    <p>New vulnerability in PHP [1] (not simple safe_mode, open_basedir bypass vulnerabilities)</p>
+  </li>
+  <li>
+    <p>New vulnerability in PHP related software [1] (popular 3rd party PHP extensions/patches)</p>
+  </li>
+  <li>
+    <p>Explain a single topic of PHP application security in detail (such as guidelines on how to store passwords)</p>
+  </li>
+  <li>
+    <p>Explain a complicated vulnerability in/attack against a PHP widespread application [1]</p>
+  </li>
+  <li>
+    <p>Explain a complicated topic of attacking PHP (e.g. explain how to exploit heap overflows in PHP’s heap implementation)</p>
+  </li>
+  <li>
+    <p>Explain how to attack encrypted PHP applications</p>
+  </li>
+  <li>
+    <p>Release of a new open source PHP security tool</p>
+  </li>
+  <li>
+    <p>Other topics related to PHP or PHP application security</p>
+  </li>
 </ul>
 
 </div>
@@ -659,7 +752,7 @@ class [namespace]_Adminhtml_CustomerController extends Mage_Adminhtml_CustomerCo
 </header>
 
 
-  <div class="articletext"><p>I am working on a small API for my own backend and i wanted a modular architecture. I have done this before using the Zend Framework. But this time i wanted a bit more control while loading the modules. And adding a <a href="http://framework.zend.com/manual/1.10/en/zend.application.quick-start.html">Bootstrap</a> class would seem like a good option. The only example i could find involved loading all bootstraps on every request. Which doesn&#8217;t seem like a good idea. So after reading through the Manual and some blog posts. I decided to give it s shot my self.</p>
+  <div class="articletext"><p>I am working on a small API for my own backend and i wanted a modular architecture. I have done this before using the Zend Framework. But this time i wanted a bit more control while loading the modules. And adding a <a href="http://framework.zend.com/manual/1.10/en/zend.application.quick-start.html">Bootstrap</a> class would seem like a good option. The only example i could find involved loading all bootstraps on every request. Which doesn’t seem like a good idea. So after reading through the Manual and some blog posts. I decided to give it s shot my self.</p>
 
 <p>The structure i want looks like this.</p>
 
@@ -667,12 +760,14 @@ class [namespace]_Adminhtml_CustomerController extends Mage_Adminhtml_CustomerCo
 
 <p>The application.ini file has the following contents:</p>
 
-<blockquote><p>includePaths.library = APPLICATION_PATH &#8220;/../library&#8221;
-bootstrap.path = APPLICATION_PATH &#8220;/Bootstrap.php&#8221;
-bootstrap.class = &#8220;Bootstrap&#8221;
-resources.frontController.moduleDirectory = APPLICATION_PATH &#8220;/modules&#8221;
-resources.modules[] = &#8220;default&#8221;
-resources.modules[] = &#8220;admin&#8221;</p></blockquote>
+<blockquote>
+  <p>includePaths.library = APPLICATION_PATH “/../library”
+bootstrap.path = APPLICATION_PATH “/Bootstrap.php”
+bootstrap.class = “Bootstrap”
+resources.frontController.moduleDirectory = APPLICATION_PATH “/modules”
+resources.modules[] = “default”
+resources.modules[] = “admin”</p>
+</blockquote>
 
 <p><strong>includePaths</strong>
 This sets the applications local library location. Any shared code for this application goes here.</p>
@@ -695,32 +790,34 @@ Define the modules location and create a list of modules.</p>
 
 <pre><code>    protected function _initConfiguration()
     {
-        $app = $this-&gt;getApplication();
-        $config = $app-&gt;getOptions();
-
-        if (APPLICATION_ENV == 'development') {
-                error_reporting(E_ALL &amp; E_STRICT);
-                if (isset($config['phpsettings'])) {
-                        foreach ($config['phpsettings'] as $setting =&gt; $value) {
-                            ini_set($setting, $value);
-                        }  
-                }
-        }
+    	$app = $this-&gt;getApplication();
+    	$config = $app-&gt;getOptions();
+    	
+    	if (APPLICATION_ENV == 'development') {
+	    	    error_reporting(E_ALL &amp; E_STRICT);
+	    	    if (isset($config['phpsettings'])) {
+		    	        foreach ($config['phpsettings'] as $setting =&gt; $value) {
+		    		        ini_set($setting, $value);
+		    	        }  
+	    	    }
+    	}
     }
 </code></pre>
 
-<p>We need autoloading here because we are using a class from the application library. Right now this causes a problem. A notice is thrown</p>
+<p>We need autoloading here because we are using a class from the application library. Right now this causes a problem. A notice is thrown </p>
 
-<blockquote><p>Warning: include_once(FrontController.php) [function.include-once]: failed to open stream: No such file or directory in Zend/Loader.php  on line 147</p></blockquote>
+<blockquote>
+  <p>Warning: include_once(FrontController.php) [function.include-once]: failed to open stream: No such file or directory in Zend/Loader.php  on line 147</p>
+</blockquote>
 
 <p>The application responds fine. And this problem seems to be a recurring issue (<a href="http://framework.zend.com/issues/browse/ZF-7224">ZF-7224</a>, <a href="http://framework.zend.com/issues/browse/ZF-7550">ZF-7550</a>) for the framework. Until now i have not find a graceful fix for this. besides a small <a href="http://framework.zend.com/issues/secure/attachment/12131/BootstrapAbstract.patch">patch</a> reversion.</p>
 
 <pre><code>    protected function _initAutoload()
     {
-            $autoloader = Zend_Loader_Autoloader::getInstance();
-            $autoloader-&gt;setFallbackAutoloader(true);
-
-            return $autoloader;
+		    $autoloader = Zend_Loader_Autoloader::getInstance();
+		    $autoloader-&gt;setFallbackAutoloader(true);
+		
+		    return $autoloader;
     }
 </code></pre>
 
@@ -728,24 +825,24 @@ Define the modules location and create a list of modules.</p>
 
 <pre><code>   protected function _initController()
     {
-        $this-&gt;bootstrap('FrontController'); 
-        $controller = $this-&gt;getResource('FrontController');
+    	$this-&gt;bootstrap('FrontController'); 
+    	$controller = $this-&gt;getResource('FrontController');
        $modules = $controller-&gt;getControllerDirectory();
        $controller-&gt;setParam('prefixDefaultModule', true);
-
+		
         $controller-&gt;registerPlugin(
                new Bluess_Modules_Loader($modules)
         );
-
+    	
         return $controller;
     }
 </code></pre>
 
-<p>Now the last method. which is a bit weird. And i am probably missing a key factor here. But if this method <strong>resource</strong> is not declared only the default module functions. When declared empty all modules function as they should. This would indicate that this method could be used to load the modules. But i haven&#8217;t found a way to achieve this yet. Except for loading all modules in a row. Which makes no sense for this purpose. So we leave it empty.</p>
+<p>Now the last method. which is a bit weird. And i am probably missing a key factor here. But if this method <strong>resource</strong> is not declared only the default module functions. When declared empty all modules function as they should. This would indicate that this method could be used to load the modules. But i haven’t found a way to achieve this yet. Except for loading all modules in a row. Which makes no sense for this purpose. So we leave it empty.</p>
 
 <pre><code>protected function _initModules()
     {
-        // Call to prevent ZF from loading all modules
+		// Call to prevent ZF from loading all modules
     }
 </code></pre>
 
@@ -755,51 +852,53 @@ Define the modules location and create a list of modules.</p>
 
 <pre><code>class Bluess_Modules_Loader extends Zend_Controller_Plugin_Abstract
 {
-    protected $_modules;
+	protected $_modules;
 </code></pre>
 
 <p>Setup the plug-in by passing the applications module list.</p>
 
-<pre><code>    public function __construct(array $modulesList) 
-    {
-        $this-&gt;_modules = $modulesList;
-    }
+<pre><code>	public function __construct(array $modulesList) 
+	{
+		$this-&gt;_modules = $modulesList;
+	}
 </code></pre>
 
 <p>The <strong>dispatchLoopStartup</strong> method will be called on every request and will do the magic. Based on the current module name we create a new <strong>Zend_Application</strong> with the current modules config file <strong>module.ini</strong>. And we bootstrap it.</p>
 
-<pre><code>    public function dispatchLoopStartup(Zend_Controller_Request_Abstract $request)
-    {
-        $module = $request-&gt;getModuleName();
+<pre><code>	public function dispatchLoopStartup(Zend_Controller_Request_Abstract $request)
+	{
+		$module = $request-&gt;getModuleName();
+		
+		if (!isset($this-&gt;_modules[$module])) {
+			throw new Exception("Module does not exist!");
+		}
 
-        if (!isset($this-&gt;_modules[$module])) {
-            throw new Exception("Module does not exist!");
-        }
-
-        $bootstrapPath = $this-&gt;_modules[$module];
-
-        $bootstrapFile = dirname($bootstrapPath) . '/Bootstrap.php';
+		$bootstrapPath = $this-&gt;_modules[$module];
+		
+		$bootstrapFile = dirname($bootstrapPath) . '/Bootstrap.php';
         $class         = ucfirst($module) . '_Bootstrap';
         $application   = new Zend_Application(
-            APPLICATION_ENV,
-            APPLICATION_PATH . '/modules/' . $module . '/configs/module.ini'
-        );  
+        	APPLICATION_ENV,
+    		APPLICATION_PATH . '/modules/' . $module . '/configs/module.ini'
+		);  
 
         if (Zend_Loader::loadFile('Bootstrap.php', dirname($bootstrapPath)) 
-            &amp;&amp; class_exists($class)) {
+        	&amp;&amp; class_exists($class)) {
             $bootstrap = new $class($application);
             $bootstrap-&gt;bootstrap();
         }
-    }
+	}
 }
 </code></pre>
 
-<p>Now setup the default module. Once this is done it&#8217;s a nice example for further modules. Make sure the module has it&#8217;s own layout set.</p>
+<p>Now setup the default module. Once this is done it’s a nice example for further modules. Make sure the module has it’s own layout set. </p>
 
 <p><strong>application/modules/default/configs/module.ini</strong></p>
 
-<blockquote><p>default.resources.layout.layout = &#8220;default&#8221;
-default.resources.layout.layoutPath = APPLICATION_PATH &#8220;/modules/default/layout&#8221;</p></blockquote>
+<blockquote>
+  <p>default.resources.layout.layout = “default”
+default.resources.layout.layoutPath = APPLICATION_PATH “/modules/default/layout”</p>
+</blockquote>
 
 <p>Setup the modules bootstrap and use it to set the modules model location.</p>
 
@@ -807,23 +906,23 @@ default.resources.layout.layoutPath = APPLICATION_PATH &#8220;/modules/default/l
 
 <pre><code>class Default_Bootstrap extends Zend_Application_Module_Bootstrap 
 {
-    protected $_moduleName = 'default';
-
-    protected function _initConfiguration()
+	protected $_moduleName = 'default';
+	
+	protected function _initConfiguration()
     {
-        $options = $this-&gt;getApplication()-&gt;getOptions();
-
-        set_include_path(implode(PATH_SEPARATOR, array(
-            realpath(APPLICATION_PATH . '/modules/' . $this-&gt;_moduleName . '/models'),
-            get_include_path(),
-        )));
-
-        return $options;
+		$options = $this-&gt;getApplication()-&gt;getOptions();
+		
+    	set_include_path(implode(PATH_SEPARATOR, array(
+		    realpath(APPLICATION_PATH . '/modules/' . $this-&gt;_moduleName . '/models'),
+		    get_include_path(),
+		)));
+		
+		return $options;
     }
 }
 </code></pre>
 
-<p>That&#8217;s all. Now make sure your layout is set correctly and the controllers are prefixed</p>
+<p>That’s all. Now make sure your layout is set correctly and the controllers are prefixed</p>
 
 <p><strong>application/modules/default/layout/default.phtml</strong></p>
 
@@ -836,11 +935,11 @@ default.resources.layout.layoutPath = APPLICATION_PATH &#8220;/modules/default/l
 {
 </code></pre>
 
-<p>It took me a while to get this working like i had it in my mind. But it&#8217;s going the right way. If your interested in a working copy. You can download one <a href="http://lenss.nl/code/ZFBootstrappedModules.tar.gz">here</a>.</p>
+<p>It took me a while to get this working like i had it in my mind. But it’s going the right way. If your interested in a working copy. You can download one <a href="http://lenss.nl/code/ZFBootstrappedModules.tar.gz">here</a>.</p>
 
 <p><strong>UPDATE</strong></p>
 
-<p>Matthew has a nice <a href="http://weierophinney.net/matthew/archives/234-Module-Bootstraps-in-Zend-Framework-Dos-and-Donts.html#extended">post </a>about some do&#8217;s and don&#8217;ts concerning module based applications</p>
+<p>Matthew has a nice <a href="http://weierophinney.net/matthew/archives/234-Module-Bootstraps-in-Zend-Framework-Dos-and-Donts.html#extended">post </a>about some do’s and don’ts concerning module based applications</p>
 </div>
   
   
@@ -948,64 +1047,6 @@ default.resources.layout.layoutPath = APPLICATION_PATH &#8220;/modules/default/l
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2010/01/fixing-wp-e-commerce-for-ideal-payments/">Fixing Wp-e-commerce for iDEAL Payments</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext">
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-01-30T17:03:02+01:00" pubdate data-updated="true">Jan 30<span>th</span>, 2010</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2010/01/fixing-wp-e-commerce-for-ideal-payments/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/8/">&larr; Older</a></div>
@@ -1058,6 +1099,8 @@ default.resources.layout.layoutPath = APPLICATION_PATH &#8220;/modules/default/l
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -1075,8 +1118,6 @@ default.resources.layout.layoutPath = APPLICATION_PATH &#8220;/modules/default/l
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -1097,7 +1138,7 @@ default.resources.layout.layoutPath = APPLICATION_PATH &#8220;/modules/default/l
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

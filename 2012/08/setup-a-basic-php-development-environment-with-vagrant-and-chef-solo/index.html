@@ -69,7 +69,7 @@
 
 <div class="articletext"><p>So there are plenty of posts about this out there already. And this is nothing new i guess. But i am going to post it anyway. This weekend i spend some time playing with vagrant. And every setup guide seemed to be missing some steps the make the whole process a bit of a hassle. So i compiled my own steps in the post below. The goal was to create a basic <a href="http://www.debian.org/">Debian</a> box for my <a href="http://www.php.net/">PHP</a> development. From which i could serve my local development files.</p>
 
-<p>So to start of we need some packages.</p>
+<p>So to start of we need some packages. </p>
 
 <p><strong>Virtualbox</strong></p>
 
@@ -83,123 +83,169 @@
 
 <p>To package the virtual image and manage newly created box</p>
 
-<blockquote><p>$ sudo apt-get install virtualbox vagrant nfs-common nfs-kernel-server</p></blockquote>
+<blockquote>
+  <p>$ sudo apt-get install virtualbox vagrant nfs-common nfs-kernel-server</p>
+</blockquote>
 
 <p>Now is a good moment to download any Linux distro you want. I chose Debian. As it´s the most common in my day to day work.</p>
 
-<blockquote><p>$ wget <a href="http://cdimage.debian.org/debian-cd/6.0.5/i386/iso-cd/debian-6.0.5-i386-netinst.iso">http://cdimage.debian.org/debian-cd/6.0.5/i386/iso-cd/debian-6.0.5-i386-netinst.iso</a></p></blockquote>
+<blockquote>
+
+  <p>$ wget <a href="http://cdimage.debian.org/debian-cd/6.0.5/i386/iso-cd/debian-6.0.5-i386-netinst.iso">http://cdimage.debian.org/debian-cd/6.0.5/i386/iso-cd/debian-6.0.5-i386-netinst.iso</a></p>
+</blockquote>
 
 <p>Now launch <a href="https://www.virtualbox.org/">virtualbox</a> and create a new virtual machine. Just do what you normally do when you create a VM. But make sure to choose VMDK `Virtual Machine Disk´ as the format. The rest should be ok. When the VM is created start it up and choose the freshly downloaded Linux ISO to start the installation.</p>
 
-<p>I only installed the base system + the SSH server. And when that&#8217;s all done. And the VM is running. Login as root and install some packages vagrant needs.</p>
+<p>I only installed the base system + the SSH server. And when that’s all done. And the VM is running. Login as root and install some packages vagrant needs.</p>
 
-<blockquote><p>$ apt-get install sudo ruby ruby-dev libopenssl-ruby rdoc ri irb build-essential ssl-cert curl rubygems puppet</p></blockquote>
+<blockquote>
+  <p>$ apt-get install sudo ruby ruby-dev libopenssl-ruby rdoc ri irb build-essential ssl-cert curl rubygems puppet</p>
+</blockquote>
 
-<p>I won&#8217;t be setting up a <a href="http://www.opscode.com/chef/">Chef</a> server to manage the vagrant images. But i will be using <a href="http://wiki.opscode.com/display/chef/Installing+Chef+Client+and+Chef+Solo">Chef-Solo</a> to manage installing packages. So let&#8217;s install Chef.</p>
+<p>I won’t be setting up a <a href="http://www.opscode.com/chef/">Chef</a> server to manage the vagrant images. But i will be using <a href="http://wiki.opscode.com/display/chef/Installing+Chef+Client+and+Chef+Solo">Chef-Solo</a> to manage installing packages. So let’s install Chef.</p>
 
 <p><strong>install chef</strong></p>
 
 <p>Setup the opscode package repositories for APT</p>
 
-<blockquote><p>$ echo &#8220;deb http://apt.opscode.com/ <code>lsb_release -cs</code>-0.10 main&#8221; | tee /etc/apt/sources.list.d/opscode.list
-$ gpg &#8211;keyserver keys.gnupg.net &#8211;recv-keys 83EF826A
-$ gpg &#8211;export packages@opscode.com | tee /etc/apt/trusted.gpg.d/opscode-keyring.gpg > /dev/null</p></blockquote>
+<blockquote>
+
+  <p>$ echo “deb http://apt.opscode.com/ <code>lsb_release -cs</code>-0.10 main” | tee /etc/apt/sources.list.d/opscode.list
+$ gpg –keyserver keys.gnupg.net –recv-keys 83EF826A
+$ gpg –export packages@opscode.com | tee /etc/apt/trusted.gpg.d/opscode-keyring.gpg &gt; /dev/null</p>
+</blockquote>
 
 <p>And finally install the opscode keymanager and and of course Chef.</p>
 
-<blockquote><p>$ apt-get update
+<blockquote>
+
+  <p>$ apt-get update
 $ apt-get install opscode-keyring
-$ apt-get install chef</p></blockquote>
+$ apt-get install chef</p>
+</blockquote>
 
 <p>The installer will ask for the chef URL. I used <strong>none</strong> because i will be using chef solo</p>
 
 <p>Now we need to add a user for <a href="http://vagrantup.com/">vagrant</a> to connect with.</p>
 
-<blockquote><p>$ adduser vagrant
+<blockquote>
+
+  <p>$ adduser vagrant 
   passwrd : vagrant
 $ groupadd admin
-$ usermod -a -G admin vagrant</p></blockquote>
+$ usermod -a -G admin vagrant</p>
+</blockquote>
 
 <p>Make sure the admin users can <strong>sudo</strong> without a password.</p>
 
-<blockquote><p>$ visudo
-%admin  ALL=(ALL) NOPASSWD: ALL</p></blockquote>
+<blockquote>
+
+  <p>$ visudo
+%admin  ALL=(ALL) NOPASSWD: ALL</p>
+</blockquote>
 
 <p>Disable DNS for the SSH server. This should be a performance gain.</p>
 
-<blockquote><p>$ vi /etc/etc/ssh/sshd_config
-UseDNS no</p></blockquote>
+<blockquote>
+
+  <p>$ vi /etc/etc/ssh/sshd_config
+UseDNS no</p>
+</blockquote>
 
 <p>Change the MOTD to something nice</p>
 
-<blockquote><p>$ bash -c &#8220;echo &#8216;Sweeet! A Vagrant box cooked by Chef!!&#8217; > /etc/motd&#8221;
-$ chmod 0777 /etc/motd</p></blockquote>
+<blockquote>
+  <p>$ bash -c “echo ‘Sweeet! A Vagrant box cooked by Chef!!’ &gt; /etc/motd”
+$ chmod 0777 /etc/motd</p>
+</blockquote>
 
 <p>Switch to the vagrant user to setup the <strong>insecure</strong> vagrant public SSH key.</p>
 
-<blockquote><p>$ su vagrant
+<blockquote>
+  <p>$ su vagrant
 mkdir -p ~/.ssh
 chmod 0700 ~/.ssh
 curl -o ~/.ssh/authorized_keys https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub
-chmod 0600 ~/.ssh/authorized_keys</p></blockquote>
+chmod 0600 ~/.ssh/authorized_keys </p>
+</blockquote>
 
-<p>That&#8217;s it for the VM. Now it&#8217;s time for vagrant to do some magic. First we need to create a vagrant package from the newly created VM.</p>
+<p>That’s it for the VM. Now it’s time for vagrant to do some magic. First we need to create a vagrant package from the newly created VM.</p>
 
-<blockquote><p>$ vagrant package &#8211;base devbox
-$ mv package.box devbox.box</p></blockquote>
+<blockquote>
+  <p>$ vagrant package –base devbox
+$ mv package.box devbox.box</p>
+</blockquote>
 
-<p>Done! Let&#8217;s test it.</p>
+<p>Done! Let’s test it.</p>
 
-<blockquote><p>$ vagrant box add devbox devbox.box
+<blockquote>
+  <p>$ vagrant box add devbox devbox.box
 $ mkdir test &amp;&amp; cd test
 $ vagrant init devbox
 $ vagrant up
-$ vagrant ssh</p></blockquote>
+$ vagrant ssh</p>
+</blockquote>
 
-<p>Voila ssh&#8217;d into the VM</p>
+<p>Voila ssh’d into the VM</p>
 
-<blockquote><p>$ exit
+<blockquote>
+
+  <p>$ exit
 $ vagrant halt
-$ vagrant destroy</p></blockquote>
+$ vagrant destroy</p>
+</blockquote>
 
-<p>So that&#8217;s all fine and dandy. But a base system with SSH is not that useful. So that&#8217;s where Chef comes in. Like i mentioned earlier i won&#8217;t be using a Chef-Server. I will be using Chef-Solo. And will be doing a very basic setup.</p>
+<p>So that’s all fine and dandy. But a base system with SSH is not that useful. So that’s where Chef comes in. Like i mentioned earlier i won’t be using a Chef-Server. I will be using Chef-Solo. And will be doing a very basic setup.</p>
 
 <p>A Chef install script is called a <a href="http://wiki.opscode.com/display/chef/Cookbooks">cookbook</a>. And they can be found all over the place. But the main repository is over here (find more here https://github.com/opscode/cookbooks). So in our vagrant folder we create a folder called cookbooks.</p>
 
-<blockquote><p>$ mkdir cookbooks
-$ cd cookbooks</p></blockquote>
+<blockquote>
+  <p>$ mkdir cookbooks
+$ cd cookbooks</p>
+</blockquote>
 
 <p>And we install some basic cookbooks. Plus a very simple one i hacked together to install the latest <a href="http://www.dotdeb.org/">dotdeb</a> package repositories.</p>
 
 <p><a href="https://github.com/tlenss/misc/tree/master/chef/cookbooks/dotdeb">https://github.com/tlenss/misc/tree/master/chef/cookbooks/dotdeb</a></p>
 
-<blockquote><p>$ git clone <a href="https://github.com/opscode/cookbooks">https://github.com/opscode/cookbooks</a></p></blockquote>
+<blockquote>
+
+  <p>$ git clone <a href="https://github.com/opscode/cookbooks">https://github.com/opscode/cookbooks</a></p>
+</blockquote>
 
 <p>This will be enough for now. And will allow for some basic PHP development. To enable these package we have to edit the <strong>Vagrantfile</strong> file.</p>
 
-<blockquote><p>$ vi Vagrantfile</p></blockquote>
+<blockquote>
+  <p>$ vi Vagrantfile</p>
+</blockquote>
 
 <p>Add these lines for apache forwarding and NFS sharing</p>
 
-<blockquote><p>config.vm.share_folder &#8220;www&#8221;, &#8220;/var/www&#8221;, &#8220;/dev/location&#8221;</p></blockquote>
+<blockquote>
+
+  <p>config.vm.share_folder “www”, “/var/www”, “/dev/location”</p>
+</blockquote>
 
 <p>uncomment the :hostonly line so we can acces apache from our local box. And setup a hosts file mapping</p>
 
-<blockquote><p>config.vm.network :hostonly, &#8220;192.168.164.123&#8221;
-$ sudo sed -i &#8216;$ a\
-192.168.164.123 dev.box&#8217; /etc/hosts</p></blockquote>
+<blockquote>
+  <p>config.vm.network :hostonly, “192.168.164.123”
+$ sudo sed -i ‘$ a\
+192.168.164.123	dev.box’ /etc/hosts</p>
+</blockquote>
 
-<p>Configure chef&#8217;s cookbook path and add some recipes from the cloned cookbooks.</p>
+<p>Configure chef’s cookbook path and add some recipes from the cloned cookbooks.</p>
 
-<blockquote><p>config.vm.provision :chef_solo do |chef|</p>
+<blockquote>
 
-<pre><code>chef.json = {
-    "mysql" =&gt; {
-        "server_root_password" =&gt; "somepassword"
-    "bind_address" =&gt; "127.0.0.1"
-    }
-}
-</code></pre></blockquote>
+  <p>config.vm.provision :chef_solo do |chef|
+    chef.json = {
+        “mysql” =&gt; {
+            “server_root_password” =&gt; “somepassword”
+	    “bind_address” =&gt; “127.0.0.1”
+        }
+    }</p>
+</blockquote>
 
 <pre><code>chef.cookbooks_path = "cookbooks"
 chef.add_recipe("dotdeb")
@@ -216,33 +262,38 @@ chef.add_recipe("php")
 chef.add_recipe("php::module_curl")
 chef.add_recipe("php::module_mysql")
 chef.add_recipe("php::module_memcache")
-chef.add_recipe("php::module_sqlite3")
+chef.add_recipe("php::module_sqlite3") end
 </code></pre>
 
-<p>end</p>
+<p>Time to call vagrant again. And this time the startup takes a bit longer. All the selected packages get installed. And once that’s done. And a fresh development box is waiting.</p>
 
-<p>Time to call vagrant again. And this time the startup takes a bit longer. All the selected packages get installed. And once that&#8217;s done. And a fresh development box is waiting.</p>
+<blockquote>
 
-<blockquote><p>$ vagrant up
-$ vagrant ssh</p></blockquote>
+  <p>$ vagrant up
+$ vagrant ssh</p>
+</blockquote>
 
-<p>Let&#8217;s check PHP</p>
+<p>Let’s check PHP</p>
 
-<blockquote><p>$ php -v
-PHP 5.4.6-1~dotdeb.0 (cli) (built: Aug 19 2012 08:45:58)
+<blockquote>
+  <p>$ php -v
+PHP 5.4.6-1~dotdeb.0 (cli) (built: Aug 19 2012 08:45:58) 
 Copyright (c) 1997-2012 The PHP Group
-Zend Engine v2.4.0, Copyright (c) 1998-2012 Zend Technologies</p></blockquote>
+Zend Engine v2.4.0, Copyright (c) 1998-2012 Zend Technologies</p>
+</blockquote>
 
 <p>What about apache?</p>
 
-<blockquote><p>$ ps -aux | grep apache
+<blockquote>
+  <p>$ ps -aux | grep apache
 root       790  0.1  0.2   5352  2580 ?        Ss   23:40   0:00 /usr/sbin/apache2 -k start
 www-data   793  0.0  0.1   5124  1764 ?        S    23:40   0:00 /usr/sbin/apache2 -k start
 www-data   797  0.0  0.2 546408  2412 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start
 www-data   798  0.0  0.2 546408  2404 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start
-www-data   811  0.0  0.2 546408  2424 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start</p></blockquote>
+www-data   811  0.0  0.2 546408  2424 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start</p>
+</blockquote>
 
-<p>Nice! And Pointing the browser to http://localhost:8080 loads the NFS shared folder up through Apache. That&#8217;s it for now. Time to sleep&#8230;</p>
+<p>Nice! And Pointing the browser to http://localhost:8080 loads the NFS shared folder up through Apache. That’s it for now. Time to sleep…</p>
 
 <p>Some sources i used:
 [1] <a href="http://vagrantup.com/v1/docs/base_boxes.html">http://vagrantup.com/v1/docs/base_boxes.html</a>
@@ -369,6 +420,8 @@ www-data   811  0.0  0.2 546408  2424 ?        Sl   23:40   0:00 /usr/sbin/apach
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -386,8 +439,6 @@ www-data   811  0.0  0.2 546408  2424 ?        Sl   23:40   0:00 /usr/sbin/apach
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -408,7 +459,7 @@ www-data   811  0.0  0.2 546408  2424 ?        Sl   23:40   0:00 /usr/sbin/apach
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

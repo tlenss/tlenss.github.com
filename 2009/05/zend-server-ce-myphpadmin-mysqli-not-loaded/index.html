@@ -67,24 +67,27 @@
 </header>
 
 
-<div class="articletext"><p>The last time i installed <a href="http://www.zend.com/products/server/">Zend Server</a> i did it from source. Now it was time for the Ubuntu package manager to do it for me. I&#8217;ll spare you the install process. Since it&#8217;s <a href="http://files.zend.com/help/Zend-Server/zend-server.htm#deb_installation.htm">documented</a> well by the Zend team.</p>
+<div class="articletext"><p>The last time i installed <a href="http://www.zend.com/products/server/">Zend Server</a> i did it from source. Now it was time for the Ubuntu package manager to do it for me. I’ll spare you the install process. Since it’s <a href="http://files.zend.com/help/Zend-Server/zend-server.htm#deb_installation.htm">documented</a> well by the Zend team.</p>
 
-<p>After the install i walked through all pages of the ZS GUI. And all seemed to work great. So i checked the repository if there were anymore packages i could add to the ZS setup. And found the <a href="http://www.phpmyadmin.net/">myphpadmin</a> package. Just what i needed. And as i remember this was missing from the previous version. So i installed the package. And the GUI now showed a link to the phpmyadmin application. But when triggering the page i was confronted with an error message.</p>
+<p>After the install i walked through all pages of the ZS GUI. And all seemed to work great. So i checked the repository if there were anymore packages i could add to the ZS setup. And found the <a href="http://www.phpmyadmin.net/">myphpadmin</a> package. Just what i needed. And as i remember this was missing from the previous version. So i installed the package. And the GUI now showed a link to the phpmyadmin application. But when triggering the page i was confronted with an error message. </p>
 
 <p><a href="http://lenss.nl/images/2009/05/mysqli_error_zs.jpg"><img src="http://lenss.nl/images/2009/05/mysqli_error_zs-300x14.jpg" alt="mysqli_error_zs" /></a></p>
 
-<p>So mysqli was not loaded. Well that&#8217;s possible of course. But the repository showed it was installed. And so did the <a href="http://www.php.net/phpinfo">phpinfo()</a> page.</p>
+<p>So mysqli was not loaded. Well that’s possible of course. But the repository showed it was installed. And so did the <a href="http://www.php.net/phpinfo">phpinfo()</a> page.</p>
 
 <p><a href="http://lenss.nl/images/2009/05/phpinfo_mysqli_zs.jpg"><img src="http://lenss.nl/images/2009/05/phpinfo_mysqli_zs-220x300.jpg" alt="phpinfo_mysqli_zs" /></a></p>
 
-<p>So after looking around the config files for a while. It hit me. The ZS GUI is running on <a href="http://www.lighttpd.net/">lighttpd</a> and not apache. And just as i expected. Apache loaded the mysqli extension. But lighttpd didn&#8217;t.</p>
+<p>So after looking around the config files for a while. It hit me. The ZS GUI is running on <a href="http://www.lighttpd.net/">lighttpd</a> and not apache. And just as i expected. Apache loaded the mysqli extension. But lighttpd didn’t.</p>
 
 <p>A work around for this problem would be to leave of the :10081 port number in the GUI URL. So it points to 127.0.0.1/myphpadmin/. Or add the extensions to the lighthttpd setup. But adding a single line to the php-fcgi.ini file.</p>
 
-<blockquote><p>$ vi /usr/local/zend/gui/lighttpd/etc/php-fcgi.ini
-$ extension=mysqli.so</p></blockquote>
+<blockquote>
+  <p>$ vi /usr/local/zend/gui/lighttpd/etc/php-fcgi.ini
+$ extension=mysqli.so</p>
+</blockquote>
 
-<p>This makes it possible to load phpmyadmin from the GUI. But the mysqli missing error is still displayed. So it&#8217;s probably better to load it over Apache. I tried to find a bug report link or something for the ZS project but couldn&#8217;t find any&#8230;&#8230;</p>
+<p>This makes it possible to load phpmyadmin from the GUI. But the mysqli missing error is still displayed. So it’s probably better to load it over Apache. I tried to find a bug report link or something for the ZS project but couldn’t find any……</p>
+
 </div>
 
 
@@ -206,6 +209,8 @@ $ extension=mysqli.so</p></blockquote>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -223,8 +228,6 @@ $ extension=mysqli.so</p></blockquote>
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -245,7 +248,7 @@ $ extension=mysqli.so</p></blockquote>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

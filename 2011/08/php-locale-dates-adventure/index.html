@@ -80,18 +80,24 @@
 setlocale(LC_ALL, 'nl_NL.utf8');
 </code></pre>
 
-<p>After a reload i was greeted by the same dates as before. In plain English. Oke no worries. Let&#8217;s see what setlocale returns.</p>
+<p>After a reload i was greeted by the same dates as before. In plain English. Oke no worries. Let’s see what setlocale returns.</p>
 
 <pre><code>var_dump(setlocale(LC_ALL, 'nl_NL.utf8'));
 </code></pre>
 
-<blockquote><p>bool(false)</p></blockquote>
+<blockquote>
 
-<p>That&#8217;s not good. Seems like we are missing some locales on the server. Let&#8217;s check.</p>
+  <p>bool(false)</p>
+</blockquote>
 
-<blockquote><p>locale -a</p>
+<p>That’s not good. Seems like we are missing some locales on the server. Let’s check.</p>
 
-<p>en_AG
+<blockquote>
+  <p>locale -a</p>
+</blockquote>
+
+<blockquote>
+  <p>en_AG
 en_AG.utf8
 en_AU.utf8
 en_BW.utf8
@@ -110,33 +116,40 @@ en_SG.utf8
 en_US.utf8
 en_ZA.utf8
 en_ZW.utf8
-&#8230;</p></blockquote>
+…</p>
+</blockquote>
 
 <p>And some more output after that. But not the one i am looking for. But thankfully aptitude was kind enough to provide the missing language packages.</p>
 
-<blockquote><p>nl_NL
+<blockquote>
+  <p>nl_NL
 nl_NL@euro
 nl_NL.iso88591
 nl_NL.iso885915@euro
-nl_NL.utf8</p></blockquote>
+nl_NL.utf8</p>
+</blockquote>
 
-<p>So let&#8217;s set the correct locale for this script.</p>
+<p>So let’s set the correct locale for this script.</p>
 
 <pre><code>setlocale(LC_ALL, 'nl_NL.utf8');
 </code></pre>
 
-<p>But still no changes. I must be missing something&#8230;.. Let&#8217;s consult the <a href="http://www.php.net/manual/en/function.date.php">manual</a>. The last line in the <strong>examples</strong> section is what i was looking for</p>
+<p>But still no changes. I must be missing something….. Let’s consult the <a href="http://www.php.net/manual/en/function.date.php">manual</a>. The last line in the <strong>examples</strong> section is what i was looking for</p>
 
-<blockquote><p>To format dates in other languages, you should use the <a href="http://www.php.net/manual/en/function.setlocale.php">setlocale()</a> and <a href="http://www.php.net/manual/en/function.strftime.php">strftime()</a> functions instead of date().</p></blockquote>
+<blockquote>
+  <p>To format dates in other languages, you should use the <a href="http://www.php.net/manual/en/function.setlocale.php">setlocale()</a> and <a href="http://www.php.net/manual/en/function.strftime.php">strftime()</a> functions instead of date(). </p>
+</blockquote>
 
-<p>Duuh! Completely forgot about <a href="http://www.php.net/manual/en/function.strftime.php">strftime</a>. Let&#8217;s change the code.</p>
+<p>Duuh! Completely forgot about <a href="http://www.php.net/manual/en/function.strftime.php">strftime</a>. Let’s change the code.</p>
 
 <pre><code>strftime('%a %b %d %H:%M:%S %Y', strtotime($somevar));
 </code></pre>
 
-<blockquote><p>ma aug 15 14:55:06 2011</p></blockquote>
+<blockquote>
+  <p>ma aug 15 14:55:06 2011</p>
+</blockquote>
 
-<p>Perfect. That did it.</p>
+<p>Perfect. That did it. </p>
 </div>
 
 
@@ -258,6 +271,8 @@ nl_NL.utf8</p></blockquote>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -275,8 +290,6 @@ nl_NL.utf8</p></blockquote>
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -297,7 +310,7 @@ nl_NL.utf8</p></blockquote>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Moving to Amazon's Cloud or Not? Finally back online again. Somewhere today the site went down. And i couldn&#8217;t reach the server. Which &hellip;">
+  <meta name="description" content="Moving to Amazon's Cloud or Not? Finally back online again. Somewhere today the site went down. And i couldn’t reach the server. Which resulted in &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,36 +67,92 @@
 </header>
 
 
-<div class="articletext"><p><a href="http://aws.amazon.com/"><img src="http://lenss.nl/images/2011/03/logo_aws.gif" alt="" /></a> Finally back online again. Somewhere today the site went down. And i couldn&#8217;t reach the server. Which resulted in me jumping the gun and write an pissed off <a href="http://twitter.com/m0s/status/48089219616354304">tweet</a> about Amazon&#8217;s EC2 service. Which turned out to be false. After i noticed i tried to login to the AWS dashboard. But instead of my running instance i was presented with a validation screen. I had to validate my account by phone. That&#8217;s weird. I came to conclusion to early and thought Amazon had suspended my account for what whatever reason possible. It turns out it&#8217;s the annoying Amazon password bug that bit my ass. After poking around i came to the conclusion i have two Amazon accounts on the same email address but with different passwords. One has EC2 enabled the other doesn&#8217;t. Good to know. But the site was still down. So on my way home i missed a call from the Amazon support desk (really more companies should act like Amazon does). But got into an email conversation with them later on. After i apologised for the tweet. The Dev at Amazon figured out the server was running out of resources and was swapping. And just couldn&#8217;t do much more then that. Only a reboot resolved the issue. Hey! It&#8217;s not a micro instance for nothing.</p>
+<div class="articletext"><p><a href="http://aws.amazon.com/"><img src="http://lenss.nl/images/2011/03/logo_aws.gif" alt="" /></a> Finally back online again. Somewhere today the site went down. And i couldn’t reach the server. Which resulted in me jumping the gun and write an pissed off <a href="http://twitter.com/m0s/status/48089219616354304">tweet</a> about Amazon’s EC2 service. Which turned out to be false. After i noticed i tried to login to the AWS dashboard. But instead of my running instance i was presented with a validation screen. I had to validate my account by phone. That’s weird. I came to conclusion to early and thought Amazon had suspended my account for what whatever reason possible. It turns out it’s the annoying Amazon password bug that bit my ass. After poking around i came to the conclusion i have two Amazon accounts on the same email address but with different passwords. One has EC2 enabled the other doesn’t. Good to know. But the site was still down. So on my way home i missed a call from the Amazon support desk (really more companies should act like Amazon does). But got into an email conversation with them later on. After i apologised for the tweet. The Dev at Amazon figured out the server was running out of resources and was swapping. And just couldn’t do much more then that. Only a reboot resolved the issue. Hey! It’s not a micro instance for nothing.</p>
 
-<p>I might as well write a post about the move to the Amazon Cloud late last year. Ever since this website went up in 2008. It has been running on one of my own servers. And this has done the job well for two years. Some people would say if it ain&#8217;t broke don&#8217;t try to fix it. But i like to try out new things. And running a server isn&#8217;t cheap. So if i can find a more affordable way of hosting this site i may be interested enough to move. So where do i move this site too. Some other hosting provider? Let&#8217;s try something different and host it from the cloud. I didn&#8217;t really want to go over the whole hassle of finding a suitable hosting provider. And i was doing some small project with Amazon Web-services. So my choice was made quite easy. Let&#8217;s try the wide array of options Amazon&#8217;s Web-services have to offer.</p>
+<p>I might as well write a post about the move to the Amazon Cloud late last year. Ever since this website went up in 2008. It has been running on one of my own servers. And this has done the job well for two years. Some people would say if it ain’t broke don’t try to fix it. But i like to try out new things. And running a server isn’t cheap. So if i can find a more affordable way of hosting this site i may be interested enough to move. So where do i move this site too. Some other hosting provider? Let’s try something different and host it from the cloud. I didn’t really want to go over the whole hassle of finding a suitable hosting provider. And i was doing some small project with Amazon Web-services. So my choice was made quite easy. Let’s try the wide array of options Amazon’s Web-services have to offer.</p>
 
-<p>No way i was going to pay a fortune to set something up. So after some reading and some googling of course. I came to the <a href="http://aws.amazon.com/free/">Free Usage Tier</a> page. This basically is a way to get familiar with the AWS system. And it offer quite a nice set of features to use. One year of free usage as long as you don&#8217;t go over the limit set for this microsystem.. Read more about the terms <a href="http://aws.amazon.com/free/terms/">here</a> . Some of the highlights are:</p>
+<p>No way i was going to pay a fortune to set something up. So after some reading and some googling of course. I came to the <a href="http://aws.amazon.com/free/">Free Usage Tier</a> page. This basically is a way to get familiar with the AWS system. And it offer quite a nice set of features to use. One year of free usage as long as you don’t go over the limit set for this microsystem.. Read more about the terms <a href="http://aws.amazon.com/free/terms/">here</a> . Some of the highlights are:</p>
 
-<blockquote><p><strong>AWS Free Usage Tier (Per Month):</strong></p>
+<blockquote>
+  <p><strong>AWS Free Usage Tier (Per Month):</strong></p>
+</blockquote>
 
-<ul>
-<li><p>750 hours of <a href="http://aws.amazon.com/ec2">Amazon EC2</a> Linux Micro Instance usage (613 MB of memory and 32-bit and 64-bit  platform support) – enough hours to run continuously each month<code>*</code></p></li>
-<li><p>750 hours of an <a href="http://aws.amazon.com/elasticloadbalancing/">Elastic Load Balancer</a> plus 15 GB data processing*</p></li>
-<li><p>10 GB of <a href="http://aws.amazon.com/ebs">Amazon Elastic Block Storage</a>, plus 1 million I/Os, 1 GB of snapshot storage, 10,000 snapshot Get Requests and 1,000 snapshot Put Requests<code>*</code></p></li>
-<li><p>5 GB of <a href="http://aws.amazon.com/s3">Amazon S3 storage</a>, 20,000 Get Requests, and 2,000 Put Requests<code>*</code></p></li>
-<li><p>30 GB per of internet data transfer (15 GB of data transfer “in”  and 15 GB of data transfer “out” across all services except Amazon  CloudFront)<code>*</code></p></li>
-<li><p>25 <a href="http://aws.amazon.com/simpledb">Amazon SimpleDB</a> Machine Hours and 1 GB of Storage<code>**</code></p></li>
-<li><p>100,000 Requests of <a href="http://aws.amazon.com/sqs">Amazon Simple Queue Service</a><code>**</code></p></li>
-<li><p>100,000 Requests, 100,000 HTTP notifications and 1,000 email notifications for <a href="http://aws.amazon.com/sns">Amazon Simple Notification Service</a><code>**</code></p></li>
-<li><p>10 <a href="http://aws.amazon.com/cloudwatch">Amazon Cloudwatch</a> alarms<code>**</code></p></li>
-</ul>
+<blockquote>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>750 hours of <a href="http://aws.amazon.com/ec2">Amazon EC2</a> Linux Micro Instance usage (613 MB of memory and 32-bit and 64-bit  platform support) – enough hours to run continuously each month<code>*</code></li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>750 hours of an <a href="http://aws.amazon.com/elasticloadbalancing/">Elastic Load Balancer</a> plus 15 GB data processing*</li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>10 GB of <a href="http://aws.amazon.com/ebs">Amazon Elastic Block Storage</a>, plus 1 million I/Os, 1 GB of snapshot storage, 10,000 snapshot Get Requests and 1,000 snapshot Put Requests<code>*</code></li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>5 GB of <a href="http://aws.amazon.com/s3">Amazon S3 storage</a>, 20,000 Get Requests, and 2,000 Put Requests<code>*</code></li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>30 GB per of internet data transfer (15 GB of data transfer “in”  and 15 GB of data transfer “out” across all services except Amazon  CloudFront)<code>*</code></li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>25 <a href="http://aws.amazon.com/simpledb">Amazon SimpleDB</a> Machine Hours and 1 GB of Storage<code>**</code></li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>100,000 Requests of <a href="http://aws.amazon.com/sqs">Amazon Simple Queue Service</a><code>**</code></li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>100,000 Requests, 100,000 HTTP notifications and 1,000 email notifications for <a href="http://aws.amazon.com/sns">Amazon Simple Notification Service</a><code>**</code></li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>10 <a href="http://aws.amazon.com/cloudwatch">Amazon Cloudwatch</a> alarms<code>**</code></li>
+  </ul>
+
 </blockquote>
 
 <p>In addition to these services, the <a href="http://aws.amazon.com/console">AWS Management Console</a> is available at no charge to help you build and manage your application on AWS.</p>
 
-<p>So that looks like a pretty nice offer from Amazon. Of course you don&#8217;t have to expect some multi core system waiting for you. But maybe it will do. I was interested enough to give it try. After logging in the place to start is the <a href="https://console.aws.amazon.com/ec2">ec2</a> control panel. The first thing i did was create a new instance running Debian.</p>
+<p>So that looks like a pretty nice offer from Amazon. Of course you don’t have to expect some multi core system waiting for you. But maybe it will do. I was interested enough to give it try. After logging in the place to start is the <a href="https://console.aws.amazon.com/ec2">ec2</a> control panel. The first thing i did was create a new instance running Debian.</p>
 
-<p>Make sure the right region is set in the region box. I logged in after creating my first image and couldn&#8217;t find it anywhere. Because the default region was not the one i used. From the dashboard i can just click the launch instance button and it gives me a list of different images to use as a virtual instance. There is plenty of flavour to choose from. I picked a community Debian instance.</p>
+<p>Make sure the right region is set in the region box. I logged in after creating my first image and couldn’t find it anywhere. Because the default region was not the one i used. From the dashboard i can just click the launch instance button and it gives me a list of different images to use as a virtual instance. There is plenty of flavour to choose from. I picked a community Debian instance.</p>
 
 <p><a href="http://lenss.nl/images/2011/03/request-instance2.png"><img src="http://lenss.nl/images/2011/03/request-instance2-300x195.png" alt="" /></a></p>
 
-<p>The next screen is important because it sets the instance type to use. The Micro (t1.micro) is what i am looking for this time.</p>
+<p>The next screen is important because it sets the instance type to use. The Micro (t1.micro) is what i am looking for this time. </p>
 
 <p><a href="http://lenss.nl/images/2011/03/request-instance-micro.png"><img src="http://lenss.nl/images/2011/03/request-instance-micro-300x204.png" alt="" /></a></p>
 
@@ -114,12 +170,15 @@
 
 <p>If all is well i should be able to login by SSH.</p>
 
-<blockquote><p>$ ssh -i [key name].pem ec2-user@[ip address].eu-west-1.compute.amazonaws.com
-$ sudo bash</p></blockquote>
+<blockquote>
+  <p>$ ssh -i [key name].pem ec2-user@[ip address].eu-west-1.compute.amazonaws.com 
+$ sudo bash</p>
+</blockquote>
 
-<p>That&#8217;s it. I configured the instance using Zend Server and didn&#8217;t even bother to setup an RDS storage engine. I just installed MySQL. And used that for the site. Last but not least. Open port 80 on the firewall. This is easily done from the EC2 dashboard. I also opened up ports 10081 - 10083 bound to my home IP address so i can control Zend Server.</p>
+<p>That’s it. I configured the instance using Zend Server and didn’t even bother to setup an RDS storage engine. I just installed MySQL. And used that for the site. Last but not least. Open port 80 on the firewall. This is easily done from the EC2 dashboard. I also opened up ports 10081 - 10083 bound to my home IP address so i can control Zend Server.</p>
 
-<p>I was quite impressed with the AWS interface and the possibilities. But the cost is pretty high. The first month was nearly free. But while traffic keeps growing the cost keeps rising. This ended up me paying more for a single instance a month then for a complete server on which i can run multiple sites. So while extremely easy to use, flexible and just plain cool to work with. It&#8217;s not for this site. I thank Amazon for the available possibilities. And the Support i had today. But i am moving back to my own server as we speak.</p>
+<p>I was quite impressed with the AWS interface and the possibilities. But the cost is pretty high. The first month was nearly free. But while traffic keeps growing the cost keeps rising. This ended up me paying more for a single instance a month then for a complete server on which i can run multiple sites. So while extremely easy to use, flexible and just plain cool to work with. It’s not for this site. I thank Amazon for the available possibilities. And the Support i had today. But i am moving back to my own server as we speak.</p>
+
 </div>
 
 
@@ -241,6 +300,8 @@ $ sudo bash</p></blockquote>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
+		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"><span class="higlight">February, 2013</span> Zend Optimizer+ integrated into 5.5</a></li>
@@ -258,8 +319,6 @@ $ sudo bash</p></blockquote>
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"><span class="higlight">September, 2012</span> GIT:  Coming up with a good workflow</a></li>
 		
 	</ul>
 </div>
@@ -280,7 +339,7 @@ $ sudo bash</p></blockquote>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.84210526315789%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(114)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.15789473684211%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.10526315789474%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.57894736842105%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.21052631578948%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.05263157894737%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.05263157894737%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.68421052631578%'>PHP(64)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.21052631578948%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.15789473684211%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.5263157894737%'>Tech(96)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.21052631578948%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>
