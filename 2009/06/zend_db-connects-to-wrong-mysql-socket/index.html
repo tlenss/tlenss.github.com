@@ -71,25 +71,29 @@
 
 <p>I’m working on a small ZF project which uses the MVC structure. And in the Initializer the database connection is setup like this:</p>
 
-<pre><code>public function initDb()
-    {
-    	$pdoParams = array(
-            PDO::MYSQL_ATTR_USE_BUFFERED_QUERY =&gt; true
-        );
-        
-        $params = array(
-            'host'     =&gt; 'localhost',
-            'username' =&gt; '***********',
-            'password' =&gt; '***********',
-            'dbname'   =&gt; '***********',
-            'driver_options' =&gt; $pdoParams,
-        );
-        
-        $db = Zend_Db::factory('Pdo_Mysql', $params);
-        Zend_Db_Table_Abstract::setDefaultAdapter($db);
-        Zend_Registry::set('DB', $db);
-    }
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">public</span> <span class="keyword">function</span> <span class="function">initDb</span>()
+{
+  <span class="local-variable">$pdoParams</span> = <span class="predefined">array</span>(
+    <span class="constant">PDO</span>::<span class="constant">MYSQL_ATTR_USE_BUFFERED_QUERY</span> =&gt; <span class="predefined-constant">true</span>
+  );
+    
+  <span class="local-variable">$params</span> = <span class="predefined">array</span>(
+    <span class="string"><span class="delimiter">'</span><span class="content">host</span><span class="delimiter">'</span></span>     =&gt; <span class="string"><span class="delimiter">'</span><span class="content">localhost</span><span class="delimiter">'</span></span>,
+    <span class="string"><span class="delimiter">'</span><span class="content">username</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">***********</span><span class="delimiter">'</span></span>,
+    <span class="string"><span class="delimiter">'</span><span class="content">password</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">***********</span><span class="delimiter">'</span></span>,
+    <span class="string"><span class="delimiter">'</span><span class="content">dbname</span><span class="delimiter">'</span></span>   =&gt; <span class="string"><span class="delimiter">'</span><span class="content">***********</span><span class="delimiter">'</span></span>,
+    <span class="string"><span class="delimiter">'</span><span class="content">driver_options</span><span class="delimiter">'</span></span> =&gt; <span class="local-variable">$pdoParams</span>,
+  );
+    
+  <span class="local-variable">$db</span> = <span class="constant">Zend_Db</span>::factory(<span class="string"><span class="delimiter">'</span><span class="content">Pdo_Mysql</span><span class="delimiter">'</span></span>, <span class="local-variable">$params</span>);
+  <span class="constant">Zend_Db_Table_Abstract</span>::setDefaultAdapter(<span class="local-variable">$db</span>);
+  <span class="constant">Zend_Registry</span>::set(<span class="string"><span class="delimiter">'</span><span class="content">DB</span><span class="delimiter">'</span></span>, <span class="local-variable">$db</span>);
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>So when i first instantiated a connection to the database i was presented a nice error on screen. The stack trace is quiet long. But this is the most relevant part.</p>
 
@@ -99,19 +103,23 @@
 
 <p>The php bug tracker revealed a nice <a href="http://bugs.php.net/bug.php?id=34988">solution</a>. For some strange reason the PDO extension can’t determine the correct socket while the mysql, mysqli extensions can. This is easily solved in the bootstrap of the project by adding an extra parameter to the config array passed when calling Zend_Db::factory();</p>
 
-<pre><code>$params = array(
-            'host'     =&gt; 'localhost',
-            'username' =&gt; '***********',
-            'password' =&gt; '***********',
-            'dbname'   =&gt; '***********',
-            'driver_options' =&gt; $pdoParams,
-            'unix_socket' =&gt; '/var/run/mysqld/mysqld.sock'
-        );
-        
-        $db = Zend_Db::factory('Pdo_Mysql', $params);
-        Zend_Db_Table_Abstract::setDefaultAdapter($db);
-        Zend_Registry::set('DB', $db);
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$params</span> = <span class="predefined">array</span>(
+  <span class="string"><span class="delimiter">'</span><span class="content">host</span><span class="delimiter">'</span></span>     =&gt; <span class="string"><span class="delimiter">'</span><span class="content">localhost</span><span class="delimiter">'</span></span>,
+  <span class="string"><span class="delimiter">'</span><span class="content">username</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">***********</span><span class="delimiter">'</span></span>,
+  <span class="string"><span class="delimiter">'</span><span class="content">password</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">***********</span><span class="delimiter">'</span></span>,
+  <span class="string"><span class="delimiter">'</span><span class="content">dbname</span><span class="delimiter">'</span></span>   =&gt; <span class="string"><span class="delimiter">'</span><span class="content">***********</span><span class="delimiter">'</span></span>,
+  <span class="string"><span class="delimiter">'</span><span class="content">driver_options</span><span class="delimiter">'</span></span> =&gt; <span class="local-variable">$pdoParams</span>,
+  <span class="string"><span class="delimiter">'</span><span class="content">unix_socket</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">/var/run/mysqld/mysqld.sock</span><span class="delimiter">'</span></span>
+);
+
+<span class="local-variable">$db</span> = <span class="constant">Zend_Db</span>::factory(<span class="string"><span class="delimiter">'</span><span class="content">Pdo_Mysql</span><span class="delimiter">'</span></span>, <span class="local-variable">$params</span>);
+<span class="constant">Zend_Db_Table_Abstract</span>::setDefaultAdapter(<span class="local-variable">$db</span>);
+<span class="constant">Zend_Registry</span>::set(<span class="string"><span class="delimiter">'</span><span class="content">DB</span><span class="delimiter">'</span></span>, <span class="local-variable">$db</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 </div>
 

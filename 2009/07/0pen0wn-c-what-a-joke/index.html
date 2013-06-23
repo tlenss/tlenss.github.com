@@ -84,8 +84,12 @@
 
 <p>The code used for the decoding is a simple PHP script:</p>
 
-<pre><code>foreach (explode('\x', $str) as $char) echo chr(hexdec($char);
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">foreach</span> (<span class="predefined">explode</span>(<span class="string"><span class="delimiter">'</span><span class="content">\x</span><span class="delimiter">'</span></span>, <span class="local-variable">$str</span>) <span class="keyword">as</span> <span class="local-variable">$char</span>) <span class="predefined">echo</span> <span class="predefined">chr</span>(<span class="predefined">hexdec</span>(<span class="local-variable">$char</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 </div>
 

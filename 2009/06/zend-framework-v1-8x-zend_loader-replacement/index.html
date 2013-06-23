@@ -77,16 +77,24 @@
 
 <p>So in ZF projects prior to version 1.8x when enabling <a href="http://nl2.php.net/manual/en/language.oop5.autoload.php">autoloading</a> we would do something like this:</p>
 
-<pre><code>require_once 'Zend/Loader.php';
-Zend_Loader::registerAutoload();
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="predefined">require_once</span> <span class="string"><span class="delimiter">'</span><span class="content">Zend/Loader.php</span><span class="delimiter">'</span></span>;
+<span class="constant">Zend_Loader</span>::registerAutoload();
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>With the new Zend_Loader_AutoLoader this will look something like this:</p>
 
-<pre><code>require_once 'Zend/Loader/Autoloader.php';
-$loader = Zend_Loader_Autoloader::getInstance();
-$loader-&gt;registerNamespace('Namespace_');
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="predefined">require_once</span> <span class="string"><span class="delimiter">'</span><span class="content">Zend/Loader/Autoloader.php</span><span class="delimiter">'</span></span>;
+<span class="local-variable">$loader</span> = <span class="constant">Zend_Loader_Autoloader</span>::getInstance();
+<span class="local-variable">$loader</span>-&gt;registerNamespace(<span class="string"><span class="delimiter">'</span><span class="content">Namespace_</span><span class="delimiter">'</span></span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Notice the call to ‘registerNamespace’. This is where you set the namespacing for the classes or application libraries. By default the AutoLoader picks up Zend_ and ZendX_ namespacing. And we can extend this to use our own classes and libraries.</p>
 </div>

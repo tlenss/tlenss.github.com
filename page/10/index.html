@@ -492,10 +492,12 @@ $ extension=mysqli.so</p>
 
 <p>And although we all like Skype here. This is not what customers should see when they have Skype installed. My boss proposed to create an image instead of a text based phone number. This should work. But i did some Googling first. And found a <a href="http://forum.skype.com/index.php?showtopic=85053">post</a> on the Skype website. There seems to be a meta tag that disabled the Skype icons from being displayed on a website. So that was an easy fix.</p>
 
-<blockquote>
-  <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />
-
-</blockquote>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="tag">&lt;meta</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">SKYPE_TOOLBAR</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">content</span> =<span class="string"><span class="delimiter">&quot;</span><span class="content">SKYPE_TOOLBAR_PARSER_COMPATIBLE</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>I think it’s great that the Skype people provide a way to disable the icons. But i would like to have a bit more control over this. </p>
 </div>
@@ -559,36 +561,45 @@ $ extension=mysqli.so</p>
 
 <p>Normally i use the following lines to do the rewrite.</p>
 
-<blockquote>
-  <p>RewriteCond %{HTTP_HOST} ^www.lenss.nl$ [NC]
-RewriteRule ^(.*)$ http://lenss.nl/$1 [R=301,L]</p>
-</blockquote>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+RewriteCond %{HTTP_HOST} ^www\.lenss\.nl$ [NC]
+RewriteRule ^(.*)$ http://lenss.nl/$1 [R=301,L]
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>My own site however still runs <a href="http://wordpress.org/">Wordpress</a> and this package comes with it’s own set of rewrite rules. And i just dropped my new lines under the Wordpress rewrite rules.</p>
 
-<blockquote>
-  <p>RewriteEngine On
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+RewriteEngine On
 RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !^.<em>[^/]$
-RewriteCond %{REQUEST_URI} !^.</em>//.*$
-RewriteRule . index.php [L]</p>
-</blockquote>
+RewriteCond %{REQUEST_URI} !^.*[^/]$
+RewriteCond %{REQUEST_URI} !^.*//.*$
+RewriteRule . index.php [L]
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>The result was that the WWW sub domain got rewritten to the no-www version. But everything after the trailing slash got dismissed. So rewrites for blog posts didn’t work. And all request would land on the main index. So i did some testing and combined the two sets of rewrite rules. This seems to function properly :)</p>
 
-<blockquote>
-  <p>RewriteEngine On
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+RewriteEngine On
 RewriteBase /
-RewriteCond %{HTTP_HOST} ^www.lenss.nl$ [NC]
-RewriteRule ^(.<em>)$ http://lenss.nl/$1 [R=301,L]
+RewriteCond %{HTTP_HOST} ^www\.lenss\.nl$ [NC]
+RewriteRule ^(.*)$ http://lenss.nl/$1 [R=301,L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !^.</em>[^/]$
-RewriteCond %{REQUEST_URI} !^.<em>//.</em>$
-RewriteRule . index.php [L]</p>
-</blockquote>
+RewriteCond %{REQUEST_URI} !^.*[^/]$
+RewriteCond %{REQUEST_URI} !^.*//.*$
+RewriteRule . index.php [L]
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Next time i just need to check my changes more thoroughly. And thank you Alex for point that out to me.</p>
 </div>
@@ -717,170 +728,178 @@ RewriteRule . index.php [L]</p>
 
 <p>The CRON script looks like this:</p>
 
-<pre><code>require_once "/full/path/to/class/siteStatus.php";
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="predefined">require_once</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">/full/path/to/class/siteStatus.php</span><span class="delimiter">&quot;</span></span>;
 
-try {
-	siteStatus::check(array(
-		'sites' =&gt; array(
-			'http://siteurl1.tld',
-			'http://siteurl2.tld'
-		),
-		'agent' =&gt; 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)',
-		'email' =&gt; 'some+email.address'
-	));
-} catch (Exception $e) {
-	echo $e-&gt;getMessage();
+<span class="keyword">try</span> {
+  siteStatus::check(<span class="predefined">array</span>(
+    <span class="string"><span class="delimiter">'</span><span class="content">sites</span><span class="delimiter">'</span></span> =&gt; <span class="predefined">array</span>(
+      <span class="string"><span class="delimiter">'</span><span class="content">http://siteurl1.tld</span><span class="delimiter">'</span></span>,
+      <span class="string"><span class="delimiter">'</span><span class="content">http://siteurl2.tld</span><span class="delimiter">'</span></span>
+    ),
+    <span class="string"><span class="delimiter">'</span><span class="content">agent</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)</span><span class="delimiter">'</span></span>,
+    <span class="string"><span class="delimiter">'</span><span class="content">email</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">some+email.address</span><span class="delimiter">'</span></span>
+  ));
+} <span class="keyword">catch</span> (<span class="predefined-constant">Exception</span> <span class="local-variable">$e</span>) {
+  <span class="predefined">echo</span> <span class="local-variable">$e</span>-&gt;getMessage();
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>And the class that does the actual checking:</p>
 
-<pre><code>/**
- * siteStatus
- *
- * LICENSE
- *
- * This source file is subject to the new BSD license
- *
- * @package    siteStatus
- * @copyright  Copyright (c) 2009 Thijs Lensselink. (http://lenss.nl)
- * @license    http://lenss.nl/license/bsd.txt     New BSD License
- */
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="comment">/**
+* siteStatus
+*
+* LICENSE
+*
+* This source file is subject to the new BSD license
+*
+* @package    siteStatus
+* @copyright  Copyright (c) 2009 Thijs Lensselink. (http://lenss.nl)
+* @license    http://lenss.nl/license/bsd.txt     New BSD License
+*/</span>
 
-/**
- * Class for checking the status of a website
- *
- * @package    siteStatus
- * @copyright  Copyright (c) 2009 Thijs Lensselink. (http://lenss.nl)
- * @license    http://lenss.nl/license/bsd.txt     New BSD License
- */
-Class siteStatus
+<span class="comment">/**
+* Class for checking the status of a website
+*
+* @package    siteStatus
+* @copyright  Copyright (c) 2009 Thijs Lensselink. (http://lenss.nl)
+* @license    http://lenss.nl/license/bsd.txt     New BSD License
+*/</span>
+<span class="keyword">Class</span> siteStatus
 {
-	/**
-     * @var resource
-     */
-	static private $_curl;
-	
-	/**
-     * @var string
-     */
-	static private $_reportEmail;
-	
-	/**
-     * @var string
-     */
-	static private $_curlErrors;
-	
-	/**
-     * This method loops through the lis tof sites provided by the
-     * config array. And calls self::checkSite to do the actual checking.
-     *
-     * A config array will look something like this:
-     * 
-     * array(
-	 *	'sites' =&gt; array(
-	 *		'http://siteurl1.tld',
-	 *		'http://siteurl2.tld'
-	 *	),
-	 *	'agent' =&gt; 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)',
-	 *	'email' =&gt; 'report+email.tld'
-	 * ); 
-     *
-     * @param  array  $config   The config array
-     * @return void
-     */
-	static public function check(array $config)
-	{
-		self::setReportAddress($config);
-		self::createCurlResource();
-		
-		foreach ($config['sites'] as $site) {
-			$checkDateTime = date('Y-m-d H:i:s');
-			if (!self::checkSite($site, $config['agent'])) {
-				self::sendReport($site, $checkDateTime);
-			}
-		}
-		
-		curl_close(self::$_curl);
-	}
-	
-	/**
-     * Sets the address to which the report has to be emailed.
-     *
-     * @param  array  $config   The config array
-     * @return void
-     */
-	static private function setReportAddress(array $config)
-	{
-		if (!isset($config['email']) || (strlen($config['email']) &lt;= 4)) {
-			throw new Exception("No report email address is set in the config.");
-		}
-		
-		self::$_reportEmail = $config['email'];
-	}
-	
-	/**
-     * Try to create a curl resource.
-     *
-     * @return void
-     */
-	static private function createCurlResource()
-	{
-		self::$_curl = curl_init();
-		if (!self::$_curl) {
-			throw new Exception("Could not create a curl resource.");
-		}
-	}
-	
-	/**
-     * Preform a call to the webserver. And check the status code provided by it.
-     *
-     * @param  string  $siteUrl   The site URL.
-     * @param  string  $agent     Browser agent string.
-     * @return boolean
-     */
-	static private function checkSite($siteUrl, $agent)
-	{
-	    curl_setopt(self::$_curl, CURLOPT_URL,            $siteUrl);
-	    curl_setopt(self::$_curl, CURLOPT_USERAGENT,      $agent);
-	    curl_setopt(self::$_curl, CURLOPT_RETURNTRANSFER, 1);
-	    curl_setopt(self::$_curl, CURLOPT_VERBOSE,        false);
-	    curl_setopt(self::$_curl, CURLOPT_TIMEOUT,        5);
-	
-	    if (curl_exec(self::$_curl) === false) {
-	    	self::$_curlErrors = curl_error(self::$_curl);
-	    }
-	    $httpcode = curl_getinfo(self::$_curl, CURLINFO_HTTP_CODE);
-		
-	    if($httpcode &gt;= 200 &amp;&amp; $httpcode &lt; 300) {
-	        return true;
-	    }
-	
-	    return false;
-	}
-	
-	/**
-     * Send a report after checking sites is done.
-     *
-     * @param  string $site     Site URL.
-     * @param  string $dateTime DateTime the check was preformed.
-     * @return void
-     */
-	static private function sendReport($site, $dateTime)
-	{
-		$reportSubject = "Status report for {$site}\n\n";
-		
-		$reportBody = "Site : {$site}\n";
-		$reportBody .= "Date : {$dateTime}\n";
-		
-		if (strlen(self::$_curlErrors) &gt; 0) {
-			$reportBody .= "Errors : " . self::$_curlErrors . "\n";
-		}
-				
-		mail(self::$_reportEmail, $reportSubject, $reportBody);
-	}
+  <span class="comment">/**
+   * @var resource
+   */</span>
+  <span class="keyword">static</span> <span class="keyword">private</span> <span class="local-variable">$_curl</span>;
+
+  <span class="comment">/**
+   * @var string
+   */</span>
+  <span class="keyword">static</span> <span class="keyword">private</span> <span class="local-variable">$_reportEmail</span>;
+
+  <span class="comment">/**
+   * @var string
+   */</span>
+  <span class="keyword">static</span> <span class="keyword">private</span> <span class="local-variable">$_curlErrors</span>;
+
+  <span class="comment">/**
+   * This method loops through the lis tof sites provided by the
+   * config array. And calls self::checkSite to do the actual checking.
+   *
+   * A config array will look something like this:
+   * 
+   * array(
+   *        'sites' =&gt; array(
+   *                'http://siteurl1.tld',
+   *                'http://siteurl2.tld'
+   *        ),
+   *        'agent' =&gt; 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)',
+   *        'email' =&gt; 'report+email.tld'
+   * ); 
+   *
+   * @param  array  $config   The config array
+   * @return void
+   */</span>
+  <span class="keyword">static</span> <span class="keyword">public</span> <span class="keyword">function</span> <span class="function">check</span>(<span class="predefined">array</span> <span class="local-variable">$config</span>)
+  {
+    <span class="predefined-constant">self</span>::setReportAddress(<span class="local-variable">$config</span>);
+    <span class="predefined-constant">self</span>::createCurlResource();
+    
+    <span class="keyword">foreach</span> (<span class="local-variable">$config</span>[<span class="string"><span class="delimiter">'</span><span class="content">sites</span><span class="delimiter">'</span></span>] <span class="keyword">as</span> <span class="local-variable">$site</span>) {
+      <span class="local-variable">$checkDateTime</span> = <span class="predefined">date</span>(<span class="string"><span class="delimiter">'</span><span class="content">Y-m-d H:i:s</span><span class="delimiter">'</span></span>);
+      <span class="keyword">if</span> (!<span class="predefined-constant">self</span>::checkSite(<span class="local-variable">$site</span>, <span class="local-variable">$config</span>[<span class="string"><span class="delimiter">'</span><span class="content">agent</span><span class="delimiter">'</span></span>])) {
+        <span class="predefined-constant">self</span>::sendReport(<span class="local-variable">$site</span>, <span class="local-variable">$checkDateTime</span>);
+      }
+    }
+        
+    curl_close(<span class="predefined-constant">self</span>::<span class="local-variable">$_curl</span>);
+  }
+
+  <span class="comment">/**
+   * Sets the address to which the report has to be emailed.
+   *
+   * @param  array  $config   The config array
+   * @return void
+   */</span>
+  <span class="keyword">static</span> <span class="keyword">private</span> <span class="keyword">function</span> <span class="function">setReportAddress</span>(<span class="predefined">array</span> <span class="local-variable">$config</span>)
+  {
+    <span class="keyword">if</span> (!<span class="predefined">isset</span>(<span class="local-variable">$config</span>[<span class="string"><span class="delimiter">'</span><span class="content">email</span><span class="delimiter">'</span></span>]) || (<span class="predefined">strlen</span>(<span class="local-variable">$config</span>[<span class="string"><span class="delimiter">'</span><span class="content">email</span><span class="delimiter">'</span></span>]) &lt;= <span class="integer">4</span>)) {
+      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="predefined-constant">Exception</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">No report email address is set in the config.</span><span class="delimiter">&quot;</span></span>);
+    }
+        
+    <span class="predefined-constant">self</span>::<span class="local-variable">$_reportEmail</span> = <span class="local-variable">$config</span>[<span class="string"><span class="delimiter">'</span><span class="content">email</span><span class="delimiter">'</span></span>];
+  }
+
+  <span class="comment">/**
+   * Try to create a curl resource.
+   *
+   * @return void
+   */</span>
+  <span class="keyword">static</span> <span class="keyword">private</span> <span class="keyword">function</span> <span class="function">createCurlResource</span>()
+  {
+    <span class="predefined-constant">self</span>::<span class="local-variable">$_curl</span> = curl_init();
+    <span class="keyword">if</span> (!<span class="predefined-constant">self</span>::<span class="local-variable">$_curl</span>) {
+      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="predefined-constant">Exception</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Could not create a curl resource.</span><span class="delimiter">&quot;</span></span>);
+    }
+  }
+
+  <span class="comment">/**
+   * Preform a call to the webserver. And check the status code provided by it.
+   *
+   * @param  string  $siteUrl   The site URL.
+   * @param  string  $agent     Browser agent string.
+   * @return boolean
+   */</span>
+  <span class="keyword">static</span> <span class="keyword">private</span> <span class="keyword">function</span> <span class="function">checkSite</span>(<span class="local-variable">$siteUrl</span>, <span class="local-variable">$agent</span>)
+  {
+    curl_setopt(<span class="predefined-constant">self</span>::<span class="local-variable">$_curl</span>, <span class="constant">CURLOPT_URL</span>,            <span class="local-variable">$siteUrl</span>);
+    curl_setopt(<span class="predefined-constant">self</span>::<span class="local-variable">$_curl</span>, <span class="constant">CURLOPT_USERAGENT</span>,      <span class="local-variable">$agent</span>);
+    curl_setopt(<span class="predefined-constant">self</span>::<span class="local-variable">$_curl</span>, <span class="constant">CURLOPT_RETURNTRANSFER</span>, <span class="integer">1</span>);
+    curl_setopt(<span class="predefined-constant">self</span>::<span class="local-variable">$_curl</span>, <span class="constant">CURLOPT_VERBOSE</span>,        <span class="predefined-constant">false</span>);
+    curl_setopt(<span class="predefined-constant">self</span>::<span class="local-variable">$_curl</span>, <span class="constant">CURLOPT_TIMEOUT</span>,        <span class="integer">5</span>);
+
+    <span class="keyword">if</span> (curl_exec(<span class="predefined-constant">self</span>::<span class="local-variable">$_curl</span>) === <span class="predefined-constant">false</span>) {
+            <span class="predefined-constant">self</span>::<span class="local-variable">$_curlErrors</span> = curl_error(<span class="predefined-constant">self</span>::<span class="local-variable">$_curl</span>);
+    }
+    <span class="local-variable">$httpcode</span> = curl_getinfo(<span class="predefined-constant">self</span>::<span class="local-variable">$_curl</span>, <span class="constant">CURLINFO_HTTP_CODE</span>);
+        
+    <span class="keyword">if</span>(<span class="local-variable">$httpcode</span> &gt;= <span class="integer">200</span> &amp;&amp; <span class="local-variable">$httpcode</span> &lt; <span class="integer">300</span>) {
+        <span class="keyword">return</span> <span class="predefined-constant">true</span>;
+    }
+
+    <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+  }
+
+  <span class="comment">/**
+   * Send a report after checking sites is done.
+   *
+   * @param  string $site     Site URL.
+   * @param  string $dateTime DateTime the check was preformed.
+   * @return void
+   */</span>
+  <span class="keyword">static</span> <span class="keyword">private</span> <span class="keyword">function</span> <span class="function">sendReport</span>(<span class="local-variable">$site</span>, <span class="local-variable">$dateTime</span>)
+  {
+    <span class="local-variable">$reportSubject</span> = <span class="string"><span class="delimiter">&quot;</span><span class="content">Status report for </span><span class="inline"><span class="delimiter">{</span><span class="local-variable">$site</span><span class="delimiter">}</span></span><span class="char">\n</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>;
+
+    <span class="local-variable">$reportBody</span> = <span class="string"><span class="delimiter">&quot;</span><span class="content">Site : </span><span class="inline"><span class="delimiter">{</span><span class="local-variable">$site</span><span class="delimiter">}</span></span><span class="char">\n</span><span class="delimiter">&quot;</span></span>;
+    <span class="local-variable">$reportBody</span> .= <span class="string"><span class="delimiter">&quot;</span><span class="content">Date : </span><span class="inline"><span class="delimiter">{</span><span class="local-variable">$dateTime</span><span class="delimiter">}</span></span><span class="char">\n</span><span class="delimiter">&quot;</span></span>;
+
+    <span class="keyword">if</span> (<span class="predefined">strlen</span>(<span class="predefined-constant">self</span>::<span class="local-variable">$_curlErrors</span>) &gt; <span class="integer">0</span>) {
+      <span class="local-variable">$reportBody</span> .= <span class="string"><span class="delimiter">&quot;</span><span class="content">Errors : </span><span class="delimiter">&quot;</span></span> . <span class="predefined-constant">self</span>::<span class="local-variable">$_curlErrors</span> . <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>;
+    }
+                
+    <span class="predefined">mail</span>(<span class="predefined-constant">self</span>::<span class="local-variable">$_reportEmail</span>, <span class="local-variable">$reportSubject</span>, <span class="local-variable">$reportBody</span>);
+  }
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Like i said this is probably not the best way of doing this. To make it more solid it’s probably better to use some sort of SMS gateway to send out reports. But for now this suits my needs. It’s runs from my local workstation. Which is on 24/7 anyway.</p>
 </div>
@@ -944,20 +963,28 @@ Class siteStatus
 
 <p>This however confronted me with a small problem. The preloader images are supposed to show up when a form is submitted. And this is exactly what’s causing the problem. In my first attempt i created the image object when the form was submitted. On submit a JavaScript function was called. This function created the image object and displayed it.</p>
 
-<pre><code>function loader() {
-	var loaderImg = new Image();	
-        loaderImg.src = 'some/image/url/';
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">function</span> <span class="function">loader</span>() {
+  <span class="keyword">var</span> loaderImg = <span class="keyword">new</span> Image();        
+  loaderImg.src = <span class="string"><span class="delimiter">'</span><span class="content">some/image/url/</span><span class="delimiter">'</span></span>;
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>This however resulted in an image displayed that had no active animation. This happens i think because the image is not fully loaded when the user hits submit on the form. So to fix this i had to load the images before the page was completely rendered.</p>
 
-<pre><code>var loaderImg = new Image();
-	
-window.onload = function() {
-        loaderImg.src = 'some/image/url';
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">var</span> loaderImg = <span class="keyword">new</span> Image();
+
+window.<span class="function">onload</span> = <span class="keyword">function</span>() {
+  loaderImg.src = <span class="string"><span class="delimiter">'</span><span class="content">some/image/url</span><span class="delimiter">'</span></span>;
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 </div>
   

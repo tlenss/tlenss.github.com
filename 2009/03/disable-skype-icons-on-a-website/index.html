@@ -73,10 +73,12 @@
 
 <p>And although we all like Skype here. This is not what customers should see when they have Skype installed. My boss proposed to create an image instead of a text based phone number. This should work. But i did some Googling first. And found a <a href="http://forum.skype.com/index.php?showtopic=85053">post</a> on the Skype website. There seems to be a meta tag that disabled the Skype icons from being displayed on a website. So that was an easy fix.</p>
 
-<blockquote>
-  <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />
-
-</blockquote>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="tag">&lt;meta</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">SKYPE_TOOLBAR</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">content</span> =<span class="string"><span class="delimiter">&quot;</span><span class="content">SKYPE_TOOLBAR_PARSER_COMPATIBLE</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>I think it’s great that the Skype people provide a way to disable the icons. But i would like to have a bit more control over this. </p>
 </div>

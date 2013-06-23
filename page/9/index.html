@@ -186,8 +186,12 @@ sqlite3 test.db  “drop table temp_table;”</p>
 
 <p>The code used for the decoding is a simple PHP script:</p>
 
-<pre><code>foreach (explode('\x', $str) as $char) echo chr(hexdec($char);
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">foreach</span> (<span class="predefined">explode</span>(<span class="string"><span class="delimiter">'</span><span class="content">\x</span><span class="delimiter">'</span></span>, <span class="local-variable">$str</span>) <span class="keyword">as</span> <span class="local-variable">$char</span>) <span class="predefined">echo</span> <span class="predefined">chr</span>(<span class="predefined">hexdec</span>(<span class="local-variable">$char</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 </div>
   
@@ -340,16 +344,24 @@ samba\ share</p>
 
 <p>So in ZF projects prior to version 1.8x when enabling <a href="http://nl2.php.net/manual/en/language.oop5.autoload.php">autoloading</a> we would do something like this:</p>
 
-<pre><code>require_once 'Zend/Loader.php';
-Zend_Loader::registerAutoload();
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="predefined">require_once</span> <span class="string"><span class="delimiter">'</span><span class="content">Zend/Loader.php</span><span class="delimiter">'</span></span>;
+<span class="constant">Zend_Loader</span>::registerAutoload();
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>With the new Zend_Loader_AutoLoader this will look something like this:</p>
 
-<pre><code>require_once 'Zend/Loader/Autoloader.php';
-$loader = Zend_Loader_Autoloader::getInstance();
-$loader-&gt;registerNamespace('Namespace_');
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="predefined">require_once</span> <span class="string"><span class="delimiter">'</span><span class="content">Zend/Loader/Autoloader.php</span><span class="delimiter">'</span></span>;
+<span class="local-variable">$loader</span> = <span class="constant">Zend_Loader_Autoloader</span>::getInstance();
+<span class="local-variable">$loader</span>-&gt;registerNamespace(<span class="string"><span class="delimiter">'</span><span class="content">Namespace_</span><span class="delimiter">'</span></span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Notice the call to ‘registerNamespace’. This is where you set the namespacing for the classes or application libraries. By default the AutoLoader picks up Zend_ and ZendX_ namespacing. And we can extend this to use our own classes and libraries.</p>
 </div>
@@ -413,25 +425,29 @@ $loader-&gt;registerNamespace('Namespace_');
 
 <p>I’m working on a small ZF project which uses the MVC structure. And in the Initializer the database connection is setup like this:</p>
 
-<pre><code>public function initDb()
-    {
-    	$pdoParams = array(
-            PDO::MYSQL_ATTR_USE_BUFFERED_QUERY =&gt; true
-        );
-        
-        $params = array(
-            'host'     =&gt; 'localhost',
-            'username' =&gt; '***********',
-            'password' =&gt; '***********',
-            'dbname'   =&gt; '***********',
-            'driver_options' =&gt; $pdoParams,
-        );
-        
-        $db = Zend_Db::factory('Pdo_Mysql', $params);
-        Zend_Db_Table_Abstract::setDefaultAdapter($db);
-        Zend_Registry::set('DB', $db);
-    }
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">public</span> <span class="keyword">function</span> <span class="function">initDb</span>()
+{
+  <span class="local-variable">$pdoParams</span> = <span class="predefined">array</span>(
+    <span class="constant">PDO</span>::<span class="constant">MYSQL_ATTR_USE_BUFFERED_QUERY</span> =&gt; <span class="predefined-constant">true</span>
+  );
+    
+  <span class="local-variable">$params</span> = <span class="predefined">array</span>(
+    <span class="string"><span class="delimiter">'</span><span class="content">host</span><span class="delimiter">'</span></span>     =&gt; <span class="string"><span class="delimiter">'</span><span class="content">localhost</span><span class="delimiter">'</span></span>,
+    <span class="string"><span class="delimiter">'</span><span class="content">username</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">***********</span><span class="delimiter">'</span></span>,
+    <span class="string"><span class="delimiter">'</span><span class="content">password</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">***********</span><span class="delimiter">'</span></span>,
+    <span class="string"><span class="delimiter">'</span><span class="content">dbname</span><span class="delimiter">'</span></span>   =&gt; <span class="string"><span class="delimiter">'</span><span class="content">***********</span><span class="delimiter">'</span></span>,
+    <span class="string"><span class="delimiter">'</span><span class="content">driver_options</span><span class="delimiter">'</span></span> =&gt; <span class="local-variable">$pdoParams</span>,
+  );
+    
+  <span class="local-variable">$db</span> = <span class="constant">Zend_Db</span>::factory(<span class="string"><span class="delimiter">'</span><span class="content">Pdo_Mysql</span><span class="delimiter">'</span></span>, <span class="local-variable">$params</span>);
+  <span class="constant">Zend_Db_Table_Abstract</span>::setDefaultAdapter(<span class="local-variable">$db</span>);
+  <span class="constant">Zend_Registry</span>::set(<span class="string"><span class="delimiter">'</span><span class="content">DB</span><span class="delimiter">'</span></span>, <span class="local-variable">$db</span>);
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>So when i first instantiated a connection to the database i was presented a nice error on screen. The stack trace is quiet long. But this is the most relevant part.</p>
 
@@ -441,19 +457,23 @@ $loader-&gt;registerNamespace('Namespace_');
 
 <p>The php bug tracker revealed a nice <a href="http://bugs.php.net/bug.php?id=34988">solution</a>. For some strange reason the PDO extension can’t determine the correct socket while the mysql, mysqli extensions can. This is easily solved in the bootstrap of the project by adding an extra parameter to the config array passed when calling Zend_Db::factory();</p>
 
-<pre><code>$params = array(
-            'host'     =&gt; 'localhost',
-            'username' =&gt; '***********',
-            'password' =&gt; '***********',
-            'dbname'   =&gt; '***********',
-            'driver_options' =&gt; $pdoParams,
-            'unix_socket' =&gt; '/var/run/mysqld/mysqld.sock'
-        );
-        
-        $db = Zend_Db::factory('Pdo_Mysql', $params);
-        Zend_Db_Table_Abstract::setDefaultAdapter($db);
-        Zend_Registry::set('DB', $db);
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$params</span> = <span class="predefined">array</span>(
+  <span class="string"><span class="delimiter">'</span><span class="content">host</span><span class="delimiter">'</span></span>     =&gt; <span class="string"><span class="delimiter">'</span><span class="content">localhost</span><span class="delimiter">'</span></span>,
+  <span class="string"><span class="delimiter">'</span><span class="content">username</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">***********</span><span class="delimiter">'</span></span>,
+  <span class="string"><span class="delimiter">'</span><span class="content">password</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">***********</span><span class="delimiter">'</span></span>,
+  <span class="string"><span class="delimiter">'</span><span class="content">dbname</span><span class="delimiter">'</span></span>   =&gt; <span class="string"><span class="delimiter">'</span><span class="content">***********</span><span class="delimiter">'</span></span>,
+  <span class="string"><span class="delimiter">'</span><span class="content">driver_options</span><span class="delimiter">'</span></span> =&gt; <span class="local-variable">$pdoParams</span>,
+  <span class="string"><span class="delimiter">'</span><span class="content">unix_socket</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">/var/run/mysqld/mysqld.sock</span><span class="delimiter">'</span></span>
+);
+
+<span class="local-variable">$db</span> = <span class="constant">Zend_Db</span>::factory(<span class="string"><span class="delimiter">'</span><span class="content">Pdo_Mysql</span><span class="delimiter">'</span></span>, <span class="local-variable">$params</span>);
+<span class="constant">Zend_Db_Table_Abstract</span>::setDefaultAdapter(<span class="local-variable">$db</span>);
+<span class="constant">Zend_Registry</span>::set(<span class="string"><span class="delimiter">'</span><span class="content">DB</span><span class="delimiter">'</span></span>, <span class="local-variable">$db</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 </div>
   
@@ -514,28 +534,23 @@ $loader-&gt;registerNamespace('Namespace_');
 
   <div class="articletext"><p>The long awaited <a href="http://wiki.php.net/todo/php53">5.3</a> version is near it’s final stage. I’ve been really looking forward to this.</p>
 
-<blockquote>
-
-</blockquote>
-
-<blockquote>
-
-  <h6 id="july-24th---feature-freeze-completed">1. July 24th - feature freeze COMPLETED</h6>
-  <ol>
-    <li>July 31st - alpha1 COMPLETED</li>
-    <li>September 2nd - alpha2 (freeze on August 29th, final packaging on September 1st) COMPLETED</li>
-    <li>December 4th - alpha3 (freeze on December 2nd, final packaging on December 3rd) COMPLETED</li>
-    <li>January 29th - beta1 (freeze on January 26th, final packaging on January 28th) COMPLETED</li>
-    <li>March 24th - RC1 (bug fixing until the 19th, with RM ok commits until 20nd, until 23rd build fixes only) COMPLETED</li>
-    <li>June 7th - RC2 (bug fixing until end of the 4th, after that only build fixes and README changes) COMPLETED</li>
-    <li>June 11th - RC3 COMPLETED</li>
-    <li>June 18th - RC4 COMPLETED</li>
-    <li>June 30th - stable</li>
-    <li>Continued RC releases in 2-4 week intervals</li>
-    <li>Stable release around Q2 2009</li>
-  </ol>
-
-</blockquote>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+###### 1. July 24th - feature freeze COMPLETED
+2. July 31st - alpha1 COMPLETED
+3. September 2nd - alpha2 (freeze on August 29th, final packaging on September 1st) COMPLETED
+4. December 4th - alpha3 (freeze on December 2nd, final packaging on December 3rd) COMPLETED
+5. January 29th - beta1 (freeze on January 26th, final packaging on January 28th) COMPLETED
+6. March 24th - RC1 (bug fixing until the 19th, with RM ok commits until 20nd, until 23rd build fixes only) COMPLETED
+7. June 7th - RC2 (bug fixing until end of the 4th, after that only build fixes and README changes) COMPLETED
+8. June 11th - RC3 COMPLETED
+9. June 18th - RC4 COMPLETED
+10. June 30th - stable
+11. Continued RC releases in 2-4 week intervals
+12. Stable release around Q2 2009
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 </div>
   

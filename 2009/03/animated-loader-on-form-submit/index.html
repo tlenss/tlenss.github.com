@@ -71,20 +71,28 @@
 
 <p>This however confronted me with a small problem. The preloader images are supposed to show up when a form is submitted. And this is exactly what’s causing the problem. In my first attempt i created the image object when the form was submitted. On submit a JavaScript function was called. This function created the image object and displayed it.</p>
 
-<pre><code>function loader() {
-	var loaderImg = new Image();	
-        loaderImg.src = 'some/image/url/';
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">function</span> <span class="function">loader</span>() {
+  <span class="keyword">var</span> loaderImg = <span class="keyword">new</span> Image();        
+  loaderImg.src = <span class="string"><span class="delimiter">'</span><span class="content">some/image/url/</span><span class="delimiter">'</span></span>;
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>This however resulted in an image displayed that had no active animation. This happens i think because the image is not fully loaded when the user hits submit on the form. So to fix this i had to load the images before the page was completely rendered.</p>
 
-<pre><code>var loaderImg = new Image();
-	
-window.onload = function() {
-        loaderImg.src = 'some/image/url';
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">var</span> loaderImg = <span class="keyword">new</span> Image();
+
+window.<span class="function">onload</span> = <span class="keyword">function</span>() {
+  loaderImg.src = <span class="string"><span class="delimiter">'</span><span class="content">some/image/url</span><span class="delimiter">'</span></span>;
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 </div>
 

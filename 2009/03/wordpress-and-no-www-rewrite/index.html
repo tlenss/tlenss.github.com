@@ -71,36 +71,45 @@
 
 <p>Normally i use the following lines to do the rewrite.</p>
 
-<blockquote>
-  <p>RewriteCond %{HTTP_HOST} ^www.lenss.nl$ [NC]
-RewriteRule ^(.*)$ http://lenss.nl/$1 [R=301,L]</p>
-</blockquote>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+RewriteCond %{HTTP_HOST} ^www\.lenss\.nl$ [NC]
+RewriteRule ^(.*)$ http://lenss.nl/$1 [R=301,L]
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>My own site however still runs <a href="http://wordpress.org/">Wordpress</a> and this package comes with it’s own set of rewrite rules. And i just dropped my new lines under the Wordpress rewrite rules.</p>
 
-<blockquote>
-  <p>RewriteEngine On
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+RewriteEngine On
 RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !^.<em>[^/]$
-RewriteCond %{REQUEST_URI} !^.</em>//.*$
-RewriteRule . index.php [L]</p>
-</blockquote>
+RewriteCond %{REQUEST_URI} !^.*[^/]$
+RewriteCond %{REQUEST_URI} !^.*//.*$
+RewriteRule . index.php [L]
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>The result was that the WWW sub domain got rewritten to the no-www version. But everything after the trailing slash got dismissed. So rewrites for blog posts didn’t work. And all request would land on the main index. So i did some testing and combined the two sets of rewrite rules. This seems to function properly :)</p>
 
-<blockquote>
-  <p>RewriteEngine On
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+RewriteEngine On
 RewriteBase /
-RewriteCond %{HTTP_HOST} ^www.lenss.nl$ [NC]
-RewriteRule ^(.<em>)$ http://lenss.nl/$1 [R=301,L]
+RewriteCond %{HTTP_HOST} ^www\.lenss\.nl$ [NC]
+RewriteRule ^(.*)$ http://lenss.nl/$1 [R=301,L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !^.</em>[^/]$
-RewriteCond %{REQUEST_URI} !^.<em>//.</em>$
-RewriteRule . index.php [L]</p>
-</blockquote>
+RewriteCond %{REQUEST_URI} !^.*[^/]$
+RewriteCond %{REQUEST_URI} !^.*//.*$
+RewriteRule . index.php [L]
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Next time i just need to check my changes more thoroughly. And thank you Alex for point that out to me.</p>
 </div>
