@@ -83,9 +83,7 @@
 
 <blockquote>
   <ul>
-    <li>
-      <h1 id="mod-pagespeed">MOD-pagespeed</h1>
-    </li>
+    <li>MOD-pagespeed</li>
     <li>SetOutputFilter MOD_PAGESPEED_OUTPUT_FILTER</li>
     <li>ModPagespeed on</li>
     <li>ModPagespeedUrlPrefix                “http://lenss.nl”</li>
@@ -93,9 +91,7 @@
     <li>ModPagespeedFileCachePath            “/var/mod_pagespeed/cache/”</li>
     <li>ModPagespeedGeneratedFilePrefix      “/var/mod_pagespeed/files/”</li>
     <li></li>
-    <li>
-      <h1 id="modpagespeedrewritelevel-corefilters">ModPagespeedRewriteLevel CoreFilters</h1>
-    </li>
+    <li>ModPagespeedRewriteLevel CoreFilters</li>
     <li>ModPagespeedRewriteLevel PassThrough</li>
     <li></li>
     <li>ModPagespeedEnableFilters add_head</li>
@@ -129,32 +125,34 @@ FAIL.</p>
 <p>This fails because the statistics page requested is not available because this site uses rewrites. And i haven’t found a way to go around this yet besides disabling them in .htaccess with mod_rewrite. So shortly disabling this made it possible to run the biggest part of the test suite without problems. </p>
 
 <blockquote>
-  <p>resource_fetches: 2
-total_page_load_ms: 0
-page_load_count: 0
-cache_extensions: 0
-not_cacheable: 0
-css_file_count_reduction: 0
-css_filter_files_minified: 13
-css_filter_minified_bytes_saved: 5082
-css_filter_parse_failures: 0
-css_elements: 0
-image_inline: 0
-image_rewrite_saved_bytes: 0
-image_rewrites: 0
-javascript_blocks_minified: 15
-javascript_bytes_saved: 380
-javascript_minification_failures: 0
-javascript_total_blocks: 15
-resource_url_domain_rejections: 0
-url_trims: 0
-url_trim_saved_bytes: 0
-resource<em>404_count: 2
-slurp</em>404_count: 0
-serf_fetch_request_count: 0
-serf_fetch_bytes_count: 0
-serf_fetch_time_duration_ms: 0
-serf_fetch_cancel_count: 0</p>
+  <ul>
+    <li>resource_fetches: 2</li>
+    <li>total_page_load_ms: 0</li>
+    <li>page_load_count: 0</li>
+    <li>cache_extensions: 0</li>
+    <li>not_cacheable: 0</li>
+    <li>css_file_count_reduction: 0</li>
+    <li>css_filter_files_minified: 13</li>
+    <li>css_filter_minified_bytes_saved: 5082</li>
+    <li>css_filter_parse_failures: 0</li>
+    <li>css_elements: 0</li>
+    <li>image_inline: 0</li>
+    <li>image_rewrite_saved_bytes: 0</li>
+    <li>image_rewrites: 0</li>
+    <li>javascript_blocks_minified: 15</li>
+    <li>javascript_bytes_saved: 380</li>
+    <li>javascript_minification_failures: 0</li>
+    <li>javascript_total_blocks: 15</li>
+    <li>resource_url_domain_rejections: 0</li>
+    <li>url_trims: 0</li>
+    <li>url_trim_saved_bytes: 0</li>
+    <li>resource_404_count: 2</li>
+    <li>slurp_404_count: 0</li>
+    <li>serf_fetch_request_count: 0</li>
+    <li>serf_fetch_bytes_count: 0</li>
+    <li>serf_fetch_time_duration_ms: 0</li>
+    <li>serf_fetch_cancel_count: 0</li>
+  </ul>
 </blockquote>
 
 <p>It fails on the image compression part and that’s fine. Because i will leave that for later. So let’s run the site through the pagespeed browser extension with mod_pagespeed disabled:</p>

@@ -83,8 +83,13 @@ $ aptitude update</p>
 
 <p>As we can see we have some new packages</p>
 
-<p>Get:8 http://mirror.ourdelta.org lenny/mariadb-ourdelta Sources [864B]
-Current status: 3 updates [+3], 232 new [+11].</p>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+Get:8 http://mirror.ourdelta.org lenny/mariadb-ourdelta Sources [864B]
+Current status: 3 updates [+3], 232 new [+11].
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Searching for ‘mariadb’ gives the following packages</p>
 
@@ -92,7 +97,9 @@ Current status: 3 updates [+3], 232 new [+11].</p>
   <p>$ aptitude search mariadb</p>
 </blockquote>
 
-<p>p   libmariadbclient-dev              - MariaDB database development files
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+p   libmariadbclient-dev              - MariaDB database development files
 p   libmariadbclient16                - MariaDB database client library
 v   libmariadbclient16-dev            - MariaDB embedded database development files 
 p   mariadb-client                    - MariaDB database client (metapackage depending on the latest version)
@@ -102,7 +109,10 @@ v   mariadb-common
 p   mariadb-server                    - MariaDB database server (metapackage depending on the latest version)
 p   mariadb-server-5.1                - MariaDB database server binaries
 p   mariadb-test                      - MariaDB database regression test suite (metapackage depending on the latest version)
-p   mariadb-test-5.1                  - MariaDB database regression test suite</p>
+p   mariadb-test-5.1                  - MariaDB database regression test suite
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>So let’s go ahead and install the server and see what happens.</p>
 
@@ -151,17 +161,21 @@ mysql  Ver 14.16 Distrib 5.1.49-MariaDB, for debian-linux-gnu (i486) using readl
   <p>$ mysql -uroot -p</p>
 </blockquote>
 
-<p>MariaDB [(none)]&gt; show engines;
-<strong>BLACKHOLE</strong>     <em>/dev/null storage engine (anything you write to it disappears) _
-<strong>MRG_MYISAM</strong>  _Collection of identical MyISAM tables _
-<strong>FEDERATED</strong>     _FederatedX pluggable storage engine  _
-<strong>MARIA</strong>            _Crash-safe tables with MyISAM heritage _
-<strong>CSV **              _ CSV storage engine _
-**MEMORY **        _Hash based, stored in memory, useful for temporary tables  _
-**ARCHIVE **        _Archive storage engine  _
-**MyISAM</strong>          _Default engine as of MySQL 3.23 with great performance  _
-<strong>InnoDB</strong>           _Supports transactions, row-level locking, and foreign keys _
-<strong>PBXT</strong>              _High performance, multi-versioning transactional engine</em></p>
+<blockquote>
+  <ul>
+    <li>MariaDB [(none)]&gt; show engines;</li>
+    <li><strong>BLACKHOLE</strong>     _/dev/null storage engine (anything you write to it disappears) _</li>
+    <li><strong>MRG_MYISAM</strong>  _Collection of identical MyISAM tables _</li>
+    <li><strong>FEDERATED</strong>     _FederatedX pluggable storage engine  _</li>
+    <li><strong>MARIA</strong>            _Crash-safe tables with MyISAM heritage _</li>
+    <li>**CSV **              _ CSV storage engine _</li>
+    <li>**MEMORY **        _Hash based, stored in memory, useful for temporary tables  _</li>
+    <li>**ARCHIVE **        _Archive storage engine  _</li>
+    <li><strong>MyISAM</strong>          _Default engine as of MySQL 3.23 with great performance  _</li>
+    <li><strong>InnoDB</strong>           _Supports transactions, row-level locking, and foreign keys _</li>
+    <li><strong>PBXT</strong>              <em>High performance, multi-versioning transactional engine</em></li>
+  </ul>
+</blockquote>
 
 <p>And because the MySQL APi is still in tact. From PHP we can keep using the mysql and mysqli interfaces. This is great stuff!</p>
 </div>

@@ -86,9 +86,7 @@
 
 <blockquote>
   <ul>
-    <li>
-      <h1 id="mod-pagespeed">MOD-pagespeed</h1>
-    </li>
+    <li>MOD-pagespeed</li>
     <li>SetOutputFilter MOD_PAGESPEED_OUTPUT_FILTER</li>
     <li>ModPagespeed on</li>
     <li>ModPagespeedUrlPrefix                “http://lenss.nl”</li>
@@ -96,9 +94,7 @@
     <li>ModPagespeedFileCachePath            “/var/mod_pagespeed/cache/”</li>
     <li>ModPagespeedGeneratedFilePrefix      “/var/mod_pagespeed/files/”</li>
     <li></li>
-    <li>
-      <h1 id="modpagespeedrewritelevel-corefilters">ModPagespeedRewriteLevel CoreFilters</h1>
-    </li>
+    <li>ModPagespeedRewriteLevel CoreFilters</li>
     <li>ModPagespeedRewriteLevel PassThrough</li>
     <li></li>
     <li>ModPagespeedEnableFilters add_head</li>
@@ -132,32 +128,34 @@ FAIL.</p>
 <p>This fails because the statistics page requested is not available because this site uses rewrites. And i haven’t found a way to go around this yet besides disabling them in .htaccess with mod_rewrite. So shortly disabling this made it possible to run the biggest part of the test suite without problems. </p>
 
 <blockquote>
-  <p>resource_fetches: 2
-total_page_load_ms: 0
-page_load_count: 0
-cache_extensions: 0
-not_cacheable: 0
-css_file_count_reduction: 0
-css_filter_files_minified: 13
-css_filter_minified_bytes_saved: 5082
-css_filter_parse_failures: 0
-css_elements: 0
-image_inline: 0
-image_rewrite_saved_bytes: 0
-image_rewrites: 0
-javascript_blocks_minified: 15
-javascript_bytes_saved: 380
-javascript_minification_failures: 0
-javascript_total_blocks: 15
-resource_url_domain_rejections: 0
-url_trims: 0
-url_trim_saved_bytes: 0
-resource<em>404_count: 2
-slurp</em>404_count: 0
-serf_fetch_request_count: 0
-serf_fetch_bytes_count: 0
-serf_fetch_time_duration_ms: 0
-serf_fetch_cancel_count: 0</p>
+  <ul>
+    <li>resource_fetches: 2</li>
+    <li>total_page_load_ms: 0</li>
+    <li>page_load_count: 0</li>
+    <li>cache_extensions: 0</li>
+    <li>not_cacheable: 0</li>
+    <li>css_file_count_reduction: 0</li>
+    <li>css_filter_files_minified: 13</li>
+    <li>css_filter_minified_bytes_saved: 5082</li>
+    <li>css_filter_parse_failures: 0</li>
+    <li>css_elements: 0</li>
+    <li>image_inline: 0</li>
+    <li>image_rewrite_saved_bytes: 0</li>
+    <li>image_rewrites: 0</li>
+    <li>javascript_blocks_minified: 15</li>
+    <li>javascript_bytes_saved: 380</li>
+    <li>javascript_minification_failures: 0</li>
+    <li>javascript_total_blocks: 15</li>
+    <li>resource_url_domain_rejections: 0</li>
+    <li>url_trims: 0</li>
+    <li>url_trim_saved_bytes: 0</li>
+    <li>resource_404_count: 2</li>
+    <li>slurp_404_count: 0</li>
+    <li>serf_fetch_request_count: 0</li>
+    <li>serf_fetch_bytes_count: 0</li>
+    <li>serf_fetch_time_duration_ms: 0</li>
+    <li>serf_fetch_cancel_count: 0</li>
+  </ul>
 </blockquote>
 
 <p>It fails on the image compression part and that’s fine. Because i will leave that for later. So let’s run the site through the pagespeed browser extension with mod_pagespeed disabled:</p>
@@ -350,8 +348,13 @@ $ aptitude update</p>
 
 <p>As we can see we have some new packages</p>
 
-<p>Get:8 http://mirror.ourdelta.org lenny/mariadb-ourdelta Sources [864B]
-Current status: 3 updates [+3], 232 new [+11].</p>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+Get:8 http://mirror.ourdelta.org lenny/mariadb-ourdelta Sources [864B]
+Current status: 3 updates [+3], 232 new [+11].
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Searching for ‘mariadb’ gives the following packages</p>
 
@@ -359,7 +362,9 @@ Current status: 3 updates [+3], 232 new [+11].</p>
   <p>$ aptitude search mariadb</p>
 </blockquote>
 
-<p>p   libmariadbclient-dev              - MariaDB database development files
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+p   libmariadbclient-dev              - MariaDB database development files
 p   libmariadbclient16                - MariaDB database client library
 v   libmariadbclient16-dev            - MariaDB embedded database development files 
 p   mariadb-client                    - MariaDB database client (metapackage depending on the latest version)
@@ -369,7 +374,10 @@ v   mariadb-common
 p   mariadb-server                    - MariaDB database server (metapackage depending on the latest version)
 p   mariadb-server-5.1                - MariaDB database server binaries
 p   mariadb-test                      - MariaDB database regression test suite (metapackage depending on the latest version)
-p   mariadb-test-5.1                  - MariaDB database regression test suite</p>
+p   mariadb-test-5.1                  - MariaDB database regression test suite
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>So let’s go ahead and install the server and see what happens.</p>
 
@@ -418,17 +426,21 @@ mysql  Ver 14.16 Distrib 5.1.49-MariaDB, for debian-linux-gnu (i486) using readl
   <p>$ mysql -uroot -p</p>
 </blockquote>
 
-<p>MariaDB [(none)]&gt; show engines;
-<strong>BLACKHOLE</strong>     <em>/dev/null storage engine (anything you write to it disappears) _
-<strong>MRG_MYISAM</strong>  _Collection of identical MyISAM tables _
-<strong>FEDERATED</strong>     _FederatedX pluggable storage engine  _
-<strong>MARIA</strong>            _Crash-safe tables with MyISAM heritage _
-<strong>CSV **              _ CSV storage engine _
-**MEMORY **        _Hash based, stored in memory, useful for temporary tables  _
-**ARCHIVE **        _Archive storage engine  _
-**MyISAM</strong>          _Default engine as of MySQL 3.23 with great performance  _
-<strong>InnoDB</strong>           _Supports transactions, row-level locking, and foreign keys _
-<strong>PBXT</strong>              _High performance, multi-versioning transactional engine</em></p>
+<blockquote>
+  <ul>
+    <li>MariaDB [(none)]&gt; show engines;</li>
+    <li><strong>BLACKHOLE</strong>     _/dev/null storage engine (anything you write to it disappears) _</li>
+    <li><strong>MRG_MYISAM</strong>  _Collection of identical MyISAM tables _</li>
+    <li><strong>FEDERATED</strong>     _FederatedX pluggable storage engine  _</li>
+    <li><strong>MARIA</strong>            _Crash-safe tables with MyISAM heritage _</li>
+    <li>**CSV **              _ CSV storage engine _</li>
+    <li>**MEMORY **        _Hash based, stored in memory, useful for temporary tables  _</li>
+    <li>**ARCHIVE **        _Archive storage engine  _</li>
+    <li><strong>MyISAM</strong>          _Default engine as of MySQL 3.23 with great performance  _</li>
+    <li><strong>InnoDB</strong>           _Supports transactions, row-level locking, and foreign keys _</li>
+    <li><strong>PBXT</strong>              <em>High performance, multi-versioning transactional engine</em></li>
+  </ul>
+</blockquote>
 
 <p>And because the MySQL APi is still in tact. From PHP we can keep using the mysql and mysqli interfaces. This is great stuff!</p>
 </div>
