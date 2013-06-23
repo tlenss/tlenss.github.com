@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Fixing Wp-e-commerce for iDEAL Payments Posted by Thijs Lensselink Jan 30th, 2010 Code, PHP, Tech Comments Cache Data With Zend Framework and &hellip;">
+  <meta name="description" content="Fixing Wp-e-commerce for iDEAL Payments Last Friday a friend approached me with a problem he was having. He was trying to setup a small webshop in a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -70,7 +70,120 @@
 </header>
 
 
-  <div class="articletext">
+  <div class="articletext"><p>Last Friday a friend approached me with a problem he was having. He was trying to setup a small webshop in a existing Wordpress site. For the webshop he was using a plug-in called <a href="http://www.instinct.co.nz/e-commerce/">wp-e-commerce</a>. He chose this plug-in because it is one of few that supports <a href="http://www.ideal.nl/">iDEAL</a> payments. Because this shop only serves Holland the only payment option they need is iDEAL.</p>
+
+<p>The iDEAL plug-in seemed to function properly. But the bank portal didn’t respond as expected. The first error i spotted was the mis configured referrer. The error code for this was.</p>
+
+<blockquote>
+  <p>unknown order/0/r</p>
+</blockquote>
+
+<p>This didn’t solve the problem though. The message change from the previous to</p>
+
+<blockquote>
+  <p>unknown order/1/s</p>
+</blockquote>
+
+<p>So i spend the next hours reading the manual he got from his bank. And came to the conclusion they do it just a bit different then for what this plug-in was written. The bank expects a hash to be send along each order made. This hash is build up from parts of the order and a secret string. This combined is hashed with the <a href="http://www.faqs.org/rfcs/rfc3174.html">SHA-1</a> algorithm And added to the form as a hidden field. I wrote a small function to create hash and changed a few other small things in the order form.</p>
+
+<p>The original form looks like this:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">var</span> Amount = &lt;?php echo <span class="predefined">$amount</span>; ?&gt;;
+<span class="keyword">var</span> PSPID = <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;?php echo get_option('ideal_id');?&gt;</span><span class="delimiter">&quot;</span></span>;
+<span class="keyword">var</span> AM;
+<span class="keyword">if</span> (isNaN(Amount)) {
+  alert(<span class="string"><span class="delimiter">&quot;</span><span class="content">Amount not a number: </span><span class="delimiter">&quot;</span></span> + Amount + <span class="string"><span class="delimiter">&quot;</span><span class="content"> !</span><span class="delimiter">&quot;</span></span>);
+  AM = <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>;
+} <span class="keyword">else</span> {
+  AM = Math.round(parseFloat(Amount)*<span class="integer">100</span>);
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="entity">&amp;lt;</span>form method='post' action='<span class="comment">&lt;?php echo $submiturl;?&gt;</span>' id='ideal_form' name='ideal_form'<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>script type=&quot;text/javascript&quot;<span class="error">&gt;</span>
+document.write(&quot;<span class="tag">&lt;input</span> <span class="attribute-name">type</span>=<span class="error">\</span><span class="string"><span class="delimiter">&quot;</span><span class="content">hidden\</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">NAME</span>=<span class="error">\</span><span class="string"><span class="delimiter">&quot;</span><span class="content">PSPID\</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="error">\</span><span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span> <span class="error">+</span> <span class="attribute-name">PSPID</span> <span class="error">+</span> <span class="error">&quot;</span><span class="error">\</span><span class="error">&quot;</span> <span class="tag">/&gt;</span>&quot;);
+document.write(&quot;<span class="tag">&lt;input</span> <span class="attribute-name">type</span>=<span class="error">\</span><span class="string"><span class="delimiter">&quot;</span><span class="content">hidden\</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">NAME</span>=<span class="error">\</span><span class="string"><span class="delimiter">&quot;</span><span class="content">amount\</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="error">\</span><span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span> <span class="error">+</span> <span class="attribute-name">AM</span> <span class="error">+</span> <span class="error">&quot;</span><span class="error">\</span><span class="error">&quot;</span> <span class="tag">/&gt;</span>&quot;);
+<span class="entity">&amp;lt;</span>/script<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>INPUT TYPE=&quot;hidden&quot; NAME=&quot;SHASign&quot; VALUE=&quot;4FF8C2FB03B0AA45EA5DE9503AEACB6B603DCFCC&quot;<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>input type=&quot;hidden&quot; NAME=&quot;orderID&quot; value=&quot;<span class="comment">&lt;?php echo $purchase_log[0]['id'];?&gt;</span>&quot; /<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>input type=&quot;hidden&quot; name=&quot;currency&quot; value=&quot;<span class="comment">&lt;?php echo get_option('ideal_currency');?&gt;</span>&quot; /<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>input type=&quot;hidden&quot; name=&quot;language&quot; value=&quot;<span class="comment">&lt;?php echo get_option('ideal_language');?&gt;</span>&quot; /<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>input type=&quot;hidden&quot; name=&quot;accepturl&quot; value=&quot;<span class="comment">&lt;?php echo get_option('product_list_url');?&gt;</span>&quot;<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>input type=&quot;hidden&quot; name=&quot;cancelurl&quot; value=&quot;<span class="comment">&lt;?php echo get_option('shopping_cart_url');?&gt;</span>&quot;<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>!--customer information starts--<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>input type=&quot;hidden&quot; name=&quot;CN&quot; value=&quot;<span class="comment">&lt;?=$name;?&gt;</span>&quot;<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>input type=&quot;hidden&quot; name=&quot;EMAIL&quot; value=&quot;<span class="comment">&lt;?=$email;?&gt;</span>&quot;<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>input type=&quot;hidden&quot; name=&quot;ownerZIP&quot; value=&quot;<span class="comment">&lt;?=$postcode;?&gt;</span>&quot;<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>input type=&quot;hidden&quot; name=&quot;owneraddress&quot; value=&quot;<span class="comment">&lt;?=$address;?&gt;</span>&quot;<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>input type=&quot;hidden&quot; name=&quot;ownercty&quot; value=&quot;<span class="comment">&lt;?=$country;?&gt;</span>&quot;<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>input type=&quot;hidden&quot; name=&quot;ownertown&quot; value=&quot;<span class="comment">&lt;?=$city;?&gt;</span>&quot;<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>input type=&quot;hidden&quot; name=&quot;ownertelno&quot; value=&quot;<span class="comment">&lt;?=$phone;?&gt;</span>&quot;<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>!--customer information ends--<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>input type=&quot;hidden&quot; name=&quot;PM&quot; value=&quot;iDEAL&quot; /<span class="error">&gt;</span>
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>I didn’t really understand why some values were written by JavaScript. So i removed the JavaScript lines and added the fields to the form. And after adding the hash function statement it looks like this.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="entity">&amp;lt;</span>form method='post' action='<span class="comment">&lt;?php echo $submiturl;?&gt;</span>' id='ideal_form' name='ideal_form'<span class="error">&gt;</span>
+
+<span class="entity">&amp;lt;</span>input type=&quot;hidden&quot; NAME=&quot;PSPID&quot; value=&quot;<span class="comment">&lt;?php echo get_option('ideal_id');?&gt;</span>&quot; /<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>input type=&quot;hidden&quot; NAME=&quot;orderID&quot; value=&quot;<span class="comment">&lt;?php echo $purchase_log[0]['id'];?&gt;</span>&quot; /<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>input type=&quot;hidden&quot; NAME=&quot;amount&quot; value=&quot;<span class="comment">&lt;?php echo ($amount*100); ?&gt;</span>&quot; /<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>input type=&quot;hidden&quot; name=&quot;currency&quot; value=&quot;<span class="comment">&lt;?php echo get_option('ideal_currency');?&gt;</span>&quot; /<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>input type=&quot;hidden&quot; name=&quot;language&quot; value=&quot;<span class="comment">&lt;?php echo get_option('ideal_language');?&gt;</span>&quot; /<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>input type=&quot;hidden&quot; name=&quot;accepturl&quot; value=&quot;<span class="comment">&lt;?php echo get_option('product_list_url');?&gt;</span>&quot;<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>input type=&quot;hidden&quot; name=&quot;cancelurl&quot; value=&quot;<span class="comment">&lt;?php echo get_option('shopping_cart_url');?&gt;</span>&quot;<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>!--customer information starts--<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>input type=&quot;hidden&quot; name=&quot;CN&quot; value=&quot;<span class="comment">&lt;?=$name;?&gt;</span>&quot;<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>input type=&quot;hidden&quot; name=&quot;EMAIL&quot; value=&quot;<span class="comment">&lt;?=$email;?&gt;</span>&quot;<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>input type=&quot;hidden&quot; name=&quot;ownerZIP&quot; value=&quot;<span class="comment">&lt;?=$postcode;?&gt;</span>&quot;<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>input type=&quot;hidden&quot; name=&quot;owneraddress&quot; value=&quot;<span class="comment">&lt;?=$address;?&gt;</span>&quot;<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>input type=&quot;hidden&quot; name=&quot;ownercty&quot; value=&quot;<span class="comment">&lt;?=$country;?&gt;</span>&quot;<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>input type=&quot;hidden&quot; name=&quot;ownertown&quot; value=&quot;<span class="comment">&lt;?=$city;?&gt;</span>&quot;<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>input type=&quot;hidden&quot; name=&quot;ownertelno&quot; value=&quot;<span class="comment">&lt;?=$phone;?&gt;</span>&quot;<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>!--customer information ends--<span class="error">&gt;</span>
+<span class="entity">&amp;lt;</span>input type=&quot;hidden&quot; name=&quot;PM&quot; value=&quot;iDEAL&quot; /<span class="error">&gt;</span>
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="predefined">echo</span> createSHA1Hash(<span class="predefined">array</span>(
+  <span class="local-variable">$purchase_log</span>[<span class="integer">0</span>][<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span>],
+  (<span class="local-variable">$amount</span>*<span class="integer">100</span>),
+  get_option(<span class="string"><span class="delimiter">'</span><span class="content">ideal_currency</span><span class="delimiter">'</span></span>),
+  get_option(<span class="string"><span class="delimiter">'</span><span class="content">ideal_id</span><span class="delimiter">'</span></span>),
+  <span class="string"><span class="delimiter">'</span><span class="content">[SHA1-IN-HASH]</span><span class="delimiter">'</span></span>
+));
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>The function i can be placed anywhere in the page. Or a include file. Here’s the code. The only thing that has to be done is replace <strong>[SHA1-IN-HASH]</strong> with the Hash configured in the bank’s ideal admin.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre> 
+<span class="keyword">function</span> <span class="function">createSHA1Hash</span>(<span class="local-variable">$hashOptions</span>) {
+  <span class="local-variable">$str</span> = <span class="predefined">implode</span>(<span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>, <span class="local-variable">$hashOptions</span>);
+
+  <span class="keyword">return</span> <span class="string"><span class="delimiter">'</span><span class="content">&lt;input name=&quot;SHASign&quot; type=&quot;hidden&quot; value=&quot;</span><span class="delimiter">'</span></span> . <span class="predefined">sha1</span>(<span class="local-variable">$str</span>) . <span class="string"><span class="delimiter">'</span><span class="content">&quot; /&gt;</span><span class="delimiter">'</span></span>;
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>While doing some searches i noticed there are more people having issues with this plug-in. So maybe this will save somebody a bit of time.</p>
 </div>
   
   
