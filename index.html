@@ -1127,18 +1127,24 @@ mysql_options(&amp;mysql;, <span class="constant">MYSQL_OPT_RECONNECT</span>, &a
 <p>Apparently the bug that causes these crashes is fixed in 12.10. But the changes will only be backported when 12.10 is released. So that leaves me in quite a pickle. But according to the thread. Upgrading the kernel should do the trick. So that’s exactly what i did. The kernel packages i used can be found here <a href="http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/">http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/</a></p>
 
 <blockquote>
-  <p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-headers-3.4.0-030400<em>3.4.0-030400.201205210521_all.deb 
-$ sudo dpkg -i linux-headers-3.4.0-030400</em>3.4.0-030400.201205210521_all.deb</p>
+  <ul>
+    <li>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-headers-3.4.0-030400_3.4.0-030400.201205210521_all.deb </li>
+    <li>$ sudo dpkg -i linux-headers-3.4.0-030400_3.4.0-030400.201205210521_all.deb</li>
+  </ul>
 </blockquote>
 
 <blockquote>
-  <p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-headers-3.4.0-030400-generic<em>3.4.0-030400.201205210521_amd64.deb
-$ sudo dpkg -i linux-headers-3.4.0-030400-generic</em>3.4.0-030400.201205210521_amd64.deb</p>
+  <ul>
+    <li>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-headers-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb</li>
+    <li>$ sudo dpkg -i linux-headers-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb</li>
+  </ul>
 </blockquote>
 
 <blockquote>
-  <p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-image-3.4.0-030400-generic<em>3.4.0-030400.201205210521_amd64.deb
-$ sudo dpkg -i linux-image-3.4.0-030400-generic</em>3.4.0-030400.201205210521_amd64.deb</p>
+  <ul>
+    <li>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-image-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb</li>
+    <li>$ sudo dpkg -i linux-image-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb</li>
+  </ul>
 </blockquote>
 
 <p>This comes with a downside of course. All modules compiled for the current kernel need to be recompiled. And i haven’t figured out how to rebuild all of them at once. So i just ran the command below for <a href="https://www.virtualbox.org/">VirtualBox</a> and the <a href="http://www.nvidia.com">NVidia</a> drivers.</p>
@@ -1309,9 +1315,11 @@ patching file formatting.php</p>
 <p>O well. My first idea was to just drop the database that i wanted to use for testing. But due to no space available on the system. I could not drop it. I really couldn’t do anything on the system. Even writing config files failed. So where did all the disk space go?</p>
 
 <blockquote>
-  <p>$ df -h
-Filesystem            Size    Used    Avail    Use%    Mounted on
-/dev/mapper/debian-605-root    10G    9.8G    0.2G    99%    /</p>
+  <ul>
+    <li>$ df -h</li>
+    <li>Filesystem            Size    Used    Avail    Use%    Mounted on</li>
+    <li>/dev/mapper/debian-605-root    10G    9.8G    0.2G    99%    /</li>
+  </ul>
 </blockquote>
 
 <p>That’s really not that much space left. And /var/mysql/ibdata1 for the <a href="http://www.innodb.com/">InnoDB</a> tables was taking up 7 GB. And since i have a couple of InnoDB tables i can’t just delete this file. So need to come up with something else. And after a bit of Googling. I came across <a href="http://jjperezaguinaga.wordpress.com/2012/04/03/a-happy-ending-story-with-vagrant-resizing-a-lucid32-vmdk-box/">this</a> post. Which seemed promising. But the most important part is left out. And instead linked to some horrible garbled page. That is completely unreadable. So i had to do some digging to figure this out on my own. For cloning the disks i followed the steps in the article however. The Virtual Box files are located in the user folder in the following path</p>
@@ -1349,97 +1357,141 @@ Filesystem            Size    Used    Avail    Use%    Mounted on
 <p>When the partition table has been written. It’s time to create a new physical volume on the new partition with the help of <a href="http://linux.about.com/library/cmd/blcmdl8_pvcreate.htm">pvcreate</a></p>
 
 <blockquote>
-  <p>$ pvcreate /dev/sda3
-  successfully created</p>
+  <ul>
+    <li>$ pvcreate /dev/sda3
+      <ul>
+        <li>successfully created</li>
+      </ul>
+    </li>
+  </ul>
 </blockquote>
 
 <p>For the next steps we will be needing the Volume Group name. We will get this by running <a href="http://linux.about.com/library/cmd/blcmdl8_pvdisplay.htm">pvdisplay</a></p>
 
 <blockquote>
-  <p>$ pvdisplay | grep “VG Name”
- VG Name    debian-605</p>
+  <ul>
+    <li>
+      <table>
+        <tbody>
+          <tr>
+            <td>$ pvdisplay</td>
+            <td>grep “VG Name”</td>
+          </tr>
+        </tbody>
+      </table>
+    </li>
+    <li>VG Name    debian-605</li>
+  </ul>
 </blockquote>
 
 <p>So now we have all the bits ready. And its time to extend the root partition with the newly created partition.</p>
 
 <blockquote>
-  <p>$ vgextend debian-605 /dev/sda3
- Volume group “debian-605” successfully extended</p>
+  <ul>
+    <li>$ vgextend debian-605 /dev/sda3</li>
+    <li>Volume group “debian-605” successfully extended</li>
+  </ul>
 </blockquote>
 
 <p>Awesome! next step extending the logical partition</p>
 
 <blockquote>
-  <p>$ lvextend /dev/debian-605/root /dev/sda3
- Extending logical volume root to 18.84 GiB
- Logical volume root successfully resized</p>
+  <ul>
+    <li>$ lvextend /dev/debian-605/root /dev/sda3</li>
+    <li>Extending logical volume root to 18.84 GiB</li>
+    <li>Logical volume root successfully resized</li>
+  </ul>
 </blockquote>
 
 <p>Almost there. The last thing left to do is resize the filesystem to make all space available.</p>
 
 <blockquote>
-  <p>$ resize2fs /dev/debian-605/root
- resize2fs 1.41.12 (17-May-2010)
-Filesystem at /dev/debian-605/root is mounted on /; on-line resizing required old desc_blocks = 1, new_desc_blocks = 2
-Performing an on-line resize of /dev/debian-605/root to 4937728 (4k) blocks.
-The filesystem on /dev/debian-605/root is now 4937728 blocks long.</p>
+  <ul>
+    <li>$ resize2fs /dev/debian-605/root</li>
+    <li>resize2fs 1.41.12 (17-May-2010)</li>
+    <li>Filesystem at /dev/debian-605/root is mounted on /; on-line resizing required old desc_blocks = 1, new_desc_blocks = 2</li>
+    <li>Performing an on-line resize of /dev/debian-605/root to 4937728 (4k) blocks.</li>
+    <li>The filesystem on /dev/debian-605/root is now 4937728 blocks long.</li>
+  </ul>
 </blockquote>
 
 <p>It’s that simple really. So let’s check.</p>
 
 <blockquote>
-  <p>$ df -h
-Filesystem            Size    Used    Avail    Use%    Mounted on
-/dev/mapper/debian-605-root    19G    8.6G    9.1G    49%    /</p>
+  <ul>
+    <li>$ df -h</li>
+    <li>Filesystem            Size    Used    Avail    Use%    Mounted on</li>
+    <li>/dev/mapper/debian-605-root    19G    8.6G    9.1G    49%    /</li>
+  </ul>
 </blockquote>
 
 <p>After this i did not bother to convert the VDI image back to a VDMK image. But if you have to for some reason. You could do that with the commands below. And some manual editing of the VirtualBox xml config.</p>
 
 <blockquote>
-  <p>$ VBoxManage internalcommands sethduuid box-disk1.vdi
-$ VBoxManage clonehd box-disk1.vdi box-disk1.vmdk –format VMDK</p>
+  <ul>
+    <li>$ VBoxManage internalcommands sethduuid box-disk1.vdi</li>
+    <li>$ VBoxManage clonehd box-disk1.vdi box-disk1.vmdk –format VMDK</li>
+  </ul>
 </blockquote>
 
 <p>So that’s it really for resizing the Vagrant hard drive. The only thing left for me was to cleanup the large ibdata1 file. And setup Mysql to use separate ibdata files for InnoDB table.</p>
 
 <blockquote>
-  <p>$ vi /etc/mysql/my.cnf
-[mysqld]
-innodb_file_per_table</p>
+  <ul>
+    <li>$ vi /etc/mysql/my.cnf</li>
+    <li>[mysqld]</li>
+    <li>innodb_file_per_table</li>
+  </ul>
 </blockquote>
 
 <p>Restart Mysql and dump all needed databases except the system tables like (mysql, information_schema).</p>
 
 <blockquote>
-  <p>$ /etc/init.d/mysql restart
-$ echo ‘show databases;’ | mysql -uroot -p | grep -v ^Database$ | grep -v ^information_schema$ | grep -v ^mysql$ | xargs mysqldump -uroot -p  –databases &gt; dump.sql </p>
+  <ul>
+    <li>$ /etc/init.d/mysql restart</li>
+    <li>
+      <table>
+        <tbody>
+          <tr>
+            <td>$ echo ‘show databases;’</td>
+            <td>mysql -uroot -p</td>
+            <td>grep -v ^Database$</td>
+            <td>grep -v ^information_schema$</td>
+            <td>grep -v ^mysql$</td>
+            <td>xargs mysqldump -uroot -p  –databases &gt; dump.sql</td>
+          </tr>
+        </tbody>
+      </table>
+    </li>
+  </ul>
 </blockquote>
 
 <p>When that’s done. Drop all InnoDB database tables. Remove the ibdata and in_log files from /var/lib/mysql.</p>
 
 <blockquote>
-  <p>$ /etc/init.d/mysql stop
-$ rm /var/mysql/ibdata1* /var/mysql/ib_log*</p>
+  <ul>
+    <li>$ /etc/init.d/mysql stop</li>
+    <li>$ rm /var/mysql/ibdata1* /var/mysql/ib_log*</li>
+  </ul>
 </blockquote>
 
 <p>Now we restart Mysql. And reimport the databases.</p>
 
 <blockquote>
-  <p>$ /etc/init.d/mysql start
-$ mysql -uroot -p &lt; dump.sql</p>
+  <ul>
+    <li>$ /etc/init.d/mysql start</li>
+    <li>$ mysql -uroot -p &lt; dump.sql</li>
+  </ul>
 </blockquote>
 
-<p>Some of the resources i used for solving this issue:</p>
-
-<p>[1] <a href="http://www.turnkeylinux.org/blog/extending-lvm">http://www.turnkeylinux.org/blog/extending-lvm</a></p>
-
-<p>[2] <a href="http://unix.stackexchange.com/questions/37900/gparted-live-cd-cant-resize-a-partition">http://unix.stackexchange.com/questions/37900/gparted-live-cd-cant-resize-a-partition</a></p>
-
-<p>[3] <a href="http://www.my-guides.net/en/guides/general-software/122-how-to-resize-a-virtualbox-disk-partition">http://www.my-guides.net/en/guides/general-software/122-how-to-resize-a-virtualbox-disk-partition</a></p>
-
-<p>[4] <a href="http://www.virtualbox.org/manual/ch08.html#vboxmanage-modifyvdi">http://www.virtualbox.org/manual/ch08.html#vboxmanage-modifyvdi</a></p>
-
-<p>[5] <a href="http://stackoverflow.com/questions/3456159/how-to-shrink-purge-ibdata1-file-in-mysql">http://stackoverflow.com/questions/3456159/how-to-shrink-purge-ibdata1-file-in-mysql</a></p>
+<ul>
+  <li>Some of the resources i used for solving this issue:</li>
+  <li>[1] <a href="http://www.turnkeylinux.org/blog/extending-lvm">http://www.turnkeylinux.org/blog/extending-lvm</a></li>
+  <li>[2] <a href="http://unix.stackexchange.com/questions/37900/gparted-live-cd-cant-resize-a-partition">http://unix.stackexchange.com/questions/37900/gparted-live-cd-cant-resize-a-partition</a></li>
+  <li>[3] <a href="http://www.my-guides.net/en/guides/general-software/122-how-to-resize-a-virtualbox-disk-partition">http://www.my-guides.net/en/guides/general-software/122-how-to-resize-a-virtualbox-disk-partition</a></li>
+  <li>[4] <a href="http://www.virtualbox.org/manual/ch08.html#vboxmanage-modifyvdi">http://www.virtualbox.org/manual/ch08.html#vboxmanage-modifyvdi</a></li>
+  <li>[5] <a href="http://stackoverflow.com/questions/3456159/how-to-shrink-purge-ibdata1-file-in-mysql">http://stackoverflow.com/questions/3456159/how-to-shrink-purge-ibdata1-file-in-mysql</a></li>
+</ul>
 </div>
   
   
