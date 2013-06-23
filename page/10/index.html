@@ -73,19 +73,21 @@
   <div class="articletext"><p>Well the title says it all doesn’t it. Today at work i was checking my mail and noticed and email from <a href="http://rsa.com/">RSA security</a> with the subject line <strong>Fraudulent site, please shut down! [ING-NL 287] DOMAIN: lenss.nl</strong>. </p>
 
 <blockquote>
-  <p>RSA, an anti-fraud and security company, is under contract to assist ING
-Netherlands   in
-preventing or terminating online activity that targets, or may
-potentially target ING 
-Netherlands clients as potential fraud victims.</p>
+  <ul>
+    <li>RSA, an anti-fraud and security company, is under contract to assist ING</li>
+    <li>Netherlands   in</li>
+    <li>preventing or terminating online activity that targets, or may</li>
+    <li>potentially target ING </li>
+    <li>Netherlands clients as potential fraud victims.</li>
+    <li></li>
+    <li>RSA has been made aware that a domain name, which abuses ING Netherlands</li>
+    <li>trademark, has been registered with you. This domain</li>
+    <li>http://lenss.nl/bank/  not only violates ING Netherlands copyright,</li>
+    <li>trademarks and other intellectual property rights, but may also become a</li>
+    <li>host to a phishing attack, or other fraudulent scams against the bank</li>
+    <li>and the bank’s clients.</li>
+  </ul>
 </blockquote>
-
-<p>RSA has been made aware that a domain name, which abuses ING Netherlands
-trademark, has been registered with you. This domain
-http://lenss.nl/bank/  not only violates ING Netherlands copyright,
-trademarks and other intellectual property rights, but may also become a
-host to a phishing attack, or other fraudulent scams against the bank
-and the bank’s clients.</p>
 
 <p>A few minutes after this email an other email came in from <a href="http://openprovider.nl">openprovider</a>. These guys manage my domains. The notified me the domain was no moved to their DNS servers and was there for blocked.</p>
 
@@ -100,14 +102,16 @@ hoogte te stellen.</p>
 <p>When i was reading the email from RSA i was pretty shocked. But when reading the email from Openprovider i just got pissed. Why on earth would they disable my domain without doing any research in the matter. They should have contacted me before they took action. So i contacted the guys at RSA and explained the situation. They advised me to send them an email with the explanation. And so i did. They responded quite fast with the following message:</p>
 
 <blockquote>
-  <p>Thank you for your co-operation in this matter.
-The AFCC can confirm that the site in question had no malicious content,
-while it did seem suspicious because of its content, it being freely
-accessible and its vague purpose.
-The current solution and explanation suggested below by the website
-owner is satisfying and will likely prevent such confusions in the
-future. Therefore the AFCC has no objection whatsoever to bringing the
-site in question back up.</p>
+  <ul>
+    <li>Thank you for your co-operation in this matter.</li>
+    <li>The AFCC can confirm that the site in question had no malicious content,</li>
+    <li>while it did seem suspicious because of its content, it being freely</li>
+    <li>accessible and its vague purpose.</li>
+    <li>The current solution and explanation suggested below by the website</li>
+    <li>owner is satisfying and will likely prevent such confusions in the</li>
+    <li>future. Therefore the AFCC has no objection whatsoever to bringing the</li>
+    <li>site in question back up.</li>
+  </ul>
 </blockquote>
 
 <p>So the problem is solved i assumed. But an hour later my domain went offline. And i couldn’t get to my mailbox anymore. The domain was still running on the Openprovider DNS servers. So let’s give them a call i thought. But i guess today is just not my day. Their website was offline. And i couldn’t find any contact information. So i sat back and waited a bit. Didn’t really know what to do. After some time their site came back online. And i was able to find a phone number.</p>
@@ -117,40 +121,50 @@ site in question back up.</p>
 <p>While checking my log files i noticed the insane long scan on this web server…</p>
 
 <blockquote>
-  <p>82.81.26.105 - - [14/May/2009:04:16:12 -0400] “GET /bank/Scrisoare.txt HTTP/1.1” 301 314 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”
-82.81.26.105 - - [14/May/2009:04:16:13 -0400] “GET /bank/scan2.txt HTTP/1.1” 301 310 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”
-82.81.26.105 - - [14/May/2009:04:16:13 -0400] “GET /bank/aScprivate.txt HTTP/1.1” 301 315 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”
-82.81.26.105 - - [14/May/2009:04:16:14 -0400] “GET /bank/a.tgz HTTP/1.1” 301 306 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”
-82.81.26.105 - - [14/May/2009:04:16:14 -0400] “GET /bank/forums.zip HTTP/1.1” 301 311 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”</p>
+  <ul>
+    <li>82.81.26.105 - - [14/May/2009:04:16:12 -0400] “GET /bank/Scrisoare.txt HTTP/1.1” 301 314 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”</li>
+    <li>82.81.26.105 - - [14/May/2009:04:16:13 -0400] “GET /bank/scan2.txt HTTP/1.1” 301 310 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”</li>
+    <li>82.81.26.105 - - [14/May/2009:04:16:13 -0400] “GET /bank/aScprivate.txt HTTP/1.1” 301 315 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”</li>
+    <li>82.81.26.105 - - [14/May/2009:04:16:14 -0400] “GET /bank/a.tgz HTTP/1.1” 301 306 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”</li>
+    <li>82.81.26.105 - - [14/May/2009:04:16:14 -0400] “GET /bank/forums.zip HTTP/1.1” 301 311 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”</li>
+  </ul>
 </blockquote>
 
 <p>that just went on and on for several minutes. Which was done by some Israeli company?</p>
 
 <blockquote>
-  <p>82.81.26.105 - - [14/May/2009:04:21:44 -0400] “POST /bank/dom57.php HTTP/1.1” 301 310 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”
-82.81.26.105 - - [14/May/2009:04:21:45 -0400] “POST /bank/bl.php HTTP/1.1” 301 307 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”
-82.81.26.105 - - [14/May/2009:04:21:45 -0400] “POST /bank/people.php HTTP/1.1” 301 311 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”</p>
+  <ul>
+    <li>82.81.26.105 - - [14/May/2009:04:21:44 -0400] “POST /bank/dom57.php HTTP/1.1” 301 310 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”</li>
+    <li>82.81.26.105 - - [14/May/2009:04:21:45 -0400] “POST /bank/bl.php HTTP/1.1” 301 307 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”</li>
+    <li>82.81.26.105 - - [14/May/2009:04:21:45 -0400] “POST /bank/people.php HTTP/1.1” 301 311 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”</li>
+  </ul>
 </blockquote>
 
 <p>And a visit from the guys in Redmond.</p>
 
 <blockquote>
-  <p>131.107.0.114 - - [14/May/2009:04:20:59 -0400] “GET /bank HTTP/1.1” 301 300 “-“ “Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)”
-131.107.0.114 - - [14/May/2009:04:20:59 -0400] “GET /bank/ HTTP/1.1” 200 142 “-“ “Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)”</p>
+  <ul>
+    <li>131.107.0.114 - - [14/May/2009:04:20:59 -0400] “GET /bank HTTP/1.1” 301 300 “-“ “Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)”</li>
+    <li>131.107.0.114 - - [14/May/2009:04:20:59 -0400] “GET /bank/ HTTP/1.1” 200 142 “-“ “Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)”</li>
+  </ul>
 </blockquote>
 
 <p>My DSL provider..</p>
 
 <blockquote>
-  <p>82.93.147.119 - - [14/May/2009:04:25:23 -0400] “GET /bank HTTP/1.0” 301 300 “-“ “Wget/1.11.4”
-82.93.147.119 - - [14/May/2009:04:25:23 -0400] “GET /bank/ HTTP/1.0” 200 142 “-“ “Wget/1.11.4”</p>
+  <ul>
+    <li>82.93.147.119 - - [14/May/2009:04:25:23 -0400] “GET /bank HTTP/1.0” 301 300 “-“ “Wget/1.11.4”</li>
+    <li>82.93.147.119 - - [14/May/2009:04:25:23 -0400] “GET /bank/ HTTP/1.0” 200 142 “-“ “Wget/1.11.4”</li>
+  </ul>
 </blockquote>
 
 <p>My co-locator..</p>
 
 <blockquote>
-  <p>208.69.120.120 - - [14/May/2009:06:29:24 -0400] “GET /favicon.ico HTTP/1.1” 301 307 “-“ “Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.0.10) Gecko/2009042316 Firefox/3.0.10 (.NET CLR 3.5.30729)”
-208.69.120.120 - - [14/May/2009:06:29:24 -0400] “GET /favicon.ico/ HTTP/1.1” 404 20584 “-“ “Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.0.10) Gecko/2009042316 Firefox/3.0.10 (.NET CLR 3.5.30729)”</p>
+  <ul>
+    <li>208.69.120.120 - - [14/May/2009:06:29:24 -0400] “GET /favicon.ico HTTP/1.1” 301 307 “-“ “Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.0.10) Gecko/2009042316 Firefox/3.0.10 (.NET CLR 3.5.30729)”</li>
+    <li>208.69.120.120 - - [14/May/2009:06:29:24 -0400] “GET /favicon.ico/ HTTP/1.1” 404 20584 “-“ “Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.0.10) Gecko/2009042316 Firefox/3.0.10 (.NET CLR 3.5.30729)”</li>
+  </ul>
 </blockquote>
 
 <p>And probably some more. It’s amazing how fast things go.</p>
@@ -299,15 +313,16 @@ $ extension=mysqli.so</p>
 
 <p>So to add an extra panel to the desktop. Just right click on the main panel and choose “New Panel”.</p>
 
-<p>[<img src="http://lenss.nl/images/2009/04/gnome_movepanel_1.png" alt="gnome_movepanel_1](http://lenss.nl/images/2009/04/gnome_movepanel_1.png)" /></p>
+<p><img src="http://lenss.nl/images/2009/04/gnome_movepanel_1.png" /></p>
 
 <p>This will create a new panel at the bottom of the screen. When you right click this panel and ask for the properties. You can change the way the panel behaves. The expand checkbox is selected by default. So just uncheck it. And the bottom panel shrinks. The bottom panel now has two dotted areas on the left and right sight of the panel. Clicking and holding down these areas makes it possible to drag the panel across screens.</p>
 
-<p>[<img src="http://lenss.nl/images/2009/04/gnome_movepanel_3.png" alt="gnome_movepanel_3](http://lenss.nl/images/2009/04/gnome_movepanel_3-215x300.png)" /></p>
+<p><img src="http://lenss.nl/images/2009/04/gnome_movepanel_3-215x300.png" /></p>
 
 <p>When the panel is at the right location. Just drop it and check the expand box again. Which results to the image below.</p>
 
-<p>[<img src="http://lenss.nl/images/2009/04/gnome_movepanel_5.jpg" alt="gnome_movepanel_5](http://lenss.nl/images/2009/04/gnome_movepanel_5-300x93.jpg)" /></p>
+<p><img src="http://lenss.nl/images/2009/04/gnome_movepanel_5-300x93.jpg" /></p>
+
 </div>
   
   
