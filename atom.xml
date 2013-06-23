@@ -4,7 +4,7 @@
   <title><![CDATA[Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-06-23T13:14:55+02:00</updated>
+  <updated>2013-06-23T13:25:20+02:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -538,50 +538,54 @@ string(3) &quot;baz&quot;
 
 <p>The only thing left to do is write some code to process the incoming data. To get you started. Some of the code i used while testing this is posted below</p>
 
-<pre><code>Class GoogleReaderShare
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>GoogleReaderShare class </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">Class</span> <span class="constant">GoogleReaderShare</span>
 {
-	const GOOGLE_REMOTE_IP = '95.97.54.3';
-	
-	const GOOGLE_REFERER = 'http://www.google.nl/reader/view/';
-	
-	protected static $_whitelist = array('source', 'title', 'url', 'short');
-	
-	public static function CheckSource($remoteAddr, $referer) 
-	{
-		if (($remoteAddr == self::GOOGLE_REMOTE_IP) 
-				&amp;&amp; ($referer == self::GOOGLE_REFERER)) {
-			return true;
-		}
-		return false;
-	}
-	
-	protected static function _CheckIncomingData($data)
-	{
-		if (!is_array($data)) {
-			return false;
-		}
-			
-		foreach ($data as $key =&gt; $value) {
-			if (!in_array($key, self::$_whitelist)) {
-				return false;
-			}
-		}
-	}
-	
-	public static function Process($data) 
-	{
-		if (!self::_CheckIncomingData($data)) {
-			throw new Exception("Unrecognized or no incoming data");
-		}
-		
-		// process the data
-	}
-}
-
-if (GoogleReaderShare::CheckSource($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_REFERER'])) {
-	GoogleReaderShare::Process($_GET);
-}
-</code></pre>
+  <span class="keyword">const</span> <span class="constant">GOOGLE_REMOTE_IP</span> = <span class="string"><span class="delimiter">'</span><span class="content">95.97.54.3</span><span class="delimiter">'</span></span>;
+            
+  <span class="keyword">const</span> <span class="constant">GOOGLE_REFERER</span> = <span class="string"><span class="delimiter">'</span><span class="content">http://www.google.nl/reader/view/</span><span class="delimiter">'</span></span>;
+            
+  <span class="keyword">protected</span> <span class="keyword">static</span> <span class="local-variable">$_whitelist</span> = <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">source</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">title</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">url</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">short</span><span class="delimiter">'</span></span>);
+            
+  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">function</span> <span class="function">CheckSource</span>(<span class="local-variable">$remoteAddr</span>, <span class="local-variable">$referer</span>) 
+  {
+    <span class="keyword">if</span> ((<span class="local-variable">$remoteAddr</span> == <span class="predefined-constant">self</span>::<span class="constant">GOOGLE_REMOTE_IP</span>) 
+        &amp;&amp; (<span class="local-variable">$referer</span> == <span class="predefined-constant">self</span>::<span class="constant">GOOGLE_REFERER</span>)) {
+      <span class="keyword">return</span> <span class="predefined-constant">true</span>;
+    }
+    <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+  }
+            
+  <span class="keyword">protected</span> <span class="keyword">static</span> <span class="keyword">function</span> <span class="function">_CheckIncomingData</span>(<span class="local-variable">$data</span>)
+  {
+    <span class="keyword">if</span> (!<span class="predefined">is_array</span>(<span class="local-variable">$data</span>)) {
+      <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+    }
+                            
+    <span class="keyword">foreach</span> (<span class="local-variable">$data</span> <span class="keyword">as</span> <span class="local-variable">$key</span> =&gt; <span class="local-variable">$value</span>) {
+      <span class="keyword">if</span> (!<span class="predefined">in_array</span>(<span class="local-variable">$key</span>, <span class="predefined-constant">self</span>::<span class="local-variable">$_whitelist</span>)) {
+        <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+      }
+    }
+  }
+            
+  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">function</span> <span class="function">Process</span>(<span class="local-variable">$data</span>) 
+  {
+    <span class="keyword">if</span> (!<span class="predefined-constant">self</span>::_CheckIncomingData(<span class="local-variable">$data</span>)) {
+      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="predefined-constant">Exception</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Unrecognized or no incoming data</span><span class="delimiter">&quot;</span></span>);
+    }
+                    
+    <span class="comment">// process the data</span>
+  }
+ 
+  <span class="keyword">if</span> (<span class="constant">GoogleReaderShare</span>::<span class="constant">CheckSource</span>(<span class="predefined">$_SERVER</span>[<span class="string"><span class="delimiter">'</span><span class="content">REMOTE_ADDR</span><span class="delimiter">'</span></span>], <span class="predefined">$_SERVER</span>[<span class="string"><span class="delimiter">'</span><span class="content">HTTP_REFERER</span><span class="delimiter">'</span></span>])) {
+    <span class="constant">GoogleReaderShare</span>::<span class="constant">Process</span>(<span class="predefined">$_GET</span>);
+  }
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 ]]></content>
   </entry>
@@ -607,15 +611,23 @@ if (GoogleReaderShare::CheckSource($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_REFER
 
 <p>Unfortunately i am working with PHP’s core mysql_* functions (don’t get me started) and there doesn’t seem to be an easy way to resolve this. According to the MySQL documentation</p>
 
-<pre><code>mysql_options(&amp;mysql;, MYSQL_OPT_RECONNECT, &amp;reconnect;);
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+mysql_options(&amp;mysql;, <span class="constant">MYSQL_OPT_RECONNECT</span>, &amp;reconnect;);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
-<p>Should do the trick. But passing <strong>MYSQL_OPT_RECONNECT</strong> in anyway to <a href="http://php.net/mysql_connect">mysql_connect</a> didn’t result in the result i was looking for. So what now? Porting the database code to make use of the newer and better PDO or MySQLi is no option. As it would consume way to much time. Fortunately the mysql_* core functions come with mysql_ping. I never had to use this before. But in this case it comes in quite handy.</p>
+<p>Should do the trick. But passing <strong>MYSQL_OPT_RECONNECT</strong> in anyway to <a href="http://php.net/mysql_connect">mysql_connect</a> didn’t give me the result i was looking for. So what now? Porting the database code to make use of the newer and better PDO or MySQLi is no option. As it would consume way to much time. Fortunately the mysql_* core functions come with mysql_ping. I never had to use this before. But in this case it comes in quite handy.</p>
 
 <p><strong>From the PHP manual:</strong></p>
 
-<pre><code>bool mysql_ping ([ resource $link_identifier = NULL ] )
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="predefined-type">bool</span> mysql_ping ([ <span class="predefined-type">resource</span> <span class="local-variable">$link_identifier</span> = <span class="predefined-constant">NULL</span> ] )
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <blockquote>
   <p>Checks whether or not the connection to the server is working. If it has gone down, an automatic reconnection is attempted. This function can be used by scripts that remain idle for a long while, to check whether or not the server has closed the connection and reconnect if necessary.</p>
@@ -626,35 +638,51 @@ if (GoogleReaderShare::CheckSource($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_REFER
 
 <p>Adding the mysql_ping function call was rather straight forward. And didn’t require all that much work to be done. I extended the database class to include a ping method. That would simply throw an exception when it failed to reconnect. </p>
 
-<pre><code>public function ping()
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>MySQL ping function </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">public</span> <span class="keyword">function</span> <span class="function">ping</span>()
 {
-    if (!mysql_ping($this-&gt;db_connect_id)) {
-        throw new Mollie_Database_Exception("Connection was lost");
-    }	
-    return true;
+  <span class="keyword">if</span> (!mysql_ping(<span class="local-variable">$this</span>-&gt;db_connect_id)) {
+    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="constant">Mollie_Database_Exception</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Connection was lost</span><span class="delimiter">&quot;</span></span>);
+  }        
+  <span class="keyword">return</span> <span class="predefined-constant">true</span>;
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>And after that i started poking around the userland implementation. The worker is running inside a <strong>while(true)</strong> loop. A first test with <strong>-&gt;ping()</strong> being called inside this loop proved to resolve the issue at hand. But running the ping function that often is overkill. And who knows it might actually result in <strong>DoS</strong> of the database server. So i decided to ping the server every one minute or so.</p>
 
-<pre><code>$start = time();
-while (true) 
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Keep the connection alive </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$start</span> = <span class="predefined">time</span>();
+<span class="keyword">while</span> (<span class="predefined-constant">true</span>) 
 {
-    $this-&gt;_keepConnectionAlive($start);
-</code></pre>
+  <span class="local-variable">$this</span>-&gt;_keepConnectionAlive(<span class="local-variable">$start</span>);
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>And the keepConnectionAlive method looks something like this</p>
 
-<pre><code>protected function _keepConnectionAlive(&amp;$start)
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>keepConnectionAlive method </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">protected</span> <span class="keyword">function</span> <span class="function">_keepConnectionAlive</span>(&amp;<span class="local-variable">$start</span>)
 {
-    $passed = (time() - $start);
-    if ($passed &gt; 60)
-    {
-        $start = time();
-        $this-&gt;_db-&gt;ping();
-    }
+  <span class="local-variable">$passed</span> = (<span class="predefined">time</span>() - <span class="local-variable">$start</span>);
+  <span class="keyword">if</span> (<span class="local-variable">$passed</span> &gt; <span class="integer">60</span>)
+  {
+    <span class="local-variable">$start</span> = <span class="predefined">time</span>();
+    <span class="local-variable">$this</span>-&gt;_db-&gt;ping();
+  }
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>I’m not a big fan of this solution. And would rather be implementing MySQLi functions. But this functions well. And will do for now.</p>
 ]]></content>

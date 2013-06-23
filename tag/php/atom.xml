@@ -4,7 +4,7 @@
   <title><![CDATA[Category: PHP | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/php/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-06-23T13:14:55+02:00</updated>
+  <updated>2013-06-23T13:25:20+02:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -538,51 +538,54 @@ string(3) “baz”
 
 <p>The only thing left to do is write some code to process the incoming data. To get you started. Some of the code i used while testing this is posted below</p>
 
-<pre><code>Class GoogleReaderShare
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>GoogleReaderShare class </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+Class GoogleReaderShare
 {
-	const GOOGLE_REMOTE_IP = '95.97.54.3';
-	
-	const GOOGLE_REFERER = 'http://www.google.nl/reader/view/';
-	
-	protected static $_whitelist = array('source', 'title', 'url', 'short');
-	
-	public static function CheckSource($remoteAddr, $referer) 
-	{
-		if (($remoteAddr == self::GOOGLE_REMOTE_IP) 
-				&amp;&amp; ($referer == self::GOOGLE_REFERER)) {
-			return true;
-		}
-		return false;
-	}
-	
-	protected static function _CheckIncomingData($data)
-	{
-		if (!is_array($data)) {
-			return false;
-		}
-			
-		foreach ($data as $key =&gt; $value) {
-			if (!in_array($key, self::$_whitelist)) {
-				return false;
-			}
-		}
-	}
-	
-	public static function Process($data) 
-	{
-		if (!self::_CheckIncomingData($data)) {
-			throw new Exception("Unrecognized or no incoming data");
-		}
-		
-		// process the data
-	}
-}
+  const GOOGLE_REMOTE_IP = ‘95.97.54.3’;<span class="tag">&lt;/p&gt;</span>
 
-if (GoogleReaderShare::CheckSource($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_REFERER'])) {
-	GoogleReaderShare::Process($_GET);
-}
-</code></pre>
+<span class="tag">&lt;p&gt;</span>const GOOGLE_REFERER = ‘http://www.google.nl/reader/view/’;<span class="tag">&lt;/p&gt;</span>
 
+<span class="tag">&lt;p&gt;</span>protected static $_whitelist = array(‘source’, ‘title’, ‘url’, ‘short’);<span class="tag">&lt;/p&gt;</span>
+
+<span class="tag">&lt;p&gt;</span>public static function CheckSource($remoteAddr, $referer) 
+  {
+    if (($remoteAddr == self::GOOGLE_REMOTE_IP) 
+        <span class="entity">&amp;amp;</span><span class="entity">&amp;amp;</span> ($referer == self::GOOGLE_REFERER)) {
+      return true;
+    }
+    return false;
+  }<span class="tag">&lt;/p&gt;</span>
+
+<span class="tag">&lt;p&gt;</span>protected static function _CheckIncomingData($data)
+  {
+    if (!is_array($data)) {
+      return false;
+    }<span class="tag">&lt;/p&gt;</span>
+
+<span class="tag">&lt;pre&gt;</span><span class="tag">&lt;code&gt;</span>foreach ($data as $key =<span class="entity">&amp;gt;</span> $value) {
+  if (!in_array($key, self::$_whitelist)) {
+    return false;
+  }
+}   }
+<span class="tag">&lt;/code&gt;</span><span class="tag">&lt;/pre&gt;</span>
+
+<span class="tag">&lt;p&gt;</span>public static function Process($data) 
+  {
+    if (!self::_CheckIncomingData($data)) {
+      throw new Exception(“Unrecognized or no incoming data”);
+    }<span class="tag">&lt;/p&gt;</span>
+
+<span class="tag">&lt;pre&gt;</span><span class="tag">&lt;code&gt;</span>// process the data   }
+<span class="tag">&lt;/code&gt;</span><span class="tag">&lt;/pre&gt;</span>
+
+<span class="tag">&lt;p&gt;</span>if (GoogleReaderShare::CheckSource($_SERVER[‘REMOTE_ADDR’], $_SERVER[‘HTTP_REFERER’])) {
+    GoogleReaderShare::Process($_GET);
+  }
+</pre></div>
+</div>
+ </figure></notextile></div> </p>
 ]]></content>
   </entry>
   
