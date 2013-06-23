@@ -69,16 +69,24 @@
 
 <div class="articletext"><p>Last week i got this error while doing some coding with a new library. And at first i didn’t quite get what was causing this. The line in question looked like</p>
 
-<pre><code>$url = reset($file-&gt;getPaths());
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$url</span> = <span class="predefined">reset</span>(<span class="local-variable">$file</span>-&gt;getPaths());
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>So how can that throw an error like “Only variables should be passed by reference” you might ask? Well as it turns out to be. PHP functions don’t like arguments returned from another function. As with this case. The -&gt;getPaths() method holds a reference to the returned array. Which it shouldn’t but that’s another thing.</p>
 
 <p>So i guess from now i will doing the thing below. Or check for references beforehand!</p>
 
-<pre><code>$paths = $file-&gt;getPaths();
-$url = reset($paths);
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$paths</span> = <span class="local-variable">$file</span>-&gt;getPaths();
+<span class="local-variable">$url</span> = <span class="predefined">reset</span>(<span class="local-variable">$paths</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 </div>
 

@@ -118,34 +118,43 @@ tcp        0      0 xxx.xxx.xxx.xx:20       69.162.80.62:20         ESTABLISHED<
 
 <p>The first bot. And the one i was informed about.</p>
 
-<pre><code>var $config = array("server"=&gt;"antesedepois.servegame.com",^M
-                     "port"=&gt;20,^M
-                     "pass"=&gt;"depois",^M
-                     "prefix"=&gt;"depois",^M
-                     "maxrand"=&gt;8,^M
-                     "chan"=&gt;"#depoiswp",^M
-                     "key"=&gt;"",^M
-                     "modes"=&gt;"+iB-x",^M
-                     "password"=&gt;"depois",^M
-                     "trigger"=&gt;".",^M
-                     "hostauth"=&gt;"*" // * for any hostname^M
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+var $config = array(&quot;server&quot;=&gt;&quot;antesedepois.servegame.com&quot;,^M
+  &quot;port&quot;=&gt;20,^M
+  &quot;pass&quot;=&gt;&quot;depois&quot;,^M
+  &quot;prefix&quot;=&gt;&quot;depois&quot;,^M
+  &quot;maxrand&quot;=&gt;8,^M
+  &quot;chan&quot;=&gt;&quot;#depoiswp&quot;,^M
+  &quot;key&quot;=&gt;&quot;&quot;,^M
+  &quot;modes&quot;=&gt;&quot;+iB-x&quot;,^M
+  &quot;password&quot;=&gt;&quot;depois&quot;,^M
+  &quot;trigger&quot;=&gt;&quot;.&quot;,^M
+  &quot;hostauth&quot;=&gt;&quot;*&quot; // * for any hostname^M
+);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>And the second one</p>
 
-<pre><code>var $config = array("server"=&gt;"58.225.75.155",
-                     "port"=&gt;9999,
-                     "pass"=&gt;"",
-                     "prefix"=&gt;"animal",
-                     "maxrand"=&gt;8,
-                     "chan"=&gt;"#animal",
-                     "key"=&gt;"",
-                     "modes"=&gt;"+iB-x",
-                     "password"=&gt;"oishi",
-                     "trigger"=&gt;".",
-                     "hostauth"=&gt;"*!*@The.Black.Cat" // * for any hostname
-                     );
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+var $config = array(&quot;server&quot;=&gt;&quot;58.225.75.155&quot;,
+  &quot;port&quot;=&gt;9999,
+  &quot;pass&quot;=&gt;&quot;&quot;,
+  &quot;prefix&quot;=&gt;&quot;animal&quot;,
+  &quot;maxrand&quot;=&gt;8,
+  &quot;chan&quot;=&gt;&quot;#animal&quot;,
+  &quot;key&quot;=&gt;&quot;&quot;,
+  &quot;modes&quot;=&gt;&quot;+iB-x&quot;,
+  &quot;password&quot;=&gt;&quot;oishi&quot;,
+  &quot;trigger&quot;=&gt;&quot;.&quot;,
+  &quot;hostauth&quot;=&gt;&quot;*!*@The.Black.Cat&quot; // * for any hostname
+);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Notice the <strong>^M</strong> characters at the end. Seems like somebody is using windows. So now we have login details for two C&amp;C; servers. Why not take a look. </p>
 
@@ -180,14 +189,19 @@ tcp        0      0 xxx.xxx.xxx.xx:20       69.162.80.62:20         ESTABLISHED<
   <p>/list</p>
 </blockquote>
 
-<p><em>** Channel    Users  Topic
-**</em> #depoiswp  360    Entrou = Ban :)
-<em>** #grmteam   6    <br />
-**</em> #depoisSca 4      Entrou = Ban :)
-<em>** #depoisSca 4      Entrou = Ban :)
-**</em> #depoisVul 6      Entrou = Ban :)
-<em>** #rfi       3    <br />
-**</em> #sql       1  </p>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+*** Channel    Users  Topic
+*** #depoiswp  360    Entrou = Ban :)
+*** #grmteam   6      
+*** #depoisSca 4      Entrou = Ban :)
+*** #depoisSca 4      Entrou = Ban :)
+*** #depoisVul 6      Entrou = Ban :)
+*** #rfi       3      
+*** #sql       1  
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>I entered all of the channels and waited for a while. But no activity took place. The only really interested channel is #depoiswp. This is the channel where all the bots connect. At the time i logged in there were about 360 of them  available. I immediately recognized the log excerpt send to me by the NCSC.</p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Security | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/security/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-06-23T13:36:16+02:00</updated>
+  <updated>2013-06-23T13:41:08+02:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -69,34 +69,43 @@ tcp        0      0 xxx.xxx.xxx.xx:20       69.162.80.62:20         ESTABLISHED<
 
 <p>The first bot. And the one i was informed about.</p>
 
-<pre><code>var $config = array("server"=&gt;"antesedepois.servegame.com",^M
-                     "port"=&gt;20,^M
-                     "pass"=&gt;"depois",^M
-                     "prefix"=&gt;"depois",^M
-                     "maxrand"=&gt;8,^M
-                     "chan"=&gt;"#depoiswp",^M
-                     "key"=&gt;"",^M
-                     "modes"=&gt;"+iB-x",^M
-                     "password"=&gt;"depois",^M
-                     "trigger"=&gt;".",^M
-                     "hostauth"=&gt;"*" // * for any hostname^M
-</code></pre>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+var $config = array(“server”=&amp;gt;”antesedepois.servegame.com”,^M
+  “port”=&amp;gt;20,^M
+  “pass”=&amp;gt;”depois”,^M
+  “prefix”=&amp;gt;”depois”,^M
+  “maxrand”=&amp;gt;8,^M
+  “chan”=&amp;gt;”#depoiswp”,^M
+  “key”=&amp;gt;””,^M
+  “modes”=&amp;gt;”+iB-x”,^M
+  “password”=&amp;gt;”depois”,^M
+  “trigger”=&amp;gt;”.”,^M
+  “hostauth”=&amp;gt;”*” // * for any hostname^M
+);
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <p>And the second one</p>
 
-<pre><code>var $config = array("server"=&gt;"58.225.75.155",
-                     "port"=&gt;9999,
-                     "pass"=&gt;"",
-                     "prefix"=&gt;"animal",
-                     "maxrand"=&gt;8,
-                     "chan"=&gt;"#animal",
-                     "key"=&gt;"",
-                     "modes"=&gt;"+iB-x",
-                     "password"=&gt;"oishi",
-                     "trigger"=&gt;".",
-                     "hostauth"=&gt;"*!*@The.Black.Cat" // * for any hostname
-                     );
-</code></pre>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+var $config = array(“server”=&amp;gt;”58.225.75.155”,
+  “port”=&amp;gt;9999,
+  “pass”=&amp;gt;””,
+  “prefix”=&amp;gt;”animal”,
+  “maxrand”=&amp;gt;8,
+  “chan”=&amp;gt;”#animal”,
+  “key”=&amp;gt;””,
+  “modes”=&amp;gt;”+iB-x”,
+  “password”=&amp;gt;”oishi”,
+  “trigger”=&amp;gt;”.”,
+  “hostauth”=&amp;gt;”&lt;em&gt;!&lt;/em&gt;@The.Black.Cat” // * for any hostname
+);
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <p>Notice the <strong>^M</strong> characters at the end. Seems like somebody is using windows. So now we have login details for two C&amp;C; servers. Why not take a look. </p>
 
@@ -131,14 +140,19 @@ tcp        0      0 xxx.xxx.xxx.xx:20       69.162.80.62:20         ESTABLISHED<
   <p>/list</p>
 </blockquote>
 
-<p><em>** Channel    Users  Topic
-**</em> #depoiswp  360    Entrou = Ban :)
-<em>** #grmteam   6    <br />
-**</em> #depoisSca 4      Entrou = Ban :)
-<em>** #depoisSca 4      Entrou = Ban :)
-**</em> #depoisVul 6      Entrou = Ban :)
-<em>** #rfi       3    <br />
-**</em> #sql       1  </p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+&lt;em&gt;** Channel    Users  Topic
+**&lt;/em&gt; #depoiswp  360    Entrou = Ban :)
+&lt;em&gt;** #grmteam   6    &lt;br /&gt;
+**&lt;/em&gt; #depoisSca 4      Entrou = Ban :)
+&lt;em&gt;** #depoisSca 4      Entrou = Ban :)
+**&lt;/em&gt; #depoisVul 6      Entrou = Ban :)
+&lt;em&gt;** #rfi       3    &lt;br /&gt;
+**&lt;/em&gt; #sql       1&lt;br /&gt;
+</pre></div>
+</div>
+ </figure></notextile></div></p>
 
 <p>I entered all of the channels and waited for a while. But no activity took place. The only really interested channel is #depoiswp. This is the channel where all the bots connect. At the time i logged in there were about 360 of them  available. I immediately recognized the log excerpt send to me by the NCSC.</p>
 
