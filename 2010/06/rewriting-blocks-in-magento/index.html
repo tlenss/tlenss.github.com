@@ -87,18 +87,22 @@
 
 <p>And we add the following lines</p>
 
-<pre><code>&lt;config&gt;
-    &lt;modules&gt;
-        &lt;strawberries_core&gt;
-            &lt;active&gt;true&lt;/active&gt;
-            &lt;codepool&gt;local&lt;/codepool&gt;
-            &lt;depends&gt;
-                &lt;mage_core&gt;&lt;/mage_core&gt;
-            &lt;/depends&gt;
-        &lt;/strawberries_core&gt;
-    &lt;/modules&gt;
-&lt;/config&gt;
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="tag">&lt;config&gt;</span>
+  <span class="tag">&lt;modules&gt;</span>
+    <span class="tag">&lt;strawberries_core&gt;</span>
+      <span class="tag">&lt;active&gt;</span>true<span class="tag">&lt;/active&gt;</span>
+      <span class="tag">&lt;codepool&gt;</span>local<span class="tag">&lt;/codepool&gt;</span>
+      <span class="tag">&lt;depends&gt;</span>
+        <span class="tag">&lt;mage_core&gt;</span><span class="tag">&lt;/mage_core&gt;</span>
+          <span class="tag">&lt;/depends&gt;</span>
+      <span class="tag">&lt;/strawberries_core&gt;</span>
+  <span class="tag">&lt;/modules&gt;</span>
+<span class="tag">&lt;/config&gt;</span>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>This will tell Magento we have a Core folder under our own namespace. But it still depends on the Mage_Core classes if they are not available in the namespaced location.</p>
 
@@ -110,23 +114,26 @@
 
 <p>And we create a new config file here (config.xml) where we will do the actual class rewriting.</p>
 
-<pre><code>&lt;config&gt;
-    &lt;modules&gt;
-        &lt;[namespace]_Core&gt;
-            &lt;version&gt;0.1.0&lt;/version&gt;
-        
-    &lt;/modules&gt;
-    &lt;global&gt;
-        &lt;blocks&gt;
-        	&lt;adminhtml&gt;
-        		&lt;rewrite&gt;
-        			&lt;customer_edit_tabs&gt;[namespace]_Adminhtml_Block_Customer_Edit_Tabs&lt;/customer_edit_tabs&gt;
-        		&lt;/rewrite&gt;
-        	&lt;/adminhtml&gt;
-        &lt;/blocks&gt;
-    &lt;/global&gt;
-&lt;/config&gt;
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="tag">&lt;config&gt;</span>
+  <span class="tag">&lt;modules&gt;</span>
+    <span class="error">&lt;</span>[namespace]_Core<span class="error">&gt;</span>
+    <span class="tag">&lt;version&gt;</span>0.1.0<span class="tag">&lt;/version&gt;</span>
+  <span class="tag">&lt;/modules&gt;</span>
+<span class="tag">&lt;global&gt;</span>
+  <span class="tag">&lt;blocks&gt;</span>
+    <span class="tag">&lt;adminhtml&gt;</span>
+      <span class="tag">&lt;rewrite&gt;</span>
+        <span class="tag">&lt;customer_edit_tabs&gt;</span>[namespace]_Adminhtml_Block_Customer_Edit_Tabs<span class="tag">&lt;/customer_edit_tabs&gt;</span>
+      <span class="tag">&lt;/rewrite&gt;</span>
+    <span class="tag">&lt;/adminhtml&gt;</span>
+  <span class="tag">&lt;/blocks&gt;</span>
+<span class="tag">&lt;/global&gt;</span>
+<span class="tag">&lt;/config&gt;</span>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>We use the  tag to tell Magento we are rewriting a Block class. And then we setup the actual rewrite. </p>
 
@@ -140,21 +147,25 @@
   <p>app/code/local/[namespace]/Adminhtml/Block/Customer/Edit/Tabs.php</p>
 </blockquote>
 
-<pre><code>class [namespace]_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Customer_Edit_Tabs
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">class</span> [<span class="keyword">namespace</span>]_Adminhtml_Block_Customer_Edit_Tabs <span class="keyword">extends</span> <span class="constant">Mage_Adminhtml_Block_Customer_Edit_Tabs</span>
 {
-    protected function _beforeToHtml()
-    {
-	$this-&gt;addTab('modulename', array(
-            'label'     =&gt; Mage::helper('customer')-&gt;__('Modulename'),
-            'class'     =&gt; 'ajax',
-            'url'       =&gt; $this-&gt;getUrl('*/*/modulename', array('_current' =&gt; true)),
-        ));
-        
-        $this-&gt;_updateActiveTab();
-        return parent::_beforeToHtml();
-    }
+  <span class="keyword">protected</span> <span class="keyword">function</span> <span class="function">_beforeToHtml</span>()
+  {
+    <span class="local-variable">$this</span>-&gt;addTab(<span class="string"><span class="delimiter">'</span><span class="content">modulename</span><span class="delimiter">'</span></span>, <span class="predefined">array</span>(
+      <span class="string"><span class="delimiter">'</span><span class="content">label</span><span class="delimiter">'</span></span>     =&gt; <span class="constant">Mage</span>::helper(<span class="string"><span class="delimiter">'</span><span class="content">customer</span><span class="delimiter">'</span></span>)-&gt;__(<span class="string"><span class="delimiter">'</span><span class="content">Modulename</span><span class="delimiter">'</span></span>),
+      <span class="string"><span class="delimiter">'</span><span class="content">class</span><span class="delimiter">'</span></span>     =&gt; <span class="string"><span class="delimiter">'</span><span class="content">ajax</span><span class="delimiter">'</span></span>,
+      <span class="string"><span class="delimiter">'</span><span class="content">url</span><span class="delimiter">'</span></span>       =&gt; <span class="local-variable">$this</span>-&gt;getUrl(<span class="string"><span class="delimiter">'</span><span class="content">*/*/modulename</span><span class="delimiter">'</span></span>, <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">_current</span><span class="delimiter">'</span></span> =&gt; <span class="predefined-constant">true</span>)),
+    ));
+    
+    <span class="local-variable">$this</span>-&gt;_updateActiveTab();
+    <span class="keyword">return</span> <span class="predefined-constant">parent</span>::_beforeToHtml();
+  }
 }
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 </div>
 

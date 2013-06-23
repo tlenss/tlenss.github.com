@@ -69,27 +69,39 @@
 
 <div class="articletext"><p>When working in the admin environment of Magento i had to add a controller action that was called by an Ajax request. The problem however is that all layout data is returned as well when calling </p>
 
-<pre><code>$this-&gt;renderLayout();
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$this</span>-&gt;renderLayout();
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>from the controller. So my next attempt was to try to render the block separately and adding it to the layout. </p>
 
-<pre><code>$this-&gt;_initCustomer();
-$this-&gt;getResponse()-&gt;setBody(
-            $this-&gt;getLayout()-&gt;createBlock('block/location')
-            -&gt;setCustomerId(Mage::registry('current_customer')-&gt;getId())
-            -&gt;setData('list', $list)
-            -&gt;setUseAjax(true)
-            -&gt;toHtml()
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$this</span>-&gt;_initCustomer();
+<span class="local-variable">$this</span>-&gt;getResponse()-&gt;setBody(
+  <span class="local-variable">$this</span>-&gt;getLayout()-&gt;createBlock(<span class="string"><span class="delimiter">'</span><span class="content">block/location</span><span class="delimiter">'</span></span>)
+    -&gt;setCustomerId(<span class="constant">Mage</span>::registry(<span class="string"><span class="delimiter">'</span><span class="content">current_customer</span><span class="delimiter">'</span></span>)-&gt;getId())
+    -&gt;setData(<span class="string"><span class="delimiter">'</span><span class="content">list</span><span class="delimiter">'</span></span>, <span class="local-variable">$list</span>)
+    -&gt;setUseAjax(<span class="predefined-constant">true</span>)
+    -&gt;toHtml()
 );
-</code></pre>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>This kinda worked. But now i had no more control over the template used. Or maybe i missed that part. But i don’t like to specify my Block anyway Magento should pick this up automatically.</p>
 
 <p>Solving this issue is actually quite easy. The only thing we need to do is change the layout structure of the module. We change the name to root. And that’s it!</p>
 
-<pre><code>&lt;block type="block/location" name="root" template="template/location"&gt;&lt;/block&gt;
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+    <span class="tag">&lt;block</span> <span class="attribute-name">type</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">block/location</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">root</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">template</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">template/location</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="tag">&lt;/block&gt;</span>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>The name attribute tells Magento it is a root block so no need for the rest of the layout. </p>
 </div>
