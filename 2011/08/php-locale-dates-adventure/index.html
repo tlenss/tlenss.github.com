@@ -71,19 +71,31 @@
 
 <p>So the code i was working on. Did something like this.</p>
 
-<pre><code>$date = date('D M d H:i:s Y', strtotime($someVar));
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$date</span> = <span class="predefined">date</span>(<span class="string"><span class="delimiter">'</span><span class="content">D M d H:i:s Y</span><span class="delimiter">'</span></span>, <span class="predefined">strtotime</span>(<span class="local-variable">$someVar</span>));
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>My thought was that by setting the correct locale the dates would appear in the correct language. Wrong!</p>
 
-<pre><code>date_default_timezone_set('Europe/Amsterdam');
-setlocale(LC_ALL, 'nl_NL.utf8');
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+date_default_timezone_set(<span class="string"><span class="delimiter">'</span><span class="content">Europe/Amsterdam</span><span class="delimiter">'</span></span>);
+<span class="predefined">setlocale</span>(<span class="predefined-constant">LC_ALL</span>, <span class="string"><span class="delimiter">'</span><span class="content">nl_NL.utf8</span><span class="delimiter">'</span></span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>After a reload i was greeted by the same dates as before. In plain English. Oke no worries. Let’s see what setlocale returns.</p>
 
-<pre><code>var_dump(setlocale(LC_ALL, 'nl_NL.utf8'));
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="predefined">var_dump</span>(<span class="predefined">setlocale</span>(<span class="predefined-constant">LC_ALL</span>, <span class="string"><span class="delimiter">'</span><span class="content">nl_NL.utf8</span><span class="delimiter">'</span></span>));
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <blockquote>
 
@@ -131,8 +143,12 @@ nl_NL.utf8</p>
 
 <p>So let’s set the correct locale for this script.</p>
 
-<pre><code>setlocale(LC_ALL, 'nl_NL.utf8');
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="predefined">setlocale</span>(<span class="predefined-constant">LC_ALL</span>, <span class="string"><span class="delimiter">'</span><span class="content">nl_NL.utf8</span><span class="delimiter">'</span></span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>But still no changes. I must be missing something….. Let’s consult the <a href="http://www.php.net/manual/en/function.date.php">manual</a>. The last line in the <strong>examples</strong> section is what i was looking for</p>
 
@@ -142,8 +158,12 @@ nl_NL.utf8</p>
 
 <p>Duuh! Completely forgot about <a href="http://www.php.net/manual/en/function.strftime.php">strftime</a>. Let’s change the code.</p>
 
-<pre><code>strftime('%a %b %d %H:%M:%S %Y', strtotime($somevar));
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="predefined">strftime</span>(<span class="string"><span class="delimiter">'</span><span class="content">%a %b %d %H:%M:%S %Y</span><span class="delimiter">'</span></span>, <span class="predefined">strtotime</span>(<span class="local-variable">$somevar</span>));
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <blockquote>
   <p>ma aug 15 14:55:06 2011</p>
