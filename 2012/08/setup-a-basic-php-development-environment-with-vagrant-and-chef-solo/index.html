@@ -236,34 +236,36 @@ $ sudo sed -i ‘$ a\
 
 <p>Configure chef’s cookbook path and add some recipes from the cloned cookbooks.</p>
 
-<blockquote>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+config.vm.provision :chef_solo do |chef|
+  chef.json = {
+    &quot;mysql&quot; =&gt; {
+      &quot;server_root_password&quot; =&gt; &quot;somepassword&quot;
+      &quot;bind_address&quot; =&gt; &quot;127.0.0.1&quot;
+    }
+  }
 
-  <p>config.vm.provision :chef_solo do |chef|
-    chef.json = {
-        “mysql” =&gt; {
-            “server_root_password” =&gt; “somepassword”
-	    “bind_address” =&gt; “127.0.0.1”
-        }
-    }</p>
-</blockquote>
-
-<pre><code>chef.cookbooks_path = "cookbooks"
-chef.add_recipe("dotdeb")
-chef.add_recipe("dotdeb::php54")
-chef.add_recipe("openssl")
-chef.add_recipe("apache2")
-chef.add_recipe("apache2::mod_php5")
-chef.add_recipe("apache2::mod_rewrite")
-chef.add_recipe("mysql")
-chef.add_recipe("mysql::server")
-chef.add_recipe("memcached")
-chef.add_recipe("vim")
-chef.add_recipe("php")
-chef.add_recipe("php::module_curl")
-chef.add_recipe("php::module_mysql")
-chef.add_recipe("php::module_memcache")
-chef.add_recipe("php::module_sqlite3") end
-</code></pre>
+  chef.cookbooks_path = &quot;cookbooks&quot;
+  chef.add_recipe(&quot;dotdeb&quot;)
+  chef.add_recipe(&quot;dotdeb::php54&quot;)
+  chef.add_recipe(&quot;openssl&quot;)
+  chef.add_recipe(&quot;apache2&quot;)
+  chef.add_recipe(&quot;apache2::mod_php5&quot;)
+  chef.add_recipe(&quot;apache2::mod_rewrite&quot;)
+  chef.add_recipe(&quot;mysql&quot;)
+  chef.add_recipe(&quot;mysql::server&quot;)
+  chef.add_recipe(&quot;memcached&quot;)
+  chef.add_recipe(&quot;vim&quot;)
+  chef.add_recipe(&quot;php&quot;)
+  chef.add_recipe(&quot;php::module_curl&quot;)
+  chef.add_recipe(&quot;php::module_mysql&quot;)
+  chef.add_recipe(&quot;php::module_memcache&quot;)
+  chef.add_recipe(&quot;php::module_sqlite3&quot;)
+end
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Time to call vagrant again. And this time the startup takes a bit longer. All the selected packages get installed. And once that’s done. And a fresh development box is waiting.</p>
 

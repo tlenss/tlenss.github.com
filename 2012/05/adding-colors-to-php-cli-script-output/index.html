@@ -95,9 +95,13 @@ White         1;37</p>
 
 <p>Display a line in red for instance can be simply done by ‘echoing’ from the script with some extra formatting for bash to pickup. I will try to explain everything in the line below a bit later.</p>
 
-<pre><code>echo "\033[31m some colored text \033[31m"; // red
-echo "\033[37m some colored text \033[37m"; // green
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+    <span class="predefined">echo</span> <span class="string"><span class="delimiter">&quot;</span><span class="char">\033</span><span class="content">[31m some colored text </span><span class="char">\033</span><span class="content">[31m</span><span class="delimiter">&quot;</span></span>; <span class="comment">// red</span>
+    <span class="predefined">echo</span> <span class="string"><span class="delimiter">&quot;</span><span class="char">\033</span><span class="content">[37m some colored text </span><span class="char">\033</span><span class="content">[37m</span><span class="delimiter">&quot;</span></span>; <span class="comment">// green</span>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>So what’s going on here. First we use an escape character so we can actually define a output color. This is done with <strong>\033</strong> (\e). Then we open the color statement with <strong>[31m</strong>. Red in this case. The “some colored text” will be the text outputted in a different color. And after that we have to close the color statement the same way.</p>
 

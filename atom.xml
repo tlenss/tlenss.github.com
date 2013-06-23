@@ -4,7 +4,7 @@
   <title><![CDATA[Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-06-23T13:28:22+02:00</updated>
+  <updated>2013-06-23T13:36:16+02:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -1207,34 +1207,36 @@ $ sudo sed -i ‘$ a\
 
 <p>Configure chef’s cookbook path and add some recipes from the cloned cookbooks.</p>
 
-<blockquote>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+config.vm.provision :chef_solo do |chef|
+  chef.json = {
+    &quot;mysql&quot; =&gt; {
+      &quot;server_root_password&quot; =&gt; &quot;somepassword&quot;
+      &quot;bind_address&quot; =&gt; &quot;127.0.0.1&quot;
+    }
+  }
 
-  <p>config.vm.provision :chef_solo do |chef|
-    chef.json = {
-        “mysql” =&gt; {
-            “server_root_password” =&gt; “somepassword”
-	    “bind_address” =&gt; “127.0.0.1”
-        }
-    }</p>
-</blockquote>
-
-<pre><code>chef.cookbooks_path = "cookbooks"
-chef.add_recipe("dotdeb")
-chef.add_recipe("dotdeb::php54")
-chef.add_recipe("openssl")
-chef.add_recipe("apache2")
-chef.add_recipe("apache2::mod_php5")
-chef.add_recipe("apache2::mod_rewrite")
-chef.add_recipe("mysql")
-chef.add_recipe("mysql::server")
-chef.add_recipe("memcached")
-chef.add_recipe("vim")
-chef.add_recipe("php")
-chef.add_recipe("php::module_curl")
-chef.add_recipe("php::module_mysql")
-chef.add_recipe("php::module_memcache")
-chef.add_recipe("php::module_sqlite3") end
-</code></pre>
+  chef.cookbooks_path = &quot;cookbooks&quot;
+  chef.add_recipe(&quot;dotdeb&quot;)
+  chef.add_recipe(&quot;dotdeb::php54&quot;)
+  chef.add_recipe(&quot;openssl&quot;)
+  chef.add_recipe(&quot;apache2&quot;)
+  chef.add_recipe(&quot;apache2::mod_php5&quot;)
+  chef.add_recipe(&quot;apache2::mod_rewrite&quot;)
+  chef.add_recipe(&quot;mysql&quot;)
+  chef.add_recipe(&quot;mysql::server&quot;)
+  chef.add_recipe(&quot;memcached&quot;)
+  chef.add_recipe(&quot;vim&quot;)
+  chef.add_recipe(&quot;php&quot;)
+  chef.add_recipe(&quot;php::module_curl&quot;)
+  chef.add_recipe(&quot;php::module_mysql&quot;)
+  chef.add_recipe(&quot;php::module_memcache&quot;)
+  chef.add_recipe(&quot;php::module_sqlite3&quot;)
+end
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>Time to call vagrant again. And this time the startup takes a bit longer. All the selected packages get installed. And once that’s done. And a fresh development box is waiting.</p>
 
@@ -1306,9 +1308,13 @@ White         1;37</p>
 
 <p>Display a line in red for instance can be simply done by ‘echoing’ from the script with some extra formatting for bash to pickup. I will try to explain everything in the line below a bit later.</p>
 
-<pre><code>echo "\033[31m some colored text \033[31m"; // red
-echo "\033[37m some colored text \033[37m"; // green
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+    <span class="predefined">echo</span> <span class="string"><span class="delimiter">&quot;</span><span class="char">\033</span><span class="content">[31m some colored text </span><span class="char">\033</span><span class="content">[31m</span><span class="delimiter">&quot;</span></span>; <span class="comment">// red</span>
+    <span class="predefined">echo</span> <span class="string"><span class="delimiter">&quot;</span><span class="char">\033</span><span class="content">[37m some colored text </span><span class="char">\033</span><span class="content">[37m</span><span class="delimiter">&quot;</span></span>; <span class="comment">// green</span>
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>So what’s going on here. First we use an escape character so we can actually define a output color. This is done with <strong>\033</strong> (\e). Then we open the color statement with <strong>[31m</strong>. Red in this case. The “some colored text” will be the text outputted in a different color. And after that we have to close the color statement the same way.</p>
 
@@ -1439,32 +1445,48 @@ echo "\033[37m some colored text \033[37m"; // green
     <id>http://lenss.nl/2012/04/regular-expression-name-based-matches</id>
     <content type="html"><![CDATA[<p>Normally when i write regular expressions with for instance <a href="http://php.net">PHP</a>´s <a href="http://php.net/preg_match">preg_match</a>. I will use the standard $matches array to catch the result of pattern matches. This array has a normal numeric index for each match found. And looks something like</p>
 
-<pre><code>$matches = array();
-preg_match("/^Get(.+)Repository$/", "GetFooBarRepository", $matches);
-var_dump($matches);
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Normal preg_match </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$matches</span> = <span class="predefined">array</span>();
+<span class="predefined">preg_match</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/^Get(.+)Repository</span><span class="content">$</span><span class="content">/</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">GetFooBarRepository</span><span class="delimiter">&quot;</span></span>, <span class="local-variable">$matches</span>);
+<span class="predefined">var_dump</span>(<span class="local-variable">$matches</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
-<blockquote>
-  <p>array(2) {
-  [0] =&gt; string(19) “GetFooBarRepository”
-  [1] =&gt; string(6) “FooBar”
-}</p>
-</blockquote>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+array(2) {
+  [0] =&gt; string(19) &quot;GetFooBarRepository&quot;
+  [1] =&gt; string(6) &quot;FooBar&quot;
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>And there is nothing wrong with that. Except for the fact that numeric indexes are not always easy to work with. And it does not look all that clean in the code itself. SO last week my LD pointed out the fact that the likes using name based indexes for the matched patterns. And this is pretty sweet. I have seen it before but never bothered to adopt it myself. And the result looks like</p>
 
-<pre><code>$matches = array();
-preg_match("/^Get(?&lt;repositoryname&gt;.+)Repository$/", "GetFooBarRepository", $matches);
-var_dump($matches);
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Name based index preg_match </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$matches</span> = <span class="predefined">array</span>();
+<span class="predefined">preg_match</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/^Get(?&lt;repositoryname&gt;.+)Repository</span><span class="content">$</span><span class="content">/</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">GetFooBarRepository</span><span class="delimiter">&quot;</span></span>, <span class="local-variable">$matches</span>);
+<span class="predefined">var_dump</span>(<span class="local-variable">$matches</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
 
-<blockquote>
-  <p>array(3) {
-  [0] =&gt; string(19) “GetFooBarRepository”
-  ‘repositoryName’ =&gt; string(6) “FooBar”
-  [1] =&gt; string(6) “FooBar”
-}</p>
-</blockquote>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+array(3) {
+  [0] =&gt; string(19) &quot;GetFooBarRepository&quot;
+  'repositoryName' =&gt; string(6) &quot;FooBar&quot;
+  [1] =&gt; string(6) &quot;FooBar&quot;
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
 
 <p>And i have to say. It looks a lot cleaner. So i added this to my bag of tricks. And will be using it from now on.</p>
 ]]></content>
