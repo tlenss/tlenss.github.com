@@ -4,7 +4,7 @@
   <title><![CDATA[Category: PHP | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/php/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-07-03T08:13:56+02:00</updated>
+  <updated>2013-07-03T10:41:11+02:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -12,6 +12,34 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Memory exhaust issue PHP and APM]]></title>
+    <link href="http://lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/"/>
+    <updated>2013-07-03T11:57:43+02:00</updated>
+    <id>http://lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM</id>
+    <content type="html"><![CDATA[<p>A while back i wrote a small data aggregator that would do some background processing and populate a database with it’s calculated results. The main reason to implement this was that running the queries in real-time on the production server was causing memory exhaust issues. Once the new feature was done and deployed. We quickly noticed we were running into the same kind of issues again. And the script would halt almost each time it was executed.</p>
+
+<p><blockquote><p>Fatal error: Allowed memory size of xxxxxxxxx bytes exhausted (tried toallocate xxxxx bytes) in</p></blockquote></p>
+
+<p>After some hacking and optimization tricks. The script’s memory consumption seemed stable enough to deploy it to production. However. Each time we deployed it. We were hit by memory exhaust issues almost instantly. Time to do some debugging and code tracing.</p>
+
+<p>And we’re able to narrow it down to a single mysql<em>* (don’t get me started on the mysql</em>* functions, so let’s ignore that for now) call. Namely  <a href="http://php.net/manual/en/function.mysql-fetch-field.php">mysql_fetch_field</a>. Why on earth would this generate a memory exhaust issue on the server you might think. And that’s exactly what we were thinking. </p>
+
+<p>The problem was. That the offset passed in as the field offset was incorrect. And resulted in a notice. These notices however were suppressed with the @ symbol. And therefor never noticeable during development. But that’s no reason for memory exhaust issues… right?</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+@mysql_fetch_field($result, $offset);
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>Right! Further inspection showed that in production PHP’s <a href="http://code.google.com/p/peclapm/">APM</a> extension was loaded and active. And this was the real problem behind the memory exhaust issue. Thousands of queries were executed. And almost all of them were throwing an error notice for the fetch field function. Which was ignored by the @ symbol. But APM was still logging them. And apparently had a very hard time keeping up. </p>
+
+<p>It looks like a bug in APM. But that’s another story. The issue was fixed by passing in the correct offset of course. Another nice example of logging bringing down a production server.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[PHP 5.5.0 released]]></title>
@@ -500,92 +528,6 @@ string(3) “baz”
 <p><a href="http://blog.ircmaxell.com/2013/02/on-equality-sexism-and-even-hand.html">On Equality, Sexism and an Even Hand</a></p>
 
 <p>So let’s all just respect one another. And keep the PHP community a friendly place. This kind of nonsense has no positive impact on anybody.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Publish Google Reader shared items]]></title>
-    <link href="http://lenss.nl/2012/11/publish-google-reader-shared-items/"/>
-    <updated>2012-11-07T15:55:26+01:00</updated>
-    <id>http://lenss.nl/2012/11/publish-google-reader-shared-items</id>
-    <content type="html"><![CDATA[<p>A lot of people are using the shared items feature in <a href="http://www.google.nl/reader/">Google Reader</a> to publish what they are reading on a blog. It’s like having a live blogroll widget on your website. And gives your readers a good impression of what you are actually interested in.</p>
-
-<p>I never bothered adding this to my blog. But i do like to share. So last night i was trying to figure out how to integrate this with my current blog. I was hoping for an easy implementation. But the information is scarce. So i had to do some digging. I did find a couple of <a href="https://www.google.nl/search?q=wordpress+plugin+google+reader">Wordpress plugins</a>. But most of them were not updated for at least a year. And i am not putting code like that life on my website. </p>
-
-<p>After some Googling i came across a couple of feed URL’s that seem to share their <strong>shared</strong> items in feed form. Using the Google Reader URL and a user id. So the URL for my shared items would look like the one below. Getting your user id by the way is easy. Go to your Google reader page. Click all <strong>All items</strong> and the <strong>UID</strong> will show up in the address bar.</p>
-
-<blockquote>
-  <p>http://www.google.com/reader/shared/16525759780220726764</p>
-</blockquote>
-
-<p>The problem with this however. Non of my shared posts show up on this page. And i have not figured out a way to populate it just yet. So i came up with an other path to get this data on my server.</p>
-
-<p>In the Google Reader pages it’s possible to add sharing functionality. This is done by going to the <strong>Send To</strong> tab</p>
-
-<p><a href="http://lenss.nl/images/2012/11/Send-To.png"><img src="http://lenss.nl/images/2012/11/Send-To-300x22.png" alt="" /></a></p>
-
-<p>From here it’s possible to select a service to share data with. Non of these services are any good for what i am trying to do. But the great thing about this page is. You can provide custom URL’s for sharing data. Just incorporate the specified parameters in the URL and your done.</p>
-
-<p><a href="http://lenss.nl/images/2012/11/Custom-Site.png"><img src="http://lenss.nl/images/2012/11/Custom-Site-300x178.png" alt="" /></a></p>
-
-<p>Once configured and saved a custom URL is visible in the <strong>Send To</strong> panel</p>
-
-<p><a href="http://lenss.nl/images/2012/11/Favorite-Site.png"><img src="http://lenss.nl/images/2012/11/Favorite-Site-300x125.png" alt="" /></a></p>
-
-<p>That’s it for this part. Actually sharing items is quite easy now. When back in the Google Reader under each post there is Send to link. If you click this link the newly created custom URL will show up. And you can share the post.</p>
-
-<p><a href="http://lenss.nl/images/2012/11/Tag-Article.png"><img src="http://lenss.nl/images/2012/11/Tag-Article-300x41.png" alt="" /></a></p>
-
-<p>The only thing left to do is write some code to process the incoming data. To get you started. Some of the code i used while testing this is posted below</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>GoogleReaderShare class </span></figcaption>
- <div class="CodeRay">
-  <div class="code"><pre>
-Class GoogleReaderShare
-{
-  const GOOGLE_REMOTE_IP = ‘95.97.54.3’;<span class="tag">&lt;/p&gt;</span>
-
-<span class="tag">&lt;p&gt;</span>const GOOGLE_REFERER = ‘http://www.google.nl/reader/view/’;<span class="tag">&lt;/p&gt;</span>
-
-<span class="tag">&lt;p&gt;</span>protected static $_whitelist = array(‘source’, ‘title’, ‘url’, ‘short’);<span class="tag">&lt;/p&gt;</span>
-
-<span class="tag">&lt;p&gt;</span>public static function CheckSource($remoteAddr, $referer) 
-  {
-    if (($remoteAddr == self::GOOGLE_REMOTE_IP) 
-        <span class="entity">&amp;amp;</span><span class="entity">&amp;amp;</span> ($referer == self::GOOGLE_REFERER)) {
-      return true;
-    }
-    return false;
-  }<span class="tag">&lt;/p&gt;</span>
-
-<span class="tag">&lt;p&gt;</span>protected static function _CheckIncomingData($data)
-  {
-    if (!is_array($data)) {
-      return false;
-    }<span class="tag">&lt;/p&gt;</span>
-
-<span class="tag">&lt;pre&gt;</span><span class="tag">&lt;code&gt;</span>foreach ($data as $key =<span class="entity">&amp;gt;</span> $value) {
-  if (!in_array($key, self::$_whitelist)) {
-    return false;
-  }
-}   }
-<span class="tag">&lt;/code&gt;</span><span class="tag">&lt;/pre&gt;</span>
-
-<span class="tag">&lt;p&gt;</span>public static function Process($data) 
-  {
-    if (!self::_CheckIncomingData($data)) {
-      throw new Exception(“Unrecognized or no incoming data”);
-    }<span class="tag">&lt;/p&gt;</span>
-
-<span class="tag">&lt;pre&gt;</span><span class="tag">&lt;code&gt;</span>// process the data   }
-<span class="tag">&lt;/code&gt;</span><span class="tag">&lt;/pre&gt;</span>
-
-<span class="tag">&lt;p&gt;</span>if (GoogleReaderShare::CheckSource($_SERVER[‘REMOTE_ADDR’], $_SERVER[‘HTTP_REFERER’])) {
-    GoogleReaderShare::Process($_GET);
-  }
-</pre></div>
-</div>
- </figure></notextile></div> </p>
 ]]></content>
   </entry>
   

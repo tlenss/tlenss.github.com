@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Google Earth Libcrypto Crash I was reading up on some new features the guys at google pushed into google-earth. And i was curious enough to give it &hellip;">
+  <meta name="description" content="New INI&#8217;s for PHP Every morning i browse through the messages on php.internals. To keep me up to date with what happens under the PHP hood. It &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -57,6 +57,68 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2009/02/new-inis-for-php/">New INI&#8217;s for PHP</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>Every morning i browse through the messages on <a href="http://news.php.net/php.internals">php.internals</a>. To keep me up to date with what happens under the PHP hood. It’s great stuff to learn about new features. Today one of the posts caught my attention. Titled ‘<a href="http://wiki.php.net/rfc/newinis">New INI’s for PHP</a>’. The post provides a URL to the PHP wiki page.</p>
+
+<p>It’s still a proposal. But as i read it. The php.ini file will be separated into two files. One for development and one for production. The first thing that crossed my mind was. Cool! I can test my production code without uploading. I just change the ini. But does this really make sense?</p>
+
+<p>When i build a web application. I keep all the settings and configurations inside of the application. The framework i use makes it easy to switch between development and production. The way i look at it this should not be done on PHP level. But rather on application level.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-02-10T05:36:57+01:00" pubdate data-updated="true">Feb 10<span>th</span>, 2009</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2009/02/new-inis-for-php/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -908,113 +970,6 @@ EndSection
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2008/10/load-moodalboxes-without-clicking-links/">Load MOOdalBoxes Without Clicking Links</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>The MOOdalBox script is a great addition to the <a href="http://mootools.net/">mootools</a> library. The interface is pretty slick. And easy to style with just CSS. <a href="http://www.e-magine.ro/">Răzvan Brateş</a> did a great job here. And every now and then i have to implement one of those MOOdalBoxes in a web application. No problem here.</p>
-
-<p>Until today all MOOdalBoxes i used were triggered by simply clicking a link on a page. But today i needed to load a MOOdalBox window on page load. The screen represented some sort of QuickStart menu. Which can be disabled. I had no idea how to trigger the MOOdalBox from javascript. But once i read through the source. It became clear that it should be as easy as calling:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-MOOdalBox.open(url, title, sizes);
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>This kept giving me the following error:</p>
-
-<p>this.overlay is undefined</p>
-
-<p>Looking through the MOOdalBox source. I noticed the this.overlay property was set inside the init() method. So let’s try that before we call the open() method.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-MOOdalBox.init();
-MOOdalBox.open(url, title, sizes);
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>This actually worked. I was pretty happy with the result. untill i opened IE 7 to test the same page. Nothing happened. No error’s and no MOOdalBox. Let’s try something else. Whenever i need to load something on page load in IE i use the window.onload method.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-window.<span class="function">onload</span> = <span class="keyword">function</span>()
-  MOOdalBox.init();
-  MOOdalBox.open(url, title, sizes);
-}
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>Now the overlay was loaded. But still no MOOdalBox on top of it. I figured it had something to do with the DOM not being fully loaded. But i couldn’t really think of a solution. So of to Google. After a bit of browsing i found somebody with the same problem. And a <a href="http://forum.e-magine.ro/topic/please-help-with-ie">reply</a> from the original author of MOOdalBox. Add a domready event to make it work.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-window.addEvent(<span class="string"><span class="delimiter">'</span><span class="content">domready</span><span class="delimiter">'</span></span>, loadMOOdal);
-<span class="keyword">function</span> <span class="function">loadMOOdal</span>() {
-  MOOdalBox.open(<span class="string"><span class="delimiter">'</span><span class="content">Quickstart/load</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">700 500</span><span class="delimiter">'</span></span>);
-}
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>This did it. And my only goal was to make it function properly inside of IE 7. but this also fixes the same problem for IE 6. So a big thanks to Răzvan for creating MOOdalBox and for supplying the fix.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-10-03T12:27:45+02:00" pubdate data-updated="true">Oct 3<span>rd</span>, 2008</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2008/10/load-moodalboxes-without-clicking-links/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/13/">&larr; Older</a></div>
@@ -1068,6 +1023,8 @@ window.addEvent(<span class="string"><span class="delimiter">'</span><span class
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/"><span class="higlight">July, 2013</span> Memory exhaust issue PHP and APM</a></li>
+		
 		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
 		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
@@ -1085,8 +1042,6 @@ window.addEvent(<span class="string"><span class="delimiter">'</span><span class
 		<li><a href="http://lenss.nl/2012/10/workaround-ubuntu-12-04-mysterious-system-freezes/"><span class="higlight">October, 2012</span> Workaround Ubuntu 12.04 mysterious system freezes</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
 		
 	</ul>
 </div>
@@ -1107,7 +1062,7 @@ window.addEvent(<span class="string"><span class="delimiter">'</span><span class
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.55172413793103%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(116)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.10344827586206%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.06896551724138%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.55172413793103%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.13793103448276%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.03448275862068%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.03448275862068%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.13793103448276%'>PHP(66)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.13793103448276%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.10344827586206%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.68965517241378%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.13793103448276%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

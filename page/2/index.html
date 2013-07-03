@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="GIT: Coming Up With a Good Workflow A new environment to work in always brings new challenges. And this one is no exception. And i will be working &hellip;">
+  <meta name="description" content="Resize a Vagrant VMDK Drive Using Vagrant as a development environment is great. But you have to watch the available disk space when doing some &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -57,6 +57,245 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/">Resize a Vagrant VMDK Drive</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>Using <a href="http://vagrantup.com/">Vagrant</a> as a development environment is great. But you have to watch the available disk space when doing some funky database benchmarking. Last Friday i wrote a script to populate a test database with over 60 million records. And left it running over the weekend. With the idea it would be finished when i returned to the office on Monday. Well it actually was still running. But the Vagrant instance was out of disk space when i logged in. Damn. Should have made sure i had a big disk attached to this instance.</p>
+
+<p>O well. My first idea was to just drop the database that i wanted to use for testing. But due to no space available on the system. I could not drop it. I really couldn’t do anything on the system. Even writing config files failed. So where did all the disk space go?</p>
+
+<blockquote>
+  <ul>
+    <li>$ df -h</li>
+    <li>Filesystem            Size    Used    Avail    Use%    Mounted on</li>
+    <li>/dev/mapper/debian-605-root    10G    9.8G    0.2G    99%    /</li>
+  </ul>
+</blockquote>
+
+<p>That’s really not that much space left. And /var/mysql/ibdata1 for the <a href="http://www.innodb.com/">InnoDB</a> tables was taking up 7 GB. And since i have a couple of InnoDB tables i can’t just delete this file. So need to come up with something else. And after a bit of Googling. I came across <a href="http://jjperezaguinaga.wordpress.com/2012/04/03/a-happy-ending-story-with-vagrant-resizing-a-lucid32-vmdk-box/">this</a> post. Which seemed promising. But the most important part is left out. And instead linked to some horrible garbled page. That is completely unreadable. So i had to do some digging to figure this out on my own. For cloning the disks i followed the steps in the article however. The Virtual Box files are located in the user folder in the following path</p>
+
+<blockquote>
+  <p>$ cd ~/VirtualBox VMs/development_*</p>
+</blockquote>
+
+<p>The first thing i did was convert the <a href="http://sanbarrow.com/vmdk-handbook.html">VMDK</a> image to a <a href="http://en.wikipedia.org/wiki/VDI_(file_format)">VDI</a> image so we can actually do some partition resizing.</p>
+
+<blockquote>
+  <p>$ VBoxManage clonehd box-disk1.vmdk box-disk1.vdi –format VDI</p>
+</blockquote>
+
+<p>So now we have a new VDI image. And we need to resize it so it has sufficient space for what we are trying to do. In my case 20 GB is sufficient.</p>
+
+<blockquote>
+  <p>$ VBoxManage modifyhd box-disk1.vdi –resize 20000</p>
+</blockquote>
+
+<p>Now that the new disk is created it needs to be attached to the vagrant virtual machine. This is easily achieved by doing right click on the VM in <a href="https://www.virtualbox.org/">VirtualBox</a> and select Settings</p>
+
+<blockquote>
+  <p>Storage &gt; SATA Controller &gt; Add hard disk (select existing and point to the new VDI image)</p>
+</blockquote>
+
+<p>Now boot the Vagrant image in VirtualBox so we have a screen to work with. When it has booted up. Login.</p>
+
+<p>First create a new Primary partition in the unused space of type Linux LVM (8e) with <a href="http://linux.die.net/man/8/cfdisk">cfdisk</a>. </p>
+
+<blockquote>
+  <p>$ cfdisk /dev/sda</p>
+</blockquote>
+
+<p>When the partition table has been written. It’s time to create a new physical volume on the new partition with the help of <a href="http://linux.about.com/library/cmd/blcmdl8_pvcreate.htm">pvcreate</a></p>
+
+<blockquote>
+  <ul>
+    <li>$ pvcreate /dev/sda3
+      <ul>
+        <li>successfully created</li>
+      </ul>
+    </li>
+  </ul>
+</blockquote>
+
+<p>For the next steps we will be needing the Volume Group name. We will get this by running <a href="http://linux.about.com/library/cmd/blcmdl8_pvdisplay.htm">pvdisplay</a></p>
+
+<blockquote>
+  <ul>
+    <li>
+      <table>
+        <tbody>
+          <tr>
+            <td>$ pvdisplay</td>
+            <td>grep “VG Name”</td>
+          </tr>
+        </tbody>
+      </table>
+    </li>
+    <li>VG Name    debian-605</li>
+  </ul>
+</blockquote>
+
+<p>So now we have all the bits ready. And its time to extend the root partition with the newly created partition.</p>
+
+<blockquote>
+  <ul>
+    <li>$ vgextend debian-605 /dev/sda3</li>
+    <li>Volume group “debian-605” successfully extended</li>
+  </ul>
+</blockquote>
+
+<p>Awesome! next step extending the logical partition</p>
+
+<blockquote>
+  <ul>
+    <li>$ lvextend /dev/debian-605/root /dev/sda3</li>
+    <li>Extending logical volume root to 18.84 GiB</li>
+    <li>Logical volume root successfully resized</li>
+  </ul>
+</blockquote>
+
+<p>Almost there. The last thing left to do is resize the filesystem to make all space available.</p>
+
+<blockquote>
+  <ul>
+    <li>$ resize2fs /dev/debian-605/root</li>
+    <li>resize2fs 1.41.12 (17-May-2010)</li>
+    <li>Filesystem at /dev/debian-605/root is mounted on /; on-line resizing required old desc_blocks = 1, new_desc_blocks = 2</li>
+    <li>Performing an on-line resize of /dev/debian-605/root to 4937728 (4k) blocks.</li>
+    <li>The filesystem on /dev/debian-605/root is now 4937728 blocks long.</li>
+  </ul>
+</blockquote>
+
+<p>It’s that simple really. So let’s check.</p>
+
+<blockquote>
+  <ul>
+    <li>$ df -h</li>
+    <li>Filesystem            Size    Used    Avail    Use%    Mounted on</li>
+    <li>/dev/mapper/debian-605-root    19G    8.6G    9.1G    49%    /</li>
+  </ul>
+</blockquote>
+
+<p>After this i did not bother to convert the VDI image back to a VDMK image. But if you have to for some reason. You could do that with the commands below. And some manual editing of the VirtualBox xml config.</p>
+
+<blockquote>
+  <ul>
+    <li>$ VBoxManage internalcommands sethduuid box-disk1.vdi</li>
+    <li>$ VBoxManage clonehd box-disk1.vdi box-disk1.vmdk –format VMDK</li>
+  </ul>
+</blockquote>
+
+<p>So that’s it really for resizing the Vagrant hard drive. The only thing left for me was to cleanup the large ibdata1 file. And setup Mysql to use separate ibdata files for InnoDB table.</p>
+
+<blockquote>
+  <ul>
+    <li>$ vi /etc/mysql/my.cnf</li>
+    <li>[mysqld]</li>
+    <li>innodb_file_per_table</li>
+  </ul>
+</blockquote>
+
+<p>Restart Mysql and dump all needed databases except the system tables like (mysql, information_schema).</p>
+
+<blockquote>
+  <ul>
+    <li>$ /etc/init.d/mysql restart</li>
+    <li>
+      <table>
+        <tbody>
+          <tr>
+            <td>$ echo ‘show databases;’</td>
+            <td>mysql -uroot -p</td>
+            <td>grep -v ^Database$</td>
+            <td>grep -v ^information_schema$</td>
+            <td>grep -v ^mysql$</td>
+            <td>xargs mysqldump -uroot -p  –databases &gt; dump.sql</td>
+          </tr>
+        </tbody>
+      </table>
+    </li>
+  </ul>
+</blockquote>
+
+<p>When that’s done. Drop all InnoDB database tables. Remove the ibdata and in_log files from /var/lib/mysql.</p>
+
+<blockquote>
+  <ul>
+    <li>$ /etc/init.d/mysql stop</li>
+    <li>$ rm /var/mysql/ibdata1* /var/mysql/ib_log*</li>
+  </ul>
+</blockquote>
+
+<p>Now we restart Mysql. And reimport the databases.</p>
+
+<blockquote>
+  <ul>
+    <li>$ /etc/init.d/mysql start</li>
+    <li>$ mysql -uroot -p &lt; dump.sql</li>
+  </ul>
+</blockquote>
+
+<ul>
+  <li>Some of the resources i used for solving this issue:</li>
+  <li>[1] <a href="http://www.turnkeylinux.org/blog/extending-lvm">http://www.turnkeylinux.org/blog/extending-lvm</a></li>
+  <li>[2] <a href="http://unix.stackexchange.com/questions/37900/gparted-live-cd-cant-resize-a-partition">http://unix.stackexchange.com/questions/37900/gparted-live-cd-cant-resize-a-partition</a></li>
+  <li>[3] <a href="http://www.my-guides.net/en/guides/general-software/122-how-to-resize-a-virtualbox-disk-partition">http://www.my-guides.net/en/guides/general-software/122-how-to-resize-a-virtualbox-disk-partition</a></li>
+  <li>[4] <a href="http://www.virtualbox.org/manual/ch08.html#vboxmanage-modifyvdi">http://www.virtualbox.org/manual/ch08.html#vboxmanage-modifyvdi</a></li>
+  <li>[5] <a href="http://stackoverflow.com/questions/3456159/how-to-shrink-purge-ibdata1-file-in-mysql">http://stackoverflow.com/questions/3456159/how-to-shrink-purge-ibdata1-file-in-mysql</a></li>
+</ul>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-24T14:17:00+02:00" pubdate data-updated="true">Sep 24<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/sql/'>SQL</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -1217,317 +1456,6 @@ array(3) {
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2012/02/wordpress-install-compromised/">Wordpress Install Compromised</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>Last week i got an email from the Dutch <a href="https://www.ncsc.nl/">NCSC</a> (Nationaal Cyber Security Centrum). Apparently one of the nodes i manage for a customer was part of a <a href="http://en.wikipedia.org/wiki/Botnet">botnet</a>. There were no further demands. They just informed me about the issue. Damn cool! Being part of a <a href="http://en.wikipedia.org/wiki/Botnet">botnet</a> however. Not so cool!</p>
-
-<p>With the email came a small excerpt of a IRC channel log. I recognized the node. So SSH’ed into that specific node. And used <a href="http://linux.die.net/man/8/netstat">netstat</a> to check for any strange connections. A connection on port 20 to the C&amp;C; node of the <a href="http://en.wikipedia.org/wiki/Botnet">botnet</a>. Thats not good.</p>
-
-<blockquote>
-
-  <ul>
-    <li>$ netstat -an</li>
-    <li>Active Internet connections (servers and established)</li>
-    <li>Proto Recv-Q Send-Q Local Address           Foreign Address         State</li>
-    <li>tcp        0      0 xxx.xxx.xxx.xx:20       69.162.80.62:20         ESTABLISHED</li>
-  </ul>
-</blockquote>
-
-<p>In the email from NCSC it was mentioned to look for files called <strong>wp-rss3.php</strong>. But a search for this file did not return any hits. Hmmm. And i still  had no idea which site it concerned. Since a couple were running on this particular node. The only thing certain. It’s <a href="http://wordpress.org">Wordpress</a> related. So i started searching for recent <a href="http://wordpress.org">Wordpress</a> compromises. And found a lot of hits on Google for the <a href="http://code.google.com/p/timthumb/">timThumb</a> and <a href="http://code.google.com/p/wps3slider/">wps3slider</a> plugins. But checking the log files for these plugins revealed nothing. And for some weird reason i just cleaned up the log partition a couple of days before. So not much luck there.</p>
-
-<p>Some more Googling <a href="http://markmaunder.com/2011/08/01/zero-day-vulnerability-in-many-wordpress-themes/">told</a> me to do a search on the Wordpress installs for the PHP function <a href="http://php.net/manual/en/function.base64-decode.php">base64_decode()</a>. O well. Lets give it a try. Some suspicious files did show up instantly.</p>
-
-<blockquote>
-
-  <ul>
-    <li>$ find . -type f -exec grep -l ‘base64_decode’ {} \;</li>
-    <li>./uploads/2010/06/wp-rss4.php (<a href="http://pastebin.com/rWD1Tfxk">source</a>)</li>
-    <li>./uploads/2011/05/alienee.php (<a href="http://pastebin.com/LwDaSFUK">source</a>)</li>
-    <li>./plugins/wps3slider/temp/34e3a3a74f6e2d0f236bdd3ba70c0c03.php (<a href="http://pastebin.com/fG6pDWC2">source</a>)</li>
-    <li>./plugins/wps3slider/temp/cf2cdb3ad3249b9692de07290f16f287.php (<a href="http://pastebin.com/pRSwG7Ud">encoded</a>) (<a href="http://pastebin.com/0qQ3Qeut">decoded</a>)</li>
-    <li>./plugins/wps3slider/temp/771b821c974131c67e34c83d8d2db725.php (<a href="http://pastebin.com/KUP8xBEQ">encoded</a>) (<a href="http://pastebin.com/Z77iMH1X">decoded</a>)</li>
-    <li>./plugins/wps3slider/temp/2b3753ea4769084f2e571737b695b03a.php (<a href="http://pastebin.com/RLgsTerk">encoded</a>) (<a href="http://pastebin.com/KwgqCS8R">decoded</a>)</li>
-    <li>./plugins/wps3slider/temp/7228f168d9692eafeafc54dbc3a1ab49.php (<a href="http://pastebin.com/HeE3PdnJ">encoded</a>) (<a href="http://pastebin.com/FzCqSfg6">decoded</a>)</li>
-    <li>./plugins/wps3slider/uploads/1.php (<a href="http://pastebin.com/YJ17ygSL">source</a>)</li>
-    <li>/var/tmp/dc.pl (<a href="http://pastebin.com/YTusrVZk">encoded</a>) (<a href="http://pastebin.com/0WfqZt0R">decoded</a>)</li>
-  </ul>
-</blockquote>
-
-<p>Interesting. A quick look at the files showed that most of them were obfuscated. But not all. Two of the files were IRC bots written in <a href="http://www.php.net/">PHP</a>. At this moment i couldn’t resist but crack a little smile. But its also a reminder of how fragile the web really is. I quickly moved the files out of the way. And rebooted the machine. When it  came back online i monitored all connections for a while. But the connection to the C&amp;C; node was not restored. So i informed NCSC. And went back to bed!</p>
-
-<p>The Wordpress admin should have kept the sites up to date. Lesson learned i hope! of course i could not resist to come back to it later. And so i did. I started by searching the Apache log files for <strong>wp-rss4.php</strong>. And found a couple of instances where this file was directly called. From a total of 4 different IP addresses.</p>
-
-<blockquote>
-  <p>69.162.80.62</p>
-</blockquote>
-
-<p>This is the IP address of the C&amp;C; server.</p>
-
-<blockquote>
-
-  <ul>
-    <li>186.241.16.25</li>
-    <li>201.8.237.18</li>
-    <li>201.8.226.109</li>
-  </ul>
-</blockquote>
-
-<p>These IP addresses are all originating from Brasil. No further information is available at this moment. After that i started poking around the trojans / IRC bots found earlier. And as mentioned earlier. There were two bots installed on the server, One was running. The other wasn’t. This is configuration snippet from both bots.</p>
-
-<p>The first bot. And the one i was informed about.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-var $config = array(&quot;server&quot;=&gt;&quot;antesedepois.servegame.com&quot;,^M
-  &quot;port&quot;=&gt;20,^M
-  &quot;pass&quot;=&gt;&quot;depois&quot;,^M
-  &quot;prefix&quot;=&gt;&quot;depois&quot;,^M
-  &quot;maxrand&quot;=&gt;8,^M
-  &quot;chan&quot;=&gt;&quot;#depoiswp&quot;,^M
-  &quot;key&quot;=&gt;&quot;&quot;,^M
-  &quot;modes&quot;=&gt;&quot;+iB-x&quot;,^M
-  &quot;password&quot;=&gt;&quot;depois&quot;,^M
-  &quot;trigger&quot;=&gt;&quot;.&quot;,^M
-  &quot;hostauth&quot;=&gt;&quot;*&quot; // * for any hostname^M
-);
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>And the second one</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-var $config = array(&quot;server&quot;=&gt;&quot;58.225.75.155&quot;,
-  &quot;port&quot;=&gt;9999,
-  &quot;pass&quot;=&gt;&quot;&quot;,
-  &quot;prefix&quot;=&gt;&quot;animal&quot;,
-  &quot;maxrand&quot;=&gt;8,
-  &quot;chan&quot;=&gt;&quot;#animal&quot;,
-  &quot;key&quot;=&gt;&quot;&quot;,
-  &quot;modes&quot;=&gt;&quot;+iB-x&quot;,
-  &quot;password&quot;=&gt;&quot;oishi&quot;,
-  &quot;trigger&quot;=&gt;&quot;.&quot;,
-  &quot;hostauth&quot;=&gt;&quot;*!*@The.Black.Cat&quot; // * for any hostname
-);
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>Notice the <strong>^M</strong> characters at the end. Seems like somebody is using windows. So now we have login details for two C&amp;C; servers. Why not take a look. </p>
-
-<blockquote>
-
-  <ul>
-    <li>$ ircii </li>
-    <li>/server antesedepois.servegame.com:20</li>
-  </ul>
-</blockquote>
-
-<p>Some standard IRC stuff</p>
-
-<blockquote>
-  <ul>
-    <li>*** Connecting to port 20 of server antesedepois.servegame.com</li>
-    <li>*** Welcome to the Internet Relay Chat Network, root (from IRCPRIVATE)</li>
-    <li>*** /etc/irc/script/local V0.5 for Debian finished. Welcome to ircII.</li>
-    <li>*** If you have not already done so, please read the new user information with /HELP NEWUSER</li>
-    <li>*** Your host is IRCPRIVATE, running version 1.2.1546</li>
-    <li>*** This server was created jan 27 2012 at 06: 29:02 HodB (Serial # 00-00-00)</li>
-    <li>*** channel modes available abdefghijklmnopqrstuvwxyzACEFIKLMOPT</li>
-    <li>*** IRCX </li>
-    <li>*** There are 6 users and 362 invisible on 1 servers</li>
-    <li>*** 7 channels have been formed</li>
-    <li>*** This server has 368 clients and 0 servers connected</li>
-    <li>*** Current local users:  368  Max: 989</li>
-    <li>*** Current global users:  368  Max: 989</li>
-    <li>*** MOTD Not Present</li>
-  </ul>
-</blockquote>
-
-<p>So let’s check the channels on this thing</p>
-
-<blockquote>
-  <p>/list</p>
-</blockquote>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-*** Channel    Users  Topic
-*** #depoiswp  360    Entrou = Ban :)
-*** #grmteam   6      
-*** #depoisSca 4      Entrou = Ban :)
-*** #depoisSca 4      Entrou = Ban :)
-*** #depoisVul 6      Entrou = Ban :)
-*** #rfi       3      
-*** #sql       1  
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>I entered all of the channels and waited for a while. But no activity took place. The only really interested channel is #depoiswp. This is the channel where all the bots connect. At the time i logged in there were about 360 of them  available. I immediately recognized the log excerpt send to me by the NCSC.</p>
-
-<blockquote>
-  <ul>
-    <li>*** Topic for #depoiswp: Entrou = Ban :)</li>
-    <li>*** #depoiswp SYSTEM 1327945185</li>
-    <li>(#depoiswp/#depoiswp) Entrou = Ban :)</li>
-    <li>*** [A]depois88802849 (~depois48170648@68.233.238.XX) has joined channel #depoiswp</li>
-    <li>*** #depoiswp 1327653297</li>
-    <li>*** [A]depois13436992 (~depois92951214@212.227.114.XX) has joined channel #depoiswp</li>
-    <li>*** [A]depois18833547 (~depois69088341@184.154.130.XX) has joined channel #depoiswp</li>
-    <li>*** [A]depois80116634 (~depois13242297@213.251.189.XXX) has joined channel #depoiswp</li>
-    <li>*** [A]depois31855907 (~depois23946193@82.85.28.XXX) has joined channel #depoiswp</li>
-    <li>*** [A]depois25458508 (~depois64120008@87.106.214.XX) has joined channel #depoiswp</li>
-    <li>*** [A]depois17803105 (~depois55004207@74.208.16.XX) has joined channel #depoiswp</li>
-    <li>*** [A]depois96800217 (~depois89042073@174.121.216.XXX) has joined channel #depoiswp</li>
-    <li>*** [A]depois17108432 (~depois51961332@209.68.1.XXX) has joined channel #depoiswp</li>
-    <li>*** [A]depois95432403 (~depois13925479@209.68.1.XXX) has joined channel #depoiswp</li>
-    <li>*** [A]depois96515275 (~depois10767943@195.74.38.XXX) has joined channel #depoiswp</li>
-    <li>*** [A]depois73596561 (~depois90562179@69.89.31.XXX) has joined channel #depoiswp</li>
-    <li>*** [A]depois85357227 (~depois31697723@64.191.115.XX) has joined channel #depoiswp</li>
-    <li>*** [A]depois07993697 (~depois40240585@79.96.128.XX) has joined channel #depoiswp</li>
-    <li>*** [A]depois97441253 (~depois19633359@193.189.74.XX) has joined channel #depoiswp</li>
-    <li>*** [A]depois76843389 (~depois55419325@176.9.34.XXX) has joined channel #depoiswp</li>
-    <li>*** [I]depois16679788 (~depois28004829@213.171.218.XXX) has joined channel #depoiswp</li>
-    <li>*** [A]depois88178285 (~depois05296405@74.220.215.XXX) has joined channel #depoiswp</li>
-  </ul>
-</blockquote>
-
-<blockquote>
-
-  <ul>
-    <li>&lt;[A]depois16231776&gt; [Attack Finalizado!]: 1749605 MB enviados / Pacotes enviados: 14580 MB/s </li>
-    <li>&lt;[I]depois60130568&gt; [Attack Finalizado!]: 75 MB enviados / Pacotes enviados: 1 MB/s </li>
-    <li>&lt;[I]depois48664304&gt; [Attack Finalizado!]: 75 MB enviados / Pacotes enviados: 1 MB/s </li>
-    <li>&lt;[I]depois65415449&gt; [Attack Finalizado!]: 75 MB enviados / Pacotes enviados: 1 MB/s </li>
-    <li>&lt;[I]depois11325010&gt; [Attack Finalizado!]: 75 MB enviados / Pacotes enviados: 1 MB/s </li>
-    <li>*** [A]depois40994506 (~depois72760562@79.98.28.XX) has joined channel #depoiswp</li>
-    <li>&lt;[A]depois07568398&gt; [Attack Finalizado!]: 2187317 MB enviados / Pacotes enviados: 18228 MB/s </li>
-    <li>&lt;[A]depois55402758&gt; [Attack Finalizado!]: 11425 MB enviados / Pacotes enviados: 95 MB/s </li>
-    <li>*** [A]depois03383512 (~depois52457929@74.220.215.XX) has joined channel #depoiswp</li>
-    <li>&lt;[A]depois37064023&gt; [Attack Finalizado!]: 1264043 MB enviados / Pacotes enviados: 10534 MB/s </li>
-    <li>&lt;[A]depois69234369&gt; [Attack Finalizado!]: 2205504 MB enviados / Pacotes enviados: 18379 MB/s </li>
-    <li>*** [A]depois74911768 (~depois04730096@74.220.215.XX) has joined channel #depoiswp</li>
-    <li>*** Signoff: [A]depois31575043 (Connection reset by peer)</li>
-    <li>&lt;[I]depois17710498&gt; [Attack Finalizado!]: 81 MB enviados / Pacotes enviados: 1 MB/s </li>
-    <li>&lt;[I]depois28464134&gt; [Attack Finalizado!]: 81 MB enviados / Pacotes enviados: 1 MB/s</li>
-  </ul>
-</blockquote>
-
-<p>Thats fine and all. I disconnected shortly after that. I really have no reason  to be poking around there now do i ;) Besides who want to  interfere with an ongoing investigation. So poking around the files a bit more didnot  reveal  all that information.Except for the fact that besides a IRC bot a backdoor was also installed in the form of a perl script dc.pl installed in /var/tmp. So who knows. The server might be rooted at this point.</p>
-
-<p>I spend some more time on decoding the bot and trojan contents. And posted them on pastebin if you are interested. The server is going to be  decommissioned soon. So i am not going to pay much more attention to it.</p>
-
-<blockquote>
-  <p>1.php and b2dabd0e2c42b55fabf741bcac29f857.php</p>
-</blockquote>
-
-<p>Web Shell by boff</p>
-
-<blockquote>
-  <p>2b3753ea4769084f2e571737b695b03a.php</p>
-</blockquote>
-
-<p>This file was base64 encoded but once decoded reveled to be a simple script by v0pCr3w and nob0dyCr3w to run system commands on the server. Also included was a simple upload form.</p>
-
-<blockquote>
-  <p>34e3a3a74f6e2d0f236bdd3ba70c0c03.php</p>
-</blockquote>
-
-<p>c99 injector v1</p>
-
-<blockquote>
-  <p>771b821c974131c67e34c83d8d2db725.php</p>
-</blockquote>
-
-<p>This script was rot13 and base64 encoded and was trying to cleanup after the hacker. And install a second back door.</p>
-
-<blockquote>
-  <p>7228f168d9692eafeafc54dbc3a1ab49.php and cce0a37ffc138a8908da05977639bed1.php</p>
-</blockquote>
-
-<p>Again rot13 and base64 encoded.But this script contained something that looks like a control panel. The page title was ‘Hacked by Sherif #oishi @ ALLnet’</p>
-
-<blockquote>
-  <p>alienee.php</p>
-</blockquote>
-
-<p>Still working on this one</p>
-
-<blockquote>
-  <p>cf2cdb3ad3249b9692de07290f16f287.php and ded3244749701c4eb5a29b959ad56736.php</p>
-</blockquote>
-
-<p>These files contained a second bot that was connecting to a whole different server. Probably exploited by another crew?</p>
-
-<blockquote>
-  <p>dc.pl</p>
-</blockquote>
-
-<p>This Perl backdoor was created by one  of the IRC bot scripts. And was hiding in /var/tmp after creation.</p>
-
-<ul>
-  <li>And some links i found useful while working on this issue.</li>
-  <li><a href="http://eromang.zataz.com/2012/01/08/gangbang-mytijn-org-malware-spreader-down/">http://eromang.zataz.com/2012/01/08/gangbang-mytijn-org-malware-spreader-down/</a></li>
-  <li><a href="http://www.madirish.net/content/hookworm-stealth-php-backdoor">http://www.madirish.net/content/hookworm-stealth-php-backdoor</a></li>
-  <li><a href="http://markmaunder.com/2011/08/01/zero-day-vulnerability-in-many-wordpress-themes/">http://markmaunder.com/2011/08/01/zero-day-vulnerability-in-many-wordpress-themes/</a></li>
-</ul>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-02-06T22:37:10+01:00" pubdate data-updated="true">Feb 6<span>th</span>, 2012</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/security/'>Security</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2012/02/wordpress-install-compromised/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/3/">&larr; Older</a></div>
@@ -1581,6 +1509,8 @@ var $config = array(&quot;server&quot;=&gt;&quot;58.225.75.155&quot;,
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/"><span class="higlight">July, 2013</span> Memory exhaust issue PHP and APM</a></li>
+		
 		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
 		
 		<li><a href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"><span class="higlight">March, 2013</span> Casting weirdness with PHP</a></li>
@@ -1598,8 +1528,6 @@ var $config = array(&quot;server&quot;=&gt;&quot;58.225.75.155&quot;,
 		<li><a href="http://lenss.nl/2012/10/workaround-ubuntu-12-04-mysterious-system-freezes/"><span class="higlight">October, 2012</span> Workaround Ubuntu 12.04 mysterious system freezes</a></li>
 		
 		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"><span class="higlight">September, 2012</span> Resize a Vagrant VMDK drive</a></li>
 		
 	</ul>
 </div>
@@ -1620,7 +1548,7 @@ var $config = array(&quot;server&quot;=&gt;&quot;58.225.75.155&quot;,
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.69565217391305%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(115)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.1304347826087%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.08695652173913%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.56521739130434%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.17391304347827%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.04347826086956%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.04347826086956%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 133.91304347826087%'>PHP(65)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.17391304347827%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.1304347826087%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.6086956521739%'>Tech(97)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.17391304347827%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.55172413793103%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(116)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.10344827586206%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.06896551724138%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.55172413793103%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.13793103448276%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.03448275862068%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.03448275862068%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.13793103448276%'>PHP(66)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.13793103448276%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.10344827586206%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.68965517241378%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.13793103448276%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>
