@@ -882,13 +882,13 @@ end
 
 <div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
   <div class="code"><pre>
-    <span class="predefined">echo</span> <span class="string"><span class="delimiter">&quot;</span><span class="char">\033</span><span class="content">[31m some colored text </span><span class="char">\033</span><span class="content">[31m</span><span class="delimiter">&quot;</span></span>; <span class="comment">// red</span>
-    <span class="predefined">echo</span> <span class="string"><span class="delimiter">&quot;</span><span class="char">\033</span><span class="content">[37m some colored text </span><span class="char">\033</span><span class="content">[37m</span><span class="delimiter">&quot;</span></span>; <span class="comment">// green</span>
+    <span class="predefined">echo</span> <span class="string"><span class="delimiter">&quot;</span><span class="char">\033</span><span class="content">[31m some colored text </span><span class="char">\033</span><span class="content">[0m some white text </span><span class="char">\n</span><span class="delimiter">&quot;</span></span>;
+    <span class="predefined">echo</span> <span class="string"><span class="delimiter">&quot;</span><span class="char">\033</span><span class="content">[32m some colored text </span><span class="char">\033</span><span class="content">[0m some white text </span><span class="char">\n</span><span class="delimiter">&quot;</span></span>;
 </pre></div>
 </div>
  </figure></notextile></div>
 
-<p>So what’s going on here. First we use an escape character so we can actually define a output color. This is done with <strong>\033</strong> (\e). Then we open the color statement with <strong>[31m</strong>. Red in this case. The “some colored text” will be the text outputted in a different color. And after that we have to close the color statement the same way.</p>
+<p>So what’s going on here. First we use an escape character so we can actually define a output color. This is done with <strong>\033</strong> (\e). Then we open the color statement with <strong>[31m</strong>. Red in this case. The “some colored text” will be the text outputted in a different color. And after that we have to close the color statement with <strong>\033[0m</strong>.</p>
 
 <p>Easy as cake… that’s all!</p>
 </div>

@@ -532,7 +532,7 @@
     </url>
     <url>
         <loc>http://lenss.nl/2012/05/adding-colors-to-php-cli-script-output/</loc>
-        <lastmod>2013-07-03T08:09:28+02:00</lastmod>
+        <lastmod>2013-08-09T09:26:03+02:00</lastmod>
     </url>
     <url>
         <loc>
@@ -593,11 +593,11 @@
         <lastmod>2013-07-03T10:40:52+02:00</lastmod>
     </url>
     <url>
-        <loc>http://lenss.nl/</loc>
-        <lastmod>2013-07-03T10:40:52+02:00</lastmod>
-    </url>
-    <url>
         <loc>http://lenss.nl/6AD79CEF.asc</loc>
         <lastmod>2010-11-23T22:06:43+01:00</lastmod>
+    </url>
+    <url>
+        <loc>http://lenss.nl/</loc>
+        <lastmod>2013-08-09T09:26:03+02:00</lastmod>
     </url>
 </urlset>
