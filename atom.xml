@@ -4,7 +4,7 @@
   <title><![CDATA[Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-08-16T13:53:55+02:00</updated>
+  <updated>2013-08-21T23:07:26+02:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -12,6 +12,52 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Github, SSH and multiple repositories]]></title>
+    <link href="http://lenss.nl/2013/08/github-and-multiple-ssh-keys/"/>
+    <updated>2013-08-22T00:02:09+02:00</updated>
+    <id>http://lenss.nl/2013/08/github-and-multiple-ssh-keys</id>
+    <content type="html"><![CDATA[<p>When working with <a href="http://github.com">Github</a>. Setting up SSH key based authentication is easy. You just create a key. Add the public key in the admin panel and voilà. If a new contributor joins your team. You add his / her key and they also have access.</p>
+
+<p>But how does it work when you have need access to multiple repositories using multiple keys yourself? I had to set this up a couple of times. And it turns out to be just as easy. But if for some reason it’s not that obvious these steps might help.</p>
+
+<p>Let’s pretend we need some key first.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ ssh-keygen -t rsa -b 4096
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<blockquote><p>Generating public/private rsa key pair.<br />Enter file in which to save the key (/home/user/.ssh/id_rsa): repo1_rsa<br />Enter passphrase (empty for no passphrase):<br />Enter same passphrase again:</p><p>Your identification has been saved in repo1_rsa.<br />Your public key has been saved in repo1_rsa.pub.<br />The key fingerprint is:<br />03:b5:da:08:3b:6f:9a:29:3f:f5:4c:ee:5d:14:cb:41 user@host<br />The key&#8217;s randomart image is:<br />+&#8211;[ RSA 4096]&#8212;-+<br />   some output<br />+&#8212;&#8212;&#8212;&#8212;&#8212;&#8211;+</p></blockquote>
+
+<p>This will generate the public and private key for <strong>repo1</strong>. Now repeat the same thing for <strong>repo2</strong>. Make sure the keys reside in <strong>~/.ssh</strong></p>
+
+<p>Now let’s say we have access to two repositories under two different users / companies. We will use <strong>github.com/repo1</strong> and <strong>github.com/repo2</strong> as examples. The only thing we have to do is add some entries to <strong>~/.ssh/config</strong> to make this work. They key is to use the Github sub-domain mappings</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ vi ~/.ssh/config
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<blockquote><p>Host&nbsp;&nbsp;&nbsp;&nbsp;repo1.github.com<br />&nbsp;&nbsp;&nbsp;&nbsp;HostName github.com<br />&nbsp;&nbsp;&nbsp;&nbsp;PreferredAuthentications publickey<br />&nbsp;&nbsp;&nbsp;&nbsp;IdentityFile	~/.ssh/repo1_rsa</p><p>Host&nbsp;&nbsp;&nbsp;&nbsp;repo2.github.com<br />&nbsp;&nbsp;&nbsp;&nbsp;HostName github.com<br />&nbsp;&nbsp;&nbsp;&nbsp;PreferredAuthentications publickey<br />&nbsp;&nbsp;&nbsp;&nbsp;IdentityFile	~/.ssh/repo2_rsa</p></blockquote>
+
+<p>Save the file and we’re done. Now to checkout a project in one of the repositories. Do the following.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git clone git@repo1.github.com:repo1/project.git
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<blockquote><p>Cloning into &#8216;project&#8217;&#8230;<br />remote: Counting objects: 86, done.<br />remote: Compressing objects: 100% (66/66), done.<br />remote: Total 86 (delta 27), reused 64 (delta 17)<br />Receiving objects: 100% (86/86), 34.83 KiB, done.<br />Resolving deltas: 100% (27/27), done.</p></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Memory exhaust issue PHP and APM]]></title>
@@ -1728,23 +1774,6 @@ array(3) {
 </blockquote>
 
 <p>After restarting ZS everything worked fine again. Another problem solved! Thanks to the guys who posted in the EGit bug thread. Some good community Karma here! Time for other things. Hope it helps!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Recruiter rant]]></title>
-    <link href="http://lenss.nl/2012/02/recruiter-rant/"/>
-    <updated>2012-02-21T23:14:03+01:00</updated>
-    <id>http://lenss.nl/2012/02/recruiter-rant</id>
-    <content type="html"><![CDATA[<p>While doing our routine <a href="http://sites.google.com/site/agiledevelopmentsite/process/sprint-retrospective">sprint retrospective</a> today. We got interrupted by our office manager Wendy. An important phone call for me. Hmm… Should have known.</p>
-
-<p>I picked up the phone. And the guy (<a href="http://www.amoriabond.com/">Amoria Bond</a>) on the other end immediately started his sales pitch. O shit another one of those nasty recruiters. So after listening to him for a few seconds i quickly interrupted him. Told him i was not interested in a new job at all. And that he was a jerk and extremely unprofessional for calling me at the office. Completely unaware (or maybe intentionally?) what impact this might have if for instance my manager picks up the phone. Besides it’s just plain rude. </p>
-
-<p>Now don’t get me wrong. It’s not a rant for nothing. I don’t hate recruiters. And have worked with some professional ones in the past. I’ve always enjoyed communicating with linda-lotte while she was still working for <a href="http://www.recruit4it.nl/">Recruit4it</a>. And the guys at <a href="http://www.starapple.nl">Starapple</a> are OK as well. But this guy today really pissed me off with his aggressive unmannered approach. It’s a shame i didn’t catch his name while i was in rant mode. But please don’t ever call me again.</p>
-
-<p><strong>Update:</strong></p>
-
-<p>It seems to be some form of new tactic to call developers in the office where they work. This happened a couple of times more after this post. So this is for the next recruiter that calls me in the office. I’ll personally come over and kick your ass!!</p>
 ]]></content>
   </entry>
   

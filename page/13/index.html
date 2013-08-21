@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Load MOOdalBoxes Without Clicking Links The MOOdalBox script is a great addition to the mootools library. The interface is pretty slick. And easy to &hellip;">
+  <meta name="description" content="Parsing XML CDATA With SimpleXML I was quite amazed today. When loading a SOAP response into a SimpleXMLElement i noticed some fields were left &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -27,6 +27,8 @@
   <script src="http://lenss.nl/javascripts/octopress.js"></script>
   <script src="http://lenss.nl/javascripts/github.js"></script>
   <script src="http://lenss.nl/javascripts/twitter.js"></script>
+  <script type="text/javascript" src="http://lenss.nl/javascripts/jquery.cookie.min.js"></script>
+  <script type="text/javascript" src="http://lenss.nl/javascripts/adn-timeline.js"></script>
   <link href="http://feeds.feedburner.com/ThijsLensselinksBlog" rel="alternate" title="Thijs Lensselink's Blog" type="application/atom+xml">
   
   
@@ -57,6 +59,83 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2008/10/parsing-xml-cdata-with-simplexml/">Parsing XML CDATA With SimpleXML</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>I was quite amazed today. When loading a SOAP response into a SimpleXMLElement i noticed some fields were left blank. I should have checked the SOAP response first. But instead told our Delphi guy that the response was not filled correctly. This was not the case :)</p>
+
+<p>When we both saw the SOAP response was in perfect shape. We started to poke around on the PHP side. The strange thing was all tag names were taken from the response correctly. It was just the data that was missing.  Then we noticed the data missing was inside <a href="http://en.wikipedia.org/wiki/CDATA">CDATA</a> tags.</p>
+
+<p>From a first glance at the PHP manual it it wasn’t clear what was going on. So i did some googleing. And found a good <a href="http://blog.agoraproduction.com/index.php?/archives/53-Quick-Tip-PHP,-SimpleXML-and-CDATA.html">post</a> by <a href="http://blog.agoraproduction.com/">David Coallier</a>. This post solved the problem. The example showed how to add an extra <a href="http://xmlsoft.org/">LIBXML</a> options to the <a href="http://nl2.php.net/manual/en/function.simplexml-load-string.php">simplexml_load_String</a> method. Although David provided the solution. I still wanted to make post. Maybe it will help somebody.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="comment">// parsing with CDATA tags using the *_load_string method</span>
+<span class="local-variable">$xml</span> = simplexml_load_string(<span class="local-variable">$string</span>, <span class="string"><span class="delimiter">'</span><span class="content">SimpleXMLElement</span><span class="delimiter">'</span></span>, <span class="constant">LIBXML_NOCDATA</span>);
+
+<span class="comment">// parsing with CDATA tags using the OO way</span>
+<span class="local-variable">$xml</span> = <span class="keyword">new</span> <span class="constant">SimpleXMLElement</span>(<span class="local-variable">$string</span>, <span class="constant">LIBXML_NOCDATA</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>The LIBXML options that can be passed to the *_load methods and constructor can be found in the <a href="http://nl2.php.net/manual/en/libxml.constants.php">php documentation</a>.</p>
+
+<p>It’s pretty damn weird though. I want to parse the CDATA tags inside my XML. And can only do so by providing the NOCDATA option.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-10-10T11:19:19+02:00" pubdate data-updated="true">Oct 10<span>th</span>, 2008</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2008/10/parsing-xml-cdata-with-simplexml/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -883,111 +962,6 @@ The library directory will contain all shared libraries. This can be third party
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2008/08/php5-simplexml-and-xpath/">PHP5 SimpleXML and Xpath</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>Yesterday when working with some rather large XML files i noticed. That it’s not possible to do -&gt;xpath() calls on sub nodes of a SimpleXMLElement. If that’s not clear. Here is a small example.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$xmlStr</span> = <span class="string"><span class="delimiter">'</span><span class="content">&lt;root&gt;
-  &lt;fareOption&gt;
-  &lt;fare&gt;
-    &lt;flight&gt;&lt;/flight&gt;
-    &lt;flight&gt;&lt;/flight&gt;
-    &lt;flight&gt;&lt;/flight&gt;
-  &lt;/fare&gt;
-  &lt;/fareOption&gt;
-  &lt;fareOption&gt;
-  &lt;fare&gt;
-    &lt;flight&gt;&lt;/flight&gt;
-    &lt;flight&gt;&lt;/flight&gt;
-    &lt;flight&gt;&lt;/flight&gt;
-  &lt;/fare&gt;
-  &lt;/fareOption&gt;
-&lt;/root&gt;</span><span class="delimiter">'</span></span>;
-
-<span class="local-variable">$objXML</span> = simplexml_load_string(<span class="local-variable">$xmlStr</span>);
-<span class="local-variable">$fareList</span> = <span class="local-variable">$objXML</span>-&gt;xpath(<span class="string"><span class="delimiter">'</span><span class="content">//fareOption</span><span class="delimiter">'</span></span>);
-
-<span class="keyword">foreach</span> (<span class="local-variable">$fareList</span> <span class="keyword">as</span> <span class="local-variable">$fare</span>) {
-  <span class="local-variable">$flightList</span> = <span class="local-variable">$fare</span>-&gt;xpath(<span class="string"><span class="delimiter">'</span><span class="content">//flight</span><span class="delimiter">'</span></span>);
-  <span class="predefined">print_r</span>(<span class="local-variable">$flightList</span>);
-}
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>So first i try to get all the fareOption elements from the XML structure. And loop through the extracted elements. In the loop i want to do a -&gt;xpath call on $fare which is a instance of SimpleXMLElement. The result however is not what i expected. Instead of extracting all the flights of a $fare node. It extracts all flights from the root of the document. So instead of 3 flight nodes i get 6.</p>
-
-<p>I couldn’t really find a solution for this problem. And from reading some bug reports i understand this is how the PHP implementation of xpath works at the moment. To solve this problem. There is a small work around though. Instead of running the -&gt;xpath() call on the $fare node directly. We can create a new SimpleXMLElement from the $fare node. And do a -&gt;xpath() call on that. This will look something like this.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="keyword">foreach</span> (<span class="local-variable">$fareList</span> <span class="keyword">as</span> <span class="local-variable">$fare</span>) {
-  <span class="local-variable">$tempList</span> = simplexml_load_string(<span class="local-variable">$fare</span>-&gt;asXML());
-  <span class="local-variable">$flightList</span> = <span class="local-variable">$tempList</span>-&gt;xpath(<span class="string"><span class="delimiter">'</span><span class="content">//flight</span><span class="delimiter">'</span></span>);
-  <span class="predefined">print_r</span>(<span class="local-variable">$flightList</span>);
-}
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>This creates the expected output.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-08-08T10:55:27+02:00" pubdate data-updated="true">Aug 8<span>th</span>, 2008</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2008/08/php5-simplexml-and-xpath/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/14/">&larr; Older</a></div>
@@ -1041,6 +1015,8 @@ The library directory will contain all shared libraries. This can be third party
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/08/github-and-multiple-ssh-keys/"><span class="higlight">August, 2013</span> Github, SSH and multiple repositories</a></li>
+		
 		<li><a href="http://lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/"><span class="higlight">July, 2013</span> Memory exhaust issue PHP and APM</a></li>
 		
 		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
@@ -1058,8 +1034,6 @@ The library directory will contain all shared libraries. This can be third party
 		<li><a href="http://lenss.nl/2012/10/git-rebase-on-pull-by-default/"><span class="higlight">October, 2012</span> Git: Rebase on pull by default</a></li>
 		
 		<li><a href="http://lenss.nl/2012/10/workaround-ubuntu-12-04-mysterious-system-freezes/"><span class="higlight">October, 2012</span> Workaround Ubuntu 12.04 mysterious system freezes</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 	</ul>
 </div>
@@ -1080,7 +1054,7 @@ The library directory will contain all shared libraries. This can be third party
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.55172413793103%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(116)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.10344827586206%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.06896551724138%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.55172413793103%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.13793103448276%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.03448275862068%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.03448275862068%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.13793103448276%'>PHP(66)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.13793103448276%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.10344827586206%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.68965517241378%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.13793103448276%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.41025641025641%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(117)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.07692307692308%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.05128205128204%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 100.51282051282051%'>Git(1)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.53846153846153%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.1025641025641%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.02564102564102%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.02564102564102%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.35897435897436%'>PHP(67)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.1025641025641%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.07692307692308%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.25641025641025%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.1025641025641%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>
@@ -1119,18 +1093,13 @@ The library directory will contain all shared libraries. This can be third party
 <section>
   <div class="sidebox">
 	<h1>Latest Tweets</h1>
-	<ul class="linklist" id="tweets">
-    <li class="loading"><span class="higlight">Status updating...</span></li>
-  </ul>
-  <script type="text/javascript">
-    $.domReady(function(){
-      getTwitterFeed("tlenss", 4, false);
-    });
-  </script>
-  <script src="http://lenss.nl/javascripts/twitter.js" type="text/javascript"> </script>
-  
-    <a href="http://twitter.com/tlenss" class="twitter-follow-button" data-show-count="false">Follow @tlenss</a>
-  
+	<script type="text/javascript">
+  $(document).ready(function(){
+    new AdnTimeline();
+  });
+</script>
+
+<div data-username="tlenss" data-avatars="true" data-count="5" class="adn-timeline"></div>
 </div>
 </section>
 

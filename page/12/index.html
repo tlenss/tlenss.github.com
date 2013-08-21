@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="New INI&#8217;s for PHP Every morning i browse through the messages on php.internals. To keep me up to date with what happens under the PHP hood. It &hellip;">
+  <meta name="description" content="Forcing a Trailing Slash With Mod_rewrite I’m doing some SEO optimization for a couple of websites. And one of the small steps is to force a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -27,6 +27,8 @@
   <script src="http://lenss.nl/javascripts/octopress.js"></script>
   <script src="http://lenss.nl/javascripts/github.js"></script>
   <script src="http://lenss.nl/javascripts/twitter.js"></script>
+  <script type="text/javascript" src="http://lenss.nl/javascripts/jquery.cookie.min.js"></script>
+  <script type="text/javascript" src="http://lenss.nl/javascripts/adn-timeline.js"></script>
   <link href="http://feeds.feedburner.com/ThijsLensselinksBlog" rel="alternate" title="Thijs Lensselink's Blog" type="application/atom+xml">
   
   
@@ -57,6 +59,86 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2009/02/forcing-a-trailing-slash-with-mod_rewrite/">Forcing a Trailing Slash With Mod_rewrite</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>I’m doing some <a href="http://en.wikipedia.org/wiki/Search_engine_optimization">SEO</a> optimization for a couple of websites. And one of the small steps is to force a trailing slash on all URL’s that do not point to a file on the server. The reason I’m doing this is to go around the duplicate content problem.</p>
+
+<blockquote>
+  <p>/trip/80
+/trip/80/</p>
+</blockquote>
+
+<p>Both point to the same content. But a <a href="http://en.wikipedia.org/wiki/Web_crawler">crawler</a> would see this as two different URL’s. Which off course is correct. But this can lead to duplicate content being indexed in search engines. Which could result in penalties for the site in question. So to fix this problem we add three simple lines to the main .htaccess file</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+# If a requested file does not exists
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# If a requested directory does not exist
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Force a trailing slash to the request
+RewriteRule [^/]$ %{REQUEST_URI}/ [R=301,L]
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-02-17T08:29:37+01:00" pubdate data-updated="true">Feb 17<span>th</span>, 2009</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2009/02/forcing-a-trailing-slash-with-mod_rewrite/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -893,83 +975,6 @@ EndSection
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2008/10/parsing-xml-cdata-with-simplexml/">Parsing XML CDATA With SimpleXML</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>I was quite amazed today. When loading a SOAP response into a SimpleXMLElement i noticed some fields were left blank. I should have checked the SOAP response first. But instead told our Delphi guy that the response was not filled correctly. This was not the case :)</p>
-
-<p>When we both saw the SOAP response was in perfect shape. We started to poke around on the PHP side. The strange thing was all tag names were taken from the response correctly. It was just the data that was missing.  Then we noticed the data missing was inside <a href="http://en.wikipedia.org/wiki/CDATA">CDATA</a> tags.</p>
-
-<p>From a first glance at the PHP manual it it wasn’t clear what was going on. So i did some googleing. And found a good <a href="http://blog.agoraproduction.com/index.php?/archives/53-Quick-Tip-PHP,-SimpleXML-and-CDATA.html">post</a> by <a href="http://blog.agoraproduction.com/">David Coallier</a>. This post solved the problem. The example showed how to add an extra <a href="http://xmlsoft.org/">LIBXML</a> options to the <a href="http://nl2.php.net/manual/en/function.simplexml-load-string.php">simplexml_load_String</a> method. Although David provided the solution. I still wanted to make post. Maybe it will help somebody.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="comment">// parsing with CDATA tags using the *_load_string method</span>
-<span class="local-variable">$xml</span> = simplexml_load_string(<span class="local-variable">$string</span>, <span class="string"><span class="delimiter">'</span><span class="content">SimpleXMLElement</span><span class="delimiter">'</span></span>, <span class="constant">LIBXML_NOCDATA</span>);
-
-<span class="comment">// parsing with CDATA tags using the OO way</span>
-<span class="local-variable">$xml</span> = <span class="keyword">new</span> <span class="constant">SimpleXMLElement</span>(<span class="local-variable">$string</span>, <span class="constant">LIBXML_NOCDATA</span>);
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>The LIBXML options that can be passed to the *_load methods and constructor can be found in the <a href="http://nl2.php.net/manual/en/libxml.constants.php">php documentation</a>.</p>
-
-<p>It’s pretty damn weird though. I want to parse the CDATA tags inside my XML. And can only do so by providing the NOCDATA option.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-10-10T11:19:19+02:00" pubdate data-updated="true">Oct 10<span>th</span>, 2008</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2008/10/parsing-xml-cdata-with-simplexml/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/13/">&larr; Older</a></div>
@@ -1023,6 +1028,8 @@ EndSection
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/08/github-and-multiple-ssh-keys/"><span class="higlight">August, 2013</span> Github, SSH and multiple repositories</a></li>
+		
 		<li><a href="http://lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/"><span class="higlight">July, 2013</span> Memory exhaust issue PHP and APM</a></li>
 		
 		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
@@ -1040,8 +1047,6 @@ EndSection
 		<li><a href="http://lenss.nl/2012/10/git-rebase-on-pull-by-default/"><span class="higlight">October, 2012</span> Git: Rebase on pull by default</a></li>
 		
 		<li><a href="http://lenss.nl/2012/10/workaround-ubuntu-12-04-mysterious-system-freezes/"><span class="higlight">October, 2012</span> Workaround Ubuntu 12.04 mysterious system freezes</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 	</ul>
 </div>
@@ -1062,7 +1067,7 @@ EndSection
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.55172413793103%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(116)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.10344827586206%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.06896551724138%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.55172413793103%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.13793103448276%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.03448275862068%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.03448275862068%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.13793103448276%'>PHP(66)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.13793103448276%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.10344827586206%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.68965517241378%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.13793103448276%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.41025641025641%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(117)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.07692307692308%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.05128205128204%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 100.51282051282051%'>Git(1)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.53846153846153%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.1025641025641%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.02564102564102%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.02564102564102%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.35897435897436%'>PHP(67)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.1025641025641%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.07692307692308%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.25641025641025%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.1025641025641%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>
@@ -1101,18 +1106,13 @@ EndSection
 <section>
   <div class="sidebox">
 	<h1>Latest Tweets</h1>
-	<ul class="linklist" id="tweets">
-    <li class="loading"><span class="higlight">Status updating...</span></li>
-  </ul>
-  <script type="text/javascript">
-    $.domReady(function(){
-      getTwitterFeed("tlenss", 4, false);
-    });
-  </script>
-  <script src="http://lenss.nl/javascripts/twitter.js" type="text/javascript"> </script>
-  
-    <a href="http://twitter.com/tlenss" class="twitter-follow-button" data-show-count="false">Follow @tlenss</a>
-  
+	<script type="text/javascript">
+  $(document).ready(function(){
+    new AdnTimeline();
+  });
+</script>
+
+<div data-username="tlenss" data-avatars="true" data-count="5" class="adn-timeline"></div>
 </div>
 </section>
 

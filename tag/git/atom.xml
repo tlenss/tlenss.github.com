@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Git | Thijs Lensselink's Blog]]></title>
+  <link href="http://lenss.nl/tag/git/atom.xml" rel="self"/>
+  <link href="http://lenss.nl/"/>
+  <updated>2013-08-21T23:07:26+02:00</updated>
+  <id>http://lenss.nl/</id>
+  <author>
+    <name><![CDATA[Thijs Lensselink]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Github, SSH and multiple repositories]]></title>
+    <link href="http://lenss.nl/2013/08/github-and-multiple-ssh-keys/"/>
+    <updated>2013-08-22T00:02:09+02:00</updated>
+    <id>http://lenss.nl/2013/08/github-and-multiple-ssh-keys</id>
+    <content type="html"><![CDATA[<p>When working with <a href="http://github.com">Github</a>. Setting up SSH key based authentication is easy. You just create a key. Add the public key in the admin panel and voilà. If a new contributor joins your team. You add his / her key and they also have access.</p>
+
+<p>But how does it work when you have need access to multiple repositories using multiple keys yourself? I had to set this up a couple of times. And it turns out to be just as easy. But if for some reason it’s not that obvious these steps might help.</p>
+
+<p>Let’s pretend we need some key first.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ ssh-keygen -t rsa -b 4096
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p><blockquote><p>Generating public/private rsa key pair.<br/>Enter file in which to save the key (/home/user/.ssh/id_rsa): repo1_rsa<br/>Enter passphrase (empty for no passphrase):<br/>Enter same passphrase again:</p></p><p><p>Your identification has been saved in repo1_rsa.<br/>Your public key has been saved in repo1_rsa.pub.<br/>The key fingerprint is:<br/>03:b5:da:08:3b:6f:9a:29:3f:f5:4c:ee:5d:14:cb:41 user@host<br/>The key’s randomart image is:<br/>+–[ RSA 4096]—-+<br/>   some output<br/>+—————–+</p></blockquote></p>
+
+<p>This will generate the public and private key for <strong>repo1</strong>. Now repeat the same thing for <strong>repo2</strong>. Make sure the keys reside in <strong>~/.ssh</strong></p>
+
+<p>Now let’s say we have access to two repositories under two different users / companies. We will use <strong>github.com/repo1</strong> and <strong>github.com/repo2</strong> as examples. The only thing we have to do is add some entries to <strong>~/.ssh/config</strong> to make this work. They key is to use the Github sub-domain mappings</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ vi ~/.ssh/config
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p><blockquote><p>Host    repo1.github.com<br/>    HostName github.com<br/>    PreferredAuthentications publickey<br/>    IdentityFile	~/.ssh/repo1_rsa</p></p><p><p>Host    repo2.github.com<br/>    HostName github.com<br/>    PreferredAuthentications publickey<br/>    IdentityFile	~/.ssh/repo2_rsa</p></blockquote></p>
+
+<p>Save the file and we’re done. Now to checkout a project in one of the repositories. Do the following.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ git clone git@repo1.github.com:repo1/project.git
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p><blockquote><p>Cloning into ‘project’…<br/>remote: Counting objects: 86, done.<br/>remote: Compressing objects: 100% (66/66), done.<br/>remote: Total 86 (delta 27), reused 64 (delta 17)<br/>Receiving objects: 100% (86/86), 34.83 KiB, done.<br/>Resolving deltas: 100% (27/27), done.</p></blockquote></p>
+]]></content>
+  </entry>
+  
+</feed>

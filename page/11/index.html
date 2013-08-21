@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Animated Loader on Form Submit In one of our sites we load content of a third party travel organization. And some of these calls can take some time &hellip;">
+  <meta name="description" content="Checking Website Status With PHP and Curl I have to admit this is probably not the best way to things like this. But it was fun to write the small &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -27,6 +27,8 @@
   <script src="http://lenss.nl/javascripts/octopress.js"></script>
   <script src="http://lenss.nl/javascripts/github.js"></script>
   <script src="http://lenss.nl/javascripts/twitter.js"></script>
+  <script type="text/javascript" src="http://lenss.nl/javascripts/jquery.cookie.min.js"></script>
+  <script type="text/javascript" src="http://lenss.nl/javascripts/adn-timeline.js"></script>
   <link href="http://feeds.feedburner.com/ThijsLensselinksBlog" rel="alternate" title="Thijs Lensselink's Blog" type="application/atom+xml">
   
   
@@ -57,6 +59,243 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2009/03/checking-website-status-with-php-and-curl/">Checking Website Status With PHP and Curl</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>I have to admit this is probably not the best way to things like this. But it was fun to write the small bit of code. And it’s useful as well. For one of my sites i use a small script to check the status every 30 minutes. I’m doing this because the server the site is running on sometimes chooses to stop serving web pages. It’s a managed server so not much i can do about it.</p>
+
+<p>So to check the status of the website / web server i wrote a small class that is triggered from a CRON job that runs every 30 minutes.</p>
+
+<p>The CRON script looks like this:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="predefined">require_once</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">/full/path/to/class/siteStatus.php</span><span class="delimiter">&quot;</span></span>;
+
+<span class="keyword">try</span> {
+  siteStatus::check(<span class="predefined">array</span>(
+    <span class="string"><span class="delimiter">'</span><span class="content">sites</span><span class="delimiter">'</span></span> =&gt; <span class="predefined">array</span>(
+      <span class="string"><span class="delimiter">'</span><span class="content">http://siteurl1.tld</span><span class="delimiter">'</span></span>,
+      <span class="string"><span class="delimiter">'</span><span class="content">http://siteurl2.tld</span><span class="delimiter">'</span></span>
+    ),
+    <span class="string"><span class="delimiter">'</span><span class="content">agent</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)</span><span class="delimiter">'</span></span>,
+    <span class="string"><span class="delimiter">'</span><span class="content">email</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">some+email.address</span><span class="delimiter">'</span></span>
+  ));
+} <span class="keyword">catch</span> (<span class="predefined-constant">Exception</span> <span class="local-variable">$e</span>) {
+  <span class="predefined">echo</span> <span class="local-variable">$e</span>-&gt;getMessage();
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>And the class that does the actual checking:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="comment">/**
+* siteStatus
+*
+* LICENSE
+*
+* This source file is subject to the new BSD license
+*
+* @package    siteStatus
+* @copyright  Copyright (c) 2009 Thijs Lensselink. (http://lenss.nl)
+* @license    http://lenss.nl/license/bsd.txt     New BSD License
+*/</span>
+
+<span class="comment">/**
+* Class for checking the status of a website
+*
+* @package    siteStatus
+* @copyright  Copyright (c) 2009 Thijs Lensselink. (http://lenss.nl)
+* @license    http://lenss.nl/license/bsd.txt     New BSD License
+*/</span>
+<span class="keyword">Class</span> siteStatus
+{
+  <span class="comment">/**
+   * @var resource
+   */</span>
+  <span class="keyword">static</span> <span class="keyword">private</span> <span class="local-variable">$_curl</span>;
+
+  <span class="comment">/**
+   * @var string
+   */</span>
+  <span class="keyword">static</span> <span class="keyword">private</span> <span class="local-variable">$_reportEmail</span>;
+
+  <span class="comment">/**
+   * @var string
+   */</span>
+  <span class="keyword">static</span> <span class="keyword">private</span> <span class="local-variable">$_curlErrors</span>;
+
+  <span class="comment">/**
+   * This method loops through the lis tof sites provided by the
+   * config array. And calls self::checkSite to do the actual checking.
+   *
+   * A config array will look something like this:
+   * 
+   * array(
+   *        'sites' =&gt; array(
+   *                'http://siteurl1.tld',
+   *                'http://siteurl2.tld'
+   *        ),
+   *        'agent' =&gt; 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)',
+   *        'email' =&gt; 'report+email.tld'
+   * ); 
+   *
+   * @param  array  $config   The config array
+   * @return void
+   */</span>
+  <span class="keyword">static</span> <span class="keyword">public</span> <span class="keyword">function</span> <span class="function">check</span>(<span class="predefined">array</span> <span class="local-variable">$config</span>)
+  {
+    <span class="predefined-constant">self</span>::setReportAddress(<span class="local-variable">$config</span>);
+    <span class="predefined-constant">self</span>::createCurlResource();
+    
+    <span class="keyword">foreach</span> (<span class="local-variable">$config</span>[<span class="string"><span class="delimiter">'</span><span class="content">sites</span><span class="delimiter">'</span></span>] <span class="keyword">as</span> <span class="local-variable">$site</span>) {
+      <span class="local-variable">$checkDateTime</span> = <span class="predefined">date</span>(<span class="string"><span class="delimiter">'</span><span class="content">Y-m-d H:i:s</span><span class="delimiter">'</span></span>);
+      <span class="keyword">if</span> (!<span class="predefined-constant">self</span>::checkSite(<span class="local-variable">$site</span>, <span class="local-variable">$config</span>[<span class="string"><span class="delimiter">'</span><span class="content">agent</span><span class="delimiter">'</span></span>])) {
+        <span class="predefined-constant">self</span>::sendReport(<span class="local-variable">$site</span>, <span class="local-variable">$checkDateTime</span>);
+      }
+    }
+        
+    curl_close(<span class="predefined-constant">self</span>::<span class="local-variable">$_curl</span>);
+  }
+
+  <span class="comment">/**
+   * Sets the address to which the report has to be emailed.
+   *
+   * @param  array  $config   The config array
+   * @return void
+   */</span>
+  <span class="keyword">static</span> <span class="keyword">private</span> <span class="keyword">function</span> <span class="function">setReportAddress</span>(<span class="predefined">array</span> <span class="local-variable">$config</span>)
+  {
+    <span class="keyword">if</span> (!<span class="predefined">isset</span>(<span class="local-variable">$config</span>[<span class="string"><span class="delimiter">'</span><span class="content">email</span><span class="delimiter">'</span></span>]) || (<span class="predefined">strlen</span>(<span class="local-variable">$config</span>[<span class="string"><span class="delimiter">'</span><span class="content">email</span><span class="delimiter">'</span></span>]) &lt;= <span class="integer">4</span>)) {
+      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="predefined-constant">Exception</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">No report email address is set in the config.</span><span class="delimiter">&quot;</span></span>);
+    }
+        
+    <span class="predefined-constant">self</span>::<span class="local-variable">$_reportEmail</span> = <span class="local-variable">$config</span>[<span class="string"><span class="delimiter">'</span><span class="content">email</span><span class="delimiter">'</span></span>];
+  }
+
+  <span class="comment">/**
+   * Try to create a curl resource.
+   *
+   * @return void
+   */</span>
+  <span class="keyword">static</span> <span class="keyword">private</span> <span class="keyword">function</span> <span class="function">createCurlResource</span>()
+  {
+    <span class="predefined-constant">self</span>::<span class="local-variable">$_curl</span> = curl_init();
+    <span class="keyword">if</span> (!<span class="predefined-constant">self</span>::<span class="local-variable">$_curl</span>) {
+      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="predefined-constant">Exception</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Could not create a curl resource.</span><span class="delimiter">&quot;</span></span>);
+    }
+  }
+
+  <span class="comment">/**
+   * Preform a call to the webserver. And check the status code provided by it.
+   *
+   * @param  string  $siteUrl   The site URL.
+   * @param  string  $agent     Browser agent string.
+   * @return boolean
+   */</span>
+  <span class="keyword">static</span> <span class="keyword">private</span> <span class="keyword">function</span> <span class="function">checkSite</span>(<span class="local-variable">$siteUrl</span>, <span class="local-variable">$agent</span>)
+  {
+    curl_setopt(<span class="predefined-constant">self</span>::<span class="local-variable">$_curl</span>, <span class="constant">CURLOPT_URL</span>,            <span class="local-variable">$siteUrl</span>);
+    curl_setopt(<span class="predefined-constant">self</span>::<span class="local-variable">$_curl</span>, <span class="constant">CURLOPT_USERAGENT</span>,      <span class="local-variable">$agent</span>);
+    curl_setopt(<span class="predefined-constant">self</span>::<span class="local-variable">$_curl</span>, <span class="constant">CURLOPT_RETURNTRANSFER</span>, <span class="integer">1</span>);
+    curl_setopt(<span class="predefined-constant">self</span>::<span class="local-variable">$_curl</span>, <span class="constant">CURLOPT_VERBOSE</span>,        <span class="predefined-constant">false</span>);
+    curl_setopt(<span class="predefined-constant">self</span>::<span class="local-variable">$_curl</span>, <span class="constant">CURLOPT_TIMEOUT</span>,        <span class="integer">5</span>);
+
+    <span class="keyword">if</span> (curl_exec(<span class="predefined-constant">self</span>::<span class="local-variable">$_curl</span>) === <span class="predefined-constant">false</span>) {
+            <span class="predefined-constant">self</span>::<span class="local-variable">$_curlErrors</span> = curl_error(<span class="predefined-constant">self</span>::<span class="local-variable">$_curl</span>);
+    }
+    <span class="local-variable">$httpcode</span> = curl_getinfo(<span class="predefined-constant">self</span>::<span class="local-variable">$_curl</span>, <span class="constant">CURLINFO_HTTP_CODE</span>);
+        
+    <span class="keyword">if</span>(<span class="local-variable">$httpcode</span> &gt;= <span class="integer">200</span> &amp;&amp; <span class="local-variable">$httpcode</span> &lt; <span class="integer">300</span>) {
+        <span class="keyword">return</span> <span class="predefined-constant">true</span>;
+    }
+
+    <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+  }
+
+  <span class="comment">/**
+   * Send a report after checking sites is done.
+   *
+   * @param  string $site     Site URL.
+   * @param  string $dateTime DateTime the check was preformed.
+   * @return void
+   */</span>
+  <span class="keyword">static</span> <span class="keyword">private</span> <span class="keyword">function</span> <span class="function">sendReport</span>(<span class="local-variable">$site</span>, <span class="local-variable">$dateTime</span>)
+  {
+    <span class="local-variable">$reportSubject</span> = <span class="string"><span class="delimiter">&quot;</span><span class="content">Status report for </span><span class="inline"><span class="delimiter">{</span><span class="local-variable">$site</span><span class="delimiter">}</span></span><span class="char">\n</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>;
+
+    <span class="local-variable">$reportBody</span> = <span class="string"><span class="delimiter">&quot;</span><span class="content">Site : </span><span class="inline"><span class="delimiter">{</span><span class="local-variable">$site</span><span class="delimiter">}</span></span><span class="char">\n</span><span class="delimiter">&quot;</span></span>;
+    <span class="local-variable">$reportBody</span> .= <span class="string"><span class="delimiter">&quot;</span><span class="content">Date : </span><span class="inline"><span class="delimiter">{</span><span class="local-variable">$dateTime</span><span class="delimiter">}</span></span><span class="char">\n</span><span class="delimiter">&quot;</span></span>;
+
+    <span class="keyword">if</span> (<span class="predefined">strlen</span>(<span class="predefined-constant">self</span>::<span class="local-variable">$_curlErrors</span>) &gt; <span class="integer">0</span>) {
+      <span class="local-variable">$reportBody</span> .= <span class="string"><span class="delimiter">&quot;</span><span class="content">Errors : </span><span class="delimiter">&quot;</span></span> . <span class="predefined-constant">self</span>::<span class="local-variable">$_curlErrors</span> . <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>;
+    }
+                
+    <span class="predefined">mail</span>(<span class="predefined-constant">self</span>::<span class="local-variable">$_reportEmail</span>, <span class="local-variable">$reportSubject</span>, <span class="local-variable">$reportBody</span>);
+  }
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Like i said this is probably not the best way of doing this. To make it more solid it’s probably better to use some sort of SMS gateway to send out reports. But for now this suits my needs. It’s runs from my local workstation. Which is on 24/7 anyway.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-03-20T10:56:03+01:00" pubdate data-updated="true">Mar 20<span>th</span>, 2009</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2009/03/checking-website-status-with-php-and-curl/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -766,86 +1005,6 @@ But today one of the ladies here at the office noticed the contact form on one s
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2009/02/forcing-a-trailing-slash-with-mod_rewrite/">Forcing a Trailing Slash With Mod_rewrite</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>I’m doing some <a href="http://en.wikipedia.org/wiki/Search_engine_optimization">SEO</a> optimization for a couple of websites. And one of the small steps is to force a trailing slash on all URL’s that do not point to a file on the server. The reason I’m doing this is to go around the duplicate content problem.</p>
-
-<blockquote>
-  <p>/trip/80
-/trip/80/</p>
-</blockquote>
-
-<p>Both point to the same content. But a <a href="http://en.wikipedia.org/wiki/Web_crawler">crawler</a> would see this as two different URL’s. Which off course is correct. But this can lead to duplicate content being indexed in search engines. Which could result in penalties for the site in question. So to fix this problem we add three simple lines to the main .htaccess file</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-# If a requested file does not exists
-RewriteCond %{REQUEST_FILENAME} !-f
-
-# If a requested directory does not exist
-RewriteCond %{REQUEST_FILENAME} !-d
-
-# Force a trailing slash to the request
-RewriteRule [^/]$ %{REQUEST_URI}/ [R=301,L]
-</pre></div>
-</div>
- </figure></notextile></div>
-
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-02-17T08:29:37+01:00" pubdate data-updated="true">Feb 17<span>th</span>, 2009</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2009/02/forcing-a-trailing-slash-with-mod_rewrite/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/12/">&larr; Older</a></div>
@@ -899,6 +1058,8 @@ RewriteRule [^/]$ %{REQUEST_URI}/ [R=301,L]
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/08/github-and-multiple-ssh-keys/"><span class="higlight">August, 2013</span> Github, SSH and multiple repositories</a></li>
+		
 		<li><a href="http://lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/"><span class="higlight">July, 2013</span> Memory exhaust issue PHP and APM</a></li>
 		
 		<li><a href="http://lenss.nl/2013/06/php-55-released/"><span class="higlight">June, 2013</span> PHP 5.5.0 released</a></li>
@@ -916,8 +1077,6 @@ RewriteRule [^/]$ %{REQUEST_URI}/ [R=301,L]
 		<li><a href="http://lenss.nl/2012/10/git-rebase-on-pull-by-default/"><span class="higlight">October, 2012</span> Git: Rebase on pull by default</a></li>
 		
 		<li><a href="http://lenss.nl/2012/10/workaround-ubuntu-12-04-mysterious-system-freezes/"><span class="higlight">October, 2012</span> Workaround Ubuntu 12.04 mysterious system freezes</a></li>
-		
-		<li><a href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"><span class="higlight">September, 2012</span> Fixing character replacement in Wordpress</a></li>
 		
 	</ul>
 </div>
@@ -938,7 +1097,7 @@ RewriteRule [^/]$ %{REQUEST_URI}/ [R=301,L]
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.55172413793103%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(116)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.10344827586206%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.06896551724138%'>Freelance(4)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.55172413793103%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.13793103448276%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.03448275862068%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.03448275862068%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.13793103448276%'>PHP(66)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.13793103448276%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.10344827586206%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.68965517241378%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.13793103448276%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.41025641025641%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(117)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.07692307692308%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.05128205128204%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 100.51282051282051%'>Git(1)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.53846153846153%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.1025641025641%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.02564102564102%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.02564102564102%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.35897435897436%'>PHP(67)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.1025641025641%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.07692307692308%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.25641025641025%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.1025641025641%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>
@@ -977,18 +1136,13 @@ RewriteRule [^/]$ %{REQUEST_URI}/ [R=301,L]
 <section>
   <div class="sidebox">
 	<h1>Latest Tweets</h1>
-	<ul class="linklist" id="tweets">
-    <li class="loading"><span class="higlight">Status updating...</span></li>
-  </ul>
-  <script type="text/javascript">
-    $.domReady(function(){
-      getTwitterFeed("tlenss", 4, false);
-    });
-  </script>
-  <script src="http://lenss.nl/javascripts/twitter.js" type="text/javascript"> </script>
-  
-    <a href="http://twitter.com/tlenss" class="twitter-follow-button" data-show-count="false">Follow @tlenss</a>
-  
+	<script type="text/javascript">
+  $(document).ready(function(){
+    new AdnTimeline();
+  });
+</script>
+
+<div data-username="tlenss" data-avatars="true" data-count="5" class="adn-timeline"></div>
 </div>
 </section>
 
