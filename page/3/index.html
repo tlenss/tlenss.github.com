@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Recruiter Rant While doing our routine sprint retrospective today. We got interrupted by our office manager Wendy. An important phone call for me. &hellip;">
+  <meta name="description" content="Using SSH Key Authentication With EGit in ZendStudio For the past few months i have been switching some projects over to git from Subversion. And &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -59,6 +59,113 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2012/02/using-ssh-key-authentication-with-egit-in-zendstudio/">Using SSH Key Authentication With EGit in ZendStudio</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>For the past few months i have been switching some projects over to <a href="http://git-scm.com/">git</a> from <a href="http://subversion.tigris.org/">Subversion</a>. And have been trying to get the hang of all the command line options available. And i will be doing that for a while longer until i get completely comfortable. And for communication to the remote git server i have been using SSH key authentication. Which works smoothly just like it did with Subversion. </p>
+
+<p>But i wanted to check out the GIT support available in <a href="http://www.zend.com/products/studio/">Zend Studio 9</a>. And hit a problem pretty quickly. But i will describe that below. First i will create a local clone of my git project.</p>
+
+<blockquote>
+  <p>$ git clone ssh://[somehost]/~/git/project.git</p>
+</blockquote>
+
+<p>To test if everything is working i do a test commit. If that succeeds if push it out to the remote master.</p>
+
+<blockquote>
+
+  <ul>
+    <li>$ cd project.git</li>
+    <li>$ touch TEST</li>
+    <li>$ git commit </li>
+    <li>$ git push origin master</li>
+  </ul>
+</blockquote>
+
+<p>So that works fine. Now time to see how Zen Studio handles this. To create a project i use the <strong>Create from Git</strong> option. And select the local checkout i just created. This will read the whole repository configuration. And you are basically done from here. But as i mentioned earlier, i had some difficulties getting things running smoothly. I discovered that when it was time to push changes to the master repository.</p>
+
+<p>When i used the <strong>Push to Upstream</strong> option. I was greeted by a login panel that seemed to have selected the correct SSH key and user to perform the login. But when i typed the password, it just kept asking for the password. Again and again. Hmm. That sucks! The password was correct. I tried with a newly created key. No luck either. The last thing i tried was updating to a nightly build of <a href="http://www.eclipse.org/egit/">Egit</a> found <a href="http://www.eclipse.org/egit/download/">here</a>. But this offered no solution either.</p>
+
+<p>After reading a couple of complaints i found this <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=326526">bug</a> report for the EGit eclipse plugin. The thread contains a solution for the login issue i was having. Gotta love Google!</p>
+
+<p>Apparently the problem has to do with the encryption algorithm used to create the SSH keys. In this case the EGit plugin (which uses <a href="http://www.jcraft.com/jsch/">Jsch</a> to do the SSH communication) was having problems with <a href="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES</a> encrypted keys. And to solve the problem the Jsch library should be replaced with a newer version to make things work again.</p>
+
+<p>So lets download this JSch library and update it manually. The library (JSch v 0.1.46) can be found <a href="http://www.jcraft.com/jsch/">here</a>.</p>
+
+<blockquote>
+
+  <ul>
+    <li>$ cd ZendStudio9</li>
+    <li>$ find . -name ‘<em>jsch</em>’ -type f</li>
+  </ul>
+</blockquote>
+
+<p>Found it <strong>plugins/com.jcraft.jsch_0.1.41.v201101211617.jar</strong>. So let’s try to update that.</p>
+
+<blockquote>
+
+  <ul>
+    <li>$ cp plugins/com.jcraft.jsch<em>0.1.41.v201101211617.jar plugins/com.jcraft.jsch</em>0.1.41.v201101211617.jar.backup</li>
+    <li>$ wget http://sourceforge.net/projects/jsch/files/jsch.jar/0.1.46/jsch-0.1.46.jar/download</li>
+    <li>$ mv jsch-0.1.46.jar plugins/com.jcraft.jsch_0.1.41.v201101211617.jar</li>
+  </ul>
+</blockquote>
+
+<p>After restarting ZS everything worked fine again. Another problem solved! Thanks to the guys who posted in the EGit bug thread. Some good community Karma here! Time for other things. Hope it helps!</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-28T16:17:19+01:00" pubdate data-updated="true">Feb 28<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>, <a class='category' href='http://lenss.nl/tag/zend/'>Zend</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2012/02/using-ssh-key-authentication-with-egit-in-zendstudio/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -1138,181 +1245,6 @@ Last week i had a blast while listening to <a href="http://www.thoughtcrime.org/
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2011/08/php5-filesize-limit-on-32-bit-system/">PHP5 Filesize Limit on 32-bit System</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>So we have a PHP based importer script that does some heavy duty media processing at the office. And i had to import some new media today. But for some reason a couple of files weren’t picked up without a message. So i cleaned up the upload folder. The only files left were the files not being processed. And when i started the importer. The result was.</p>
-
-<blockquote>
-
-  <p>Importer found (0) files to import!</p>
-</blockquote>
-
-<p>Hmmm. That’s not right. So i had a look at the code behind the importer. Which basically is a loop using a <a href="http://nl2.php.net/manual/en/class.directoryiterator.php">DirectoryIterator</a> object. And some var_dump calls revealed the issue. For some reason <a href="http://nl2.php.net/manual/en/splfileinfo.isfile.php">-&gt;isFile()</a> was returning <em>(false)</em> for regular files. WTF! Let’s test that on the command line.</p>
-
-<blockquote>
-  <p>$ php -r “var_dump(is_file(‘/some/file.ext’));”;
-<em>bool(false)</em></p>
-</blockquote>
-
-<p>Ok so we have an issue here. How big are these files really. A inspection revealed they are all over 2GB. Maybe some 32 bit issue? As the platform the code is running on is a 32 bit server. So i asked my colleagues, Googled a bit and read through php.net. To find out that there is an issue with PHP and files larger then 2GB.</p>
-
-<blockquote>
-  <p><a href="https://bugs.php.net/bug.php?id=27792">https://bugs.php.net/bug.php?id=27792</a>
-<a href="https://bugs.php.net/bug.php?id=48886">https://bugs.php.net/bug.php?id=48886</a>
-<a href="http://nl.php.net/manual/en/function.filesize.php">http://nl.php.net/manual/en/function.filesize.php</a></p>
-</blockquote>
-
-<p>Those however all seem related to filesize. The filesize function manual page even has a note about it. Maybe it’s related?</p>
-
-<blockquote>
-  <p><strong>Note:</strong> Because PHP’s integer type is signed and many platforms use 32bit integers, <strong>filesize() ** may return unexpected results for files which are larger than **2GB</strong>. For files between 2GB and 4GB in size this can usually be overcome by using <strong>sprintf(“%u”, filesize($file))</strong>. </p>
-</blockquote>
-
-<p>But i can’t apply that patch on a production server. So i came up with a simple solution for now. I extended the <a href="http://nl2.php.net/manual/en/class.directoryiterator.php">DirectoryIterator</a> class and have overwritten the <em>isFile</em> method. Which works for now (don’t think this will work on windows).</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="keyword">Class</span> <span class="constant">MyDirectoryIterator</span> <span class="keyword">extends</span> <span class="constant">DirectoryIterator</span> {
-  <span class="keyword">public</span> <span class="keyword">function</span> <span class="function">isFile</span>() {
-    <span class="keyword">return</span> (<span class="predefined-type">integer</span>) <span class="predefined">exec</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">[ -f </span><span class="inline"><span class="delimiter">{</span><span class="local-variable">$this</span>-&gt;getPathname()<span class="delimiter">}</span></span><span class="content"> ] &amp;&amp; echo 1 || echo 0</span><span class="delimiter">&quot;</span></span>);
-  }
-}
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>Convinced it was a 32 bit issue. I came home later that day. And wanted to try it out on my own desktop. That is a 32 bit system and runs Ubuntu 11.04. To my surprise the result was different then i expected.</p>
-
-<blockquote>
-  <ul>
-    <li>$ php -r “var_dump(is_file(‘/some/file.ext’));”;</li>
-    <li><em>bool(true)</em></li>
-  </ul>
-</blockquote>
-
-<p>I used the same files as before. And tested some more big files. But the result was the same. Weird. Let’s try some other 32 bit machines.</p>
-
-<blockquote>
-  <p>Ubuntu 11.04: bool(true)</p>
-</blockquote>
-
-<p>CentOS release 5.6 (Final): bool(false)
-Debian 6.0.2 (squeeze): bool(false)</p>
-
-<p>Only my desktop at home seems to have a good result. Ubuntu must have some patch somewhere to fix this issue? To confirm i compiled PHP 5.3.8 from source. And did the same test again on Ubuntu 11.04. And this time it was <em>(false)</em>.</p>
-
-<blockquote>
-  <ul>
-    <li>$ php -r “var_dump(is_file(‘/some/file.ext’));”;</li>
-    <li><em>bool(false)</em></li>
-  </ul>
-</blockquote>
-
-<p>I am not really in the mood to search the Ubuntu <a href="http://changelogs.ubuntu.com/changelogs/pool/main/p/php5/">changelog</a>. And for now the work around will do. But i really would like to know what patch is applied to resolve the issue.</p>
-
-<p><strong>[ update ]</strong></p>
-
-<p>While applying the patch for the is_file issue. I was confronted with the fact that way more function calls cause issues. So while waiting for PHP to get patched i had to create some workarounds for the time being.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Getting the filesize </span></figcaption>
- <div class="CodeRay">
-  <div class="code"><pre>
-(<span class="predefined-type">integer</span>) <span class="predefined">exec</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">stat -c%s </span><span class="inline"><span class="delimiter">{</span><span class="local-variable">$file</span>-&gt;getFilename()<span class="delimiter">}</span></span><span class="delimiter">&quot;</span></span>);
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Calculate a MD5 checksum </span></figcaption>
- <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$md5</span> = <span class="predefined">exec</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">md5sum </span><span class="inline"><span class="delimiter">{</span><span class="local-variable">$file</span>-&gt;getFilename()<span class="delimiter">}</span></span><span class="delimiter">&quot;</span></span>);
-<span class="local-variable">$expl</span> = <span class="predefined">explode</span>(<span class="string"><span class="delimiter">'</span><span class="content">\t</span><span class="delimiter">'</span></span>, <span class="local-variable">$md5</span>);
-<span class="keyword">return</span> (<span class="predefined-type">string</span>) <span class="local-variable">$expl</span>[<span class="integer">0</span>];
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Calculate the CRC32 checksum </span></figcaption>
- <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$hash</span> = <span class="predefined">exec</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">cksum </span><span class="inline"><span class="delimiter">{</span><span class="local-variable">$this</span>-&gt;path<span class="delimiter">}</span></span><span class="delimiter">&quot;</span></span>);
-<span class="local-variable">$expl</span> = <span class="predefined">explode</span>(<span class="string"><span class="delimiter">'</span><span class="content"> </span><span class="delimiter">'</span></span>, <span class="local-variable">$hash</span>);
-<span class="keyword">return</span> <span class="local-variable">$expl</span>[<span class="integer">0</span>];
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Get the modified time </span></figcaption>
- <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$stat</span> = <span class="predefined">explode</span>(<span class="string"><span class="delimiter">'</span><span class="content">.</span><span class="delimiter">'</span></span>, <span class="predefined">exec</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">stat -c%y </span><span class="inline"><span class="delimiter">{</span><span class="local-variable">$this</span>-&gt;path<span class="delimiter">}</span></span><span class="delimiter">&quot;</span></span>));
-<span class="local-variable">$timestamp</span> = <span class="predefined">strtotime</span>(<span class="local-variable">$stat</span>[<span class="integer">0</span>]);
-<span class="keyword">return</span> <span class="local-variable">$timestamp</span>;
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>Hopefully that will do for now. On a side note the issue is solvable by setting certain <strong>CFLAGS</strong> when compiling PHP. I have no idea what the impact of that will be on the PHP binary. But it does seem to solve the issue. Not sure how one would apply that when PHP is installed from the distro’s repository though.</p>
-
-<blockquote>
-  <p>CFLAGS=”-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64” ./configure</p>
-</blockquote>
-
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-08-31T01:38:00+02:00" pubdate data-updated="true">Aug 31<span>st</span>, 2011</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>, <a class='category' href='http://lenss.nl/tag/zend/'>Zend</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2011/08/php5-filesize-limit-on-32-bit-system/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/4/">&larr; Older</a></div>
@@ -1366,6 +1298,8 @@ Debian 6.0.2 (squeeze): bool(false)</p>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/"><span class="higlight">October, 2013</span> Fixing the clover forcast for PHP projects in Jenkins</a></li>
+		
 		<li><a href="http://lenss.nl/2013/08/github-and-multiple-ssh-keys/"><span class="higlight">August, 2013</span> Github, SSH and multiple repositories</a></li>
 		
 		<li><a href="http://lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/"><span class="higlight">July, 2013</span> Memory exhaust issue PHP and APM</a></li>
@@ -1383,8 +1317,6 @@ Debian 6.0.2 (squeeze): bool(false)</p>
 		<li><a href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/"><span class="higlight">October, 2012</span> Long running PHP script and MySQL server gone away</a></li>
 		
 		<li><a href="http://lenss.nl/2012/10/git-rebase-on-pull-by-default/"><span class="higlight">October, 2012</span> Git: Rebase on pull by default</a></li>
-		
-		<li><a href="http://lenss.nl/2012/10/workaround-ubuntu-12-04-mysterious-system-freezes/"><span class="higlight">October, 2012</span> Workaround Ubuntu 12.04 mysterious system freezes</a></li>
 		
 	</ul>
 </div>
@@ -1405,7 +1337,7 @@ Debian 6.0.2 (squeeze): bool(false)</p>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.41025641025641%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(117)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.07692307692308%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.05128205128204%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 100.51282051282051%'>Git(1)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.53846153846153%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.1025641025641%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.02564102564102%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.02564102564102%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.35897435897436%'>PHP(67)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.1025641025641%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.07692307692308%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.25641025641025%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.1025641025641%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.27118644067797%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(118)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.05084745762711%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.03389830508475%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 100.50847457627118%'>Git(1)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.52542372881356%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.0677966101695%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jenkins' style='font-size: 100.50847457627118%'>Jenkins(1)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.01694915254237%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.01694915254237%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.5762711864407%'>PHP(68)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.0677966101695%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.05084745762711%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 149.83050847457628%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.0677966101695%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

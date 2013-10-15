@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="No Thunderbird Labels When Using Imap Over SSL Last week i moved one of our domains to a new server. After syncing all the email between two servers &hellip;">
+  <meta name="description" content="Postfix With Dovecot Results in MySQL Access Denied While installing a new mail server i ran into a problem with SMTP authentication. The mail &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -59,6 +59,85 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2009/06/postfix_dovecot_mysql_access_denied/">Postfix With Dovecot Results in MySQL Access Denied</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>While installing a new mail server i ran into a problem with SMTP authentication. The mail server in question is postfix installed on a Debian lenny box. The backend for postfix is MySQL. And because <a href="http://asg.web.cmu.edu/sasl/">SASL</a> is always a pain to configure i used <a href="http://www.dovecot.org/">dovecot</a> to do the SMTP authentication with the MySQL backend. This however resulted in the following error </p>
+
+<blockquote>
+  <p>Jun 21 17:43:02 ims1 dovecot: auth-worker(default): mysql: Connect failed to localhost (mail): Access denied for user ‘mail_admin’@’localhost’ (using password: YES) - waiting for 1 seconds before retry</p>
+</blockquote>
+
+<p>It took me a while to figure this out. The settings in ‘dovecot-sql.conf’ were correct. Logging in with the same data from a shell went without a problem. I remembered i had this problem some years ago. With a <a href="http://www.inter7.com/index.php?page=vpopmail">vpopmail</a> setup. The problem then was the encryption algorithm used by MySQL. So i tried to use the older encryption algorithm.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+SET PASSWORD FOR 'user'@'localhost' = OLD_PASSWORD('password');
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>After a restart everything was fine. </p>
+
+<blockquote>
+  <p>Jun 21 18:41:03 ims1 dovecot: auth-worker(default): mysql: Connected to localhost (mail)</p>
+</blockquote>
+
+<p>Like i said it took me a while to figure out. So maybe i can safe somebody some time.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-06-21T19:57:52+02:00" pubdate data-updated="true">Jun 21<span>st</span>, 2009</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2009/06/postfix_dovecot_mysql_access_denied/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -793,69 +872,6 @@ RewriteRule . index.php [L]
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2009/03/xss-vulnerability-on-dutch-bank-websites/">XSS Vulnerability on Dutch Bank Websites</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>My wife just send me a link to <a href="http://www.security.nl/artikel/28043/1/Hacker_vindt_lek_in_websites_Nederlandse_banken_.html">security.nl</a>. Pointing to an article about <a href="http://ha.ckers.org/xss.html">XSS</a> vulnerability in Dutch banking websites. And since i am from the Netherlands. I thought to check this out a bit.</p>
-
-<p>security.nl states that a “<a href="http://security.zarco.nl/">security researcher</a>” found XSS bugs in most of Dutch websites. With a link that seems to point to the “researchers” blog. I don’t know about you. But i personally don’t trust websites that i never seen before. Let alone “researchers” that have absolutely no credibility in the scene. However the XSS bugs are real. But is this really something to write about? Showing an alert box on a screen shot seems very lame to me. I wonder if this is even exploitable at all?</p>
-
-<p>One good point is that at least one bank responded in time and fixed the bug.</p>
-
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-03-20T14:06:02+01:00" pubdate data-updated="true">Mar 20<span>th</span>, 2009</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/javascript/'>Javascript</a>, <a class='category' href='http://lenss.nl/tag/security/'>Security</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2009/03/xss-vulnerability-on-dutch-bank-websites/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/11/">&larr; Older</a></div>
@@ -909,6 +925,8 @@ RewriteRule . index.php [L]
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/"><span class="higlight">October, 2013</span> Fixing the clover forcast for PHP projects in Jenkins</a></li>
+		
 		<li><a href="http://lenss.nl/2013/08/github-and-multiple-ssh-keys/"><span class="higlight">August, 2013</span> Github, SSH and multiple repositories</a></li>
 		
 		<li><a href="http://lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/"><span class="higlight">July, 2013</span> Memory exhaust issue PHP and APM</a></li>
@@ -926,8 +944,6 @@ RewriteRule . index.php [L]
 		<li><a href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/"><span class="higlight">October, 2012</span> Long running PHP script and MySQL server gone away</a></li>
 		
 		<li><a href="http://lenss.nl/2012/10/git-rebase-on-pull-by-default/"><span class="higlight">October, 2012</span> Git: Rebase on pull by default</a></li>
-		
-		<li><a href="http://lenss.nl/2012/10/workaround-ubuntu-12-04-mysterious-system-freezes/"><span class="higlight">October, 2012</span> Workaround Ubuntu 12.04 mysterious system freezes</a></li>
 		
 	</ul>
 </div>
@@ -948,7 +964,7 @@ RewriteRule . index.php [L]
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.41025641025641%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(117)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.07692307692308%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.05128205128204%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 100.51282051282051%'>Git(1)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.53846153846153%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.1025641025641%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.02564102564102%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.02564102564102%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.35897435897436%'>PHP(67)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.1025641025641%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.07692307692308%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.25641025641025%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.1025641025641%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.27118644067797%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(118)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.05084745762711%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.03389830508475%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 100.50847457627118%'>Git(1)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.52542372881356%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.0677966101695%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jenkins' style='font-size: 100.50847457627118%'>Jenkins(1)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.01694915254237%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.01694915254237%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.5762711864407%'>PHP(68)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.0677966101695%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.05084745762711%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 149.83050847457628%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.0677966101695%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

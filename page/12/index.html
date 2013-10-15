@@ -9,7 +9,8 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Forcing a Trailing Slash With Mod_rewrite I’m doing some SEO optimization for a couple of websites. And one of the small steps is to force a &hellip;">
+  <meta name="description" content="301 Redirect Losing POST Data Earlier this week i implemented the forcing of trailing slashes for some websites. And this worked out great.
+But &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -59,6 +60,83 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2009/02/301-redirct-losing-post-data/">301 Redirect Losing POST Data</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>Earlier this week i implemented the forcing of trailing slashes for some websites. And this worked out great.
+But today one of the ladies here at the office noticed the contact form on one site wasn’t functioning properly anymore. </p>
+
+<p>So i did some debugging and quickly came to the conclusion the POST data array was empty after a submit of the form. That’s weird i thought. And didn’t really have a clue where to start looking. The code wasn’t touched for a couple of weeks. Bu then i remembered adding the forcing of the trailing slash.</p>
+
+<p>So i browsed to the contact form and did a view source. And there was the problem. The form submitted to </p>
+
+<blockquote>
+  <p>/contact/verstuurd</p>
+</blockquote>
+
+<p>A URL without a trailing slash. This causes apache to rewrite the url to </p>
+
+<blockquote>
+  <p>/contact/verstuurd/</p>
+</blockquote>
+
+<p>And this also seems to turn the POST into a GET request.</p>
+
+<p>So to fix it just changed to URL in the form to reflect the correct end point. But i have to say i didn’t expect this to happen. I understand why it happens. And it’s pretty logical. But i wonder if there’s a way around this behavior?</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-02-20T10:47:23+01:00" pubdate data-updated="true">Feb 20<span>th</span>, 2009</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2009/02/301-redirct-losing-post-data/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -913,68 +991,6 @@ EndSection
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2008/11/still-here/">Still Here</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>It’s been a while since i blogged last time. But i’m still here. And still planning to continue this blog. I just need to make some time to write. And time is not something that comes cheap latley :)</p>
-
-<p>Some months ago i move to my new appartment. But i’m still working on it. It probably would have been better if i completed it completly befor emoving there. But it has to be done. So it takes up a lot of my time.</p>
-
-<p>And besides that two weeks ago i started my new job here in Amsterdam. And this takes up the rest of my time. Trying to read into a new code base. And trying to understand everything that goes on around the office. It’s a hectic place. But it feels great so far.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-11-17T05:16:45+01:00" pubdate data-updated="true">Nov 17<span>th</span>, 2008</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/-home/'>/home</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2008/11/still-here/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/13/">&larr; Older</a></div>
@@ -1028,6 +1044,8 @@ EndSection
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/"><span class="higlight">October, 2013</span> Fixing the clover forcast for PHP projects in Jenkins</a></li>
+		
 		<li><a href="http://lenss.nl/2013/08/github-and-multiple-ssh-keys/"><span class="higlight">August, 2013</span> Github, SSH and multiple repositories</a></li>
 		
 		<li><a href="http://lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/"><span class="higlight">July, 2013</span> Memory exhaust issue PHP and APM</a></li>
@@ -1045,8 +1063,6 @@ EndSection
 		<li><a href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/"><span class="higlight">October, 2012</span> Long running PHP script and MySQL server gone away</a></li>
 		
 		<li><a href="http://lenss.nl/2012/10/git-rebase-on-pull-by-default/"><span class="higlight">October, 2012</span> Git: Rebase on pull by default</a></li>
-		
-		<li><a href="http://lenss.nl/2012/10/workaround-ubuntu-12-04-mysterious-system-freezes/"><span class="higlight">October, 2012</span> Workaround Ubuntu 12.04 mysterious system freezes</a></li>
 		
 	</ul>
 </div>
@@ -1067,7 +1083,7 @@ EndSection
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.41025641025641%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(117)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.07692307692308%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.05128205128204%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 100.51282051282051%'>Git(1)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.53846153846153%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.1025641025641%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.02564102564102%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.02564102564102%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.35897435897436%'>PHP(67)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.1025641025641%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.07692307692308%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.25641025641025%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.1025641025641%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.27118644067797%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(118)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.05084745762711%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.03389830508475%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 100.50847457627118%'>Git(1)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.52542372881356%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.0677966101695%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jenkins' style='font-size: 100.50847457627118%'>Jenkins(1)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.01694915254237%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.01694915254237%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.5762711864407%'>PHP(68)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.0677966101695%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.05084745762711%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 149.83050847457628%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.0677966101695%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

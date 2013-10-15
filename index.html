@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Github, SSH and Multiple Repositories When working with Github. Setting up SSH key based authentication is easy. You just create a key. Add the &hellip;">
+  <meta name="description" content="Fixing the Clover Forcast for PHP Projects in Jenkins I had the opportunity to play with Jenkins again last week. And the setup for our projects &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -59,6 +59,112 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/">Fixing the Clover Forcast for PHP Projects in Jenkins</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>I had the opportunity to play with <a href="http://jenkins-ci.org/">Jenkins</a> again last week. And the setup for our projects went pretty smooth. But the fact that no matter what i tried. The <a href="https://wiki.jenkins-ci.org/display/JENKINS/Clover+PHP+Plugin">clover</a> forecast icon would always show up as rainy <a href="http://lenss.nl/images/20013/10/health-20to39.png"><img src="http://lenss.nl/images/20013/10/health-20to39.png" alt="" /></a>. While the build was succeeding without issues. So i spend some time googling and trying out multiple “fixes”. Of which none seemed to actually work. I even reverted back to using the Jenkins clover plugins instead of Clover for PHP. No difference at all.</p>
+
+<p>It seemed as if the settings from the config page were completely ignored when calculating the clover status. This was really bugging me. So i checked out the clover plugin source from <a href="https://github.com/jenkinsci/cloverphp-plugin">github</a>. And browsed through the code for a while. When i found the beauty below inside CoverageTarget.java</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="directive">public</span> <span class="predefined-type">Set</span>&lt;CoverageMetric&gt; getFailingMetrics(AbstractClassMetrics coverage) {
+    <span class="predefined-type">Set</span>&lt;CoverageMetric&gt; result = <span class="keyword">new</span> <span class="predefined-type">HashSet</span>&lt;CoverageMetric&gt;();
+
+    <span class="keyword">if</span> (methodCoverage != <span class="predefined-constant">null</span> &amp;&amp; coverage.getMethodCoverage().getPercentage() &lt; methodCoverage) {
+        result.add(CoverageMetric.METHOD);
+    }
+
+    <span class="keyword">if</span> (statementCoverage != <span class="predefined-constant">null</span> &amp;&amp; coverage.getStatementCoverage().getPercentage() &lt; statementCoverage) {
+        result.add(CoverageMetric.STATEMENT);
+    }
+
+    <span class="keyword">if</span> (elementCoverage != <span class="predefined-constant">null</span> &amp;&amp; coverage.getElementCoverage().getPercentage() &lt; elementCoverage) {
+        result.add(CoverageMetric.ELEMENT);
+    }
+
+    <span class="keyword">return</span> result;
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>So it seems as if somewhere in the plugin it’s actually calculating the average of the coverage per setting. The strange thing in the method above however is the elementCoverage coverage setting. Which is not available in the Jenkins config interface.</p>
+
+<p>So i added the setting to the config manually</p>
+
+<blockquote><p>$ vi /var/lib/jenkins/jobs/[project]/config.xml</p></blockquote>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="tag">&lt;org.jenkinsci.plugins.cloverphp.CloverPHPPublisher</span> <span class="attribute-name">plugin</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">cloverphp@0.3.3</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+...
+      <span class="tag">&lt;healthyTarget&gt;</span>
+        <span class="tag">&lt;methodCoverage&gt;</span>20<span class="tag">&lt;/methodCoverage&gt;</span>
+        <span class="tag">&lt;statementCoverage&gt;</span>20<span class="tag">&lt;/statementCoverage&gt;</span>
+        <span class="tag">&lt;elementCoverage&gt;</span>20<span class="tag">&lt;/elementCoverage&gt;</span>
+      <span class="tag">&lt;/healthyTarget&gt;</span>
+...
+<span class="tag">&lt;/org.jenkinsci.plugins.cloverphp.CloverPHPPublisher&gt;</span>
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>And voilà. I nice sunny <a href="http://lenss.nl/images/20013/10/health-80plus.png"><img src="http://lenss.nl/images/20013/10/health-80plus.png" alt="" /></a> forecast. Now let’s see if i have some time to write a patch for this.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-15T12:26:23+02:00" pubdate data-updated="true">Oct 15<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/jenkins/'>Jenkins</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -1282,97 +1388,6 @@ mysql_options(&amp;mysql;, <span class="constant">MYSQL_OPT_RECONNECT</span>, &a
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2012/10/workaround-ubuntu-12-04-mysterious-system-freezes/">Workaround Ubuntu 12.04 Mysterious System Freezes</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>I have two machines running <a href="http://releases.ubuntu.com/12.04/">Ubuntu 12.04</a>. One of them is very stable. And hardly ever gets rebooted. The other machine is displaying some odd behavior every now and then. And with odd behavior i mean. It just completely freezing up. The only thing functioning at that moment is the mouse.</p>
-
-<p>I use this machine daily. And i can’t afford to lose work due to system crashes. So i could spend numerous hours trying to figure out what’s going on. But that’s probably something better left for the Ubuntu devs them selfs. Besides that there are plenty of bug reports floating around that describe this behavior. And one of those <a href="https://bugs.launchpad.net/ubuntu/+source/linux/+bug/999910">posts</a> seemed to resolve the issue for me. </p>
-
-<p>Apparently the bug that causes these crashes is fixed in 12.10. But the changes will only be backported when 12.10 is released. So that leaves me in quite a pickle. But according to the thread. Upgrading the kernel should do the trick. So that’s exactly what i did. The kernel packages i used can be found here <a href="http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/">http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/</a></p>
-
-<blockquote>
-  <ul>
-    <li>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-headers-3.4.0-030400_3.4.0-030400.201205210521_all.deb </li>
-    <li>$ sudo dpkg -i linux-headers-3.4.0-030400_3.4.0-030400.201205210521_all.deb</li>
-  </ul>
-</blockquote>
-
-<blockquote>
-  <ul>
-    <li>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-headers-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb</li>
-    <li>$ sudo dpkg -i linux-headers-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb</li>
-  </ul>
-</blockquote>
-
-<blockquote>
-  <ul>
-    <li>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-image-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb</li>
-    <li>$ sudo dpkg -i linux-image-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb</li>
-  </ul>
-</blockquote>
-
-<p>This comes with a downside of course. All modules compiled for the current kernel need to be recompiled. And i haven’t figured out how to rebuild all of them at once. So i just ran the command below for <a href="https://www.virtualbox.org/">VirtualBox</a> and the <a href="http://www.nvidia.com">NVidia</a> drivers.</p>
-
-<blockquote>
-  <p>$ sudo dpkg-reconfigure package-name</p>
-</blockquote>
-
-<p>It’s probably a better idea to keep the stable kernel for now. But if system crashes are really bugging you. Then this might resolve the issue. Just be careful.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-10-12T15:43:46+02:00" pubdate data-updated="true">Oct 12<span>th</span>, 2012</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2012/10/workaround-ubuntu-12-04-mysterious-system-freezes/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/2/">&larr; Older</a></div>
@@ -1424,6 +1439,8 @@ mysql_options(&amp;mysql;, <span class="constant">MYSQL_OPT_RECONNECT</span>, &a
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/"><span class="higlight">October, 2013</span> Fixing the clover forcast for PHP projects in Jenkins</a></li>
+		
 		<li><a href="http://lenss.nl/2013/08/github-and-multiple-ssh-keys/"><span class="higlight">August, 2013</span> Github, SSH and multiple repositories</a></li>
 		
 		<li><a href="http://lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/"><span class="higlight">July, 2013</span> Memory exhaust issue PHP and APM</a></li>
@@ -1441,8 +1458,6 @@ mysql_options(&amp;mysql;, <span class="constant">MYSQL_OPT_RECONNECT</span>, &a
 		<li><a href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/"><span class="higlight">October, 2012</span> Long running PHP script and MySQL server gone away</a></li>
 		
 		<li><a href="http://lenss.nl/2012/10/git-rebase-on-pull-by-default/"><span class="higlight">October, 2012</span> Git: Rebase on pull by default</a></li>
-		
-		<li><a href="http://lenss.nl/2012/10/workaround-ubuntu-12-04-mysterious-system-freezes/"><span class="higlight">October, 2012</span> Workaround Ubuntu 12.04 mysterious system freezes</a></li>
 		
 	</ul>
 </div>
@@ -1463,7 +1478,7 @@ mysql_options(&amp;mysql;, <span class="constant">MYSQL_OPT_RECONNECT</span>, &a
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.41025641025641%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(117)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.07692307692308%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.05128205128204%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 100.51282051282051%'>Git(1)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.53846153846153%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.1025641025641%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.02564102564102%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.02564102564102%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.35897435897436%'>PHP(67)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.1025641025641%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.07692307692308%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 150.25641025641025%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.1025641025641%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.27118644067797%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(118)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.05084745762711%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.03389830508475%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 100.50847457627118%'>Git(1)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.52542372881356%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.0677966101695%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jenkins' style='font-size: 100.50847457627118%'>Jenkins(1)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.01694915254237%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.01694915254237%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.5762711864407%'>PHP(68)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.0677966101695%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.05084745762711%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 149.83050847457628%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.0677966101695%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

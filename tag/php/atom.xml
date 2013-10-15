@@ -4,7 +4,7 @@
   <title><![CDATA[Category: PHP | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/php/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-09-14T10:54:02+02:00</updated>
+  <updated>2013-10-15T10:38:21+02:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -12,6 +12,62 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Fixing the clover forcast for PHP projects in Jenkins]]></title>
+    <link href="http://lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/"/>
+    <updated>2013-10-15T12:26:23+02:00</updated>
+    <id>http://lenss.nl/2013/10/clover-forcast-for-php-in-jenkins</id>
+    <content type="html"><![CDATA[<p>I had the opportunity to play with <a href="http://jenkins-ci.org/">Jenkins</a> again last week. And the setup for our projects went pretty smooth. But the fact that no matter what i tried. The <a href="https://wiki.jenkins-ci.org/display/JENKINS/Clover+PHP+Plugin">clover</a> forecast icon would always show up as rainy <a href="http://lenss.nl/images/20013/10/health-20to39.png"><img src="http://lenss.nl/images/20013/10/health-20to39.png" alt="" /></a>. While the build was succeeding without issues. So i spend some time googling and trying out multiple “fixes”. Of which none seemed to actually work. I even reverted back to using the Jenkins clover plugins instead of Clover for PHP. No difference at all.</p>
+
+<p>It seemed as if the settings from the config page were completely ignored when calculating the clover status. This was really bugging me. So i checked out the clover plugin source from <a href="https://github.com/jenkinsci/cloverphp-plugin">github</a>. And browsed through the code for a while. When i found the beauty below inside CoverageTarget.java</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="directive">public</span> <span class="predefined-type">Set</span>&lt;coveragemetric&gt; getFailingMetrics(AbstractClassMetrics coverage) {
+    <span class="predefined-type">Set</span>&lt;coveragemetric&gt; result = <span class="keyword">new</span> <span class="predefined-type">HashSet</span>&lt;coveragemetric&gt;();&lt;/coveragemetric&gt;&lt;/coveragemetric&gt;&lt;/coveragemetric&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;<span class="keyword">if</span> (methodCoverage != <span class="predefined-constant">null</span> &amp;amp;&amp;amp; coverage.getMethodCoverage().getPercentage() &amp;lt; methodCoverage) {
+    result.add(CoverageMetric.METHOD);
+}
+
+<span class="keyword">if</span> (statementCoverage != <span class="predefined-constant">null</span> &amp;amp;&amp;amp; coverage.getStatementCoverage().getPercentage() &amp;lt; statementCoverage) {
+    result.add(CoverageMetric.STATEMENT);
+}
+
+<span class="keyword">if</span> (elementCoverage != <span class="predefined-constant">null</span> &amp;amp;&amp;amp; coverage.getElementCoverage().getPercentage() &amp;lt; elementCoverage) {
+    result.add(CoverageMetric.ELEMENT);
+}
+
+<span class="keyword">return</span> result; } </pre></div>
+</div>
+ </figure></notextile></div>
+</code></pre>
+
+<p>So it seems as if somewhere in the plugin it’s actually calculating the average of the coverage per setting. The strange thing in the method above however is the elementCoverage coverage setting. Which is not available in the Jenkins config interface.</p>
+
+<p>So i added the setting to the config manually</p>
+
+<p><blockquote><p>$ vi /var/lib/jenkins/jobs/[project]/config.xml</p></blockquote></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="tag">&lt;org.jenkinsci.plugins.cloverphp.cloverphppublisher</span> <span class="attribute-name">plugin</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">cloverphp@0.3.3</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+...
+      <span class="tag">&lt;healthytarget&gt;</span>
+        <span class="tag">&lt;methodcoverage&gt;</span>20<span class="tag">&lt;/methodcoverage&gt;</span>
+        <span class="tag">&lt;statementcoverage&gt;</span>20<span class="tag">&lt;/statementcoverage&gt;</span>
+        <span class="tag">&lt;elementcoverage&gt;</span>20<span class="tag">&lt;/elementcoverage&gt;</span>
+      <span class="tag">&lt;/healthytarget&gt;</span>
+...
+<span class="tag">&lt;/org.jenkinsci.plugins.cloverphp.cloverphppublisher&gt;</span>
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>And voilà. I nice sunny <a href="http://lenss.nl/images/20013/10/health-80plus.png"><img src="http://lenss.nl/images/20013/10/health-80plus.png" alt="" /></a> forecast. Now let’s see if i have some time to write a patch for this.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Github, SSH and multiple repositories]]></title>
@@ -518,19 +574,6 @@ string(3) “baz”
  </figure></notextile></div></p>
 
 <p>It’s not that i was planning on ever using this. Or advising other people to use it. In the contrary. But i guess it’s not completely useless. But care is required when doing so.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Zend Optimizer+ integrated into 5.5]]></title>
-    <link href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"/>
-    <updated>2013-02-27T22:12:12+01:00</updated>
-    <id>http://lenss.nl/2013/02/zend-optimizer+-integrated-in-5.5</id>
-    <content type="html"><![CDATA[<p>It looks like PHP is going to get another built in performance boost. The plan is to integrate and open source the <a href="http://files.zend.com/help/previous-version/Zend-Server-4-Community-Edition/zendoptimizerplus.html">Zend Optimizer+</a> component. The fastest Opcode cacher out there. Zend has provided the source. Which is already available on <a href="http://bit.ly/VSsqx3">github</a>. So we get the Opcode cacher to boost  out applications even more. And the community can extend and built upon the available source code. Win! Win!</p>
-
-<p>PHP 5+ has come a long way performance wise without the Optimizer component. But being able to apply opcode cache out of the box is a great addition. And so far the <a href="http://bit.ly/116BnnB">benchmarks</a> look promising. The Optimizer+ component beats <a href="http://pecl.php.net/package/APC">APC</a> hands down in all performed tests.</p>
-
-<p>Read more about Opcode caching and the integration process <a href="https://wiki.php.net/rfc/optimizerplus">here</a>.</p>
 ]]></content>
   </entry>
   
