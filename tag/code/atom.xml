@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Code | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/code/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-10-15T10:39:42+02:00</updated>
+  <updated>2013-10-15T11:25:17+02:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -20,7 +20,7 @@
     <id>http://lenss.nl/2013/10/clover-forcast-for-php-in-jenkins</id>
     <content type="html"><![CDATA[<p>I had the opportunity to play with <a href="http://jenkins-ci.org/">Jenkins</a> again last week. And the setup for our projects went pretty smooth. But the fact that no matter what i tried. The <a href="https://wiki.jenkins-ci.org/display/JENKINS/Clover+PHP+Plugin">clover</a> forecast icon would always show up as rainy <a href="http://lenss.nl/images/20013/10/health-20to39.png"><img src="http://lenss.nl/images/2013/10/health-20to39.png" alt="" /></a>. While the build was succeeding without issues. So i spend some time googling and trying out multiple “fixes”. Of which none seemed to actually work. I even reverted back to using the Jenkins clover plugins instead of Clover for PHP. No difference at all.</p>
 
-<p>It seemed as if the settings from the config page were completely ignored when calculating the clover status. This was really bugging me. So i checked out the clover plugin source from <a href="https://github.com/jenkinsci/cloverphp-plugin">github</a>. And browsed through the code for a while. When i found the beauty below inside CoverageTarget.java</p>
+<p>It seemed as if the settings from the config page were completely ignored when calculating the clover status. This was really bugging me. So i checked out the clover plugin source from <a href="https://github.com/jenkinsci/cloverphp-plugin">github</a>. And browsed through the code for a while. When i found the beauty below inside <strong>CoverageTarget.java</strong></p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
   <div class="code"><pre>
@@ -44,7 +44,7 @@
  </figure></notextile></div>
 </code></pre>
 
-<p>So it seems as if somewhere in the plugin it’s actually calculating the average of the coverage per setting. The strange thing in the method above however is the elementCoverage coverage setting. Which is not available in the Jenkins config interface.</p>
+<p>So it seems as if somewhere in the plugin it’s actually calculating the average of the coverage per setting. The strange thing in the method above however is the <strong>elementCoverage</strong> setting. Which is not available in the Jenkins config interface. And causes issues because we have no influence over this setting.</p>
 
 <p>So i added the setting to the config manually</p>
 
