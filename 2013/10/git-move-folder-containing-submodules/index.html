@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Google mod_pagespeed - Thijs Lensselink's Blog</title>
+  <title>Renaming a folder in git that contains submodules - Thijs Lensselink's Blog</title>
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Google Mod_pagespeed Yesterday Google released a beta version of their upcoming Apache module mod_pagespeed. And this seems like a very promising &hellip;">
+  <meta name="description" content="Renaming a Folder in Git That Contains Submodules Because of some project structure changes. It was required to renamed some folders. In git this &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://lenss.nl/2010/11/google-mod_pagespeed/">
+  <link rel="canonical" href="http://lenss.nl/2013/10/git-move-folder-containing-submodules/">
   <link href="http://lenss.nl/favicon.png" rel="icon">
   <link href="http://lenss.nl/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="http://lenss.nl/javascripts/libs/jquery-1.8.1.js"></script>
@@ -63,56 +63,104 @@
 <header>
 	<header>
 	
-	  <h1 class="entry-title">Google Mod_pagespeed</h1>
+	  <h1 class="entry-title">Renaming a Folder in Git That Contains Submodules</h1>
 	
 	</header>
 </header>
 
 
-<div class="articletext"><p>Yesterday Google <a href="http://googlewebmastercentral.blogspot.com/2010/11/make-your-websites-run-faster.html">released</a> a <strong>beta</strong> version of their upcoming Apache module <a href="http://code.google.com/speed/page-speed/docs/using_mod.html">mod_pagespeed</a>.</p>
+<div class="articletext"><p>Because of some project structure changes. It was required to renamed some folders. In git this should be as easy as running <strong>git mv</strong>. But when the folders you are trying to move contain submodules. Its a whole different story.</p>
 
-<p>And this seems like a very promising project indeed. It mainly is a suite that provides web optimisation features to make your sites run faster. Right now 15 of such features are available.</p>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git mv old/ new
+</pre></div>
+</div>
+ </figure></notextile></div>
 
-<blockquote>
-  <p>including optimising caching, minimising client-server round trips and minimising payload size.</p>
-</blockquote>
+<blockquote><p>fatal: source directory is empty, source=old/cookbooks/apache2, destination=new/cookbooks/apache2</p></blockquote>
 
-<p>So no more manual image compressing and javascript, html and css minifying.</p>
+<p>Like i said. This seems to work for normal folders. But submodules are a bit more complicated because of paths set in various files. So let’s try just moving them on the filesystem.</p>
 
-<p>It uses the Apache <em>SetOutputFilter</em> to register the output filter. And from thereon you can use <em>ModPagespeedEnableFilters</em> to enable certain filters. </p>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ mv old/ new
+$ git status
+</pre></div>
+</div>
+ </figure></notextile></div>
 
-<p>Filters like:</p>
+<blockquote><p>#	deleted:    old/VVagrantfile.example<br />#	deleted:    old/cookbooks/apache2<br />#	deleted:    old/cookbooks/apt<br />#	deleted:    old/cookbooks/beanstalkd/.travis.yml</p></blockquote>
 
-<blockquote>
-  <p><strong>add_head</strong>
-<em>Add the head section if missing</em></p>
-</blockquote>
+<p>That’s not what we’re looking for. We want to move the files. Not remove them. At this point i was at a loss and spend some time looking around <a href="http://stackoverflow.com/">stackoverflow</a>. Which has multiple solutions available from other developers. But none seemed to fit the bill. So i ended up combining a couple.</p>
 
-<p><strong>move_css_to_head</strong>
-<em>Moves CSS into the head of the page (needs add_head)</em></p>
+<p>First create the new location and add it to the git index.</p>
 
-<p><strong>combine_css</strong>
-<em>Combine multiple CSS tags into one.</em></p>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ mkdir new
+$ git add new
+</pre></div>
+</div>
+ </figure></notextile></div>
 
-<p><strong>rewrite_css,rewrite_javascript</strong>
-<em>Remove comments and white spaces</em></p>
+<p>In my case i had normal folders and submodules in the same directory. So first i moved the normal folders to the new structure.</p>
 
-<p><strong>rewrite_images</strong>
-<em>Compress / re encode images</em></p>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git mv old/[some folder] /new
+</pre></div>
+</div>
+ </figure></notextile></div>
 
-<p>More info about the filters can be found <a href="http://code.google.com/speed/page-speed/docs/filters.html">here</a></p>
+<p>Now it’s time for the submodules. We need to update the paths in each submodule’s <strong>.git</strong> file. And the paths in project <strong>.gitmodule</strong> file</p>
 
-<p>So i went ahead and <a href="http://code.google.com/speed/page-speed/download.html">downloaded</a> the Debian version to give it a try. And as always it’s straight forward from here.</p>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ find . -name .git -type f -print0 -type f | xargs -0 sed -i 's|old|new|g'
+$ find . -name .gitmodule -type f -print0 -type f | xargs -0 sed -i 's|old|new|g'
+</pre></div>
+</div>
+ </figure></notextile></div>
 
-<blockquote>
-  <p>dpkg -i mod-pagespeed-beta_current_i386.deb</p>
-</blockquote>
+<p>After that add the <strong>.gitmodule</strong> file to the git index and checkout the status</p>
 
-<p>It hooks nicely into Apache and creates the .load and .conf files in <em>/etc/apache2/mods-available</em>. After a Apache restart everything looked fine. And the pages did seem to load faster. Google also offers a <a href="http://www.modpagespeed.com/">test suite</a> to see the result of this module in action.</p>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git add .gitmodule
+$ git status 
+</pre></div>
+</div>
+ </figure></notextile></div>
 
-<p>Running the tests showed a small speed increase. But at the moment my daytime hours are spend behind a horrible firewall that really screws with web output. So i have to redo those for more accurate results. Never the less. This is a module to keep an eye on.</p>
+<blockquote><p>fatal: Could not chdir to &#8216;../../../../../new/cookbooks/apache2&#8217;: No such file or directory<br />fatal: &#8216;git status &#8211;porcelain&#8217; failed in submodule old/cookbooks/apache2</p></blockquote>
 
-<p>It’s still a very young project. And i did have some server issues today. So related or not. Be careful :)</p>
+<p>So we’re not there yet. As it turns out the git config file also contains the submodule paths. And the <strong>.git/modules</strong> folder contains a submodule mapping as well. So let’s fix that</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ find . -name config -print0 -type f | xargs -0 sed -i 's|old|new|g'
+$ mv .git/modules/old .git/modules/new
+$ git status
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>That looks good</p>
+
+<blockquote><p>modified:   .gitmodules<br />#	renamed:    old/Vagrantfile.example -&gt; new/Vagrantfile.example<br />#	renamed:    old/cookbooks/apache2 -&gt; new/cookbooks/apache2<br />#	renamed:    old/cookbooks/apt -&gt; new/cookbooks/apt<br />#	renamed:    old/cookbooks/beanstalkd/.travis.yml -&gt; new/cookbooks/beanstalkd/.travis.yml</p></blockquote>
+
+<p>Now we can remove the old folder from the git project and commit the changes.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git rm -r --cached old/
+$ git commit -a -m &quot;Moved old to new folder&quot;
+$ git push
+</pre></div>
+</div>
+ </figure></notextile></div>
+
 </div>
 
 
@@ -137,12 +185,12 @@
   
 
 
-<time datetime="2010-11-04T23:05:42+01:00" pubdate data-updated="true">Nov 4<span>th</span>, 2010</time>
+<time datetime="2013-10-23T13:05:12+02:00" pubdate data-updated="true">Oct 23<span>rd</span>, 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/git/'>Git</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>
   
 </span>
 
@@ -150,10 +198,8 @@
     </p>
     <p class="meta">
       
-        <a class="basic-alignment left" href="http://lenss.nl/2010/11/jquery-php-doing-simple-image-slicing/" title="Previous Post: Jquery & PHP doing simple image slicing">&laquo; Jquery & PHP doing simple image slicing</a>
+        <a class="basic-alignment left" href="http://lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/" title="Previous Post: Fixing the clover forcast for PHP projects in Jenkins">&laquo; Fixing the clover forcast for PHP projects in Jenkins</a>
       
-      
-        <a class="basic-alignment right" href="http://lenss.nl/2010/11/changing-mysql-for-mariadb/" title="Next Post: Changing Mysql for MariaDB">Changing Mysql for MariaDB &raquo;</a>
       
     </p>
   </footer>
@@ -163,7 +209,7 @@
 
   <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lenss.nl/2010/11/google-mod_pagespeed/" data-via="tlenss" data-counturl="http://lenss.nl/2010/11/google-mod_pagespeed/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lenss.nl/2013/10/git-move-folder-containing-submodules/" data-via="tlenss" data-counturl="http://lenss.nl/2013/10/git-move-folder-containing-submodules/" >Tweet</a>
   
   
     <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
@@ -338,8 +384,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://lenss.nl/2010/11/google-mod_pagespeed/';
-        var disqus_url = 'http://lenss.nl/2010/11/google-mod_pagespeed/';
+        var disqus_identifier = 'http://lenss.nl/2013/10/git-move-folder-containing-submodules/';
+        var disqus_url = 'http://lenss.nl/2013/10/git-move-folder-containing-submodules/';
         var disqus_script = 'embed.js';
       
     (function () {

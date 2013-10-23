@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Fixing the Clover Forcast for PHP Projects in Jenkins I had the opportunity to play with Jenkins again last week. And the setup for our projects &hellip;">
+  <meta name="description" content="Renaming a Folder in Git That Contains Submodules Because of some project structure changes. It was required to renamed some folders. In git this &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -59,6 +59,155 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2013/10/git-move-folder-containing-submodules/">Renaming a Folder in Git That Contains Submodules</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>Because of some project structure changes. It was required to renamed some folders. In git this should be as easy as running <strong>git mv</strong>. But when the folders you are trying to move contain submodules. Its a whole different story.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git mv old/ new
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<blockquote><p>fatal: source directory is empty, source=old/cookbooks/apache2, destination=new/cookbooks/apache2</p></blockquote>
+
+<p>Like i said. This seems to work for normal folders. But submodules are a bit more complicated because of paths set in various files. So let’s try just moving them on the filesystem.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ mv old/ new
+$ git status
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<blockquote><p>#	deleted:    old/VVagrantfile.example<br />#	deleted:    old/cookbooks/apache2<br />#	deleted:    old/cookbooks/apt<br />#	deleted:    old/cookbooks/beanstalkd/.travis.yml</p></blockquote>
+
+<p>That’s not what we’re looking for. We want to move the files. Not remove them. At this point i was at a loss and spend some time looking around <a href="http://stackoverflow.com/">stackoverflow</a>. Which has multiple solutions available from other developers. But none seemed to fit the bill. So i ended up combining a couple.</p>
+
+<p>First create the new location and add it to the git index.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ mkdir new
+$ git add new
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>In my case i had normal folders and submodules in the same directory. So first i moved the normal folders to the new structure.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git mv old/[some folder] /new
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Now it’s time for the submodules. We need to update the paths in each submodule’s <strong>.git</strong> file. And the paths in project <strong>.gitmodule</strong> file</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ find . -name .git -type f -print0 -type f | xargs -0 sed -i 's|old|new|g'
+$ find . -name .gitmodule -type f -print0 -type f | xargs -0 sed -i 's|old|new|g'
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>After that add the <strong>.gitmodule</strong> file to the git index and checkout the status</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git add .gitmodule
+$ git status 
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<blockquote><p>fatal: Could not chdir to &#8216;../../../../../new/cookbooks/apache2&#8217;: No such file or directory<br />fatal: &#8216;git status &#8211;porcelain&#8217; failed in submodule old/cookbooks/apache2</p></blockquote>
+
+<p>So we’re not there yet. As it turns out the git config file also contains the submodule paths. And the <strong>.git/modules</strong> folder contains a submodule mapping as well. So let’s fix that</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ find . -name config -print0 -type f | xargs -0 sed -i 's|old|new|g'
+$ mv .git/modules/old .git/modules/new
+$ git status
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>That looks good</p>
+
+<blockquote><p>modified:   .gitmodules<br />#	renamed:    old/Vagrantfile.example -&gt; new/Vagrantfile.example<br />#	renamed:    old/cookbooks/apache2 -&gt; new/cookbooks/apache2<br />#	renamed:    old/cookbooks/apt -&gt; new/cookbooks/apt<br />#	renamed:    old/cookbooks/beanstalkd/.travis.yml -&gt; new/cookbooks/beanstalkd/.travis.yml</p></blockquote>
+
+<p>Now we can remove the old folder from the git project and commit the changes.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git rm -r --cached old/
+$ git commit -a -m &quot;Moved old to new folder&quot;
+$ git push
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-23T13:05:12+02:00" pubdate data-updated="true">Oct 23<span>rd</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/git/'>Git</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2013/10/git-move-folder-containing-submodules/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -1307,87 +1456,6 @@ mysql_options(&amp;mysql;, <span class="constant">MYSQL_OPT_RECONNECT</span>, &a
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2012/10/git-rebase-on-pull-by-default/">Git: Rebase on Pull by Default</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>I was a bit surprised today when <a href="http://git-scm.com/">git</a> presented me a merge message window after i did a pull. This should not happen as the normal behavior here should be to <a href="http://git-scm.com/book/en/Git-Branching-Rebasing">rebase</a> the changes. But apparently that didn’t happen this time. When i asked one of the other <a href="http://www.scriptorama.nl/">dev</a> ‘s what could be the issue. We quickly figured out i was just missing some <strong>config</strong> entry in <strong>.git/config</strong>. This probably happened some time ago when i did a fresh checkout.</p>
-
-<p>So to make sure rebasing is done by default. You can run a simple git command or modify the <strong>.git/config</strong> file manually.</p>
-
-<blockquote>
-  <p>$ git config branch.autosetuprebase always</p>
-</blockquote>
-
-<p>or do</p>
-
-<blockquote>
-  <p>$ vi .git/config</p>
-</blockquote>
-
-<p>Make sure <strong>[branch “master”]</strong> has <strong>rebase</strong> set to true. It should look like the snippet below.</p>
-
-<blockquote>
-  <p>[branch “master”]
-	remote = origin
-	merge = refs/heads/master
-	rebase = true</p>
-</blockquote>
-
-<p>Starting to really like git. A couple of more quirks and things will be running fine.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-10-25T14:20:22+02:00" pubdate data-updated="true">Oct 25<span>th</span>, 2012</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2012/10/git-rebase-on-pull-by-default/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/2/">&larr; Older</a></div>
@@ -1439,6 +1507,8 @@ mysql_options(&amp;mysql;, <span class="constant">MYSQL_OPT_RECONNECT</span>, &a
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/10/git-move-folder-containing-submodules/"><span class="higlight">October, 2013</span> Renaming a folder in git that contains submodules</a></li>
+		
 		<li><a href="http://lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/"><span class="higlight">October, 2013</span> Fixing the clover forcast for PHP projects in Jenkins</a></li>
 		
 		<li><a href="http://lenss.nl/2013/08/github-and-multiple-ssh-keys/"><span class="higlight">August, 2013</span> Github, SSH and multiple repositories</a></li>
@@ -1456,8 +1526,6 @@ mysql_options(&amp;mysql;, <span class="constant">MYSQL_OPT_RECONNECT</span>, &a
 		<li><a href="http://lenss.nl/2012/11/publish-google-reader-shared-items/"><span class="higlight">November, 2012</span> Publish Google Reader shared items</a></li>
 		
 		<li><a href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/"><span class="higlight">October, 2012</span> Long running PHP script and MySQL server gone away</a></li>
-		
-		<li><a href="http://lenss.nl/2012/10/git-rebase-on-pull-by-default/"><span class="higlight">October, 2012</span> Git: Rebase on pull by default</a></li>
 		
 	</ul>
 </div>
@@ -1478,7 +1546,7 @@ mysql_options(&amp;mysql;, <span class="constant">MYSQL_OPT_RECONNECT</span>, &a
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.27118644067797%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(118)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.05084745762711%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.03389830508475%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 100.50847457627118%'>Git(1)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.52542372881356%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.0677966101695%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jenkins' style='font-size: 100.50847457627118%'>Jenkins(1)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.01694915254237%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.01694915254237%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.5762711864407%'>PHP(68)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.0677966101695%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.05084745762711%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 149.83050847457628%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.0677966101695%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.78991596638656%'>PHP(69)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.03361344537815%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 149.41176470588235%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

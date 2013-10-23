@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Dutch PHP testFest Results Back in May i attended the Dutch version of the PHP testFest. And today i noticed the post of Stefan Koopmanschap about &hellip;">
+  <meta name="description" content="Enable XDebug in Zend Studio for Eclipse I’m a great fan of the Zend Studio for Eclipse IDE. But there is one think that just didn’t feel right. At &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -59,6 +59,70 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2008/08/enable-xdebug-in-zend-studio-for-eclipse/">Enable XDebug in Zend Studio for Eclipse</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>I’m a great fan of the <a href="http://www.zend.com/en/products/studio/">Zend Studio for Eclipse</a> IDE. But there is one think that just didn’t feel right. At first i started out using the <a href="http://www.zend.com/en/community/pdt">PDT</a>. Free version of Zend Studio for Eclipse. In this IDE it was possible to switch debuggers. So you were not only forced to use the ZendDebugger. you could also choose to make use of the best debugger out there. <a href="http://www.xdebug.org/">XDebug</a>. Although there is nothing wrong with the ZendDebugger. I just got used to XDebug.</p>
+
+<p>So about an hour ago when i was reading my blog list i noticed a post from <a href="http://www.maxhorvath.com">Max Horvath</a>. In <a href="http://www.maxhorvath.com/2008/08/how-to-enable-the-xdebug-debugger-in-zend-studio-for-eclipse.html">this</a> post he explains how to enable the XDebugger in Zend Studio for Eclipse. Great news for a very slow monday morning. I will not copy his post so you can head over to Max’s Blog and read how to enable XDebug’s power.</p>
+
+<p>Here is a document explaining how to enable XDebug in PDT: <a href="http://www.eclipse.org/pdt/documents/XDebugGuide.pdf">http://www.eclipse.org/pdt/documents/XDebugGuide.pdf</a></p>
+
+<p>One small think i noticed though. Was that when i enabled XDebug according to Max’s post. After enabling it. I went to the Preferences &gt; PHP &gt; Debug tab and noticed there was no PHP Executable to select. So i headed over to the Preferences &gt; PHP &gt; PHP Executables and added a new PHP executable. This seemed to work.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-08-18T05:13:56+02:00" pubdate data-updated="true">Aug 18<span>th</span>, 2008</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2008/08/enable-xdebug-in-zend-studio-for-eclipse/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -863,88 +927,6 @@ track down problems with slow loading pages. Or just a tool to help with optimiz
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2008/06/multiple-versions-of-internet-explorer-on-one-machine/">Multiple Versions of Internet Explorer on One Machine</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>When designing pages for multiple browsers. It’s pretty much a pain in the ass to get things looking similar cross all browsers. There are many Javascript libraries to help and ease the pain. But it doesn’t solve all. And hoping people will stop using IE 6 also doesn’t really help. So we are stuck in getting things work in all those quirky browsers. So a developer / designer probably has multiple browsers installed. On my dev box i only use Firefox.</p>
-
-<p>But when i have to build a design. I need to check al those browsers. So i have Firefox, Opera and Internet Explorer installed. The problem with internet explorer is that you can’t run multiple versions on the same machine. Well at least not without a long hacking session. To solve this problem most of the time i used something like Virtual Machine or Virtual Desktop. The problem is that applications like that eat memory. And there is always the minor annoyances with losing focus on my <a href="http://www.zend.com/en/products/studio/">IDE</a> because the VM window is still active.</p>
-
-<p>Some time ago. My coworker Bart send a link to a tool called <a href="http://www.my-debugbar.com/wiki/IETester/HomePage">IETester</a>. This nice little (24mb) tool let’s you run multiple versions of Internet explorer on one machine. It’s possible to test pages in version 5.5 and up. even the upcomming (still in beta) version 8 is supported. At the time of writing it is still in alpha stage. But it works great. I did have some unexplainable crashes. And there are some known issue’s like:</p>
-
-<ul>
-  <li>
-    <p>When resizing, the content may disappear. I am working to correct it on the next version.</p>
-  </li>
-  <li>
-    <p>The Previous/Next buttons are not working properly</p>
-  </li>
-  <li>
-    <p>Focus is not working properly</p>
-  </li>
-  <li>
-    <p>Java applets are not working</p>
-  </li>
-  <li>
-    <p>Flash is not working on IE6 instance.</p>
-  </li>
-</ul>
-
-<p>Besides that it does what it’s build for. A nice tool to add to your arsenal.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-06-23T07:54:52+02:00" pubdate data-updated="true">Jun 23<span>rd</span>, 2008</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/design/'>Design</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2008/06/multiple-versions-of-internet-explorer-on-one-machine/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/15/">&larr; Older</a></div>
@@ -998,6 +980,8 @@ track down problems with slow loading pages. Or just a tool to help with optimiz
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/10/git-move-folder-containing-submodules/"><span class="higlight">October, 2013</span> Renaming a folder in git that contains submodules</a></li>
+		
 		<li><a href="http://lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/"><span class="higlight">October, 2013</span> Fixing the clover forcast for PHP projects in Jenkins</a></li>
 		
 		<li><a href="http://lenss.nl/2013/08/github-and-multiple-ssh-keys/"><span class="higlight">August, 2013</span> Github, SSH and multiple repositories</a></li>
@@ -1015,8 +999,6 @@ track down problems with slow loading pages. Or just a tool to help with optimiz
 		<li><a href="http://lenss.nl/2012/11/publish-google-reader-shared-items/"><span class="higlight">November, 2012</span> Publish Google Reader shared items</a></li>
 		
 		<li><a href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/"><span class="higlight">October, 2012</span> Long running PHP script and MySQL server gone away</a></li>
-		
-		<li><a href="http://lenss.nl/2012/10/git-rebase-on-pull-by-default/"><span class="higlight">October, 2012</span> Git: Rebase on pull by default</a></li>
 		
 	</ul>
 </div>
@@ -1037,7 +1019,7 @@ track down problems with slow loading pages. Or just a tool to help with optimiz
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.27118644067797%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(118)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.05084745762711%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.03389830508475%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 100.50847457627118%'>Git(1)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.52542372881356%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.0677966101695%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jenkins' style='font-size: 100.50847457627118%'>Jenkins(1)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.01694915254237%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.01694915254237%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.5762711864407%'>PHP(68)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.0677966101695%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.05084745762711%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 149.83050847457628%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.0677966101695%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.78991596638656%'>PHP(69)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.03361344537815%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 149.41176470588235%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Using SSH Key Authentication With EGit in ZendStudio For the past few months i have been switching some projects over to git from Subversion. And &hellip;">
+  <meta name="description" content="PHP: Only Variables Should Be Passed by Reference Last week i got this error while doing some coding with a new library. And at first i didn’t quite &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -59,6 +59,84 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2012/03/php-only-variables-should-be-passed-by-reference/">PHP: Only Variables Should Be Passed by Reference</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>Last week i got this error while doing some coding with a new library. And at first i didn’t quite get what was causing this. The line in question looked like</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$url</span> = <span class="predefined">reset</span>(<span class="local-variable">$file</span>-&gt;getPaths());
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>So how can that throw an error like “Only variables should be passed by reference” you might ask? Well as it turns out to be. PHP functions don’t like arguments returned from another function. As with this case. The -&gt;getPaths() method holds a reference to the returned array. Which it shouldn’t but that’s another thing.</p>
+
+<p>So i guess from now i will doing the thing below. Or check for references beforehand!</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$paths</span> = <span class="local-variable">$file</span>-&gt;getPaths();
+<span class="local-variable">$url</span> = <span class="predefined">reset</span>(<span class="local-variable">$paths</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-26T11:19:20+02:00" pubdate data-updated="true">Mar 26<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2012/03/php-only-variables-should-be-passed-by-reference/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -1129,122 +1207,6 @@ Last week i had a blast while listening to <a href="http://www.thoughtcrime.org/
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2011/09/php-slow-on-32-bit-ubuntu/">PHP Slow on 32-bit Ubuntu</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>My last <a href="http://lenss.nl/2011/08/php5-filesize-limit-on-32-bit-system/">post</a> was about the 32-bit integer issue i was having with PHP. And besides setting up a 64-bit server one of the solutions is to compile PHP with the CFLAGS mentioned in my previous post. </p>
-
-<p>Intrigued by the fact that my 32-bit Ubuntu installation did not suffer from the same issue. I started to read the PHP5 changelog for Ubuntu.</p>
-
-<blockquote>
-
-  <p>CFLAGS=”-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64″ ./configure</p>
-</blockquote>
-
-<p>But this has a negative side effect. Namely PHP running 50% slower then it should be. And to my surprise Ubuntu applies the CFLAGS above when compiling PHP5 for a 32-bit platform. So that would mean PHP on Ubuntu is always running 50% slower? Well according to <a href="https://bugs.php.net/bug.php?id=45942">this</a> is should be the case. </p>
-
-<p>I downloaded <a href="http://nl.php.net/get/php-5.3.8.tar.gz/from/a/mirror">php-5.3.8</a> from php.net and compiled two versions. One with the CFLAGS set for large files. And one normal without any changes. After that i downloaded the benchmark script from <a href="http://www.php-benchmark-script.com">php-benchmark-script.com</a>. And did a couple of runs on each of the two installs. The results are stunning.</p>
-
-<p><strong>PHP-5.3.8 compiled with large file support:</strong></p>
-
-<blockquote>
-  <ul>
-    <li>test_math                 : 4.414 sec.</li>
-    <li>test_stringmanipulation   : 4.968 sec.</li>
-    <li>test_loops                : 3.529 sec.</li>
-    <li>test_ifelse               : 2.344 sec.</li>
-    <li>
-      <hr />
-    </li>
-    <li>Total time:               : 15.255 sec.</li>
-  </ul>
-</blockquote>
-
-<p><strong>PHP-5.3.8 compiled without large file support:</strong></p>
-
-<blockquote>
-  <ul>
-    <li>test_math                 : 2.274 sec.</li>
-    <li>test_stringmanipulation   : 2.286 sec.</li>
-    <li>test_loops                : 1.619 sec.</li>
-    <li>test_ifelse               : 1.228 sec.</li>
-    <li>
-      <hr />
-    </li>
-    <li>Total time:               : 7.407 sec.</li>
-  </ul>
-</blockquote>
-
-<p>That’s pretty much a 50% speed decrease. One more thing i tried is adding the ‘AC_SYS_LARGEFILE’ macro to configure.in and rebuild the configure script. But this had no effect at all.</p>
-
-<blockquote>
-  <ul>
-    <li>$ cd php-5.3.8 </li>
-    <li>$ vi configure.in (add AC_SYS_LARGEFILE somewhere)</li>
-    <li>$ export PHP_AUTOCONF=/usr/share/autoconf2.59</li>
-    <li>$ ./buildconf –force</li>
-  </ul>
-</blockquote>
-
-<p>I then tried two things. First i build without the CFLAGS. But this didn’t seem to do much. Then i used the same configure script with the CFLAGS for large file support. But there was no speed increase measurable. </p>
-
-<p>So why would Ubuntu have made the choice to compile PHP with the large file support on a 32-bit platform? Are there really that much developers that work on large files in web / cli applications written in PHP? Enough to sacrifice a 50% speed decrease?</p>
-
-<p>I don’t really know the answer to that. But i will do my large file processing on 64-bit machines. And will compile PHP from scratch from now on. Until i have upgraded my aging hardware.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-09-07T14:09:44+02:00" pubdate data-updated="true">Sep 7<span>th</span>, 2011</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2011/09/php-slow-on-32-bit-ubuntu/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/4/">&larr; Older</a></div>
@@ -1298,6 +1260,8 @@ Last week i had a blast while listening to <a href="http://www.thoughtcrime.org/
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/10/git-move-folder-containing-submodules/"><span class="higlight">October, 2013</span> Renaming a folder in git that contains submodules</a></li>
+		
 		<li><a href="http://lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/"><span class="higlight">October, 2013</span> Fixing the clover forcast for PHP projects in Jenkins</a></li>
 		
 		<li><a href="http://lenss.nl/2013/08/github-and-multiple-ssh-keys/"><span class="higlight">August, 2013</span> Github, SSH and multiple repositories</a></li>
@@ -1315,8 +1279,6 @@ Last week i had a blast while listening to <a href="http://www.thoughtcrime.org/
 		<li><a href="http://lenss.nl/2012/11/publish-google-reader-shared-items/"><span class="higlight">November, 2012</span> Publish Google Reader shared items</a></li>
 		
 		<li><a href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/"><span class="higlight">October, 2012</span> Long running PHP script and MySQL server gone away</a></li>
-		
-		<li><a href="http://lenss.nl/2012/10/git-rebase-on-pull-by-default/"><span class="higlight">October, 2012</span> Git: Rebase on pull by default</a></li>
 		
 	</ul>
 </div>
@@ -1337,7 +1299,7 @@ Last week i had a blast while listening to <a href="http://www.thoughtcrime.org/
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.27118644067797%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(118)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.05084745762711%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.03389830508475%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 100.50847457627118%'>Git(1)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.52542372881356%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.0677966101695%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jenkins' style='font-size: 100.50847457627118%'>Jenkins(1)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.01694915254237%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.01694915254237%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.5762711864407%'>PHP(68)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.0677966101695%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.05084745762711%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 149.83050847457628%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.0677966101695%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.78991596638656%'>PHP(69)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.03361344537815%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 149.41176470588235%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

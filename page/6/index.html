@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Best Wishes As the year is coming to an end. I realise i haven’t posted anything this last month. And i have load of things on my mind. But no time &hellip;">
+  <meta name="description" content="New Generation elePHPants Arrived!! Yesterday i got a message that the new generation of elePHPants are available for bulk pre-order. I am very &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -59,6 +59,73 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2011/01/new-generation-elephpants-arrived/">New Generation elePHPants Arrived!!</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>Yesterday i got a message that the new generation of elePHPants are available for bulk pre-order. I am very happy the <a href="http://elephpant.com/">elephpant.com</a> site is finally up and running. For the past two years i have been shipping a lot of these blue guys all across the world. No need for me to do that any more. </p>
+
+<p>A big thanks for this furry blue creature goes out to:</p>
+
+<ul>
+  <li><a href="http://www.elroubio.net/naissance_elephpant.php">Vincent Pontier</a> </li>
+  <li><a href="http://www.nexen.net/">Damien Seguy</a> </li>
+  <li><a href="http://blog.hello-design.fr/">Christophe Villeneuve</a> </li>
+  <li><a href="http://cesarodas.com/">Cesar Rodas</a></li>
+</ul>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-01-06T12:28:30+01:00" pubdate data-updated="true">Jan 6<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/design/'>Design</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2011/01/new-generation-elephpants-arrived/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -1612,124 +1679,6 @@ WRITE (6, 100)
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2010/09/zend-studio-goes-virtual/">Zend Studio Goes Virtual</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>Zend Studio added a new great <a href="http://www.zend.com/en/products/studio/vmware-workstation-deployment#discount">feature</a> to there already impressive stack of features. The IDE just keeps growing in the right direction. </p>
-
-<p>So the new 8 version which at the time of writing is in Beta added VMWare support. This is a feature i was looking forward to. And couldn’t wait to give this a try. So when i got a email that the new beta is out. I didn’t wait and downloaded the behemoth.</p>
-
-<p>Adding VMWare support to the IDE seems like a logical thing to do. Specially since everything is virtualized now a days. I thought about this a while. But you can use it in different setups. For me it is an extra on my development environment. I’m a big Linux enthusiast. But at the office i work on windows. So now i can develop in my own virtual Linux environment. But it’s also a great solution for running Unit Test on a production VM. Or just to test on a production VM.</p>
-
-<p>My first try was on my OS of choice which is Ubuntu. That however didn’t go to well. As soon as i started the “Run as VMWare application” my IDE would die on me. I quickly gave up on this mainly because i am running Maverick which is not considered stable. And VMWare already had some problems building the kernel modules. If anybody is interested in the crash logs. I still have some.</p>
-
-<p>So back to windows. Windows 7 in particular. I always keep a Windows partition laying around. For games and stuff. So i downloaded the following files.</p>
-
-<blockquote>
-
-  <ul>
-    <li>Ubuntu-Server</li>
-    <li>Zend Studio 8 Beta (<a href="http://www.zend.com/en/products/studio/download-8-beta">trial</a>)</li>
-    <li>VMWare 7.1.2        (<a href="http://downloads.vmware.com/d/info/desktop_downloads/vmware_workstation/7_0">trial</a>)</li>
-  </ul>
-</blockquote>
-
-<p>Installing VMWare and Zend Studio is a since. Nothing to make note off here. After that was done i installed Ubuntu 10.04 Server edition. And installed Zend Server inside of it. That should be all.. right? So let’s launch the IDE and give it a shot. Well it launched but i got back an error like below.</p>
-
-<p><a href="http://lenss.nl/images/2010/09/zend-server-vm-noconnect.png"><img src="http://lenss.nl/images/2010/09/zend-server-vm-noconnect_s.jpg" alt="" /></a></p>
-
-<p>At first i had no clue what was going on. But i had the feeling there was something wrong with the VMWare client tools. After digging through the Zend Studio manual i found the <a href="http://files.zend.com/help/Beta/Zend_Studio_8_0/zend-studio.htm#integrating_with_vmware_workstation.htm">answer</a> The ‘hgfs’ was not mounted on teh client OS. And this was because the vmware tools did not have enough libraries to build everything. To build the complete VMWare tools on the client OS we need</p>
-
-<blockquote>
-
-  <ul>
-    <li>gcc</li>
-    <li>make</li>
-    <li>build-essential</li>
-    <li>linux-headers-(current version)</li>
-  </ul>
-</blockquote>
-
-<p>When that’s done it necessary to attach the linux version of the VMWare tools to the virtual CDRom drive. So we can mount it inside the VM.</p>
-
-<blockquote>
-  <p>/usr/lib/vmware/isoimages/linux.iso</p>
-</blockquote>
-
-<blockquote>
-
-  <p>mount /dev/cdrom /mnt</p>
-</blockquote>
-
-<p>Copy the file somewhere and unmount the /mnt or the build will fail. Unpack the VMWare tools and run the perl script inside to install. Once that’s done follow the VMWare instructions. Or reboot the VM.</p>
-
-<p>Now we are all set. Now it’s just a matter of writing code. And running it on the VM. When running an application as a VMWare application the IDE syncs the files with the shared folder on the VM. After that the internal browser is launched to see the result.</p>
-
-<p>The first time you will be asked for the VM to use. Just point it to the VM image created by VMWare.</p>
-
-<p><a href="http://lenss.nl/images/2010/09/selectvm.png"><img src="http://lenss.nl/images/2010/09/selectvm_s.jpg" alt="" /></a></p>
-
-<p>When no VM is active when launching the application. Zend Studio will trigger VMWare to launch the VM.</p>
-
-<p><a href="http://lenss.nl/images/2010/09/launchvm.png"><img src="http://lenss.nl/images/2010/09/launchvm_s.jpg" alt="" /></a></p>
-
-<p>Some output in Zend Studio</p>
-
-<p><a href="http://lenss.nl/images/2010/09/resultvm.png"><img src="http://lenss.nl/images/2010/09/resultvm_s.jpg" alt="" /></a></p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-09-27T13:25:17+02:00" pubdate data-updated="true">Sep 27<span>th</span>, 2010</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>, <a class='category' href='http://lenss.nl/tag/zend/'>Zend</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2010/09/zend-studio-goes-virtual/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/7/">&larr; Older</a></div>
@@ -1783,6 +1732,8 @@ WRITE (6, 100)
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/10/git-move-folder-containing-submodules/"><span class="higlight">October, 2013</span> Renaming a folder in git that contains submodules</a></li>
+		
 		<li><a href="http://lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/"><span class="higlight">October, 2013</span> Fixing the clover forcast for PHP projects in Jenkins</a></li>
 		
 		<li><a href="http://lenss.nl/2013/08/github-and-multiple-ssh-keys/"><span class="higlight">August, 2013</span> Github, SSH and multiple repositories</a></li>
@@ -1800,8 +1751,6 @@ WRITE (6, 100)
 		<li><a href="http://lenss.nl/2012/11/publish-google-reader-shared-items/"><span class="higlight">November, 2012</span> Publish Google Reader shared items</a></li>
 		
 		<li><a href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/"><span class="higlight">October, 2012</span> Long running PHP script and MySQL server gone away</a></li>
-		
-		<li><a href="http://lenss.nl/2012/10/git-rebase-on-pull-by-default/"><span class="higlight">October, 2012</span> Git: Rebase on pull by default</a></li>
 		
 	</ul>
 </div>
@@ -1822,7 +1771,7 @@ WRITE (6, 100)
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.27118644067797%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(118)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.05084745762711%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.03389830508475%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 100.50847457627118%'>Git(1)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.52542372881356%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.0677966101695%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jenkins' style='font-size: 100.50847457627118%'>Jenkins(1)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.01694915254237%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.01694915254237%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.5762711864407%'>PHP(68)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.0677966101695%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.05084745762711%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 149.83050847457628%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.0677966101695%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.78991596638656%'>PHP(69)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.03361344537815%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 149.41176470588235%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

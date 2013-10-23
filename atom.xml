@@ -4,7 +4,7 @@
   <title><![CDATA[Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-10-15T11:25:17+02:00</updated>
+  <updated>2013-10-23T11:31:57+02:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -12,6 +12,106 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Renaming a folder in git that contains submodules]]></title>
+    <link href="http://lenss.nl/2013/10/git-move-folder-containing-submodules/"/>
+    <updated>2013-10-23T13:05:12+02:00</updated>
+    <id>http://lenss.nl/2013/10/git-move-folder-containing-submodules</id>
+    <content type="html"><![CDATA[<p>Because of some project structure changes. It was required to renamed some folders. In git this should be as easy as running <strong>git mv</strong>. But when the folders you are trying to move contain submodules. Its a whole different story.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git mv old/ new
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<blockquote><p>fatal: source directory is empty, source=old/cookbooks/apache2, destination=new/cookbooks/apache2</p></blockquote>
+
+<p>Like i said. This seems to work for normal folders. But submodules are a bit more complicated because of paths set in various files. So let’s try just moving them on the filesystem.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ mv old/ new
+$ git status
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<blockquote><p>#	deleted:    old/VVagrantfile.example<br />#	deleted:    old/cookbooks/apache2<br />#	deleted:    old/cookbooks/apt<br />#	deleted:    old/cookbooks/beanstalkd/.travis.yml</p></blockquote>
+
+<p>That’s not what we’re looking for. We want to move the files. Not remove them. At this point i was at a loss and spend some time looking around <a href="http://stackoverflow.com/">stackoverflow</a>. Which has multiple solutions available from other developers. But none seemed to fit the bill. So i ended up combining a couple.</p>
+
+<p>First create the new location and add it to the git index.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ mkdir new
+$ git add new
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>In my case i had normal folders and submodules in the same directory. So first i moved the normal folders to the new structure.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git mv old/[some folder] /new
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Now it’s time for the submodules. We need to update the paths in each submodule’s <strong>.git</strong> file. And the paths in project <strong>.gitmodule</strong> file</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ find . -name .git -type f -print0 -type f | xargs -0 sed -i 's|old|new|g'
+$ find . -name .gitmodule -type f -print0 -type f | xargs -0 sed -i 's|old|new|g'
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>After that add the <strong>.gitmodule</strong> file to the git index and checkout the status</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git add .gitmodule
+$ git status 
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<blockquote><p>fatal: Could not chdir to &#8216;../../../../../new/cookbooks/apache2&#8217;: No such file or directory<br />fatal: &#8216;git status &#8211;porcelain&#8217; failed in submodule old/cookbooks/apache2</p></blockquote>
+
+<p>So we’re not there yet. As it turns out the git config file also contains the submodule paths. And the <strong>.git/modules</strong> folder contains a submodule mapping as well. So let’s fix that</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ find . -name config -print0 -type f | xargs -0 sed -i 's|old|new|g'
+$ mv .git/modules/old .git/modules/new
+$ git status
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>That looks good</p>
+
+<blockquote><p>modified:   .gitmodules<br />#	renamed:    old/Vagrantfile.example -&gt; new/Vagrantfile.example<br />#	renamed:    old/cookbooks/apache2 -&gt; new/cookbooks/apache2<br />#	renamed:    old/cookbooks/apt -&gt; new/cookbooks/apt<br />#	renamed:    old/cookbooks/beanstalkd/.travis.yml -&gt; new/cookbooks/beanstalkd/.travis.yml</p></blockquote>
+
+<p>Now we can remove the old folder from the git project and commit the changes.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git rm -r --cached old/
+$ git commit -a -m &quot;Moved old to new folder&quot;
+$ git push
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Fixing the clover forcast for PHP projects in Jenkins]]></title>
@@ -1744,35 +1844,6 @@ array(3) {
  </figure></notextile></div>
 
 <p>And i have to say. It looks a lot cleaner. So i added this to my bag of tricks. And will be using it from now on.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[PHP: Only variables should be passed by reference]]></title>
-    <link href="http://lenss.nl/2012/03/php-only-variables-should-be-passed-by-reference/"/>
-    <updated>2012-03-26T11:19:20+02:00</updated>
-    <id>http://lenss.nl/2012/03/php-only-variables-should-be-passed-by-reference</id>
-    <content type="html"><![CDATA[<p>Last week i got this error while doing some coding with a new library. And at first i didn’t quite get what was causing this. The line in question looked like</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$url</span> = <span class="predefined">reset</span>(<span class="local-variable">$file</span>-&gt;getPaths());
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>So how can that throw an error like “Only variables should be passed by reference” you might ask? Well as it turns out to be. PHP functions don’t like arguments returned from another function. As with this case. The -&gt;getPaths() method holds a reference to the returned array. Which it shouldn’t but that’s another thing.</p>
-
-<p>So i guess from now i will doing the thing below. Or check for references beforehand!</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$paths</span> = <span class="local-variable">$file</span>-&gt;getPaths();
-<span class="local-variable">$url</span> = <span class="predefined">reset</span>(<span class="local-variable">$paths</span>);
-</pre></div>
-</div>
- </figure></notextile></div>
-
 ]]></content>
   </entry>
   

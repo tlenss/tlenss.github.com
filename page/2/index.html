@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Workaround Ubuntu 12.04 Mysterious System Freezes I have two machines running Ubuntu 12.04. One of them is very stable. And hardly ever gets &hellip;">
+  <meta name="description" content="Git: Rebase on Pull by Default I was a bit surprised today when git presented me a merge message window after i did a pull. This should not happen &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -59,6 +59,87 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2012/10/git-rebase-on-pull-by-default/">Git: Rebase on Pull by Default</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>I was a bit surprised today when <a href="http://git-scm.com/">git</a> presented me a merge message window after i did a pull. This should not happen as the normal behavior here should be to <a href="http://git-scm.com/book/en/Git-Branching-Rebasing">rebase</a> the changes. But apparently that didn’t happen this time. When i asked one of the other <a href="http://www.scriptorama.nl/">dev</a> ‘s what could be the issue. We quickly figured out i was just missing some <strong>config</strong> entry in <strong>.git/config</strong>. This probably happened some time ago when i did a fresh checkout.</p>
+
+<p>So to make sure rebasing is done by default. You can run a simple git command or modify the <strong>.git/config</strong> file manually.</p>
+
+<blockquote>
+  <p>$ git config branch.autosetuprebase always</p>
+</blockquote>
+
+<p>or do</p>
+
+<blockquote>
+  <p>$ vi .git/config</p>
+</blockquote>
+
+<p>Make sure <strong>[branch “master”]</strong> has <strong>rebase</strong> set to true. It should look like the snippet below.</p>
+
+<blockquote>
+  <p>[branch “master”]
+	remote = origin
+	merge = refs/heads/master
+	rebase = true</p>
+</blockquote>
+
+<p>Starting to really like git. A couple of more quirks and things will be running fine.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-25T14:20:22+02:00" pubdate data-updated="true">Oct 25<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2012/10/git-rebase-on-pull-by-default/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -1397,84 +1478,6 @@ array(3) {
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2012/03/php-only-variables-should-be-passed-by-reference/">PHP: Only Variables Should Be Passed by Reference</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>Last week i got this error while doing some coding with a new library. And at first i didn’t quite get what was causing this. The line in question looked like</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$url</span> = <span class="predefined">reset</span>(<span class="local-variable">$file</span>-&gt;getPaths());
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>So how can that throw an error like “Only variables should be passed by reference” you might ask? Well as it turns out to be. PHP functions don’t like arguments returned from another function. As with this case. The -&gt;getPaths() method holds a reference to the returned array. Which it shouldn’t but that’s another thing.</p>
-
-<p>So i guess from now i will doing the thing below. Or check for references beforehand!</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$paths</span> = <span class="local-variable">$file</span>-&gt;getPaths();
-<span class="local-variable">$url</span> = <span class="predefined">reset</span>(<span class="local-variable">$paths</span>);
-</pre></div>
-</div>
- </figure></notextile></div>
-
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-26T11:19:20+02:00" pubdate data-updated="true">Mar 26<span>th</span>, 2012</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2012/03/php-only-variables-should-be-passed-by-reference/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/3/">&larr; Older</a></div>
@@ -1528,6 +1531,8 @@ array(3) {
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/10/git-move-folder-containing-submodules/"><span class="higlight">October, 2013</span> Renaming a folder in git that contains submodules</a></li>
+		
 		<li><a href="http://lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/"><span class="higlight">October, 2013</span> Fixing the clover forcast for PHP projects in Jenkins</a></li>
 		
 		<li><a href="http://lenss.nl/2013/08/github-and-multiple-ssh-keys/"><span class="higlight">August, 2013</span> Github, SSH and multiple repositories</a></li>
@@ -1545,8 +1550,6 @@ array(3) {
 		<li><a href="http://lenss.nl/2012/11/publish-google-reader-shared-items/"><span class="higlight">November, 2012</span> Publish Google Reader shared items</a></li>
 		
 		<li><a href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/"><span class="higlight">October, 2012</span> Long running PHP script and MySQL server gone away</a></li>
-		
-		<li><a href="http://lenss.nl/2012/10/git-rebase-on-pull-by-default/"><span class="higlight">October, 2012</span> Git: Rebase on pull by default</a></li>
 		
 	</ul>
 </div>
@@ -1567,7 +1570,7 @@ array(3) {
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.27118644067797%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(118)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.05084745762711%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.03389830508475%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 100.50847457627118%'>Git(1)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.52542372881356%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.0677966101695%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jenkins' style='font-size: 100.50847457627118%'>Jenkins(1)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.01694915254237%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.01694915254237%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.5762711864407%'>PHP(68)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.0677966101695%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.05084745762711%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 149.83050847457628%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.0677966101695%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.78991596638656%'>PHP(69)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.03361344537815%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 149.41176470588235%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

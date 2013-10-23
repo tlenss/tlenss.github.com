@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="XSS Vulnerability on Dutch Bank Websites My wife just send me a link to security.nl. Pointing to an article about XSS vulnerability in Dutch banking &hellip;">
+  <meta name="description" content="Wordpress and NO-WWW Rewrite On almost all of my domains i rewrite the WWW sub domain to the no-WWW version. This however went wrong on my own site &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -59,6 +59,108 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2009/03/wordpress-and-no-www-rewrite/">Wordpress and NO-WWW Rewrite</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>On almost all of my domains i rewrite the WWW sub domain to the <a href="http://no-www.org/">no-WWW</a> version. This however went wrong on my own site. And i didn’t even notice it. My friend <a href="http://www.lexternet.nl/">Alex</a> pointed out that he couldn’t post any comment to the site anymore. So what went wrong?</p>
+
+<p>Normally i use the following lines to do the rewrite.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+RewriteCond %{HTTP_HOST} ^www\.lenss\.nl$ [NC]
+RewriteRule ^(.*)$ http://lenss.nl/$1 [R=301,L]
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>My own site however still runs <a href="http://wordpress.org/">Wordpress</a> and this package comes with it’s own set of rewrite rules. And i just dropped my new lines under the Wordpress rewrite rules.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^.*[^/]$
+RewriteCond %{REQUEST_URI} !^.*//.*$
+RewriteRule . index.php [L]
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>The result was that the WWW sub domain got rewritten to the no-www version. But everything after the trailing slash got dismissed. So rewrites for blog posts didn’t work. And all request would land on the main index. So i did some testing and combined the two sets of rewrite rules. This seems to function properly :)</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+RewriteEngine On
+RewriteBase /
+RewriteCond %{HTTP_HOST} ^www\.lenss\.nl$ [NC]
+RewriteRule ^(.*)$ http://lenss.nl/$1 [R=301,L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^.*[^/]$
+RewriteCond %{REQUEST_URI} !^.*//.*$
+RewriteRule . index.php [L]
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Next time i just need to check my changes more thoroughly. And thank you Alex for point that out to me.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-03-31T11:10:37+02:00" pubdate data-updated="true">Mar 31<span>st</span>, 2009</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2009/03/wordpress-and-no-www-rewrite/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -926,71 +1028,6 @@ The package is a nice stack of applications / components that build up a solid P
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2009/02/search-indexing-and-duplicate-content/">Search Indexing and Duplicate Content</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>Over the last few days i have been reading my mind dumb about SEO techniques. En specially how to eliminate duplicate content. For the main part this is all clear. And we succeed in implementing most SEO techniques without problems. One question however remains. Even after reading through <a href="http://www.mattcutts.com/blog/">Matt Cutts</a> complete website :)</p>
-
-<p>So maybe some bright mind could shed a light on the following situation.</p>
-
-<p>We have two domains for example a.nl and a.be. Two separate domains that point to the same website. Just because people in Belgium would probably feel more confident buying something from a local website then one based in an other country. But the content under both domains is identical. The reason behind this is. In Belgium (.be) and The Netherlands (.nl) people speak Dutch. So there’s not really an option in providing content in a different language.</p>
-
-<p>Now the question does Google or any other search engine see this as duplicate content? And if yes what can be done about it. My thought was to add 301 responses to the .be site and do everything over the .nl site. But this would render .be useless in my opinion.</p>
-
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-02-20T13:13:23+01:00" pubdate data-updated="true">Feb 20<span>th</span>, 2009</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2009/02/search-indexing-and-duplicate-content/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/12/">&larr; Older</a></div>
@@ -1044,6 +1081,8 @@ The package is a nice stack of applications / components that build up a solid P
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/10/git-move-folder-containing-submodules/"><span class="higlight">October, 2013</span> Renaming a folder in git that contains submodules</a></li>
+		
 		<li><a href="http://lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/"><span class="higlight">October, 2013</span> Fixing the clover forcast for PHP projects in Jenkins</a></li>
 		
 		<li><a href="http://lenss.nl/2013/08/github-and-multiple-ssh-keys/"><span class="higlight">August, 2013</span> Github, SSH and multiple repositories</a></li>
@@ -1061,8 +1100,6 @@ The package is a nice stack of applications / components that build up a solid P
 		<li><a href="http://lenss.nl/2012/11/publish-google-reader-shared-items/"><span class="higlight">November, 2012</span> Publish Google Reader shared items</a></li>
 		
 		<li><a href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/"><span class="higlight">October, 2012</span> Long running PHP script and MySQL server gone away</a></li>
-		
-		<li><a href="http://lenss.nl/2012/10/git-rebase-on-pull-by-default/"><span class="higlight">October, 2012</span> Git: Rebase on pull by default</a></li>
 		
 	</ul>
 </div>
@@ -1083,7 +1120,7 @@ The package is a nice stack of applications / components that build up a solid P
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.27118644067797%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(118)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.05084745762711%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.03389830508475%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 100.50847457627118%'>Git(1)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.52542372881356%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.0677966101695%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jenkins' style='font-size: 100.50847457627118%'>Jenkins(1)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.01694915254237%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.01694915254237%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.5762711864407%'>PHP(68)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.0677966101695%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.05084745762711%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 149.83050847457628%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.0677966101695%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.78991596638656%'>PHP(69)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.03361344537815%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 149.41176470588235%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

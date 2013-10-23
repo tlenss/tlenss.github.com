@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Ideas of March This post has been waiting in my draft list for a few days already. And March is almost over. So better get it out now. Christ &hellip;">
+  <meta name="description" content="Writing a Simple Wordpress Plugin In the spirit of Ideas for March i should really be blogging more. Somehow i just can’t think of anything &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -59,6 +59,243 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2011/03/writing-a-simple-wordpress-plugin/">Writing a Simple Wordpress Plugin</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p><img src="http://lenss.nl/images/2011/03/wordpress.jpg" alt="" /> In the spirit of <a href="http://lenss.nl/2011/03/ideas-of-march/">Ideas for March</a> i should really be blogging more. Somehow i just can’t think of anything interesting at the moment. Will give it a shot anyway.</p>
+
+<p>Last week i created my first ever <a href="http://wordpress.org/">Wordpress</a> <a href="http://codex.wordpress.org/Writing_a_Plugin">plugin</a>. It’s an extremely simple one. And for sure nothing new or special. But it was a fun experience. I have always dreaded the WP code base. The mixture of OO and procedural programming just looks plain ugly to me. But i don’t want to be bash WP. I use it myself. So i took the dive and spend a few hours hacking and <a href="http://codex.wordpress.org/Plugin_API">reading</a>. And the result is my <strong>DWOTD</strong> (Dutch Word Of The Day) plugin.</p>
+
+<p>To get some inspiration for this i took a look at some plugin code available on the internet. This gave me a basic understanding of how the plugin system works. Together with the docs writing a plugin wasn’t that hard. The code that i saw however was pretty bad. And i wanted something that at least looked better then all the global statements swarming around. So i created a small OO wrapper for the plugin. The basic plugin structure looks something like this</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>plugin structure </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+-- plugin
+----- css
+---------- dwotd.css
+----- lib
+---------- Dwotd.php
+---------- Widget.php
+----- template
+---------- Widget.php
+-- dwotd.php
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>The file in the root is the bootstrap file. It includes the main plugin class and registers the widget class. The two files in lib contain the plugin and Widget classes. The rest is self explanatory i think.</p>
+
+<p>The first lines of the bootstrap file contain a comment block that is used by WP to show some more information about the plugin inside the admin. </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="comment">/*
+Plugin Name: DWOTD
+Plugin URI: http://lenss.nl/projects/dwotd-plugin/
+Description: Dutch Word Of The Day including English translation
+Author: Thijs Lensselink
+Author URI: http://lenss.nl/
+Version: 1.2
+*/</span>
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Then the plugin class file is loaded and the a plugin object instantiated.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="predefined">require_once</span>(<span class="predefined">dirname</span>(<span class="predefined-constant">__FILE__</span>).<span class="string"><span class="delimiter">'</span><span class="content">/lib/Dwotd.php</span><span class="delimiter">'</span></span>);
+    
+<span class="local-variable">$DWOTD</span> = <span class="keyword">new</span> <span class="constant">DWOTD_Plugin</span>();
+wp_register_style(<span class="string"><span class="delimiter">'</span><span class="content">dwotd</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="delimiter">{</span><span class="local-variable">$DWOTD</span>-&gt;getPluginDir()<span class="delimiter">}</span></span><span class="content">/css/dwotd.css</span><span class="delimiter">&quot;</span></span>);
+wp_enqueue_style(<span class="string"><span class="delimiter">'</span><span class="content">dwotd</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="delimiter">{</span><span class="local-variable">$DWOTD</span>-&gt;getPluginDir()<span class="delimiter">}</span></span><span class="content">/css/dwotd.css</span><span class="delimiter">&quot;</span></span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>If the logged in user is a admin hooks for <em>installing</em> and <em>uninstalling</em> the plugin will be activated.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">if</span> ( is_admin() ) {
+  register_activation_hook(<span class="predefined-constant">__FILE__</span>, <span class="predefined">array</span>(<span class="local-variable">$DWOTD</span>, <span class="string"><span class="delimiter">'</span><span class="content">install</span><span class="delimiter">'</span></span>));
+  register_deactivation_hook(<span class="predefined-constant">__FILE__</span>, <span class="predefined">array</span>(<span class="local-variable">$DWOTD</span>, <span class="string"><span class="delimiter">'</span><span class="content">uninstall</span><span class="delimiter">'</span></span>));
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>And finally register the Widget class</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+add_action(<span class="string"><span class="delimiter">'</span><span class="content">widgets_init</span><span class="delimiter">'</span></span>, <span class="predefined">create_function</span>(<span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">return register_widget(&quot;DWOTD_Widget&quot;);</span><span class="delimiter">'</span></span>));
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>The Widget class is a simple wrapper around the plugin class. It basically instantiates the Plugin class and after that the <em>widget()</em> method gets called. This method calls the Plugin and finally renders a view for the widget box.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">class</span> <span class="class">DWOTD_Widget</span> <span class="keyword">extends</span> <span class="constant">WP_Widget</span> 
+{
+  <span class="keyword">protected</span> <span class="local-variable">$_dwotd</span>;
+            
+  <span class="keyword">public</span> <span class="keyword">function</span> <span class="function">DWOTD_Widget</span>() 
+  {
+    <span class="local-variable">$this</span>-&gt;_dwotd = <span class="keyword">new</span> <span class="constant">DWOTD_Plugin</span>();
+    <span class="predefined-constant">parent</span>::<span class="constant">WP_Widget</span>(<span class="predefined-constant">false</span>, <span class="local-variable">$name</span> = <span class="string"><span class="delimiter">'</span><span class="content">DWOTD Plugin</span><span class="delimiter">'</span></span>);
+  }
+    
+  <span class="keyword">public</span> <span class="keyword">function</span> <span class="function">widget</span>(<span class="local-variable">$args</span>, <span class="local-variable">$instance</span>) 
+  {
+    <span class="local-variable">$result</span> = <span class="local-variable">$this</span>-&gt;_dwotd-&gt;getFromCache();
+    <span class="keyword">if</span> (!<span class="local-variable">$result</span> || <span class="local-variable">$result</span>-&gt;used_on != <span class="predefined">date</span>(<span class="string"><span class="delimiter">'</span><span class="content">Y-m-d</span><span class="delimiter">'</span></span>)) {
+      <span class="keyword">try</span> {
+        <span class="local-variable">$result</span> = <span class="local-variable">$this</span>-&gt;_dwotd-&gt;fetchRandomWord();
+            <span class="local-variable">$this</span>-&gt;_dwotd-&gt;writeToCache(<span class="local-variable">$result</span>);
+      } <span class="keyword">catch</span> (<span class="predefined-constant">Exception</span> <span class="local-variable">$e</span>) {
+            <span class="keyword">return</span> <span class="keyword">new</span> <span class="constant">WP_Error</span>(<span class="string"><span class="delimiter">'</span><span class="content">broke</span><span class="delimiter">'</span></span>, __(<span class="local-variable">$e</span>-&gt;getMessage()));
+      }
+    }
+    
+    <span class="local-variable">$this</span>-&gt;_renderView(<span class="local-variable">$result</span>);
+  }
+            
+  <span class="keyword">protected</span> <span class="keyword">function</span> <span class="function">_renderView</span>(<span class="local-variable">$data</span>)
+  {
+    ob_start();
+    <span class="predefined">include</span> <span class="local-variable">$this</span>-&gt;_dwotd-&gt;getTemplate();
+    ob_get_contents();
+  }
+            
+  <span class="keyword">public</span> <span class="keyword">function</span> <span class="function">update</span>(<span class="local-variable">$new_instance</span>, <span class="local-variable">$old_instance</span>) 
+  {
+    <span class="local-variable">$instance</span> = <span class="local-variable">$old_instance</span>;
+    <span class="keyword">return</span> <span class="local-variable">$instance</span>;
+  }
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>All real work is done inside the the Plugin class. This has all methods for talking to the database instance. But also contains the <a href="http://codex.wordpress.org/Plugin_API">hooks</a> for the WP install and uninstall actions. Some of the contents of this method are listed below.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="predefined">require_once</span>(<span class="constant">ABSPATH</span>.<span class="string"><span class="delimiter">'</span><span class="content">wp-admin/includes/upgrade.php</span><span class="delimiter">'</span></span>);
+<span class="predefined">require_once</span>(<span class="predefined">dirname</span>(<span class="predefined-constant">__FILE__</span>).<span class="string"><span class="delimiter">'</span><span class="content">/Widget.php</span><span class="delimiter">'</span></span>);
+    
+<span class="keyword">Class</span> <span class="constant">DWOTD_Plugin</span>
+{
+  <span class="keyword">public</span> <span class="keyword">function</span> <span class="function">__construct</span>()
+  {
+    <span class="keyword">global</span> <span class="local-variable">$wpdb</span>, <span class="local-variable">$table_prefix</span>;
+    <span class="comment">// set some class vars and include some files</span>
+  }
+            
+  <span class="keyword">public</span> <span class="keyword">function</span> <span class="function">install</span>() 
+  {
+    <span class="comment">// create database and insert data</span>
+    add_option(<span class="string"><span class="delimiter">'</span><span class="content">dwotd_quote</span><span class="delimiter">'</span></span>,<span class="string"><span class="delimiter">'</span><span class="content">1</span><span class="delimiter">'</span></span>);
+  }        
+            
+  <span class="keyword">public</span> <span class="keyword">function</span> <span class="function">uninstall</span>() 
+  {
+    <span class="local-variable">$this</span>-&gt;_dbh-&gt;query(<span class="string"><span class="delimiter">&quot;</span><span class="content">DROP TABLE IF EXISTS `</span><span class="inline"><span class="delimiter">{</span><span class="local-variable">$this</span>-&gt;_dbName<span class="delimiter">}</span></span><span class="content">`</span><span class="delimiter">&quot;</span></span>);
+    delete_option(<span class="string"><span class="delimiter">'</span><span class="content">dwotd_quote</span><span class="delimiter">'</span></span>);
+  }
+
+  <span class="keyword">public</span> <span class="keyword">function</span> <span class="function">getPluginDir</span>()
+  {
+    <span class="keyword">return</span> <span class="local-variable">$this</span>-&gt;_wpContent.<span class="string"><span class="delimiter">'</span><span class="content">/plugins/dwotd</span><span class="delimiter">'</span></span>;
+  }
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>The code is just a small part of the real code. Which you can download <a href="http://lenss.nl/projects/dwotd-plugin/dwotd.tar.gz">here</a>. After that it’s quite easy. Create a folder for the plugin in <em>wp-content/plugins</em> and copy the files there. Enable it from the plugin manager and enable it in the widget menu (which didn’t work for me because my theme has no sidebar.. well not the wp one :)). So i had to use a manual approach.</p>
+
+<p>After copying the files to the plugin folder login to <em>wp-admin</em> and browse to <em>Plugins/Plugins</em>. Search for the plugin and click activate. </p>
+
+<p><a href="http://lenss.nl/images/2011/03/widget-install.png"><img src="http://lenss.nl/images/2011/03/widget-install-300x38.png" alt="" /></a></p>
+
+<p>Enabling the widget from the admin panel is easy. Browse to <em>Appearance/Widgets</em>. And drag the widget from the left to the sidebar panel on the right.</p>
+
+<p><a href="http://lenss.nl/images/2011/03/widget-drag.png"><img src="http://lenss.nl/images/2011/03/widget-drag-300x68.png" alt="" /></a>
+<a href="http://lenss.nl/images/2011/03/widget-sidebar.png"><img src="http://lenss.nl/images/2011/03/widget-sidebar.png" alt="" /></a></p>
+
+<p>Enabling it the manual way is also easy. But required a bit more work. For this to work the correct theme file needs to be edited somewhere in <em>wp-content/themes</em>. And the following code needs to be added in the spot the widget should appear.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$args</span> = <span class="predefined">array</span> ( <span class="string"><span class="delimiter">'</span><span class="content">title</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span> );
+<span class="local-variable">$instance</span> = <span class="predefined">array</span> ( <span class="string"><span class="delimiter">'</span><span class="content">title</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">DWOTD</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">number</span><span class="delimiter">'</span></span> =&gt; <span class="integer">1</span> );
+<span class="local-variable">$widget</span> = <span class="keyword">new</span> <span class="constant">DWOTD_Widget</span>();
+<span class="local-variable">$widget</span>-&gt;widget(<span class="local-variable">$args</span>,<span class="local-variable">$instance</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>That’s all. The result can be viewed on the right top side. I build the plugin for fun and use on an Intranet. So don’t go blaming me if it breaks something. Besides that everybody is free to do with the code as they please.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-25T01:07:38+01:00" pubdate data-updated="true">Mar 25<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2011/03/writing-a-simple-wordpress-plugin/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -1070,73 +1307,6 @@ I finally took the time to read &#8216;<a href="http://www.amazon.com/You-Want-D
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2011/01/new-generation-elephpants-arrived/">New Generation elePHPants Arrived!!</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>Yesterday i got a message that the new generation of elePHPants are available for bulk pre-order. I am very happy the <a href="http://elephpant.com/">elephpant.com</a> site is finally up and running. For the past two years i have been shipping a lot of these blue guys all across the world. No need for me to do that any more. </p>
-
-<p>A big thanks for this furry blue creature goes out to:</p>
-
-<ul>
-  <li><a href="http://www.elroubio.net/naissance_elephpant.php">Vincent Pontier</a> </li>
-  <li><a href="http://www.nexen.net/">Damien Seguy</a> </li>
-  <li><a href="http://blog.hello-design.fr/">Christophe Villeneuve</a> </li>
-  <li><a href="http://cesarodas.com/">Cesar Rodas</a></li>
-</ul>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-01-06T12:28:30+01:00" pubdate data-updated="true">Jan 6<span>th</span>, 2011</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/design/'>Design</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2011/01/new-generation-elephpants-arrived/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/6/">&larr; Older</a></div>
@@ -1190,6 +1360,8 @@ I finally took the time to read &#8216;<a href="http://www.amazon.com/You-Want-D
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/10/git-move-folder-containing-submodules/"><span class="higlight">October, 2013</span> Renaming a folder in git that contains submodules</a></li>
+		
 		<li><a href="http://lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/"><span class="higlight">October, 2013</span> Fixing the clover forcast for PHP projects in Jenkins</a></li>
 		
 		<li><a href="http://lenss.nl/2013/08/github-and-multiple-ssh-keys/"><span class="higlight">August, 2013</span> Github, SSH and multiple repositories</a></li>
@@ -1207,8 +1379,6 @@ I finally took the time to read &#8216;<a href="http://www.amazon.com/You-Want-D
 		<li><a href="http://lenss.nl/2012/11/publish-google-reader-shared-items/"><span class="higlight">November, 2012</span> Publish Google Reader shared items</a></li>
 		
 		<li><a href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/"><span class="higlight">October, 2012</span> Long running PHP script and MySQL server gone away</a></li>
-		
-		<li><a href="http://lenss.nl/2012/10/git-rebase-on-pull-by-default/"><span class="higlight">October, 2012</span> Git: Rebase on pull by default</a></li>
 		
 	</ul>
 </div>
@@ -1229,7 +1399,7 @@ I finally took the time to read &#8216;<a href="http://www.amazon.com/You-Want-D
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.27118644067797%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(118)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.05084745762711%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.03389830508475%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 100.50847457627118%'>Git(1)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.52542372881356%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.0677966101695%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jenkins' style='font-size: 100.50847457627118%'>Jenkins(1)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.01694915254237%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.01694915254237%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.5762711864407%'>PHP(68)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.0677966101695%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.05084745762711%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 149.83050847457628%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.0677966101695%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.78991596638656%'>PHP(69)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.03361344537815%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 149.41176470588235%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>
