@@ -4,7 +4,7 @@
   <title><![CDATA[Category: PHP | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/php/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-11-15T10:15:27+01:00</updated>
+  <updated>2013-11-15T10:16:25+01:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -20,7 +20,7 @@
     <id>http://lenss.nl/2013/11/first-weekday-of-month-in-php</id>
     <content type="html"><![CDATA[<p>A simple method to return the first weekdsay of a given month and year</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Cast array to object </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>getFirstWeekdayInMonth </span></figcaption>
  <div class="CodeRay">
   <div class="code"><pre>
 private function _getFirstWeekdayInMonth($month, $year, $day = 1) 
