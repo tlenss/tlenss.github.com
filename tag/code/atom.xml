@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Code | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/code/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-10-23T11:31:57+02:00</updated>
+  <updated>2013-11-15T10:15:27+01:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -12,6 +12,32 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Get the first weekday of the month in PHP]]></title>
+    <link href="http://lenss.nl/2013/11/first-weekday-of-month-in-php/"/>
+    <updated>2013-11-15T11:05:53+01:00</updated>
+    <id>http://lenss.nl/2013/11/first-weekday-of-month-in-php</id>
+    <content type="html"><![CDATA[<p>A simple method to return the first weekdsay of a given month and year</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Cast array to object </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+private function _getFirstWeekdayInMonth($month, $year, $day = 1) 
+{
+    $dateData = getdate(mktime(null, null, null, $month, $day, $year));
+    if (in_array($dateData[‘wday’], range(1, 5))) {
+        return $dateData[‘mday’];
+    }
+    return $this-<span class="entity">&amp;gt;</span>_getFirstWeekdayInMonth($month, $year, ($day+1));
+}<span class="tag">&lt;/p&gt;</span>
+
+<span class="tag">&lt;p&gt;</span>$wday = $this-<span class="entity">&amp;gt;</span>_getFirstWeekdayInMonth(11, 2013);
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Renaming a folder in git that contains submodules]]></title>
@@ -239,343 +265,6 @@ $ git clone git@repo1.github.com:repo1/project.git
 <p>Right! Further inspection showed that in production PHP’s <a href="http://code.google.com/p/peclapm/">APM</a> extension was loaded and active. And this was the real problem behind the memory exhaust issue. Thousands of queries were executed. And almost all of them were throwing an error notice for the fetch field function. Which was ignored by the @ symbol. But APM was still logging them. And apparently had a very hard time keeping up. </p>
 
 <p>It looks like a bug in APM. But that’s another story. The issue was fixed by passing in the correct offset of course. Another nice example of logging bringing down a production server.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[PHP 5.5.0 released]]></title>
-    <link href="http://lenss.nl/2013/06/php-55-released/"/>
-    <updated>2013-06-22T21:56:12+02:00</updated>
-    <id>http://lenss.nl/2013/06/php-55-released</id>
-    <content type="html"><![CDATA[<p>PHP reached a new milestone 3 days ago. And as always it’s quite exciting news. Some of the new features are already outlined by Evert Pot’s post which you can find <a href="http://evertpot.com/php-55-released/">here</a>. And all of this of course can be found on the <a href="https://wiki.php.net/rfc">wiki</a> and in the <a href="http://php.net/ChangeLog-5.php#5.5.0">change log</a>. </p>
-
-<p>I’ll just outline some of the new and exiting features, deprecated notices and removed functions.</p>
-
-<p><strong><em>Simplified password hashing API</em></strong></p>
-
-<p>Hashing passwords with <a href="http://php.net/manual/en/function.md5.php">md5()</a> and <a href="http://php.net/manual/en/function.sha1.php">sha1()</a> just isn’t enough anymore. So a new, secure and easy way to hash passwords has been added. And besides hashing includes some other useful functions.</p>
-
-<p><strong><em>$password</em></strong> The password string to hash</p>
-
-<p><strong><em>$algorithm</em></strong> The hashing algorithm to use of which two are available at the moment</p>
-
-<p><blockquote><p>PASSWORD_DEFAULT which uses bcrypt<br/>PASSWORD_BCRYPT which uses blowfish</p></blockquote></p>
-
-<p><strong><em>$options</em></strong> makes it possible to add a salt or set the cost for the hashing algorithm</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Hash password with default algorithm</span><a href='http://php.net/manual/en/function.password-hash.php'>password_hash() </a></figcaption> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$password</span> = ‘test-password’;
-<span class="local-variable">$hash</span> = password_hash(<span class="local-variable">$password</span>, <span class="constant">PASSWORD_DEFAULT</span>);
-<span class="predefined">var_dump</span>(<span class="local-variable">$hash</span>);
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
-  <div class="code"><pre>
-string(60) “$2y$10$qGv1q5nT4F7HCtKSPPME2usrdJRcRpk9lEUMQsE8mqyDIy3fbJ4I.”
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Hash password with BLOWFISH algorithm</span><a href='http://php.net/manual/en/function.password-hash.php'>password_hash() </a></figcaption> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$hash</span> = password_hash(<span class="local-variable">$password</span>, <span class="constant">PASSWORD_BCRYPT</span>);
-<span class="predefined">var_dump</span>(<span class="local-variable">$hash</span>);
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
-  <div class="code"><pre>
-string(60) “$2y$10$XtpNO/tFjtkq4u3ghcpqXeSwbHZxDQDTXRHfWBnZsmowUVl/MQys2”
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Hash password with BLOWFISH algorithm and options</span><a href='http://php.net/manual/en/function.password-hash.php'>password_hash() </a></figcaption> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$salt</span> = mcrypt_create_iv(<span class="integer">22</span>, <span class="constant">MCRYPT_DEV_URANDOM</span>); 
-<span class="local-variable">$hash</span> = password_hash(<span class="local-variable">$password</span>, <span class="constant">PASSWORD_BCRYPT</span>, <span class="predefined">array</span>(“cost” =&amp;gt; <span class="integer">14</span>, “salt” =&amp;gt; <span class="local-variable">$salt</span>));
-<span class="predefined">var_dump</span>(<span class="local-variable">$hash</span>);
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
-  <div class="code"><pre>
-string(60) “$2y$14$6ZtnYJ0CyqCUx.vJu3MZEuUGgIN.ryxMa0Yh8BnCrbBDVnd3Me30i”
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p>Verify if a hash and password match. Return true if they do and false if they don’t</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Verify hash</span><a href='http://php.net/manual/en/function.password-verify.php'>password_verify() </a></figcaption> <div class="CodeRay">
-  <div class="code"><pre>
-$hash = password_hash($password, PASSWORD_DEFAULT);<span class="tag">&lt;/p&gt;</span>
-
-<span class="tag">&lt;p&gt;</span>if (password_verify($password, $hash)) {
-  echo ‘Password is correct’;
-} else {
-  echo ‘Password is incorrect’;
-}
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
-  <div class="code"><pre>
-Password is correct
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p>Get information about a valid hash created with password_hash(). The function returns an array with the use d algorithm and options</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Retrieve $hash information</span><a href='http://php.net/manual/en/function.password-get-info.php'>password_get_info() </a></figcaption> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$info</span> = password_get_info(<span class="local-variable">$hash</span>);
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
-  <div class="code"><pre>
-array(3) {
-  [“algo”]=&amp;gt;
-  int(1)
-  [“algoName”]=&amp;gt;
-  string(6) “bcrypt”
-  [“options”]=&amp;gt;
-  array(1) {
-    [“cost”]=&amp;gt;
-    int(10)
-  }
-}
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p>Check if the supplied hash was generated by the provided algorithm and options. This might come in handy when the hash needs to be updated</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Check if a $hash needs to be rehashed</span><a href='http://php.net/manual/en/function.password-needs-rehash.php'>password_needs_rehash() </a></figcaption> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="keyword">if</span> (password_needs_rehash(<span class="local-variable">$hash</span>, <span class="constant">PASSWORD_BCRYPT</span>, <span class="predefined">array</span>(‘cost’ =&amp;gt; <span class="integer">8</span>))) {
-  <span class="comment">// Update the password hash</span>
-}
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p><strong><em>Support for constant array/string dereferencing</em></strong></p>
-
-<p>If you work with objects you might have worked with object dereferencing. This Is used to chain method calls. Or the so called fluent interfaces</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Dereference object call </span></figcaption>
- <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$obj</span>-&amp;gt;method()-&amp;gt;returnObjMethod();
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p>Now the same is possible for arrays and strings</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Dereference strings / array </span></figcaption>
- <div class="CodeRay">
-  <div class="code"><pre>
-echo array(1, 2, 3)[0]; //output 1
-echo “foobar”[2]; //output o
-echo “foobar”[“foo”][0] // output f<span class="tag">&lt;/p&gt;</span>
-
-<span class="tag">&lt;p&gt;</span>echo [1,3,4][2]; //output 4
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p><strong><em>Class Name Resolution As Scalar Via “class” Keyword</em></strong></p>
-
-<p>An easy way to get the full class name </p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Class name resolution via ::class </span></figcaption>
- <div class="CodeRay">
-  <div class="code"><pre>
-namespace Vodka\Crypt;<span class="tag">&lt;/p&gt;</span>
-
-<span class="tag">&lt;p&gt;</span>Class HashBuilder {}<span class="tag">&lt;/p&gt;</span>
-
-<span class="tag">&lt;p&gt;</span>use Vodka\Crypt\HashBuilder;<span class="tag">&lt;/p&gt;</span>
-
-<span class="tag">&lt;p&gt;</span>var_dump(HashBuilder::class);
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
-  <div class="code"><pre>
-string(23) “Vodka\Crypt\HashBuilder”
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p><strong><em>Support for using empty() on the result of function calls and other expressions</em></strong></p>
-
-<p>Normally <a href="http://php.net/manual/en/function.empty.php">empty()</a> and <a href="http://php.net/manual/en/function.isset.php">isset()</a> could only be used on variables. In 5.5 it’s possible to test expression and return values from functions</p>
-
-<p><strong><em>5.3</em></strong></p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Call empty() with closure </span></figcaption>
- <div class="CodeRay">
-  <div class="code"><pre>
-<span class="predefined">var_dump</span>( <span class="predefined">empty</span>(<span class="keyword">function</span>() {}) );
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p><blockquote><p>PHP Parse error:  syntax error, unexpected T_FUNCTION in</p></blockquote></p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Call empty() with function return value </span></figcaption>
- <div class="CodeRay">
-  <div class="code"><pre>        
-<span class="keyword">function</span> <span class="function">foo</span>() {}
-<span class="predefined">var_dump</span>(<span class="predefined">empty</span>(foo()));
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p><blockquote><p>PHP Fatal error:  Can’t use function return value in write context in</p></blockquote></p>
-
-<p><strong><em>5.5</em></strong></p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Call empty() with function return value </span></figcaption>
- <div class="CodeRay">
-  <div class="code"><pre>
-function foo($val) { 
-  return $val; 
-}<span class="tag">&lt;/p&gt;</span>
-
-<span class="tag">&lt;p&gt;</span>var_dump( empty(foo([])) );
-var_dump( empty(foo(true)) );
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
-  <div class="code"><pre>
-bool(true)
-bool(false)
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p><strong><em>Support for list in foreach</em></strong></p>
-
-<p>List has been added for foreach loops. Great for eliminating unused variables.</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Support for list in foreach </span></figcaption>
- <div class="CodeRay">
-  <div class="code"><pre>
-$messages = array(
-  array(‘id’ =<span class="entity">&amp;gt;</span> 1, ‘body’ =<span class="entity">&amp;gt;</span> ‘test-1’, ‘code’ =<span class="entity">&amp;gt;</span> 12),
-  array(‘id’ =<span class="entity">&amp;gt;</span> 2, ‘body’ =<span class="entity">&amp;gt;</span> ‘test-2’, ‘code’ =<span class="entity">&amp;gt;</span> 12),
-  array(‘id’ =<span class="entity">&amp;gt;</span> 3, ‘body’ =<span class="entity">&amp;gt;</span> ‘test-3’, ‘code’ =<span class="entity">&amp;gt;</span> 10)
-);<span class="tag">&lt;/p&gt;</span>
-
-<span class="tag">&lt;p&gt;</span>// Before
-foreach ($messages as $message) {
-  list($id, $body) = $message;
-}<span class="tag">&lt;/p&gt;</span>
-
-<span class="tag">&lt;p&gt;</span>// After
-foreach ($messages as list($id, $body)) {}
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p><strong><em>Zend Opcache extension and enable building it by default</em></strong></p>
-
-<p>My short post about <a href="https://wiki.php.net/rfc/optimizerplus">Zend Optimizer+</a> in February this year. Kind of slipped my mind. And i was somehow under the impression <a href="http://pecl.php.net/package/APC">APC</a> would be integrated. But this of course has to be Zend Optimizer+. Finally an opcode cacher available be default. And configurable from php.ini</p>
-
-<p><blockquote><p>[opcache]<br/>; Determines if Zend OPCache is enabled<br/>opcache.enable=0<br/>opcache.enable_cli=0</p></p><p><p>; The OPcache shared memory storage size.<br/>opcache.memory_consumption=64</p></p><p><p>; The amount of memory for interned strings in Mbytes.<br/>opcache.interned_strings_buffer=4</p></p><p><p>; Max files in OPCode cache, use a number between 200 and 100000.<br/>opcache.max_accelerated_files=2000</p></p><p><p>; The maximum percentage of “wasted” memory until a restart is scheduled.<br/>opcache.max_wasted_percentage=5</p></p><p><p>; Append current working dir to script name<br/>opcache.use_cwd=1</p></p><p><p>How often a file should be validated<br/>opcache.revalidate_freq=2</p></p><p><p>; Enables or disables file search in include_path optimization<br/>opcache.revalidate_path=0</p></p><p><p>; Drop all PHPDoc comments<br/>opcache.save_comments=1</p></blockquote></p>
-
-<p><strong><em>array_column function which returns a column in a multidimensional array</em></strong></p>
-
-<p>Fetching a column from a multi-dimensional array is now possible with a single function call.</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Fetch a column from a multi-dimensional array</span><a href='http://php.net/manual/en/function.array-column.php'>array_column() </a></figcaption> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$nestedArray</span> = <span class="predefined">array</span>(
-  <span class="predefined">array</span>(‘id’ =&amp;gt; <span class="integer">1</span>, ‘body’ =&amp;gt; ‘test-<span class="integer">1</span>’, ‘code’ =&amp;gt; <span class="integer">12</span>),
-  <span class="predefined">array</span>(‘id’ =&amp;gt; <span class="integer">2</span>, ‘body’ =&amp;gt; ‘test-<span class="integer">2</span>’, ‘code’ =&amp;gt; <span class="integer">12</span>),
-  <span class="predefined">array</span>(‘id’ =&amp;gt; <span class="integer">3</span>, ‘body’ =&amp;gt; ‘test-<span class="integer">3</span>’, ‘code’ =&amp;gt; <span class="integer">10</span>)
-);
-<span class="local-variable">$columns</span> = array_column(<span class="local-variable">$nestedArray</span>, ‘code’);
-<span class="predefined">print_r</span>(<span class="local-variable">$columns</span>);
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
-  <div class="code"><pre>
-Array
-(
-  [0] =&amp;gt; 12
-  [1] =&amp;gt; 12
-  [2] =&amp;gt; 10
-)
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p>Or fetch status code indexed by id</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Fetch a column from a multi-dimensional array index by another field</span><a href='http://php.net/manual/en/function.array-column.php'>array_column() </a></figcaption> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$columns</span> = array_column(<span class="local-variable">$nestedArray</span>, ‘code’, ‘id’);
-<span class="predefined">print_r</span>(<span class="local-variable">$columns</span>);
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
-  <div class="code"><pre>
-Array
-(
-  [145] =&amp;gt; 12
-  [20098] =&amp;gt; 12
-  [34] =&amp;gt; 10
-)
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p><strong><em>deprecated</em></strong></p>
-
-<p>The following mcrypt functions have been deprecated <a href="http://php.net/manual/en/function.mcrypt-ecb.php">mcrypt_ecb()</a>, <a href="http://php.net/manual/en/function.mcrypt-cbc.php">mcrypt_cbc()</a>, <a href="http://php.net/manual/en/function.mcrypt-cfb.php">mcrypt_cfb()</a>, <a href="http://php.net/manual/en/function.mcrypt-ofb.php">mcrypt_ofb()</a> and will now throw <a href="http://php.net/manual/en/errorfunc.constants.php">E_DEPRECATED</a>.</p>
-
-<p>The mysql extension has finally been deprecated, and deprecation warnings will be generated when connections are established to databases via <a href="http://php.net/manual/en/function.mysql-connect.php">mysql_connect()</a>, <a href="http://php.net/manual/en/function.mysql-pconnect.php">mysql_pconnect()</a></p>
-
-<p>use <a href="http://php.net/manual/en/book.mysqli.php">MySQLi</a> or <a href="http://php.net/manual/en/ref.pdo-mysql.php">PDO_MySQL</a> extensions instead.</p>
-
-<p><strong><em>removed</em></strong></p>
-
-<p>The following (not so useful) functions have been removed from the core <a href="http://php.net/manual/en/function.php-logo-guid.php">php_logo_guid()</a>, php_egg_logo_guid(), php_real_logo_guid(), <a href="http://www.php.net/manual/en/function.zend-logo-guid.php">zend_logo_guid()</a>. And support for the ancient operating systems Windows XP and 2003 has been dropped!</p>
-
-<p><strong><em>Install 5.5 on Ubuntu (experimental)</em></strong></p>
-
-<p>If you want to experience the new version first hand and you work on <a href="http://www.ubuntu.com/">Ubuntu</a>. You can add the experimental PPA and give it a shot.</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
-  <div class="code"><pre>
-sudo add-apt-repository ppa:ondrej/php5-experimental
-sudo apt-get update
-sudo apt-get install php5
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
 ]]></content>
   </entry>
   

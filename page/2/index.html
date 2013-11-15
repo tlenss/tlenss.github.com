@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Git: Rebase on Pull by Default I was a bit surprised today when git presented me a merge message window after i did a pull. This should not happen &hellip;">
+  <meta name="description" content="Long Running PHP Script and MySQL Server Gone Away At the moment i am writing some workers that interact with a beanstalk server. When data gets &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -59,6 +59,153 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/">Long Running PHP Script and MySQL Server Gone Away</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>At the moment i am writing some workers that interact with a <a href="http://kr.github.com/beanstalkd/">beanstalk</a> server. When data gets pushed into the beanstalk server. My workers will be triggered to process this data. So the workers are sitting idle for most of the time. And just wait for some data to process. No rocket science there. But during testing i kept running into <a href="http://www.mysql.com/">MySQL</a> issues. The script seemed to lose connection to the MySQL server when it was idle for longer then a minute. And would respond with a </p>
+
+<blockquote>
+  <p>Warning: <a href="http://php.net/mysql_query">mysql_query</a>(): MySQL server has gone away in /path/to/some/mysql4/class.php on line xxx</p>
+</blockquote>
+
+<p>So whats going on here? Well actually it’s quite simple. When my script initializes the database connection it doesn’t use it. It just sits there waiting for incoming data. Once received it will process it and try to store it in the database. But when the waiting period exceeds the time for PHP to keep the MySQL connection open it responds with the warning mentioned above. Now in previous versions of PHP this would not be a big issue. As PHP would just initiate a reconnect when the connection is lost. But from PHP 5.0.3 and up this functionality has been disabled by default. For MySQLI this is no problem at all. </p>
+
+<p>MySQLi:</p>
+
+<blockquote>
+  <p>mysqli.reconnect = Off to On</p>
+</blockquote>
+
+<p>Unfortunately i am working with PHP’s core mysql_* functions (don’t get me started) and there doesn’t seem to be an easy way to resolve this. According to the MySQL documentation</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+mysql_options(&amp;mysql;, <span class="constant">MYSQL_OPT_RECONNECT</span>, &amp;reconnect;);
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Should do the trick. But passing <strong>MYSQL_OPT_RECONNECT</strong> in anyway to <a href="http://php.net/mysql_connect">mysql_connect</a> didn’t give me the result i was looking for. So what now? Porting the database code to make use of the newer and better PDO or MySQLi is no option. As it would consume way to much time. Fortunately the mysql_* core functions come with mysql_ping. I never had to use this before. But in this case it comes in quite handy.</p>
+
+<p><strong>From the PHP manual:</strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="predefined-type">bool</span> mysql_ping ([ <span class="predefined-type">resource</span> <span class="local-variable">$link_identifier</span> = <span class="predefined-constant">NULL</span> ] )
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<blockquote>
+  <p>Checks whether or not the connection to the server is working. If it has gone down, an automatic reconnection is attempted. This function can be used by scripts that remain idle for a long while, to check whether or not the server has closed the connection and reconnect if necessary.</p>
+</blockquote>
+
+<p>Note:
+<strong>Automatic reconnection is disabled by default in versions of MySQL &gt;= 5.0.3.</strong></p>
+
+<p>Adding the mysql_ping function call was rather straight forward. And didn’t require all that much work to be done. I extended the database class to include a ping method. That would simply throw an exception when it failed to reconnect. </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>MySQL ping function </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">public</span> <span class="keyword">function</span> <span class="function">ping</span>()
+{
+  <span class="keyword">if</span> (!mysql_ping(<span class="local-variable">$this</span>-&gt;db_connect_id)) {
+    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="constant">Mollie_Database_Exception</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Connection was lost</span><span class="delimiter">&quot;</span></span>);
+  }        
+  <span class="keyword">return</span> <span class="predefined-constant">true</span>;
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>And after that i started poking around the userland implementation. The worker is running inside a <strong>while(true)</strong> loop. A first test with <strong>-&gt;ping()</strong> being called inside this loop proved to resolve the issue at hand. But running the ping function that often is overkill. And who knows it might actually result in <strong>DoS</strong> of the database server. So i decided to ping the server every one minute or so.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Keep the connection alive </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$start</span> = <span class="predefined">time</span>();
+<span class="keyword">while</span> (<span class="predefined-constant">true</span>) 
+{
+  <span class="local-variable">$this</span>-&gt;_keepConnectionAlive(<span class="local-variable">$start</span>);
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>And the keepConnectionAlive method looks something like this</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>keepConnectionAlive method </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">protected</span> <span class="keyword">function</span> <span class="function">_keepConnectionAlive</span>(&amp;<span class="local-variable">$start</span>)
+{
+  <span class="local-variable">$passed</span> = (<span class="predefined">time</span>() - <span class="local-variable">$start</span>);
+  <span class="keyword">if</span> (<span class="local-variable">$passed</span> &gt; <span class="integer">60</span>)
+  {
+    <span class="local-variable">$start</span> = <span class="predefined">time</span>();
+    <span class="local-variable">$this</span>-&gt;_db-&gt;ping();
+  }
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>I’m not a big fan of this solution. And would rather be implementing MySQLi functions. But this functions well. And will do for now.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-29T14:39:26+01:00" pubdate data-updated="true">Oct 29<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/sql/'>SQL</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>, <a class='category' href='http://lenss.nl/tag/zend/'>Zend</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -1375,109 +1522,6 @@ If you’re looking for a new challenging and exiting Senior Webdeveloper positi
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2012/04/regular-expression-name-based-matches/">Regular Expression Name Based Matches</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>Normally when i write regular expressions with for instance <a href="http://php.net">PHP</a>´s <a href="http://php.net/preg_match">preg_match</a>. I will use the standard $matches array to catch the result of pattern matches. This array has a normal numeric index for each match found. And looks something like</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Normal preg_match </span></figcaption>
- <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$matches</span> = <span class="predefined">array</span>();
-<span class="predefined">preg_match</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/^Get(.+)Repository</span><span class="content">$</span><span class="content">/</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">GetFooBarRepository</span><span class="delimiter">&quot;</span></span>, <span class="local-variable">$matches</span>);
-<span class="predefined">var_dump</span>(<span class="local-variable">$matches</span>);
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-array(2) {
-  [0] =&gt; string(19) &quot;GetFooBarRepository&quot;
-  [1] =&gt; string(6) &quot;FooBar&quot;
-}
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>And there is nothing wrong with that. Except for the fact that numeric indexes are not always easy to work with. And it does not look all that clean in the code itself. SO last week my LD pointed out the fact that the likes using name based indexes for the matched patterns. And this is pretty sweet. I have seen it before but never bothered to adopt it myself. And the result looks like</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Name based index preg_match </span></figcaption>
- <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$matches</span> = <span class="predefined">array</span>();
-<span class="predefined">preg_match</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/^Get(?&lt;repositoryname&gt;.+)Repository</span><span class="content">$</span><span class="content">/</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">GetFooBarRepository</span><span class="delimiter">&quot;</span></span>, <span class="local-variable">$matches</span>);
-<span class="predefined">var_dump</span>(<span class="local-variable">$matches</span>);
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-array(3) {
-  [0] =&gt; string(19) &quot;GetFooBarRepository&quot;
-  'repositoryName' =&gt; string(6) &quot;FooBar&quot;
-  [1] =&gt; string(6) &quot;FooBar&quot;
-}
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>And i have to say. It looks a lot cleaner. So i added this to my bag of tricks. And will be using it from now on.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-04-15T21:14:49+02:00" pubdate data-updated="true">Apr 15<span>th</span>, 2012</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2012/04/regular-expression-name-based-matches/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/3/">&larr; Older</a></div>
@@ -1531,6 +1575,8 @@ array(3) {
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/11/first-weekday-of-month-in-php/"><span class="higlight">November, 2013</span> Get the first weekday of the month in PHP</a></li>
+		
 		<li><a href="http://lenss.nl/2013/10/git-move-folder-containing-submodules/"><span class="higlight">October, 2013</span> Renaming a folder in git that contains submodules</a></li>
 		
 		<li><a href="http://lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/"><span class="higlight">October, 2013</span> Fixing the clover forcast for PHP projects in Jenkins</a></li>
@@ -1548,8 +1594,6 @@ array(3) {
 		<li><a href="http://lenss.nl/2013/02/phpness-serious-wtf/"><span class="higlight">February, 2013</span> PHPness Serious WTF</a></li>
 		
 		<li><a href="http://lenss.nl/2012/11/publish-google-reader-shared-items/"><span class="higlight">November, 2012</span> Publish Google Reader shared items</a></li>
-		
-		<li><a href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/"><span class="higlight">October, 2012</span> Long running PHP script and MySQL server gone away</a></li>
 		
 	</ul>
 </div>
@@ -1570,7 +1614,7 @@ array(3) {
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.78991596638656%'>PHP(69)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.03361344537815%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 149.41176470588235%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.0%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(120)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.0%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.0%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 101.0%'>Git(2)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.5%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.0%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jenkins' style='font-size: 100.5%'>Jenkins(1)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.0%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.0%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 135.0%'>PHP(70)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.0%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.0%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 149.0%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.0%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

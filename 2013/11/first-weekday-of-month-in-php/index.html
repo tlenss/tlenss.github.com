@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>elePHPants - Thijs Lensselink's Blog</title>
+  <title>Get the first weekday of the month in PHP - Thijs Lensselink's Blog</title>
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="elePHPants Some time ago i got a truck load of elePHPants [1] [2]. Thanks to Damien from Nexen. I wanted ti post the picture with two hundred of &hellip;">
+  <meta name="description" content="Get the First Weekday of the Month in PHP A simple method to return the first weekdsay of a given month and year Cast array to object private &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://lenss.nl/2009/02/elephpants/">
+  <link rel="canonical" href="http://lenss.nl/2013/11/first-weekday-of-month-in-php/">
   <link href="http://lenss.nl/favicon.png" rel="icon">
   <link href="http://lenss.nl/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="http://lenss.nl/javascripts/libs/jquery-1.8.1.js"></script>
@@ -63,15 +63,31 @@
 <header>
 	<header>
 	
-	  <h1 class="entry-title">elePHPants</h1>
+	  <h1 class="entry-title">Get the First Weekday of the Month in PHP</h1>
 	
 	</header>
 </header>
 
 
-<div class="articletext"><p>Some time ago i got a truck load of elePHPants [<a href="http://www.nexen.net/elephpant.php">1</a>] [<a href="http://www.flickr.com/groups/elephpants/">2</a>]. Thanks to Damien from <a href="http://www.nexen.net/">Nexen</a>. I wanted ti post the picture with two hundred of them sitting on our couch. But seems i lost some pictures with my last disk crash. This is the only only one left.</p>
+<div class="articletext"><p>A simple method to return the first weekdsay of a given month and year</p>
 
-<p><a href="http://lenss.nl/images/2009/02/double_tail.jpg"><img src="http://lenss.nl/images/2009/02/double_tail-300x255.jpg" alt="double_tail" /></a></p>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Cast array to object </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">private</span> <span class="keyword">function</span> <span class="function">_getFirstWeekdayInMonth</span>(<span class="local-variable">$month</span>, <span class="local-variable">$year</span>, <span class="local-variable">$day</span> = <span class="integer">1</span>) 
+{
+    <span class="local-variable">$dateData</span> = <span class="predefined">getdate</span>(<span class="predefined">mktime</span>(<span class="predefined-constant">null</span>, <span class="predefined-constant">null</span>, <span class="predefined-constant">null</span>, <span class="local-variable">$month</span>, <span class="local-variable">$day</span>, <span class="local-variable">$year</span>));
+    <span class="keyword">if</span> (<span class="predefined">in_array</span>(<span class="local-variable">$dateData</span>[<span class="string"><span class="delimiter">'</span><span class="content">wday</span><span class="delimiter">'</span></span>], <span class="predefined">range</span>(<span class="integer">1</span>, <span class="integer">5</span>))) {
+        <span class="keyword">return</span> <span class="local-variable">$dateData</span>[<span class="string"><span class="delimiter">'</span><span class="content">mday</span><span class="delimiter">'</span></span>];
+    }
+    <span class="keyword">return</span> <span class="local-variable">$this</span>-&gt;_getFirstWeekdayInMonth(<span class="local-variable">$month</span>, <span class="local-variable">$year</span>, (<span class="local-variable">$day</span>+<span class="integer">1</span>));
+}
+
+<span class="local-variable">$wday</span> = <span class="local-variable">$this</span>-&gt;_getFirstWeekdayInMonth(<span class="integer">11</span>, <span class="integer">2013</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
+
 </div>
 
 
@@ -96,12 +112,12 @@
   
 
 
-<time datetime="2009-02-24T03:56:36+01:00" pubdate data-updated="true">Feb 24<span>th</span>, 2009</time>
+<time datetime="2013-11-15T11:05:53+01:00" pubdate data-updated="true">Nov 15<span>th</span>, 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>
   
 </span>
 
@@ -109,10 +125,8 @@
     </p>
     <p class="meta">
       
-        <a class="basic-alignment left" href="http://lenss.nl/2009/02/zend-server-community-edition-beta/" title="Previous Post: Zend Server Community Edition Beta!">&laquo; Zend Server Community Edition Beta!</a>
+        <a class="basic-alignment left" href="http://lenss.nl/2013/10/git-move-folder-containing-submodules/" title="Previous Post: Renaming a folder in git that contains submodules">&laquo; Renaming a folder in git that contains submodules</a>
       
-      
-        <a class="basic-alignment right" href="http://lenss.nl/2009/02/speed-up-and-save-traffic-with-apache-and-mod_deflate/" title="Next Post: Speed up and save traffic with Apache and mod_deflate">Speed up and save traffic with Apache and mod_deflate &raquo;</a>
       
     </p>
   </footer>
@@ -122,7 +136,7 @@
 
   <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lenss.nl/2009/02/elephpants/" data-via="tlenss" data-counturl="http://lenss.nl/2009/02/elephpants/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lenss.nl/2013/11/first-weekday-of-month-in-php/" data-via="tlenss" data-counturl="http://lenss.nl/2013/11/first-weekday-of-month-in-php/" >Tweet</a>
   
   
     <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
@@ -297,8 +311,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://lenss.nl/2009/02/elephpants/';
-        var disqus_url = 'http://lenss.nl/2009/02/elephpants/';
+        var disqus_identifier = 'http://lenss.nl/2013/11/first-weekday-of-month-in-php/';
+        var disqus_url = 'http://lenss.nl/2013/11/first-weekday-of-month-in-php/';
         var disqus_script = 'embed.js';
       
     (function () {

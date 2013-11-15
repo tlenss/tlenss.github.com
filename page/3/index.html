@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="PHP: Only Variables Should Be Passed by Reference Last week i got this error while doing some coding with a new library. And at first i didn’t quite &hellip;">
+  <meta name="description" content="Regular Expression Name Based Matches Normally when i write regular expressions with for instance PHP´s preg_match. I will use the standard $matches &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -59,6 +59,109 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2012/04/regular-expression-name-based-matches/">Regular Expression Name Based Matches</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>Normally when i write regular expressions with for instance <a href="http://php.net">PHP</a>´s <a href="http://php.net/preg_match">preg_match</a>. I will use the standard $matches array to catch the result of pattern matches. This array has a normal numeric index for each match found. And looks something like</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Normal preg_match </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$matches</span> = <span class="predefined">array</span>();
+<span class="predefined">preg_match</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/^Get(.+)Repository</span><span class="content">$</span><span class="content">/</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">GetFooBarRepository</span><span class="delimiter">&quot;</span></span>, <span class="local-variable">$matches</span>);
+<span class="predefined">var_dump</span>(<span class="local-variable">$matches</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+array(2) {
+  [0] =&gt; string(19) &quot;GetFooBarRepository&quot;
+  [1] =&gt; string(6) &quot;FooBar&quot;
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>And there is nothing wrong with that. Except for the fact that numeric indexes are not always easy to work with. And it does not look all that clean in the code itself. SO last week my LD pointed out the fact that the likes using name based indexes for the matched patterns. And this is pretty sweet. I have seen it before but never bothered to adopt it myself. And the result looks like</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Name based index preg_match </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$matches</span> = <span class="predefined">array</span>();
+<span class="predefined">preg_match</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/^Get(?&lt;repositoryname&gt;.+)Repository</span><span class="content">$</span><span class="content">/</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">GetFooBarRepository</span><span class="delimiter">&quot;</span></span>, <span class="local-variable">$matches</span>);
+<span class="predefined">var_dump</span>(<span class="local-variable">$matches</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+array(3) {
+  [0] =&gt; string(19) &quot;GetFooBarRepository&quot;
+  'repositoryName' =&gt; string(6) &quot;FooBar&quot;
+  [1] =&gt; string(6) &quot;FooBar&quot;
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>And i have to say. It looks a lot cleaner. So i added this to my bag of tricks. And will be using it from now on.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-15T21:14:49+02:00" pubdate data-updated="true">Apr 15<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2012/04/regular-expression-name-based-matches/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -1140,73 +1243,6 @@ orientation : top</p>
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2011/09/the-current-state-of-ssl-and-the-future-of-authenticity/">The Current State of SSL and the Future of Authenticity</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p><img class="left" src="http://lenss.nl/images/2011/09/convergence.png" />
-Last week i had a blast while listening to <a href="http://www.thoughtcrime.org/">Moxie Marlinspike&#8217;s</a> Blackhat talk <a href="http://www.youtube.com/watch?v=Z7Wl2FW2TcA">the past and future of SSL</a>. The video is an absolute must see if you have any concern about the current state of SSL or the whole web for that matter.</p>
-
-<p>As many know. There has been quite the turmoil in the SSL world lately with some big CA&#8217;s (<a href="http://www.comodo.com">Comodo</a>, <a href="http://www.startcom.org/">StartCom</a>, <a href="http://www.diginotar.com/">Diginotar</a>, <a href="http://www.globalsign.com/">GlobalSign</a>) getting hacked. And rogue certificates being generated for major domains like microsoft.com, google.com, etc for who knows what type of malicious purpose. The real problem here are the centralized CA&#8217;s. For SSL to work you need to explicitly trust the major CA&#8217;s. And if one gets hacked. Well.. we know the deal by now. And the funny thing is that Moxie mentions in his talk. The whole CA wasn&#8217;t even part of the original SSL protocol. As the creator of SSL said &#8220;It&#8217;s something we through in at the end&#8221;.</p>
-
-<p>But instead of only bashing the CA&#8217;s. Moxie comes with a solution to the problem. In the form of a new protocol <a href="http://convergence.io/">Convergence</a>, Which exists of a client and a server package. The client right now is a simple Firefox extension. And when installed it disables the current CA system in the browser. And will use one or more of the selected notaries instead. It even works with self signed certificates. And the back-end is a modular one. And the standard CA verification can be swapped with for instance <a href="http://www.dnssec.net/">DNSSEC</a> based verification.</p>
-
-<p>There is still a level of trust involved. But you won&#8217;t lay all your trust in one specific CA. Convergence uses notaries. Notaries are anonymous nodes that can be picked at will and can be used to verify the requested certificate. And like i said the notaries are anonymous. No more browser leakage at this point. One of th notaries will act as a bounce node to which a SSL connection is made. All other notaries are contacted through this secure connection.</p>
-
-<p>I am probably not the best person to explain this all. So go ahead and listen/watch <a href="http://www.youtube.com/watch?v=Z7Wl2FW2TcA">Moxie&#8217;s talk</a> and form your own opinion. But i think everybody should install <a href="http://convergence.io/">this</a> Firefox plugin. And forget about the whole CA system. I went ahead and installed a notary node myself. Which can be found <a href="http://lenss.nl/lenssnl.notary">here</a>. More information about setting up a notary node yourself can be found <a href="https://github.com/moxie0/Convergence/wiki/Running-a-Notary">here</a></p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-09-12T02:13:33+02:00" pubdate data-updated="true">Sep 12<span>th</span>, 2011</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/security/'>Security</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2011/09/the-current-state-of-ssl-and-the-future-of-authenticity/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/4/">&larr; Older</a></div>
@@ -1260,6 +1296,8 @@ Last week i had a blast while listening to <a href="http://www.thoughtcrime.org/
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/11/first-weekday-of-month-in-php/"><span class="higlight">November, 2013</span> Get the first weekday of the month in PHP</a></li>
+		
 		<li><a href="http://lenss.nl/2013/10/git-move-folder-containing-submodules/"><span class="higlight">October, 2013</span> Renaming a folder in git that contains submodules</a></li>
 		
 		<li><a href="http://lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/"><span class="higlight">October, 2013</span> Fixing the clover forcast for PHP projects in Jenkins</a></li>
@@ -1277,8 +1315,6 @@ Last week i had a blast while listening to <a href="http://www.thoughtcrime.org/
 		<li><a href="http://lenss.nl/2013/02/phpness-serious-wtf/"><span class="higlight">February, 2013</span> PHPness Serious WTF</a></li>
 		
 		<li><a href="http://lenss.nl/2012/11/publish-google-reader-shared-items/"><span class="higlight">November, 2012</span> Publish Google Reader shared items</a></li>
-		
-		<li><a href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/"><span class="higlight">October, 2012</span> Long running PHP script and MySQL server gone away</a></li>
 		
 	</ul>
 </div>
@@ -1299,7 +1335,7 @@ Last week i had a blast while listening to <a href="http://www.thoughtcrime.org/
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.78991596638656%'>PHP(69)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.03361344537815%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 149.41176470588235%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.0%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(120)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.0%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.0%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 101.0%'>Git(2)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.5%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.0%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jenkins' style='font-size: 100.5%'>Jenkins(1)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.0%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.0%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 135.0%'>PHP(70)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.0%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.0%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 149.0%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.0%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

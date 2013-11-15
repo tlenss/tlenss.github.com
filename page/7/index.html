@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="Zend Studio Goes Virtual Zend Studio added a new great feature to there already impressive stack of features. The IDE just keeps growing in the &hellip;">
+  <meta name="description" content="Just Something Funny I cam across this page today and it made me laugh :) With thanks to the GNU jokes archive. How the way people code “Hello World &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -59,6 +59,271 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2010/11/just-something-funny/">Just Something Funny</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>I cam across this page today and it made me laugh :) With thanks to the <a href="http://www.gnu.org/fun/jokes/">GNU jokes archive</a>.</p>
+
+<p>How the way people code “Hello World” varies depending on their age and job:</p>
+
+<p><strong>High School/Jr. High</strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+10 PRINT &quot;HELLO WORLD&quot;
+20 END
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p><strong>First year in College</strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+program Hello(input, output)
+ begin
+ writeln('Hello World')
+ end.
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Senior year in College</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+&gt; (defun hello
+ (print
+ (cons 'Hello (list 'World))))
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p><strong>New professional</strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="preprocessor">#include</span> <span class="include">&lt;stdio.h&gt;</span>
+    
+<span class="directive">void</span> main(<span class="directive">void</span>)
+{
+  <span class="predefined-type">char</span> *message[] = {<span class="string"><span class="delimiter">&quot;</span><span class="content">Hello </span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">World</span><span class="delimiter">&quot;</span></span>};
+  <span class="predefined-type">int</span> i;
+  <span class="keyword">for</span>(i = <span class="integer">0</span>; i &lt; <span class="integer">2</span>; ++i)
+    printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">%s</span><span class="delimiter">&quot;</span></span>, message[i]);
+    printf(<span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Liquid error: Invalid id given: c++</p>
+
+<p><strong>System Administrator</strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="preprocessor">#include</span> <span class="include">&lt;stdio.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;stdlib.h&gt;</span>
+main()
+{
+  <span class="predefined-type">char</span> *tmp;
+  <span class="predefined-type">int</span> i=<span class="integer">0</span>;
+      
+  <span class="comment">/* on y va bourin */</span>
+  tmp=(<span class="predefined-type">char</span> *)malloc(<span class="integer">1024</span>*<span class="keyword">sizeof</span>(<span class="predefined-type">char</span>));
+  <span class="keyword">while</span> (tmp[i]=<span class="string"><span class="delimiter">&quot;</span><span class="content">Hello Wolrd</span><span class="delimiter">&quot;</span></span>[i++]);
+      
+  <span class="comment">/* Ooopps y'a une infusion ! */</span>
+  i=(<span class="predefined-type">int</span>)tmp[<span class="integer">8</span>];
+  tmp[<span class="integer">8</span>]=tmp[<span class="integer">9</span>];
+  tmp[<span class="integer">9</span>]=(<span class="predefined-type">char</span>)i;
+  printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">%s</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>,tmp);
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p><strong>Apprentice Hacker</strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+#!/usr/local/bin/perl
+$msg=&quot;Hello, world.\n&quot;;
+if ($#ARGV &gt;= 0) {
+  while(defined($arg=shift(@ARGV))) {
+    $outfilename = $arg;
+    open(FILE, &quot;&gt;&quot; . $outfilename) || die &quot;Can't write $arg: $!\n&quot;;
+    print (FILE $msg);
+    close(FILE) || die &quot;Can't close $arg: $!\n&quot;;
+  }
+} else {
+  print ($msg);
+}
+1;
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p><strong>Experienced Hacker</strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="preprocessor">#include</span> <span class="include">&lt;stdio.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;string.h&gt;</span>
+<span class="preprocessor">#define</span> S <span class="string"><span class="delimiter">&quot;</span><span class="content">Hello, World</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>
+main(){exit(printf(S) == strlen(S) ? <span class="integer">0</span> : <span class="integer">1</span>);}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p><strong>Seasoned Hacker</strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+     % cc -o a.out ~/src/misc/hw/hw.c
+     % a.out
+     Hello, world.
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p><strong>Guru Hacker</strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+&gt; % cat
+ Hello, world.
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p><strong>New Manager (do you remember?)</strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+10 PRINT &quot;HELLO WORLD&quot;
+20 END
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p><strong>Middle Manager</strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+mail -s &quot;Hello, world.&quot; bob@b12
+Bob, could you please write me a program that prints &quot;Hello, world.&quot;?
+I need it by tomorrow.
+^D
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p><strong>Senior Manager</strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+% zmail jim
+I need a &quot;Hello, world.&quot; program by this afternoon.
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p><strong>Chief Executive</strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+% letter
+letter: Command not found.
+% mail
+To: ^X ^F ^C
+% help mail
+help: Command not found.
+% damn!
+!: Event unrecognized
+% logout
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p><strong>Research Scientist</strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+PROGRAM HELLO
+  PRINT *, 'Hello World'
+  END
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p><strong>Older research Scientist</strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+WRITE (6, 100)
+  100 FORMAT (1H ,11HHELLO WORLD)
+    CALL EXIT
+    END
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-11-01T10:32:09+01:00" pubdate data-updated="true">Nov 1<span>st</span>, 2010</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2010/11/just-something-funny/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -932,71 +1197,6 @@ I found a (lost it) post by one of the Magento devs that shows a new and more cl
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2010/05/nerdiness/">Nerdiness</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>Ok so i had nothing todo for a few minutes and found a <a href="http://www.nerdtests.com/ft_nq.php">link</a> to this page. I am never really into this stuff. But it looked funny and i had nothing to do. So i walked through the questions… and the result :)</p>
-
-<p><strong>Supreme Nerd. Apply for a professorship at MIT now!!!.</strong></p>
-
-<p><a href="http://www.nerdtests.com/ft_nq.php">
-<img src="http://www.nerdtests.com/images/ft/nq/bfcfa5649e.gif" alt="I am nerdier than 91% of all people. Are you a nerd? Click here to take the Nerd Test, get nerdy images and jokes, and write on the nerd forum!" /></a></p>
-
-<p>Another nerdy thing i picked up was that Ilia Alshanetsky’s <a href="http://ilia.ws/archives/217-Scalar-Type-Hints-are-Here!.html">scalar type hints</a> patch has been merged with the PHP trunk. Great stuff. Have been waiting for this for a while.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-05-21T10:01:18+02:00" pubdate data-updated="true">May 21<span>st</span>, 2010</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2010/05/nerdiness/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/8/">&larr; Older</a></div>
@@ -1050,6 +1250,8 @@ I found a (lost it) post by one of the Magento devs that shows a new and more cl
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/11/first-weekday-of-month-in-php/"><span class="higlight">November, 2013</span> Get the first weekday of the month in PHP</a></li>
+		
 		<li><a href="http://lenss.nl/2013/10/git-move-folder-containing-submodules/"><span class="higlight">October, 2013</span> Renaming a folder in git that contains submodules</a></li>
 		
 		<li><a href="http://lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/"><span class="higlight">October, 2013</span> Fixing the clover forcast for PHP projects in Jenkins</a></li>
@@ -1067,8 +1269,6 @@ I found a (lost it) post by one of the Magento devs that shows a new and more cl
 		<li><a href="http://lenss.nl/2013/02/phpness-serious-wtf/"><span class="higlight">February, 2013</span> PHPness Serious WTF</a></li>
 		
 		<li><a href="http://lenss.nl/2012/11/publish-google-reader-shared-items/"><span class="higlight">November, 2012</span> Publish Google Reader shared items</a></li>
-		
-		<li><a href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/"><span class="higlight">October, 2012</span> Long running PHP script and MySQL server gone away</a></li>
 		
 	</ul>
 </div>
@@ -1089,7 +1289,7 @@ I found a (lost it) post by one of the Magento devs that shows a new and more cl
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.78991596638656%'>PHP(69)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.03361344537815%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 149.41176470588235%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.0%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(120)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.0%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.0%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 101.0%'>Git(2)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.5%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.0%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jenkins' style='font-size: 100.5%'>Jenkins(1)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.0%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.0%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 135.0%'>PHP(70)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.0%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.0%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 149.0%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.0%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

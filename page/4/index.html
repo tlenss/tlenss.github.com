@@ -9,7 +9,7 @@
   <meta name="author" content="Thijs Lensselink">
 
   
-  <meta name="description" content="PHP Slow on 32-bit Ubuntu My last post was about the 32-bit integer issue i was having with PHP. And besides setting up a 64-bit server one of the &hellip;">
+  <meta name="description" content="The Current State of SSL and the Future of Authenticity Last week i had a blast while listening to Moxie Marlinspike&#8217;s Blackhat talk the past &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -59,6 +59,73 @@
 	<div class="inner">
         <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://lenss.nl/2011/09/the-current-state-of-ssl-and-the-future-of-authenticity/">The Current State of SSL and the Future of Authenticity</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p><img class="left" src="http://lenss.nl/images/2011/09/convergence.png" />
+Last week i had a blast while listening to <a href="http://www.thoughtcrime.org/">Moxie Marlinspike&#8217;s</a> Blackhat talk <a href="http://www.youtube.com/watch?v=Z7Wl2FW2TcA">the past and future of SSL</a>. The video is an absolute must see if you have any concern about the current state of SSL or the whole web for that matter.</p>
+
+<p>As many know. There has been quite the turmoil in the SSL world lately with some big CA&#8217;s (<a href="http://www.comodo.com">Comodo</a>, <a href="http://www.startcom.org/">StartCom</a>, <a href="http://www.diginotar.com/">Diginotar</a>, <a href="http://www.globalsign.com/">GlobalSign</a>) getting hacked. And rogue certificates being generated for major domains like microsoft.com, google.com, etc for who knows what type of malicious purpose. The real problem here are the centralized CA&#8217;s. For SSL to work you need to explicitly trust the major CA&#8217;s. And if one gets hacked. Well.. we know the deal by now. And the funny thing is that Moxie mentions in his talk. The whole CA wasn&#8217;t even part of the original SSL protocol. As the creator of SSL said &#8220;It&#8217;s something we through in at the end&#8221;.</p>
+
+<p>But instead of only bashing the CA&#8217;s. Moxie comes with a solution to the problem. In the form of a new protocol <a href="http://convergence.io/">Convergence</a>, Which exists of a client and a server package. The client right now is a simple Firefox extension. And when installed it disables the current CA system in the browser. And will use one or more of the selected notaries instead. It even works with self signed certificates. And the back-end is a modular one. And the standard CA verification can be swapped with for instance <a href="http://www.dnssec.net/">DNSSEC</a> based verification.</p>
+
+<p>There is still a level of trust involved. But you won&#8217;t lay all your trust in one specific CA. Convergence uses notaries. Notaries are anonymous nodes that can be picked at will and can be used to verify the requested certificate. And like i said the notaries are anonymous. No more browser leakage at this point. One of th notaries will act as a bounce node to which a SSL connection is made. All other notaries are contacted through this secure connection.</p>
+
+<p>I am probably not the best person to explain this all. So go ahead and listen/watch <a href="http://www.youtube.com/watch?v=Z7Wl2FW2TcA">Moxie&#8217;s talk</a> and form your own opinion. But i think everybody should install <a href="http://convergence.io/">this</a> Firefox plugin. And forget about the whole CA system. I went ahead and installed a notary node myself. Which can be found <a href="http://lenss.nl/lenssnl.notary">here</a>. More information about setting up a notary node yourself can be found <a href="https://github.com/moxie0/Convergence/wiki/Running-a-Notary">here</a></p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-12T02:13:33+02:00" pubdate data-updated="true">Sep 12<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/security/'>Security</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+    <div class="share">
+		<ul>
+			<li><a href="http://lenss.nl/2011/09/the-current-state-of-ssl-and-the-future-of-authenticity/#disqus_thread">Comments</a></li>
+		</ul>
+	</div>
+  </footer>
+  </article>
   
   
   <article>
@@ -1350,87 +1417,6 @@ Project name=/path/to/project CD=/path/to/project filter=&quot;*.php&quot; {
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://lenss.nl/2011/03/php-domdocument-slow-loading-pages/">PHP & DOMDocument Slow Loading Pages</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>While trying to load a very basic XML template with <a href="http://nl.php.net/manual/en/domdocument.load.php">DOMDocument::load()</a> i ran into some issues last Friday. During the weekend i completely forgot about this. Thank god :) But since it’s Monday i have no other option then to solve it. The problem i was experiencing was page loads took about 2 minutes for every controller action in the application. My first thought was that it would be related to permissions. The application not being able to write certain files. But after checking all permissions the problems still remained.</p>
-
-<p>The logs weren’t showing anything. No errors, nothing. Time to enable the <a href="http://www.xdebug.org/">XDebug</a> profiler. And after doing a few requests and loading them up in <a href="http://kcachegrind.sourceforge.net/html/Home.html">KCachegrind</a> i found the root of the problem quite fast. A call to the mkDom method was causing the slow load.</p>
-
-<p><a href="http://lenss.nl/images/2011/03/php-dom_1.png"><img src="http://lenss.nl/images/2011/03/php-dom_1-300x59.png" alt="" /></a></p>
-
-<p>But because there are no errors or other indications something is wrong. I added some debug statements to the code in question. And found out that it was PHP’s native DOMDocument::load() that was taking two minutes to load a 200k XML template. That’s not good. So what’s going on here?</p>
-
-<p><a href="http://lenss.nl/images/2011/03/php-dom_2.png"><img src="http://lenss.nl/images/2011/03/php-dom_2-300x41.png" alt="" /></a></p>
-
-<p>First let’s check why there are no errors. Turns out that for some specific reason <a href="http://nl2.php.net/manual/en/libxml.constants.php">LIBXML_NOERROR</a> is set. And after disabling this i was presented with an error.</p>
-
-<blockquote>
-  <p>Caught exception: ErrorException: DOMDocument::load() 
-Entity ‘nbsp’ not defined in /some/file.tal.html, line: 363</p>
-</blockquote>
-
-<p>WTF? HTML entities inside a XML template. O well. So i changed the  ‘s inside the template to their XML equivalent  </p>
-
-<p>Reloaded the page and everything is fast again. This solved my problem. But i wasn’t happy yet. Nobody else was experiencing this issue in the office. So there had to be some other issue. That’s when Geoff notified me about the fact that DTD checks are disabled by using <a href="http://nl2.php.net/manual/en/libxml.constants.php">LIBXML_NONET</a>. For this to work however there needs to be an extra W3C package installed.</p>
-
-<p><a href="http://lenss.nl/images/2011/03/php-dom_3.png"><img src="http://lenss.nl/images/2011/03/php-dom_3-300x7.png" alt="" /></a></p>
-
-<p>This was one of those hard to track errors. But it’s fixed and everything is running smooth again.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Thijs Lensselink</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-03-28T14:53:45+02:00" pubdate data-updated="true">Mar 28<span>th</span>, 2011</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-    <div class="share">
-		<ul>
-			<li><a href="http://lenss.nl/2011/03/php-domdocument-slow-loading-pages/#disqus_thread">Comments</a></li>
-		</ul>
-	</div>
-  </footer>
-  </article>
-  
   <div class="blog-navigation">
     
       <div class="alignleft"><a class="prev" href="http://lenss.nl/page/5/">&larr; Older</a></div>
@@ -1484,6 +1470,8 @@ Entity ‘nbsp’ not defined in /some/file.tal.html, line: 363</p>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://lenss.nl/2013/11/first-weekday-of-month-in-php/"><span class="higlight">November, 2013</span> Get the first weekday of the month in PHP</a></li>
+		
 		<li><a href="http://lenss.nl/2013/10/git-move-folder-containing-submodules/"><span class="higlight">October, 2013</span> Renaming a folder in git that contains submodules</a></li>
 		
 		<li><a href="http://lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/"><span class="higlight">October, 2013</span> Fixing the clover forcast for PHP projects in Jenkins</a></li>
@@ -1501,8 +1489,6 @@ Entity ‘nbsp’ not defined in /some/file.tal.html, line: 363</p>
 		<li><a href="http://lenss.nl/2013/02/phpness-serious-wtf/"><span class="higlight">February, 2013</span> PHPness Serious WTF</a></li>
 		
 		<li><a href="http://lenss.nl/2012/11/publish-google-reader-shared-items/"><span class="higlight">November, 2012</span> Publish Google Reader shared items</a></li>
-		
-		<li><a href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/"><span class="higlight">October, 2012</span> Long running PHP script and MySQL server gone away</a></li>
 		
 	</ul>
 </div>
@@ -1523,7 +1509,7 @@ Entity ‘nbsp’ not defined in /some/file.tal.html, line: 363</p>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 134.78991596638656%'>PHP(69)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.03361344537815%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 149.41176470588235%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://lenss.nl/tag/-home' style='font-size: 116.0%'>/home(32)</a> <a href='http://lenss.nl/tag/code' style='font-size: 160.0%'>Code(120)</a> <a href='http://lenss.nl/tag/design' style='font-size: 103.0%'>Design(6)</a> <a href='http://lenss.nl/tag/freelance' style='font-size: 102.0%'>Freelance(4)</a> <a href='http://lenss.nl/tag/git' style='font-size: 101.0%'>Git(2)</a> <a href='http://lenss.nl/tag/google' style='font-size: 101.5%'>Google(3)</a> <a href='http://lenss.nl/tag/javascript' style='font-size: 104.0%'>Javascript(8)</a> <a href='http://lenss.nl/tag/jenkins' style='font-size: 100.5%'>Jenkins(1)</a> <a href='http://lenss.nl/tag/jquery' style='font-size: 101.0%'>Jquery(2)</a> <a href='http://lenss.nl/tag/magento' style='font-size: 101.0%'>Magento(2)</a> <a href='http://lenss.nl/tag/php' style='font-size: 135.0%'>PHP(70)</a> <a href='http://lenss.nl/tag/security' style='font-size: 104.0%'>Security(8)</a> <a href='http://lenss.nl/tag/sql' style='font-size: 103.0%'>SQL(6)</a> <a href='http://lenss.nl/tag/tech' style='font-size: 149.0%'>Tech(98)</a> <a href='http://lenss.nl/tag/zend' style='font-size: 104.0%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>
