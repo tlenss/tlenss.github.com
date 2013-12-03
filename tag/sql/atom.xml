@@ -4,7 +4,7 @@
   <title><![CDATA[Category: SQL | Thijs Lensselink's Blog]]></title>
   <link href="http://lenss.nl/tag/sql/atom.xml" rel="self"/>
   <link href="http://lenss.nl/"/>
-  <updated>2013-11-15T10:16:25+01:00</updated>
+  <updated>2013-12-03T16:19:49+01:00</updated>
   <id>http://lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -36,7 +36,7 @@
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
   <div class="code"><pre>
-mysql_options(&amp;amp;mysql;, <span class="constant">MYSQL_OPT_RECONNECT</span>, &amp;amp;reconnect;);
+mysql_options(&amp;amp;mysql, <span class="constant">MYSQL_OPT_RECONNECT</span>, &amp;amp;reconnect);
 </pre></div>
 </div>
  </figure></notextile></div></p>
