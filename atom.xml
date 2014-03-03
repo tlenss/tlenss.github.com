@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Thijs Lensselink's Blog]]></title>
-  <link href="http://lenss.nl/atom.xml" rel="self"/>
-  <link href="http://lenss.nl/"/>
-  <updated>2014-01-27T08:13:44+01:00</updated>
-  <id>http://lenss.nl/</id>
+  <link href="http://blog.lenss.nl/atom.xml" rel="self"/>
+  <link href="http://blog.lenss.nl/"/>
+  <updated>2014-03-03T21:19:52+01:00</updated>
+  <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Get the first weekday of the month in PHP]]></title>
-    <link href="http://lenss.nl/2013/11/first-weekday-of-month-in-php/"/>
+    <link href="http://blog.lenss.nl/2013/11/first-weekday-of-month-in-php/"/>
     <updated>2013-11-15T11:05:53+01:00</updated>
-    <id>http://lenss.nl/2013/11/first-weekday-of-month-in-php</id>
+    <id>http://blog.lenss.nl/2013/11/first-weekday-of-month-in-php</id>
     <content type="html"><![CDATA[<p>A simple method to return the first weekdsay of a given month and year</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>getFirstWeekdayInMonth </span></figcaption>
@@ -42,9 +42,9 @@
   
   <entry>
     <title type="html"><![CDATA[Renaming a folder in git that contains submodules]]></title>
-    <link href="http://lenss.nl/2013/10/git-move-folder-containing-submodules/"/>
+    <link href="http://blog.lenss.nl/2013/10/git-move-folder-containing-submodules/"/>
     <updated>2013-10-23T13:05:12+02:00</updated>
-    <id>http://lenss.nl/2013/10/git-move-folder-containing-submodules</id>
+    <id>http://blog.lenss.nl/2013/10/git-move-folder-containing-submodules</id>
     <content type="html"><![CDATA[<p>Because of some project structure changes. It was required to renamed some folders. In git this should be as easy as running <strong>git mv</strong>. But when the folders you are trying to move contain submodules. Its a whole different story.</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
@@ -142,9 +142,9 @@ $ git push
   
   <entry>
     <title type="html"><![CDATA[Fixing the clover forcast for PHP projects in Jenkins]]></title>
-    <link href="http://lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/"/>
+    <link href="http://blog.lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/"/>
     <updated>2013-10-15T12:26:23+02:00</updated>
-    <id>http://lenss.nl/2013/10/clover-forcast-for-php-in-jenkins</id>
+    <id>http://blog.lenss.nl/2013/10/clover-forcast-for-php-in-jenkins</id>
     <content type="html"><![CDATA[<p>I had the opportunity to play with <a href="http://jenkins-ci.org/">Jenkins</a> again last week. And the setup for our projects went pretty smooth. But the fact that no matter what i tried. The <a href="https://wiki.jenkins-ci.org/display/JENKINS/Clover+PHP+Plugin">clover</a> forecast icon would always show up as rainy <a href="http://lenss.nl/images/20013/10/health-20to39.png"><img src="http://lenss.nl/images/2013/10/health-20to39.png" alt="" /></a>. While the build was succeeding without issues. So i spend some time googling and trying out multiple “fixes”. Of which none seemed to actually work. I even reverted back to using the Jenkins clover plugins instead of Clover for PHP. No difference at all.</p>
 
 <p>It seemed as if the settings from the config page were completely ignored when calculating the clover status. This was really bugging me. So i checked out the clover plugin source from <a href="https://github.com/jenkinsci/cloverphp-plugin">github</a>. And browsed through the code for a while. When i found the beauty below inside <strong>CoverageTarget.java</strong></p>
@@ -199,9 +199,9 @@ $ git push
   
   <entry>
     <title type="html"><![CDATA[Github, SSH and multiple repositories]]></title>
-    <link href="http://lenss.nl/2013/08/github-and-multiple-ssh-keys/"/>
+    <link href="http://blog.lenss.nl/2013/08/github-and-multiple-ssh-keys/"/>
     <updated>2013-08-22T00:02:09+02:00</updated>
-    <id>http://lenss.nl/2013/08/github-and-multiple-ssh-keys</id>
+    <id>http://blog.lenss.nl/2013/08/github-and-multiple-ssh-keys</id>
     <content type="html"><![CDATA[<p>When working with <a href="http://github.com">Github</a>. Setting up SSH key based authentication is easy. You just create a key. Add the public key in the admin panel and voilà. If a new contributor joins your team. You add his / her key and they also have access.</p>
 
 <p>But how does it work when you have need access to multiple repositories using multiple keys yourself? I had to set this up a couple of times. And it turns out to be just as easy. But if for some reason it’s not that obvious these steps might help.</p>
@@ -245,9 +245,9 @@ $ git clone git@repo1.github.com:repo1/project.git
   
   <entry>
     <title type="html"><![CDATA[Memory exhaust issue PHP and APM]]></title>
-    <link href="http://lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/"/>
+    <link href="http://blog.lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/"/>
     <updated>2013-07-03T11:57:43+02:00</updated>
-    <id>http://lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM</id>
+    <id>http://blog.lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM</id>
     <content type="html"><![CDATA[<p>A while back i wrote a small data aggregator that would do some background processing and populate a database with it’s calculated results. The main reason to implement this was that running the queries in real-time on the production server was causing memory exhaust issues. Once the new feature was done and deployed. We quickly noticed we were running into the same kind of issues again. And the script would halt almost each time it was executed.</p>
 
 <blockquote><p>Fatal error: Allowed memory size of xxxxxxxxx bytes exhausted (tried toallocate xxxxx bytes) in</p></blockquote>
@@ -273,9 +273,9 @@ $ git clone git@repo1.github.com:repo1/project.git
   
   <entry>
     <title type="html"><![CDATA[PHP 5.5.0 released]]></title>
-    <link href="http://lenss.nl/2013/06/php-55-released/"/>
+    <link href="http://blog.lenss.nl/2013/06/php-55-released/"/>
     <updated>2013-06-22T21:56:12+02:00</updated>
-    <id>http://lenss.nl/2013/06/php-55-released</id>
+    <id>http://blog.lenss.nl/2013/06/php-55-released</id>
     <content type="html"><![CDATA[<p>PHP reached a new milestone 3 days ago. And as always it’s quite exciting news. Some of the new features are already outlined by Evert Pot’s post which you can find <a href="http://evertpot.com/php-55-released/">here</a>. And all of this of course can be found on the <a href="https://wiki.php.net/rfc">wiki</a> and in the <a href="http://php.net/ChangeLog-5.php#5.5.0">change log</a>. </p>
 
 <p>I’ll just outline some of the new and exiting features, deprecated notices and removed functions.</p>
@@ -610,9 +610,9 @@ sudo apt-get install php5
   
   <entry>
     <title type="html"><![CDATA[Casting weirdness with PHP]]></title>
-    <link href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"/>
+    <link href="http://blog.lenss.nl/2013/03/casting-weirdness-with-PHP/"/>
     <updated>2013-03-28T22:20:34+01:00</updated>
-    <id>http://lenss.nl/2013/03/casting-weirdness-with-PHP</id>
+    <id>http://blog.lenss.nl/2013/03/casting-weirdness-with-PHP</id>
     <content type="html"><![CDATA[<p>When my coworker today asked if he could cast an array to a object. I couldn’t really answer the question. Don’t think i ever done that. So let’s try. right?</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Cast array to object </span></figcaption>
@@ -707,9 +707,9 @@ string(3) &quot;baz&quot;
   
   <entry>
     <title type="html"><![CDATA[Zend Optimizer+ integrated into 5.5]]></title>
-    <link href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"/>
+    <link href="http://blog.lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"/>
     <updated>2013-02-27T22:12:12+01:00</updated>
-    <id>http://lenss.nl/2013/02/zend-optimizer+-integrated-in-5.5</id>
+    <id>http://blog.lenss.nl/2013/02/zend-optimizer+-integrated-in-5.5</id>
     <content type="html"><![CDATA[<p>It looks like PHP is going to get another built in performance boost. The plan is to integrate and open source the <a href="http://files.zend.com/help/previous-version/Zend-Server-4-Community-Edition/zendoptimizerplus.html">Zend Optimizer+</a> component. The fastest Opcode cacher out there. Zend has provided the source. Which is already available on <a href="http://bit.ly/VSsqx3">github</a>. So we get the Opcode cacher to boost  out applications even more. And the community can extend and built upon the available source code. Win! Win!</p>
 
 <p>PHP 5+ has come a long way performance wise without the Optimizer component. But being able to apply opcode cache out of the box is a great addition. And so far the <a href="http://bit.ly/116BnnB">benchmarks</a> look promising. The Optimizer+ component beats <a href="http://pecl.php.net/package/APC">APC</a> hands down in all performed tests.</p>
@@ -720,9 +720,9 @@ string(3) &quot;baz&quot;
   
   <entry>
     <title type="html"><![CDATA[PHPness Serious WTF]]></title>
-    <link href="http://lenss.nl/2013/02/phpness-serious-wtf/"/>
+    <link href="http://blog.lenss.nl/2013/02/phpness-serious-wtf/"/>
     <updated>2013-02-27T11:58:26+01:00</updated>
-    <id>http://lenss.nl/2013/02/phpness-serious-wtf</id>
+    <id>http://blog.lenss.nl/2013/02/phpness-serious-wtf</id>
     <content type="html"><![CDATA[<p>It’s been a while since i last blogged. And i don’t really have anything new to offer. But i would like to comment on some current event. There has been some commotion about a free t shirt that was distributed on the SunshinePHP conference this year. </p>
 
 <p><a href="http://lenss.nl/images/2013/02/web-and-php-img.png"><img src="http://lenss.nl/images/2013/02/web-and-php-img.png" alt="" /></a></p>
@@ -763,9 +763,9 @@ string(3) &quot;baz&quot;
   
   <entry>
     <title type="html"><![CDATA[Publish Google Reader shared items]]></title>
-    <link href="http://lenss.nl/2012/11/publish-google-reader-shared-items/"/>
+    <link href="http://blog.lenss.nl/2012/11/publish-google-reader-shared-items/"/>
     <updated>2012-11-07T15:55:26+01:00</updated>
-    <id>http://lenss.nl/2012/11/publish-google-reader-shared-items</id>
+    <id>http://blog.lenss.nl/2012/11/publish-google-reader-shared-items</id>
     <content type="html"><![CDATA[<p>A lot of people are using the shared items feature in <a href="http://www.google.nl/reader/">Google Reader</a> to publish what they are reading on a blog. It’s like having a live blogroll widget on your website. And gives your readers a good impression of what you are actually interested in.</p>
 
 <p>I never bothered adding this to my blog. But i do like to share. So last night i was trying to figure out how to integrate this with my current blog. I was hoping for an easy implementation. But the information is scarce. So i had to do some digging. I did find a couple of <a href="https://www.google.nl/search?q=wordpress+plugin+google+reader">Wordpress plugins</a>. But most of them were not updated for at least a year. And i am not putting code like that life on my website. </p>
@@ -850,9 +850,9 @@ string(3) &quot;baz&quot;
   
   <entry>
     <title type="html"><![CDATA[Long running PHP script and MySQL server gone away]]></title>
-    <link href="http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/"/>
+    <link href="http://blog.lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away/"/>
     <updated>2012-10-29T14:39:26+01:00</updated>
-    <id>http://lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away</id>
+    <id>http://blog.lenss.nl/2012/10/long-running-php-script-and-mysql-server-gone-away</id>
     <content type="html"><![CDATA[<p>At the moment i am writing some workers that interact with a <a href="http://kr.github.com/beanstalkd/">beanstalk</a> server. When data gets pushed into the beanstalk server. My workers will be triggered to process this data. So the workers are sitting idle for most of the time. And just wait for some data to process. No rocket science there. But during testing i kept running into <a href="http://www.mysql.com/">MySQL</a> issues. The script seemed to lose connection to the MySQL server when it was idle for longer then a minute. And would respond with a </p>
 
 <blockquote>
@@ -948,9 +948,9 @@ mysql_options(&amp;mysql, <span class="constant">MYSQL_OPT_RECONNECT</span>, &am
   
   <entry>
     <title type="html"><![CDATA[Git: Rebase on pull by default]]></title>
-    <link href="http://lenss.nl/2012/10/git-rebase-on-pull-by-default/"/>
+    <link href="http://blog.lenss.nl/2012/10/git-rebase-on-pull-by-default/"/>
     <updated>2012-10-25T14:20:22+02:00</updated>
-    <id>http://lenss.nl/2012/10/git-rebase-on-pull-by-default</id>
+    <id>http://blog.lenss.nl/2012/10/git-rebase-on-pull-by-default</id>
     <content type="html"><![CDATA[<p>I was a bit surprised today when <a href="http://git-scm.com/">git</a> presented me a merge message window after i did a pull. This should not happen as the normal behavior here should be to <a href="http://git-scm.com/book/en/Git-Branching-Rebasing">rebase</a> the changes. But apparently that didn’t happen this time. When i asked one of the other <a href="http://www.scriptorama.nl/">dev</a> ‘s what could be the issue. We quickly figured out i was just missing some <strong>config</strong> entry in <strong>.git/config</strong>. This probably happened some time ago when i did a fresh checkout.</p>
 
 <p>So to make sure rebasing is done by default. You can run a simple git command or modify the <strong>.git/config</strong> file manually.</p>
@@ -980,9 +980,9 @@ mysql_options(&amp;mysql, <span class="constant">MYSQL_OPT_RECONNECT</span>, &am
   
   <entry>
     <title type="html"><![CDATA[Workaround Ubuntu 12.04 mysterious system freezes]]></title>
-    <link href="http://lenss.nl/2012/10/workaround-ubuntu-12-04-mysterious-system-freezes/"/>
+    <link href="http://blog.lenss.nl/2012/10/workaround-ubuntu-12-04-mysterious-system-freezes/"/>
     <updated>2012-10-12T15:43:46+02:00</updated>
-    <id>http://lenss.nl/2012/10/workaround-ubuntu-12-04-mysterious-system-freezes</id>
+    <id>http://blog.lenss.nl/2012/10/workaround-ubuntu-12-04-mysterious-system-freezes</id>
     <content type="html"><![CDATA[<p>I have two machines running <a href="http://releases.ubuntu.com/12.04/">Ubuntu 12.04</a>. One of them is very stable. And hardly ever gets rebooted. The other machine is displaying some odd behavior every now and then. And with odd behavior i mean. It just completely freezing up. The only thing functioning at that moment is the mouse.</p>
 
 <p>I use this machine daily. And i can’t afford to lose work due to system crashes. So i could spend numerous hours trying to figure out what’s going on. But that’s probably something better left for the Ubuntu devs them selfs. Besides that there are plenty of bug reports floating around that describe this behavior. And one of those <a href="https://bugs.launchpad.net/ubuntu/+source/linux/+bug/999910">posts</a> seemed to resolve the issue for me. </p>
@@ -1022,9 +1022,9 @@ mysql_options(&amp;mysql, <span class="constant">MYSQL_OPT_RECONNECT</span>, &am
   
   <entry>
     <title type="html"><![CDATA[Fixing character replacement in Wordpress]]></title>
-    <link href="http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"/>
+    <link href="http://blog.lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"/>
     <updated>2012-09-24T21:39:17+02:00</updated>
-    <id>http://lenss.nl/2012/09/fixing-character-replacement-in-wordpress</id>
+    <id>http://blog.lenss.nl/2012/09/fixing-character-replacement-in-wordpress</id>
     <content type="html"><![CDATA[<p>This has been bugging me for a while. But not enough to actually look into it. And Google searches for <a href="http://wordpress.org/">Wordpress</a> display wrong characters results in a whole forest of threads about UTF-8 encoding. This has nothing to do with that. So what’s the issue here?</p>
 
 <p>Wordpress is replacing characters in my posts. The most annoying being the replacement of – <del>is</del> with - . Which makes no sense at all. Specially when creating code samples. Or command line parameters. My thought is why on earth would you do that? But it probably has something to do with typography…</p>
@@ -1072,9 +1072,9 @@ patching file formatting.php</p>
   
   <entry>
     <title type="html"><![CDATA[Resize a Vagrant VMDK drive]]></title>
-    <link href="http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"/>
+    <link href="http://blog.lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"/>
     <updated>2012-09-24T14:17:00+02:00</updated>
-    <id>http://lenss.nl/2012/09/resize-a-vagrant-vmdk-drive</id>
+    <id>http://blog.lenss.nl/2012/09/resize-a-vagrant-vmdk-drive</id>
     <content type="html"><![CDATA[<p>Using <a href="http://vagrantup.com/">Vagrant</a> as a development environment is great. But you have to watch the available disk space when doing some funky database benchmarking. Last Friday i wrote a script to populate a test database with over 60 million records. And left it running over the weekend. With the idea it would be finished when i returned to the office on Monday. Well it actually was still running. But the Vagrant instance was out of disk space when i logged in. Damn. Should have made sure i had a big disk attached to this instance.</p>
 
 <p>O well. My first idea was to just drop the database that i wanted to use for testing. But due to no space available on the system. I could not drop it. I really couldn’t do anything on the system. Even writing config files failed. So where did all the disk space go?</p>
@@ -1262,9 +1262,9 @@ patching file formatting.php</p>
   
   <entry>
     <title type="html"><![CDATA[GIT:  Coming up with a good workflow]]></title>
-    <link href="http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"/>
+    <link href="http://blog.lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"/>
     <updated>2012-09-12T09:09:37+02:00</updated>
-    <id>http://lenss.nl/2012/09/git-coming-up-with-a-good-workflow</id>
+    <id>http://blog.lenss.nl/2012/09/git-coming-up-with-a-good-workflow</id>
     <content type="html"><![CDATA[<p>A new environment to work in always brings new challenges. And this one is no exception. And i will be working with <a href="http://git-scm.com/">git</a> from now on. I tried switching before. But always went back to subversion. Because of my job. And for somebody who worked with <a href="http://subversion.apache.org/">subversion</a> solely for the past… say 5 to 7 years it’s kind of a new concept and takes some time to get a grasp on. Ok ok. It’s just another version control system. But it takes some getting used to.</p>
 
 <p>And two days ago i kinda got stuck in <a href="http://git-scm.com/docs/git-rebase">rebase</a> hell. And had to take some time to figure this all out without doing any damage. Which resulted in another problem. There simply is no revert command like in subversion. But git is pretty smart about this kinda things. So getting the branch full of failed merges back to it’s original state can easily be achieved with two commands and some concentration.</p>
@@ -1330,9 +1330,9 @@ patching file formatting.php</p>
   
   <entry>
     <title type="html"><![CDATA[Workaround for running WoW with patch 5.0.4 on Ubuntu]]></title>
-    <link href="http://lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/"/>
+    <link href="http://blog.lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/"/>
     <updated>2012-09-02T23:48:36+02:00</updated>
-    <id>http://lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu</id>
+    <id>http://blog.lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu</id>
     <content type="html"><![CDATA[<p>After a fresh install i couldn’t get <a href="http://eu.battle.net/wow/en/">WoW</a> to work. I’m not that big on playing games lately. But this bugged me. Good thing we have the interwebs.</p>
 
 <p>Starting the battle.net agent manually before firing up the WoW launcher solved the launcher crashing.</p>
@@ -1355,9 +1355,9 @@ patching file formatting.php</p>
   
   <entry>
     <title type="html"><![CDATA[Setup a basic PHP development environment with Vagrant and chef-solo]]></title>
-    <link href="http://lenss.nl/2012/08/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/"/>
+    <link href="http://blog.lenss.nl/2012/08/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo/"/>
     <updated>2012-08-27T00:47:05+02:00</updated>
-    <id>http://lenss.nl/2012/08/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo</id>
+    <id>http://blog.lenss.nl/2012/08/setup-a-basic-php-development-environment-with-vagrant-and-chef-solo</id>
     <content type="html"><![CDATA[<p>So there are plenty of posts about this out there already. And this is nothing new i guess. But i am going to post it anyway. This weekend i spend some time playing with vagrant. And every setup guide seemed to be missing some steps the make the whole process a bit of a hassle. So i compiled my own steps in the post below. The goal was to create a basic <a href="http://www.debian.org/">Debian</a> box for my <a href="http://www.php.net/">PHP</a> development. From which i could serve my local development files.</p>
 
 <p>So to start of we need some packages. </p>
@@ -1656,9 +1656,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[Adding colors to PHP CLI script output]]></title>
-    <link href="http://lenss.nl/2012/05/adding-colors-to-php-cli-script-output/"/>
+    <link href="http://blog.lenss.nl/2012/05/adding-colors-to-php-cli-script-output/"/>
     <updated>2012-05-26T11:14:33+02:00</updated>
-    <id>http://lenss.nl/2012/05/adding-colors-to-php-cli-script-output</id>
+    <id>http://blog.lenss.nl/2012/05/adding-colors-to-php-cli-script-output</id>
     <content type="html"><![CDATA[<p>I always loved writing CLI scripts. And in <a href="http://php.net/manual/en/features.commandline.php">PHP</a> this is no different. I write a lot of CLI importers, scrapers, reporters, etc. And sometimes i want a bit more funk in my output then the standard black and white. When output is important i will add some colors to make things more clear. And this is not hard at all.</p>
 
 <p>First of it’s probably a good thing to gather some of the available colors. A good resource is available <a href="https://wiki.archlinux.org/index.php/Color_Bash_Prompt">here</a>. Some of the colors and their corresponding codes can be found below.</p>
@@ -1705,9 +1705,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[abbywinters is looking for new developers]]></title>
-    <link href="http://lenss.nl/2012/05/abbywinters-is-looking-for-new-developers/"/>
+    <link href="http://blog.lenss.nl/2012/05/abbywinters-is-looking-for-new-developers/"/>
     <updated>2012-05-24T15:04:02+02:00</updated>
-    <id>http://lenss.nl/2012/05/abbywinters-is-looking-for-new-developers</id>
+    <id>http://blog.lenss.nl/2012/05/abbywinters-is-looking-for-new-developers</id>
     <content type="html"><![CDATA[<p><img class="left" src="http://lenss.nl/images/2011/11/aw-logo-roundel-blue.png" />
 If you’re looking for a new challenging and exiting Senior Webdeveloper position. Don’t look any further. If you already think you have the job of your dreams. Think again!</p>
 

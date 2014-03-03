@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Tech | Thijs Lensselink's Blog]]></title>
-  <link href="http://lenss.nl/tag/tech/atom.xml" rel="self"/>
-  <link href="http://lenss.nl/"/>
-  <updated>2014-01-27T08:13:44+01:00</updated>
-  <id>http://lenss.nl/</id>
+  <link href="http://blog.lenss.nl/tag/tech/atom.xml" rel="self"/>
+  <link href="http://blog.lenss.nl/"/>
+  <updated>2014-03-03T21:19:52+01:00</updated>
+  <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Memory exhaust issue PHP and APM]]></title>
-    <link href="http://lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/"/>
+    <link href="http://blog.lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/"/>
     <updated>2013-07-03T11:57:43+02:00</updated>
-    <id>http://lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM</id>
+    <id>http://blog.lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM</id>
     <content type="html"><![CDATA[<p>A while back i wrote a small data aggregator that would do some background processing and populate a database with it’s calculated results. The main reason to implement this was that running the queries in real-time on the production server was causing memory exhaust issues. Once the new feature was done and deployed. We quickly noticed we were running into the same kind of issues again. And the script would halt almost each time it was executed.</p>
 
 <p><blockquote><p>Fatal error: Allowed memory size of xxxxxxxxx bytes exhausted (tried toallocate xxxxx bytes) in</p></blockquote></p>
@@ -43,9 +43,9 @@
   
   <entry>
     <title type="html"><![CDATA[PHP 5.5.0 released]]></title>
-    <link href="http://lenss.nl/2013/06/php-55-released/"/>
+    <link href="http://blog.lenss.nl/2013/06/php-55-released/"/>
     <updated>2013-06-22T21:56:12+02:00</updated>
-    <id>http://lenss.nl/2013/06/php-55-released</id>
+    <id>http://blog.lenss.nl/2013/06/php-55-released</id>
     <content type="html"><![CDATA[<p>PHP reached a new milestone 3 days ago. And as always it’s quite exciting news. Some of the new features are already outlined by Evert Pot’s post which you can find <a href="http://evertpot.com/php-55-released/">here</a>. And all of this of course can be found on the <a href="https://wiki.php.net/rfc">wiki</a> and in the <a href="http://php.net/ChangeLog-5.php#5.5.0">change log</a>. </p>
 
 <p>I’ll just outline some of the new and exiting features, deprecated notices and removed functions.</p>
@@ -380,9 +380,9 @@ sudo apt-get install php5
   
   <entry>
     <title type="html"><![CDATA[Casting weirdness with PHP]]></title>
-    <link href="http://lenss.nl/2013/03/casting-weirdness-with-PHP/"/>
+    <link href="http://blog.lenss.nl/2013/03/casting-weirdness-with-PHP/"/>
     <updated>2013-03-28T22:20:34+01:00</updated>
-    <id>http://lenss.nl/2013/03/casting-weirdness-with-PHP</id>
+    <id>http://blog.lenss.nl/2013/03/casting-weirdness-with-PHP</id>
     <content type="html"><![CDATA[<p>When my coworker today asked if he could cast an array to a object. I couldn’t really answer the question. Don’t think i ever done that. So let’s try. right?</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Cast array to object </span></figcaption>
@@ -477,9 +477,9 @@ string(3) “baz”
   
   <entry>
     <title type="html"><![CDATA[Zend Optimizer+ integrated into 5.5]]></title>
-    <link href="http://lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"/>
+    <link href="http://blog.lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/"/>
     <updated>2013-02-27T22:12:12+01:00</updated>
-    <id>http://lenss.nl/2013/02/zend-optimizer+-integrated-in-5.5</id>
+    <id>http://blog.lenss.nl/2013/02/zend-optimizer+-integrated-in-5.5</id>
     <content type="html"><![CDATA[<p>It looks like PHP is going to get another built in performance boost. The plan is to integrate and open source the <a href="http://files.zend.com/help/previous-version/Zend-Server-4-Community-Edition/zendoptimizerplus.html">Zend Optimizer+</a> component. The fastest Opcode cacher out there. Zend has provided the source. Which is already available on <a href="http://bit.ly/VSsqx3">github</a>. So we get the Opcode cacher to boost  out applications even more. And the community can extend and built upon the available source code. Win! Win!</p>
 
 <p>PHP 5+ has come a long way performance wise without the Optimizer component. But being able to apply opcode cache out of the box is a great addition. And so far the <a href="http://bit.ly/116BnnB">benchmarks</a> look promising. The Optimizer+ component beats <a href="http://pecl.php.net/package/APC">APC</a> hands down in all performed tests.</p>
@@ -490,9 +490,9 @@ string(3) “baz”
   
   <entry>
     <title type="html"><![CDATA[PHPness Serious WTF]]></title>
-    <link href="http://lenss.nl/2013/02/phpness-serious-wtf/"/>
+    <link href="http://blog.lenss.nl/2013/02/phpness-serious-wtf/"/>
     <updated>2013-02-27T11:58:26+01:00</updated>
-    <id>http://lenss.nl/2013/02/phpness-serious-wtf</id>
+    <id>http://blog.lenss.nl/2013/02/phpness-serious-wtf</id>
     <content type="html"><![CDATA[<p>It’s been a while since i last blogged. And i don’t really have anything new to offer. But i would like to comment on some current event. There has been some commotion about a free t shirt that was distributed on the SunshinePHP conference this year. </p>
 
 <p><a href="http://lenss.nl/images/2013/02/web-and-php-img.png"><img src="http://lenss.nl/images/2013/02/web-and-php-img.png" alt="" /></a></p>

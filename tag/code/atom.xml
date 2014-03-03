@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Code | Thijs Lensselink's Blog]]></title>
-  <link href="http://lenss.nl/tag/code/atom.xml" rel="self"/>
-  <link href="http://lenss.nl/"/>
-  <updated>2014-01-27T08:13:44+01:00</updated>
-  <id>http://lenss.nl/</id>
+  <link href="http://blog.lenss.nl/tag/code/atom.xml" rel="self"/>
+  <link href="http://blog.lenss.nl/"/>
+  <updated>2014-03-03T21:19:52+01:00</updated>
+  <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Get the first weekday of the month in PHP]]></title>
-    <link href="http://lenss.nl/2013/11/first-weekday-of-month-in-php/"/>
+    <link href="http://blog.lenss.nl/2013/11/first-weekday-of-month-in-php/"/>
     <updated>2013-11-15T11:05:53+01:00</updated>
-    <id>http://lenss.nl/2013/11/first-weekday-of-month-in-php</id>
+    <id>http://blog.lenss.nl/2013/11/first-weekday-of-month-in-php</id>
     <content type="html"><![CDATA[<p>A simple method to return the first weekdsay of a given month and year</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>getFirstWeekdayInMonth </span></figcaption>
@@ -41,9 +41,9 @@ private function _getFirstWeekdayInMonth($month, $year, $day = 1)
   
   <entry>
     <title type="html"><![CDATA[Renaming a folder in git that contains submodules]]></title>
-    <link href="http://lenss.nl/2013/10/git-move-folder-containing-submodules/"/>
+    <link href="http://blog.lenss.nl/2013/10/git-move-folder-containing-submodules/"/>
     <updated>2013-10-23T13:05:12+02:00</updated>
-    <id>http://lenss.nl/2013/10/git-move-folder-containing-submodules</id>
+    <id>http://blog.lenss.nl/2013/10/git-move-folder-containing-submodules</id>
     <content type="html"><![CDATA[<p>Because of some project structure changes. It was required to renamed some folders. In git this should be as easy as running <strong>git mv</strong>. But when the folders you are trying to move contain submodules. Its a whole different story.</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
@@ -140,9 +140,9 @@ $ git push
   
   <entry>
     <title type="html"><![CDATA[Fixing the clover forcast for PHP projects in Jenkins]]></title>
-    <link href="http://lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/"/>
+    <link href="http://blog.lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/"/>
     <updated>2013-10-15T12:26:23+02:00</updated>
-    <id>http://lenss.nl/2013/10/clover-forcast-for-php-in-jenkins</id>
+    <id>http://blog.lenss.nl/2013/10/clover-forcast-for-php-in-jenkins</id>
     <content type="html"><![CDATA[<p>I had the opportunity to play with <a href="http://jenkins-ci.org/">Jenkins</a> again last week. And the setup for our projects went pretty smooth. But the fact that no matter what i tried. The <a href="https://wiki.jenkins-ci.org/display/JENKINS/Clover+PHP+Plugin">clover</a> forecast icon would always show up as rainy <a href="http://lenss.nl/images/20013/10/health-20to39.png"><img src="http://lenss.nl/images/2013/10/health-20to39.png" alt="" /></a>. While the build was succeeding without issues. So i spend some time googling and trying out multiple “fixes”. Of which none seemed to actually work. I even reverted back to using the Jenkins clover plugins instead of Clover for PHP. No difference at all.</p>
 
 <p>It seemed as if the settings from the config page were completely ignored when calculating the clover status. This was really bugging me. So i checked out the clover plugin source from <a href="https://github.com/jenkinsci/cloverphp-plugin">github</a>. And browsed through the code for a while. When i found the beauty below inside <strong>CoverageTarget.java</strong></p>
@@ -196,9 +196,9 @@ $ git push
   
   <entry>
     <title type="html"><![CDATA[Github, SSH and multiple repositories]]></title>
-    <link href="http://lenss.nl/2013/08/github-and-multiple-ssh-keys/"/>
+    <link href="http://blog.lenss.nl/2013/08/github-and-multiple-ssh-keys/"/>
     <updated>2013-08-22T00:02:09+02:00</updated>
-    <id>http://lenss.nl/2013/08/github-and-multiple-ssh-keys</id>
+    <id>http://blog.lenss.nl/2013/08/github-and-multiple-ssh-keys</id>
     <content type="html"><![CDATA[<p>When working with <a href="http://github.com">Github</a>. Setting up SSH key based authentication is easy. You just create a key. Add the public key in the admin panel and voilà. If a new contributor joins your team. You add his / her key and they also have access.</p>
 
 <p>But how does it work when you have need access to multiple repositories using multiple keys yourself? I had to set this up a couple of times. And it turns out to be just as easy. But if for some reason it’s not that obvious these steps might help.</p>
@@ -242,9 +242,9 @@ $ git clone git@repo1.github.com:repo1/project.git
   
   <entry>
     <title type="html"><![CDATA[Memory exhaust issue PHP and APM]]></title>
-    <link href="http://lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/"/>
+    <link href="http://blog.lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/"/>
     <updated>2013-07-03T11:57:43+02:00</updated>
-    <id>http://lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM</id>
+    <id>http://blog.lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM</id>
     <content type="html"><![CDATA[<p>A while back i wrote a small data aggregator that would do some background processing and populate a database with it’s calculated results. The main reason to implement this was that running the queries in real-time on the production server was causing memory exhaust issues. Once the new feature was done and deployed. We quickly noticed we were running into the same kind of issues again. And the script would halt almost each time it was executed.</p>
 
 <p><blockquote><p>Fatal error: Allowed memory size of xxxxxxxxx bytes exhausted (tried toallocate xxxxx bytes) in</p></blockquote></p>

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Design | Thijs Lensselink's Blog]]></title>
-  <link href="http://lenss.nl/tag/design/atom.xml" rel="self"/>
-  <link href="http://lenss.nl/"/>
-  <updated>2014-01-27T08:13:44+01:00</updated>
-  <id>http://lenss.nl/</id>
+  <link href="http://blog.lenss.nl/tag/design/atom.xml" rel="self"/>
+  <link href="http://blog.lenss.nl/"/>
+  <updated>2014-03-03T21:19:52+01:00</updated>
+  <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Jquery unrecognized expression error]]></title>
-    <link href="http://lenss.nl/2011/08/jquery-unrecognized-expression-error/"/>
+    <link href="http://blog.lenss.nl/2011/08/jquery-unrecognized-expression-error/"/>
     <updated>2011-08-20T13:20:59+02:00</updated>
-    <id>http://lenss.nl/2011/08/jquery-unrecognized-expression-error</id>
+    <id>http://blog.lenss.nl/2011/08/jquery-unrecognized-expression-error</id>
     <content type="html"><![CDATA[<p>While doing some front end work yesterday. I got trapped by a <a href="http://jquery.com/">jQuery</a> issue. Well not JQuery specific. The issue was actually triggered by some other hand crafted code. Every time i would click a link inside my grid view firebug would throw an error.</p>
 
 <blockquote>
@@ -57,9 +57,9 @@
   
   <entry>
     <title type="html"><![CDATA[New generation elePHPants arrived!!]]></title>
-    <link href="http://lenss.nl/2011/01/new-generation-elephpants-arrived/"/>
+    <link href="http://blog.lenss.nl/2011/01/new-generation-elephpants-arrived/"/>
     <updated>2011-01-06T12:28:30+01:00</updated>
-    <id>http://lenss.nl/2011/01/new-generation-elephpants-arrived</id>
+    <id>http://blog.lenss.nl/2011/01/new-generation-elephpants-arrived</id>
     <content type="html"><![CDATA[<p>Yesterday i got a message that the new generation of elePHPants are available for bulk pre-order. I am very happy the <a href="http://elephpant.com/">elephpant.com</a> site is finally up and running. For the past two years i have been shipping a lot of these blue guys all across the world. No need for me to do that any more. </p>
 
 <p>A big thanks for this furry blue creature goes out to:</p>
@@ -75,27 +75,27 @@
   
   <entry>
     <title type="html"><![CDATA[PHP Community Spirit T-Shirt Design Competition]]></title>
-    <link href="http://lenss.nl/2010/08/php-community-spirit-t-shirt-design-competition/"/>
+    <link href="http://blog.lenss.nl/2010/08/php-community-spirit-t-shirt-design-competition/"/>
     <updated>2010-08-15T15:02:22+02:00</updated>
-    <id>http://lenss.nl/2010/08/php-community-spirit-t-shirt-design-competition</id>
+    <id>http://blog.lenss.nl/2010/08/php-community-spirit-t-shirt-design-competition</id>
     <content type="html"><![CDATA[<p>I entered a design for the PHP Community <a href="http://php-spirit.strutta.com/">Spirit T-Shirt Design Competition</a>. And it got approved today. It’s a simple design that uses the PHP logo colors and font. If you like it you can vote for it by following the design below.</p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[A new look for lenss.nl]]></title>
-    <link href="http://lenss.nl/2010/04/a-new-look-for-lenss-nl/"/>
+    <link href="http://blog.lenss.nl/2010/04/a-new-look-for-lenss-nl/"/>
     <updated>2010-04-04T22:17:30+02:00</updated>
-    <id>http://lenss.nl/2010/04/a-new-look-for-lenss-nl</id>
+    <id>http://blog.lenss.nl/2010/04/a-new-look-for-lenss-nl</id>
     <content type="html"><![CDATA[<p>This long Easter weekend gave me some time to create a new theme for this blog. So after a day of work this is the result. I was a bit tired of the dark unreadable format. At the moment i am still tweaking here and there but it looks fine!</p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Multiple versions of Internet Explorer on one machine]]></title>
-    <link href="http://lenss.nl/2008/06/multiple-versions-of-internet-explorer-on-one-machine/"/>
+    <link href="http://blog.lenss.nl/2008/06/multiple-versions-of-internet-explorer-on-one-machine/"/>
     <updated>2008-06-23T07:54:52+02:00</updated>
-    <id>http://lenss.nl/2008/06/multiple-versions-of-internet-explorer-on-one-machine</id>
+    <id>http://blog.lenss.nl/2008/06/multiple-versions-of-internet-explorer-on-one-machine</id>
     <content type="html"><![CDATA[<p>When designing pages for multiple browsers. It’s pretty much a pain in the ass to get things looking similar cross all browsers. There are many Javascript libraries to help and ease the pain. But it doesn’t solve all. And hoping people will stop using IE 6 also doesn’t really help. So we are stuck in getting things work in all those quirky browsers. So a developer / designer probably has multiple browsers installed. On my dev box i only use Firefox.</p>
 
 <p>But when i have to build a design. I need to check al those browsers. So i have Firefox, Opera and Internet Explorer installed. The problem with internet explorer is that you can’t run multiple versions on the same machine. Well at least not without a long hacking session. To solve this problem most of the time i used something like Virtual Machine or Virtual Desktop. The problem is that applications like that eat memory. And there is always the minor annoyances with losing focus on my <a href="http://www.zend.com/en/products/studio/">IDE</a> because the VM window is still active.</p>

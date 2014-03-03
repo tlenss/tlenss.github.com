@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Git | Thijs Lensselink's Blog]]></title>
-  <link href="http://lenss.nl/tag/git/atom.xml" rel="self"/>
-  <link href="http://lenss.nl/"/>
-  <updated>2014-01-27T08:13:44+01:00</updated>
-  <id>http://lenss.nl/</id>
+  <link href="http://blog.lenss.nl/tag/git/atom.xml" rel="self"/>
+  <link href="http://blog.lenss.nl/"/>
+  <updated>2014-03-03T21:19:52+01:00</updated>
+  <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Renaming a folder in git that contains submodules]]></title>
-    <link href="http://lenss.nl/2013/10/git-move-folder-containing-submodules/"/>
+    <link href="http://blog.lenss.nl/2013/10/git-move-folder-containing-submodules/"/>
     <updated>2013-10-23T13:05:12+02:00</updated>
-    <id>http://lenss.nl/2013/10/git-move-folder-containing-submodules</id>
+    <id>http://blog.lenss.nl/2013/10/git-move-folder-containing-submodules</id>
     <content type="html"><![CDATA[<p>Because of some project structure changes. It was required to renamed some folders. In git this should be as easy as running <strong>git mv</strong>. But when the folders you are trying to move contain submodules. Its a whole different story.</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
@@ -114,9 +114,9 @@ $ git push
   
   <entry>
     <title type="html"><![CDATA[Github, SSH and multiple repositories]]></title>
-    <link href="http://lenss.nl/2013/08/github-and-multiple-ssh-keys/"/>
+    <link href="http://blog.lenss.nl/2013/08/github-and-multiple-ssh-keys/"/>
     <updated>2013-08-22T00:02:09+02:00</updated>
-    <id>http://lenss.nl/2013/08/github-and-multiple-ssh-keys</id>
+    <id>http://blog.lenss.nl/2013/08/github-and-multiple-ssh-keys</id>
     <content type="html"><![CDATA[<p>When working with <a href="http://github.com">Github</a>. Setting up SSH key based authentication is easy. You just create a key. Add the public key in the admin panel and voilà. If a new contributor joins your team. You add his / her key and they also have access.</p>
 
 <p>But how does it work when you have need access to multiple repositories using multiple keys yourself? I had to set this up a couple of times. And it turns out to be just as easy. But if for some reason it’s not that obvious these steps might help.</p>
