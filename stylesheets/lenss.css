@@ -1,0 +1,42 @@
+body {
+color:#FFFFFF;
+padding-top:60px; 
+background:#202223;
+}
+.lenssnl {
+color:#0e9fea;
+}
+h1 {
+color:#0e9fea;
+font-family: 'Open Sans', sans-serif;
+font-size: 52px;
+font-weight: 300;
+margin-bottom: 23px;
+text-shadow: 4px 3px 0 #000000,9px 8px 0 rgba(0,0,0,0.15);
+}
+h2 {
+font-family: 'Open Sans', sans-serif;
+font-size: 33px;
+font-weight: 300;
+margin-top: 12px;
+line-height: 33px;
+}
+p {
+display:block;
+}
+a:hover {
+text-decoration:none;
+}
+.page {
+margin-top:5%;
+}
+.navbar-brand {
+color:#FFFFFF !important;
+}
+.link-list {
+margin-top:45px;
+margin-bottom:12px;
+}
+.link-list a {
+color:#0e9fea !important;
+}
