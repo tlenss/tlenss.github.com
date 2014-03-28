@@ -4,7 +4,7 @@
   <title><![CDATA[Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2014-03-24T23:27:26+01:00</updated>
+  <updated>2014-03-28T21:37:31+01:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -145,7 +145,7 @@ $ git push
     <link href="http://blog.lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/"/>
     <updated>2013-10-15T12:26:23+02:00</updated>
     <id>http://blog.lenss.nl/2013/10/clover-forcast-for-php-in-jenkins</id>
-    <content type="html"><![CDATA[<p>I had the opportunity to play with <a href="http://jenkins-ci.org/">Jenkins</a> again last week. And the setup for our projects went pretty smooth. But the fact that no matter what i tried. The <a href="https://wiki.jenkins-ci.org/display/JENKINS/Clover+PHP+Plugin">clover</a> forecast icon would always show up as rainy <a href="http://lenss.nl/images/20013/10/health-20to39.png"><img src="http://lenss.nl/images/2013/10/health-20to39.png" alt="" /></a>. While the build was succeeding without issues. So i spend some time googling and trying out multiple “fixes”. Of which none seemed to actually work. I even reverted back to using the Jenkins clover plugins instead of Clover for PHP. No difference at all.</p>
+    <content type="html"><![CDATA[<p>I had the opportunity to play with <a href="http://jenkins-ci.org/">Jenkins</a> again last week. And the setup for our projects went pretty smooth. But the fact that no matter what i tried. The <a href="https://wiki.jenkins-ci.org/display/JENKINS/Clover+PHP+Plugin">clover</a> forecast icon would always show up as rainy <a href="http://blog.lenss.nl/images/20013/10/health-20to39.png"><img src="http://blog.lenss.nl/images/2013/10/health-20to39.png" alt="" /></a>. While the build was succeeding without issues. So i spend some time googling and trying out multiple “fixes”. Of which none seemed to actually work. I even reverted back to using the Jenkins clover plugins instead of Clover for PHP. No difference at all.</p>
 
 <p>It seemed as if the settings from the config page were completely ignored when calculating the clover status. This was really bugging me. So i checked out the clover plugin source from <a href="https://github.com/jenkinsci/cloverphp-plugin">github</a>. And browsed through the code for a while. When i found the beauty below inside <strong>CoverageTarget.java</strong></p>
 
@@ -193,7 +193,7 @@ $ git push
 </div>
  </figure></notextile></div>
 
-<p>And voilà. I nice sunny <a href="http://lenss.nl/images/20013/10/health-80plus.png"><img src="http://lenss.nl/images/2013/10/health-80plus.png" alt="" /></a> forecast. Now let’s see if i have some time to write a patch for this.</p>
+<p>And voilà. I nice sunny <a href="http://blog.lenss.nl/images/20013/10/health-80plus.png"><img src="http://blog.lenss.nl/images/2013/10/health-80plus.png" alt="" /></a> forecast. Now let’s see if i have some time to write a patch for this.</p>
 ]]></content>
   </entry>
   
@@ -725,7 +725,7 @@ string(3) &quot;baz&quot;
     <id>http://blog.lenss.nl/2013/02/phpness-serious-wtf</id>
     <content type="html"><![CDATA[<p>It’s been a while since i last blogged. And i don’t really have anything new to offer. But i would like to comment on some current event. There has been some commotion about a free t shirt that was distributed on the SunshinePHP conference this year. </p>
 
-<p><a href="http://lenss.nl/images/2013/02/web-and-php-img.png"><img src="http://lenss.nl/images/2013/02/web-and-php-img.png" alt="" /></a></p>
+<p><a href="http://blog.lenss.nl/images/2013/02/web-and-php-img.png"><img src="http://blog.lenss.nl/images/2013/02/web-and-php-img.png" alt="" /></a></p>
 
 <p>The first time i saw the shirt i could not make out what was so offending that people would start blogging about it. Somebody had to point that out for me. So what’s the deal here? Apparently the shirt’s slogan was intentionally created with a slight sexual undertone. The idea comes from the enlarge your penis SPAM we all know! </p>
 
@@ -733,7 +733,7 @@ string(3) &quot;baz&quot;
 
 <p>Personally i don’t think the shirt is sexist or offensive at all. And don’t really understand all the fuss. Sex has never been an issue for me in the PHP community. I learn just as much from female developers as i do from the male ones. We are all equal. People that feel the need to defend the opposite sex are probably the ones that see a difference. Even so! Why make such a big deal of something so small? I never seen anybody blog about the programming with attitude poster. </p>
 
-<p><a href="http://lenss.nl/images/2013/02/php-programming.jpg"><img src="http://lenss.nl/images/2013/02/php-programming.jpg" alt="" /></a></p>
+<p><a href="http://blog.lenss.nl/images/2013/02/php-programming.jpg"><img src="http://blog.lenss.nl/images/2013/02/php-programming.jpg" alt="" /></a></p>
 
 <p>I think the PHP community has just lost a bit of it’s shine and coolness. I’ve always been under the impression the PHP community consisted of free thinking people that do what they love. Develop stuff. And that’s exactly what attracted me to it 12 years ago in the first place.</p>
 
@@ -780,19 +780,19 @@ string(3) &quot;baz&quot;
 
 <p>In the Google Reader pages it’s possible to add sharing functionality. This is done by going to the <strong>Send To</strong> tab</p>
 
-<p><a href="http://lenss.nl/images/2012/11/Send-To.png"><img src="http://lenss.nl/images/2012/11/Send-To-300x22.png" alt="" /></a></p>
+<p><a href="http://blog.lenss.nl/images/2012/11/Send-To.png"><img src="http://blog.lenss.nl/images/2012/11/Send-To-300x22.png" alt="" /></a></p>
 
 <p>From here it’s possible to select a service to share data with. Non of these services are any good for what i am trying to do. But the great thing about this page is. You can provide custom URL’s for sharing data. Just incorporate the specified parameters in the URL and your done.</p>
 
-<p><a href="http://lenss.nl/images/2012/11/Custom-Site.png"><img src="http://lenss.nl/images/2012/11/Custom-Site-300x178.png" alt="" /></a></p>
+<p><a href="http://blog.lenss.nl/images/2012/11/Custom-Site.png"><img src="http://blog.lenss.nl/images/2012/11/Custom-Site-300x178.png" alt="" /></a></p>
 
 <p>Once configured and saved a custom URL is visible in the <strong>Send To</strong> panel</p>
 
-<p><a href="http://lenss.nl/images/2012/11/Favorite-Site.png"><img src="http://lenss.nl/images/2012/11/Favorite-Site-300x125.png" alt="" /></a></p>
+<p><a href="http://blog.lenss.nl/images/2012/11/Favorite-Site.png"><img src="http://blog.lenss.nl/images/2012/11/Favorite-Site-300x125.png" alt="" /></a></p>
 
 <p>That’s it for this part. Actually sharing items is quite easy now. When back in the Google Reader under each post there is Send to link. If you click this link the newly created custom URL will show up. And you can share the post.</p>
 
-<p><a href="http://lenss.nl/images/2012/11/Tag-Article.png"><img src="http://lenss.nl/images/2012/11/Tag-Article-300x41.png" alt="" /></a></p>
+<p><a href="http://blog.lenss.nl/images/2012/11/Tag-Article.png"><img src="http://blog.lenss.nl/images/2012/11/Tag-Article-300x41.png" alt="" /></a></p>
 
 <p>The only thing left to do is write some code to process the incoming data. To get you started. Some of the code i used while testing this is posted below</p>
 
@@ -1708,7 +1708,7 @@ end
     <link href="http://blog.lenss.nl/2012/05/abbywinters-is-looking-for-new-developers/"/>
     <updated>2012-05-24T15:04:02+02:00</updated>
     <id>http://blog.lenss.nl/2012/05/abbywinters-is-looking-for-new-developers</id>
-    <content type="html"><![CDATA[<p><img class="left" src="http://lenss.nl/images/2011/11/aw-logo-roundel-blue.png" />
+    <content type="html"><![CDATA[<p><img class="left" src="http://blog.lenss.nl/images/2011/11/aw-logo-roundel-blue.png" />
 If you’re looking for a new challenging and exiting Senior Webdeveloper position. Don’t look any further. If you already think you have the job of your dreams. Think again!</p>
 
 <p><em><a href="http://www.abbywinters.com">abbywinters.com</a> <strong>(NSFW)</strong> is one of the largest and most ethical, highly rated, well designed, and successful erotic websites in the world today. abbywinters.com is the WINNER of the AVN 2011 Awards for Best Membership site!</em></p>

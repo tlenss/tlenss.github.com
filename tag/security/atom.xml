@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Security | Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/tag/security/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2014-03-24T23:27:26+01:00</updated>
+  <updated>2014-03-28T21:37:31+01:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -351,7 +351,7 @@ session_regenerate_id();
     <link href="http://blog.lenss.nl/2011/09/the-current-state-of-ssl-and-the-future-of-authenticity/"/>
     <updated>2011-09-12T02:13:33+02:00</updated>
     <id>http://blog.lenss.nl/2011/09/the-current-state-of-ssl-and-the-future-of-authenticity</id>
-    <content type="html"><![CDATA[<p><img class="left" src="http://lenss.nl/images/2011/09/convergence.png">
+    <content type="html"><![CDATA[<p><img class="left" src="/images/2011/09/convergence.png">
 Last week i had a blast while listening to <a href="http://www.thoughtcrime.org/">Moxie Marlinspike’s</a> Blackhat talk <a href="http://www.youtube.com/watch?v=Z7Wl2FW2TcA">the past and future of SSL</a>. The video is an absolute must see if you have any concern about the current state of SSL or the whole web for that matter.</p>
 
 <p>As many know. There has been quite the turmoil in the SSL world lately with some big CA’s (<a href="http://www.comodo.com">Comodo</a>, <a href="http://www.startcom.org/">StartCom</a>, <a href="http://www.diginotar.com/">Diginotar</a>, <a href="http://www.globalsign.com/">GlobalSign</a>) getting hacked. And rogue certificates being generated for major domains like microsoft.com, google.com, etc for who knows what type of malicious purpose. The real problem here are the centralized CA’s. For SSL to work you need to explicitly trust the major CA’s. And if one gets hacked. Well.. we know the deal by now. And the funny thing is that Moxie mentions in his talk. The whole CA wasn’t even part of the original SSL protocol. As the creator of SSL said “It’s something we through in at the end”.</p>

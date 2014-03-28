@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tech | Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/tag/tech/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2014-03-24T23:27:26+01:00</updated>
+  <updated>2014-03-28T21:37:31+01:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -495,7 +495,7 @@ string(3) “baz”
     <id>http://blog.lenss.nl/2013/02/phpness-serious-wtf</id>
     <content type="html"><![CDATA[<p>It’s been a while since i last blogged. And i don’t really have anything new to offer. But i would like to comment on some current event. There has been some commotion about a free t shirt that was distributed on the SunshinePHP conference this year. </p>
 
-<p><a href="http://lenss.nl/images/2013/02/web-and-php-img.png"><img src="http://lenss.nl/images/2013/02/web-and-php-img.png" alt="" /></a></p>
+<p><a href="/images/2013/02/web-and-php-img.png"><img src="/images/2013/02/web-and-php-img.png" alt="" /></a></p>
 
 <p>The first time i saw the shirt i could not make out what was so offending that people would start blogging about it. Somebody had to point that out for me. So what’s the deal here? Apparently the shirt’s slogan was intentionally created with a slight sexual undertone. The idea comes from the enlarge your penis SPAM we all know! </p>
 
@@ -503,7 +503,7 @@ string(3) “baz”
 
 <p>Personally i don’t think the shirt is sexist or offensive at all. And don’t really understand all the fuss. Sex has never been an issue for me in the PHP community. I learn just as much from female developers as i do from the male ones. We are all equal. People that feel the need to defend the opposite sex are probably the ones that see a difference. Even so! Why make such a big deal of something so small? I never seen anybody blog about the programming with attitude poster. </p>
 
-<p><a href="http://lenss.nl/images/2013/02/php-programming.jpg"><img src="http://lenss.nl/images/2013/02/php-programming.jpg" alt="" /></a></p>
+<p><a href="/images/2013/02/php-programming.jpg"><img src="/images/2013/02/php-programming.jpg" alt="" /></a></p>
 
 <p>I think the PHP community has just lost a bit of it’s shine and coolness. I’ve always been under the impression the PHP community consisted of free thinking people that do what they love. Develop stuff. And that’s exactly what attracted me to it 12 years ago in the first place.</p>
 

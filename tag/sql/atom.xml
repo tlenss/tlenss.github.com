@@ -4,7 +4,7 @@
   <title><![CDATA[Category: SQL | Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/tag/sql/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2014-03-24T23:27:26+01:00</updated>
+  <updated>2014-03-28T21:37:31+01:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -306,7 +306,7 @@ mysql_options(&amp;amp;mysql, <span class="constant">MYSQL_OPT_RECONNECT</span>,
     <link href="http://blog.lenss.nl/2011/11/abbywinters-com-is-hiring/"/>
     <updated>2011-11-22T14:46:51+01:00</updated>
     <id>http://blog.lenss.nl/2011/11/abbywinters-com-is-hiring</id>
-    <content type="html"><![CDATA[<p><img class="left" src="http://lenss.nl/images/2011/11/aw-logo-roundel-blue.png">
+    <content type="html"><![CDATA[<p><img class="left" src="/images/2011/11/aw-logo-roundel-blue.png">
 If you’re looking for a new challenging and exiting Senior Webdeveloper position. Don’t look any further. If you already think you have the job of your dreams. Think again!</p>
 
 <p><em><a href="http://www.abbywinters.com">abbywinters.com</a> <strong>(NSFW)</strong> is one of the largest and most ethical, highly rated, well designed, and successful erotic websites in the world today. abbywinters.com is the WINNER of the AVN 2011 Awards for Best Membership site!</em></p>
@@ -508,7 +508,7 @@ If you’re looking for a new challenging and exiting Senior Webdeveloper positi
     <link href="http://blog.lenss.nl/2011/05/dutch-php-conference-2011/"/>
     <updated>2011-05-23T12:51:39+02:00</updated>
     <id>http://blog.lenss.nl/2011/05/dutch-php-conference-2011</id>
-    <content type="html"><![CDATA[<p><img class="left" src="http://lenss.nl/images/2011/05/dpc11.jpg">
+    <content type="html"><![CDATA[<p><img class="left" src="/images/2011/05/dpc11.jpg">
 Last week was the 5th <a href="http://www.phpconference.nl">DPC</a> (Dutch PHP Conference) in the <a href="http://www.rai.nl/">Amsterdam Rai</a>. And thanks to my awesome employer i once again had the chance to be there. This year with a full conference ticket (including the tutorial days). And i had a blast. I wanted to do this post earlier this weekend but due to some current injury i wasn’t able to. So here goes.</p>
 
 <p>The kick off for the DPC11 were the tutorial days. And they had some pretty cool tutorial lined up for this year. But as always you have to choose. So me and Geoff chose to visit two of the tutorials we would benefit from the most. Since we are in pretty heavy database driven environment. We chose:</p>

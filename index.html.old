@@ -3,15 +3,15 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Recruiter rant - Thijs Lensselink's Blog</title>
+    <title>Thijs Lensselink's Blog</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Recruiter Rant While doing our routine sprint retrospective today. We got interrupted by our office manager Wendy. An important phone call for me. &hellip;">
+    <meta name="description" content=" Copyright &copy; 2014 - Thijs Lensselink - Powered by Octopress ">
     
     <meta name="author" content="Thijs Lensselink">
     
-    <link rel="canonical" href="http://blog.lenss.nl/2012/02/recruiter-rant/">
+    <link rel="canonical" href="http://blog.lenss.nl/.old">
     <link rel="shortcut icon" href="/img/icon/favicon.ico">
     <link href="http://feeds.feedburner.com/ThijsLensselinksBlog" rel="alternate" title="Thijs Lensselink's Blog" type="application/atom+xml">
 
@@ -60,105 +60,18 @@
 	
           <div id="content">
 	      <div class="inner">
-	      <div>
-<article class="hentry" role="article">
+	      <div class="blog-index">
   
-<header>
-	<header>
-	
-	  <h1 class="entry-title">Recruiter Rant</h1>
-	
-	</header>
-</header>
-
-
-<div class="articletext"><p>While doing our routine <a href="http://sites.google.com/site/agiledevelopmentsite/process/sprint-retrospective">sprint retrospective</a> today. We got interrupted by our office manager Wendy. An important phone call for me. Hmm… Should have known.</p>
-
-<p>I picked up the phone. And the guy (<a href="http://www.amoriabond.com/">Amoria Bond</a>) on the other end immediately started his sales pitch. O shit another one of those nasty recruiters. So after listening to him for a few seconds i quickly interrupted him. Told him i was not interested in a new job at all. And that he was a jerk and extremely unprofessional for calling me at the office. Completely unaware (or maybe intentionally?) what impact this might have if for instance my manager picks up the phone. Besides it’s just plain rude. </p>
-
-<p>Now don’t get me wrong. It’s not a rant for nothing. I don’t hate recruiters. And have worked with some professional ones in the past. I’ve always enjoyed communicating with linda-lotte while she was still working for <a href="http://www.recruit4it.nl/">Recruit4it</a>. And the guys at <a href="http://www.starapple.nl">Starapple</a> are OK as well. But this guy today really pissed me off with his aggressive unmannered approach. It’s a shame i didn’t catch his name while i was in rant mode. But please don’t ever call me again.</p>
-
-<p><strong>Update:</strong></p>
-
-<p>It seems to be some form of new tactic to call developers in the office where they work. This happened a couple of times more after this post. So this is for the next recruiter that calls me in the office. I’ll personally come over and kick your ass!!</p>
+  
+  <div class="blog-navigation">
+    
+    
+  </div>
+  <div class="blog-copy">
+      Copyright &copy; 2014 - Thijs Lensselink -
+      <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  </div>
 </div>
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-    <p class="meta">
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-02-21T23:14:03+01:00" pubdate data-updated="true">Feb 21<span>st</span>, 2012</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="http://blog.lenss.nl/2012/02/wordpress-install-compromised/" title="Previous Post: Wordpress install compromised">&laquo; Wordpress install compromised</a>
-      
-      
-        <a class="basic-alignment right" href="http://blog.lenss.nl/2012/02/using-ssh-key-authentication-with-egit-in-zendstudio/" title="Next Post: Using SSH key authentication with EGit in ZendStudio">Using SSH key authentication with EGit in ZendStudio &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
-<div style="padding:90px;">
-
-  <div class="sharing">
-   
-    <div class="fb-like" data-send="true" data-width="450" layout="button_count" data-show-faces="false"></div>
-  
-  <script id='fb3vnkm'>(function(i){var f,s=document.getElementById(i);f=document.createElement('iframe');f.src='//api.flattr.com/button/view/?uid=tlenss&button=compact&url='+encodeURIComponent(document.URL);f.title='Flattr';f.height=20;f.width=110;f.style.borderWidth=0;s.parentNode.insertBefore(f,s);})('fb3vnkm');</script>
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.lenss.nl/2012/02/recruiter-rant/" data-via="tlenss" data-counturl="http://blog.lenss.nl/2012/02/recruiter-rant/" >Tweet</a>
-  
-</div>
-
-
-
-
-  <section>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-  </section>
-
-</div>
-</div>
-
-<section class="ad">
-	<script type="text/javascript"><!--
-	google_ad_client = "ca-pub-0921745317573569";
-	/* nlblue_content */
-	google_ad_slot = "0947700644";
-	google_ad_width = 728;
-	google_ad_height = 90;
-	//-->
-	</script>
-	<script type="text/javascript"
-	src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-	</script>
-</section>
 
 	      </div>
 	  </div>
