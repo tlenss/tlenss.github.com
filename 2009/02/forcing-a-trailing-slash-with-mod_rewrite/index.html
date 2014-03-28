@@ -253,24 +253,6 @@ RewriteRule [^/]$ %{REQUEST_URI}/ [R=301,L]
   
   <a href="https://github.com/tlenss" class="github-follow-button">Follow On GitHub</a>
   
-  <script type="text/javascript">
-    $.domReady(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = 'http://blog.lenss.nl/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'tlenss',
-            count: 0,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
 </div>
 </section>
 
@@ -302,6 +284,24 @@ RewriteRule [^/]$ %{REQUEST_URI}/ [R=301,L]
     <script src="http://blog.lenss.nl/javascripts/jquery.cookie.min.js"></script>
     <script src="http://blog.lenss.nl/javascripts/adn-timeline.js"></script>
     <script src="http://octophile.com/widgets.js"></script>
+    <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = 'http://blog.lenss.nl/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'tlenss',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
     
   <script type="text/javascript">
     var _gaq = _gaq || [];
