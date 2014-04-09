@@ -4,7 +4,7 @@
   <title><![CDATA[Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2014-03-28T22:23:10+01:00</updated>
+  <updated>2014-04-10T00:15:00+02:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -1055,18 +1055,6 @@ mysql_options(&amp;mysql, <span class="constant">MYSQL_OPT_RECONNECT</span>, &am
 </div>
  </figure></notextile></div>
 
-<p>Patching the file is easy.</p>
-
-<p><strong>This patch was created for v3.4.2. And will most likely fail on other versions of Wordpress.</strong></p>
-
-<blockquote>
-  <p>$ cd wp-includes/
-$ wget <a href="https://raw.github.com/tlenss/misc/master/patch/wordpress-charreplace.patch">https://raw.github.com/tlenss/misc/master/patch/wordpress-charreplace.patch</a>
-$ patch -p0 &lt; wordpress-charreplace.patch
-patching file formatting.php</p>
-</blockquote>
-
-<p>That’s all.</p>
 ]]></content>
   </entry>
   
