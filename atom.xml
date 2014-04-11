@@ -4,7 +4,7 @@
   <title><![CDATA[Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2014-04-12T00:09:43+02:00</updated>
+  <updated>2014-04-12T00:15:26+02:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -967,12 +967,7 @@ mysql_options(&amp;mysql, <span class="constant">MYSQL_OPT_RECONNECT</span>, &am
 
 <p>Make sure <strong>[branch “master”]</strong> has <strong>rebase</strong> set to true. It should look like the snippet below.</p>
 
-<blockquote>
-  <p>[branch “master”]
-<code>remote = origin
-</code>merge = refs/heads/master
-&#8220;rebase = true</p>
-</blockquote>
+<blockquote><p>[branch &#8220;master&#8221;]<br />  remote = origin<br />  merge = refs/heads/master<br />  rebase = true</p></blockquote>
 
 <p>Starting to really like git. A couple of more quirks and things will be running fine.</p>
 ]]></content>
