@@ -4,7 +4,7 @@
   <title><![CDATA[Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2014-04-12T00:15:26+02:00</updated>
+  <updated>2014-04-12T00:41:19+02:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -984,26 +984,15 @@ mysql_options(&amp;mysql, <span class="constant">MYSQL_OPT_RECONNECT</span>, &am
 
 <p>Apparently the bug that causes these crashes is fixed in 12.10. But the changes will only be backported when 12.10 is released. So that leaves me in quite a pickle. But according to the thread. Upgrading the kernel should do the trick. So that’s exactly what i did. The kernel packages i used can be found here <a href="http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/">http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/</a></p>
 
-<blockquote>
-  <p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-headers-3.4.0-030400<em>3.4.0-030400.201205210521_all.deb 
-$ sudo dpkg -i linux-headers-3.4.0-030400</em>3.4.0-030400.201205210521_all.deb</p>
-</blockquote>
+<blockquote><p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-headers-3.4.0-030400_3.4.0-030400.201205210521_all.deb <br />$ sudo dpkg -i linux-headers-3.4.0-030400_3.4.0-030400.201205210521_all.deb</p></blockquote>
 
-<blockquote>
-  <p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-headers-3.4.0-030400-generic<em>3.4.0-030400.201205210521_amd64.deb
-$ sudo dpkg -i linux-headers-3.4.0-030400-generic</em>3.4.0-030400.201205210521_amd64.deb</p>
-</blockquote>
+<blockquote><p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-headers-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb<br />$ sudo dpkg -i linux-headers-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb</p></blockquote>
 
-<blockquote>
-  <p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-image-3.4.0-030400-generic<em>3.4.0-030400.201205210521_amd64.deb
-$ sudo dpkg -i linux-image-3.4.0-030400-generic</em>3.4.0-030400.201205210521_amd64.deb</p>
-</blockquote>
+<blockquote><p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-image-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb<br />$ sudo dpkg -i linux-image-3.4.0-030400-generic_3.4.0-030400.201205210521_amd64.deb</p></blockquote>
 
 <p>This comes with a downside of course. All modules compiled for the current kernel need to be recompiled. And i haven’t figured out how to rebuild all of them at once. So i just ran the command below for <a href="https://www.virtualbox.org/">VirtualBox</a> and the <a href="http://www.nvidia.com">NVidia</a> drivers.</p>
 
-<blockquote>
-  <p>$ sudo dpkg-reconfigure package-name</p>
-</blockquote>
+<blockquote><p>$ sudo dpkg-reconfigure package-name</p></blockquote>
 
 <p>It’s probably a better idea to keep the stable kernel for now. But if system crashes are really bugging you. Then this might resolve the issue. Just be careful.</p>
 ]]></content>
@@ -1056,13 +1045,7 @@ $ sudo dpkg -i linux-image-3.4.0-030400-generic</em>3.4.0-030400.201205210521_am
 
 <p>O well. My first idea was to just drop the database that i wanted to use for testing. But due to no space available on the system. I could not drop it. I really couldn’t do anything on the system. Even writing config files failed. So where did all the disk space go?</p>
 
-<blockquote>
-  <ul>
-    <li>$ df -h</li>
-    <li>Filesystem            Size    Used    Avail    Use%    Mounted on</li>
-    <li>/dev/mapper/debian-605-root    10G    9.8G    0.2G    99%    /</li>
-  </ul>
-</blockquote>
+<blockquote><p>$ df -h<br />Filesystem            Size    Used    Avail    Use%    Mounted on<br />/dev/mapper/debian-605-root    10G    9.8G    0.2G    99%    /</p></blockquote>
 
 <p>That’s really not that much space left. And /var/mysql/ibdata1 for the <a href="http://www.innodb.com/">InnoDB</a> tables was taking up 7 GB. And since i have a couple of InnoDB tables i can’t just delete this file. So need to come up with something else. And after a bit of Googling. I came across <a href="http://jjperezaguinaga.wordpress.com/2012/04/03/a-happy-ending-story-with-vagrant-resizing-a-lucid32-vmdk-box/">this</a> post. Which seemed promising. But the most important part is left out. And instead linked to some horrible garbled page. That is completely unreadable. So i had to do some digging to figure this out on my own. For cloning the disks i followed the steps in the article however. The Virtual Box files are located in the user folder in the following path</p>
 
@@ -1098,133 +1081,47 @@ $ sudo dpkg -i linux-image-3.4.0-030400-generic</em>3.4.0-030400.201205210521_am
 
 <p>When the partition table has been written. It’s time to create a new physical volume on the new partition with the help of <a href="http://linux.about.com/library/cmd/blcmdl8_pvcreate.htm">pvcreate</a></p>
 
-<blockquote>
-  <ul>
-    <li>$ pvcreate /dev/sda3
-      <ul>
-        <li>successfully created</li>
-      </ul>
-    </li>
-  </ul>
-</blockquote>
+<blockquote><p>$ pvcreate /dev/sda3<br />successfully created</p></blockquote>
 
 <p>For the next steps we will be needing the Volume Group name. We will get this by running <a href="http://linux.about.com/library/cmd/blcmdl8_pvdisplay.htm">pvdisplay</a></p>
 
-<blockquote>
-  <ul>
-    <li>
-      <table>
-        <tbody>
-          <tr>
-            <td>$ pvdisplay</td>
-            <td>grep “VG Name”</td>
-          </tr>
-        </tbody>
-      </table>
-    </li>
-    <li>VG Name    debian-605</li>
-  </ul>
-</blockquote>
+<blockquote><p>$ pvdisplay | grep &#8220;VG Name&#8221;<br />VG Name    debian-605</p></blockquote>
 
 <p>So now we have all the bits ready. And its time to extend the root partition with the newly created partition.</p>
 
-<blockquote>
-  <ul>
-    <li>$ vgextend debian-605 /dev/sda3</li>
-    <li>Volume group “debian-605” successfully extended</li>
-  </ul>
-</blockquote>
+<blockquote><p>$ vgextend debian-605 /dev/sda3<br />Volume group &#8220;debian-605&#8221; successfully extended</p></blockquote>
 
 <p>Awesome! next step extending the logical partition</p>
 
-<blockquote>
-  <ul>
-    <li>$ lvextend /dev/debian-605/root /dev/sda3</li>
-    <li>Extending logical volume root to 18.84 GiB</li>
-    <li>Logical volume root successfully resized</li>
-  </ul>
-</blockquote>
+<blockquote><p>$ lvextend /dev/debian-605/root /dev/sda3<br />Extending logical volume root to 18.84 GiB<br />Logical volume root successfully resized</p></blockquote>
 
 <p>Almost there. The last thing left to do is resize the filesystem to make all space available.</p>
 
-<blockquote>
-  <ul>
-    <li>$ resize2fs /dev/debian-605/root</li>
-    <li>resize2fs 1.41.12 (17-May-2010)</li>
-    <li>Filesystem at /dev/debian-605/root is mounted on /; on-line resizing required old desc_blocks = 1, new_desc_blocks = 2</li>
-    <li>Performing an on-line resize of /dev/debian-605/root to 4937728 (4k) blocks.</li>
-    <li>The filesystem on /dev/debian-605/root is now 4937728 blocks long.</li>
-  </ul>
-</blockquote>
+<blockquote><p>$ resize2fs /dev/debian-605/root<br />resize2fs 1.41.12 (17-May-2010)<br />Filesystem at /dev/debian-605/root is mounted on /; on-line resizing required old desc_blocks = 1, new_desc_blocks = 2<br />Performing an on-line resize of /dev/debian-605/root to 4937728 (4k) blocks.<br />The filesystem on /dev/debian-605/root is now 4937728 blocks long.</p></blockquote>
 
 <p>It’s that simple really. So let’s check.</p>
 
-<blockquote>
-  <ul>
-    <li>$ df -h</li>
-    <li>Filesystem            Size    Used    Avail    Use%    Mounted on</li>
-    <li>/dev/mapper/debian-605-root    19G    8.6G    9.1G    49%    /</li>
-  </ul>
-</blockquote>
+<blockquote><p>$ df -h<br />Filesystem            Size    Used    Avail    Use%    Mounted on<br />/dev/mapper/debian-605-root    19G    8.6G    9.1G    49%    /</p></blockquote>
 
 <p>After this i did not bother to convert the VDI image back to a VDMK image. But if you have to for some reason. You could do that with the commands below. And some manual editing of the VirtualBox xml config.</p>
 
-<blockquote>
-  <ul>
-    <li>$ VBoxManage internalcommands sethduuid box-disk1.vdi</li>
-    <li>$ VBoxManage clonehd box-disk1.vdi box-disk1.vmdk –format VMDK</li>
-  </ul>
-</blockquote>
+<blockquote><p>$ VBoxManage internalcommands sethduuid box-disk1.vdi<br />$ VBoxManage clonehd box-disk1.vdi box-disk1.vmdk &#8211;format VMDK</p></blockquote>
 
 <p>So that’s it really for resizing the Vagrant hard drive. The only thing left for me was to cleanup the large ibdata1 file. And setup Mysql to use separate ibdata files for InnoDB table.</p>
 
-<blockquote>
-  <ul>
-    <li>$ vi /etc/mysql/my.cnf</li>
-    <li>[mysqld]</li>
-    <li>innodb_file_per_table</li>
-  </ul>
-</blockquote>
+<blockquote><p>$ vi /etc/mysql/my.cnf<br />[mysqld]<br />innodb_file_per_table</p></blockquote>
 
 <p>Restart Mysql and dump all needed databases except the system tables like (mysql, information_schema).</p>
 
-<blockquote>
-  <ul>
-    <li>$ /etc/init.d/mysql restart</li>
-    <li>
-      <table>
-        <tbody>
-          <tr>
-            <td>$ echo ‘show databases;’</td>
-            <td>mysql -uroot -p</td>
-            <td>grep -v ^Database$</td>
-            <td>grep -v ^information_schema$</td>
-            <td>grep -v ^mysql$</td>
-            <td>xargs mysqldump -uroot -p  –databases &gt; dump.sql</td>
-          </tr>
-        </tbody>
-      </table>
-    </li>
-  </ul>
-</blockquote>
+<blockquote><p>$ /etc/init.d/mysql restart<br />$ echo &#8216;show databases;&#8217; | mysql -uroot -p | grep -v ^Database$ | grep -v ^information_schema$ | grep -v ^mysql$ | xargs mysqldump -uroot -p  &#8211;databases &gt; dump.sql</p></blockquote>
 
 <p>When that’s done. Drop all InnoDB database tables. Remove the ibdata and in_log files from /var/lib/mysql.</p>
 
-<blockquote>
-  <ul>
-    <li>$ /etc/init.d/mysql stop</li>
-    <li>$ rm /var/mysql/ibdata1* /var/mysql/ib_log*</li>
-  </ul>
-</blockquote>
+<blockquote><p>$ /etc/init.d/mysql stop<br />$ rm /var/mysql/ibdata1* /var/mysql/ib_log*</p></blockquote>
 
 <p>Now we restart Mysql. And reimport the databases.</p>
 
-<blockquote>
-  <ul>
-    <li>$ /etc/init.d/mysql start</li>
-    <li>$ mysql -uroot -p &lt; dump.sql</li>
-  </ul>
-</blockquote>
+<blockquote><p>$ /etc/init.d/mysql start<br />$ mysql -uroot -p &lt; dump.sql</p></blockquote>
 
 <ul>
   <li>Some of the resources i used for solving this issue:</li>
@@ -1264,24 +1161,11 @@ $ sudo dpkg -i linux-image-3.4.0-030400-generic</em>3.4.0-030400.201205210521_am
 
 <p>This is what i have so far. And seems to be a solid routine. Start with a nice new checkout of the project at hand. And branch it for the changes to be done.</p>
 
-<blockquote>
-
-  <ul>
-    <li>$ git clone git://some.repository.url:repos.git</li>
-    <li>$ git branch dev-branch</li>
-  </ul>
-</blockquote>
+<blockquote><p>$ git clone git://some.repository.url:repos.git<br />$ git branch dev-branch</p></blockquote>
 
 <p>After working on the newly created branch for a while. Some changes are bound to be ready to be pulled into master. Keeping an eye on the build logs or commit messages should work fine. When this happens it’s time to bring those changes into the dev-branch. After pulling them into master.</p>
 
-<blockquote>
-
-  <ul>
-    <li>$ git checkout master</li>
-    <li>$ git pull</li>
-    <li>$ git checkout dev-branch</li>
-  </ul>
-</blockquote>
+<blockquote><p>$ git checkout master<br />$ git pull<br />$ git checkout dev-branch</p></blockquote>
 
 <p>If there is a need to <strong>rebase</strong> the branch with for instance master. This is the moment. This might cause <a href="http://stackoverflow.com/questions/559917/git-rebase-and-git-push-non-fast-forward-why-use">non-fast-forward issues</a>. But i have not completely figured out why i run into these issues every now and then. A way to solve this might be to use the <em>–force</em> switch when pushing to remote. But i am not a big fan of forcing things like this.</p>
 
@@ -1292,14 +1176,7 @@ $ sudo dpkg -i linux-image-3.4.0-030400-generic</em>3.4.0-030400.201205210521_am
 
 <p>If everything is fine some more work can be done on the dev branch. Until a new change in master is ready to be pulled in. In which case it’s rinse and repeat the previous part. When the changeset is ready to be merged back into master. Switch to master bring it up up o date with a pull. And merge the changes from the dev-branch.</p>
 
-<blockquote>
-
-  <ul>
-    <li>$ git checkout master</li>
-    <li>$ git pull</li>
-    <li>$ git push dev-branch</li>
-  </ul>
-</blockquote>
+<blockquote><p>$ git checkout master<br />$ git pull<br />$ git push dev-branch</p></blockquote>
 
 <p>Again when all is fine all changes will be available in master. If something goes wrong during git-rebase and / or merging. Git will kindly state so. And some manual merging with git’s <a href="http://git-scm.com/docs/git-mergetool">mergetool</a> will have to be done. But that’s something for another day.</p>
 ]]></content>
@@ -1314,12 +1191,7 @@ $ sudo dpkg -i linux-image-3.4.0-030400-generic</em>3.4.0-030400.201205210521_am
 
 <p>Starting the battle.net agent manually before firing up the WoW launcher solved the launcher crashing.</p>
 
-<blockquote>
-  <ul>
-    <li>wine ~/.wine/drive_c/users/Public/Application\ Data/Battle.net/Agent/Agent.1267/Agent.exe –nohttpauth &amp;</li>
-    <li>wine ~/.wine/drive_c/Program\ Files\ (x86)/World\ of\ Warcraft/Launcher.exe &amp;</li>
-  </ul>
-</blockquote>
+<blockquote><p>$ wine ~/.wine/drive_c/users/Public/Application\ Data/Battle.net/Agent/Agent.1267/Agent.exe &#8211;nohttpauth &amp;<br />$ wine ~/.wine/drive_c/Program\ Files\ \(x86\)/World\ of\ Warcraft/Launcher.exe &amp;</p></blockquote>
 
 <p>And installing <strong>vcrun2008</strong> with <a href="http://wiki.winehq.org/winetricks/">winetricks</a> solved the problem with the updater hanging.</p>
 
@@ -1376,141 +1248,51 @@ $ sudo dpkg -i linux-image-3.4.0-030400-generic</em>3.4.0-030400.201205210521_am
 
 <p>Setup the opscode package repositories for APT</p>
 
-<blockquote>
-
-  <ul>
-    <li>
-      <table>
-        <tbody>
-          <tr>
-            <td>$ echo “deb http://apt.opscode.com/ <code>lsb_release -cs</code>-0.10 main”</td>
-            <td>tee /etc/apt/sources.list.d/opscode.list</td>
-          </tr>
-        </tbody>
-      </table>
-    </li>
-    <li>$ gpg –keyserver keys.gnupg.net –recv-keys 83EF826A</li>
-    <li>
-      <table>
-        <tbody>
-          <tr>
-            <td>$ gpg –export packages@opscode.com</td>
-            <td>tee /etc/apt/trusted.gpg.d/opscode-keyring.gpg &gt; /dev/null</td>
-          </tr>
-        </tbody>
-      </table>
-    </li>
-  </ul>
-</blockquote>
+<blockquote><p>$ echo &#8220;deb http://apt.opscode.com/ `lsb_release -cs`-0.10 main&#8221; | tee /etc/apt/sources.list.d/opscode.list<br />$ gpg &#8211;keyserver keys.gnupg.net &#8211;recv-keys 83EF826A<br />$ gpg &#8211;export packages@opscode.com | tee /etc/apt/trusted.gpg.d/opscode-keyring.gpg &gt; /dev/null</p></blockquote>
 
 <p>And finally install the opscode keymanager and and of course Chef.</p>
 
-<blockquote>
-
-  <ul>
-    <li>$ apt-get update</li>
-    <li>$ apt-get install opscode-keyring</li>
-    <li>$ apt-get install chef</li>
-  </ul>
-</blockquote>
+<blockquote><p>$ apt-get update<br />$ apt-get install opscode-keyring<br />$ apt-get install chef</p></blockquote>
 
 <p>The installer will ask for the chef URL. I used <strong>none</strong> because i will be using chef solo</p>
 
 <p>Now we need to add a user for <a href="http://vagrantup.com/">vagrant</a> to connect with.</p>
 
-<blockquote>
-
-  <ul>
-    <li>$ adduser vagrant </li>
-    <li>passwrd : vagrant</li>
-    <li>$ groupadd admin</li>
-    <li>$ usermod -a -G admin vagrant</li>
-  </ul>
-</blockquote>
+<blockquote><p>$ adduser vagrant <br />  passwrd : vagrant<br />$ groupadd admin<br />$ usermod -a -G admin vagrant</p></blockquote>
 
 <p>Make sure the admin users can <strong>sudo</strong> without a password.</p>
 
-<blockquote>
-
-  <ul>
-    <li>$ visudo</li>
-    <li>%admin  ALL=(ALL) NOPASSWD: ALL</li>
-  </ul>
-</blockquote>
+<blockquote><p>$ visudo<br />%admin  ALL=(ALL) NOPASSWD: ALL</p></blockquote>
 
 <p>Disable DNS for the SSH server. This should be a performance gain.</p>
 
-<blockquote>
-
-  <ul>
-    <li>$ vi /etc/etc/ssh/sshd_config</li>
-    <li>UseDNS no</li>
-  </ul>
-</blockquote>
+<blockquote><p>$ vi /etc/etc/ssh/sshd_config<br />UseDNS no</p></blockquote>
 
 <p>Change the MOTD to something nice</p>
 
-<blockquote>
-  <ul>
-    <li>$ bash -c “echo ‘Sweeet! A Vagrant box cooked by Chef!!’ &gt; /etc/motd”</li>
-    <li>$ chmod 0777 /etc/motd</li>
-  </ul>
-</blockquote>
+<blockquote><p>$ bash -c &#8220;echo &#8216;Sweeet! A Vagrant box cooked by Chef!!&#8217; &gt; /etc/motd&#8221;<br />$ chmod 0777 /etc/motd</p></blockquote>
 
 <p>Switch to the vagrant user to setup the <strong>insecure</strong> vagrant public SSH key.</p>
 
-<blockquote>
-  <ul>
-    <li>$ su vagrant</li>
-    <li>mkdir -p ~/.ssh</li>
-    <li>chmod 0700 ~/.ssh</li>
-    <li>curl -o ~/.ssh/authorized_keys https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub</li>
-    <li>chmod 0600 ~/.ssh/authorized_keys </li>
-  </ul>
-</blockquote>
+<blockquote><p>$ su vagrant<br />$ mkdir -p ~/.ssh<br />$ chmod 0700 ~/.ssh<br />$ curl -o ~/.ssh/authorized_keys https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub<br />$ chmod 0600 ~/.ssh/authorized_keys</p></blockquote>
 
 <p>That’s it for the VM. Now it’s time for vagrant to do some magic. First we need to create a vagrant package from the newly created VM.</p>
 
-<blockquote>
-  <ul>
-    <li>$ vagrant package –base devbox</li>
-    <li>$ mv package.box devbox.box</li>
-  </ul>
-</blockquote>
+<blockquote><p>$ vagrant package &#8211;base devbox<br />$ mv package.box devbox.box</p></blockquote>
 
 <p>Done! Let’s test it.</p>
 
-<blockquote>
-  <ul>
-    <li>$ vagrant box add devbox devbox.box</li>
-    <li>$ mkdir test &amp;&amp; cd test</li>
-    <li>$ vagrant init devbox</li>
-    <li>$ vagrant up</li>
-    <li>$ vagrant ssh</li>
-  </ul>
-</blockquote>
+<blockquote><p>$ vagrant box add devbox devbox.box<br />$ mkdir test &amp;&amp; cd test<br />$ vagrant init devbox<br />$ vagrant up<br />$ vagrant ssh</p></blockquote>
 
 <p>Voila ssh’d into the VM</p>
 
-<blockquote>
-
-  <ul>
-    <li>$ exit</li>
-    <li>$ vagrant halt</li>
-    <li>$ vagrant destroy</li>
-  </ul>
-</blockquote>
+<blockquote><p>$ exit<br />$ vagrant halt<br />$ vagrant destroy</p></blockquote>
 
 <p>So that’s all fine and dandy. But a base system with SSH is not that useful. So that’s where Chef comes in. Like i mentioned earlier i won’t be using a Chef-Server. I will be using Chef-Solo. And will be doing a very basic setup.</p>
 
 <p>A Chef install script is called a <a href="http://wiki.opscode.com/display/chef/Cookbooks">cookbook</a>. And they can be found all over the place. But the main repository is over here (find more here https://github.com/opscode/cookbooks). So in our vagrant folder we create a folder called cookbooks.</p>
 
-<blockquote>
-  <ul>
-    <li>$ mkdir cookbooks</li>
-    <li>$ cd cookbooks</li>
-  </ul>
-</blockquote>
+<blockquote><p>$ mkdir cookbooks<br />$ cd cookbooks</p></blockquote>
 
 <p>And we install some basic cookbooks. Plus a very simple one i hacked together to install the latest <a href="http://www.dotdeb.org/">dotdeb</a> package repositories.</p>
 
@@ -1536,13 +1318,7 @@ $ sudo dpkg -i linux-image-3.4.0-030400-generic</em>3.4.0-030400.201205210521_am
 
 <p>uncomment the :hostonly line so we can acces apache from our local box. And setup a hosts file mapping</p>
 
-<blockquote>
-  <ul>
-    <li>config.vm.network :hostonly, “192.168.164.123”</li>
-    <li>$ sudo sed -i ‘$ a\</li>
-    <li>192.168.164.123	dev.box’ /etc/hosts</li>
-  </ul>
-</blockquote>
+<blockquote><p>config.vm.network :hostonly, &#8220;192.168.164.123&#8221;<br />$ sudo echo &#8220;192.168.164.123  dev.box&#8221; &gt;&gt; /etc/hosts</p></blockquote>
 
 <p>Configure chef’s cookbook path and add some recipes from the cloned cookbooks.</p>
 
@@ -1579,46 +1355,15 @@ end
 
 <p>Time to call vagrant again. And this time the startup takes a bit longer. All the selected packages get installed. And once that’s done. And a fresh development box is waiting.</p>
 
-<blockquote>
-
-  <ul>
-    <li>$ vagrant up</li>
-    <li>$ vagrant ssh</li>
-  </ul>
-</blockquote>
+<blockquote><p>$ vagrant up<br />$ vagrant ssh</p></blockquote>
 
 <p>Let’s check PHP</p>
 
-<blockquote>
-  <ul>
-    <li>$ php -v</li>
-    <li>PHP 5.4.6-1~dotdeb.0 (cli) (built: Aug 19 2012 08:45:58) </li>
-    <li>Copyright (c) 1997-2012 The PHP Group</li>
-    <li>Zend Engine v2.4.0, Copyright (c) 1998-2012 Zend Technologies</li>
-  </ul>
-</blockquote>
+<blockquote><p>$ php -v<br />PHP 5.4.6-1~dotdeb.0 (cli) (built: Aug 19 2012 08:45:58) <br />Copyright (c) 1997-2012 The PHP Group<br />Zend Engine v2.4.0, Copyright (c) 1998-2012 Zend Technologies</p></blockquote>
 
 <p>What about apache?</p>
 
-<blockquote>
-  <ul>
-    <li>
-      <table>
-        <tbody>
-          <tr>
-            <td>$ ps -aux</td>
-            <td>grep apache</td>
-          </tr>
-        </tbody>
-      </table>
-    </li>
-    <li>root       790  0.1  0.2   5352  2580 ?        Ss   23:40   0:00 /usr/sbin/apache2 -k start</li>
-    <li>www-data   793  0.0  0.1   5124  1764 ?        S    23:40   0:00 /usr/sbin/apache2 -k start</li>
-    <li>www-data   797  0.0  0.2 546408  2412 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start</li>
-    <li>www-data   798  0.0  0.2 546408  2404 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start</li>
-    <li>www-data   811  0.0  0.2 546408  2424 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start</li>
-  </ul>
-</blockquote>
+<blockquote><p>$ ps -aux | grep apache<br />root       790  0.1  0.2   5352  2580 ?        Ss   23:40   0:00 /usr/sbin/apache2 -k start<br />www-data   793  0.0  0.1   5124  1764 ?        S    23:40   0:00 /usr/sbin/apache2 -k start<br />www-data   797  0.0  0.2 546408  2412 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start<br />www-data   798  0.0  0.2 546408  2404 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start<br />www-data   811  0.0  0.2 546408  2424 ?        Sl   23:40   0:00 /usr/sbin/apache2 -k start</p></blockquote>
 
 <p>Nice! And Pointing the browser to http://localhost:8080 loads the NFS shared folder up through Apache. That’s it for now. Time to sleep…</p>
 
@@ -1640,27 +1385,7 @@ end
 
 <p>First of it’s probably a good thing to gather some of the available colors. A good resource is available <a href="https://wiki.archlinux.org/index.php/Color_Bash_Prompt">here</a>. Some of the colors and their corresponding codes can be found below.</p>
 
-<blockquote>
-
-  <ul>
-    <li>Black         0;30</li>
-    <li>Blue          0;34</li>
-    <li>Green         0;32</li>
-    <li>Cyan          0;36</li>
-    <li>Red           0;31</li>
-    <li>Purple        0;35</li>
-    <li>Brown         0;33</li>
-    <li>Light Gray    0;37 </li>
-    <li>Dark Gray     1;30</li>
-    <li>Light Blue    1;34</li>
-    <li>Light Green   1;32</li>
-    <li>Light Cyan    1;36</li>
-    <li>Light Red     1;31</li>
-    <li>Light Purple  1;35</li>
-    <li>Yellow        1;33</li>
-    <li>White         1;37</li>
-  </ul>
-</blockquote>
+<blockquote><p>Black         0;30<br />Blue          0;34<br />Green         0;32<br />Cyan          0;36<br />Red           0;31<br />Purple        0;35<br />Brown         0;33<br />Light Gray    0;37 <br />Dark Gray     1;30<br />Light Blue    1;34<br />Light Green   1;32<br />Light Cyan    1;36<br />Light Red     1;31<br />Light Purple  1;35<br />Yellow        1;33<br />White         1;37</p></blockquote>
 
 <p>So how do i output colors you ask? Well that’s just plain easy. It’s a bit like setting up colors in your linux PS1 env variable.</p>
 

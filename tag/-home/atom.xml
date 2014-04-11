@@ -4,7 +4,7 @@
   <title><![CDATA[Category: /home | Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/tag/-home/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2014-04-12T00:15:26+02:00</updated>
+  <updated>2014-04-12T00:41:19+02:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -153,26 +153,15 @@ Class GoogleReaderShare
 
 <p>Apparently the bug that causes these crashes is fixed in 12.10. But the changes will only be backported when 12.10 is released. So that leaves me in quite a pickle. But according to the thread. Upgrading the kernel should do the trick. So that’s exactly what i did. The kernel packages i used can be found here <a href="http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/">http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/</a></p>
 
-<blockquote>
-  <p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-headers-3.4.0-030400<em>3.4.0-030400.201205210521_all.deb 
-$ sudo dpkg -i linux-headers-3.4.0-030400</em>3.4.0-030400.201205210521_all.deb</p>
-</blockquote>
+<p><blockquote><p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-headers-3.4.0-030400<em>3.4.0-030400.201205210521_all.deb <br/>$ sudo dpkg -i linux-headers-3.4.0-030400</em>3.4.0-030400.201205210521_all.deb</p></blockquote></p>
 
-<blockquote>
-  <p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-headers-3.4.0-030400-generic<em>3.4.0-030400.201205210521_amd64.deb
-$ sudo dpkg -i linux-headers-3.4.0-030400-generic</em>3.4.0-030400.201205210521_amd64.deb</p>
-</blockquote>
+<p><blockquote><p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-headers-3.4.0-030400-generic<em>3.4.0-030400.201205210521_amd64.deb<br/>$ sudo dpkg -i linux-headers-3.4.0-030400-generic</em>3.4.0-030400.201205210521_amd64.deb</p></blockquote></p>
 
-<blockquote>
-  <p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-image-3.4.0-030400-generic<em>3.4.0-030400.201205210521_amd64.deb
-$ sudo dpkg -i linux-image-3.4.0-030400-generic</em>3.4.0-030400.201205210521_amd64.deb</p>
-</blockquote>
+<p><blockquote><p>$ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.4-precise/linux-image-3.4.0-030400-generic<em>3.4.0-030400.201205210521_amd64.deb<br/>$ sudo dpkg -i linux-image-3.4.0-030400-generic</em>3.4.0-030400.201205210521_amd64.deb</p></blockquote></p>
 
 <p>This comes with a downside of course. All modules compiled for the current kernel need to be recompiled. And i haven’t figured out how to rebuild all of them at once. So i just ran the command below for <a href="https://www.virtualbox.org/">VirtualBox</a> and the <a href="http://www.nvidia.com">NVidia</a> drivers.</p>
 
-<blockquote>
-  <p>$ sudo dpkg-reconfigure package-name</p>
-</blockquote>
+<p><blockquote><p>$ sudo dpkg-reconfigure package-name</p></blockquote></p>
 
 <p>It’s probably a better idea to keep the stable kernel for now. But if system crashes are really bugging you. Then this might resolve the issue. Just be careful.</p>
 ]]></content>
