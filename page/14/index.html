@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Is PHP an Application At the office here they are trying to make a portfolio about the stuff we build. The strange thing is they also want to add a &hellip;">
+    <meta name="description" content="Enable XDebug in Zend Studio for Eclipse I’m a great fan of the Zend Studio for Eclipse IDE. But there is one think that just didn’t feel right. At &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,64 +57,6 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
-  
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2008/08/is-php-an-application/">Is PHP an Application</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>At the office here they are trying to make a portfolio about the stuff we build. The strange thing is they also want to add a list of day to day applications we use. The question came up if we need to add PHP to the list. One of our Delphi/Pascal programmers thought adding the Delphi programming language would be good. I argued that Delphi is not an application but a programming language. Turns out we have a different view on this.</p>
-
-<p>While we build almost every web related bit in PHP. i don’t see it as an application. And application is a layer between the low level computer and the user. The application does what the user wants to preform on the computer. An application can be anything from a simple text editor to a full blown IDE.</p>
-
-<p>And all these applications have one thing in common. They are written in programming languages. Without programming languages there would not be any applications. O well. just my point of view :)</p>
-
-<p>UPDATE*</p>
-
-<p>Ok so i had a good discussion with one of the other Delphi guys. And seems we talk different about the same subject. As i work soly on PHP. PHP is my programming language. And it’s also the interpeter living on the server. So really it’s both an application and a programming language. Now i understand what the Delphi guys meant.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2008/08/is-php-an-application/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-08-18T06:50:58+02:00" pubdate data-updated="true">Aug 18<span>th</span>, 2008</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
   
   
   <article>
@@ -823,6 +765,86 @@ track down problems with slow loading pages. Or just a tool to help with optimiz
   </footer>
   </article>
   
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2008/06/zend-framework-is-confused/">Zend Framework Is Confused</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>I decided to give the <a href="http://framework.zend.com/">Zend Framework</a> a try. The first attempt to create a simple SOAP based login.</p>
+
+<p>In the first few hours i had absolutely now problems building my small application. But for some strange reason after a few hours ZF started to throw error’s. Mainly for files it was trying to include. These files were in the correct location. Nothing changed. The include path was still set correctly. I found a few bug reports with similar problems. Although there were some solutions. I was not satisfied with them. And had the feeling the problems were caused by something else.</p>
+
+<p>So after i read threw all code. I notice a few lines i copied from <a href="http://www.calevans.com/">Cal Evans</a> <a href="http://phparch.com/c/books/id/9780973862157">book</a>. These lines mainly set the include_path for the current application. And it looked something like this:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$lib_paths</span> = <span class="predefined">array</span>();
+<span class="local-variable">$lib_paths</span>[] = <span class="string"><span class="delimiter">&quot;</span><span class="content">/path/to/application</span><span class="delimiter">&quot;</span></span>;
+<span class="local-variable">$lib_paths</span>[] = <span class="string"><span class="delimiter">&quot;</span><span class="content">/path/to/library</span><span class="delimiter">&quot;</span></span>;
+<span class="local-variable">$inc_path</span> = <span class="predefined">implode</span>(<span class="predefined-constant">PATH_SEPARATOR</span>, <span class="local-variable">$lib_paths</span>);
+<span class="predefined">set_include_path</span>(<span class="local-variable">$inc_path</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>I noticed the application directory was added first. So this is also the first part where PHP starts looking for it’s include files. So i decided to switch them. So the code looks like this now:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$lib_paths</span> = <span class="predefined">array</span>();
+<span class="local-variable">$lib_paths</span>[] = <span class="string"><span class="delimiter">&quot;</span><span class="content">/path/to/library</span><span class="delimiter">&quot;</span></span>;
+<span class="local-variable">$lib_paths</span>[] = <span class="string"><span class="delimiter">&quot;</span><span class="content">/path/to/application</span><span class="delimiter">&quot;</span></span>;
+<span class="local-variable">$inc_path</span> = <span class="predefined">implode</span>(<span class="predefined-constant">PATH_SEPARATOR</span>, <span class="local-variable">$lib_paths</span>);
+<span class="predefined">set_include_path</span>(<span class="local-variable">$inc_path</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>After this change the problem seems to have been resolved. I still would like to figure out why ZF has problems with finding it’s own include files. Maybe it’s a combination of the wrong include order and the .htaccess file not working well together.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2008/06/zend-framework-is-confused/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-06-23T12:46:41+02:00" pubdate data-updated="true">Jun 23<span>rd</span>, 2008</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
+  
 
   <ul class="pager">
     
@@ -905,7 +927,7 @@ track down problems with slow loading pages. Or just a tool to help with optimiz
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.0%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(120)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.0%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.0%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.0%'>Git(2)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.0%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.5%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.0%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.0%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.0%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.0%'>Security(8)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.0%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 149.0%'>Tech(98)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.0%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.03361344537815%'>Security(8)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>
