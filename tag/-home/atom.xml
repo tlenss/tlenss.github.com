@@ -4,7 +4,7 @@
   <title><![CDATA[Category: /home | Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/tag/-home/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2014-04-12T11:07:29+02:00</updated>
+  <updated>2014-04-12T11:14:41+02:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -299,15 +299,7 @@ If you’re looking for a new challenging and exiting Senior Webdeveloper positi
 
 <p>To test if everything is working i do a test commit. If that succeeds if push it out to the remote master.</p>
 
-<blockquote>
-
-  <ul>
-    <li>$ cd project.git</li>
-    <li>$ touch TEST</li>
-    <li>$ git commit </li>
-    <li>$ git push origin master</li>
-  </ul>
-</blockquote>
+<p><blockquote><p>$ cd project.git<br/>$ touch TEST<br/>$ git commit <br/>$ git push origin master</p></blockquote></p>
 
 <p>So that works fine. Now time to see how Zen Studio handles this. To create a project i use the <strong>Create from Git</strong> option. And select the local checkout i just created. This will read the whole repository configuration. And you are basically done from here. But as i mentioned earlier, i had some difficulties getting things running smoothly. I discovered that when it was time to push changes to the master repository.</p>
 
@@ -319,24 +311,11 @@ If you’re looking for a new challenging and exiting Senior Webdeveloper positi
 
 <p>So lets download this JSch library and update it manually. The library (JSch v 0.1.46) can be found <a href="http://www.jcraft.com/jsch/">here</a>.</p>
 
-<blockquote>
-
-  <ul>
-    <li>$ cd ZendStudio9</li>
-    <li>$ find . -name ‘<em>jsch</em>’ -type f</li>
-  </ul>
-</blockquote>
+<p><blockquote><p>$ cd ZendStudio9<br/>$ find . -name ‘<em>jsch</em>’ -type f</p></blockquote></p>
 
 <p>Found it <strong>plugins/com.jcraft.jsch_0.1.41.v201101211617.jar</strong>. So let’s try to update that.</p>
 
-<blockquote>
-
-  <ul>
-    <li>$ cp plugins/com.jcraft.jsch<em>0.1.41.v201101211617.jar plugins/com.jcraft.jsch</em>0.1.41.v201101211617.jar.backup</li>
-    <li>$ wget http://sourceforge.net/projects/jsch/files/jsch.jar/0.1.46/jsch-0.1.46.jar/download</li>
-    <li>$ mv jsch-0.1.46.jar plugins/com.jcraft.jsch_0.1.41.v201101211617.jar</li>
-  </ul>
-</blockquote>
+<p><blockquote><p>$ cp plugins/com.jcraft.jsch<em>0.1.41.v201101211617.jar plugins/com.jcraft.jsch</em>0.1.41.v201101211617.jar.backup<br/>$ wget http://sourceforge.net/projects/jsch/files/jsch.jar/0.1.46/jsch-0.1.46.jar/download<br/>$ mv jsch-0.1.46.jar plugins/com.jcraft.jsch_0.1.41.v201101211617.jar</p></blockquote></p>
 
 <p>After restarting ZS everything worked fine again. Another problem solved! Thanks to the guys who posted in the EGit bug thread. Some good community Karma here! Time for other things. Hope it helps!</p>
 ]]></content>
