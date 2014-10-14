@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="PHP 5.3 Almost Ready for Release. The long awaited 5.3 version is near it’s final stage. I’ve been really looking forward to this. ###### 1. July &hellip;">
+    <meta name="description" content="Zend_Db Connects to Wrong Mysql Socket While working on a small project today. I was confronted with a Zend_Db exception that i have seen before. &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,109 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2009/06/zend_db-connects-to-wrong-mysql-socket/">Zend_Db Connects to Wrong Mysql Socket</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>While working on a small project today. I was confronted with a Zend_Db exception that i have seen before. But it still had me searching for a solution. So this time i will write it done for future reference.</p>
+
+<p>I’m working on a small ZF project which uses the MVC structure. And in the Initializer the database connection is setup like this:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">public</span> <span class="keyword">function</span> <span class="function">initDb</span>()
+{
+  <span class="local-variable">$pdoParams</span> = <span class="predefined">array</span>(
+    <span class="constant">PDO</span>::<span class="constant">MYSQL_ATTR_USE_BUFFERED_QUERY</span> =&gt; <span class="predefined-constant">true</span>
+  );
+    
+  <span class="local-variable">$params</span> = <span class="predefined">array</span>(
+    <span class="string"><span class="delimiter">'</span><span class="content">host</span><span class="delimiter">'</span></span>     =&gt; <span class="string"><span class="delimiter">'</span><span class="content">localhost</span><span class="delimiter">'</span></span>,
+    <span class="string"><span class="delimiter">'</span><span class="content">username</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">***********</span><span class="delimiter">'</span></span>,
+    <span class="string"><span class="delimiter">'</span><span class="content">password</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">***********</span><span class="delimiter">'</span></span>,
+    <span class="string"><span class="delimiter">'</span><span class="content">dbname</span><span class="delimiter">'</span></span>   =&gt; <span class="string"><span class="delimiter">'</span><span class="content">***********</span><span class="delimiter">'</span></span>,
+    <span class="string"><span class="delimiter">'</span><span class="content">driver_options</span><span class="delimiter">'</span></span> =&gt; <span class="local-variable">$pdoParams</span>,
+  );
+    
+  <span class="local-variable">$db</span> = <span class="constant">Zend_Db</span>::factory(<span class="string"><span class="delimiter">'</span><span class="content">Pdo_Mysql</span><span class="delimiter">'</span></span>, <span class="local-variable">$params</span>);
+  <span class="constant">Zend_Db_Table_Abstract</span>::setDefaultAdapter(<span class="local-variable">$db</span>);
+  <span class="constant">Zend_Registry</span>::set(<span class="string"><span class="delimiter">'</span><span class="content">DB</span><span class="delimiter">'</span></span>, <span class="local-variable">$db</span>);
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>So when i first instantiated a connection to the database i was presented a nice error on screen. The stack trace is quiet long. But this is the most relevant part.</p>
+
+<blockquote>
+  <p>exception ‘Zend_Db_Adapter_Exception’ with message ‘SQLSTATE[HY000] [2002] Can’t connect to local MySQL server through socket ‘/tmp/mysql.sock’ (2)’</p>
+</blockquote>
+
+<p>The php bug tracker revealed a nice <a href="http://bugs.php.net/bug.php?id=34988">solution</a>. For some strange reason the PDO extension can’t determine the correct socket while the mysql, mysqli extensions can. This is easily solved in the bootstrap of the project by adding an extra parameter to the config array passed when calling Zend_Db::factory();</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$params</span> = <span class="predefined">array</span>(
+  <span class="string"><span class="delimiter">'</span><span class="content">host</span><span class="delimiter">'</span></span>     =&gt; <span class="string"><span class="delimiter">'</span><span class="content">localhost</span><span class="delimiter">'</span></span>,
+  <span class="string"><span class="delimiter">'</span><span class="content">username</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">***********</span><span class="delimiter">'</span></span>,
+  <span class="string"><span class="delimiter">'</span><span class="content">password</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">***********</span><span class="delimiter">'</span></span>,
+  <span class="string"><span class="delimiter">'</span><span class="content">dbname</span><span class="delimiter">'</span></span>   =&gt; <span class="string"><span class="delimiter">'</span><span class="content">***********</span><span class="delimiter">'</span></span>,
+  <span class="string"><span class="delimiter">'</span><span class="content">driver_options</span><span class="delimiter">'</span></span> =&gt; <span class="local-variable">$pdoParams</span>,
+  <span class="string"><span class="delimiter">'</span><span class="content">unix_socket</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">/var/run/mysqld/mysqld.sock</span><span class="delimiter">'</span></span>
+);
+
+<span class="local-variable">$db</span> = <span class="constant">Zend_Db</span>::factory(<span class="string"><span class="delimiter">'</span><span class="content">Pdo_Mysql</span><span class="delimiter">'</span></span>, <span class="local-variable">$params</span>);
+<span class="constant">Zend_Db_Table_Abstract</span>::setDefaultAdapter(<span class="local-variable">$db</span>);
+<span class="constant">Zend_Registry</span>::set(<span class="string"><span class="delimiter">'</span><span class="content">DB</span><span class="delimiter">'</span></span>, <span class="local-variable">$db</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2009/06/zend_db-connects-to-wrong-mysql-socket/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-06-27T12:12:19+02:00" pubdate data-updated="true">Jun 27<span>th</span>, 2009</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -706,59 +809,6 @@ $ extension=mysqli.so</p>
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2009/04/getting-used-to-the-new-office/">Getting Used to the New Office</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>Last week was the big move for us. We were first located on the <a href="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Brouwersgracht,+Amsterdam&amp;sll=37.0625,-95.677068&amp;sspn=53.300127,114.257812&amp;ie=UTF8&amp;z=16&amp;iwloc=A">Brouwersgracht</a> in Amsterdam. But it was getting to small for us. Besides we wanted to team up with some other smart people. So we decided for a bigger office. This time on the <a href="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Herengracht+416,+Amsterdam&amp;sll=37.0625,-95.677068&amp;sspn=53.300127,114.257812&amp;ie=UTF8&amp;z=16">Herengracht</a> in some old “<a href="http://nl.wikipedia.org/wiki/Grachtenpand">grachtenpand</a>”. Right in the center of Amsterdam. What a location. And i am not even speaking of the great nostalgic looks of the office i am in right now. I will try to post some images later this week.</p>
-
-<p>It took us about a week to get ready in the new office. And not everything has it’s place yet. But that’s just a matter of time i guess. We are still waiting for a new fast Internet connection. So for the time being we are sharing a line with another office. This of course leads to some security issues. But we will manage until the new connection is delivered.</p>
-
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2009/04/getting-used-to-the-new-office/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-04-14T17:25:01+02:00" pubdate data-updated="true">Apr 14<span>th</span>, 2009</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/-home/'>/home</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
-  
 
   <ul class="pager">
     
@@ -802,6 +852,8 @@ $ extension=mysqli.so</p>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://blog.lenss.nl/2014/09/secure-cloud-storage-with-google-and-encfs-on-ubuntu/">Secure cloud storage with Google and encfs on Ubuntu</a></li>
+		
 		<li><a href="http://blog.lenss.nl/2013/11/first-weekday-of-month-in-php/">Get the first weekday of the month in PHP</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/10/git-move-folder-containing-submodules/">Renaming a folder in git that contains submodules</a></li>
@@ -819,8 +871,6 @@ $ extension=mysqli.so</p>
 		<li><a href="http://blog.lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/">Zend Optimizer+ integrated into 5.5</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/02/phpness-serious-wtf/">PHPness Serious WTF</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2012/11/publish-google-reader-shared-items/">Publish Google Reader shared items</a></li>
 		
 	</ul>
 </div>
@@ -841,7 +891,7 @@ $ extension=mysqli.so</p>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.03361344537815%'>Security(8)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.50420168067227%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.53781512605042%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

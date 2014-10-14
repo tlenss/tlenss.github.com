@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Enable XDebug in Zend Studio for Eclipse I’m a great fan of the Zend Studio for Eclipse IDE. But there is one think that just didn’t feel right. At &hellip;">
+    <meta name="description" content="SVN Repository and Project Structure When i first started out as a web developer. i didn’t really mind about structure. Almost every project had &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,162 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2008/08/svn-repository-and-project-structure/">SVN Repository and Project Structure</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>When i first started out as a web developer. i didn’t really mind about structure. Almost every project had different directory structure. And <a href="http://en.wikipedia.org/wiki/Namespace">namespaces</a> i never heard off. I noticed that the longer i write code. The more I’m looking for a basic structure to start from. This can be the structure of a web application / site. but also the structure inside the <a href="http://subversion.tigris.org/">SVN</a> repository.</p>
+
+<p>So today i took a bit of time to think about a good structure for our new SVN repository here at the office. After a bit of browsing the web. Looking at other proposals. And looking around our old SVN repository. I came up with a new structure.</p>
+
+<p>Our SVN repository will start off with three directories.</p>
+
+<blockquote>
+
+  <ul>
+    <li>– Development</li>
+    <li>– Design</li>
+    <li>– ??</li>
+  </ul>
+</blockquote>
+
+<p>The Development directory is what i will be talking about. I can’t talk for the designers. Because.. well i’m not one of them. Although i did a lot of design work in the past. The ?? directory is for another part of our department. So let’s see what i came up with.</p>
+
+<p>Inside the Development directory we start of with two directories.</p>
+
+<blockquote>
+
+  <ul>
+    <li>– Projects</li>
+    <li>– Library</li>
+  </ul>
+</blockquote>
+
+<p><strong>Projects:</strong>
+This directory will contain all projects. With projects i mean web applications / sites. All these projects will adhere to a basic structure. Which i will talk about a bit later. Besides the same basic structure. Every projects has the trunk, tags and branches sub directories. If a project contains “sub” projects. The trunk, tags and branches will shift one level deeper in the tree. Below is a small example.</p>
+
+<blockquote>
+
+  <ul>
+    <li>– Project_1</li>
+    <li>—- trunk</li>
+    <li>—- tags</li>
+    <li>—- branches</li>
+    <li>– Project_2</li>
+    <li>—- www</li>
+    <li>—— trunk</li>
+    <li>—— tags</li>
+    <li>—— branches</li>
+    <li>—- intranet</li>
+    <li>—— trunk</li>
+    <li>—— tags</li>
+    <li>—— branches</li>
+  </ul>
+</blockquote>
+
+<p><strong>Library:</strong>
+The library directory will contain all shared libraries. This can be third party libraries or internally developed libraries that will be used in multiple applications. Below is a small example. I’m not sure about the trunk, tags, branches directories yet. For the internally developed libraries we will implement this structure. For the third party libraries we won’t. I think :)</p>
+
+<blockquote>
+
+  <ul>
+    <li>– Zend</li>
+    <li>– DB</li>
+    <li>—- trunk</li>
+    <li>—- tags</li>
+    <li>—- branches</li>
+  </ul>
+</blockquote>
+
+<p>Now this will cover most of the project parts. What’s left now is defining a basic structure for the projects that will ive inside the repository and on the web servers. For a basic structure i’m inspired by the layout of an <a href="http://framework.zend.com">Zend Framework</a> <a href="http://nl.wikipedia.org/wiki/Model-View-Controller-model">MVC</a> style project. Why? i already work with this structure for a while now. outside and inside the Zend Framework projects. It separates the code from the views / templates. It makes sure the code is outside the web root. And it just looks clean.</p>
+
+<p>So for our projects i came up with this structure.</p>
+
+<p>The structure really consists of three parts. The first is “public”. This directory contains all data that should be globally accessible. We can think about images, stylesheetes, javascript libraries, etc.</p>
+
+<blockquote>
+
+  <ul>
+    <li>– public</li>
+    <li>—- images</li>
+    <li>—- css</li>
+    <li>—- scripts</li>
+    <li>—- index.*</li>
+  </ul>
+</blockquote>
+
+<p>The application directory contains all the real code and views / templates. All views / templates will be stored in the views directory. All project specific code will be placed in the library directory. And if the project is MVC based. It will use the controllers directory to store the application controllers.</p>
+
+<blockquote>
+
+  <ul>
+    <li>– application</li>
+    <li>—- controllers</li>
+    <li>—- library</li>
+    <li>—- views</li>
+  </ul>
+</blockquote>
+
+<p>The final part of the structure is a collection of directories that can but are not always used in a project. </p>
+
+<p>The logs directory can be handy for logging data of the application. But can also be used to store php error logs or maybe even Apache logs. The cache directory is there to store cached files. The structure inside this directory will depend on the cache mechanism used in the project. The files directory contains files that are somehow linked to the project but have no place in any other directories. Some test scripts or tools can be placed there. And last but not least the docs directory. Which will contain all project documentation.</p>
+
+<blockquote>
+
+  <ul>
+    <li>– logs</li>
+    <li>– cache</li>
+    <li>– files</li>
+    <li>– docs</li>
+  </ul>
+</blockquote>
+
+<p>I wanted to post this yesterday. But i just couldn’t find any time for it. Yesterday i showed the initial proposal to the rest of the team. But we didn’t decide yet. What the final structure will be.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2008/08/svn-repository-and-project-structure/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-08-20T07:54:06+02:00" pubdate data-updated="true">Aug 20<span>th</span>, 2008</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -765,86 +921,6 @@ track down problems with slow loading pages. Or just a tool to help with optimiz
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2008/06/zend-framework-is-confused/">Zend Framework Is Confused</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>I decided to give the <a href="http://framework.zend.com/">Zend Framework</a> a try. The first attempt to create a simple SOAP based login.</p>
-
-<p>In the first few hours i had absolutely now problems building my small application. But for some strange reason after a few hours ZF started to throw error’s. Mainly for files it was trying to include. These files were in the correct location. Nothing changed. The include path was still set correctly. I found a few bug reports with similar problems. Although there were some solutions. I was not satisfied with them. And had the feeling the problems were caused by something else.</p>
-
-<p>So after i read threw all code. I notice a few lines i copied from <a href="http://www.calevans.com/">Cal Evans</a> <a href="http://phparch.com/c/books/id/9780973862157">book</a>. These lines mainly set the include_path for the current application. And it looked something like this:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$lib_paths</span> = <span class="predefined">array</span>();
-<span class="local-variable">$lib_paths</span>[] = <span class="string"><span class="delimiter">&quot;</span><span class="content">/path/to/application</span><span class="delimiter">&quot;</span></span>;
-<span class="local-variable">$lib_paths</span>[] = <span class="string"><span class="delimiter">&quot;</span><span class="content">/path/to/library</span><span class="delimiter">&quot;</span></span>;
-<span class="local-variable">$inc_path</span> = <span class="predefined">implode</span>(<span class="predefined-constant">PATH_SEPARATOR</span>, <span class="local-variable">$lib_paths</span>);
-<span class="predefined">set_include_path</span>(<span class="local-variable">$inc_path</span>);
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>I noticed the application directory was added first. So this is also the first part where PHP starts looking for it’s include files. So i decided to switch them. So the code looks like this now:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$lib_paths</span> = <span class="predefined">array</span>();
-<span class="local-variable">$lib_paths</span>[] = <span class="string"><span class="delimiter">&quot;</span><span class="content">/path/to/library</span><span class="delimiter">&quot;</span></span>;
-<span class="local-variable">$lib_paths</span>[] = <span class="string"><span class="delimiter">&quot;</span><span class="content">/path/to/application</span><span class="delimiter">&quot;</span></span>;
-<span class="local-variable">$inc_path</span> = <span class="predefined">implode</span>(<span class="predefined-constant">PATH_SEPARATOR</span>, <span class="local-variable">$lib_paths</span>);
-<span class="predefined">set_include_path</span>(<span class="local-variable">$inc_path</span>);
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>After this change the problem seems to have been resolved. I still would like to figure out why ZF has problems with finding it’s own include files. Maybe it’s a combination of the wrong include order and the .htaccess file not working well together.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2008/06/zend-framework-is-confused/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-06-23T12:46:41+02:00" pubdate data-updated="true">Jun 23<span>rd</span>, 2008</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
-  
 
   <ul class="pager">
     
@@ -888,6 +964,8 @@ track down problems with slow loading pages. Or just a tool to help with optimiz
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://blog.lenss.nl/2014/09/secure-cloud-storage-with-google-and-encfs-on-ubuntu/">Secure cloud storage with Google and encfs on Ubuntu</a></li>
+		
 		<li><a href="http://blog.lenss.nl/2013/11/first-weekday-of-month-in-php/">Get the first weekday of the month in PHP</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/10/git-move-folder-containing-submodules/">Renaming a folder in git that contains submodules</a></li>
@@ -905,8 +983,6 @@ track down problems with slow loading pages. Or just a tool to help with optimiz
 		<li><a href="http://blog.lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/">Zend Optimizer+ integrated into 5.5</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/02/phpness-serious-wtf/">PHPness Serious WTF</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2012/11/publish-google-reader-shared-items/">Publish Google Reader shared items</a></li>
 		
 	</ul>
 </div>
@@ -927,7 +1003,7 @@ track down problems with slow loading pages. Or just a tool to help with optimiz
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.03361344537815%'>Security(8)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.50420168067227%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.53781512605042%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

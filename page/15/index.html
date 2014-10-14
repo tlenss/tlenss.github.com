@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Multiple Versions of Internet Explorer on One Machine When designing pages for multiple browsers. It’s pretty much a pain in the ass to get things &hellip;">
+    <meta name="description" content="Zend Framework Is Confused I decided to give the Zend Framework a try. The first attempt to create a simple SOAP based login. In the first few hours &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,86 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2008/06/zend-framework-is-confused/">Zend Framework Is Confused</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>I decided to give the <a href="http://framework.zend.com/">Zend Framework</a> a try. The first attempt to create a simple SOAP based login.</p>
+
+<p>In the first few hours i had absolutely now problems building my small application. But for some strange reason after a few hours ZF started to throw error’s. Mainly for files it was trying to include. These files were in the correct location. Nothing changed. The include path was still set correctly. I found a few bug reports with similar problems. Although there were some solutions. I was not satisfied with them. And had the feeling the problems were caused by something else.</p>
+
+<p>So after i read threw all code. I notice a few lines i copied from <a href="http://www.calevans.com/">Cal Evans</a> <a href="http://phparch.com/c/books/id/9780973862157">book</a>. These lines mainly set the include_path for the current application. And it looked something like this:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$lib_paths</span> = <span class="predefined">array</span>();
+<span class="local-variable">$lib_paths</span>[] = <span class="string"><span class="delimiter">&quot;</span><span class="content">/path/to/application</span><span class="delimiter">&quot;</span></span>;
+<span class="local-variable">$lib_paths</span>[] = <span class="string"><span class="delimiter">&quot;</span><span class="content">/path/to/library</span><span class="delimiter">&quot;</span></span>;
+<span class="local-variable">$inc_path</span> = <span class="predefined">implode</span>(<span class="predefined-constant">PATH_SEPARATOR</span>, <span class="local-variable">$lib_paths</span>);
+<span class="predefined">set_include_path</span>(<span class="local-variable">$inc_path</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>I noticed the application directory was added first. So this is also the first part where PHP starts looking for it’s include files. So i decided to switch them. So the code looks like this now:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$lib_paths</span> = <span class="predefined">array</span>();
+<span class="local-variable">$lib_paths</span>[] = <span class="string"><span class="delimiter">&quot;</span><span class="content">/path/to/library</span><span class="delimiter">&quot;</span></span>;
+<span class="local-variable">$lib_paths</span>[] = <span class="string"><span class="delimiter">&quot;</span><span class="content">/path/to/application</span><span class="delimiter">&quot;</span></span>;
+<span class="local-variable">$inc_path</span> = <span class="predefined">implode</span>(<span class="predefined-constant">PATH_SEPARATOR</span>, <span class="local-variable">$lib_paths</span>);
+<span class="predefined">set_include_path</span>(<span class="local-variable">$inc_path</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>After this change the problem seems to have been resolved. I still would like to figure out why ZF has problems with finding it’s own include files. Maybe it’s a combination of the wrong include order and the .htaccess file not working well together.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2008/06/zend-framework-is-confused/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-06-23T12:46:41+02:00" pubdate data-updated="true">Jun 23<span>rd</span>, 2008</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -748,6 +828,8 @@ foo
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://blog.lenss.nl/2014/09/secure-cloud-storage-with-google-and-encfs-on-ubuntu/">Secure cloud storage with Google and encfs on Ubuntu</a></li>
+		
 		<li><a href="http://blog.lenss.nl/2013/11/first-weekday-of-month-in-php/">Get the first weekday of the month in PHP</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/10/git-move-folder-containing-submodules/">Renaming a folder in git that contains submodules</a></li>
@@ -765,8 +847,6 @@ foo
 		<li><a href="http://blog.lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/">Zend Optimizer+ integrated into 5.5</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/02/phpness-serious-wtf/">PHPness Serious WTF</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2012/11/publish-google-reader-shared-items/">Publish Google Reader shared items</a></li>
 		
 	</ul>
 </div>
@@ -787,7 +867,7 @@ foo
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.03361344537815%'>Security(8)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.50420168067227%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.53781512605042%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

@@ -623,8 +623,14 @@
         <lastmod>2014-03-28T22:23:04+01:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://blog.lenss.nl/2014/09/secure-cloud-storage-with-google-and-encfs-on-ubuntu/
+        </loc>
+        <lastmod>2014-10-14T16:07:53+02:00</lastmod>
+    </url>
+    <url>
         <loc>http://blog.lenss.nl/blog/archives/</loc>
-        <lastmod>2014-04-12T11:14:22+02:00</lastmod>
+        <lastmod>2014-10-14T16:07:53+02:00</lastmod>
     </url>
     <url>
         <loc>http://blog.lenss.nl/C773940D.asc</loc>
@@ -632,7 +638,7 @@
     </url>
     <url>
         <loc>http://blog.lenss.nl/</loc>
-        <lastmod>2014-04-12T11:14:22+02:00</lastmod>
+        <lastmod>2014-10-14T16:07:53+02:00</lastmod>
     </url>
     <url>
         <loc>http://blog.lenss.nl/index.html.old</loc>

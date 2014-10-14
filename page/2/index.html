@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Long Running PHP Script and MySQL Server Gone Away At the moment i am writing some workers that interact with a beanstalk server. When data gets &hellip;">
+    <meta name="description" content="Publish Google Reader Shared Items A lot of people are using the shared items feature in Google Reader to publish what they are reading on a blog. &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,134 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2012/11/publish-google-reader-shared-items/">Publish Google Reader Shared Items</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>A lot of people are using the shared items feature in <a href="http://www.google.nl/reader/">Google Reader</a> to publish what they are reading on a blog. It’s like having a live blogroll widget on your website. And gives your readers a good impression of what you are actually interested in.</p>
+
+<p>I never bothered adding this to my blog. But i do like to share. So last night i was trying to figure out how to integrate this with my current blog. I was hoping for an easy implementation. But the information is scarce. So i had to do some digging. I did find a couple of <a href="https://www.google.nl/search?q=wordpress+plugin+google+reader">Wordpress plugins</a>. But most of them were not updated for at least a year. And i am not putting code like that life on my website. </p>
+
+<p>After some Googling i came across a couple of feed URL’s that seem to share their <strong>shared</strong> items in feed form. Using the Google Reader URL and a user id. So the URL for my shared items would look like the one below. Getting your user id by the way is easy. Go to your Google reader page. Click all <strong>All items</strong> and the <strong>UID</strong> will show up in the address bar.</p>
+
+<blockquote>
+  <p>http://www.google.com/reader/shared/16525759780220726764</p>
+</blockquote>
+
+<p>The problem with this however. Non of my shared posts show up on this page. And i have not figured out a way to populate it just yet. So i came up with an other path to get this data on my server.</p>
+
+<p>In the Google Reader pages it’s possible to add sharing functionality. This is done by going to the <strong>Send To</strong> tab</p>
+
+<p><a href="http://blog.lenss.nl/images/2012/11/Send-To.png"><img src="http://blog.lenss.nl/images/2012/11/Send-To-300x22.png" alt="" /></a></p>
+
+<p>From here it’s possible to select a service to share data with. Non of these services are any good for what i am trying to do. But the great thing about this page is. You can provide custom URL’s for sharing data. Just incorporate the specified parameters in the URL and your done.</p>
+
+<p><a href="http://blog.lenss.nl/images/2012/11/Custom-Site.png"><img src="http://blog.lenss.nl/images/2012/11/Custom-Site-300x178.png" alt="" /></a></p>
+
+<p>Once configured and saved a custom URL is visible in the <strong>Send To</strong> panel</p>
+
+<p><a href="http://blog.lenss.nl/images/2012/11/Favorite-Site.png"><img src="http://blog.lenss.nl/images/2012/11/Favorite-Site-300x125.png" alt="" /></a></p>
+
+<p>That’s it for this part. Actually sharing items is quite easy now. When back in the Google Reader under each post there is Send to link. If you click this link the newly created custom URL will show up. And you can share the post.</p>
+
+<p><a href="http://blog.lenss.nl/images/2012/11/Tag-Article.png"><img src="http://blog.lenss.nl/images/2012/11/Tag-Article-300x41.png" alt="" /></a></p>
+
+<p>The only thing left to do is write some code to process the incoming data. To get you started. Some of the code i used while testing this is posted below</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>GoogleReaderShare class </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">Class</span> <span class="constant">GoogleReaderShare</span>
+{
+  <span class="keyword">const</span> <span class="constant">GOOGLE_REMOTE_IP</span> = <span class="string"><span class="delimiter">'</span><span class="content">95.97.54.3</span><span class="delimiter">'</span></span>;
+            
+  <span class="keyword">const</span> <span class="constant">GOOGLE_REFERER</span> = <span class="string"><span class="delimiter">'</span><span class="content">http://www.google.nl/reader/view/</span><span class="delimiter">'</span></span>;
+            
+  <span class="keyword">protected</span> <span class="keyword">static</span> <span class="local-variable">$_whitelist</span> = <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">source</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">title</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">url</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">short</span><span class="delimiter">'</span></span>);
+            
+  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">function</span> <span class="function">CheckSource</span>(<span class="local-variable">$remoteAddr</span>, <span class="local-variable">$referer</span>) 
+  {
+    <span class="keyword">if</span> ((<span class="local-variable">$remoteAddr</span> == <span class="predefined-constant">self</span>::<span class="constant">GOOGLE_REMOTE_IP</span>) 
+        &amp;&amp; (<span class="local-variable">$referer</span> == <span class="predefined-constant">self</span>::<span class="constant">GOOGLE_REFERER</span>)) {
+      <span class="keyword">return</span> <span class="predefined-constant">true</span>;
+    }
+    <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+  }
+            
+  <span class="keyword">protected</span> <span class="keyword">static</span> <span class="keyword">function</span> <span class="function">_CheckIncomingData</span>(<span class="local-variable">$data</span>)
+  {
+    <span class="keyword">if</span> (!<span class="predefined">is_array</span>(<span class="local-variable">$data</span>)) {
+      <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+    }
+                            
+    <span class="keyword">foreach</span> (<span class="local-variable">$data</span> <span class="keyword">as</span> <span class="local-variable">$key</span> =&gt; <span class="local-variable">$value</span>) {
+      <span class="keyword">if</span> (!<span class="predefined">in_array</span>(<span class="local-variable">$key</span>, <span class="predefined-constant">self</span>::<span class="local-variable">$_whitelist</span>)) {
+        <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+      }
+    }
+  }
+            
+  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">function</span> <span class="function">Process</span>(<span class="local-variable">$data</span>) 
+  {
+    <span class="keyword">if</span> (!<span class="predefined-constant">self</span>::_CheckIncomingData(<span class="local-variable">$data</span>)) {
+      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="predefined-constant">Exception</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Unrecognized or no incoming data</span><span class="delimiter">&quot;</span></span>);
+    }
+                    
+    <span class="comment">// process the data</span>
+  }
+ 
+  <span class="keyword">if</span> (<span class="constant">GoogleReaderShare</span>::<span class="constant">CheckSource</span>(<span class="predefined">$_SERVER</span>[<span class="string"><span class="delimiter">'</span><span class="content">REMOTE_ADDR</span><span class="delimiter">'</span></span>], <span class="predefined">$_SERVER</span>[<span class="string"><span class="delimiter">'</span><span class="content">HTTP_REFERER</span><span class="delimiter">'</span></span>])) {
+    <span class="constant">GoogleReaderShare</span>::<span class="constant">Process</span>(<span class="predefined">$_GET</span>);
+  }
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2012/11/publish-google-reader-shared-items/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-07T15:55:26+01:00" pubdate data-updated="true">Nov 7<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/google/'>Google</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -992,164 +1120,6 @@ end
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2012/05/abbywinters-is-looking-for-new-developers/">Abbywinters Is Looking for New Developers</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p><img class="left" src="http://blog.lenss.nl/images/2011/11/aw-logo-roundel-blue.png" />
-If you’re looking for a new challenging and exiting Senior Webdeveloper position. Don’t look any further. If you already think you have the job of your dreams. Think again!</p>
-
-<p><em><a href="http://www.abbywinters.com">abbywinters.com</a> <strong>(NSFW)</strong> is one of the largest and most ethical, highly rated, well designed, and successful erotic websites in the world today. abbywinters.com is the WINNER of the AVN 2011 Awards for Best Membership site!</em></p>
-
-<p>And we are looking to hire a new talented webdeveloper to expand our small team. What would you think about joining our small Agile team of highly qualified professionals? </p>
-
-<p>You will be creating sexy, exiting and game changing experiences for the web, work for one of the industry leaders. And just be part of an awesome company. Some of the jobs key elements are:</p>
-
-<ul>
-  <li>
-    <p>Implementing development projects</p>
-  </li>
-  <li>
-    <p>Leading informal mentoring during day-to-day work</p>
-  </li>
-  <li>
-    <p>Contribute to design of development projects</p>
-  </li>
-  <li>
-    <p>Track, reduce, and prevent technical debt in Web Development projects</p>
-  </li>
-</ul>
-
-<blockquote>
-  <p>Motivated by principles of social responsibility, we deliver provocative media by embracing imagination, creativity and emerging technologies. Our models, customers and business partners are inspired by our fervid passion.</p>
-
-</blockquote>
-
-<blockquote>
-
-  <p>Our experienced staff use state-of-the-art content production facilities to produce 10 shoots a week from concept to finished art, utilizing the most advanced digital capture, post production and delivery systems in the world.</p>
-
-</blockquote>
-
-<blockquote>
-
-  <p>You will be working directly with our Web Dev Manager, Lead developer and colleagues in the web dev team. We need each individual to contribute for us to continue as a pioneer in our industry.</p>
-</blockquote>
-
-<p>If you posses a “Can do” attitude. Would like to work in the center of Amsterdam. And are able to identify your self in the criteria below. You might want to head over to our <a href="http://careers.abbywinters.com/job-opportunities/senior-php-developer/">career portal</a> for a more detailed description.  </p>
-
-<p><strong>Technical competencies – Required</strong></p>
-
-<ul>
-  <li>
-    <p>High level of skill with PHP 5</p>
-  </li>
-  <li>
-    <p>High level of skill with Object Oriented Programming</p>
-  </li>
-  <li>
-    <p>High level of skill with HTML/CSS</p>
-  </li>
-  <li>
-    <p>High level of skill with JavaScript</p>
-  </li>
-  <li>
-    <p>High level of skill with Internet Applications</p>
-  </li>
-  <li>
-    <p>Moderate level of skill with Unit Testing and Test Driven Design</p>
-  </li>
-  <li>
-    <p>Moderate level of skill with MySQL</p>
-  </li>
-  <li>
-    <p>Moderate level of skill with Windows XP operating system</p>
-  </li>
-  <li>
-    <p>Experience with the GNU/Linux operating system</p>
-  </li>
-  <li>
-    <p>Competent with Revision Control systems (Subversion)</p>
-  </li>
-  <li>
-    <p>Bachelor of Science in Computer Science, or equivalent experience</p>
-  </li>
-  <li>
-    <p>Zend Certified Engineer, or equivalent experience</p>
-  </li>
-  <li>
-    <p>At least 5 years experience in Web Application Development</p>
-  </li>
-</ul>
-
-<p><strong>Technical competencies – Desired</strong></p>
-
-<ul>
-  <li>
-    <p>Moderate level of skill with the Apache HTTP server</p>
-  </li>
-  <li>
-    <p>Good understanding of the Model-View-Controller pattern</p>
-  </li>
-  <li>
-    <p>Good understanding of the ActiveRecord Object-Relational-Mapping pattern</p>
-  </li>
-  <li>
-    <p>Familiarity with Agile software development practices (Scrum)</p>
-  </li>
-  <li>
-    <p>E-commerce</p>
-  </li>
-  <li>
-    <p>Agile development experience</p>
-  </li>
-</ul>
-
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2012/05/abbywinters-is-looking-for-new-developers/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-05-24T15:04:02+02:00" pubdate data-updated="true">May 24<span>th</span>, 2012</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
-  
 
   <ul class="pager">
     
@@ -1193,6 +1163,8 @@ If you’re looking for a new challenging and exiting Senior Webdeveloper positi
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://blog.lenss.nl/2014/09/secure-cloud-storage-with-google-and-encfs-on-ubuntu/">Secure cloud storage with Google and encfs on Ubuntu</a></li>
+		
 		<li><a href="http://blog.lenss.nl/2013/11/first-weekday-of-month-in-php/">Get the first weekday of the month in PHP</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/10/git-move-folder-containing-submodules/">Renaming a folder in git that contains submodules</a></li>
@@ -1210,8 +1182,6 @@ If you’re looking for a new challenging and exiting Senior Webdeveloper positi
 		<li><a href="http://blog.lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/">Zend Optimizer+ integrated into 5.5</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/02/phpness-serious-wtf/">PHPness Serious WTF</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2012/11/publish-google-reader-shared-items/">Publish Google Reader shared items</a></li>
 		
 	</ul>
 </div>
@@ -1232,7 +1202,7 @@ If you’re looking for a new challenging and exiting Senior Webdeveloper positi
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.03361344537815%'>Security(8)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.50420168067227%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.53781512605042%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="PHP & DOMDocument Slow Loading Pages While trying to load a very basic XML template with DOMDocument::load() i ran into some issues last Friday. &hellip;">
+    <meta name="description" content="VIM for a PHP Developer For my coding work i mostly use Zend Studio. And i am a big fan of this IDE. But i also do a lot of work in the shell. And &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,259 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2011/04/vim-for-a-php-developer/">VIM for a PHP Developer</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p><a href="http://www.vim.org/"><img src="http://blog.lenss.nl/images/2011/04/vim_logo.png" alt="" /></a>For my coding work i mostly use <a href="http://www.zend.com/en/products/studio/">Zend Studio</a>. And i am a big fan of this IDE. But i also do a lot of work in the shell. And that asks for at least basic <a href="http://www.vim.org/">vim</a> knowledge. My colleague is a big vim fan. And does most of his work in vim. So last week i was compiling a cheat-sheet for my self. And came across a <a href="http://www.slideshare.net/ZendCon/vim-for-php-programmers-presentation">slideshow</a> of one of <a href="http://zmievski.org/">Andrei Zmievski</a>’s talks. This slide show got me inspired enough to start playing around with vim a bit. And this is the result of it.</p>
+
+<p>We need to have vim installed of course.</p>
+
+<blockquote>
+  <p>$ sudo aptitude install vim</p>
+</blockquote>
+
+<p>Vim doesn’t seem to create the user folder automatically. So we need to create these our self. We’ll start off with a folder for plugins, color schemes and syntax settings.</p>
+
+<blockquote>
+  <ul>
+    <li>$ mkdir ~/.vim</li>
+    <li>$ mkdir ~/.vim/{syntax,colors,plugin}</li>
+  </ul>
+</blockquote>
+
+<p>Most of the time i will be editing <strong>.php</strong> files. So i want some good syntax support for that. Vim has a nice plugin system. And there does seem to be a syntax file for PHP <a href="http://www.vim.org/scripts/script.php?script_id=1571">available</a>. It’s a bit outdated. But will do for now. The only thing to do to enable it is copy it to the plugin directory.</p>
+
+<blockquote>
+  <p>$ mv php.vim ~/.vim/syntax</p>
+</blockquote>
+
+<p>Now we have a very powerful but basic PHP editor. That’s nice and all. I would like to at least have some sort of a project manager. And there is a plugin for that as well. <a href="http://www.vim.org/scripts/script.php?script_id=69">Download</a> &amp; copy!</p>
+
+<blockquote>
+  <p>$ mv project.vim ~/.vim/plugin</p>
+</blockquote>
+
+<p>Ok that’s pretty cool. But it still looks like crap. Time for some theme sugar. It actually took me quite some time to find a theme i like. Guess i am picky. The theme / colour scheme i settled for is called wombat. The <a href="http://dengmao.wordpress.com/2007/01/22/vim-color-scheme-wombat/">original</a> file didn’t do much for me. But i found a <a href="http://www.vim.org/scripts/script.php?script_id=2465">good</a> 256 colour version.</p>
+
+<blockquote>
+  <p>$ mv wombat256mod.vim ~/.vim/colors</p>
+</blockquote>
+
+<ul>
+  <li>
+    <p><a href="http://blog.lenss.nl/images/2011/04/wombat-html-300x60.png"><img src="http://blog.lenss.nl/images/2011/04/wombat-html-300x60.png" alt="" /></a></p>
+  </li>
+  <li>
+    <p><a href="http://blog.lenss.nl/images/2011/04/wombat-php-300x128.png"><img src="http://blog.lenss.nl/images/2011/04/wombat-php-300x128.png" alt="" /></a></p>
+  </li>
+  <li>
+    <p>That’s starting to look like a pretty nice setup. Time to make some settings permanent and to enable some other features.</p>
+  </li>
+</ul>
+
+<blockquote>
+  <p>$ vim ~/.vimrc</p>
+</blockquote>
+
+<p>And add some settings</p>
+
+<blockquote>
+
+  <ul>
+    <li>set rule</li>
+    <li>set wrapscan</li>
+    <li>set number</li>
+    <li>set backspace=start,indent,eol</li>
+    <li></li>
+    <li>set t_Co=256</li>
+    <li>colorscheme wombat256mod</li>
+    <li></li>
+    <li>autocmd FileType php set omnifunc=phpcomplete#CompletePHP</li>
+  </ul>
+</blockquote>
+
+<p>In the meantime i found this interesting post on Matthew Weier O’Phinney’s blog about using <a href="http://weierophinney.net/matthew/archives/134-exuberant-ctags-with-PHP-in-Vim.html">ctags , VIM and PHP</a>. That looks like interesting stuff. So let’s add it. With <a href="http://ctags.sourceforge.net/">ctags</a> it’s possible to scan a source tree. And compile a sort of index file that vim can use for lookups. </p>
+
+<blockquote>
+  <ul>
+    <li>$ sudo aptitude install exuberant-ctags</li>
+    <li>$ mkdir ~/.vim/tags</li>
+  </ul>
+</blockquote>
+
+<p>Creating an index file is a piece of cake. Move to a source directory and issue the following command.</p>
+
+<blockquote>
+  <ul>
+    <li>$ cd /some/path</li>
+    <li>$ ctags-exuberant -R -f ~/.vim/tags/filename -h “.php” </li>
+    <li>–exclude=”.svn” –totals=yes </li>
+    <li>–tag-relative=yes –PHP-kinds=+cf </li>
+    <li>–regex-PHP=’/abstract class ([^ ]*)/\1/c/’ </li>
+    <li>–regex-PHP=’/interface ([^ ]*)/\1/c/’ </li>
+    <li>
+      <table>
+        <tbody>
+          <tr>
+            <td>–regex-PHP=’/(public</td>
+            <td>static</td>
+            <td>abstract</td>
+            <td>protected</td>
+            <td>private )+function ([^ (]*)/\2/f/’</td>
+          </tr>
+        </tbody>
+      </table>
+    </li>
+  </ul>
+</blockquote>
+
+<p>This will scan the whole directory structure recursively while using the regular expressions to extract useful information from the source files it finds. When done and when the parameter <em>–totals=yes</em> is used the following output is displayed. But probably with different numbers.</p>
+
+<blockquote>
+  <ul>
+    <li>2375 files, 466018 lines (14628 kB) scanned in 11.7 seconds (1246 kB/s)</li>
+    <li>199296 tags added to tag file</li>
+    <li>199296 tags sorted in 0.00 seconds</li>
+  </ul>
+</blockquote>
+
+<p>Time to enable tags. I want to use multiple files. Some standard files for common frameworks / libraries. And a tag file per project.</p>
+
+<blockquote>
+  <ul>
+    <li>$ vim ~/.vimrc </li>
+    <li>set tags=tags;~/.vim/tags/filename</li>
+  </ul>
+</blockquote>
+
+<p>So let’s start vim and have a look at what we have so far. The first thing we do when vim has started is launch the :Project plugin.</p>
+
+<blockquote>
+  <ul>
+    <li>$ vim</li>
+    <li>:Project</li>
+  </ul>
+</blockquote>
+
+<ul>
+  <li>
+    <p><a href="http://blog.lenss.nl/images/2011/04/vim-project-1-300x175.png"><img src="http://blog.lenss.nl/images/2011/04/vim-project-1-300x175.png" alt="" /></a></p>
+  </li>
+  <li>
+    <p><a href="http://blog.lenss.nl/images/2011/04/vim-project-2-300x174.png"><img src="http://blog.lenss.nl/images/2011/04/vim-project-2-300x174.png" alt="" /></a></p>
+  </li>
+</ul>
+
+<p>The project plugin took some time to get used to. But it’s a very convenient plugin. And easy to get the hang of. It’s possible to create the project settings by hand. But the plugin comes with a build in tool for this. While in <em>:Project</em> mode and hitting <em>\C</em> will make it easy to create new projects.</p>
+
+<blockquote>
+  <ul>
+    <li>$ vim</li>
+    <li>:Project</li>
+    <li>\C</li>
+  </ul>
+</blockquote>
+
+<p>This will guide you through the process with a few short and simple questions.</p>
+
+<blockquote>
+  <ul>
+    <li>Enter the Name of the Entry: [ project name ]</li>
+    <li>Enter the Absolute Directory to Load: [ absolute path ]</li>
+    <li>Enter the CD parameter: [ path to move into ]</li>
+    <li>Enter the File Filter: [ file filter : *.php ]</li>
+  </ul>
+</blockquote>
+
+<p>When that’s done the screen will be in edit mode inside the .vimproject file. Displaying something like this.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+Project name=/path/to/project CD=/path/to/project filter=&quot;*.php&quot; {
+  filename.ext
+  folder----------------------------------------------------------
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>It’s possible to alter the project setup here. Like adding more files. Or even adding files from other locations outside of the project.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+Project name=/path/to/project CD=/path/to/project filter=&quot;*.php&quot; {
+  filename.ext
+  folder----------------------------------------------------------
+  
+  External=/some/other/path CD=/some/other/path filter=&quot;*.php&quot; {
+    filename.ext
+  }
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>When done editing. Just do like normally in vim.</p>
+
+<blockquote>
+  <p>:w</p>
+</blockquote>
+
+<p>Pretty cool we have a project browser on the left. That is easy to navigate with the arrow keys. And a work canvas on the right.</p>
+
+<p>Time to test the ctags created index files. Place the cursor at the beginning of a string that you want to lookup. And hit <strong>CTRL + ]</strong> and <strong>CTRL + T</strong> to get back. Another cool way to open the source file is by using horizontal split windows by using <strong>CTRL + W ]</strong>.</p>
+
+<p>Testing auto-complete is just as easy. Type some php core function name partly _str__ and hit <strong>CTRL + x</strong> and <strong>CTRL + o</strong>. This will display the following scrollable drop down..</p>
+
+<p><a href="http://blog.lenss.nl/images/2011/04/vim-autocomplete-300x134.png"><img src="http://blog.lenss.nl/images/2011/04/vim-autocomplete-300x134.png" alt="" /></a></p>
+
+<p>That’s about it. I had good fun exploring all the features and possibilities. And have only scratched the surface. One more thing i found on Matthew’s blog was a way to test and run PHP script from vim. Awesome stuff. You can read about it <a href="http://weierophinney.net/matthew/archives/164-Vim-Productivity-Tips-for-PHP-Developers.html">here</a>. Although i like vim. I don’t think i will be leaving ZS any time soon.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2011/04/vim-for-a-php-developer/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-17T23:04:28+02:00" pubdate data-updated="true">Apr 17<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -1170,69 +1423,6 @@ Font : Envy Code R Bold (11 pt)</p>
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2011/02/extending-my-desktop/">Extending My Desktop</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>Although i am blessed with a nice double 22 inch monitor configuration. I have had this spare monitor sitting on my desk for a while Just asking to be added to the setup. Yesterday i gave it my first shot. It didn’t really go as planned but the result is fine for the moment.</p>
-
-<p>Over the past years i have been a happy user of <a href="http://www.compiz.org/">Compiz</a> and the <a href="http://wiki.compiz.org/Decorators/Emerald">emerald theme manager</a>. So these were two things i wanted to keep. Well that’s not going to happen. After playing around with xorg.conf for a couple of hours i just couldn’t manage to get the configuration i was looking for.</p>
-
-<ol>
-  <li>Single X Screen on the left</li>
-  <li>Two <a href="http://www.nvidia.com/object/feature_twinview.html">twinview</a> screens on the right.</li>
-</ol>
-
-<p>I managed to get Compiz to work with the 3 monitor setup. But this resulted in either having one large desktop extending the two 22 inch monitors. Or 3 screen using Compiz but with no possibility of sharing data between the screens. That just sucked. I have to admit this is one thing that just works better on Windows.</p>
-
-<p>So the next was <a href="http://sourceforge.net/projects/xinerama/">Xinerama</a>. This meant switching Xinerama to “1” in the config and restart X. Voila! Everything works. Well not everything. I have no Compiz effects and no emerald themes. So it’s slightly more ugly looking but it functions perfectly. So i will be keeping this config for now. Until i can either figure out how to get 3 monitors working using Compiz. Or get some effects / cool themes working while using Xinerama.</p>
-
-<p><a href="http://blog.lenss.nl/images/2011/02/IMG_2081.jpg"><img src="http://blog.lenss.nl/images/2011/02/IMG_2081-300x225.jpg" alt="" /></a></p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2011/02/extending-my-desktop/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-02-20T20:54:08+01:00" pubdate data-updated="true">Feb 20<span>th</span>, 2011</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
-  
 
   <ul class="pager">
     
@@ -1276,6 +1466,8 @@ Font : Envy Code R Bold (11 pt)</p>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://blog.lenss.nl/2014/09/secure-cloud-storage-with-google-and-encfs-on-ubuntu/">Secure cloud storage with Google and encfs on Ubuntu</a></li>
+		
 		<li><a href="http://blog.lenss.nl/2013/11/first-weekday-of-month-in-php/">Get the first weekday of the month in PHP</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/10/git-move-folder-containing-submodules/">Renaming a folder in git that contains submodules</a></li>
@@ -1293,8 +1485,6 @@ Font : Envy Code R Bold (11 pt)</p>
 		<li><a href="http://blog.lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/">Zend Optimizer+ integrated into 5.5</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/02/phpness-serious-wtf/">PHPness Serious WTF</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2012/11/publish-google-reader-shared-items/">Publish Google Reader shared items</a></li>
 		
 	</ul>
 </div>
@@ -1315,7 +1505,7 @@ Font : Envy Code R Bold (11 pt)</p>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.03361344537815%'>Security(8)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.50420168067227%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.53781512605042%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

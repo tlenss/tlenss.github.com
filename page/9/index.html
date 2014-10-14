@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="A New Adventure Part II This post is a recap of a post i made earlier this month. Normally i would leave it as it is. But i wasn’t really happy with &hellip;">
+    <meta name="description" content="A New Hobby A few months ago i got stranded on adda’s website. This stuff looks so interesting. But thinking about building my own gives me sweaty &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,86 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2009/12/a-new-hobby/">A New Hobby</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>A few months ago i got stranded on <a href="http://www.adafruit.com/">adda’s</a> website. This stuff looks so interesting. But thinking about building my own gives me sweaty hands. I love to build computers from scratch. But building a motherboard… i don’t see me doing that anytime soon. Even though i have null knowledge of the subject. I decided to give it shot anyway. And ordered the Russian Tube Clock. It arrived pretty fast. But occupied some closet space for at least 3 weeks. I however managed to push my self into building this thing. So here goes.</p>
+
+<p>When you unpack the whole thing and lay it out on a table it looks pretty impressive. And at this point i got the feeling i would never get this to work. But thank god for the internet. I quickly found some nice hand held guides to <a href="http://0x.vc/4">guide</a> me through it.</p>
+
+<p><img src="http://blog.lenss.nl/images/2009/12/IMG_0550-1024x768.jpg" /></p>
+
+<p>I will not bother you with all specifics. because i can’t :) And for that you should read <a href="http://www.adafruit.com/index.php?main_page=product_info&amp;cPath=39&amp;products_id=194">here</a> and <a href="http://www.ladyada.net/make/icetube/">here</a> Or just order the kit and give it a shot. it’s great. So after burning my self i managed to get the first set of components mounted properly on top of the PCB.</p>
+
+<p><img src="http://blog.lenss.nl/images/2009/12/IMG_0555-1024x768.jpg" /></p>
+
+<p>The only problem i encountered (and it spoiled most of the project) was the soldering iron. Which was a mess to start of with. And it was way to big for this delicate work. The result was my soldering didn’t look that proper as you can see in the image below.</p>
+
+<p><img src="http://blog.lenss.nl/images/2009/12/IMG_0557-1024x768.jpg" /></p>
+
+<p>The hardest part was to get the tube mounted correctly. One end of the tube is a spring of wires that need to be attached to a jack on the smaller PCB. It’s a time consuming and tedious job to do. But i think i managed. Although not all wires are as straight as they should have been.</p>
+
+<p><img src="http://blog.lenss.nl/images/2009/12/img_0611-1024x768.jpg" /></p>
+
+<p>It finally starts to look like something. After hooking it up to some power and running some tests. I was ready to build the outer casing.</p>
+
+<p><img src="http://blog.lenss.nl/images/2009/12/img_0609-1024x768.jpg" /></p>
+
+<p>The outer casing is a simple design. Done in Plexiglas. It looks simple. But it was a struggle to get the thing assembled.</p>
+
+<p><img src="http://blog.lenss.nl/images/2009/12/IMG_0563-1024x768.jpg" /></p>
+
+<p>After my struggle with the casing i switched the tube on. And was greeted by a nice blue/greenish color and a beep. The color is a bit different from what is shown on the main site. But that has something to do with the tubes i read. The brightness is adjustable so that’s no problem. As you can see i still miss one time delimiter. And the menu is still not function 100%. But the clock works. And i can set the alarm. </p>
+
+<p><img src="http://blog.lenss.nl/images/2009/12/img_0608-1024x768.jpg" /></p>
+
+<p>I had so much fun building this thing. that i ordered a new soldering iron. And will be doing a new attempt soon!</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2009/12/a-new-hobby/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-12-20T22:46:10+01:00" pubdate data-updated="true">Dec 20<span>th</span>, 2009</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -763,109 +843,6 @@
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2009/06/zend_db-connects-to-wrong-mysql-socket/">Zend_Db Connects to Wrong Mysql Socket</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>While working on a small project today. I was confronted with a Zend_Db exception that i have seen before. But it still had me searching for a solution. So this time i will write it done for future reference.</p>
-
-<p>I’m working on a small ZF project which uses the MVC structure. And in the Initializer the database connection is setup like this:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="keyword">public</span> <span class="keyword">function</span> <span class="function">initDb</span>()
-{
-  <span class="local-variable">$pdoParams</span> = <span class="predefined">array</span>(
-    <span class="constant">PDO</span>::<span class="constant">MYSQL_ATTR_USE_BUFFERED_QUERY</span> =&gt; <span class="predefined-constant">true</span>
-  );
-    
-  <span class="local-variable">$params</span> = <span class="predefined">array</span>(
-    <span class="string"><span class="delimiter">'</span><span class="content">host</span><span class="delimiter">'</span></span>     =&gt; <span class="string"><span class="delimiter">'</span><span class="content">localhost</span><span class="delimiter">'</span></span>,
-    <span class="string"><span class="delimiter">'</span><span class="content">username</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">***********</span><span class="delimiter">'</span></span>,
-    <span class="string"><span class="delimiter">'</span><span class="content">password</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">***********</span><span class="delimiter">'</span></span>,
-    <span class="string"><span class="delimiter">'</span><span class="content">dbname</span><span class="delimiter">'</span></span>   =&gt; <span class="string"><span class="delimiter">'</span><span class="content">***********</span><span class="delimiter">'</span></span>,
-    <span class="string"><span class="delimiter">'</span><span class="content">driver_options</span><span class="delimiter">'</span></span> =&gt; <span class="local-variable">$pdoParams</span>,
-  );
-    
-  <span class="local-variable">$db</span> = <span class="constant">Zend_Db</span>::factory(<span class="string"><span class="delimiter">'</span><span class="content">Pdo_Mysql</span><span class="delimiter">'</span></span>, <span class="local-variable">$params</span>);
-  <span class="constant">Zend_Db_Table_Abstract</span>::setDefaultAdapter(<span class="local-variable">$db</span>);
-  <span class="constant">Zend_Registry</span>::set(<span class="string"><span class="delimiter">'</span><span class="content">DB</span><span class="delimiter">'</span></span>, <span class="local-variable">$db</span>);
-}
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>So when i first instantiated a connection to the database i was presented a nice error on screen. The stack trace is quiet long. But this is the most relevant part.</p>
-
-<blockquote>
-  <p>exception ‘Zend_Db_Adapter_Exception’ with message ‘SQLSTATE[HY000] [2002] Can’t connect to local MySQL server through socket ‘/tmp/mysql.sock’ (2)’</p>
-</blockquote>
-
-<p>The php bug tracker revealed a nice <a href="http://bugs.php.net/bug.php?id=34988">solution</a>. For some strange reason the PDO extension can’t determine the correct socket while the mysql, mysqli extensions can. This is easily solved in the bootstrap of the project by adding an extra parameter to the config array passed when calling Zend_Db::factory();</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$params</span> = <span class="predefined">array</span>(
-  <span class="string"><span class="delimiter">'</span><span class="content">host</span><span class="delimiter">'</span></span>     =&gt; <span class="string"><span class="delimiter">'</span><span class="content">localhost</span><span class="delimiter">'</span></span>,
-  <span class="string"><span class="delimiter">'</span><span class="content">username</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">***********</span><span class="delimiter">'</span></span>,
-  <span class="string"><span class="delimiter">'</span><span class="content">password</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">***********</span><span class="delimiter">'</span></span>,
-  <span class="string"><span class="delimiter">'</span><span class="content">dbname</span><span class="delimiter">'</span></span>   =&gt; <span class="string"><span class="delimiter">'</span><span class="content">***********</span><span class="delimiter">'</span></span>,
-  <span class="string"><span class="delimiter">'</span><span class="content">driver_options</span><span class="delimiter">'</span></span> =&gt; <span class="local-variable">$pdoParams</span>,
-  <span class="string"><span class="delimiter">'</span><span class="content">unix_socket</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">/var/run/mysqld/mysqld.sock</span><span class="delimiter">'</span></span>
-);
-
-<span class="local-variable">$db</span> = <span class="constant">Zend_Db</span>::factory(<span class="string"><span class="delimiter">'</span><span class="content">Pdo_Mysql</span><span class="delimiter">'</span></span>, <span class="local-variable">$params</span>);
-<span class="constant">Zend_Db_Table_Abstract</span>::setDefaultAdapter(<span class="local-variable">$db</span>);
-<span class="constant">Zend_Registry</span>::set(<span class="string"><span class="delimiter">'</span><span class="content">DB</span><span class="delimiter">'</span></span>, <span class="local-variable">$db</span>);
-</pre></div>
-</div>
- </figure></notextile></div>
-
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2009/06/zend_db-connects-to-wrong-mysql-socket/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-06-27T12:12:19+02:00" pubdate data-updated="true">Jun 27<span>th</span>, 2009</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
-  
 
   <ul class="pager">
     
@@ -909,6 +886,8 @@
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://blog.lenss.nl/2014/09/secure-cloud-storage-with-google-and-encfs-on-ubuntu/">Secure cloud storage with Google and encfs on Ubuntu</a></li>
+		
 		<li><a href="http://blog.lenss.nl/2013/11/first-weekday-of-month-in-php/">Get the first weekday of the month in PHP</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/10/git-move-folder-containing-submodules/">Renaming a folder in git that contains submodules</a></li>
@@ -926,8 +905,6 @@
 		<li><a href="http://blog.lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/">Zend Optimizer+ integrated into 5.5</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/02/phpness-serious-wtf/">PHPness Serious WTF</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2012/11/publish-google-reader-shared-items/">Publish Google Reader shared items</a></li>
 		
 	</ul>
 </div>
@@ -948,7 +925,7 @@
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.03361344537815%'>Security(8)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.50420168067227%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.53781512605042%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

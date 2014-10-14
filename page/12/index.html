@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Zend Server Community Edition Beta! This week Zend released a Beta version of the new Zend Server and Zend Zerver CE (Community Edition). So last &hellip;">
+    <meta name="description" content="elePHPants Some time ago i got a truck load of elePHPants [1] [2]. Thanks to Damien from Nexen. I wanted ti post the picture with two hundred of &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,58 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2009/02/elephpants/">elePHPants</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>Some time ago i got a truck load of elePHPants [<a href="http://www.nexen.net/elephpant.php">1</a>] [<a href="http://www.flickr.com/groups/elephpants/">2</a>]. Thanks to Damien from <a href="http://www.nexen.net/">Nexen</a>. I wanted ti post the picture with two hundred of them sitting on our couch. But seems i lost some pictures with my last disk crash. This is the only only one left.</p>
+
+<p><a href="http://blog.lenss.nl/images/2009/02/double_tail.jpg"><img src="http://blog.lenss.nl/images/2009/02/double_tail-300x255.jpg" alt="double_tail" /></a></p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2009/02/elephpants/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-02-24T03:56:36+01:00" pubdate data-updated="true">Feb 24<span>th</span>, 2009</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -752,73 +804,6 @@ $ sudo dpkg –purge postfix</p>
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2008/11/subversion-cross-platform-errors/">Subversion Cross Platform Errors</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>Yesterday my colleague was complaining he couldn’t do a normal check out of one of the projects in Subversion. At first i thought it was just something wrong with his local settings. Because i could do the check out just fine. Today when i was thinking about this problem. I quickly realized we are on two different platforms. He works on Windows while I’m on Linux.</p>
-
-<p>And since i had to do some Photoshop work today. I took the chance to install Subversion on my Windows partition. When i did a checkout of the failing project. I ran into the same problems as my colleague did before. Two different errors were preventing me from making a complete checkout. The first error:</p>
-
-<blockquote>
-  <p><em>svn: In directory ‘path/to/some/images’
-svn: Can’t copy ‘path/to/some/images/image.JPG.svn-base’ to ‘path/to/some/image.JPG.tmp’: No such file or directory</em></p>
-</blockquote>
-
-<p>Is caused by multiple files with the same name. At  least to windows it looks like this. Because image.jpg and image.JPG are two different files on Linux. On windows however these two files are one and the same. This causes Subversion to choke. After manually deleting all duplicates from the repositorie it self the problem dissapeared.</p>
-
-<p>The second error was something like:</p>
-
-<blockquote>
-  <p>svn: Working copy ‘/some/path/\ ‘ is missing or not locked</p>
-</blockquote>
-
-<p>This one was actually pretty obvious. A file name with an illigal character. I wonder how it got in the repository. The folder name causeing the problems was a folder called ‘\ ‘. Which was empty. After removing this. I could do a complete checkout again.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2008/11/subversion-cross-platform-errors/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-11-27T16:52:18+01:00" pubdate data-updated="true">Nov 27<span>th</span>, 2008</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
-  
 
   <ul class="pager">
     
@@ -862,6 +847,8 @@ svn: Can’t copy ‘path/to/some/images/image.JPG.svn-base’ to ‘path/to/som
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://blog.lenss.nl/2014/09/secure-cloud-storage-with-google-and-encfs-on-ubuntu/">Secure cloud storage with Google and encfs on Ubuntu</a></li>
+		
 		<li><a href="http://blog.lenss.nl/2013/11/first-weekday-of-month-in-php/">Get the first weekday of the month in PHP</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/10/git-move-folder-containing-submodules/">Renaming a folder in git that contains submodules</a></li>
@@ -879,8 +866,6 @@ svn: Can’t copy ‘path/to/some/images/image.JPG.svn-base’ to ‘path/to/som
 		<li><a href="http://blog.lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/">Zend Optimizer+ integrated into 5.5</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/02/phpness-serious-wtf/">PHPness Serious WTF</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2012/11/publish-google-reader-shared-items/">Publish Google Reader shared items</a></li>
 		
 	</ul>
 </div>
@@ -901,7 +886,7 @@ svn: Can’t copy ‘path/to/some/images/image.JPG.svn-base’ to ‘path/to/som
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.03361344537815%'>Security(8)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.50420168067227%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.53781512605042%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

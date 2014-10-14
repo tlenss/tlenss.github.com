@@ -4,7 +4,7 @@
   <title><![CDATA[Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2014-09-28T23:07:12+02:00</updated>
+  <updated>2014-10-14T16:08:47+02:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -12,6 +12,61 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Secure cloud storage with Google and encfs on Ubuntu]]></title>
+    <link href="http://blog.lenss.nl/2014/09/secure-cloud-storage-with-google-and-encfs-on-ubuntu/"/>
+    <updated>2014-09-29T00:16:32+02:00</updated>
+    <id>http://blog.lenss.nl/2014/09/secure-cloud-storage-with-google-and-encfs-on-ubuntu</id>
+    <content type="html"><![CDATA[<p>Insync https://www.insynchq.com/downloads</p>
+
+<p>Before we start let me say that I am not a big fan of storing private data in the cloud. And even if you do there might be better solutions to protect your data then what i will describe here.</p>
+
+<p>I’ve chosen to use Google drive for this example. So there will be some Google drive specifics. But this should work with practically any cloud storage provider.</p>
+
+<p>First you are going to have to have a application available that can mount your cloud storage as a local resource. I have chosen to use <a href="https://www.insynchq.com">Insync</a>. But you could use something like <a href="https://github.com/Grive/grive">Grive</a> instead. </p>
+
+<p>Setup <a href="http://www.arg0.net/encfs">EncFS</a>:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ sudo apt-get install encfs
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Install a cloud sync tool:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ sudo dpkg -i insync_1.0.32.31767-trusty_amd64.deb
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>When the initial sync is done we have all the ingredients ready. So it’s time to create some encrypted space inside the cloud container. No need to create a directory because encfs will do this as well.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ encfs ~/[some-path]/[user]/encrypted ~/Private
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Store the encryption key in a save place. And we are done with the encryption part. The only thing to do is setup auto mounting.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ hg clone http://bitbucket.org/obensonne/gnome-encfs
+$ cd gnome-encfs
+$ sudo install gnome-encfs /usr/local/bin
+$ gnome-encfs -a ~/[some-path]/[user]/encrypted ~/Private
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Get the first weekday of the month in PHP]]></title>
@@ -1410,123 +1465,6 @@ end
 <p>So what’s going on here. First we use an escape character so we can actually define a output color. This is done with <strong>\033</strong> (\e). Then we open the color statement with <strong>[31m</strong>. Red in this case. The “some colored text” will be the text outputted in a different color. And after that we have to close the color statement with <strong>\033[0m</strong>.</p>
 
 <p>Easy as cake… that’s all!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[abbywinters is looking for new developers]]></title>
-    <link href="http://blog.lenss.nl/2012/05/abbywinters-is-looking-for-new-developers/"/>
-    <updated>2012-05-24T15:04:02+02:00</updated>
-    <id>http://blog.lenss.nl/2012/05/abbywinters-is-looking-for-new-developers</id>
-    <content type="html"><![CDATA[<p><img class="left" src="http://blog.lenss.nl/images/2011/11/aw-logo-roundel-blue.png" />
-If you’re looking for a new challenging and exiting Senior Webdeveloper position. Don’t look any further. If you already think you have the job of your dreams. Think again!</p>
-
-<p><em><a href="http://www.abbywinters.com">abbywinters.com</a> <strong>(NSFW)</strong> is one of the largest and most ethical, highly rated, well designed, and successful erotic websites in the world today. abbywinters.com is the WINNER of the AVN 2011 Awards for Best Membership site!</em></p>
-
-<p>And we are looking to hire a new talented webdeveloper to expand our small team. What would you think about joining our small Agile team of highly qualified professionals? </p>
-
-<p>You will be creating sexy, exiting and game changing experiences for the web, work for one of the industry leaders. And just be part of an awesome company. Some of the jobs key elements are:</p>
-
-<ul>
-  <li>
-    <p>Implementing development projects</p>
-  </li>
-  <li>
-    <p>Leading informal mentoring during day-to-day work</p>
-  </li>
-  <li>
-    <p>Contribute to design of development projects</p>
-  </li>
-  <li>
-    <p>Track, reduce, and prevent technical debt in Web Development projects</p>
-  </li>
-</ul>
-
-<blockquote>
-  <p>Motivated by principles of social responsibility, we deliver provocative media by embracing imagination, creativity and emerging technologies. Our models, customers and business partners are inspired by our fervid passion.</p>
-
-</blockquote>
-
-<blockquote>
-
-  <p>Our experienced staff use state-of-the-art content production facilities to produce 10 shoots a week from concept to finished art, utilizing the most advanced digital capture, post production and delivery systems in the world.</p>
-
-</blockquote>
-
-<blockquote>
-
-  <p>You will be working directly with our Web Dev Manager, Lead developer and colleagues in the web dev team. We need each individual to contribute for us to continue as a pioneer in our industry.</p>
-</blockquote>
-
-<p>If you posses a “Can do” attitude. Would like to work in the center of Amsterdam. And are able to identify your self in the criteria below. You might want to head over to our <a href="http://careers.abbywinters.com/job-opportunities/senior-php-developer/">career portal</a> for a more detailed description.  </p>
-
-<p><strong>Technical competencies – Required</strong></p>
-
-<ul>
-  <li>
-    <p>High level of skill with PHP 5</p>
-  </li>
-  <li>
-    <p>High level of skill with Object Oriented Programming</p>
-  </li>
-  <li>
-    <p>High level of skill with HTML/CSS</p>
-  </li>
-  <li>
-    <p>High level of skill with JavaScript</p>
-  </li>
-  <li>
-    <p>High level of skill with Internet Applications</p>
-  </li>
-  <li>
-    <p>Moderate level of skill with Unit Testing and Test Driven Design</p>
-  </li>
-  <li>
-    <p>Moderate level of skill with MySQL</p>
-  </li>
-  <li>
-    <p>Moderate level of skill with Windows XP operating system</p>
-  </li>
-  <li>
-    <p>Experience with the GNU/Linux operating system</p>
-  </li>
-  <li>
-    <p>Competent with Revision Control systems (Subversion)</p>
-  </li>
-  <li>
-    <p>Bachelor of Science in Computer Science, or equivalent experience</p>
-  </li>
-  <li>
-    <p>Zend Certified Engineer, or equivalent experience</p>
-  </li>
-  <li>
-    <p>At least 5 years experience in Web Application Development</p>
-  </li>
-</ul>
-
-<p><strong>Technical competencies – Desired</strong></p>
-
-<ul>
-  <li>
-    <p>Moderate level of skill with the Apache HTTP server</p>
-  </li>
-  <li>
-    <p>Good understanding of the Model-View-Controller pattern</p>
-  </li>
-  <li>
-    <p>Good understanding of the ActiveRecord Object-Relational-Mapping pattern</p>
-  </li>
-  <li>
-    <p>Familiarity with Agile software development practices (Scrum)</p>
-  </li>
-  <li>
-    <p>E-commerce</p>
-  </li>
-  <li>
-    <p>Agile development experience</p>
-  </li>
-</ul>
-
 ]]></content>
   </entry>
   

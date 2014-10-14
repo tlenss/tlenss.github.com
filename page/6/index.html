@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="You Want to Do What With PHP? I finally took the time to read &#8216;You want to do what with PHP?&#8217;. Normally i would not write about the &hellip;">
+    <meta name="description" content="Extending My Desktop Although i am blessed with a nice double 22 inch monitor configuration. I have had this spare monitor sitting on my desk for a &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,69 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2011/02/extending-my-desktop/">Extending My Desktop</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>Although i am blessed with a nice double 22 inch monitor configuration. I have had this spare monitor sitting on my desk for a while Just asking to be added to the setup. Yesterday i gave it my first shot. It didn’t really go as planned but the result is fine for the moment.</p>
+
+<p>Over the past years i have been a happy user of <a href="http://www.compiz.org/">Compiz</a> and the <a href="http://wiki.compiz.org/Decorators/Emerald">emerald theme manager</a>. So these were two things i wanted to keep. Well that’s not going to happen. After playing around with xorg.conf for a couple of hours i just couldn’t manage to get the configuration i was looking for.</p>
+
+<ol>
+  <li>Single X Screen on the left</li>
+  <li>Two <a href="http://www.nvidia.com/object/feature_twinview.html">twinview</a> screens on the right.</li>
+</ol>
+
+<p>I managed to get Compiz to work with the 3 monitor setup. But this resulted in either having one large desktop extending the two 22 inch monitors. Or 3 screen using Compiz but with no possibility of sharing data between the screens. That just sucked. I have to admit this is one thing that just works better on Windows.</p>
+
+<p>So the next was <a href="http://sourceforge.net/projects/xinerama/">Xinerama</a>. This meant switching Xinerama to “1” in the config and restart X. Voila! Everything works. Well not everything. I have no Compiz effects and no emerald themes. So it’s slightly more ugly looking but it functions perfectly. So i will be keeping this config for now. Until i can either figure out how to get 3 monitors working using Compiz. Or get some effects / cool themes working while using Xinerama.</p>
+
+<p><a href="http://blog.lenss.nl/images/2011/02/IMG_2081.jpg"><img src="http://blog.lenss.nl/images/2011/02/IMG_2081-300x225.jpg" alt="" /></a></p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2011/02/extending-my-desktop/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-20T20:54:08+01:00" pubdate data-updated="true">Feb 20<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -1255,156 +1318,6 @@ p   mariadb-test-5.1                  - MariaDB database regression test suite
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2010/11/jquery-php-doing-simple-image-slicing/">Jquery & PHP Doing Simple Image Slicing</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>Today i was in need of a basic image slicer. An there must be a million of these things out there. But i wanted to see how hard / easy it would be to create this myself.</p>
-
-<p>Conclusion. It’s not that hard when using the jquery library. which is becoming my Javascript framework of choice.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="tag">&lt;script</span> <span class="attribute-name">src</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">js/jquery-1.4.3.min.js</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">type</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">text/javascript</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="tag">&lt;/script&gt;</span>
-<span class="tag">&lt;script</span> <span class="attribute-name">src</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">js/jquery-ui-1.8.5.custom.min.js</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">type</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">text/javascript</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="tag">&lt;/script&gt;</span>
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>I started with a div.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="tag">&lt;div</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">image_slicer_canvas</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="tag">&lt;/div&gt;</span>
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>Then i added the placeholder for the to be scaled image. And a div that will represent the slicer borders.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="tag">&lt;div</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">image_slicer_canvas</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
-  <span class="tag">&lt;img</span> <span class="attribute-name">src</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">images/sample.jpg</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">alt</span>=<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">border</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">image_slicer_image</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="tag">&lt;/img&gt;</span>
-  <span class="tag">&lt;div</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">image_slicer</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
-    <span class="tag">&lt;div</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">image_slicer_scaler</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="tag">&lt;/div&gt;</span>
-  <span class="tag">&lt;/div&gt;</span>
-<span class="tag">&lt;/div&gt;</span>
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>The next thing to do is setup the scaling canvas. So let’s make it draggable and resizeable.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="comment">// Create a draggable / scalable slicer</span>
-<span class="predefined">$</span>(<span class="keyword">function</span>() {
-  <span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">#image_slicer</span><span class="delimiter">'</span></span>)
-    .draggable({<span class="key">containment</span>:<span class="string"><span class="delimiter">'</span><span class="content">#image_slicer_canvas</span><span class="delimiter">'</span></span>}) <span class="comment">// constraint</span>
-    .resizable();
-    
-  <span class="comment">// set the slicer canvas size</span>
-  resizeCanvas(
-    <span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">#image_slicer_image</span><span class="delimiter">'</span></span>).width(),
-    <span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">#image_slicer_image</span><span class="delimiter">'</span></span>).height()
-  );
-});
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>The only thing we need now is a bit of javascript to handle the slice action. I used a sample form to do the posting to the slicer.php script</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="comment">// handle slicer actions</span>
-<span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">#image_slicer</span><span class="delimiter">'</span></span>).resizable({
-  <span class="function">stop</span>: <span class="keyword">function</span>(event, ui) { 
-    <span class="keyword">var</span> pos = <span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">#image_slicer</span><span class="delimiter">'</span></span>).position();
-  
-    <span class="comment">// width, height, left, top</span>
-    <span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">#scaler_width</span><span class="delimiter">'</span></span>).val(<span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">#image_slicer</span><span class="delimiter">'</span></span>).width());
-    <span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">#scaler_height</span><span class="delimiter">'</span></span>).val(<span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">#image_slicer</span><span class="delimiter">'</span></span>).height());
-    <span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">#scaler_left</span><span class="delimiter">'</span></span>).val(pos.left);
-    <span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">#scaler_top</span><span class="delimiter">'</span></span>).val(pos.top);
-  }
-});
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>The result is a nice red dotted line (square) on top of the image. The dotted area is draggable and resizeable.
-When the right slice is selected just hit the slice button and PHP/GD will do the rest.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$width</span>  = <span class="predefined">$_POST</span>[<span class="string"><span class="delimiter">'</span><span class="content">width</span><span class="delimiter">'</span></span>];
-<span class="local-variable">$height</span> = <span class="predefined">$_POST</span>[<span class="string"><span class="delimiter">'</span><span class="content">height</span><span class="delimiter">'</span></span>]; 
-<span class="local-variable">$left</span>   = <span class="predefined">$_POST</span>[<span class="string"><span class="delimiter">'</span><span class="content">left</span><span class="delimiter">'</span></span>];
-<span class="local-variable">$top</span>    = <span class="predefined">$_POST</span>[<span class="string"><span class="delimiter">'</span><span class="content">top</span><span class="delimiter">'</span></span>];
-    
-<span class="comment">// read source image</span>
-<span class="local-variable">$src</span> = imagecreatefromjpeg(<span class="string"><span class="delimiter">'</span><span class="content">images/sample.jpg</span><span class="delimiter">'</span></span>);
-<span class="local-variable">$dest</span> = imagecreatetruecolor(<span class="local-variable">$width</span>, <span class="local-variable">$height</span>);
-    
-imagecopy(<span class="local-variable">$dest</span>, <span class="local-variable">$src</span>, <span class="integer">0</span>, <span class="integer">0</span>, <span class="local-variable">$left</span>, <span class="local-variable">$top</span>, <span class="local-variable">$width</span>, <span class="local-variable">$height</span>);
-    
-<span class="predefined">header</span>(<span class="string"><span class="delimiter">'</span><span class="content">Content-Type: image/jpeg</span><span class="delimiter">'</span></span>);
-imagegif(<span class="local-variable">$dest</span>);
-    
-imagedestroy(<span class="local-variable">$dest</span>);
-imagedestroy(<span class="local-variable">$src</span>);
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>That’s all. All files can be downloaded <a href="http://lenss.nl/images/2010/11/imageSlice.tar.gz">here</a></p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2010/11/jquery-php-doing-simple-image-slicing/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-11-01T17:34:11+01:00" pubdate data-updated="true">Nov 1<span>st</span>, 2010</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/javascript/'>Javascript</a>, <a class='category' href='http://blog.lenss.nl/tag/jquery/'>Jquery</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
-  
 
   <ul class="pager">
     
@@ -1448,6 +1361,8 @@ imagedestroy(<span class="local-variable">$src</span>);
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://blog.lenss.nl/2014/09/secure-cloud-storage-with-google-and-encfs-on-ubuntu/">Secure cloud storage with Google and encfs on Ubuntu</a></li>
+		
 		<li><a href="http://blog.lenss.nl/2013/11/first-weekday-of-month-in-php/">Get the first weekday of the month in PHP</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/10/git-move-folder-containing-submodules/">Renaming a folder in git that contains submodules</a></li>
@@ -1465,8 +1380,6 @@ imagedestroy(<span class="local-variable">$src</span>);
 		<li><a href="http://blog.lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/">Zend Optimizer+ integrated into 5.5</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/02/phpness-serious-wtf/">PHPness Serious WTF</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2012/11/publish-google-reader-shared-items/">Publish Google Reader shared items</a></li>
 		
 	</ul>
 </div>
@@ -1487,7 +1400,7 @@ imagedestroy(<span class="local-variable">$src</span>);
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.03361344537815%'>Security(8)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.50420168067227%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.53781512605042%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

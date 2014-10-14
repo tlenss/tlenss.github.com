@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Nerdiness Ok so i had nothing todo for a few minutes and found a link to this page. I am never really into this stuff. But it looked funny and i had &hellip;">
+    <meta name="description" content="Rewriting Blocks in Magento The last few days i have been toying with Magento. and mainly trying to wrap my head around the file structure. It takes &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,155 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2010/06/rewriting-blocks-in-magento/">Rewriting Blocks in Magento</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>The last few days i have been toying with <a href="http://www.magentocommerce.com/">Magento</a>. and mainly trying to wrap my head around the file structure. It takes quite some time to find all files. So i will be making notes here to keep track of my own progress :)</p>
+
+<p>Today i wanted to add a tab in the customer section of the admin. I am working on a new module and this should be configurable on a per user basis. There for i needed an extra tab to the customer &gt; Manage customers &gt; [customer x] page.</p>
+
+<p>The first challenge was to figure out where Magento stores the tab menu data. I was hoping this came from a database. But after some searching i couldn’t find any reference. It seems to be hard coded in tab files. The customer tab in question can be found here:</p>
+
+<blockquote>
+  <p>app/code/core/Mage/Adminhtml/Block/Customer/Edit/tabs.php</p>
+</blockquote>
+
+<p>We could of course edit this class. But that’s not according the Magento way. We need to create a local copy of this class. preferably under my own namespace.</p>
+
+<p>To make this happen we first need to tell Magento we are rewriting core modules. So we start of by creating the following file</p>
+
+<blockquote>
+  <p>app/etc/modules/[namespace]_All.xml</p>
+</blockquote>
+
+<p>And we add the following lines</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="tag">&lt;config&gt;</span>
+  <span class="tag">&lt;modules&gt;</span>
+    <span class="tag">&lt;strawberries_core&gt;</span>
+      <span class="tag">&lt;active&gt;</span>true<span class="tag">&lt;/active&gt;</span>
+      <span class="tag">&lt;codepool&gt;</span>local<span class="tag">&lt;/codepool&gt;</span>
+      <span class="tag">&lt;depends&gt;</span>
+        <span class="tag">&lt;mage_core&gt;</span><span class="tag">&lt;/mage_core&gt;</span>
+          <span class="tag">&lt;/depends&gt;</span>
+      <span class="tag">&lt;/strawberries_core&gt;</span>
+  <span class="tag">&lt;/modules&gt;</span>
+<span class="tag">&lt;/config&gt;</span>
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>This will tell Magento we have a Core folder under our own namespace. But it still depends on the Mage_Core classes if they are not available in the namespaced location.</p>
+
+<p>Next we need to setup the [namespace]_Core module. We create the folder structure under our own namspace</p>
+
+<blockquote>
+  <p>app/code/local/[namespace]/Core/etc</p>
+</blockquote>
+
+<p>And we create a new config file here (config.xml) where we will do the actual class rewriting.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="tag">&lt;config&gt;</span>
+  <span class="tag">&lt;modules&gt;</span>
+    <span class="error">&lt;</span>[namespace]_Core<span class="error">&gt;</span>
+    <span class="tag">&lt;version&gt;</span>0.1.0<span class="tag">&lt;/version&gt;</span>
+  <span class="tag">&lt;/modules&gt;</span>
+<span class="tag">&lt;global&gt;</span>
+  <span class="tag">&lt;blocks&gt;</span>
+    <span class="tag">&lt;adminhtml&gt;</span>
+      <span class="tag">&lt;rewrite&gt;</span>
+        <span class="tag">&lt;customer_edit_tabs&gt;</span>[namespace]_Adminhtml_Block_Customer_Edit_Tabs<span class="tag">&lt;/customer_edit_tabs&gt;</span>
+      <span class="tag">&lt;/rewrite&gt;</span>
+    <span class="tag">&lt;/adminhtml&gt;</span>
+  <span class="tag">&lt;/blocks&gt;</span>
+<span class="tag">&lt;/global&gt;</span>
+<span class="tag">&lt;/config&gt;</span>
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>We use the  tag to tell Magento we are rewriting a Block class. And then we setup the actual rewrite. </p>
+
+<blockquote>
+  <p>Mage_Adminhtml_Block_Customer_Edit_Tabs is now rewritten too [namespace]_Adminhtml_Block_Customer_Edit_Tabs</p>
+</blockquote>
+
+<p>The only thing left now is to create the Block class which is located in </p>
+
+<blockquote>
+  <p>app/code/local/[namespace]/Adminhtml/Block/Customer/Edit/Tabs.php</p>
+</blockquote>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">class</span> [<span class="keyword">namespace</span>]_Adminhtml_Block_Customer_Edit_Tabs <span class="keyword">extends</span> <span class="constant">Mage_Adminhtml_Block_Customer_Edit_Tabs</span>
+{
+  <span class="keyword">protected</span> <span class="keyword">function</span> <span class="function">_beforeToHtml</span>()
+  {
+    <span class="local-variable">$this</span>-&gt;addTab(<span class="string"><span class="delimiter">'</span><span class="content">modulename</span><span class="delimiter">'</span></span>, <span class="predefined">array</span>(
+      <span class="string"><span class="delimiter">'</span><span class="content">label</span><span class="delimiter">'</span></span>     =&gt; <span class="constant">Mage</span>::helper(<span class="string"><span class="delimiter">'</span><span class="content">customer</span><span class="delimiter">'</span></span>)-&gt;__(<span class="string"><span class="delimiter">'</span><span class="content">Modulename</span><span class="delimiter">'</span></span>),
+      <span class="string"><span class="delimiter">'</span><span class="content">class</span><span class="delimiter">'</span></span>     =&gt; <span class="string"><span class="delimiter">'</span><span class="content">ajax</span><span class="delimiter">'</span></span>,
+      <span class="string"><span class="delimiter">'</span><span class="content">url</span><span class="delimiter">'</span></span>       =&gt; <span class="local-variable">$this</span>-&gt;getUrl(<span class="string"><span class="delimiter">'</span><span class="content">*/*/modulename</span><span class="delimiter">'</span></span>, <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">_current</span><span class="delimiter">'</span></span> =&gt; <span class="predefined-constant">true</span>)),
+    ));
+    
+    <span class="local-variable">$this</span>-&gt;_updateActiveTab();
+    <span class="keyword">return</span> <span class="predefined-constant">parent</span>::_beforeToHtml();
+  }
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2010/06/rewriting-blocks-in-magento/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-06-25T17:20:42+02:00" pubdate data-updated="true">Jun 25<span>th</span>, 2010</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -1235,86 +1384,6 @@ container.addEventListener(<span class="string"><span class="delimiter">&quot;</
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2009/12/a-new-hobby/">A New Hobby</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>A few months ago i got stranded on <a href="http://www.adafruit.com/">adda’s</a> website. This stuff looks so interesting. But thinking about building my own gives me sweaty hands. I love to build computers from scratch. But building a motherboard… i don’t see me doing that anytime soon. Even though i have null knowledge of the subject. I decided to give it shot anyway. And ordered the Russian Tube Clock. It arrived pretty fast. But occupied some closet space for at least 3 weeks. I however managed to push my self into building this thing. So here goes.</p>
-
-<p>When you unpack the whole thing and lay it out on a table it looks pretty impressive. And at this point i got the feeling i would never get this to work. But thank god for the internet. I quickly found some nice hand held guides to <a href="http://0x.vc/4">guide</a> me through it.</p>
-
-<p><img src="http://blog.lenss.nl/images/2009/12/IMG_0550-1024x768.jpg" /></p>
-
-<p>I will not bother you with all specifics. because i can’t :) And for that you should read <a href="http://www.adafruit.com/index.php?main_page=product_info&amp;cPath=39&amp;products_id=194">here</a> and <a href="http://www.ladyada.net/make/icetube/">here</a> Or just order the kit and give it a shot. it’s great. So after burning my self i managed to get the first set of components mounted properly on top of the PCB.</p>
-
-<p><img src="http://blog.lenss.nl/images/2009/12/IMG_0555-1024x768.jpg" /></p>
-
-<p>The only problem i encountered (and it spoiled most of the project) was the soldering iron. Which was a mess to start of with. And it was way to big for this delicate work. The result was my soldering didn’t look that proper as you can see in the image below.</p>
-
-<p><img src="http://blog.lenss.nl/images/2009/12/IMG_0557-1024x768.jpg" /></p>
-
-<p>The hardest part was to get the tube mounted correctly. One end of the tube is a spring of wires that need to be attached to a jack on the smaller PCB. It’s a time consuming and tedious job to do. But i think i managed. Although not all wires are as straight as they should have been.</p>
-
-<p><img src="http://blog.lenss.nl/images/2009/12/img_0611-1024x768.jpg" /></p>
-
-<p>It finally starts to look like something. After hooking it up to some power and running some tests. I was ready to build the outer casing.</p>
-
-<p><img src="http://blog.lenss.nl/images/2009/12/img_0609-1024x768.jpg" /></p>
-
-<p>The outer casing is a simple design. Done in Plexiglas. It looks simple. But it was a struggle to get the thing assembled.</p>
-
-<p><img src="http://blog.lenss.nl/images/2009/12/IMG_0563-1024x768.jpg" /></p>
-
-<p>After my struggle with the casing i switched the tube on. And was greeted by a nice blue/greenish color and a beep. The color is a bit different from what is shown on the main site. But that has something to do with the tubes i read. The brightness is adjustable so that’s no problem. As you can see i still miss one time delimiter. And the menu is still not function 100%. But the clock works. And i can set the alarm. </p>
-
-<p><img src="http://blog.lenss.nl/images/2009/12/img_0608-1024x768.jpg" /></p>
-
-<p>I had so much fun building this thing. that i ordered a new soldering iron. And will be doing a new attempt soon!</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2009/12/a-new-hobby/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-12-20T22:46:10+01:00" pubdate data-updated="true">Dec 20<span>th</span>, 2009</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
-  
 
   <ul class="pager">
     
@@ -1358,6 +1427,8 @@ container.addEventListener(<span class="string"><span class="delimiter">&quot;</
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://blog.lenss.nl/2014/09/secure-cloud-storage-with-google-and-encfs-on-ubuntu/">Secure cloud storage with Google and encfs on Ubuntu</a></li>
+		
 		<li><a href="http://blog.lenss.nl/2013/11/first-weekday-of-month-in-php/">Get the first weekday of the month in PHP</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/10/git-move-folder-containing-submodules/">Renaming a folder in git that contains submodules</a></li>
@@ -1375,8 +1446,6 @@ container.addEventListener(<span class="string"><span class="delimiter">&quot;</
 		<li><a href="http://blog.lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/">Zend Optimizer+ integrated into 5.5</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/02/phpness-serious-wtf/">PHPness Serious WTF</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2012/11/publish-google-reader-shared-items/">Publish Google Reader shared items</a></li>
 		
 	</ul>
 </div>
@@ -1397,7 +1466,7 @@ container.addEventListener(<span class="string"><span class="delimiter">&quot;</
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.03361344537815%'>Security(8)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.50420168067227%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.53781512605042%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Cloud | Thijs Lensselink's Blog]]></title>
+  <link href="http://blog.lenss.nl/tag/cloud/atom.xml" rel="self"/>
+  <link href="http://blog.lenss.nl/"/>
+  <updated>2014-10-14T16:08:47+02:00</updated>
+  <id>http://blog.lenss.nl/</id>
+  <author>
+    <name><![CDATA[Thijs Lensselink]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Secure cloud storage with Google and encfs on Ubuntu]]></title>
+    <link href="http://blog.lenss.nl/2014/09/secure-cloud-storage-with-google-and-encfs-on-ubuntu/"/>
+    <updated>2014-09-29T00:16:32+02:00</updated>
+    <id>http://blog.lenss.nl/2014/09/secure-cloud-storage-with-google-and-encfs-on-ubuntu</id>
+    <content type="html"><![CDATA[<p>Insync https://www.insynchq.com/downloads</p>
+
+<p>Before we start let me say that I am not a big fan of storing private data in the cloud. And even if you do there might be better solutions to protect your data then what i will describe here.</p>
+
+<p>I’ve chosen to use Google drive for this example. So there will be some Google drive specifics. But this should work with practically any cloud storage provider.</p>
+
+<p>First you are going to have to have a application available that can mount your cloud storage as a local resource. I have chosen to use <a href="https://www.insynchq.com">Insync</a>. But you could use something like <a href="https://github.com/Grive/grive">Grive</a> instead. </p>
+
+<p>Setup <a href="http://www.arg0.net/encfs">EncFS</a>:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ sudo apt-get install encfs
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>Install a cloud sync tool:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ sudo dpkg -i insync_1.0.32.31767-trusty_amd64.deb
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>When the initial sync is done we have all the ingredients ready. So it’s time to create some encrypted space inside the cloud container. No need to create a directory because encfs will do this as well.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ encfs ~/[some-path]/[user]/encrypted ~/Private
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>Store the encryption key in a save place. And we are done with the encryption part. The only thing to do is setup auto mounting.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ hg clone http://bitbucket.org/obensonne/gnome-encfs
+$ cd gnome-encfs
+$ sudo install gnome-encfs /usr/local/bin
+$ gnome-encfs -a ~/[some-path]/[user]/encrypted ~/Private
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+</feed>

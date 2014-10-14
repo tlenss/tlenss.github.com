@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Security | Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/tag/security/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2014-09-28T23:07:12+02:00</updated>
+  <updated>2014-10-14T16:08:47+02:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -12,6 +12,60 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Secure cloud storage with Google and encfs on Ubuntu]]></title>
+    <link href="http://blog.lenss.nl/2014/09/secure-cloud-storage-with-google-and-encfs-on-ubuntu/"/>
+    <updated>2014-09-29T00:16:32+02:00</updated>
+    <id>http://blog.lenss.nl/2014/09/secure-cloud-storage-with-google-and-encfs-on-ubuntu</id>
+    <content type="html"><![CDATA[<p>Insync https://www.insynchq.com/downloads</p>
+
+<p>Before we start let me say that I am not a big fan of storing private data in the cloud. And even if you do there might be better solutions to protect your data then what i will describe here.</p>
+
+<p>I’ve chosen to use Google drive for this example. So there will be some Google drive specifics. But this should work with practically any cloud storage provider.</p>
+
+<p>First you are going to have to have a application available that can mount your cloud storage as a local resource. I have chosen to use <a href="https://www.insynchq.com">Insync</a>. But you could use something like <a href="https://github.com/Grive/grive">Grive</a> instead. </p>
+
+<p>Setup <a href="http://www.arg0.net/encfs">EncFS</a>:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ sudo apt-get install encfs
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>Install a cloud sync tool:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ sudo dpkg -i insync_1.0.32.31767-trusty_amd64.deb
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>When the initial sync is done we have all the ingredients ready. So it’s time to create some encrypted space inside the cloud container. No need to create a directory because encfs will do this as well.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ encfs ~/[some-path]/[user]/encrypted ~/Private
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>Store the encryption key in a save place. And we are done with the encryption part. The only thing to do is setup auto mounting.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ hg clone http://bitbucket.org/obensonne/gnome-encfs
+$ cd gnome-encfs
+$ sudo install gnome-encfs /usr/local/bin
+$ gnome-encfs -a ~/[some-path]/[user]/encrypted ~/Private
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Wordpress install compromised]]></title>
@@ -271,201 +325,6 @@ Last week i had a blast while listening to <a href="http://www.thoughtcrime.org/
 <p>There is still a level of trust involved. But you won’t lay all your trust in one specific CA. Convergence uses notaries. Notaries are anonymous nodes that can be picked at will and can be used to verify the requested certificate. And like i said the notaries are anonymous. No more browser leakage at this point. One of th notaries will act as a bounce node to which a SSL connection is made. All other notaries are contacted through this secure connection.</p>
 
 <p>I am probably not the best person to explain this all. So go ahead and listen/watch <a href="http://www.youtube.com/watch?v=Z7Wl2FW2TcA">Moxie’s talk</a> and form your own opinion. But i think everybody should install <a href="http://convergence.io/">this</a> Firefox plugin. And forget about the whole CA system. I went ahead and installed a notary node myself. Which can be found <a href="http://lenss.nl/lenssnl.notary">here</a>. More information about setting up a notary node yourself can be found <a href="https://github.com/moxie0/Convergence/wiki/Running-a-Notary">here</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Apache SSL client side certificate data in PHP]]></title>
-    <link href="http://blog.lenss.nl/2011/02/apache-ssl-client-side-certificate-data-in-php/"/>
-    <updated>2011-02-24T01:55:03+01:00</updated>
-    <id>http://blog.lenss.nl/2011/02/apache-ssl-client-side-certificate-data-in-php</id>
-    <content type="html"><![CDATA[<p>What should have been a simple assignment turned out to be a hair pulling endeavour. The ultimate goal was to read the client side certificate data in PHP. I am by no means a system administrator. And the SSL part will probably be done by somebody more experienced. And the certificates will be signed by real CA’s. But for developing locally i need something functioning. </p>
-
-<p>So i spend the last hours trying to get client side certificates working. With absolutely no luck. I found a bunch of posts by doing Google searches. But none of them seem to offer the proper information for creating good client side certificates. Creating the CA and the server certificate is no problem at all. But creating a client side certificate seems impossible. Some of the post i tried:</p>
-
-<ul>
-  <li><a href="http://www.modssl.org/docs/2.7/ssl_faq.html">http://www.modssl.org/docs/2.7/ssl_faq.html</a></li>
-  <li><a href="http://www.vanemery.com/Linux/Apache/apache-SSL.html">http://www.vanemery.com/Linux/Apache/apache-SSL.html</a></li>
-  <li><a href="http://www.linuxconfig.org/apache-web-server-ssl-authentication">http://www.linuxconfig.org/apache-web-server-ssl-authentication</a></li>
-  <li><a href="https://help.ubuntu.com/community/OpenSSL">https://help.ubuntu.com/community/OpenSSL</a></li>
-  <li><a href="https://help.ubuntu.com/8.04/serverguide/C/httpd.html">https://help.ubuntu.com/8.04/serverguide/C/httpd.html</a></li>
-  <li><a href="http://it.toolbox.com/blogs/securitymonkey/howto-securing-a-website-with-client-ssl-certificates-11500">http://it.toolbox.com/blogs/securitymonkey/howto-securing-a-website-with-client-ssl-certificates-11500</a></li>
-</ul>
-
-<p>You would have thought that something like this would have been documented pretty well by now. But no luck for me. This only resulted in</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
-  <div class="code"><pre>
-[debug] ssl_engine_kernel.c(1879): OpenSSL: Read: SSLv3 read client certificate A
-[debug] ssl_engine_kernel.c(1898): OpenSSL: Exit: failed in SSLv3 read client certificate A
-[info] [client xxx.xxx.xxx.xx] SSL library error 1 in handshake (server lab:443)
-[info] SSL Library Error: 336151570 error:14094412:SSL routines:SSL3_READ_BYTES:sslv3 alert bad certificate Subject CN in certificate not server name or identical to CA!?
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p>So after almost giving up i found the <em>CA.sh</em> script hidden in <em>/usr/lib/ssl/misc</em> this little sucker seems to do the job pretty well. Creating a CA, server certificate and client side certificate is extremely easy. So i settled for that.</p>
-
-<p><strong>Creating the CA</strong></p>
-
-<blockquote>
-  <p>$ cd /usr/lib/ssl/misc
-$ /CA.sh -newca</p>
-</blockquote>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
-  <div class="code"><pre>
-CA certificate filename (or enter to create)&lt;/p&gt;
-
-&lt;p&gt;Making CA certificate …
-Generating a 1024 bit RSA private key
-…………………..++++++
-………………………………++++++
-writing new private key to ‘./demoCA/private/./cakey.pem’
-Enter PEM pass phrase:
-Verifying - Enter PEM pass phrase:
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p>And fill out some basic certificate data</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
-  <div class="code"><pre>
-Country Name (2 letter code) [AU]:NL
-State or Province Name (full name) [Some-State]:NH
-Locality Name (eg, city) []:Purmerend
-Organization Name (eg, company) [Internet Widgits Pty Ltd]:Bluesignal
-Organizational Unit Name (eg, section) []:lab
-Common Name (eg, YOUR name) []:lab
-Email Address []:my@email.tld
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p><strong>Creating the server certificates</strong></p>
-
-<blockquote>
-  <p>$ ./CA.sh -newreq</p>
-</blockquote>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
-  <div class="code"><pre>
-Generating a 1024 bit RSA private key
-.++++++
-…………………………………………………………………………++++++
-writing new private key to ‘newkey.pem’
-Enter PEM pass phrase:
-Verifying - Enter PEM pass phrase:
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p>Fill out the same basic certificate data</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
-  <div class="code"><pre>
-Country Name (2 letter code) [AU]:NL
-State or Province Name (full name) [Some-State]:NH
-Locality Name (eg, city) []:Purmerend
-Organization Name (eg, company) [Internet Widgits Pty Ltd]:Bluesignal
-Organizational Unit Name (eg, section) []:lab
-Common Name (eg, YOUR name) []:lab
-Email Address []:my@email.tld
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p><strong>Sign the sucker</strong></p>
-
-<blockquote>
-  <p>$ ./CA.sh -sign</p>
-</blockquote>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
-  <div class="code"><pre>
-Using configuration from /etc/ssl/openssl.cnf
-Enter pass phrase for ./demoCA/private/cakey.pem:
-Check that the request matches the signature
-Signature ok
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p>The only thing left to do is creating the client side certificate</p>
-
-<blockquote>
-  <p>openssl pkcs12 -export -in newcert.pem -inkey newkey.key -out username.p12 -name “Client Certificate”</p>
-</blockquote>
-
-<p>Time to configure Apache2. I used the standard default-ssl virtual host and just reconfigured it</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
-  <div class="code"><pre>
-SSLEngine on
-SSLProtocol -all +TLSv1 +SSLv3
-SSLCipherSuite HIGH:MEDIUM
-SSLProxyEngine off
-SSLOptions +StrictRequire +OptRenegotiate +StdEnvVars +ExportCertData&lt;/p&gt;
-
-&lt;p&gt;SSLCertificateFile /usr/lib/ssl/misc/newcert.pem
-SSLCertificateKeyFile /usr/lib/ssl/misc/newkey.pem
-SSLVerifyClient require
-SSLVerifyDepth 1&lt;/p&gt;
-
-&lt;p&gt;SSLCertificateChainFile /usr/lib/ssl/misc/demoCA/cacert.pem
-SSLCACertificatePath /usr/lib/ssl/misc/demoCA/certs
-SSLCACertificateFile /usr/lib/ssl/misc/demoCA/cacert.pem
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p>reboot Apache2</p>
-
-<blockquote>
-  <p>$ /etc/init.d/apache2 restart</p>
-</blockquote>
-
-<p>The server side is ready. But it is still impossible to connect at this moment. We need to install the client certificate inside Firefox</p>
-
-<blockquote>
-  <p>Edit &gt; Preferences &gt; Advanced &gt; View Certificates</p>
-</blockquote>
-
-<p>Choose import and browse to the newly created *.p12 certificate file.</p>
-
-<p>Now i can finally connect based on my client side certificate and read the pieces of data i was looking for. Which can easily found by doing</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Dump $_SERVER </span></figcaption>
- <div class="CodeRay">
-  <div class="code"><pre>
-<span class="predefined">print_r</span>(<span class="predefined">$_SERVER</span>);
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p>Some of the stuff i was looking for</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
-  <div class="code"><pre>
-[SSL_CLIENT_S_DN_C] =&amp;gt; NL
-[SSL_CLIENT_S_DN_ST] =&amp;gt; NH
-[SSL_CLIENT_S_DN_L] =&amp;gt; Purmerend
-[SSL_CLIENT_S_DN_O] =&amp;gt; Bluesignal
-[SSL_CLIENT_S_DN_OU] =&amp;gt; lab
-[SSL_CLIENT_S_DN_CN] =&amp;gt; lab
-[SSL_CLIENT_S_DN_Email] =&amp;gt; my@email.tld
-[SSL_CLIENT_I_DN_C] =&amp;gt; NL
-[SSL_CLIENT_I_DN_ST] =&amp;gt; NH
-[SSL_CLIENT_I_DN_O] =&amp;gt; Bluesignal
-[SSL_CLIENT_I_DN_OU] =&amp;gt; lab
-[SSL_CLIENT_I_DN_CN] =&amp;gt; lab
-[SSL_CLIENT_I_DN_Email] =&amp;gt; my@email.tld
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p>Now it’s time for the fun part. </p>
 ]]></content>
   </entry>
   
