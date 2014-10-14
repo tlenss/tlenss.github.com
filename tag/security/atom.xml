@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Security | Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/tag/security/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2014-10-14T16:08:47+02:00</updated>
+  <updated>2014-10-14T16:09:31+02:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -18,9 +18,7 @@
     <link href="http://blog.lenss.nl/2014/09/secure-cloud-storage-with-google-and-encfs-on-ubuntu/"/>
     <updated>2014-09-29T00:16:32+02:00</updated>
     <id>http://blog.lenss.nl/2014/09/secure-cloud-storage-with-google-and-encfs-on-ubuntu</id>
-    <content type="html"><![CDATA[<p>Insync https://www.insynchq.com/downloads</p>
-
-<p>Before we start let me say that I am not a big fan of storing private data in the cloud. And even if you do there might be better solutions to protect your data then what i will describe here.</p>
+    <content type="html"><![CDATA[<p>Before we start let me say that I am not a big fan of storing private data in the cloud. And even if you do there might be better solutions to protect your data then what i will describe here.</p>
 
 <p>I’ve chosen to use Google drive for this example. So there will be some Google drive specifics. But this should work with practically any cloud storage provider.</p>
 
