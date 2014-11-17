@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Security | Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/tag/security/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2014-11-17T11:10:30+01:00</updated>
+  <updated>2014-11-17T11:13:08+01:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -80,7 +80,25 @@ $ gnome-encfs -a ~/[some-path]/[user]/encrypted ~/Private
 
 <p>Some more Googling <a href="http://markmaunder.com/2011/08/01/zero-day-vulnerability-in-many-wordpress-themes/">told</a> me to do a search on the Wordpress installs for the PHP function <a href="http://php.net/manual/en/function.base64-decode.php">base64_decode()</a>. O well. Lets give it a try. Some suspicious files did show up instantly.</p>
 
-<p><blockquote><p>$ find . -type f -exec grep -l ‘base64_decode’ {} \;</p></p><p><p>./uploads/2010/06/wp-rss4.php <a href="http://pastebin.com/rWD1Tfxk">source</a></p></p><p><p>./uploads/2011/05/alienee.php <a href="http://pastebin.com/LwDaSFUK">source</a></p></p><p><p>./plugins/wps3slider/temp/34e3a3a74f6e2d0f236bdd3ba70c0c03.php <a href="http://pastebin.com/fG6pDWC2">source</a></p></p><p><p>./plugins/wps3slider/temp/cf2cdb3ad3249b9692de07290f16f287.php <a href="http://pastebin.com/pRSwG7Ud">encoded</a> <a href="http://pastebin.com/0qQ3Qeut">decoded</a></p></p><p><p>./plugins/wps3slider/temp/771b821c974131c67e34c83d8d2db725.php <a href="http://pastebin.com/KUP8xBEQ">encoded</a> <a href="http://pastebin.com/Z77iMH1X">decoded</a></p></p><p><p>./plugins/wps3slider/temp/2b3753ea4769084f2e571737b695b03a.php <a href="http://pastebin.com/RLgsTerk">encoded</a> <a href="http://pastebin.com/KwgqCS8R">decoded</a></p></p><p><p>./plugins/wps3slider/temp/7228f168d9692eafeafc54dbc3a1ab49.php <a href="http://pastebin.com/HeE3PdnJ">encoded</a> <a href="http://pastebin.com/FzCqSfg6">decoded</a></p></p><p><p>./plugins/wps3slider/uploads/1.php <a href="http://pastebin.com/YJ17ygSL">source</a></p></p><p><p>/var/tmp/dc.pl <a href="http://pastebin.com/YTusrVZk">encoded</a> <a href="http://pastebin.com/0WfqZt0R">decoded</a></p></p><p><p></p></blockquote></p>
+<p><blockquote><p>$ find . -type f -exec grep -l ‘base64_decode’ {} \;</p></blockquote></p>
+
+<p>./uploads/2010/06/wp-rss4.php <a href="http://pastebin.com/rWD1Tfxk">source</a></p>
+
+<p>./uploads/2011/05/alienee.php <a href="http://pastebin.com/LwDaSFUK">source</a></p>
+
+<p>./plugins/wps3slider/temp/34e3a3a74f6e2d0f236bdd3ba70c0c03.php <a href="http://pastebin.com/fG6pDWC2">source</a></p>
+
+<p>./plugins/wps3slider/temp/cf2cdb3ad3249b9692de07290f16f287.php <a href="http://pastebin.com/pRSwG7Ud">encoded</a> <a href="http://pastebin.com/0qQ3Qeut">decoded</a></p>
+
+<p>./plugins/wps3slider/temp/771b821c974131c67e34c83d8d2db725.php <a href="http://pastebin.com/KUP8xBEQ">encoded</a> <a href="http://pastebin.com/Z77iMH1X">decoded</a></p>
+
+<p>./plugins/wps3slider/temp/2b3753ea4769084f2e571737b695b03a.php <a href="http://pastebin.com/RLgsTerk">encoded</a> <a href="http://pastebin.com/KwgqCS8R">decoded</a></p>
+
+<p>./plugins/wps3slider/temp/7228f168d9692eafeafc54dbc3a1ab49.php <a href="http://pastebin.com/HeE3PdnJ">encoded</a> <a href="http://pastebin.com/FzCqSfg6">decoded</a></p>
+
+<p>./plugins/wps3slider/uploads/1.php <a href="http://pastebin.com/YJ17ygSL">source</a></p>
+
+<p>/var/tmp/dc.pl <a href="http://pastebin.com/YTusrVZk">encoded</a> <a href="http://pastebin.com/0WfqZt0R">decoded</a></p>
 
 <p>Interesting. A quick look at the files showed that most of them were obfuscated. But not all. Two of the files were IRC bots written in <a href="http://www.php.net/">PHP</a>. At this moment i couldn’t resist but crack a little smile. But its also a reminder of how fragile the web really is. I quickly moved the files out of the way. And rebooted the machine. When it  came back online i monitored all connections for a while. But the connection to the C&amp;C; node was not restored. So i informed NCSC. And went back to bed!</p>
 
