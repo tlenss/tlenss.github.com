@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="elePHPants Some time ago i got a truck load of elePHPants [1] [2]. Thanks to Damien from Nexen. I wanted ti post the picture with two hundred of &hellip;">
+    <meta name="description" content="Speed Up and Save Traffic With Apache and Mod_deflate One of our sites was loading pretty slow. This is mostly caused by a very heavy design. But i &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,100 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2009/02/speed-up-and-save-traffic-with-apache-and-mod_deflate/">Speed Up and Save Traffic With Apache and Mod_deflate</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>One of our sites was loading pretty slow. This is mostly caused by a very heavy design. But i still wanted to speed things up a bit.</p>
+
+<p>The first step was compressing all JavaScript files with the <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI compressor</a>. The next step was to activate mod_deflate and compress all text, XML, and media files (JavaScript, CSS).</p>
+
+<p>When the mod_deflate module is loaded in apache this is a pretty easy thing to do. Just add the following lines to a .htaccess file in the root of the web site / application.</p>
+
+<blockquote>
+  <ul>
+    <li>AddOutputFilterByType DEFLATE text/html text/plain text/xml text/javascript text/css</li>
+    <li>BrowserMatch ^Mozilla/4 gzip-only-text/html</li>
+    <li>BrowserMatch ^Mozilla/4.0[678] no-gzip</li>
+    <li>BrowserMatch \bMSIE !no-gzip !gzip-only-text/html</li>
+  </ul>
+</blockquote>
+
+<p>The first line enables mod_deflate for the specified extensions. And the other three lines are there because of the way some older browsers handle gzipped data.</p>
+
+<p>To test if the the content is transmitted over the line in gzipped format i used the <a href="https://addons.mozilla.org/en-US/firefox/addon/3829">Live HTTP Header</a> Firefox extensions. This let’s you watch the Live HTTP headers as the fly by. </p>
+
+<p>Check the HTTP/ 1.x 200 OK response from the webserver for the following line</p>
+
+<blockquote>
+
+  <p>Content-Encoding: gzip</p>
+</blockquote>
+
+<p>And to test what happens if a browser doesn’t support gzipped data. You can set a configuration parameter in Firefox <a href="http://kb.mozillazine.org/Firefox_:_FAQs_:_About:config_Entries">about:config</a>.</p>
+
+<p>gzip, deflate enabled:</p>
+
+<blockquote>
+
+  <p>network.http.accept-encoding = gzip,deflate</p>
+</blockquote>
+
+<p>gzip, deflate disabled:</p>
+
+<blockquote>
+
+  <p>network.http.accept-encoding = </p>
+</blockquote>
+
+<p>References :
+<a href="http://www.howtoforge.com/apache2_mod_deflate">http://www.howtoforge.com/apache2_mod_deflate</a></p>
+
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2009/02/speed-up-and-save-traffic-with-apache-and-mod_deflate/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-02-24T05:59:53+01:00" pubdate data-updated="true">Feb 24<span>th</span>, 2009</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -737,73 +831,6 @@ $ sudo dpkg –purge postfix</p>
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2008/12/php-527-release-pulled-back/">PHP 5.2.7 Release Pulled Back</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>Last week PHP 5.2.7 was released. And i have it running here on my dev box. But this weekend the 5.2.7 version was <a href="http://www.php.net/archive/2008.php#id2008-12-07-1">pulled of the download</a> page. Due to a serious security bug concerning <a href="http://www.php.net/magic_quotes">magic_quotes</a>. Even when enabled it remains off. The advice for now is to stick with 5.2.6 and wait for the 5.2.8 release.</p>
-
-<p>So this will not be seen on a lot of systems i figure :)</p>
-
-<blockquote>
-  <ul>
-    <li>PHP 5.2.7 (cli) (built: Dec  5 2008 11:18:04)</li>
-    <li>Copyright (c) 1997-2008 The PHP Group</li>
-    <li>Zend Engine v2.2.0, Copyright (c) 1998-2008 Zend Technologies</li>
-    <li>with Xdebug v2.0.3, Copyright (c) 2002-2007, by Derick Rethans</li>
-  </ul>
-</blockquote>
-
-<ul>
-  <li>Update</li>
-</ul>
-
-<p>According to a <a href="http://www.php.net/archive/2008.php#id2008-12-08-1">post</a> from Ilia on php.net. The <a href="http://www.php.net/downloads.php">5.2.8</a> version is released. And solves the previous named problem. Everybody is ad viced to upgrade the 5.2.7 version.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2008/12/php-527-release-pulled-back/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-12-08T06:04:56+01:00" pubdate data-updated="true">Dec 8<span>th</span>, 2008</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
-  
 
   <ul class="pager">
     
@@ -847,6 +874,8 @@ $ sudo dpkg –purge postfix</p>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://blog.lenss.nl/2015/01/git-view-unpushed-changes/">View unpushed changes in git</a></li>
+		
 		<li><a href="http://blog.lenss.nl/2014/09/secure-cloud-storage-with-google-and-encfs-on-ubuntu/">Secure cloud storage with Google and encfs on Ubuntu</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/11/first-weekday-of-month-in-php/">Get the first weekday of the month in PHP</a></li>
@@ -864,8 +893,6 @@ $ sudo dpkg –purge postfix</p>
 		<li><a href="http://blog.lenss.nl/2013/03/casting-weirdness-with-PHP/">Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/">Zend Optimizer+ integrated into 5.5</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2013/02/phpness-serious-wtf/">PHPness Serious WTF</a></li>
 		
 	</ul>
 </div>
@@ -886,7 +913,7 @@ $ sudo dpkg –purge postfix</p>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.50420168067227%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.53781512605042%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.50420168067227%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 100.50420168067227%'>Development(1)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.5126050420168%'>Git(3)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.53781512605042%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

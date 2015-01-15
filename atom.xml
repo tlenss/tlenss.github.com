@@ -4,7 +4,7 @@
   <title><![CDATA[Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2015-01-15T23:29:48+01:00</updated>
+  <updated>2015-01-15T23:32:49+01:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -12,6 +12,46 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[View unpushed changes in git]]></title>
+    <link href="http://blog.lenss.nl/2015/01/git-view-unpushed-changes/"/>
+    <updated>2015-01-12T12:27:32+01:00</updated>
+    <id>http://blog.lenss.nl/2015/01/git-view-unpushed-changes</id>
+    <content type="html"><![CDATA[<p>When focus shifts to other projects. It might happen that some repository sits around for a while without being worked on. And if getting your forked repository synced isn’t a big enough problem. It might contain some unpushed changes. So this happened the other day at the office. </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git status
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<blockquote><p># On branch master<br /># Your branch is ahead of &#8216;origin/master&#8217; by 16 commits.<br />#<br />nothing to commit (working directory clean)</p></blockquote>
+
+<p>Doing a simpel push would resolve the problem. But what if some changes are not needed anymore. Or some other spec changes that allow for some further inspection. So it might be a good idea to inspect the changes before we push them to remote. And thankfully git makes this quite easy. By diffing the HEAD against remote master.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git diff origin/master..HEAD
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<blockquote><p>diff &#8211;git a/path/library/init.php b/path/library/init.php<br />index 0c5ae45..50a2060 100644<br />&#8212; a/path/library/init.php<br />+++ b/path/library/init.php<br />@@ -8,13 +8,6 @@<br /> *       directory structure.<br /> */</p><p>-function FOO_library_autoloader( $classname )<br />-{<br />-    $classfile = str_replace(&#8220;_&#8221;, &#8220;/&#8221;, $classname) . &#8216;.php&#8217;;<br />-    if (file_exists(LIBRARY . $classfile))<br />-        require_once(LIBRARY. $classfile);<br />-}<br />-<br /> spl_autoload_register(&#8216;FOO_library_autoloader&#8217;);</p><p>&#8230;</p></blockquote>
+
+<p>And voila. A diff of all unpushed changes. This also works for upstream repository’s. But the code has to fetched first. So before running the diff command. Do this</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git fetch upstream master
+$ git diff upstream/master..HEAD
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Secure cloud storage with Google and encfs on Ubuntu]]></title>
@@ -1434,35 +1474,6 @@ end
   <li>[2] <a href="https://github.com/yevgenko/cookbook-dotdeb">https://github.com/yevgenko/cookbook-dotdeb</a></li>
   <li>[3] <a href="http://vagrantup.com/v1/docs/provisioners/chef_solo.html">http://vagrantup.com/v1/docs/provisioners/chef_solo.html</a></li>
 </ul>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Adding colors to PHP CLI script output]]></title>
-    <link href="http://blog.lenss.nl/2012/05/adding-colors-to-php-cli-script-output/"/>
-    <updated>2012-05-26T11:14:33+02:00</updated>
-    <id>http://blog.lenss.nl/2012/05/adding-colors-to-php-cli-script-output</id>
-    <content type="html"><![CDATA[<p>I always loved writing CLI scripts. And in <a href="http://php.net/manual/en/features.commandline.php">PHP</a> this is no different. I write a lot of CLI importers, scrapers, reporters, etc. And sometimes i want a bit more funk in my output then the standard black and white. When output is important i will add some colors to make things more clear. And this is not hard at all.</p>
-
-<p>First of it’s probably a good thing to gather some of the available colors. A good resource is available <a href="https://wiki.archlinux.org/index.php/Color_Bash_Prompt">here</a>. Some of the colors and their corresponding codes can be found below.</p>
-
-<blockquote><p>Black         0;30<br />Blue          0;34<br />Green         0;32<br />Cyan          0;36<br />Red           0;31<br />Purple        0;35<br />Brown         0;33<br />Light Gray    0;37 <br />Dark Gray     1;30<br />Light Blue    1;34<br />Light Green   1;32<br />Light Cyan    1;36<br />Light Red     1;31<br />Light Purple  1;35<br />Yellow        1;33<br />White         1;37</p></blockquote>
-
-<p>So how do i output colors you ask? Well that’s just plain easy. It’s a bit like setting up colors in your linux PS1 env variable.</p>
-
-<p>Display a line in red for instance can be simply done by ‘echoing’ from the script with some extra formatting for bash to pickup. I will try to explain everything in the line below a bit later.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-    <span class="predefined">echo</span> <span class="string"><span class="delimiter">&quot;</span><span class="char">\033</span><span class="content">[31m some colored text </span><span class="char">\033</span><span class="content">[0m some white text </span><span class="char">\n</span><span class="delimiter">&quot;</span></span>;
-    <span class="predefined">echo</span> <span class="string"><span class="delimiter">&quot;</span><span class="char">\033</span><span class="content">[32m some colored text </span><span class="char">\033</span><span class="content">[0m some white text </span><span class="char">\n</span><span class="delimiter">&quot;</span></span>;
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>So what’s going on here. First we use an escape character so we can actually define a output color. This is done with <strong>\033</strong> (\e). Then we open the color statement with <strong>[31m</strong>. Red in this case. The “some colored text” will be the text outputted in a different color. And after that we have to close the color statement with <strong>\033[0m</strong>.</p>
-
-<p>Easy as cake… that’s all!</p>
 ]]></content>
   </entry>
   

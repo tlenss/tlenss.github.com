@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="VIM for a PHP Developer For my coding work i mostly use Zend Studio. And i am a big fan of this IDE. But i also do a lot of work in the shell. And &hellip;">
+    <meta name="description" content="Downtime So lenss.nl was offline Thursday for about 5 hours. When i was getting ready for the DPC11 tutorial day i got a notification that one of my &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,66 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2011/05/downtime/">Downtime</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>So lenss.nl was offline Thursday for about 5 hours. When i was getting ready for the <a href="http://www.phpconference.nl/">DPC11</a> tutorial day i got a notification that one of my servers was down. So i quickly setup a ssh connection. And that still seemed to work. The only thing off was. Apache wasn’t running anymore. So tried a restart. And was unpleasantly surprised by the result. Which looked something like this.</p>
+
+<blockquote>
+  <p>/usr/sbin/apache2ctl line 82 (core dumped) $HTTPD ${APACHE_ARGUMENTS} -k $ARGV</p>
+</blockquote>
+
+<p>Googling didn’t provide any useful information about the issue. So i contacted support and asked them to take a look at it. So i could move in the direction of the DPC11. After some horrible traffic and a closed road due to an accident. I finally made it to the DPC 2 hours late. But when i plugged my laptop in i noticed apache was still not running. Contacted support again. They couldn’t find any serious issues. I already missed the first part of “<a href="http://www.phpconference.nl/tutorials#optimizing-mysql-essentials">Optimizing MySQL Essentials</a>”. So decided to do the tutorial first. </p>
+
+<p>While i was sitting there i got the idea of disabling the apache modules. Which turned out to be a good idea. So after the tutorial session finished i logged in to the server. Disabled all apache modules and got apache working again. After some testing the cause of the problem seemed to be the Google <a href="http://code.google.com/p/modpagespeed/">mod_pagespeed</a> apache module. That’s the second time this happened after a upgrade. Will leave it disabled for now. </p>
+
+<p>On a side note.. Where is all the direct traffic coming from all of the sudden?</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2011/05/downtime/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-21T12:06:40+02:00" pubdate data-updated="true">May 21<span>st</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -1298,131 +1358,6 @@ SSLCACertificateFile /usr/lib/ssl/misc/demoCA/cacert.pem
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2011/02/dark-theme-for-zend-studio-8/">Dark Theme for Zend Studio 8</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>Because i was so happy with my new <a href="http://lenss.nl/2011/02/extending-my-desktop/">3 monitor configuration</a>. I decided to refresh my development environment as well. Normally all my files would reside in the Devspace older in my user folder under the /home directory. Now i used a new 500 GB <em>SATA</em> drive and formatted it <em>EXT3</em>. Moving your workspace in <a href="http://www.zend.com/en/products/studio/">Zend Studio</a> has the minor inconvenience that the local settings like fonts / syntax colours are lost. <del>I still haven’t found a way to export this. So i decided to take this opportunity to create a nice new dark theme.</del>. My friend Bart (still no blog?) was friendly enough to let me know how to export the theme related data in ZS. And was nice enough to send me his zenburn theme.</p>
-
-<blockquote>
-  <p>File &gt; Export &gt; General &gt; Preferences </p>
-</blockquote>
-
-<blockquote>
-  <p>File &gt; Import &gt; General &gt; Preferences </p>
-</blockquote>
-
-<p>Bart’s zenburn theme:
-<img src="http://blog.lenss.nl/images/2011/03/zenburn-300x225.png" /></p>
-
-<p>Most developers i know don’t seem to care much about the colour of their screen and the font they use. But considering the fact that i spend an insanely amount of time behind a screen. It would be nice if this environment i am in all day put the least amount of constrained on my eyes as possible. So i choose to take time and configure this for optimal viewing pleasure. This starts with the font. For years i have been using the <a href="http://damieng.com/blog/2008/05/26/envy-code-r-preview-7-coding-font-released">Envy Code</a> font by <a href="http://damieng.com/">Damien Guard</a> inside my <a href="http://en.wikipedia.org/wiki/Integrated_development_environment">IDE</a>. This all started i think with a <a href="http://www.codinghorror.com/blog/2007/10/revisiting-programming-fonts.html">post</a> by <a href="http://www.codinghorror.com/">Jeff Atwood</a> It’s a great font that is extremely easy to read even for terminals. Although still in beta. I advice people to use it when possible.</p>
-
-<p>The second thing i configure are the colour schemes my IDE uses. The standard colour always has a white background. White makes sure things are clear. But staring at a white screen for more then 6 hours always resulted in headaches for me. So the darker the better. And with a dark background you are forced to change the rest as well. </p>
-
-<p><strong>Changing the font is first</strong></p>
-
-<blockquote>
-  <p>General &gt; Appearance &gt; Colors and Fonts
-Font : Envy Code R Bold (11 pt)</p>
-</blockquote>
-
-<p><strong>Second up are some general text editor colours</strong></p>
-
-<blockquote>
-  <ul>
-    <li>General &gt; Editors &gt; Text Editors</li>
-    <li>Line number foreground : #787878 (120, 120, 120)</li>
-    <li>Current line highlight : #35353D (53, 53, 61)</li>
-    <li>Background color : #25252D (37, 37, 45)</li>
-  </ul>
-</blockquote>
-
-<p><strong>And finally the PHP syntax coloring</strong></p>
-
-<blockquote>
-  <ul>
-    <li>PHP &gt; Editor &gt; Syntax Coloring</li>
-    <li>Decprecated : #000 (0, 0, 0)</li>
-    <li>Fields : #FFFFFF (255, 255, 255)</li>
-    <li>Heredoc     : #008282 (0, 130, 130)</li>
-    <li>Keyword     : #DE5727 (222, 87, 39)</li>
-    <li>Multi-line comment : #557F5F (85, 127, 95)</li>
-    <li>Normal : #FFF (255, 255, 255)</li>
-    <li>Number : #FFCECE (255, 206, 206)</li>
-    <li>PHP tags : #DE5727 (222, 87, 39)</li>
-    <li>PHP Doc : #FEC601 (254, 198, 1)</li>
-    <li>PHPDoc Comment : #FEC601 (254, 198, 1)</li>
-    <li>single line comment : #FEC601 (254, 198, 1)</li>
-    <li>static fields : #FFFFFF (255, 255, 255)</li>
-    <li>static methods : #FFFFFF (255, 255, 255)</li>
-    <li>String : #B3C0C8 (179, 192, 200)</li>
-    <li>Task Tags : #FEC601 (254, 198, 1)</li>
-    <li>Variable : #0B91B7 (11, 145, 183)</li>
-  </ul>
-</blockquote>
-
-<p>The result can be viewed below</p>
-
-<p><a href="http://blog.lenss.nl/images/2011/02/Screenshot-ide-dark.png"><img src="http://blog.lenss.nl/images/2011/02/Screenshot-ide-dark-300x182.png" alt="" /></a></p>
-
-<p>There are much more configuration options to do but for now this is what i came up with. Setting up the theme is a since in ZS. But one thing bothered me. The function / property name highlighting when you select an element inside the IDE. Was a very light colour. And this made it impossible to read the contents of the selection.</p>
-
-<p><a href="http://blog.lenss.nl/images/2011/02/occurrences_on.png"><img src="http://blog.lenss.nl/images/2011/02/occurrences_on-300x20.png" alt="" /></a></p>
-
-<p>So after searching for a while and setting every possible setting in the configuration tabs. I finally figured out how the set the colour for these two actions. This is done from the Annotations setting in the Text editors panel under the general tab. The two options to change are <em>PHP elements read / write occurrences</em>.</p>
-
-<p><a href="http://blog.lenss.nl/images/2011/02/Screenshot-change-bg.png"><img src="http://blog.lenss.nl/images/2011/02/Screenshot-change-bg-300x157.png" alt="" /></a></p>
-
-<p>For now i settled with a dark colour. But maybe i will change this in the future since it is not very readable</p>
-
-<p><a href="http://blog.lenss.nl/images/2011/02/occurrences_off.png"><img src="http://blog.lenss.nl/images/2011/02/occurrences_off-300x20.png" alt="" /></a></p>
-
-<p>That’s it for now. This of course only sets up the PHP environment. The syntax colours for XML, HTML, CSS and Javascript still have to be changed. But i will leave it at this. </p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2011/02/dark-theme-for-zend-studio-8/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-02-20T22:11:58+01:00" pubdate data-updated="true">Feb 20<span>th</span>, 2011</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>, <a class='category' href='http://blog.lenss.nl/tag/zend/'>Zend</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
-  
 
   <ul class="pager">
     
@@ -1466,6 +1401,8 @@ Font : Envy Code R Bold (11 pt)</p>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://blog.lenss.nl/2015/01/git-view-unpushed-changes/">View unpushed changes in git</a></li>
+		
 		<li><a href="http://blog.lenss.nl/2014/09/secure-cloud-storage-with-google-and-encfs-on-ubuntu/">Secure cloud storage with Google and encfs on Ubuntu</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/11/first-weekday-of-month-in-php/">Get the first weekday of the month in PHP</a></li>
@@ -1483,8 +1420,6 @@ Font : Envy Code R Bold (11 pt)</p>
 		<li><a href="http://blog.lenss.nl/2013/03/casting-weirdness-with-PHP/">Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/">Zend Optimizer+ integrated into 5.5</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2013/02/phpness-serious-wtf/">PHPness Serious WTF</a></li>
 		
 	</ul>
 </div>
@@ -1505,7 +1440,7 @@ Font : Envy Code R Bold (11 pt)</p>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.50420168067227%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.53781512605042%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.50420168067227%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 100.50420168067227%'>Development(1)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.5126050420168%'>Git(3)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.53781512605042%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

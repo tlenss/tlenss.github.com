@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Subversion Cross Platform Errors Yesterday my colleague was complaining he couldn’t do a normal check out of one of the projects in Subversion. At &hellip;">
+    <meta name="description" content="PHP 5.2.7 Release Pulled Back Last week PHP 5.2.7 was released. And i have it running here on my dev box. But this weekend the 5.2.7 version was &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,73 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2008/12/php-527-release-pulled-back/">PHP 5.2.7 Release Pulled Back</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>Last week PHP 5.2.7 was released. And i have it running here on my dev box. But this weekend the 5.2.7 version was <a href="http://www.php.net/archive/2008.php#id2008-12-07-1">pulled of the download</a> page. Due to a serious security bug concerning <a href="http://www.php.net/magic_quotes">magic_quotes</a>. Even when enabled it remains off. The advice for now is to stick with 5.2.6 and wait for the 5.2.8 release.</p>
+
+<p>So this will not be seen on a lot of systems i figure :)</p>
+
+<blockquote>
+  <ul>
+    <li>PHP 5.2.7 (cli) (built: Dec  5 2008 11:18:04)</li>
+    <li>Copyright (c) 1997-2008 The PHP Group</li>
+    <li>Zend Engine v2.2.0, Copyright (c) 1998-2008 Zend Technologies</li>
+    <li>with Xdebug v2.0.3, Copyright (c) 2002-2007, by Derick Rethans</li>
+  </ul>
+</blockquote>
+
+<ul>
+  <li>Update</li>
+</ul>
+
+<p>According to a <a href="http://www.php.net/archive/2008.php#id2008-12-08-1">post</a> from Ilia on php.net. The <a href="http://www.php.net/downloads.php">5.2.8</a> version is released. And solves the previous named problem. Everybody is ad viced to upgrade the 5.2.7 version.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2008/12/php-527-release-pulled-back/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-12-08T06:04:56+01:00" pubdate data-updated="true">Dec 8<span>th</span>, 2008</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -838,92 +905,6 @@ I always open the repository view. From there i right click &gt; New &gt; reposi
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2008/08/zend_filter_inflector-and-the-camelcasetounderscore-filter/">Zend_Filter_Inflector and the CamelCaseToUnderscore Filter</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>I was thinking about how to add theme support to an application that makes use of the Zend_Layout component. When i came across the Zend_Filter_Inflector class. This looks interesting. From teh ZF manual:</p>
-
-<blockquote>
-  <p>Zend_Filter_Inflector is a general purpose tool for rules-based inflection of strings to a given target.</p>
-</blockquote>
-
-<p>This little class makes it easy to convert string to for instance paths. Anyway. i was trying to configure this class in my Bootstrap class. And run into some problems. I was testing the example in the manual. which makes use of the Zend_Filter CalemCaseToUnderscore. But when i reloaded my page instead of the usual output i was treated by an error.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$inflector</span> = <span class="keyword">new</span> <span class="constant">Zend_Filter_Inflector</span>(<span class="string"><span class="delimiter">'</span><span class="content">:script.:suffix</span><span class="delimiter">'</span></span>);
-<span class="local-variable">$inflector</span>-&gt;setRules(<span class="predefined">array</span>(
-  <span class="string"><span class="delimiter">'</span><span class="content">:script</span><span class="delimiter">'</span></span> =&gt; <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">CamelCaseToUnderscore</span><span class="delimiter">'</span></span>),
-  <span class="string"><span class="delimiter">'</span><span class="content">suffix</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">html</span><span class="delimiter">'</span></span>
-));
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<blockquote>
-  <p>Zend_Loader_PluginLoader_Exception: Plugin by name CamelCaseToUnderscore was not found in the registry. in Zend\Loader\PluginLoader.php on line 370</p>
-</blockquote>
-
-<p>When i looked at the structure of the Zend folder. I noticed the CamelCaseToUnderscore filter was not available in the root of the Filter directory. Instead it’s placed inside the Filter/Word directory. So i prefixed the class name with Word_. And this works fine. The code now looks like this.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$inflector</span> = <span class="keyword">new</span> <span class="constant">Zend_Filter_Inflector</span>(<span class="string"><span class="delimiter">'</span><span class="content">:script.:suffix</span><span class="delimiter">'</span></span>);
-<span class="local-variable">$inflector</span>-&gt;setRules(<span class="predefined">array</span>(
-  <span class="string"><span class="delimiter">'</span><span class="content">:script</span><span class="delimiter">'</span></span> =&gt; <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">Word_CamelCaseToUnderscore</span><span class="delimiter">'</span></span>),
-  <span class="string"><span class="delimiter">'</span><span class="content">suffix</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">html</span><span class="delimiter">'</span></span>
-));
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>it’s a minor issue but i reported <a href="http://framework.zend.com/issues/browse/ZF-4011">it</a> anyway.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2008/08/zend_filter_inflector-and-the-camelcasetounderscore-filter/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-08-20T11:23:14+02:00" pubdate data-updated="true">Aug 20<span>th</span>, 2008</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
-  
 
   <ul class="pager">
     
@@ -967,6 +948,8 @@ I always open the repository view. From there i right click &gt; New &gt; reposi
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://blog.lenss.nl/2015/01/git-view-unpushed-changes/">View unpushed changes in git</a></li>
+		
 		<li><a href="http://blog.lenss.nl/2014/09/secure-cloud-storage-with-google-and-encfs-on-ubuntu/">Secure cloud storage with Google and encfs on Ubuntu</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/11/first-weekday-of-month-in-php/">Get the first weekday of the month in PHP</a></li>
@@ -984,8 +967,6 @@ I always open the repository view. From there i right click &gt; New &gt; reposi
 		<li><a href="http://blog.lenss.nl/2013/03/casting-weirdness-with-PHP/">Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/">Zend Optimizer+ integrated into 5.5</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2013/02/phpness-serious-wtf/">PHPness Serious WTF</a></li>
 		
 	</ul>
 </div>
@@ -1006,7 +987,7 @@ I always open the repository view. From there i right click &gt; New &gt; reposi
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.50420168067227%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.53781512605042%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.50420168067227%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 100.50420168067227%'>Development(1)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.5126050420168%'>Git(3)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.53781512605042%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Zend_Db Connects to Wrong Mysql Socket While working on a small project today. I was confronted with a Zend_Db exception that i have seen before. &hellip;">
+    <meta name="description" content="Zend Framework v1.8x Zend_Loader Replacement Last night i was trying to push a application to my staging environment. When i noticed an error i didn &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,85 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2009/06/zend-framework-v1-8x-zend_loader-replacement/">Zend Framework v1.8x Zend_Loader Replacement</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>Last night i was trying to push a application to my <a href="http://en.wikipedia.org/wiki/Staging_(websites)">staging</a> environment. When i noticed an error i didn’t had on my local box.</p>
+
+<blockquote>
+  <p>Notice: Zend_Loader::Zend_Loader::registerAutoload is deprecated as of 1.8.0 and will be removed with 2.0.0; use Zend_Loader_Autoloader instead in /path/to/Zend/Loader.php on line 207</p>
+</blockquote>
+
+<p>A quick check revealed that i had a newer version of the <a href="http://framework.zend.com/">Zend Framework</a> loaded on my staging environment. Locally i have 1.7x and on the staging environment i have 1.8x. And according to the documentation the old Zend_Loader is being deprecated in favor of <a href="http://framework.zend.com/manual/en/zend.loader.autoloader.html">Zend_Loader_Autoloader</a>.</p>
+
+<p>So in ZF projects prior to version 1.8x when enabling <a href="http://nl2.php.net/manual/en/language.oop5.autoload.php">autoloading</a> we would do something like this:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="predefined">require_once</span> <span class="string"><span class="delimiter">'</span><span class="content">Zend/Loader.php</span><span class="delimiter">'</span></span>;
+<span class="constant">Zend_Loader</span>::registerAutoload();
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>With the new Zend_Loader_AutoLoader this will look something like this:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="predefined">require_once</span> <span class="string"><span class="delimiter">'</span><span class="content">Zend/Loader/Autoloader.php</span><span class="delimiter">'</span></span>;
+<span class="local-variable">$loader</span> = <span class="constant">Zend_Loader_Autoloader</span>::getInstance();
+<span class="local-variable">$loader</span>-&gt;registerNamespace(<span class="string"><span class="delimiter">'</span><span class="content">Namespace_</span><span class="delimiter">'</span></span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Notice the call to ‘registerNamespace’. This is where you set the namespacing for the classes or application libraries. By default the AutoLoader picks up Zend_ and ZendX_ namespacing. And we can extend this to use our own classes and libraries.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2009/06/zend-framework-v1-8x-zend_loader-replacement/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-06-29T11:39:14+02:00" pubdate data-updated="true">Jun 29<span>th</span>, 2009</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -757,58 +836,6 @@ $ extension=mysqli.so</p>
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2009/04/two-character-domain/">Two Character Domain</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>My feed reader today showed the <a href="http://ilia.ws/index.php?url=archives/197-5-Letter-Domain-ia.gd.html">post</a> from “<a href="http://ilia.ws/">Ilia Alshanetsky</a>” a well respected PHP core developer. The goal of Ilia was to find the shortest domain possible for his blog. So there will be no need to use URL shortener’s. This made me think about my own little travel over the Internet to find a two character domain. It took my quite some time to find a registrar and top-level domain that actually allowed registering domains shorter then 3 characters. Ilia found his relieve in the .gd (Grenada) domain. And i myself found mine in the .vc (Saint Vincent) domain. So it’s still possible to get short domain names. It just takes a bit of research and time :)</p>
-
-<p>I tried commenting on his post. But he either disabled the commenting. Or i just can’t get the CAPTCHA right.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2009/04/two-character-domain/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-04-14T17:36:14+02:00" pubdate data-updated="true">Apr 14<span>th</span>, 2009</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
-  
 
   <ul class="pager">
     
@@ -852,6 +879,8 @@ $ extension=mysqli.so</p>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://blog.lenss.nl/2015/01/git-view-unpushed-changes/">View unpushed changes in git</a></li>
+		
 		<li><a href="http://blog.lenss.nl/2014/09/secure-cloud-storage-with-google-and-encfs-on-ubuntu/">Secure cloud storage with Google and encfs on Ubuntu</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/11/first-weekday-of-month-in-php/">Get the first weekday of the month in PHP</a></li>
@@ -869,8 +898,6 @@ $ extension=mysqli.so</p>
 		<li><a href="http://blog.lenss.nl/2013/03/casting-weirdness-with-PHP/">Casting weirdness with PHP</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/">Zend Optimizer+ integrated into 5.5</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2013/02/phpness-serious-wtf/">PHPness Serious WTF</a></li>
 		
 	</ul>
 </div>
@@ -891,7 +918,7 @@ $ extension=mysqli.so</p>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.50420168067227%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.00840336134453%'>Git(2)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.53781512605042%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.50420168067227%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 100.50420168067227%'>Development(1)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.5126050420168%'>Git(3)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.53781512605042%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>
