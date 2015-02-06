@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Dark Theme for Zend Studio 8 Because i was so happy with my new 3 monitor configuration. I decided to refresh my development environment as well. &hellip;">
+    <meta name="description" content="Voices of the ElePHPant Just found this nice little project Cal Evans is doing. It’s called Voices of the ElePHPant. The name i guess is dedicated &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,57 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2011/02/voices-of-the-elephpant/">Voices of the ElePHPant</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p><a href="http://blog.lenss.nl/images/2011/02/elephpant-small.png"><img src="http://blog.lenss.nl/images/2011/02/elephpant-small.png" alt="" /></a> Just found this nice little project <a href="http://blog.calevans.com/">Cal Evans</a> is doing. It’s called <a href="http://voicesoftheelephpant.com/">Voices of the ElePHPant</a>. The name i guess is dedicated to <a href="http://www.elroubio.net/">Vincent Pontier</a> the creator of the elePHPant. The goal is to shine a light on a special PHP community person. And the kick of is done by <a href="http://www.jeremykendall.net/">Jeremy Kendall</a>. Be sure to check back often for new updates. Or nominate somebody.</p>
+
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2011/02/voices-of-the-elephpant/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-21T01:08:26+01:00" pubdate data-updated="true">Feb 21<span>st</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -1173,183 +1224,6 @@ phplview.cgi</p>
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2010/11/changing-mysql-for-mariadb/">Changing Mysql for MariaDB</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p><a href="http://mariadb.org/"><img src="http://blog.lenss.nl/images/2010/11/mariadb.png" alt="" /></a>Ok so i quit smoking 4 days ago now. And i am having some serious sleep issues at the moment. i have been up half the night sitting here staring at my screen. But nothing really productive comes out of my hands. So while doing a bit of browsing i hit the <a href="http://mariadb.org/">MariaDB</a> page. And has been while since i was here. The last time there was no real downloadable package yet. But this has all changed.</p>
-
-<p>So that made me think about last week. I think it was on Friday. but there was some up stirring about <a href="http://www.mysql.com/products/">MySQL</a> (Oracle) asking a license fee for using the <a href="http://www.innodb.com/">InnoDB</a> storage engine. And quite a big fee if you ask me :) This really sucks. I love the InnoDB engine. What would we do without it…? That’s where MariaDB comes into play. It uses the <a href="https://launchpad.net/percona-xtradb">XtraDB</a> storage engine which is basically InnoDB on steroids. XtraDB is developed and maintained by <a href="http://www.percona.com/">Percona</a>. Some really smart MySQL guys :) At the moment it’s under the <a href="http://www.gnu.org/licenses/gpl.html">GPL</a> license. And i can only hope it will be freely available for a long time.</p>
-
-<p>So i went ahead and took a look at how hard / easy it is to change MySQL for MariaDB. I tried this on a Debian Lenny machine which made the process quite easy i have to mention.</p>
-
-<p>First get the PGP key from the server and import the repository locations. After that hit update to refresh the local database.</p>
-
-<blockquote>
-  <ul>
-    <li>
-      <table>
-        <tbody>
-          <tr>
-            <td>$ wget -O- http://ourdelta.org/deb/ourdelta.gpg</td>
-            <td>sudo apt-key add -</td>
-          </tr>
-        </tbody>
-      </table>
-    </li>
-    <li>$ cd /etc/apt/sources.list.d; wget http://mirror.ourdelta.org/deb/sources/lenny-mariadb-ourdelta.list</li>
-    <li>$ aptitude update</li>
-  </ul>
-</blockquote>
-
-<p>As we can see we have some new packages</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-Get:8 http://mirror.ourdelta.org lenny/mariadb-ourdelta Sources [864B]
-Current status: 3 updates [+3], 232 new [+11].
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>Searching for ‘mariadb’ gives the following packages</p>
-
-<blockquote>
-  <p>$ aptitude search mariadb</p>
-</blockquote>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-p   libmariadbclient-dev              - MariaDB database development files
-p   libmariadbclient16                - MariaDB database client library
-v   libmariadbclient16-dev            - MariaDB embedded database development files 
-p   mariadb-client                    - MariaDB database client (metapackage depending on the latest version)
-p   mariadb-client-5.1                - MariaDB database client binaries
-p   mariadb-client-core-5.1           - MariaDB database core client binaries
-v   mariadb-common 
-p   mariadb-server                    - MariaDB database server (metapackage depending on the latest version)
-p   mariadb-server-5.1                - MariaDB database server binaries
-p   mariadb-test                      - MariaDB database regression test suite (metapackage depending on the latest version)
-p   mariadb-test-5.1                  - MariaDB database regression test suite
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>So let’s go ahead and install the server and see what happens.</p>
-
-<blockquote>
-  <p>$ aptitude install mariadb-server</p>
-</blockquote>
-
-<p>Some mysql files get removed the mysql-common package gets updated and the new MariaDB packages get installed.</p>
-
-<blockquote>
-
-  <ul>
-    <li><strong>The following NEW packages will be installed:</strong></li>
-    <li>libmariadbclient16{a} </li>
-    <li>libmysqlclient16{a} </li>
-    <li>mariadb-client-5.1{a} </li>
-    <li>mariadb-client-core-5.1{a} </li>
-    <li>mariadb-server </li>
-    <li>mariadb-server-5.1{a} </li>
-  </ul>
-</blockquote>
-
-<blockquote>
-
-  <ul>
-    <li><strong>The following packages will be REMOVED:</strong></li>
-    <li>mysql-client-5.0{a} </li>
-    <li>mysql-server{a} </li>
-    <li>mysql-server-5.0{a} </li>
-  </ul>
-</blockquote>
-
-<blockquote>
-
-  <ul>
-    <li><strong>The following packages will be upgraded:</strong></li>
-    <li>mysql-common</li>
-  </ul>
-</blockquote>
-
-<p>Now that’s done. Let’s check MySQL’s output</p>
-
-<blockquote>
-  <p>$ mysql –version
-* mysql  Ver 14.16 Distrib 5.1.49-MariaDB, for debian-linux-gnu (i486) using readline 5.1</p>
-</blockquote>
-
-<p>Just as i expected. Nothing really changed here. The whole MySQL API is till available for calling. Only the base system is now replaced by MariaDB. So let’s see what storage engines are available.</p>
-
-<blockquote>
-
-  <p>$ mysql -uroot -p</p>
-</blockquote>
-
-<blockquote>
-  <ul>
-    <li>MariaDB [(none)]&gt; show engines;</li>
-    <li><strong>BLACKHOLE</strong>     _/dev/null storage engine (anything you write to it disappears) _</li>
-    <li><strong>MRG_MYISAM</strong>  _Collection of identical MyISAM tables _</li>
-    <li><strong>FEDERATED</strong>     _FederatedX pluggable storage engine  _</li>
-    <li><strong>MARIA</strong>            _Crash-safe tables with MyISAM heritage _</li>
-    <li>**CSV **              _ CSV storage engine _</li>
-    <li>**MEMORY **        _Hash based, stored in memory, useful for temporary tables  _</li>
-    <li>**ARCHIVE **        _Archive storage engine  _</li>
-    <li><strong>MyISAM</strong>          _Default engine as of MySQL 3.23 with great performance  _</li>
-    <li><strong>InnoDB</strong>           _Supports transactions, row-level locking, and foreign keys _</li>
-    <li><strong>PBXT</strong>              <em>High performance, multi-versioning transactional engine</em></li>
-  </ul>
-</blockquote>
-
-<p>And because the MySQL APi is still in tact. From PHP we can keep using the mysql and mysqli interfaces. This is great stuff!</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2010/11/changing-mysql-for-mariadb/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-11-08T07:19:45+01:00" pubdate data-updated="true">Nov 8<span>th</span>, 2010</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/sql/'>SQL</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
-  
 
   <ul class="pager">
     
@@ -1393,6 +1267,8 @@ p   mariadb-test-5.1                  - MariaDB database regression test suite
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://blog.lenss.nl/2016/01/using-the-hub-in-github-pull-requests/">Using the hub in Github - pull requests</a></li>
+		
 		<li><a href="http://blog.lenss.nl/2015/01/git-view-unpushed-changes/">View unpushed changes in git</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2014/09/secure-cloud-storage-with-google-and-encfs-on-ubuntu/">Secure cloud storage with Google and encfs on Ubuntu</a></li>
@@ -1410,8 +1286,6 @@ p   mariadb-test-5.1                  - MariaDB database regression test suite
 		<li><a href="http://blog.lenss.nl/2013/06/php-55-released/">PHP 5.5.0 released</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/03/casting-weirdness-with-PHP/">Casting weirdness with PHP</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/">Zend Optimizer+ integrated into 5.5</a></li>
 		
 	</ul>
 </div>
@@ -1432,7 +1306,7 @@ p   mariadb-test-5.1                  - MariaDB database regression test suite
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.50420168067227%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 100.50420168067227%'>Development(1)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.5126050420168%'>Git(3)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.53781512605042%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 120.0%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.625%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(96)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.5%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.25%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.5%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 102.5%'>Git(4)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.875%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 105.0%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.625%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.25%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.25%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 143.125%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.625%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.75%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 159.375%'>Tech(95)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 105.0%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>
@@ -1475,7 +1349,6 @@ p   mariadb-test-5.1                  - MariaDB database regression test suite
     <script src="http://blog.lenss.nl/javascripts/twitter.js"></script>
     <script src="http://blog.lenss.nl/javascripts/jquery.cookie.min.js"></script>
     <script src="http://blog.lenss.nl/javascripts/adn-timeline.js"></script>
-    <script src="http://octophile.com/widgets.js"></script>
     <script type="text/javascript">
     $.domReady(function(){
         if (!window.jXHR){

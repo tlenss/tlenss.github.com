@@ -3,15 +3,15 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>PHP 5.2.6-Win32 unable to load mysql & pgsql extension - Thijs Lensselink's Blog</title>
+    <title>Using the hub in Github - pull requests - Thijs Lensselink's Blog</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="PHP 5.2.6-Win32 Unable to Load Mysql & Pgsql Extension Normally i have no problems installing PHP. So when i decided to upgrade 5.2.5 to 5.2.6 on my &hellip;">
+    <meta name="description" content="Using the Hub in Github - Pull Requests Hub is a command line tool that wraps around the git command. It add’s some cool features that make working &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
-    <link rel="canonical" href="http://blog.lenss.nl/2008/06/php-526-win32-wtf-happened-to-the-mysql-extension/">
+    <link rel="canonical" href="http://blog.lenss.nl/2016/01/using-the-hub-in-github-pull-requests/">
     <link rel="shortcut icon" href="/favicon.ico">
     <link href="http://feeds.feedburner.com/ThijsLensselinksBlog" rel="alternate" title="Thijs Lensselink's Blog" type="application/atom+xml">
 
@@ -61,19 +61,109 @@
 <header>
 	<header>
 	
-	  <h1 class="entry-title">PHP 5.2.6-Win32 Unable to Load Mysql & Pgsql Extension</h1>
+	  <h1 class="entry-title">Using the Hub in Github - Pull Requests</h1>
 	
 	</header>
 </header>
 
 
-<div class="articletext"><p>Normally i have no problems installing PHP. So when i decided to upgrade 5.2.5 to 5.2.6 on my windows dev box. I was surprised to see that php_mysql.dll and php_pgsql.dll were not loading after a clean install. No matter what i tried. I kept getting the “PHP Startup: Unable to load dynamic library” error.</p>
+<div class="articletext"><p>Hub is a command line tool that wraps around the <a href="https://github.com">git</a> command. It add’s some cool features that make working with git easier. The goal of this post is to show how easy it is to generate a pull request. But i’ll also quickly explain how to install <a href="https://github.com/github/hub">hub</a> itself.</p>
 
-<p>Some years ago this problem was obvious. The problem was always solved by copying the libmysql.dll to windows/system32. But this changed. For the last year i never had to copy this file. So i couldn’t really believe this was the problem. But after trying for some hours. I gave up. Copied the libmysql.dll file to windows/system32. And voila…. the mysql extension now loads. But i still have no solution for the pgsql extension. Which i really need by the way. WTF happened here? How is it possible that two of the most used extensions do not load after a clean install?</p>
+<p>Hub is written in <a href="https://golang.org/">Go</a>! So we need to install this to get started. You can download the latest package/source <a href="https://golang.org/dl/">here</a></p>
 
-<p>UPDATE*</p>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ sudo tar -C /usr/local -xzf go$VERSION.$OS-$ARCH.tar.gz
+$ vi ~/.bashrc
+</pre></div>
+</div>
+ </figure></notextile></div>
 
-<p>The postgres problem is solvable by installing the postgres server. And adding the PostgreSQL\8.3\bin to the PATH variable. Weird stuff…</p>
+<blockquote><p>export PATH=$PATH:/usr/local/go/bin</p></blockquote>
+
+<p>With that in place we can setup hub</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git clone https://github.com/github/hub.git
+$ cd hub
+$ ./script/build
+$ cp hub /usr/local/bin
+$ hub --version
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<blockquote><p>git version 1.9.1<br />hub version 2.2.0-rc1-13-g111100c</p></blockquote>
+
+<p>If you are used to the git command like me. It might be a good idea to setup a alias for hub</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ vi ~/.bashrc
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<blockquote><p>alias git=hub</p></blockquote>
+
+<p>One other thing i had to do because we work with the <a href="https://enterprise.github.com/">Github Enterprise Edition</a>. Is to whtelist our github host.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git config --global --add hub.host github.dome.domain
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Creating a pull request with hub is as easy as using the Github web gui. We start of with creating a fork of an existing repository</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git clone git@github.some.domain:user/FOO.git
+$ cd FOO
+$ git fork
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>This created the remote fork. And sets the correct remotes for the local repository</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git remote -v
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<blockquote><p>origin	git@github.some.domain:user/FOO.git (fetch)<br />origin	git@github.some.domain:user/FOO.git (push)<br />me	git@github.some.domain:me/FOO.git (fetch)<br />me	git@github.some.domain:me/FOO.git (push)</p></blockquote>
+
+<p>Before we can generate a pull request we ofcourse need some changes to push.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git branch bar
+$ git checkout bar
+$ touch BAR
+$ git add BAR
+$ git commit -am &quot;Add BAR&quot;
+$ git push me bar
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<blockquote><p>Total 0 (delta 0), reused 0 (delta 0)<br />To git@github.some.domain:me/FOO.git<br /> * [new branch]      bar -&gt; bar</p></blockquote>
+
+<p>The only thing left to do is create the actual pull-request</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git pull-request
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<blockquote><p>https://github.some.domain:user/FOO/pull/1</p></blockquote>
 </div>
 
 
@@ -94,12 +184,12 @@
   
 
 
-<time datetime="2008-06-19T10:35:38+02:00" pubdate data-updated="true">Jun 19<span>th</span>, 2008</time>
+<time datetime="2016-01-15T11:46:23+01:00" pubdate data-updated="true">Jan 15<span>th</span>, 2016</time>
       
 
 <span class="categories">
   
-    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>
+    <a class='category' href='http://blog.lenss.nl/tag/development/'>Development</a>, <a class='category' href='http://blog.lenss.nl/tag/git/'>Git</a>
   
 </span>
 
@@ -107,10 +197,8 @@
     </p>
     <p class="meta">
       
-        <a class="basic-alignment left" href="http://blog.lenss.nl/2008/06/dutch-php-conference-2008-20/" title="Previous Post: Dutch PHP Conference 2008 :) +20%">&laquo; Dutch PHP Conference 2008 :) +20%</a>
+        <a class="basic-alignment left" href="http://blog.lenss.nl/2015/01/git-view-unpushed-changes/" title="Previous Post: View unpushed changes in git">&laquo; View unpushed changes in git</a>
       
-      
-        <a class="basic-alignment right" href="http://blog.lenss.nl/2008/06/mootools-fxslide-flicker-bug-ii/" title="Next Post: Mootools FX.Slide Flicker bug II">Mootools FX.Slide Flicker bug II &raquo;</a>
       
     </p>
   </footer>
@@ -124,7 +212,7 @@
   
   <script id='fb3vnkm'>(function(i){var f,s=document.getElementById(i);f=document.createElement('iframe');f.src='//api.flattr.com/button/view/?uid=tlenss&button=compact&url='+encodeURIComponent(document.URL);f.title='Flattr';f.height=20;f.width=110;f.style.borderWidth=0;s.parentNode.insertBefore(f,s);})('fb3vnkm');</script>
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.lenss.nl/2008/06/php-526-win32-wtf-happened-to-the-mysql-extension/" data-via="tlenss" data-counturl="http://blog.lenss.nl/2008/06/php-526-win32-wtf-happened-to-the-mysql-extension/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.lenss.nl/2016/01/using-the-hub-in-github-pull-requests/" data-via="tlenss" data-counturl="http://blog.lenss.nl/2016/01/using-the-hub-in-github-pull-requests/" >Tweet</a>
   
 </div>
 
@@ -194,6 +282,8 @@
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://blog.lenss.nl/2016/01/using-the-hub-in-github-pull-requests/">Using the hub in Github - pull requests</a></li>
+		
 		<li><a href="http://blog.lenss.nl/2015/01/git-view-unpushed-changes/">View unpushed changes in git</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2014/09/secure-cloud-storage-with-google-and-encfs-on-ubuntu/">Secure cloud storage with Google and encfs on Ubuntu</a></li>
@@ -211,8 +301,6 @@
 		<li><a href="http://blog.lenss.nl/2013/06/php-55-released/">PHP 5.5.0 released</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/03/casting-weirdness-with-PHP/">Casting weirdness with PHP</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/">Zend Optimizer+ integrated into 5.5</a></li>
 		
 	</ul>
 </div>
@@ -233,7 +321,7 @@
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.50420168067227%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 100.50420168067227%'>Development(1)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.5126050420168%'>Git(3)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.53781512605042%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 120.0%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.625%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(96)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.5%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.25%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.5%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 102.5%'>Git(4)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.875%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 105.0%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.625%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.25%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.25%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 143.125%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.625%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.75%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 159.375%'>Tech(95)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 105.0%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>
@@ -276,7 +364,6 @@
     <script src="http://blog.lenss.nl/javascripts/twitter.js"></script>
     <script src="http://blog.lenss.nl/javascripts/jquery.cookie.min.js"></script>
     <script src="http://blog.lenss.nl/javascripts/adn-timeline.js"></script>
-    <script src="http://octophile.com/widgets.js"></script>
     <script type="text/javascript">
     $.domReady(function(){
         if (!window.jXHR){

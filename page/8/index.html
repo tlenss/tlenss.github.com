@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Override Controllers in Magento The last time i had to rewrite one of the core Magento blocks. And that turned out to be quite easy. My new &hellip;">
+    <meta name="description" content="Error&#8217;d I really like the eclipse platform. But yesterday morning it was my own WTF moment when my IDE crashed while building a large project &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,58 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2010/06/errord/">Error&#8217;d</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>I really like the eclipse platform. But yesterday morning it was my own WTF moment when my IDE crashed while building a large project.</p>
+
+<p><a href="http://blog.lenss.nl/images/2010/06/eclipse_error.jpg"><img src="http://blog.lenss.nl/images/2010/06/eclipse_error-300x125.jpg" alt="" /></a></p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2010/06/errord/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-06-30T21:33:48+02:00" pubdate data-updated="true">Jun 30<span>th</span>, 2010</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -1255,204 +1307,6 @@ document.write(<span class="string"><span class="delimiter">&quot;</span><span c
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2010/01/drag-drop-uploads-with-xmlhttprequest2-and-php/">Drag & Drop Uploads With XMLHttpRequest2 and PHP</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>I finally had some time to read through my ever growing list must read items and play with some new software. While reading up on the new Firefox 3.6 i noticed it came with the new <a href="http://www.ideal.nl/">XMLHttpRequest</a> [<a href="http://www.w3.org/TR/XMLHttpRequest2/">2</a>] object based on the new <a href="http://dev.w3.org/2006/webapi/FileAPI/">file API</a>. And according to the new <a href="http://dev.w3.org/2006/webapi/FileAPI/">specs</a>. This would allow for easy file uploads. Now there’s been some <a href="http://hacks.mozilla.org/2009/12/uploading-files-with-xmlhttprequest/">examples</a> [<a href="http://arstechnica.com/open-source/news/2009/11/w3c-publishes-draft-of-new-file-api-spec.ars">2</a>] on the web already. But i just wanted to get my hands dirty.</p>
-
-<p>The new XMLHttpRequest object makes is possible to send files in a few different formats. The most important being the binary format. The code for sending a request with XMLHttpRequest2 looks the same as the previous version. Except for sendAsBinary() in this case.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();
-    
-fileUpload = xhr.upload,
-fileUpload.<span class="function">onload</span> = <span class="keyword">function</span>() {
-  console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">Sent!</span><span class="delimiter">&quot;</span></span>);
-}
-                                    
-xhr.open(<span class="string"><span class="delimiter">&quot;</span><span class="content">POST</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">upload.php</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">true</span>);
-xhr.sendAsBinary(file.getAsBinary());
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>So let’s set things up for drag &amp; drop. We need a div that will be the main drop point. And we need some event listeners to catch the drag * drop events. Let start by creating the drop zone. For this we use two simple divs. The outer div will listen for the drag &amp; drop events. And the inner will catch the files.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="tag">&lt;div</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">container</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
-  <span class="tag">&lt;div</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">drop</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="tag">&lt;/div&gt;</span>
-<span class="tag">&lt;/div&gt;</span>
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>Now let’s create our upload code.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="keyword">var</span> upload = {
-  <span class="function">setup</span> : <span class="keyword">function</span>() {},
-  <span class="function">uploadFiles</span> : <span class="keyword">function</span>() {event}
-}
-window.addEventListener(<span class="string"><span class="delimiter">&quot;</span><span class="content">load</span><span class="delimiter">&quot;</span></span>, upload.setup, <span class="predefined-constant">false</span>);
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>The setup method will set all event listeners for drag &amp; drop. And register the upload handler.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="keyword">var</span> container = document.getElementById(<span class="string"><span class="delimiter">'</span><span class="content">container</span><span class="delimiter">'</span></span>);
-<span class="keyword">var</span> drop = document.getElementById(<span class="string"><span class="delimiter">'</span><span class="content">drop</span><span class="delimiter">'</span></span>);
-                
-container.addEventListener(<span class="string"><span class="delimiter">&quot;</span><span class="content">dragenter</span><span class="delimiter">&quot;</span></span>, <span class="keyword">function</span>(event) {
-    drop.innerHTML = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
-    event.stopPropagation();
-    event.preventDefault();
-  }, 
-  <span class="predefined-constant">false</span>
-);
-
-container.addEventListener(<span class="string"><span class="delimiter">&quot;</span><span class="content">dragover</span><span class="delimiter">&quot;</span></span>, <span class="keyword">function</span>(event) {
-    event.stopPropagation(); 
-    event.preventDefault();
-  }, 
-  <span class="predefined-constant">false</span>
-);
-
-container.addEventListener(<span class="string"><span class="delimiter">&quot;</span><span class="content">drop</span><span class="delimiter">&quot;</span></span>, upload.uploadFiles, <span class="predefined-constant">false</span>);
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>As you could see above. the uploadFiles() method gets a event returned from the drag &amp; drop action. This is where the new <a href="http://dev.w3.org/2006/webapi/FileAPI/">file APi</a> comes in play. To get to the file property we access the dataTransfer object.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="keyword">var</span> files = event.dataTransfer.files;
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>The actual uploading is easy as cake.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="keyword">for</span> (<span class="keyword">var</span> x = <span class="integer">0</span>; x &lt; files.length; x++) {
-
-  <span class="keyword">var</span> file = files.item(x);
-  <span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();
-
-  fileUpload = xhr.upload;
-  fileUpload.<span class="function">onload</span> = <span class="keyword">function</span>() {
-    console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">Sent!</span><span class="delimiter">&quot;</span></span>);
-  }
-                        
-  xhr.open(<span class="string"><span class="delimiter">&quot;</span><span class="content">POST</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">upload.php</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">true</span>);
-
-  xhr.setRequestHeader(<span class="string"><span class="delimiter">&quot;</span><span class="content">Cache-Control</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">no-cache</span><span class="delimiter">&quot;</span></span>);
-  xhr.setRequestHeader(<span class="string"><span class="delimiter">&quot;</span><span class="content">X-Requested-With</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">XMLHttpRequest</span><span class="delimiter">&quot;</span></span>);
-  xhr.setRequestHeader(<span class="string"><span class="delimiter">&quot;</span><span class="content">X-File-Name</span><span class="delimiter">&quot;</span></span>, file.fileName);
-  xhr.setRequestHeader(<span class="string"><span class="delimiter">&quot;</span><span class="content">X-File-Size</span><span class="delimiter">&quot;</span></span>, file.fileSize);
-  xhr.setRequestHeader(<span class="string"><span class="delimiter">&quot;</span><span class="content">Content-Type</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">multipart/form-data</span><span class="delimiter">&quot;</span></span>);
-                                
-  xhr.sendAsBinary(file.getAsBinary());
-}
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>That’s it for the client side. There is however a small problem on the receiving side. When handling uploaded files in PHP we expect the <strong>$_FILES</strong> array to be populated. This is not the case when streaming files from the client to the server. To get the needed file information we set some headers on the client side <strong>X-File-Name</strong> and <strong>X-File-Size</strong>. And since the <strong>$_FILES</strong> are is empty. We need an other way to get the file contents. So we will use php://input streams for that.</p>
-
-<p>The contents of upload.php look like this:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="predefined">require_once</span>(<span class="string"><span class="delimiter">'</span><span class="content">Streamer.php</span><span class="delimiter">'</span></span>);
-    
-<span class="local-variable">$ft</span> = <span class="keyword">new</span> <span class="constant">File_Streamer</span>();
-<span class="local-variable">$ft</span>-&gt;setDestination(<span class="string"><span class="delimiter">'</span><span class="content">data/</span><span class="delimiter">'</span></span>);
-<span class="local-variable">$ft</span>-&gt;receive();
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>With setDestination() the destination path for the uploaded files is set. And recieve() listens for any incoming files. Most of the magic is done in the recieve() method. So here’s the code.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="keyword">public</span> <span class="keyword">function</span> <span class="function">receive</span>()
-{
-  <span class="keyword">if</span> (!<span class="local-variable">$this</span>-&gt;isValid()) {
-    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="predefined-constant">Exception</span>(<span class="string"><span class="delimiter">'</span><span class="content">No file uploaded!</span><span class="delimiter">'</span></span>);
-  }
-        
-  <span class="predefined">file_put_contents</span>(
-    <span class="local-variable">$this</span>-&gt;_destination . <span class="local-variable">$this</span>-&gt;_fileName, 
-    <span class="predefined">file_get_contents</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">php://input</span><span class="delimiter">&quot;</span></span>)
-  );
-    
-  <span class="keyword">return</span> <span class="predefined-constant">true</span>;
-}
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>I am impressed! This promises a lot of good. And offers some interesting options. Let’s hope all browsers implement this gem. I still have one issue though. I can’t get this to work in firefox under linux. The drag &amp; drop events do not seem to function properly with files being dragged from the desktop. anybody know why? </p>
-
-<p>If you interested in the complete code. you can find it <a href="http://lenss.nl/code/dragDropUpload.tar.gz">here</a></p>
-
-<p><strong>**Small update</strong>**
-<a href="http://lenss.nl/2010/09/drag-drop-uploads-with-xmlhttprequest2-and-php-revised/">http://lenss.nl/2010/09/drag-drop-uploads-with-xmlhttprequest2-and-php-revised/</a></p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2010/01/drag-drop-uploads-with-xmlhttprequest2-and-php/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-01-25T01:02:38+01:00" pubdate data-updated="true">Jan 25<span>th</span>, 2010</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/javascript/'>Javascript</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
-  
 
   <ul class="pager">
     
@@ -1496,6 +1350,8 @@ container.addEventListener(<span class="string"><span class="delimiter">&quot;</
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://blog.lenss.nl/2016/01/using-the-hub-in-github-pull-requests/">Using the hub in Github - pull requests</a></li>
+		
 		<li><a href="http://blog.lenss.nl/2015/01/git-view-unpushed-changes/">View unpushed changes in git</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2014/09/secure-cloud-storage-with-google-and-encfs-on-ubuntu/">Secure cloud storage with Google and encfs on Ubuntu</a></li>
@@ -1513,8 +1369,6 @@ container.addEventListener(<span class="string"><span class="delimiter">&quot;</
 		<li><a href="http://blog.lenss.nl/2013/06/php-55-released/">PHP 5.5.0 released</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/03/casting-weirdness-with-PHP/">Casting weirdness with PHP</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2013/02/zend-optimizer%2B-integrated-in-5.5/">Zend Optimizer+ integrated into 5.5</a></li>
 		
 	</ul>
 </div>
@@ -1535,7 +1389,7 @@ container.addEventListener(<span class="string"><span class="delimiter">&quot;</
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 116.1344537815126%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.50420168067227%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(119)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 103.02521008403362%'>Design(6)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 100.50420168067227%'>Development(1)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.01680672268907%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 101.5126050420168%'>Git(3)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.5126050420168%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.03361344537815%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.50420168067227%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.00840336134453%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.00840336134453%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 135.29411764705884%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 104.53781512605042%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.02521008403362%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 148.9075630252101%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.03361344537815%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 120.0%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.625%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(96)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.5%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.25%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.5%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 102.5%'>Git(4)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.875%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 105.0%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.625%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.25%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.25%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 143.125%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.625%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.75%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 159.375%'>Tech(95)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 105.0%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>
@@ -1578,7 +1432,6 @@ container.addEventListener(<span class="string"><span class="delimiter">&quot;</
     <script src="http://blog.lenss.nl/javascripts/twitter.js"></script>
     <script src="http://blog.lenss.nl/javascripts/jquery.cookie.min.js"></script>
     <script src="http://blog.lenss.nl/javascripts/adn-timeline.js"></script>
-    <script src="http://octophile.com/widgets.js"></script>
     <script type="text/javascript">
     $.domReady(function(){
         if (!window.jXHR){

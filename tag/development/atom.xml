@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Development | Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/tag/development/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2015-01-15T23:32:49+01:00</updated>
+  <updated>2015-02-06T13:47:52+01:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -12,6 +12,111 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Using the hub in Github - pull requests]]></title>
+    <link href="http://blog.lenss.nl/2016/01/using-the-hub-in-github-pull-requests/"/>
+    <updated>2016-01-15T11:46:23+01:00</updated>
+    <id>http://blog.lenss.nl/2016/01/using-the-hub-in-github-pull-requests</id>
+    <content type="html"><![CDATA[<p>Hub is a command line tool that wraps around the <a href="https://github.com">git</a> command. It add’s some cool features that make working with git easier. The goal of this post is to show how easy it is to generate a pull request. But i’ll also quickly explain how to install <a href="https://github.com/github/hub">hub</a> itself.</p>
+
+<p>Hub is written in <a href="https://golang.org/">Go</a>! So we need to install this to get started. You can download the latest package/source <a href="https://golang.org/dl/">here</a></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ sudo tar -C /usr/local -xzf go$VERSION.$OS-$ARCH.tar.gz
+$ vi ~/.bashrc
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p><blockquote><p>export PATH=$PATH:/usr/local/go/bin</p></blockquote></p>
+
+<p>With that in place we can setup hub</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ git clone https://github.com/github/hub.git
+$ cd hub
+$ ./script/build
+$ cp hub /usr/local/bin
+$ hub –version
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p><blockquote><p>git version 1.9.1<br/>hub version 2.2.0-rc1-13-g111100c</p></blockquote></p>
+
+<p>If you are used to the git command like me. It might be a good idea to setup a alias for hub</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ vi ~/.bashrc
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p><blockquote><p>alias git=hub</p></blockquote></p>
+
+<p>One other thing i had to do because we work with the <a href="https://enterprise.github.com/">Github Enterprise Edition</a>. Is to whtelist our github host.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ git config –global –add hub.host github.dome.domain
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>Creating a pull request with hub is as easy as using the Github web gui. We start of with creating a fork of an existing repository</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ git clone git@github.some.domain:user/FOO.git
+$ cd FOO
+$ git fork
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>This created the remote fork. And sets the correct remotes for the local repository</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ git remote -v
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p><blockquote><p>origin	git@github.some.domain:user/FOO.git (fetch)<br/>origin	git@github.some.domain:user/FOO.git (push)<br/>me	git@github.some.domain:me/FOO.git (fetch)<br/>me	git@github.some.domain:me/FOO.git (push)</p></blockquote></p>
+
+<p>Before we can generate a pull request we ofcourse need some changes to push.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ git branch bar
+$ git checkout bar
+$ touch BAR
+$ git add BAR
+$ git commit -am “Add BAR”
+$ git push me bar
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p><blockquote><p>Total 0 (delta 0), reused 0 (delta 0)<br/>To git@github.some.domain:me/FOO.git<br/> * [new branch]      bar -&gt; bar</p></blockquote></p>
+
+<p>The only thing left to do is create the actual pull-request</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ git pull-request
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p><blockquote><p>https://github.some.domain:user/FOO/pull/1</p></blockquote></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[View unpushed changes in git]]></title>
