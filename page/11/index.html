@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Move GNOME Panels in Ubuntu 9.04 Some days ago i updated my Ubuntu Intrepid Ibex to the new Jaunty Jackalope. Besides some minor glitches everything &hellip;">
+    <meta name="description" content="Zend Server CE MyPHPAdmin Mysqli Not Loaded The last time i installed Zend Server i did it from source. Now it was time for the Ubuntu package &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,76 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2009/05/zend-server-ce-myphpadmin-mysqli-not-loaded/">Zend Server CE MyPHPAdmin Mysqli Not Loaded</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>The last time i installed <a href="http://www.zend.com/products/server/">Zend Server</a> i did it from source. Now it was time for the Ubuntu package manager to do it for me. I’ll spare you the install process. Since it’s <a href="http://files.zend.com/help/Zend-Server/zend-server.htm#deb_installation.htm">documented</a> well by the Zend team.</p>
+
+<p>After the install i walked through all pages of the ZS GUI. And all seemed to work great. So i checked the repository if there were anymore packages i could add to the ZS setup. And found the <a href="http://www.phpmyadmin.net/">myphpadmin</a> package. Just what i needed. And as i remember this was missing from the previous version. So i installed the package. And the GUI now showed a link to the phpmyadmin application. But when triggering the page i was confronted with an error message. </p>
+
+<p><a href="http://blog.lenss.nl/images/2009/05/mysqli_error_zs.jpg"><img src="http://blog.lenss.nl/images/2009/05/mysqli_error_zs-300x14.jpg" alt="mysqli_error_zs" /></a></p>
+
+<p>So mysqli was not loaded. Well that’s possible of course. But the repository showed it was installed. And so did the <a href="http://www.php.net/phpinfo">phpinfo()</a> page.</p>
+
+<p><a href="http://blog.lenss.nl/images/2009/05/phpinfo_mysqli_zs.jpg"><img src="http://blog.lenss.nl/images/2009/05/phpinfo_mysqli_zs-220x300.jpg" alt="phpinfo_mysqli_zs" /></a></p>
+
+<p>So after looking around the config files for a while. It hit me. The ZS GUI is running on <a href="http://www.lighttpd.net/">lighttpd</a> and not apache. And just as i expected. Apache loaded the mysqli extension. But lighttpd didn’t.</p>
+
+<p>A work around for this problem would be to leave of the :10081 port number in the GUI URL. So it points to 127.0.0.1/myphpadmin/. Or add the extensions to the lighthttpd setup. But adding a single line to the php-fcgi.ini file.</p>
+
+<blockquote>
+  <p>$ vi /usr/local/zend/gui/lighttpd/etc/php-fcgi.ini
+$ extension=mysqli.so</p>
+</blockquote>
+
+<p>This makes it possible to load phpmyadmin from the GUI. But the mysqli missing error is still displayed. So it’s probably better to load it over Apache. I tried to find a bug report link or something for the ZS project but couldn’t find any……</p>
+
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2009/05/zend-server-ce-myphpadmin-mysqli-not-loaded/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-05-07T12:57:49+02:00" pubdate data-updated="true">May 7<span>th</span>, 2009</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -811,73 +881,6 @@ window.<span class="function">onload</span> = <span class="keyword">function</sp
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2009/03/php-cli-bad-interpreter-permission-denied/">PHP CLI Bad Interpreter: Permission Denied</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>This question came up on the php.general list today. And i have seen it before when writing an shell script in PHP.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="comment">#!/usr/local/bin/php</span>
-<span class="predefined">passthru</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">printenv</span><span class="delimiter">&quot;</span></span>);
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>If you are sure the PHP executable can be found in that location. And the file is executable. But it still returns this error:</p>
-
-<blockquote>
-  <p>/usr/local/bin/php: bad interpreter: Permission denied</p>
-</blockquote>
-
-<p>Big change the file you are trying to execute is on a filesystem with the noexec flag set.
-To fix this either set the exec flag for the filesystem or move the script to a place where it can be executed.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2009/03/php-cli-bad-interpreter-permission-denied/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-03-13T16:59:02+01:00" pubdate data-updated="true">Mar 13<span>th</span>, 2009</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
-  
 
   <ul class="pager">
     
@@ -921,7 +924,9 @@ To fix this either set the exec flag for the filesystem or move the script to a 
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
-		<li><a href="http://blog.lenss.nl/2016/01/using-the-hub-in-github-pull-requests/">Using the hub in Github - pull requests</a></li>
+		<li><a href="http://blog.lenss.nl/2015/02/octopress-blog-hijacked-by-javascript/">Octopress blog hijacked</a></li>
+		
+		<li><a href="http://blog.lenss.nl/2015/01/using-the-hub-in-github-pull-requests/">Using the hub in Github - pull requests</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2015/01/git-view-unpushed-changes/">View unpushed changes in git</a></li>
 		
@@ -938,8 +943,6 @@ To fix this either set the exec flag for the filesystem or move the script to a 
 		<li><a href="http://blog.lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/">Memory exhaust issue PHP and APM</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/06/php-55-released/">PHP 5.5.0 released</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2013/03/casting-weirdness-with-PHP/">Casting weirdness with PHP</a></li>
 		
 	</ul>
 </div>
@@ -960,7 +963,7 @@ To fix this either set the exec flag for the filesystem or move the script to a 
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 120.0%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.625%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(96)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.5%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.25%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.5%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 102.5%'>Git(4)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.875%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 105.0%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.625%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.25%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.25%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 143.125%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.625%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.75%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 159.375%'>Tech(95)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 105.0%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 120.0%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.625%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(96)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.5%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.25%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.5%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 102.5%'>Git(4)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.875%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 105.0%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.625%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.25%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.25%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 143.125%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.625%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.75%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(96)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 105.0%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

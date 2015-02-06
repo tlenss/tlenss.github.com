@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Still Here :) It’s been a while since i last wrote something. I just couldn’t put my self to it. The last two weeks of the years paid it’s tole on &hellip;">
+    <meta name="description" content="Making PHP Mail Work on Ubuntu Through Postfix While writing a small mail application in PHP i noticed i couldn’t send mail from my local machine. &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,160 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2009/01/making-php-mail-work-on-ubuntu-through-postfix/">Making PHP Mail Work on Ubuntu Through Postfix</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>While writing a small mail application in PHP i noticed i couldn’t send mail from my local machine. Even with telnet i couldn’t send out emails. I quickly found out that postfix and sendmail on the same system is not a good idea. Seems it was a left over from some testing i did. So after wiping sendmail and postfix from the system. And reinstalling only postfix i got an error when starting Postfix</p>
+
+<blockquote>
+  <p>postfix: fatal: /etc/postfix/postfix-script: No such file or directory</p>
+</blockquote>
+
+<p>So let’s try and completely remove the postfix package and purge all files.</p>
+
+<blockquote>
+
+  <p>$ sudo dpkg –remove postfix
+$ sudo dpkg –purge postfix</p>
+</blockquote>
+
+<p>And a clean install of postfix:</p>
+
+<blockquote>
+  <p>$ sudo apt-get -V install postfix</p>
+</blockquote>
+
+<p>Now i can telnet in and try to send some mail. And this seemed to work. The mail got delivered.</p>
+
+<blockquote>
+
+  <ul>
+    <li>$ telnet localhost 25</li>
+    <li></li>
+    <li>Trying 127.0.0.1…</li>
+    <li>Connected to localhost.</li>
+    <li>Escape character is ‘^]’.</li>
+    <li>220 0x0 ESMTP Postfix (Ubuntu)</li>
+    <li></li>
+    <li>helo test.nl</li>
+    <li>250 0x0</li>
+    <li>mail from: test@test.nl</li>
+    <li>250 2.1.0 Ok</li>
+    <li>rcpt to: some@working.address</li>
+    <li>250 2.1.5 Ok</li>
+    <li>data</li>
+    <li>354 End data with </li>
+    <li>testing</li>
+    <li>.</li>
+    <li>250 2.0.0 Ok: queued as ED97311C412F</li>
+  </ul>
+</blockquote>
+
+<p>So now let’s make sure it also works from PHP. I tested it through a CLI script and through apache2. With the most basic mail script you can imagine. </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="predefined">mail</span>(<span class="string"><span class="delimiter">'</span><span class="content">some@working.address</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">test</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">test message</span><span class="delimiter">'</span></span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>The mail however gets bounced.</p>
+
+<blockquote>
+
+  <ul>
+    <li>Jan  7 22:31:48 0x0 postfix/pickup[10249]: 035BF11C4133: uid=1 from=</li>
+    <li>Jan  7 22:31:48 0x0 postfix/cleanup[11726]: 035BF11C4133: message-id=&lt;20090107213148.035BF11C4133@0x0&gt;</li>
+    <li>Jan  7 22:31:48 0x0 postfix/qmgr[10250]: 035BF11C4133: from=<a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#100;&#097;&#101;&#109;&#111;&#110;&#064;&#105;&#110;&#116;&#101;&#114;&#110;&#097;&#108;&#046;&#110;&#097;&#109;&#101;">&#100;&#097;&#101;&#109;&#111;&#110;&#064;&#105;&#110;&#116;&#101;&#114;&#110;&#097;&#108;&#046;&#110;&#097;&#109;&#101;</a>, size=303, nrcpt=1 (queue active)</li>
+    <li>Jan  7 22:31:48 0x0 postfix/smtp[11728]: 035BF11C4133: to=<a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;">&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;</a>, relay=working.mail.server[xx.xxx.xx.xx]:25, delay=0.68, delays=0.02/0/0.48/0.18, dsn=5.0.0, status=bounced (host working.mail.server[xx.xxx.xx.xx] said: 553 sorry, your envelope sender domain must exist (#5.7.1) (in reply to MAIL FROM command))</li>
+    <li>Jan  7 22:31:48 0x0 postfix/cleanup[11726]: C5C2911C4134: message-id=&lt;20090107213148.C5C2911C4134@0x0&gt;</li>
+    <li>Jan  7 22:31:48 0x0 postfix/qmgr[10250]: C5C2911C4134: from=&lt;&gt;, size=2064, nrcpt=1 (queue active)</li>
+    <li>Jan  7 22:31:48 0x0 postfix/bounce[11729]: 035BF11C4133: sender non-delivery notification: C5C2911C4134</li>
+    <li>Jan  7 22:31:48 0x0 postfix/qmgr[10250]: 035BF11C4133: removed</li>
+    <li>Jan  7 22:31:49 0x0 postfix/smtp[11728]: C5C2911C4134: to=<a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#100;&#097;&#101;&#109;&#111;&#110;&#064;&#105;&#110;&#116;&#101;&#114;&#110;&#097;&#108;&#046;&#110;&#097;&#109;&#101;">&#100;&#097;&#101;&#109;&#111;&#110;&#064;&#105;&#110;&#116;&#101;&#114;&#110;&#097;&#108;&#046;&#110;&#097;&#109;&#101;</a>, relay=working.mail.server[xx.xxx.xx.xx]:25, delay=0.75, delays=0.01/0/0.41/0.34, dsn=2.0.0, status=sent (250 ok 1231363909 qp 10204)</li>
+    <li>Jan  7 22:31:49 0x0 postfix/qmgr[10250]: C5C2911C4134: removed</li>
+  </ul>
+</blockquote>
+
+<p>From looking at the log files i can tell it bounced because the from address is set to <strong>daemon@internal.name</strong>. And internal.name is not known by my mail server. Let’s try that again. But this time specifically set the FROM header.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$headers</span> .= <span class="string"><span class="delimiter">'</span><span class="content">To: Name &lt;some@working.addressl&gt;</span><span class="delimiter">'</span></span> . <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>;
+<span class="local-variable">$headers</span> .= <span class="string"><span class="delimiter">'</span><span class="content">From: test &lt;some@working.address&gt;</span><span class="delimiter">'</span></span> . <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>;
+<span class="predefined">mail</span>(<span class="string"><span class="delimiter">'</span><span class="content">some@working.address</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">test</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">test message</span><span class="delimiter">'</span></span>, <span class="local-variable">$headers</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>The result is the same. The FROM header didn’t change at all. So although it’s possible to set the from header. The message is always send by a system user.. So after doing some research on Google about this problem it seems possible to pass an extra parameter to the mail() function. This parameter can contain a string which will be passed to the postfix binary as an extra parameter. So adding <strong>-fsome@orking.address</strong> makes the problem go away.</p>
+
+<blockquote>
+
+  <ul>
+    <li>Jan  7 22:36:58 0x0 postfix/pickup[10249]: 687CA11C4133: uid=1 from=<a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;">&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;</a></li>
+    <li>Jan  7 22:36:58 0x0 postfix/cleanup[11847]: 687CA11C4133: message-id=&lt;20090107213658.687CA11C4133@0x0&gt;</li>
+    <li>Jan  7 22:36:58 0x0 postfix/qmgr[10250]: 687CA11C4133: from=<a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;">&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;</a>, size=276, nrcpt=1 (queue active)</li>
+    <li>Jan  7 22:36:59 0x0 postfix/smtp[11849]: 687CA11C4133: to=<a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;">&#115;&#111;&#109;&#101;&#064;&#119;&#111;&#114;&#107;&#105;&#110;&#103;&#046;&#097;&#100;&#100;&#114;&#101;&#115;&#115;</a>, relay=working.mail.server[xx.xxx.xx.xx]:25, delay=1.4, delays=0.02/0/0.59/0.76, dsn=2.0.0, status=sent (250 ok 1231364219 qp 10582)</li>
+    <li>Jan  7 22:36:59 0x0 postfix/qmgr[10250]: 687CA11C4133: removed</li>
+  </ul>
+</blockquote>
+
+<p>But this would mean that i always have to pass the extra parameter. And if i use a third party class or function. i may not be able to do so without hacking the code. So although it solves the problem it’s not the final solution. After i bit of browsing i found out that changing the <strong>myorigin</strong> parameter in <strong>/etc/postfix/main.cf</strong> to a known mail server. I could start the send out mail. So i changed it to the domain my mail server runs under.</p>
+
+<blockquote>
+
+  <p>myorigin = mail.server</p>
+</blockquote>
+
+<p>And now sending mail from PHP works. </p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2009/01/making-php-mail-work-on-ubuntu-through-postfix/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-01-09T08:43:24+01:00" pubdate data-updated="true">Jan 9<span>th</span>, 2009</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -750,7 +904,9 @@ window.addEvent(<span class="string"><span class="delimiter">'</span><span class
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
-		<li><a href="http://blog.lenss.nl/2016/01/using-the-hub-in-github-pull-requests/">Using the hub in Github - pull requests</a></li>
+		<li><a href="http://blog.lenss.nl/2015/02/octopress-blog-hijacked-by-javascript/">Octopress blog hijacked</a></li>
+		
+		<li><a href="http://blog.lenss.nl/2015/01/using-the-hub-in-github-pull-requests/">Using the hub in Github - pull requests</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2015/01/git-view-unpushed-changes/">View unpushed changes in git</a></li>
 		
@@ -767,8 +923,6 @@ window.addEvent(<span class="string"><span class="delimiter">'</span><span class
 		<li><a href="http://blog.lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/">Memory exhaust issue PHP and APM</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/06/php-55-released/">PHP 5.5.0 released</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2013/03/casting-weirdness-with-PHP/">Casting weirdness with PHP</a></li>
 		
 	</ul>
 </div>
@@ -789,7 +943,7 @@ window.addEvent(<span class="string"><span class="delimiter">'</span><span class
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 120.0%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.625%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(96)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.5%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.25%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.5%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 102.5%'>Git(4)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.875%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 105.0%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.625%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.25%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.25%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 143.125%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.625%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.75%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 159.375%'>Tech(95)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 105.0%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 120.0%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.625%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(96)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.5%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.25%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.5%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 102.5%'>Git(4)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.875%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 105.0%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.625%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.25%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.25%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 143.125%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.625%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.75%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(96)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 105.0%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

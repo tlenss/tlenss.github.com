@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Development | Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/tag/development/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2015-02-06T13:47:52+01:00</updated>
+  <updated>2015-02-06T14:54:52+01:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Using the hub in Github - pull requests]]></title>
-    <link href="http://blog.lenss.nl/2016/01/using-the-hub-in-github-pull-requests/"/>
-    <updated>2016-01-15T11:46:23+01:00</updated>
-    <id>http://blog.lenss.nl/2016/01/using-the-hub-in-github-pull-requests</id>
+    <link href="http://blog.lenss.nl/2015/01/using-the-hub-in-github-pull-requests/"/>
+    <updated>2015-01-15T11:46:23+01:00</updated>
+    <id>http://blog.lenss.nl/2015/01/using-the-hub-in-github-pull-requests</id>
     <content type="html"><![CDATA[<p>Hub is a command line tool that wraps around the <a href="https://github.com">git</a> command. It add’s some cool features that make working with git easier. The goal of this post is to show how easy it is to generate a pull request. But i’ll also quickly explain how to install <a href="https://github.com/github/hub">hub</a> itself.</p>
 
 <p>Hub is written in <a href="https://golang.org/">Go</a>! So we need to install this to get started. You can download the latest package/source <a href="https://golang.org/dl/">here</a></p>

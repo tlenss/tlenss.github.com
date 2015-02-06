@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Drag & Drop Uploads With XMLHttpRequest2 and PHP I finally had some time to read through my ever growing list must read items and play with some new &hellip;">
+    <meta name="description" content="Cache Data With Zend Framework and Memcached Last week i had the chance to work with memcache. Something i hadn’t done before. For caching i mostly &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,244 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2010/01/cache-data-with-zend-framework-and-memcached/">Cache Data With Zend Framework and Memcached</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>Last week i had the chance to work with memcache. Something i hadn’t done before. For caching i mostly rely on APC for bytecode. And file based caching for content. Using memecache extension for PHP and de memcached service gives a whole range of features for caching data. And an easy way to manage all this cached data.</p>
+
+<p>The project i am working on is based on Zend Framework. And there for this post will reflect working with memcache in ZF only. With ZF and memcache it’s possible to do frontend and backend caching. I will focuse on the backend side for now. But will setup the frontend as well.</p>
+
+<p>If you don’t have memcache installed do it now. It’s not that hard. On my debian box it went somethign like this:</p>
+
+<blockquote>
+  <ul>
+    <li>$ aptitude install memcached</li>
+    <li>$ aptitude install php5-memcache</li>
+  </ul>
+</blockquote>
+
+<p>Now a days evrything seems to go automatic. So no need to edit the php.ini or anyhting. To check if PHP loaded the memcache extension you can do:</p>
+
+<blockquote>
+  <ul>
+    <li>
+      <table>
+        <tbody>
+          <tr>
+            <td>$ php -m</td>
+            <td>grep memcache</td>
+          </tr>
+        </tbody>
+      </table>
+    </li>
+    <li>memcache</li>
+  </ul>
+</blockquote>
+
+<p>Memached is automatically started after install. So let’s check if everything went ok.</p>
+
+<blockquote>
+  <p>$ ps -aux | grep memcached
+* nobody   20965  0.0  0.5  42900 23072 ?        S    Jan28   0:01 /usr/bin/memcached -m 64 -p 11211 -u nobody -l 127.0.0.1
+* root     22393  0.0  0.0  87940   776 pts/0    R+   12:06   0:00 grep memcached</p>
+</blockquote>
+
+<blockquote>
+
+  <ul>
+    <li>
+      <table>
+        <tbody>
+          <tr>
+            <td>$ netstat -an</td>
+            <td>grep 11211</td>
+          </tr>
+        </tbody>
+      </table>
+    </li>
+    <li>tcp        0      0 127.0.0.1:11211         0.0.0.0:*               LISTEN</li>
+  </ul>
+</blockquote>
+
+<p>Looking good. Now it’s time to do some configuration in ZF.</p>
+
+<p>First of the frontend settings. With ‘type’ we set the cache method for the frontend. We chose the standard Core class for this. With ‘lifetime’ we set the time for which a cached entity is valid. The ‘cache_id_prefix’ is a nice way to group for instnace cache data by controller. So just give it a name.</p>
+
+<blockquote>
+  <ul>
+    <li>cache.frontend.type = Core</li>
+    <li>cache.frontend.options.lifetime = 600</li>
+    <li>cache.frontend.options.automatic_serialization = true</li>
+    <li>cache.frontend.options.cache_id_prefix = [some string]</li>
+    <li>cache.frontend.options.cache = true</li>
+  </ul>
+</blockquote>
+
+<p>Now it’s the backends turn to get configured. For ‘type’ we choose Memcached. More types are available. For more info read the ZF manual. The rest of the settings are basic memcached settings like host, port and persitance.</p>
+
+<blockquote>
+  <ul>
+    <li>cache.backend.type = Memcached</li>
+    <li>cache.backend.options.servers.1.host = 127.0.0.1</li>
+    <li>cache.backend.options.servers.1.port = 11211</li>
+    <li>cache.backend.options.servers.1.persistent = true</li>
+    <li>cache.backend.options.servers.1.weight = 1</li>
+    <li>cache.backend.options.servers.1.timeout = 5</li>
+    <li>cache.backend.options.servers.1.retry_interval = 15</li>
+  </ul>
+</blockquote>
+
+<p>Finally we can do some PHP code. To get the cache instance setup we add a _initCache() method to the bootstrap class. Inside this method we retrieve the config options by calling getOptions(). And setup the cache object. Which is then stored in the Registry for later use.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">protected</span> <span class="keyword">function</span> <span class="function">_initCache</span>()
+{
+  <span class="local-variable">$options</span> = <span class="local-variable">$this</span>-&gt;getOptions();
+
+  <span class="keyword">if</span> (<span class="predefined">isset</span>(<span class="local-variable">$options</span>[<span class="string"><span class="delimiter">'</span><span class="content">cache</span><span class="delimiter">'</span></span>])) {
+    <span class="local-variable">$cache</span> = <span class="constant">Zend_Cache</span>::factory(
+      <span class="local-variable">$options</span>[<span class="string"><span class="delimiter">'</span><span class="content">cache</span><span class="delimiter">'</span></span>][<span class="string"><span class="delimiter">'</span><span class="content">frontend</span><span class="delimiter">'</span></span>][<span class="string"><span class="delimiter">'</span><span class="content">type</span><span class="delimiter">'</span></span>],
+      <span class="local-variable">$options</span>[<span class="string"><span class="delimiter">'</span><span class="content">cache</span><span class="delimiter">'</span></span>][<span class="string"><span class="delimiter">'</span><span class="content">backend</span><span class="delimiter">'</span></span>][<span class="string"><span class="delimiter">'</span><span class="content">type</span><span class="delimiter">'</span></span>],
+      <span class="local-variable">$options</span>[<span class="string"><span class="delimiter">'</span><span class="content">cache</span><span class="delimiter">'</span></span>][<span class="string"><span class="delimiter">'</span><span class="content">frontend</span><span class="delimiter">'</span></span>][<span class="string"><span class="delimiter">'</span><span class="content">options</span><span class="delimiter">'</span></span>],
+      <span class="local-variable">$options</span>[<span class="string"><span class="delimiter">'</span><span class="content">cache</span><span class="delimiter">'</span></span>][<span class="string"><span class="delimiter">'</span><span class="content">backend</span><span class="delimiter">'</span></span>][<span class="string"><span class="delimiter">'</span><span class="content">options</span><span class="delimiter">'</span></span>]
+    );
+
+    <span class="constant">Zend_Registry</span>::set(<span class="string"><span class="delimiter">'</span><span class="content">cache</span><span class="delimiter">'</span></span>, <span class="local-variable">$cache</span>);
+    <span class="keyword">return</span> <span class="local-variable">$cache</span>;
+  }
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>That’s all set. I used the caching for some REST service responses. So i will stick to that in this post as well. The class has a method for adding a cache object.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">public</span> <span class="keyword">function</span> <span class="function">setCache</span>(<span class="constant">Zend_Cache_Core</span> <span class="local-variable">$cache</span>) {
+  <span class="local-variable">$this</span>-&gt;cache = <span class="local-variable">$cache</span>;
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>So fetching the cache instance and passing it to the REST client will look something like this:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$cache</span> = <span class="constant">Zend_Registry</span>::get(<span class="string"><span class="delimiter">'</span><span class="content">cache</span><span class="delimiter">'</span></span>);
+<span class="local-variable">$cache</span>-&gt;setLifetime(<span class="integer">86400</span>);
+            
+<span class="local-variable">$client</span> = <span class="keyword">new</span> <span class="constant">Client</span>();
+<span class="local-variable">$client</span>-&gt;setCache(<span class="local-variable">$cache</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>The first thing we do inside the calling method is set a unique key for the cache entry.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$cache_id</span> = <span class="string"><span class="delimiter">'</span><span class="content">getPage_</span><span class="delimiter">'</span></span> . <span class="local-variable">$this</span>-&gt;getDomain()
+  . <span class="local-variable">$this</span>-&gt;getPageName()
+  . <span class="local-variable">$this</span>-&gt;getCountry();
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Then we check if the cache object is set. If that’s the case we check to see if the unique key is already available in the cache.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">if</span> (!<span class="predefined">isset</span>(<span class="local-variable">$this</span>-&gt;cache) || !(<span class="local-variable">$ret</span> = <span class="local-variable">$this</span>-&gt;cache-&gt;load(<span class="local-variable">$cache_id</span>))) {
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>If a value is returned from the cahce we will return it. If not then we will do the webservice call and store the return data in cache.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$ret</span> = <span class="local-variable">$this</span>-&gt;restClient-&gt;call(<span class="string"><span class="delimiter">'</span><span class="content">getPage</span><span class="delimiter">'</span></span>, <span class="predefined">array</span>());
+    
+<span class="keyword">if</span> (<span class="predefined">isset</span>(<span class="local-variable">$this</span>-&gt;cache)) {
+  <span class="local-variable">$this</span>-&gt;cache-&gt;save(<span class="local-variable">$ret</span>, <span class="local-variable">$cache_id</span>);
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>The complete method looks something like this.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">protected</span> <span class="keyword">function</span> <span class="function">getPageFromWebservice</span>()
+{
+  <span class="local-variable">$cache_id</span> = <span class="string"><span class="delimiter">'</span><span class="content">getPage_</span><span class="delimiter">'</span></span> . <span class="local-variable">$this</span>-&gt;getDomain()
+    . <span class="local-variable">$this</span>-&gt;getPageName()
+    . <span class="local-variable">$this</span>-&gt;getCountry();
+
+  <span class="keyword">if</span> (!<span class="predefined">isset</span>(<span class="local-variable">$this</span>-&gt;cache) || !(<span class="local-variable">$ret</span> = <span class="local-variable">$this</span>-&gt;cache-&gt;load(<span class="local-variable">$cache_id</span>))) {
+    <span class="local-variable">$ret</span> = <span class="local-variable">$this</span>-&gt;restClient-&gt;call(<span class="string"><span class="delimiter">'</span><span class="content">getPage</span><span class="delimiter">'</span></span>, <span class="predefined">array</span>());
+
+    <span class="keyword">if</span> (<span class="predefined">isset</span>(<span class="local-variable">$this</span>-&gt;cache)) {
+      <span class="local-variable">$this</span>-&gt;cache-&gt;save(<span class="local-variable">$ret</span>, <span class="local-variable">$cache_id</span>);
+    }
+  }
+  <span class="keyword">return</span> <span class="local-variable">$ret</span>;
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>That’s all. It’s pretty basic stuff. But so cool!</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2010/01/cache-data-with-zend-framework-and-memcached/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-01-29T13:26:19+01:00" pubdate data-updated="true">Jan 29<span>th</span>, 2010</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -865,79 +1103,6 @@ container.addEventListener(<span class="string"><span class="delimiter">&quot;</
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2009/07/0pen0wn-c-what-a-joke/">0pen0wn.c What a Joke</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>So there have been a lot of <a href="http://seclists.org/fulldisclosure/2009/Jul/0028.html">rumors</a> lately about some remote SSH exploit. And to throw a bit of fuel on the fire some hacker / group have released what they call an exploit. This piece of <a href="http://blogs.securiteam.com/index.php/archives/1302">code</a> is just hilarious. At a first glance it looks like a real exploit. But when you take the time to decode the HEX blocks. It will become obvious this is not what it seems to be.</p>
-
-<p>there are three blocks with HEX characters. The last two transform into some perl scripts that seem to make contact with an IRC server. This code seems to be bogus. The first and smallest HEX block is interesting though.</p>
-
-<blockquote>
-  <p>\x72\x6D\x20\x2D\x72\x66\x20\x7e\x20\x2F\x2A\x20\x32\x3e\x20\x2f
-\x64\x65\x76\x2f\x6e\x75\x6c\x6c\x20\x26</p>
-</blockquote>
-
-<p>When decoded back to ASCII characters. This reads:</p>
-
-<blockquote>
-  <p>rm -rf ~ /* 2&gt; /dev/null &amp;</p>
-</blockquote>
-
-<p>The code used for the decoding is a simple PHP script:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="keyword">foreach</span> (<span class="predefined">explode</span>(<span class="string"><span class="delimiter">'</span><span class="content">\x</span><span class="delimiter">'</span></span>, <span class="local-variable">$str</span>) <span class="keyword">as</span> <span class="local-variable">$char</span>) <span class="predefined">echo</span> <span class="predefined">chr</span>(<span class="predefined">hexdec</span>(<span class="local-variable">$char</span>);
-</pre></div>
-</div>
- </figure></notextile></div>
-
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2009/07/0pen0wn-c-what-a-joke/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-07-16T15:07:45+02:00" pubdate data-updated="true">Jul 16<span>th</span>, 2009</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/security/'>Security</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
-  
 
   <ul class="pager">
     
@@ -981,7 +1146,9 @@ container.addEventListener(<span class="string"><span class="delimiter">&quot;</
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
-		<li><a href="http://blog.lenss.nl/2016/01/using-the-hub-in-github-pull-requests/">Using the hub in Github - pull requests</a></li>
+		<li><a href="http://blog.lenss.nl/2015/02/octopress-blog-hijacked-by-javascript/">Octopress blog hijacked</a></li>
+		
+		<li><a href="http://blog.lenss.nl/2015/01/using-the-hub-in-github-pull-requests/">Using the hub in Github - pull requests</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2015/01/git-view-unpushed-changes/">View unpushed changes in git</a></li>
 		
@@ -998,8 +1165,6 @@ container.addEventListener(<span class="string"><span class="delimiter">&quot;</
 		<li><a href="http://blog.lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/">Memory exhaust issue PHP and APM</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/06/php-55-released/">PHP 5.5.0 released</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2013/03/casting-weirdness-with-PHP/">Casting weirdness with PHP</a></li>
 		
 	</ul>
 </div>
@@ -1020,7 +1185,7 @@ container.addEventListener(<span class="string"><span class="delimiter">&quot;</
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 120.0%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.625%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(96)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.5%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.25%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.5%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 102.5%'>Git(4)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.875%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 105.0%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.625%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.25%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.25%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 143.125%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.625%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.75%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 159.375%'>Tech(95)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 105.0%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 120.0%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.625%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(96)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.5%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.25%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.5%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 102.5%'>Git(4)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.875%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 105.0%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.625%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.25%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.25%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 143.125%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.625%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.75%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(96)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 105.0%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

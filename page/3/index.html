@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Setup a Basic PHP Development Environment With Vagrant and Chef-solo So there are plenty of posts about this out there already. And this is nothing &hellip;">
+    <meta name="description" content="Workaround for Running WoW With Patch 5.0.4 on Ubuntu After a fresh install i couldn’t get WoW to work. I’m not that big on playing games lately. &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,67 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/">Workaround for Running WoW With Patch 5.0.4 on Ubuntu</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>After a fresh install i couldn’t get <a href="http://eu.battle.net/wow/en/">WoW</a> to work. I’m not that big on playing games lately. But this bugged me. Good thing we have the interwebs.</p>
+
+<p>Starting the battle.net agent manually before firing up the WoW launcher solved the launcher crashing.</p>
+
+<blockquote><p>$ wine ~/.wine/drive_c/users/Public/Application\ Data/Battle.net/Agent/Agent.1267/Agent.exe &#8211;nohttpauth &amp;<br />$ wine ~/.wine/drive_c/Program\ Files\ \(x86\)/World\ of\ Warcraft/Launcher.exe &amp;</p></blockquote>
+
+<p>And installing <strong>vcrun2008</strong> with <a href="http://wiki.winehq.org/winetricks/">winetricks</a> solved the problem with the updater hanging.</p>
+
+<ul>
+  <li>[1] <a href="http://appdb.winehq.org/objectManager.php?sClass=version&amp;iId=25610&amp;iTestingId=70352">http://appdb.winehq.org/objectManager.php?sClass=version&amp;iId;=25610&amp;iTestingId;=70352</a></li>
+  <li>[2] <a href="http://www.codeweavers.com/compatibility/browse/name/?forum=1;app_id=7714;mhl=130618;msg=130314">http://www.codeweavers.com/compatibility/browse/name/?forum=1;app_id=7714;mhl=130618;msg=130314</a></li>
+</ul>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-02T23:48:36+02:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -1087,105 +1148,6 @@ var $config = array(&quot;server&quot;=&gt;&quot;58.225.75.155&quot;,
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2011/11/php-getting-strict-sessions/">PHP Getting Strict Sessions</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>For years <a href="http://php.net/">PHP</a> has been vulnerable to session adoption which can enable <a href="http://en.wikipedia.org/wiki/Session_fixation">session fixation</a>. And since sessions are a major part of web applications now a days. A lot of platforms are open and waiting for an attack to happen.</p>
-
-<p><strong>session adoption &amp; session fixation</strong></p>
-
-<p>The problem exists because the current session module does not validate the session id that comes in from a cookie. This means uninitialized session id’s can be passed by the client. This happens due to the fact that browsers overwrite cookie if multiple cookies are send per request.
-Some people would say this is solvable by implementing <a href="http://nl3.php.net/manual/en/function.session-regenerate-id.php">session_regenerate_id()</a>. But this is not the case.</p>
-
-<p>Because session fixation can be used to take over control of web applications. Validation is required when multiple cookies are send per request. When multiple cookie are send with a request. Browsers send multiple cookies without domain / path information. This way it’s impossible to tell which cookie belongs to which domain. </p>
-
-<p><strong>So how do we fix this?</strong></p>
-
-<p>There is some userland code that does offer the ability to validate session data. But this has not been widely adopted by other developers.</p>
-
-<p>Code that adds the session ID as a validation key:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-session_destory();
-session_regenerate_id();
-<span class="predefined">$_SESSION</span>[<span class="string"><span class="delimiter">'</span><span class="content">valid_id</span><span class="delimiter">'</span></span>] = session_id(); 
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>And the code to check if the session was properly initialized:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="keyword">if</span> (<span class="predefined">$_SESSION</span>[<span class="string"><span class="delimiter">'</span><span class="content">valid_id</span><span class="delimiter">'</span></span>] !== session_id()) {
-  <span class="predefined">die</span>(<span class="string"><span class="delimiter">'</span><span class="content">Invalid use of session ID</span><span class="delimiter">'</span></span>);
-}
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>Thank god the internal developer know this. And are working to fix this. For the past days there has been an interesting discussion going on on the <a href="http://news.php.net/php.internals">internals</a> list. About applying a patch that will fix this. The patch will add some new php.ini features and a new method validate_id() for the session save handler. Hopefully this will be available in version 5.4.</p>
-
-<p>To not break BC strict_mode will be disabled by default. But can be enabled by setting the following setting in php.ini. When enabled uninitialized session ID will be discarded.</p>
-
-<blockquote>
-  <p>session.use_strict_mode=0</p>
-</blockquote>
-
-<p>To prevent a DoS instead of session fixation. An new feature has been added that deletes possible malicious cookies that prevent new session ID.</p>
-
-<blockquote>
-  <p>session.safe_session_cookie=1</p>
-</blockquote>
-
-<p>You can read more about session fixation and the upcoming patch on the <a href="https://wiki.php.net/rfc/strict_sessions">PHP-Wiki</a></p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2011/11/php-getting-strict-sessions/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-11-30T15:38:28+01:00" pubdate data-updated="true">Nov 30<span>th</span>, 2011</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/security/'>Security</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>, <a class='category' href='http://blog.lenss.nl/tag/zend/'>Zend</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
-  
 
   <ul class="pager">
     
@@ -1229,7 +1191,9 @@ session_regenerate_id();
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
-		<li><a href="http://blog.lenss.nl/2016/01/using-the-hub-in-github-pull-requests/">Using the hub in Github - pull requests</a></li>
+		<li><a href="http://blog.lenss.nl/2015/02/octopress-blog-hijacked-by-javascript/">Octopress blog hijacked</a></li>
+		
+		<li><a href="http://blog.lenss.nl/2015/01/using-the-hub-in-github-pull-requests/">Using the hub in Github - pull requests</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2015/01/git-view-unpushed-changes/">View unpushed changes in git</a></li>
 		
@@ -1246,8 +1210,6 @@ session_regenerate_id();
 		<li><a href="http://blog.lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/">Memory exhaust issue PHP and APM</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/06/php-55-released/">PHP 5.5.0 released</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2013/03/casting-weirdness-with-PHP/">Casting weirdness with PHP</a></li>
 		
 	</ul>
 </div>
@@ -1268,7 +1230,7 @@ session_regenerate_id();
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 120.0%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.625%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(96)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.5%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.25%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.5%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 102.5%'>Git(4)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.875%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 105.0%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.625%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.25%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.25%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 143.125%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.625%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.75%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 159.375%'>Tech(95)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 105.0%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 120.0%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.625%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(96)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.5%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.25%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.5%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 102.5%'>Git(4)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.875%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 105.0%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.625%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.25%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.25%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 143.125%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.625%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.75%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(96)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 105.0%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

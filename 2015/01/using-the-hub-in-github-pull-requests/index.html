@@ -3,15 +3,15 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Best wishes - Thijs Lensselink's Blog</title>
+    <title>Using the hub in Github - pull requests - Thijs Lensselink's Blog</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Best Wishes As the year is coming to an end. I realise i haven’t posted anything this last month. And i have load of things on my mind. But no time &hellip;">
+    <meta name="description" content="Using the Hub in Github - Pull Requests Hub is a command line tool that wraps around the git command. It add’s some cool features that make working &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
-    <link rel="canonical" href="http://blog.lenss.nl/2010/12/best-wishes/">
+    <link rel="canonical" href="http://blog.lenss.nl/2015/01/using-the-hub-in-github-pull-requests/">
     <link rel="shortcut icon" href="/favicon.ico">
     <link href="http://feeds.feedburner.com/ThijsLensselinksBlog" rel="alternate" title="Thijs Lensselink's Blog" type="application/atom+xml">
 
@@ -61,18 +61,109 @@
 <header>
 	<header>
 	
-	  <h1 class="entry-title">Best Wishes</h1>
+	  <h1 class="entry-title">Using the Hub in Github - Pull Requests</h1>
 	
 	</header>
 </header>
 
 
-<div class="articletext"><p>As the year is coming to an end. I realise i haven’t posted anything this last month. And i have load of things on my mind. But no time. I’ll be heading over to a friends house for the remaining part of this year. So i wish everybody a good and happy 2011. Don’t drink to much and be careful with fireworks.</p>
+<div class="articletext"><p>Hub is a command line tool that wraps around the <a href="https://github.com">git</a> command. It add’s some cool features that make working with git easier. The goal of this post is to show how easy it is to generate a pull request. But i’ll also quickly explain how to install <a href="https://github.com/github/hub">hub</a> itself.</p>
 
-<p>On a side note: did anybody check out the new <a href="http://php.net">php.net</a> layout? i think Hannes and Co are doing a great job!</p>
+<p>Hub is written in <a href="https://golang.org/">Go</a>! So we need to install this to get started. You can download the latest package/source <a href="https://golang.org/dl/">here</a></p>
 
-<p>(to see the new layout go to <a href="http://php.net/my">php.net/my</a> and flip the beta switch at the bottom of the page)</p>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ sudo tar -C /usr/local -xzf go$VERSION.$OS-$ARCH.tar.gz
+$ vi ~/.bashrc
+</pre></div>
+</div>
+ </figure></notextile></div>
 
+<blockquote><p>export PATH=$PATH:/usr/local/go/bin</p></blockquote>
+
+<p>With that in place we can setup hub</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git clone https://github.com/github/hub.git
+$ cd hub
+$ ./script/build
+$ cp hub /usr/local/bin
+$ hub --version
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<blockquote><p>git version 1.9.1<br />hub version 2.2.0-rc1-13-g111100c</p></blockquote>
+
+<p>If you are used to the git command like me. It might be a good idea to setup a alias for hub</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ vi ~/.bashrc
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<blockquote><p>alias git=hub</p></blockquote>
+
+<p>One other thing i had to do because we work with the <a href="https://enterprise.github.com/">Github Enterprise Edition</a>. Is to whtelist our github host.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git config --global --add hub.host github.dome.domain
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Creating a pull request with hub is as easy as using the Github web gui. We start of with creating a fork of an existing repository</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git clone git@github.some.domain:user/FOO.git
+$ cd FOO
+$ git fork
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>This created the remote fork. And sets the correct remotes for the local repository</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git remote -v
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<blockquote><p>origin	git@github.some.domain:user/FOO.git (fetch)<br />origin	git@github.some.domain:user/FOO.git (push)<br />me	git@github.some.domain:me/FOO.git (fetch)<br />me	git@github.some.domain:me/FOO.git (push)</p></blockquote>
+
+<p>Before we can generate a pull request we ofcourse need some changes to push.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git branch bar
+$ git checkout bar
+$ touch BAR
+$ git add BAR
+$ git commit -am &quot;Add BAR&quot;
+$ git push me bar
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<blockquote><p>Total 0 (delta 0), reused 0 (delta 0)<br />To git@github.some.domain:me/FOO.git<br /> * [new branch]      bar -&gt; bar</p></blockquote>
+
+<p>The only thing left to do is create the actual pull-request</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git pull-request
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<blockquote><p>https://github.some.domain:user/FOO/pull/1</p></blockquote>
 </div>
 
 
@@ -93,12 +184,12 @@
   
 
 
-<time datetime="2010-12-31T14:58:50+01:00" pubdate data-updated="true">Dec 31<span>st</span>, 2010</time>
+<time datetime="2015-01-15T11:46:23+01:00" pubdate data-updated="true">Jan 15<span>th</span>, 2015</time>
       
 
 <span class="categories">
   
-    <a class='category' href='http://blog.lenss.nl/tag/-home/'>/home</a>
+    <a class='category' href='http://blog.lenss.nl/tag/development/'>Development</a>, <a class='category' href='http://blog.lenss.nl/tag/git/'>Git</a>
   
 </span>
 
@@ -106,10 +197,10 @@
     </p>
     <p class="meta">
       
-        <a class="basic-alignment left" href="http://blog.lenss.nl/2010/11/moving-from-subversion-to-git/" title="Previous Post: Moving from Subversion to GIT">&laquo; Moving from Subversion to GIT</a>
+        <a class="basic-alignment left" href="http://blog.lenss.nl/2015/01/git-view-unpushed-changes/" title="Previous Post: View unpushed changes in git">&laquo; View unpushed changes in git</a>
       
       
-        <a class="basic-alignment right" href="http://blog.lenss.nl/2011/01/new-generation-elephpants-arrived/" title="Next Post: New generation elePHPants arrived!!">New generation elePHPants arrived!! &raquo;</a>
+        <a class="basic-alignment right" href="http://blog.lenss.nl/2015/02/octopress-blog-hijacked-by-javascript/" title="Next Post: Octopress blog hijacked">Octopress blog hijacked &raquo;</a>
       
     </p>
   </footer>
@@ -123,7 +214,7 @@
   
   <script id='fb3vnkm'>(function(i){var f,s=document.getElementById(i);f=document.createElement('iframe');f.src='//api.flattr.com/button/view/?uid=tlenss&button=compact&url='+encodeURIComponent(document.URL);f.title='Flattr';f.height=20;f.width=110;f.style.borderWidth=0;s.parentNode.insertBefore(f,s);})('fb3vnkm');</script>
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.lenss.nl/2010/12/best-wishes/" data-via="tlenss" data-counturl="http://blog.lenss.nl/2010/12/best-wishes/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.lenss.nl/2015/01/using-the-hub-in-github-pull-requests/" data-via="tlenss" data-counturl="http://blog.lenss.nl/2015/01/using-the-hub-in-github-pull-requests/" >Tweet</a>
   
 </div>
 

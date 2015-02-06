@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tech | Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/tag/tech/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2015-02-06T13:47:52+01:00</updated>
+  <updated>2015-02-06T14:54:52+01:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -12,6 +12,57 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress blog hijacked]]></title>
+    <link href="http://blog.lenss.nl/2015/02/octopress-blog-hijacked-by-javascript/"/>
+    <updated>2015-02-06T15:46:53+01:00</updated>
+    <id>http://blog.lenss.nl/2015/02/octopress-blog-hijacked-by-javascript</id>
+    <content type="html"><![CDATA[<p>I use <a href="http://octopress.org/">Octopress</a> to write and generate my blog. Which works pretty well most of the time. The main benefit is having a statically generated website. No database connections no code overhead. Just plain and simple text. You’d pretty much have to 0wn the server to get to the files.</p>
+
+<p>To my surprise though my blog was redirecting to http://octophile.com when i check my blog status today. That was pretty weird. So the first thing i did was check my commit logs. No changes. <a href="https://github.com/">Github</a> didn’t get owned (at least not publicly known). So what could be redirecting my site?</p>
+
+<p>So i grepped for the domain name i was redirected to.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ grep -r ‘octophile’ *
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>All generated pages had a call to <a href="http://octophile.com/widgets.js">http://octophile.com/widgets.js</a>. This came from the main layout template. And was there from the start. So what was it for. I just couldn’t remember. But a quick Google search turned up the Github <a href="https://github.com/mdellanoce/octophile">project</a> page. It’s the twitter widget i used for a while. Still weird though. So let’s check the contents of the widget.js file</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>redirect </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">var</span> redir_url = <span class="error">‘</span>http:<span class="comment">//octophile.com/’; if (window != top) { top.location.href = redir_url; } else { window.location = redir_url; }</span>
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>OK that explains the redirect. Now let’s take a look the WHOIS data for the octophile domain</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+   Domain Name: OCTOPHILE.COM
+   Registrar: DOMAINTIMEMACHINE.COM LLC
+   Sponsoring Registrar IANA ID: 1200
+   Whois Server: whois.domaintimemachine.com
+   Referral URL: http://www.networksolutions.com
+   Name Server: 70222-NS1.NDOVERDRIVE.COM
+   Name Server: 70222-NS2.NDOVERDRIVE.COM
+   Status: clientTransferProhibited http://www.icann.org/epp#clientTransferProhibited
+   Updated Date: 05-feb-2015
+   Creation Date: 30-jan-2014
+   Expiration Date: 30-jan-2016
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>So the DNS was changed yesterday. It might be somebody hijacked the domain. But i’m not sure. Maybe the project is just discontinued. Whatever it is. It was fun to figure out what was going on. I contacted the owner of the widget. But haven’t received a reply yet.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Memory exhaust issue PHP and APM]]></title>
@@ -485,49 +536,6 @@ string(3) “baz”
 <p>PHP 5+ has come a long way performance wise without the Optimizer component. But being able to apply opcode cache out of the box is a great addition. And so far the <a href="http://bit.ly/116BnnB">benchmarks</a> look promising. The Optimizer+ component beats <a href="http://pecl.php.net/package/APC">APC</a> hands down in all performed tests.</p>
 
 <p>Read more about Opcode caching and the integration process <a href="https://wiki.php.net/rfc/optimizerplus">here</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[PHPness Serious WTF]]></title>
-    <link href="http://blog.lenss.nl/2013/02/phpness-serious-wtf/"/>
-    <updated>2013-02-27T11:58:26+01:00</updated>
-    <id>http://blog.lenss.nl/2013/02/phpness-serious-wtf</id>
-    <content type="html"><![CDATA[<p>It’s been a while since i last blogged. And i don’t really have anything new to offer. But i would like to comment on some current event. There has been some commotion about a free t shirt that was distributed on the SunshinePHP conference this year. </p>
-
-<p><a href="/images/2013/02/web-and-php-img.png"><img src="/images/2013/02/web-and-php-img.png" alt="" /></a></p>
-
-<p>The first time i saw the shirt i could not make out what was so offending that people would start blogging about it. Somebody had to point that out for me. So what’s the deal here? Apparently the shirt’s slogan was intentionally created with a slight sexual undertone. The idea comes from the enlarge your penis SPAM we all know! </p>
-
-<p>Some people have perceived this as being sexist. And even go so far as to personally attack the people behind the shirt. </p>
-
-<p>Personally i don’t think the shirt is sexist or offensive at all. And don’t really understand all the fuss. Sex has never been an issue for me in the PHP community. I learn just as much from female developers as i do from the male ones. We are all equal. People that feel the need to defend the opposite sex are probably the ones that see a difference. Even so! Why make such a big deal of something so small? I never seen anybody blog about the programming with attitude poster. </p>
-
-<p><a href="/images/2013/02/php-programming.jpg"><img src="/images/2013/02/php-programming.jpg" alt="" /></a></p>
-
-<p>I think the PHP community has just lost a bit of it’s shine and coolness. I’ve always been under the impression the PHP community consisted of free thinking people that do what they love. Develop stuff. And that’s exactly what attracted me to it 12 years ago in the first place.</p>
-
-<p>The community has grown quite a lot in that period of time. The thing with every communities is that it brings forth vocal people. Which is a great thing in general. But not so good when people forget their responsibility towards the rest of the community. And that’s exactly what happened the last few days. Personal issues have become public. To me it seems many of you have missed the boat completely. You don’t have to like the shirt. But there is absolutely no reason to bash the initiative in public.</p>
-
-<p>Here are some of the articles the spawned over the last couple days:</p>
-
-<p><a href="http://webandphpmag.wordpress.com/2013/02/25/phpness-gate-raising-interesting-issues/">PHPness Gate – raising interesting issues</a></p>
-
-<p><a href="http://www.brandonsavage.net/on-public-outrage-and-bad-actors/">On Public Outrage And Bad Actors</a></p>
-
-<p><a href="http://caseysoftware.com/blog/sexism-php-community">Sexism in the PHP Community</a></p>
-
-<p><a href="http://www.leftontheweb.com/message/On_SexismRacismAnyotherism_and_the_PHP_Community">On Sexism/Racism/Any-other-ism and the PHP Community</a></p>
-
-<p><a href="http://blog.calevans.com/2013/02/22/sexism-and-php/">Sexism and PHP</a></p>
-
-<p><a href="http://news.ycombinator.com/item?id=5269120">Hacker news - Sexism and PHP (calevans.com)</a></p>
-
-<p><a href="http://www.gogolek.co.uk/blog/2013/02/web-and-php-sexist-tshirt-debate-my-2-cents/">Web &amp; PHP sexist tshirt debate – my 2 cents</a></p>
-
-<p><a href="http://blog.ircmaxell.com/2013/02/on-equality-sexism-and-even-hand.html">On Equality, Sexism and an Even Hand</a></p>
-
-<p>So let’s all just respect one another. And keep the PHP community a friendly place. This kind of nonsense has no positive impact on anybody.</p>
 ]]></content>
   </entry>
   

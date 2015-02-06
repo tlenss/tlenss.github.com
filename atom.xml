@@ -4,7 +4,7 @@
   <title><![CDATA[Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2015-02-06T13:47:52+01:00</updated>
+  <updated>2015-02-06T14:54:52+01:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -14,10 +14,61 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Octopress blog hijacked]]></title>
+    <link href="http://blog.lenss.nl/2015/02/octopress-blog-hijacked-by-javascript/"/>
+    <updated>2015-02-06T15:46:53+01:00</updated>
+    <id>http://blog.lenss.nl/2015/02/octopress-blog-hijacked-by-javascript</id>
+    <content type="html"><![CDATA[<p>I use <a href="http://octopress.org/">Octopress</a> to write and generate my blog. Which works pretty well most of the time. The main benefit is having a statically generated website. No database connections no code overhead. Just plain and simple text. You’d pretty much have to 0wn the server to get to the files.</p>
+
+<p>To my surprise though my blog was redirecting to http://octophile.com when i check my blog status today. That was pretty weird. So the first thing i did was check my commit logs. No changes. <a href="https://github.com/">Github</a> didn’t get owned (at least not publicly known). So what could be redirecting my site?</p>
+
+<p>So i grepped for the domain name i was redirected to.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ grep -r 'octophile' *
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>All generated pages had a call to <a href="http://octophile.com/widgets.js">http://octophile.com/widgets.js</a>. This came from the main layout template. And was there from the start. So what was it for. I just couldn’t remember. But a quick Google search turned up the Github <a href="https://github.com/mdellanoce/octophile">project</a> page. It’s the twitter widget i used for a while. Still weird though. So let’s check the contents of the widget.js file</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>redirect </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">var</span> redir_url = <span class="string"><span class="delimiter">'</span><span class="content">http://octophile.com/</span><span class="delimiter">'</span></span>; <span class="keyword">if</span> (window != top) { top.location.href = redir_url; } <span class="keyword">else</span> { window.location = redir_url; }
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>OK that explains the redirect. Now let’s take a look the WHOIS data for the octophile domain</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+   Domain Name: OCTOPHILE.COM
+   Registrar: DOMAINTIMEMACHINE.COM LLC
+   Sponsoring Registrar IANA ID: 1200
+   Whois Server: whois.domaintimemachine.com
+   Referral URL: http://www.networksolutions.com
+   Name Server: 70222-NS1.NDOVERDRIVE.COM
+   Name Server: 70222-NS2.NDOVERDRIVE.COM
+   Status: clientTransferProhibited http://www.icann.org/epp#clientTransferProhibited
+   Updated Date: 05-feb-2015
+   Creation Date: 30-jan-2014
+   Expiration Date: 30-jan-2016
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>So the DNS was changed yesterday. It might be somebody hijacked the domain. But i’m not sure. Maybe the project is just discontinued. Whatever it is. It was fun to figure out what was going on. I contacted the owner of the widget. But haven’t received a reply yet.</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Using the hub in Github - pull requests]]></title>
-    <link href="http://blog.lenss.nl/2016/01/using-the-hub-in-github-pull-requests/"/>
-    <updated>2016-01-15T11:46:23+01:00</updated>
-    <id>http://blog.lenss.nl/2016/01/using-the-hub-in-github-pull-requests</id>
+    <link href="http://blog.lenss.nl/2015/01/using-the-hub-in-github-pull-requests/"/>
+    <updated>2015-01-15T11:46:23+01:00</updated>
+    <id>http://blog.lenss.nl/2015/01/using-the-hub-in-github-pull-requests</id>
     <content type="html"><![CDATA[<p>Hub is a command line tool that wraps around the <a href="https://github.com">git</a> command. It add’s some cool features that make working with git easier. The goal of this post is to show how easy it is to generate a pull request. But i’ll also quickly explain how to install <a href="https://github.com/github/hub">hub</a> itself.</p>
 
 <p>Hub is written in <a href="https://golang.org/">Go</a>! So we need to install this to get started. You can download the latest package/source <a href="https://golang.org/dl/">here</a></p>
@@ -1385,26 +1436,6 @@ mysql_options(&amp;mysql, <span class="constant">MYSQL_OPT_RECONNECT</span>, &am
 <blockquote><p>$ git checkout master<br />$ git pull<br />$ git push dev-branch</p></blockquote>
 
 <p>Again when all is fine all changes will be available in master. If something goes wrong during git-rebase and / or merging. Git will kindly state so. And some manual merging with git’s <a href="http://git-scm.com/docs/git-mergetool">mergetool</a> will have to be done. But that’s something for another day.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Workaround for running WoW with patch 5.0.4 on Ubuntu]]></title>
-    <link href="http://blog.lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu/"/>
-    <updated>2012-09-02T23:48:36+02:00</updated>
-    <id>http://blog.lenss.nl/2012/09/workaround-for-running-wow-with-patch-5-0-4-on-ubuntu</id>
-    <content type="html"><![CDATA[<p>After a fresh install i couldn’t get <a href="http://eu.battle.net/wow/en/">WoW</a> to work. I’m not that big on playing games lately. But this bugged me. Good thing we have the interwebs.</p>
-
-<p>Starting the battle.net agent manually before firing up the WoW launcher solved the launcher crashing.</p>
-
-<blockquote><p>$ wine ~/.wine/drive_c/users/Public/Application\ Data/Battle.net/Agent/Agent.1267/Agent.exe &#8211;nohttpauth &amp;<br />$ wine ~/.wine/drive_c/Program\ Files\ \(x86\)/World\ of\ Warcraft/Launcher.exe &amp;</p></blockquote>
-
-<p>And installing <strong>vcrun2008</strong> with <a href="http://wiki.winehq.org/winetricks/">winetricks</a> solved the problem with the updater hanging.</p>
-
-<ul>
-  <li>[1] <a href="http://appdb.winehq.org/objectManager.php?sClass=version&amp;iId=25610&amp;iTestingId=70352">http://appdb.winehq.org/objectManager.php?sClass=version&amp;iId;=25610&amp;iTestingId;=70352</a></li>
-  <li>[2] <a href="http://www.codeweavers.com/compatibility/browse/name/?forum=1;app_id=7714;mhl=130618;msg=130314">http://www.codeweavers.com/compatibility/browse/name/?forum=1;app_id=7714;mhl=130618;msg=130314</a></li>
-</ul>
 ]]></content>
   </entry>
   
