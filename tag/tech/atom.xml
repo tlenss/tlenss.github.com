@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tech | Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/tag/tech/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2015-02-06T15:03:26+01:00</updated>
+  <updated>2015-02-06T15:04:34+01:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -64,7 +64,7 @@ $ grep -r ‘octophile’ *
 
 <p><strong>UPDATE</strong></p>
 
-<p>I got a quick response from the project owner. He stopped working on the project a long time ago. And i probably should have cleaned up my templates. Good thing no evil javascript was injected :)</p>
+<p>I got a quick response from the project owner. He stopped working on it a long time ago. And i probably should have cleaned up my templates. Good thing no evil javascript was injected :)</p>
 ]]></content>
   </entry>
   
