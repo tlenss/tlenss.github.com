@@ -131,14 +131,14 @@ $ chmod +x [full path]/hooks/post-checkout
 </div>
  </figure></notextile></div>
 
+<p>Let’s test it by cloning a test repo</p>
+
 <div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
   <div class="code"><pre>
 $ git clone git@github.host.tld:user/composer-hook.git foo
 </pre></div>
 </div>
  </figure></notextile></div>
-
-<p>Let’s test it by cloning a test repo</p>
 
 <blockquote><p>Cloning into foo&#8230;<br />remote: Counting objects: 21, done.<br />remote: Compressing objects: 100% (15/15), done.<br />remote: Total 21 (delta 5), reused 14 (delta 1)<br />Receiving objects: 100% (21/21), done.<br />Resolving deltas: 100% (5/5), done.<br />Loading composer repositories with package information<br />Installing dependencies (including require-dev)<br />  - Installing psr/log (1.0.0)<br />    Loading from cache</p><p>  - Installing monolog/monolog (1.12.0)<br />    Loading from cache</p><p>&#8230;</p></blockquote>
 </div>

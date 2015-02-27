@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tech | Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/tag/tech/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2015-02-27T12:08:01+01:00</updated>
+  <updated>2015-02-27T12:08:33+01:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -79,14 +79,14 @@ $ chmod +x [full path]/hooks/post-checkout
 </div>
  </figure></notextile></div></p>
 
+<p>Let’s test it by cloning a test repo</p>
+
 <p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
   <div class="code"><pre>
 $ git clone git@github.host.tld:user/composer-hook.git foo
 </pre></div>
 </div>
  </figure></notextile></div></p>
-
-<p>Let’s test it by cloning a test repo</p>
 
 <p><blockquote><p>Cloning into foo…<br/>remote: Counting objects: 21, done.<br/>remote: Compressing objects: 100% (15/15), done.<br/>remote: Total 21 (delta 5), reused 14 (delta 1)<br/>Receiving objects: 100% (21/21), done.<br/>Resolving deltas: 100% (5/5), done.<br/>Loading composer repositories with package information<br/>Installing dependencies (including require-dev)<br/>  - Installing psr/log (1.0.0)<br/>    Loading from cache</p></p><p><ul><br/>  <li>Installing monolog/monolog (1.12.0)<br/>Loading from cache</li><br/></ul></p><p><p>…</p></blockquote></p>
 ]]></content>
