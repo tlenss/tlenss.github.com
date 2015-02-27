@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/tag/git/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2015-02-27T12:09:59+01:00</updated>
+  <updated>2015-02-27T16:57:52+01:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -12,6 +12,85 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Run Composer on Git clone]]></title>
+    <link href="http://blog.lenss.nl/2015/02/composer-install-on-git-clone/"/>
+    <updated>2015-02-27T12:46:22+01:00</updated>
+    <id>http://blog.lenss.nl/2015/02/composer-install-on-git-clone</id>
+    <content type="html"><![CDATA[<p>I work on a couple of projects that use <a href="https://getcomposer.org/">Composer</a> to manage the dependencies. And a coworker asked if it was possible to automate running <code>composer install</code> after cloning a repo. It sounded like a good idea. As i sometimes forget to run the command myself. So i did some research. And it turned out to be quite easy.</p>
+
+<p>To makee this work we will be using <a href="http://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks">Git hooks</a> together with Git templates.</p>
+
+<p>So we start by creating a templates folder for git. Where does not matter.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ mkdir -p [full path]/git-templates/hooks
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>When that’s done. we need to tell git to use the template folder on each clone / checkout. We can do this by setting a global alias for clone</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ git config –global alias.clone ‘clone –template=[full path]/git-templates’
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>You can also do this by manually editing the .gitconfig file</p>
+
+<p><blockquote><p>[alias]<br/>	clone = clone –template=[full path]/git-templates</p></blockquote></p>
+
+<p>So now we have a template folder that’s read on every clone / checkout. We only need to create the hook script that triggers composer.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ vi [full path]/hooks/post-checkout
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>composer_run </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+#! /bin/bash
+# Check if a composer.json file is present
+function composer_run() {
+    REPO=$(readlink -m $(dirname .))
+    if [ -f $REPO/composer.json ]; then
+        composer install
+    fi
+}&lt;/p&gt;
+
+&lt;p&gt;composer_run
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>Finally wer need to make it executable</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ chmod +x [full path]/hooks/post-checkout
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>Let’s test it by cloning a test repo</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ git clone git@github.host.tld:user/composer-hook.git foo
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p><blockquote><p>Cloning into foo…<br/>remote: Counting objects: 21, done.<br/>remote: Compressing objects: 100% (15/15), done.<br/>remote: Total 21 (delta 5), reused 14 (delta 1)<br/>Receiving objects: 100% (21/21), done.<br/>Resolving deltas: 100% (5/5), done.<br/>Loading composer repositories with package information<br/>Installing dependencies (including require-dev)<br/>  - Installing psr/log (1.0.0)<br/>    Loading from cache</p></p><p><ul><br/>  <li>Installing monolog/monolog (1.12.0)<br/>Loading from cache</li><br/></ul></p><p><p>…</p></blockquote></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Using the hub in Github - pull requests]]></title>
