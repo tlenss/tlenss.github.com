@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="PHP Getting Strict Sessions For years PHP has been vulnerable to session adoption which can enable session fixation. And since sessions are a major &hellip;">
+    <meta name="description" content="PHP Critical Bug CVE-2012-0830 Ok it’s a bit late But i have been laying under a rock for the last week. And i guess it can’t hurt! Last week a &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,60 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2012/02/php-critical-bug-cve-2012-0830/">PHP Critical Bug CVE-2012-0830</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>Ok it’s a bit late But i have been laying under a rock for the last week. And i guess it can’t hurt!</p>
+
+<p>Last week a critical bug was discovered in PHP. Which affects versions 5.3.9 and 5.2.17. The bug could be exploited to run arbitrary code on a remote PHP system. So upgrade your systems. And of course Stefan Esser <a href="http://news.php.net/php.internals/57655">popped up</a> with some wise words :)… O well i still think the guy does great work.</p>
+
+<p>More info about the issue can be found on packetstorm (<a href="http://packetstormsecurity.org/files/cve/CVE-2012-0830">CVE-2012-0830</a>) </p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2012/02/php-critical-bug-cve-2012-0830/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-05T13:39:43+01:00" pubdate data-updated="true">Feb 5<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/security/'>Security</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -1056,135 +1110,6 @@ date_default_timezone_set(<span class="string"><span class="delimiter">'</span><
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2011/07/memcached-telnet-interface-commands/">Memcached Telnet Interface Commands</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p><del>I was looking for the list of <a href="http://memcached.org/">Memcached</a> telnet commands. And couldn’t find much in the docs. So after some Google searching i finally found the list. And will keep it here for future reference.</del></p>
-
-<p>So i did a bit of reading while working on a memcache tool in PHP. I found some good <a href="https://github.com/memcached/memcached/blob/master/doc/protocol.txt">documentation</a> on the <a href="http://memcached.org/">memcached.org</a> website.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-get
-Reads a value
-get mykey
-
-set
-Set a key unconditionally
-set mykey 0 60 5
-
-add
-Add a new key
-add newkey 0 60 5
-
-replace
-Overwrite existing key
-replace key 0 60 5
-
-append
-Append data to existing key
-append key 0 60 15
-
-prepend
-Prepend data to existing key
-prepend key 0 60 15
-
-incr
-Increments numerical key value by given number
-incr mykey 2
-
-decr
-Decrements numerical key value by given number
-decr mykey 5
-
-delete
-Deletes an existing key
-delete mykey
-
-flush_all
-Invalidate specific items immediately
-
-flush_all
-Invalidate all items in n seconds
-flush_all 900
-
-stats
-Prints general statistics
-
-stats
-Prints memory statistics
-
-stats slabs
-Prints memory statistics
-
-stats malloc
-Print higher level allocation statistics
-
-stats items
-stats detail
-
-stats sizes
-Resets statistics
-stats reset
-
-version
-Prints server version.
-version
-
-verbosity
-Increases log level
-verbosity
-
-</pre></div>
-</div>
- </figure></notextile></div>
-
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2011/07/memcached-telnet-interface-commands/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-07-12T11:02:50+02:00" pubdate data-updated="true">Jul 12<span>th</span>, 2011</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
-  
 
   <ul class="pager">
     
@@ -1228,6 +1153,8 @@ verbosity
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://blog.lenss.nl/2015/02/composer-install-on-git-clone/">Run Composer on Git clone</a></li>
+		
 		<li><a href="http://blog.lenss.nl/2015/02/octopress-blog-hijacked-by-javascript/">Octopress blog hijacked</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2015/01/using-the-hub-in-github-pull-requests/">Using the hub in Github - pull requests</a></li>
@@ -1245,8 +1172,6 @@ verbosity
 		<li><a href="http://blog.lenss.nl/2013/08/github-and-multiple-ssh-keys/">Github, SSH and multiple repositories</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/">Memory exhaust issue PHP and APM</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2013/06/php-55-released/">PHP 5.5.0 released</a></li>
 		
 	</ul>
 </div>
@@ -1267,7 +1192,7 @@ verbosity
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 120.0%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.625%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(96)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.5%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.25%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.5%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 102.5%'>Git(4)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.875%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 105.0%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.625%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.25%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.25%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 143.125%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.625%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.75%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(96)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 105.0%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 119.79381443298969%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.61855670103093%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 159.3814432989691%'>Code(96)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.47422680412372%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.23711340206185%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.47422680412372%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 102.47422680412372%'>Git(4)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.85567010309278%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.94845360824742%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.61855670103093%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.23711340206185%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.23711340206185%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 142.68041237113403%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.56701030927834%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.71134020618557%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.94845360824742%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

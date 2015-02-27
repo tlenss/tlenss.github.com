@@ -3,15 +3,15 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Change columns data type in sqlite - Thijs Lensselink's Blog</title>
+    <title>Run Composer on Git clone - Thijs Lensselink's Blog</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Change Columns Data Type in Sqlite My coworker Chris yesterday asked me how to change a column data type in a database. He wanted to change the data &hellip;">
+    <meta name="description" content="Run Composer on Git Clone I work on a couple of projects that use Composer to manage the dependencies. And a coworker asked if it was possible to &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
-    <link rel="canonical" href="http://blog.lenss.nl/2009/07/change-columns-data-type-in-sqlite/">
+    <link rel="canonical" href="http://blog.lenss.nl/2015/02/composer-install-on-git-clone/">
     <link rel="shortcut icon" href="/favicon.ico">
     <link href="http://feeds.feedburner.com/ThijsLensselinksBlog" rel="alternate" title="Thijs Lensselink's Blog" type="application/atom+xml">
 
@@ -61,60 +61,81 @@
 <header>
 	<header>
 	
-	  <h1 class="entry-title">Change Columns Data Type in Sqlite</h1>
+	  <h1 class="entry-title">Run Composer on Git Clone</h1>
 	
 	</header>
 </header>
 
 
-<div class="articletext"><p>My coworker Chris yesterday asked me how to change a column data type in a database. He wanted to change the data type from varchar to text. So my first reaction was to shout ALTER TABLE. But i didn’t realize he was using <a href="http://www.sqlite.org/">sqlite</a> at the moment. So after reading the docs for a while. We came to the conclusion sqlite does support the ALTER statement. But it is very limited compared to say MySQL. And it doesn’t provide the option to alter the data types or column names.</p>
+<div class="articletext"><p>I work on a couple of projects that use <a href="https://getcomposer.org/">Composer</a> to manage the dependencies. And a coworker asked if it was possible to automate running <code>composer install</code> after cloning a repo. It sounded like a good idea. As i sometimes forget to run the command myself. So did some research. And it turned out to be quite easy.</p>
 
-<p>So how should you change a column data type in an sqlite database? Well as far as i can see there is not really a simple solution. But here goes for our work around.</p>
+<p>To makee this work we will be using <a href="http://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks">Git hooks</a> together with Git templates.</p>
 
-<p>Let’s start off by creating a test database:</p>
+<p>So we start by creating a templates folder for git. Where does not matter.</p>
 
-<blockquote>
-  <p>sqlite3 test.db  “create table sync (id INTEGER PRIMARY KEY, data VARCHAR, num double, dateIn DATE);”</p>
-</blockquote>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ mkdir -p [full path]/git-templates/hooks
+</pre></div>
+</div>
+ </figure></notextile></div>
 
-<p>And insert some test data:</p>
+<p>When that’s done. we need to tell git to use the template folder on each clone / checkout. We can do this by setting a global alias for clone</p>
 
-<blockquote>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git config --global alias.clone 'clone --template=[full path]/git-templates'
+</pre></div>
+</div>
+ </figure></notextile></div>
 
-  <ul>
-    <li>sqlite3 test.db  “insert into sync (data, num) values (‘This is sampledata’, 3);”</li>
-    <li>sqlite3 test.db  “insert into sync (data, num) values (‘More sample data’, 6);”</li>
-    <li>sqlite3 test.db  “insert into sync (data, num) values (‘And a little more’, 9);”</li>
-  </ul>
-</blockquote>
+<p>You can also do this by manually editing the .gitconfig file</p>
 
-<p>Now comes the trick. We first create a temporary table and populate it with the data from the table we are going to alter.</p>
+<blockquote><p>[alias]<br />	clone = clone &#8211;template=[full path]/git-templates</p></blockquote>
 
-<blockquote>
-  <p>sqlite3 test.db  “create table temp_table as select * from sync;”</p>
-</blockquote>
+<p>So now we have a template folder that’s read on every clone / checkout. We only need to create the hook script that triggers composer.</p>
 
-<p>Drop the database to alter. And after that recreate it again. But this time with the changes we wanted to make. So we change the VARCHAR field to TEXT.</p>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ vi [full path]/hooks/post-checkout
+</pre></div>
+</div>
+ </figure></notextile></div>
 
-<blockquote>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>redirect </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+#! /bin/bash
+# Check if a composer.json file is present
+function composer_run() {
+    REPO=$(readlink -m $(dirname .))
+    if [ -f $REPO/composer.json ]; then
+        composer install
+    fi
+}
 
-  <ul>
-    <li>sqlite3 test.db  “drop table sync;”</li>
-    <li>sqlite3 test.db  “create table sync (id INTEGER PRIMARY KEY, data TEXT, num double, dateIn DATE);”</li>
-  </ul>
-</blockquote>
+composer_run
+</pre></div>
+</div>
+ </figure></notextile></div>
 
-<p>The only thing left now is to populate the new database with the data from the temporary table. And finally drop the temporary table.</p>
+<p>Finally wer need to make it executable</p>
 
-<blockquote>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ chmod +x [full path]/hooks/post-checkout
+</pre></div>
+</div>
+ </figure></notextile></div>
 
-  <ul>
-    <li>sqlite3 test.db  “insert into sync select * from temp_table;”</li>
-    <li>sqlite3 test.db  “drop table temp_table;”</li>
-  </ul>
-</blockquote>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git clone git@github.host.tld:user/composer-hook.git foo
+</pre></div>
+</div>
+ </figure></notextile></div>
 
-<p>There must be a cleaner way to do this. But this worked for us!</p>
+<blockquote><p>Cloning into foo&#8230;<br />remote: Counting objects: 21, done.<br />remote: Compressing objects: 100% (15/15), done.<br />remote: Total 21 (delta 5), reused 14 (delta 1)<br />Receiving objects: 100% (21/21), done.<br />Resolving deltas: 100% (5/5), done.<br />Loading composer repositories with package information<br />Installing dependencies (including require-dev)<br />  - Installing psr/log (1.0.0)<br />    Loading from cache</p><p>  - Installing monolog/monolog (1.12.0)<br />    Loading from cache</p><p>&#8230;</p></blockquote>
 </div>
 
 
@@ -135,7 +156,7 @@
   
 
 
-<time datetime="2009-07-23T12:53:17+02:00" pubdate data-updated="true">Jul 23<span>rd</span>, 2009</time>
+<time datetime="2015-02-27T12:46:22+01:00" pubdate data-updated="true">Feb 27<span>th</span>, 2015</time>
       
 
 <span class="categories">
@@ -148,10 +169,8 @@
     </p>
     <p class="meta">
       
-        <a class="basic-alignment left" href="http://blog.lenss.nl/2009/07/0pen0wn-c-what-a-joke/" title="Previous Post: 0pen0wn.c what a joke">&laquo; 0pen0wn.c what a joke</a>
+        <a class="basic-alignment left" href="http://blog.lenss.nl/2015/02/octopress-blog-hijacked-by-javascript/" title="Previous Post: Octopress blog hijacked">&laquo; Octopress blog hijacked</a>
       
-      
-        <a class="basic-alignment right" href="http://blog.lenss.nl/2009/07/mayflowers-zend-framework-poster/" title="Next Post: Mayflower's Zend Framework Poster">Mayflower's Zend Framework Poster &raquo;</a>
       
     </p>
   </footer>
@@ -165,7 +184,7 @@
   
   <script id='fb3vnkm'>(function(i){var f,s=document.getElementById(i);f=document.createElement('iframe');f.src='//api.flattr.com/button/view/?uid=tlenss&button=compact&url='+encodeURIComponent(document.URL);f.title='Flattr';f.height=20;f.width=110;f.style.borderWidth=0;s.parentNode.insertBefore(f,s);})('fb3vnkm');</script>
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.lenss.nl/2009/07/change-columns-data-type-in-sqlite/" data-via="tlenss" data-counturl="http://blog.lenss.nl/2009/07/change-columns-data-type-in-sqlite/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.lenss.nl/2015/02/composer-install-on-git-clone/" data-via="tlenss" data-counturl="http://blog.lenss.nl/2015/02/composer-install-on-git-clone/" >Tweet</a>
   
 </div>
 

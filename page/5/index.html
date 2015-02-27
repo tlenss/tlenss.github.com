@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Reserved Keywords, Corrupt Cache and Stack Errors What a day. Every now and then there are such days where you wished you stayed in bed. Today was &hellip;">
+    <meta name="description" content="Memcached Telnet Interface Commands I was looking for the list of Memcached telnet commands. And couldn’t find much in the docs. So after some &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,135 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2011/07/memcached-telnet-interface-commands/">Memcached Telnet Interface Commands</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p><del>I was looking for the list of <a href="http://memcached.org/">Memcached</a> telnet commands. And couldn’t find much in the docs. So after some Google searching i finally found the list. And will keep it here for future reference.</del></p>
+
+<p>So i did a bit of reading while working on a memcache tool in PHP. I found some good <a href="https://github.com/memcached/memcached/blob/master/doc/protocol.txt">documentation</a> on the <a href="http://memcached.org/">memcached.org</a> website.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+get
+Reads a value
+get mykey
+
+set
+Set a key unconditionally
+set mykey 0 60 5
+
+add
+Add a new key
+add newkey 0 60 5
+
+replace
+Overwrite existing key
+replace key 0 60 5
+
+append
+Append data to existing key
+append key 0 60 15
+
+prepend
+Prepend data to existing key
+prepend key 0 60 15
+
+incr
+Increments numerical key value by given number
+incr mykey 2
+
+decr
+Decrements numerical key value by given number
+decr mykey 5
+
+delete
+Deletes an existing key
+delete mykey
+
+flush_all
+Invalidate specific items immediately
+
+flush_all
+Invalidate all items in n seconds
+flush_all 900
+
+stats
+Prints general statistics
+
+stats
+Prints memory statistics
+
+stats slabs
+Prints memory statistics
+
+stats malloc
+Print higher level allocation statistics
+
+stats items
+stats detail
+
+stats sizes
+Resets statistics
+stats reset
+
+version
+Prints server version.
+version
+
+verbosity
+Increases log level
+verbosity
+
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2011/07/memcached-telnet-interface-commands/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-12T11:02:50+02:00" pubdate data-updated="true">Jul 12<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -1233,105 +1362,6 @@ A while back i was contacted by <a href="http://twitter.com/vlaxmi">Vijay Laxmi<
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2011/03/phps-current-trend-status/">PHP&#8217;s Current Trend Status</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>Kevin Schroeder has a nice <a href="http://www.eschrade.com/page/what-to-make-of-tiobe-php/">post</a> about the current state of PHP in the <a href="http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html">TIOBE index</a>. And i have seen this TIOBE index pop up every now and then in blog posts. It never really interested me. I am not a big fan of trend statistics and certainly don’t care for what is the hottest language of the moment. But reading Kevin’s article got me interested. He mentions the fact that if you do manual searches on different search engine with a query like <a href="http://www.google.nl/search?source=ig&amp;hl=nl&amp;rlz=&amp;=&amp;q=%2B%22PHP+programming%22&amp;btnG=Google+zoeken&amp;aq=f&amp;aqi=&amp;aql=&amp;oq=">+”PHP programming”</a> vs <a href="http://www.google.nl/search?hl=nl&amp;q=%2B%22Python+programming%22&amp;btnG=Zoeken&amp;aq=f&amp;aqi=&amp;aql=&amp;oq=">+”Python programming”</a> you will get a different view then what the TIOBE index is displaying. And this is true. So let’s give that a try.</p>
-
-<blockquote>
-
-  <p>+”PHP programming”
-Google : 1.460.000
-Yahoo  : 132,000,000
-Bing    : 133.000.000
-Baidu  : 100,000,000</p>
-</blockquote>
-
-<p>Let’s do the same for Python.</p>
-
-<blockquote>
-  <p>+”Python programming”
-Google : 952.000 
-Yahoo  : 22,700,000
-Bing    : 27.200.000
-Baidu  : 1,860,000</p>
-</blockquote>
-
-<p>But this only displays the fact that there is way more content about PHP on the web then there is about Python. It does not reflect the current request and interest in the two subjects. Plus i know some Python programmers. And i also know for a fact that the demand for Python developers has been growing slowly. More <a href="http://www.djangocon.eu/">conferences</a> are popping up. So the community is live and kicking. So how about the PHP community? There is still a steady flow of fresh content, <a href="http://www.phpdeveloper.org/">blog posts</a>, new and old conferences, activity in <a href="http://news.php.net/php.general">php.general</a> (dropped a little), new versions are delivered, <a href="http://news.php.net/php.internals">php.internals</a> is busy as always and the demand for PHP developers is at an all time high. At least here it is. So this community is live and kicking as well.</p>
-
-<p>So this got me reading the <a href="http://www.tiobe.com/index.php/content/paperinfo/tpci/tpci_definition.htm">TIOBE Programming Community Index Definition</a> to see if i could figure out how they calculate the final result. I am by no means a mathematics person. But the formula seems straight forward. What happens inside the hits() and hits50() function is not clear however. So matching their findings against mine is not really possible.</p>
-
-<blockquote>
-  <p>((hits(PL,SE1)/hits50(SE1) + … + hits(PL,SEn)/hits50(SEn))/n</p>
-</blockquote>
-
-<p>So how else can we see the current state of PHP then. Let’s try Google trends. That’s what it’s there for.</p>
-
-<p><strong>Compare search requests for <a href="http://www.google.com/trends?q=PHP%2C+Python">“PHP” vs “Python”</a></strong></p>
-
-<p>Interesting results. This shows that the interest for PHP has been steadily dropping since somewhere around 2004. When people started getting scared of PHP5 i assume. Python on the other hand is nearly visible but steady.</p>
-
-<p><a href="http://blog.lenss.nl/images/2011/03/php-python.png"><img src="http://blog.lenss.nl/images/2011/03/php-python.png" alt="" /></a></p>
-
-<p><strong>Let’s try a more precise query <a href="http://www.google.com/trends?q=PHP+programming%2C+Python+programming&amp;ctab=0&amp;geo=all&amp;date=all&amp;sort=0">“PHP programming” vs “Python programming”</a></strong></p>
-
-<p>That will display something i did not hope for. But something i was expecting non the less. The interest for Python programming has risen over the past years.</p>
-
-<p><a href="http://blog.lenss.nl/images/2011/03/phppro-pythonpro.png"><img src="http://blog.lenss.nl/images/2011/03/phppro-pythonpro.png" alt="" /></a></p>
-
-<p><strong>One more comparison for the road <a href="http://www.google.com/trends?q=PHP+developer%2C+Python+developer&amp;ctab=0&amp;geo=all&amp;date=all&amp;sort=0">“PHP developer” vs “Python developer”</a></strong></p>
-
-<p>Well that’s kind of a relieve. It shows the demand for Python developers is growing. But they have a long way to go to catch up on PHP :)</p>
-
-<p><a href="http://blog.lenss.nl/images/2011/03/phpdev-pythondev.png"><img src="http://blog.lenss.nl/images/2011/03/phpdev-pythondev.png" alt="" /></a></p>
-
-<p>Conclusion for me is. I still have no clue what the TIOBE index does. Google trend shows a drop in PHP’s popularity and a rise in Pythons Popularity. Personally i don’t see much change in the PHP community compared to resent years. And i have no real opinion of what is going on inside the Python community. But i am happy to stick with PHP anyway.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2011/03/phps-current-trend-status/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-03-06T18:09:32+01:00" pubdate data-updated="true">Mar 6<span>th</span>, 2011</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/google/'>Google</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
-  
 
   <ul class="pager">
     
@@ -1375,6 +1405,8 @@ Baidu  : 1,860,000</p>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://blog.lenss.nl/2015/02/composer-install-on-git-clone/">Run Composer on Git clone</a></li>
+		
 		<li><a href="http://blog.lenss.nl/2015/02/octopress-blog-hijacked-by-javascript/">Octopress blog hijacked</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2015/01/using-the-hub-in-github-pull-requests/">Using the hub in Github - pull requests</a></li>
@@ -1392,8 +1424,6 @@ Baidu  : 1,860,000</p>
 		<li><a href="http://blog.lenss.nl/2013/08/github-and-multiple-ssh-keys/">Github, SSH and multiple repositories</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/">Memory exhaust issue PHP and APM</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2013/06/php-55-released/">PHP 5.5.0 released</a></li>
 		
 	</ul>
 </div>
@@ -1414,7 +1444,7 @@ Baidu  : 1,860,000</p>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 120.0%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.625%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(96)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.5%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.25%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.5%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 102.5%'>Git(4)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.875%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 105.0%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.625%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.25%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.25%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 143.125%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.625%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.75%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(96)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 105.0%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 119.79381443298969%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.61855670103093%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 159.3814432989691%'>Code(96)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.47422680412372%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.23711340206185%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.47422680412372%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 102.47422680412372%'>Git(4)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.85567010309278%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.94845360824742%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.61855670103093%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.23711340206185%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.23711340206185%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 142.68041237113403%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.56701030927834%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.71134020618557%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.94845360824742%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

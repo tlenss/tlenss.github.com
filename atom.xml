@@ -4,7 +4,7 @@
   <title><![CDATA[Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2015-02-06T15:04:34+01:00</updated>
+  <updated>2015-02-27T12:05:53+01:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -12,6 +12,83 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Run Composer on Git clone]]></title>
+    <link href="http://blog.lenss.nl/2015/02/composer-install-on-git-clone/"/>
+    <updated>2015-02-27T12:46:22+01:00</updated>
+    <id>http://blog.lenss.nl/2015/02/composer-install-on-git-clone</id>
+    <content type="html"><![CDATA[<p>I work on a couple of projects that use <a href="https://getcomposer.org/">Composer</a> to manage the dependencies. And a coworker asked if it was possible to automate running <code>composer install</code> after cloning a repo. It sounded like a good idea. As i sometimes forget to run the command myself. So did some research. And it turned out to be quite easy.</p>
+
+<p>To makee this work we will be using <a href="http://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks">Git hooks</a> together with Git templates.</p>
+
+<p>So we start by creating a templates folder for git. Where does not matter.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ mkdir -p [full path]/git-templates/hooks
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>When that’s done. we need to tell git to use the template folder on each clone / checkout. We can do this by setting a global alias for clone</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git config --global alias.clone 'clone --template=[full path]/git-templates'
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>You can also do this by manually editing the .gitconfig file</p>
+
+<blockquote><p>[alias]<br />	clone = clone &#8211;template=[full path]/git-templates</p></blockquote>
+
+<p>So now we have a template folder that’s read on every clone / checkout. We only need to create the hook script that triggers composer.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ vi [full path]/hooks/post-checkout
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>redirect </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+#! /bin/bash
+# Check if a composer.json file is present
+function composer_run() {
+    REPO=$(readlink -m $(dirname .))
+    if [ -f $REPO/composer.json ]; then
+        composer install
+    fi
+}
+
+composer_run
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Finally wer need to make it executable</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ chmod +x [full path]/hooks/post-checkout
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git clone git@github.host.tld:user/composer-hook.git foo
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<blockquote><p>Cloning into foo&#8230;<br />remote: Counting objects: 21, done.<br />remote: Compressing objects: 100% (15/15), done.<br />remote: Total 21 (delta 5), reused 14 (delta 1)<br />Receiving objects: 100% (21/21), done.<br />Resolving deltas: 100% (5/5), done.<br />Loading composer repositories with package information<br />Installing dependencies (including require-dev)<br />  - Installing psr/log (1.0.0)<br />    Loading from cache</p><p>  - Installing monolog/monolog (1.12.0)<br />    Loading from cache</p><p>&#8230;</p></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Octopress blog hijacked]]></title>
@@ -1392,54 +1469,6 @@ mysql_options(&amp;mysql, <span class="constant">MYSQL_OPT_RECONNECT</span>, &am
   <li>[4] <a href="http://www.virtualbox.org/manual/ch08.html#vboxmanage-modifyvdi">http://www.virtualbox.org/manual/ch08.html#vboxmanage-modifyvdi</a></li>
   <li>[5] <a href="http://stackoverflow.com/questions/3456159/how-to-shrink-purge-ibdata1-file-in-mysql">http://stackoverflow.com/questions/3456159/how-to-shrink-purge-ibdata1-file-in-mysql</a></li>
 </ul>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[GIT:  Coming up with a good workflow]]></title>
-    <link href="http://blog.lenss.nl/2012/09/git-coming-up-with-a-good-workflow/"/>
-    <updated>2012-09-12T09:09:37+02:00</updated>
-    <id>http://blog.lenss.nl/2012/09/git-coming-up-with-a-good-workflow</id>
-    <content type="html"><![CDATA[<p>A new environment to work in always brings new challenges. And this one is no exception. And i will be working with <a href="http://git-scm.com/">git</a> from now on. I tried switching before. But always went back to subversion. Because of my job. And for somebody who worked with <a href="http://subversion.apache.org/">subversion</a> solely for the past… say 5 to 7 years it’s kind of a new concept and takes some time to get a grasp on. Ok ok. It’s just another version control system. But it takes some getting used to.</p>
-
-<p>And two days ago i kinda got stuck in <a href="http://git-scm.com/docs/git-rebase">rebase</a> hell. And had to take some time to figure this all out without doing any damage. Which resulted in another problem. There simply is no revert command like in subversion. But git is pretty smart about this kinda things. So getting the branch full of failed merges back to it’s original state can easily be achieved with two commands and some concentration.</p>
-
-<p>First check the <strong>reflog</strong> for a point where to start from</p>
-
-<blockquote>
-  <p>$ git reflog</p>
-</blockquote>
-
-<p>From the output pick the point where to revert back to. Which looks something like HEAD{2}. And run</p>
-
-<blockquote>
-  <p>$ git reset –hard HEAD{2}  </p>
-</blockquote>
-
-<p>So back to square one. My main problem was that i had not kept my branch up to date with the remote repository. Which you can do with the pull command while on the master branch. Or with the <strong>rebase</strong> command while working on a local branch. <strong>Rebase</strong> is git’s alternative way of bringing changes together. So the idea behind it is that when your local branch is up to date. The final merge will become as straight forward as possible. </p>
-
-<p>I finally managed to get my changes merged in to master. But did not feel very confident about the whole process. So I  need to come up with a steady work flow. And stick to it. To not waste time and run into these <strong>rebase</strong> disasters.</p>
-
-<p>This is what i have so far. And seems to be a solid routine. Start with a nice new checkout of the project at hand. And branch it for the changes to be done.</p>
-
-<blockquote><p>$ git clone git://some.repository.url:repos.git<br />$ git branch dev-branch</p></blockquote>
-
-<p>After working on the newly created branch for a while. Some changes are bound to be ready to be pulled into master. Keeping an eye on the build logs or commit messages should work fine. When this happens it’s time to bring those changes into the dev-branch. After pulling them into master.</p>
-
-<blockquote><p>$ git checkout master<br />$ git pull<br />$ git checkout dev-branch</p></blockquote>
-
-<p>If there is a need to <strong>rebase</strong> the branch with for instance master. This is the moment. This might cause <a href="http://stackoverflow.com/questions/559917/git-rebase-and-git-push-non-fast-forward-why-use">non-fast-forward issues</a>. But i have not completely figured out why i run into these issues every now and then. A way to solve this might be to use the <em>–force</em> switch when pushing to remote. But i am not a big fan of forcing things like this.</p>
-
-<blockquote>
-
-  <p>$ git rebase</p>
-</blockquote>
-
-<p>If everything is fine some more work can be done on the dev branch. Until a new change in master is ready to be pulled in. In which case it’s rinse and repeat the previous part. When the changeset is ready to be merged back into master. Switch to master bring it up up o date with a pull. And merge the changes from the dev-branch.</p>
-
-<blockquote><p>$ git checkout master<br />$ git pull<br />$ git push dev-branch</p></blockquote>
-
-<p>Again when all is fine all changes will be available in master. If something goes wrong during git-rebase and / or merging. Git will kindly state so. And some manual merging with git’s <a href="http://git-scm.com/docs/git-mergetool">mergetool</a> will have to be done. But that’s something for another day.</p>
 ]]></content>
   </entry>
   

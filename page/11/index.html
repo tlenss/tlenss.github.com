@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Zend Server CE MyPHPAdmin Mysqli Not Loaded The last time i installed Zend Server i did it from source. Now it was time for the Ubuntu package &hellip;">
+    <meta name="description" content="Fraudulent Site, Please Shut Down Well the title says it all doesn’t it. Today at work i was checking my mail and noticed and email from RSA &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,157 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2009/05/fraudulent-site-please-shut-down/">Fraudulent Site, Please Shut Down</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>Well the title says it all doesn’t it. Today at work i was checking my mail and noticed and email from <a href="http://rsa.com/">RSA security</a> with the subject line <strong>Fraudulent site, please shut down! [ING-NL 287] DOMAIN: lenss.nl</strong>. </p>
+
+<blockquote>
+  <ul>
+    <li>RSA, an anti-fraud and security company, is under contract to assist ING</li>
+    <li>Netherlands   in</li>
+    <li>preventing or terminating online activity that targets, or may</li>
+    <li>potentially target ING </li>
+    <li>Netherlands clients as potential fraud victims.</li>
+    <li></li>
+    <li>RSA has been made aware that a domain name, which abuses ING Netherlands</li>
+    <li>trademark, has been registered with you. This domain</li>
+    <li>http://lenss.nl/bank/  not only violates ING Netherlands copyright,</li>
+    <li>trademarks and other intellectual property rights, but may also become a</li>
+    <li>host to a phishing attack, or other fraudulent scams against the bank</li>
+    <li>and the bank’s clients.</li>
+  </ul>
+</blockquote>
+
+<p>A few minutes after this email an other email came in from <a href="http://openprovider.nl">openprovider</a>. These guys manage my domains. The notified me the domain was no moved to their DNS servers and was there for blocked.</p>
+
+<blockquote>
+  <p>Wij ontvingen onderstaande klacht over een van uw domeinen, lenss.nl. Vanwege de ernst
+heb ik per direct het domein gedeactiveerd door het op lege nameservers te zetten.</p>
+</blockquote>
+
+<p>Ik verzoek u deze case met gepaste urgentie te behandelen en de aanklager daarvan op de
+hoogte te stellen.</p>
+
+<p>When i was reading the email from RSA i was pretty shocked. But when reading the email from Openprovider i just got pissed. Why on earth would they disable my domain without doing any research in the matter. They should have contacted me before they took action. So i contacted the guys at RSA and explained the situation. They advised me to send them an email with the explanation. And so i did. They responded quite fast with the following message:</p>
+
+<blockquote>
+  <ul>
+    <li>Thank you for your co-operation in this matter.</li>
+    <li>The AFCC can confirm that the site in question had no malicious content,</li>
+    <li>while it did seem suspicious because of its content, it being freely</li>
+    <li>accessible and its vague purpose.</li>
+    <li>The current solution and explanation suggested below by the website</li>
+    <li>owner is satisfying and will likely prevent such confusions in the</li>
+    <li>future. Therefore the AFCC has no objection whatsoever to bringing the</li>
+    <li>site in question back up.</li>
+  </ul>
+</blockquote>
+
+<p>So the problem is solved i assumed. But an hour later my domain went offline. And i couldn’t get to my mailbox anymore. The domain was still running on the Openprovider DNS servers. So let’s give them a call i thought. But i guess today is just not my day. Their website was offline. And i couldn’t find any contact information. So i sat back and waited a bit. Didn’t really know what to do. After some time their site came back online. And i was able to find a phone number.</p>
+
+<p>After explaining my story i got the comment please send us an email. But this was not possible anymore since my DNS was changed. So after some pursuance i was put through with the person who emailed me in the first place. The reason they took it offline was because the complaint came from RSA. Which seems to be an authority on this subject. I explained the situation. And told them i was not very happy with the way the handled the situation. After blowing off some steam we agreed the DNS could be changed back again. Which they did!</p>
+
+<p>While checking my log files i noticed the insane long scan on this web server…</p>
+
+<blockquote>
+  <ul>
+    <li>82.81.26.105 - - [14/May/2009:04:16:12 -0400] “GET /bank/Scrisoare.txt HTTP/1.1” 301 314 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”</li>
+    <li>82.81.26.105 - - [14/May/2009:04:16:13 -0400] “GET /bank/scan2.txt HTTP/1.1” 301 310 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”</li>
+    <li>82.81.26.105 - - [14/May/2009:04:16:13 -0400] “GET /bank/aScprivate.txt HTTP/1.1” 301 315 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”</li>
+    <li>82.81.26.105 - - [14/May/2009:04:16:14 -0400] “GET /bank/a.tgz HTTP/1.1” 301 306 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”</li>
+    <li>82.81.26.105 - - [14/May/2009:04:16:14 -0400] “GET /bank/forums.zip HTTP/1.1” 301 311 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”</li>
+  </ul>
+</blockquote>
+
+<p>that just went on and on for several minutes. Which was done by some Israeli company?</p>
+
+<blockquote>
+  <ul>
+    <li>82.81.26.105 - - [14/May/2009:04:21:44 -0400] “POST /bank/dom57.php HTTP/1.1” 301 310 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”</li>
+    <li>82.81.26.105 - - [14/May/2009:04:21:45 -0400] “POST /bank/bl.php HTTP/1.1” 301 307 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”</li>
+    <li>82.81.26.105 - - [14/May/2009:04:21:45 -0400] “POST /bank/people.php HTTP/1.1” 301 311 “-“ “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”</li>
+  </ul>
+</blockquote>
+
+<p>And a visit from the guys in Redmond.</p>
+
+<blockquote>
+  <ul>
+    <li>131.107.0.114 - - [14/May/2009:04:20:59 -0400] “GET /bank HTTP/1.1” 301 300 “-“ “Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)”</li>
+    <li>131.107.0.114 - - [14/May/2009:04:20:59 -0400] “GET /bank/ HTTP/1.1” 200 142 “-“ “Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)”</li>
+  </ul>
+</blockquote>
+
+<p>My DSL provider..</p>
+
+<blockquote>
+  <ul>
+    <li>82.93.147.119 - - [14/May/2009:04:25:23 -0400] “GET /bank HTTP/1.0” 301 300 “-“ “Wget/1.11.4”</li>
+    <li>82.93.147.119 - - [14/May/2009:04:25:23 -0400] “GET /bank/ HTTP/1.0” 200 142 “-“ “Wget/1.11.4”</li>
+  </ul>
+</blockquote>
+
+<p>My co-locator..</p>
+
+<blockquote>
+  <ul>
+    <li>208.69.120.120 - - [14/May/2009:06:29:24 -0400] “GET /favicon.ico HTTP/1.1” 301 307 “-“ “Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.0.10) Gecko/2009042316 Firefox/3.0.10 (.NET CLR 3.5.30729)”</li>
+    <li>208.69.120.120 - - [14/May/2009:06:29:24 -0400] “GET /favicon.ico/ HTTP/1.1” 404 20584 “-“ “Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.0.10) Gecko/2009042316 Firefox/3.0.10 (.NET CLR 3.5.30729)”</li>
+  </ul>
+</blockquote>
+
+<p>And probably some more. It’s amazing how fast things go.</p>
+
+<p><em>So why did this all happen? Some time ago a friend pointed out that she could not go to the ING bank website from here work. So to help here out a bit. I created a small proxy script that made it possible for her to login to the bank website. This script was under /bank. I admit i should have password protected this page. But i didn’t see any evil in it. So i left it open. The only thing it did was proxy the requests through my server. Right now i just removed the whole script. And will keep it like that!</em></p>
+
+<p>The situation i got in today was not very pleasent. But i have to say i am happy with the work RSA Security does. And i am happy RSA and Openprovider assisted me in resolving this case. Thanks guys. But next time please do some more research!</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2009/05/fraudulent-site-please-shut-down/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-05-14T15:13:17+02:00" pubdate data-updated="true">May 14<span>th</span>, 2009</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -815,72 +966,6 @@ window.<span class="function">onload</span> = <span class="keyword">function</sp
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2009/03/centos-php5-and-mcrypt/">CentOS PHP5 and Mcrypt</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>For some strange reason (i didn’t investigate) CentOS 5 does not come with a pre build <a href="http://www.php.net/mcrypt">mcrypt</a> extension for PHP. This is pretty weird if you ask me. And building this extension from source is no option for me. There are way to much dependencies missing. And i don’t really like installing *dev packages on my server. So how to fix this?</p>
-
-<p>Luckily there are some rpm files floating around the net. So i just used <a href="http://rpmfind.net/linux/rpm2html/search.php?query=php-mcrypt">rpmfind</a> to find a fedora 5.2.6 version of the mcrypt extension. After downloading it’s a one line command to install. And a apache reboot to get it working.</p>
-
-<blockquote>
-  <p>Constantin was so nice to comment on the fact that the mcrypt library needs to be installed before installing the mcrypt PHP extension.</p>
-</blockquote>
-
-<blockquote>
-
-  <ul>
-    <li>$ wget ftp://rpmfind.net/linux/fedora/updates/7/i386/php-mcrypt-5.2.6-2.fc7.i386.rpm</li>
-    <li>$ rpm -ivh –nodeps php-mcrypt-5.2.6-2.fc7.i386.rpm</li>
-    <li>$ /etc/init.d/http restart</li>
-  </ul>
-</blockquote>
-
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2009/03/centos-php5-and-mcrypt/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-03-17T11:40:27+01:00" pubdate data-updated="true">Mar 17<span>th</span>, 2009</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
-  
 
   <ul class="pager">
     
@@ -924,6 +1009,8 @@ window.<span class="function">onload</span> = <span class="keyword">function</sp
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://blog.lenss.nl/2015/02/composer-install-on-git-clone/">Run Composer on Git clone</a></li>
+		
 		<li><a href="http://blog.lenss.nl/2015/02/octopress-blog-hijacked-by-javascript/">Octopress blog hijacked</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2015/01/using-the-hub-in-github-pull-requests/">Using the hub in Github - pull requests</a></li>
@@ -941,8 +1028,6 @@ window.<span class="function">onload</span> = <span class="keyword">function</sp
 		<li><a href="http://blog.lenss.nl/2013/08/github-and-multiple-ssh-keys/">Github, SSH and multiple repositories</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/">Memory exhaust issue PHP and APM</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2013/06/php-55-released/">PHP 5.5.0 released</a></li>
 		
 	</ul>
 </div>
@@ -963,7 +1048,7 @@ window.<span class="function">onload</span> = <span class="keyword">function</sp
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 120.0%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.625%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(96)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.5%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.25%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.5%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 102.5%'>Git(4)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.875%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 105.0%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.625%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.25%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.25%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 143.125%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.625%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.75%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(96)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 105.0%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 119.79381443298969%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.61855670103093%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 159.3814432989691%'>Code(96)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.47422680412372%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.23711340206185%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.47422680412372%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 102.47422680412372%'>Git(4)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.85567010309278%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.94845360824742%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.61855670103093%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.23711340206185%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.23711340206185%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 142.68041237113403%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.56701030927834%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.71134020618557%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.94845360824742%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

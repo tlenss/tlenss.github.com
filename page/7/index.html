@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Compiling PHP v1.0.8 Today Rasmus posted on twitter that he just compiled PHP v 1.0.8. And it actually worked. Is that great? :) He was in need of &hellip;">
+    <meta name="description" content="Google Mod_pagespeed Continued Last week i toyed with mod_pagespeed a bit. But just couldn’t get the hang of it. So the last two days permitted me &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,176 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2010/11/google-mod_pagespeed-continued/">Google Mod_pagespeed Continued</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>Last week i <a href="http://lenss.nl/2010/11/google-mod_pagespeed/">toyed</a> with <a href="http://code.google.com/p/modpagespeed/">mod_pagespeed</a> a bit. But just couldn’t get the hang of it. So the last two days permitted me to play some more with this great Apache module. Only this time i choose to <a href="http://code.google.com/p/modpagespeed/wiki/HowToBuild">build from source</a> and ignore the binaries for a while. </p>
+
+<p>For me the main problem was. As soon as i enabled the module. It was active for all sites running on this server. And that should not be a problem. But some of these sites are Wordpress monsters. That are ready to take any server down with a bit of high load.</p>
+
+<p>So after a bit of trail and error. I figured out i could just disable mod_pagespeed globally by altering the main config file. After Apache reloaded mod_pagespeed was not active for the running sites.</p>
+
+<p>in /etc/apache2/mods-available/pagespeed.conf make sure ModPagespeed is set to ‘off’</p>
+
+<blockquote>
+  <p>ModPagespeed off</p>
+</blockquote>
+
+<p>So now i can simply enable settings i need on a per vhost basis. For this site end some other sites i used the following config section in my vhost.</p>
+
+<blockquote>
+  <ul>
+    <li>MOD-pagespeed</li>
+    <li>SetOutputFilter MOD_PAGESPEED_OUTPUT_FILTER</li>
+    <li>ModPagespeed on</li>
+    <li>ModPagespeedUrlPrefix                “http://lenss.nl”</li>
+    <li></li>
+    <li>ModPagespeedFileCachePath            “/var/mod_pagespeed/cache/”</li>
+    <li>ModPagespeedGeneratedFilePrefix      “/var/mod_pagespeed/files/”</li>
+    <li></li>
+    <li>ModPagespeedRewriteLevel CoreFilters</li>
+    <li>ModPagespeedRewriteLevel PassThrough</li>
+    <li></li>
+    <li>ModPagespeedEnableFilters add_head</li>
+    <li>ModPagespeedEnableFilters collapse_whitespace</li>
+    <li>ModPagespeedEnableFilters elide_attributes</li>
+    <li>ModPagespeedEnableFilters remove_comments</li>
+    <li>ModPagespeedEnableFilters rewrite_css</li>
+    <li>ModPagespeedEnableFilters rewrite_javascript</li>
+    <li>ModPagespeedEnableFilters move_css_to_head</li>
+  </ul>
+</blockquote>
+
+<p>First of we enable mod_pagespeed of course. And then we set the current domain for this instance. After that we set the file paths for the altered and cached files. And we use ‘PassThrough’ instead of ‘CoreFilters’. So we can decide our self’s what filters we will be using.</p>
+
+<p>This had a much better result then my previous attempts. The server was still happily serving pages. And the load was OK. So let’s check the sites if mod_pagespeed is actually running.</p>
+
+<blockquote>
+  <p>$ wget -O /dev/null –server-response http://lenss.nl 2&gt;&amp;1| grep -i ‘X-Mod-Pagespeed’
+  X-Mod-Pagespeed: 0.9.0.0-172</p>
+</blockquote>
+
+<p>Well that looks good. So now it’s time to do some testing. And this leaves me with a bit of a pickle. As i don’t have the required wget v 1.12 (i have a small patch for wget v1.11). Besides that i have some other problems running the tests</p>
+
+<blockquote>
+  <p>TEST: 404s are served and properly recorded.
+      wget -O /dev/null http://lenss.nl/mod_pagespeed/ic.a.bad.css 2&gt;&amp;1| grep -q ‘404 Not Found’
+      wget -q -O - –save-headers http://localhost:80/mod_pagespeed_statistics | grep -q ‘resource_404_count: 1’
+FAIL.</p>
+</blockquote>
+
+<p>This fails because the statistics page requested is not available because this site uses rewrites. And i haven’t found a way to go around this yet besides disabling them in .htaccess with mod_rewrite. So shortly disabling this made it possible to run the biggest part of the test suite without problems. </p>
+
+<blockquote>
+  <ul>
+    <li>resource_fetches: 2</li>
+    <li>total_page_load_ms: 0</li>
+    <li>page_load_count: 0</li>
+    <li>cache_extensions: 0</li>
+    <li>not_cacheable: 0</li>
+    <li>css_file_count_reduction: 0</li>
+    <li>css_filter_files_minified: 13</li>
+    <li>css_filter_minified_bytes_saved: 5082</li>
+    <li>css_filter_parse_failures: 0</li>
+    <li>css_elements: 0</li>
+    <li>image_inline: 0</li>
+    <li>image_rewrite_saved_bytes: 0</li>
+    <li>image_rewrites: 0</li>
+    <li>javascript_blocks_minified: 15</li>
+    <li>javascript_bytes_saved: 380</li>
+    <li>javascript_minification_failures: 0</li>
+    <li>javascript_total_blocks: 15</li>
+    <li>resource_url_domain_rejections: 0</li>
+    <li>url_trims: 0</li>
+    <li>url_trim_saved_bytes: 0</li>
+    <li>resource_404_count: 2</li>
+    <li>slurp_404_count: 0</li>
+    <li>serf_fetch_request_count: 0</li>
+    <li>serf_fetch_bytes_count: 0</li>
+    <li>serf_fetch_time_duration_ms: 0</li>
+    <li>serf_fetch_cancel_count: 0</li>
+  </ul>
+</blockquote>
+
+<p>It fails on the image compression part and that’s fine. Because i will leave that for later. So let’s run the site through the pagespeed browser extension with mod_pagespeed disabled:</p>
+
+<blockquote>
+  <p>load time without : 2.193
+firebug/pagespeed score : 68</p>
+</blockquote>
+
+<p>Now the same thing but with mod_pagespeed enabled:</p>
+
+<blockquote>
+  <p>Load time with : 1.284
+firebug/pagespeed score : 90</p>
+</blockquote>
+
+<p>That looks pretty good. And the other sites i have tested preform way better with the mod_pagespeed module enabled.</p>
+
+<p>I still have some Javascript issues. Some things need further inspection because i have seen error like these coming along:</p>
+
+<blockquote>
+  <p>Permission denied for  to call method Location.toString on .</p>
+</blockquote>
+
+<p>Besides that. This morning my site was down due to Apache spitting segfaults. I disabled the ‘rewrite_javascript’ filter for now. And it seems to run a bit more stable.</p>
+
+<blockquote>
+  <p>[Thu Nov 11 07:38:24 2010] [notice] child pid 23608 exit signal Segmentation fault (11)</p>
+</blockquote>
+
+<p>So besides it being a beta i am pretty impressed by the current state of this module. And after running it for a couple of weeks the statistics are pretty impressive.</p>
+
+<p><img src="http://blog.lenss.nl/images/2010/12/page-speed.jpg" alt="" /></p>
+
+<p>Manuel Lemos also wrote a nice article about <a href="http://www.phpclasses.org/blog/post/135-Accelerate-Web-Pages-Automatically-using-Google-ModPageSpeed-Unusual-Site-Speedup-Techniques-Part-4.html">mod_pagespeed</a> which is worth reading.</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2010/11/google-mod_pagespeed-continued/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-11-11T12:08:45+01:00" pubdate data-updated="true">Nov 11<span>th</span>, 2010</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/google/'>Google</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -1146,60 +1316,6 @@ Upload 29 MB file results in 0.4 MB memory usage</p>
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2010/08/new-elephpant/">New elePHPant :)</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>After purchasing a new batch of the friendly blue guys. <a href="http://www.nexen.net/">Damien Seguy</a> was so friendly to send me an early Christmas present :)</p>
-
-<p><a href="http://blog.lenss.nl/images/2010/08/elephpant.jpg"><img src="http://blog.lenss.nl/images/2010/08/elephpant-300x225.jpg" alt="" /></a></p>
-
-<p>I have some small versions left by the way. So if you are one of those people looking. Drop me a line or leave a comment.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2010/08/new-elephpant/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-08-06T12:22:59+02:00" pubdate data-updated="true">Aug 6<span>th</span>, 2010</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
-  
 
   <ul class="pager">
     
@@ -1243,6 +1359,8 @@ Upload 29 MB file results in 0.4 MB memory usage</p>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://blog.lenss.nl/2015/02/composer-install-on-git-clone/">Run Composer on Git clone</a></li>
+		
 		<li><a href="http://blog.lenss.nl/2015/02/octopress-blog-hijacked-by-javascript/">Octopress blog hijacked</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2015/01/using-the-hub-in-github-pull-requests/">Using the hub in Github - pull requests</a></li>
@@ -1260,8 +1378,6 @@ Upload 29 MB file results in 0.4 MB memory usage</p>
 		<li><a href="http://blog.lenss.nl/2013/08/github-and-multiple-ssh-keys/">Github, SSH and multiple repositories</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/">Memory exhaust issue PHP and APM</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2013/06/php-55-released/">PHP 5.5.0 released</a></li>
 		
 	</ul>
 </div>
@@ -1282,7 +1398,7 @@ Upload 29 MB file results in 0.4 MB memory usage</p>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 120.0%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.625%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(96)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.5%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.25%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.5%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 102.5%'>Git(4)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.875%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 105.0%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.625%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.25%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.25%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 143.125%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.625%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.75%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(96)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 105.0%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 119.79381443298969%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.61855670103093%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 159.3814432989691%'>Code(96)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.47422680412372%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.23711340206185%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.47422680412372%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 102.47422680412372%'>Git(4)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.85567010309278%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.94845360824742%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.61855670103093%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.23711340206185%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.23711340206185%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 142.68041237113403%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.56701030927834%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.71134020618557%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.94845360824742%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Octopress Blog Hijacked I use Octopress to write and generate my blog. Which works pretty well most of the time. The main benefit is having a &hellip;">
+    <meta name="description" content="Run Composer on Git Clone I work on a couple of projects that use Composer to manage the dependencies. And a coworker asked if it was possible to &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,124 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2015/02/composer-install-on-git-clone/">Run Composer on Git Clone</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>I work on a couple of projects that use <a href="https://getcomposer.org/">Composer</a> to manage the dependencies. And a coworker asked if it was possible to automate running <code>composer install</code> after cloning a repo. It sounded like a good idea. As i sometimes forget to run the command myself. So did some research. And it turned out to be quite easy.</p>
+
+<p>To makee this work we will be using <a href="http://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks">Git hooks</a> together with Git templates.</p>
+
+<p>So we start by creating a templates folder for git. Where does not matter.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ mkdir -p [full path]/git-templates/hooks
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>When that’s done. we need to tell git to use the template folder on each clone / checkout. We can do this by setting a global alias for clone</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git config --global alias.clone 'clone --template=[full path]/git-templates'
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>You can also do this by manually editing the .gitconfig file</p>
+
+<blockquote><p>[alias]<br />	clone = clone &#8211;template=[full path]/git-templates</p></blockquote>
+
+<p>So now we have a template folder that’s read on every clone / checkout. We only need to create the hook script that triggers composer.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ vi [full path]/hooks/post-checkout
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>redirect </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+#! /bin/bash
+# Check if a composer.json file is present
+function composer_run() {
+    REPO=$(readlink -m $(dirname .))
+    if [ -f $REPO/composer.json ]; then
+        composer install
+    fi
+}
+
+composer_run
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Finally wer need to make it executable</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ chmod +x [full path]/hooks/post-checkout
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ git clone git@github.host.tld:user/composer-hook.git foo
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<blockquote><p>Cloning into foo&#8230;<br />remote: Counting objects: 21, done.<br />remote: Compressing objects: 100% (15/15), done.<br />remote: Total 21 (delta 5), reused 14 (delta 1)<br />Receiving objects: 100% (21/21), done.<br />Resolving deltas: 100% (5/5), done.<br />Loading composer repositories with package information<br />Installing dependencies (including require-dev)<br />  - Installing psr/log (1.0.0)<br />    Loading from cache</p><p>  - Installing monolog/monolog (1.12.0)<br />    Loading from cache</p><p>&#8230;</p></blockquote>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2015/02/composer-install-on-git-clone/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-27T12:46:22+01:00" pubdate data-updated="true">Feb 27<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -938,384 +1056,6 @@ $ git clone git@repo1.github.com:repo1/project.git
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2013/06/php-55-released/">PHP 5.5.0 Released</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>PHP reached a new milestone 3 days ago. And as always it’s quite exciting news. Some of the new features are already outlined by Evert Pot’s post which you can find <a href="http://evertpot.com/php-55-released/">here</a>. And all of this of course can be found on the <a href="https://wiki.php.net/rfc">wiki</a> and in the <a href="http://php.net/ChangeLog-5.php#5.5.0">change log</a>. </p>
-
-<p>I’ll just outline some of the new and exiting features, deprecated notices and removed functions.</p>
-
-<p><strong><em>Simplified password hashing API</em></strong></p>
-
-<p>Hashing passwords with <a href="http://php.net/manual/en/function.md5.php">md5()</a> and <a href="http://php.net/manual/en/function.sha1.php">sha1()</a> just isn’t enough anymore. So a new, secure and easy way to hash passwords has been added. And besides hashing includes some other useful functions.</p>
-
-<p><strong><em>$password</em></strong> The password string to hash</p>
-
-<p><strong><em>$algorithm</em></strong> The hashing algorithm to use of which two are available at the moment</p>
-
-<blockquote><p>PASSWORD_DEFAULT which uses bcrypt<br />PASSWORD_BCRYPT which uses blowfish</p></blockquote>
-
-<p><strong><em>$options</em></strong> makes it possible to add a salt or set the cost for the hashing algorithm</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Hash password with default algorithm</span><a href="http://php.net/manual/en/function.password-hash.php">password_hash() </a></figcaption> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$password</span> = <span class="string"><span class="delimiter">'</span><span class="content">test-password</span><span class="delimiter">'</span></span>;
-<span class="local-variable">$hash</span> = password_hash(<span class="local-variable">$password</span>, <span class="constant">PASSWORD_DEFAULT</span>);
-<span class="predefined">var_dump</span>(<span class="local-variable">$hash</span>);
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-string(60) &quot;$2y$10$qGv1q5nT4F7HCtKSPPME2usrdJRcRpk9lEUMQsE8mqyDIy3fbJ4I.&quot;
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Hash password with BLOWFISH algorithm</span><a href="http://php.net/manual/en/function.password-hash.php">password_hash() </a></figcaption> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$hash</span> = password_hash(<span class="local-variable">$password</span>, <span class="constant">PASSWORD_BCRYPT</span>);
-<span class="predefined">var_dump</span>(<span class="local-variable">$hash</span>);
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-string(60) &quot;$2y$10$XtpNO/tFjtkq4u3ghcpqXeSwbHZxDQDTXRHfWBnZsmowUVl/MQys2&quot;
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Hash password with BLOWFISH algorithm and options</span><a href="http://php.net/manual/en/function.password-hash.php">password_hash() </a></figcaption> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$salt</span> = mcrypt_create_iv(<span class="integer">22</span>, <span class="constant">MCRYPT_DEV_URANDOM</span>); 
-<span class="local-variable">$hash</span> = password_hash(<span class="local-variable">$password</span>, <span class="constant">PASSWORD_BCRYPT</span>, <span class="predefined">array</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">cost</span><span class="delimiter">&quot;</span></span> =&gt; <span class="integer">14</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">salt</span><span class="delimiter">&quot;</span></span> =&gt; <span class="local-variable">$salt</span>));
-<span class="predefined">var_dump</span>(<span class="local-variable">$hash</span>);
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-string(60) &quot;$2y$14$6ZtnYJ0CyqCUx.vJu3MZEuUGgIN.ryxMa0Yh8BnCrbBDVnd3Me30i&quot;
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>Verify if a hash and password match. Return true if they do and false if they don’t</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Verify hash</span><a href="http://php.net/manual/en/function.password-verify.php">password_verify() </a></figcaption> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$hash</span> = password_hash(<span class="local-variable">$password</span>, <span class="constant">PASSWORD_DEFAULT</span>);
-
-<span class="keyword">if</span> (password_verify(<span class="local-variable">$password</span>, <span class="local-variable">$hash</span>)) {
-  <span class="predefined">echo</span> <span class="string"><span class="delimiter">'</span><span class="content">Password is correct</span><span class="delimiter">'</span></span>;
-} <span class="keyword">else</span> {
-  <span class="predefined">echo</span> <span class="string"><span class="delimiter">'</span><span class="content">Password is incorrect</span><span class="delimiter">'</span></span>;
-}
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-Password is correct
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>Get information about a valid hash created with password_hash(). The function returns an array with the use d algorithm and options</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Retrieve $hash information</span><a href="http://php.net/manual/en/function.password-get-info.php">password_get_info() </a></figcaption> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$info</span> = password_get_info(<span class="local-variable">$hash</span>);
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-array(3) {
-  [&quot;algo&quot;]=&gt;
-  int(1)
-  [&quot;algoName&quot;]=&gt;
-  string(6) &quot;bcrypt&quot;
-  [&quot;options&quot;]=&gt;
-  array(1) {
-    [&quot;cost&quot;]=&gt;
-    int(10)
-  }
-}
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>Check if the supplied hash was generated by the provided algorithm and options. This might come in handy when the hash needs to be updated</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Check if a $hash needs to be rehashed</span><a href="http://php.net/manual/en/function.password-needs-rehash.php">password_needs_rehash() </a></figcaption> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="keyword">if</span> (password_needs_rehash(<span class="local-variable">$hash</span>, <span class="constant">PASSWORD_BCRYPT</span>, <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">cost</span><span class="delimiter">'</span></span> =&gt; <span class="integer">8</span>))) {
-  <span class="comment">// Update the password hash</span>
-}
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p><strong><em>Support for constant array/string dereferencing</em></strong></p>
-
-<p>If you work with objects you might have worked with object dereferencing. This Is used to chain method calls. Or the so called fluent interfaces</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Dereference object call </span></figcaption>
- <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$obj</span>-&gt;method()-&gt;returnObjMethod();
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>Now the same is possible for arrays and strings</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Dereference strings / array </span></figcaption>
- <div class="CodeRay">
-  <div class="code"><pre>
-<span class="predefined">echo</span> <span class="predefined">array</span>(<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>)[<span class="integer">0</span>]; <span class="comment">//output 1</span>
-<span class="predefined">echo</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">foobar</span><span class="delimiter">&quot;</span></span>[<span class="integer">2</span>]; <span class="comment">//output o</span>
-<span class="predefined">echo</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">foobar</span><span class="delimiter">&quot;</span></span>[<span class="string"><span class="delimiter">&quot;</span><span class="content">foo</span><span class="delimiter">&quot;</span></span>][<span class="integer">0</span>] <span class="comment">// output f</span>
- 
-<span class="predefined">echo</span> [<span class="integer">1</span>,<span class="integer">3</span>,<span class="integer">4</span>][<span class="integer">2</span>]; <span class="comment">//output 4</span>
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p><strong><em>Class Name Resolution As Scalar Via “class” Keyword</em></strong></p>
-
-<p>An easy way to get the full class name </p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Class name resolution via ::class </span></figcaption>
- <div class="CodeRay">
-  <div class="code"><pre>
-<span class="keyword">namespace</span> <span class="constant">Vodka</span>\<span class="predefined">Crypt</span>;
-
-<span class="keyword">Class</span> <span class="constant">HashBuilder</span> {}
-
-<span class="keyword">use</span> <span class="constant">Vodka</span>\<span class="predefined">Crypt</span>\<span class="constant">HashBuilder</span>;
-         
-<span class="predefined">var_dump</span>(<span class="constant">HashBuilder</span>::<span class="keyword">class</span>);
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-string(23) &quot;Vodka\Crypt\HashBuilder&quot;
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p><strong><em>Support for using empty() on the result of function calls and other expressions</em></strong></p>
-
-<p>Normally <a href="http://php.net/manual/en/function.empty.php">empty()</a> and <a href="http://php.net/manual/en/function.isset.php">isset()</a> could only be used on variables. In 5.5 it’s possible to test expression and return values from functions</p>
-
-<p><strong><em>5.3</em></strong></p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Call empty() with closure </span></figcaption>
- <div class="CodeRay">
-  <div class="code"><pre>
-<span class="predefined">var_dump</span>( <span class="predefined">empty</span>(<span class="keyword">function</span>() {}) );
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<blockquote><p>PHP Parse error:  syntax error, unexpected T_FUNCTION in</p></blockquote>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Call empty() with function return value </span></figcaption>
- <div class="CodeRay">
-  <div class="code"><pre>        
-<span class="keyword">function</span> <span class="function">foo</span>() {}
-<span class="predefined">var_dump</span>(<span class="predefined">empty</span>(foo()));
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<blockquote><p>PHP Fatal error:  Can&#8217;t use function return value in write context in</p></blockquote>
-
-<p><strong><em>5.5</em></strong></p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Call empty() with function return value </span></figcaption>
- <div class="CodeRay">
-  <div class="code"><pre>
-<span class="keyword">function</span> <span class="function">foo</span>(<span class="local-variable">$val</span>) { 
-  <span class="keyword">return</span> <span class="local-variable">$val</span>; 
-}
-
-<span class="predefined">var_dump</span>( <span class="predefined">empty</span>(foo([])) );
-<span class="predefined">var_dump</span>( <span class="predefined">empty</span>(foo(<span class="predefined-constant">true</span>)) );
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-bool(true)
-bool(false)
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p><strong><em>Support for list in foreach</em></strong></p>
-
-<p>List has been added for foreach loops. Great for eliminating unused variables.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Support for list in foreach </span></figcaption>
- <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$messages</span> = <span class="predefined">array</span>(
-  <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">1</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-1</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">12</span>),
-  <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">2</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-2</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">12</span>),
-  <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">3</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-3</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">10</span>)
-);
-
-<span class="comment">// Before</span>
-<span class="keyword">foreach</span> (<span class="local-variable">$messages</span> <span class="keyword">as</span> <span class="local-variable">$message</span>) {
-  <span class="predefined">list</span>(<span class="local-variable">$id</span>, <span class="local-variable">$body</span>) = <span class="local-variable">$message</span>;
-}
-         
-<span class="comment">// After</span>
-<span class="keyword">foreach</span> (<span class="local-variable">$messages</span> <span class="keyword">as</span> <span class="predefined">list</span>(<span class="local-variable">$id</span>, <span class="local-variable">$body</span>)) {}
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p><strong><em>Zend Opcache extension and enable building it by default</em></strong></p>
-
-<p>My short post about <a href="https://wiki.php.net/rfc/optimizerplus">Zend Optimizer+</a> in February this year. Kind of slipped my mind. And i was somehow under the impression <a href="http://pecl.php.net/package/APC">APC</a> would be integrated. But this of course has to be Zend Optimizer+. Finally an opcode cacher available be default. And configurable from php.ini</p>
-
-<blockquote><p>[opcache]<br />; Determines if Zend OPCache is enabled<br />opcache.enable=0<br />opcache.enable_cli=0</p><p>; The OPcache shared memory storage size.<br />opcache.memory_consumption=64</p><p>; The amount of memory for interned strings in Mbytes.<br />opcache.interned_strings_buffer=4</p><p>; Max files in OPCode cache, use a number between 200 and 100000.<br />opcache.max_accelerated_files=2000</p><p>; The maximum percentage of &#8220;wasted&#8221; memory until a restart is scheduled.<br />opcache.max_wasted_percentage=5</p><p>; Append current working dir to script name<br />opcache.use_cwd=1</p><p>How often a file should be validated<br />opcache.revalidate_freq=2</p><p>; Enables or disables file search in include_path optimization<br />opcache.revalidate_path=0</p><p>; Drop all PHPDoc comments<br />opcache.save_comments=1</p></blockquote>
-
-<p><strong><em>array_column function which returns a column in a multidimensional array</em></strong></p>
-
-<p>Fetching a column from a multi-dimensional array is now possible with a single function call.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Fetch a column from a multi-dimensional array</span><a href="http://php.net/manual/en/function.array-column.php">array_column() </a></figcaption> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$nestedArray</span> = <span class="predefined">array</span>(
-  <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">1</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-1</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">12</span>),
-  <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">2</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-2</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">12</span>),
-  <span class="predefined">array</span>(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span> =&gt; <span class="integer">3</span>, <span class="string"><span class="delimiter">'</span><span class="content">body</span><span class="delimiter">'</span></span> =&gt; <span class="string"><span class="delimiter">'</span><span class="content">test-3</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span> =&gt; <span class="integer">10</span>)
-);
-<span class="local-variable">$columns</span> = array_column(<span class="local-variable">$nestedArray</span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span>);
-<span class="predefined">print_r</span>(<span class="local-variable">$columns</span>);
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-Array
-(
-  [0] =&gt; 12
-  [1] =&gt; 12
-  [2] =&gt; 10
-)
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>Or fetch status code indexed by id</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Fetch a column from a multi-dimensional array index by another field</span><a href="http://php.net/manual/en/function.array-column.php">array_column() </a></figcaption> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$columns</span> = array_column(<span class="local-variable">$nestedArray</span>, <span class="string"><span class="delimiter">'</span><span class="content">code</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span>);
-<span class="predefined">print_r</span>(<span class="local-variable">$columns</span>);
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-Array
-(
-  [145] =&gt; 12
-  [20098] =&gt; 12
-  [34] =&gt; 10
-)
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p><strong><em>deprecated</em></strong></p>
-
-<p>The following mcrypt functions have been deprecated <a href="http://php.net/manual/en/function.mcrypt-ecb.php">mcrypt_ecb()</a>, <a href="http://php.net/manual/en/function.mcrypt-cbc.php">mcrypt_cbc()</a>, <a href="http://php.net/manual/en/function.mcrypt-cfb.php">mcrypt_cfb()</a>, <a href="http://php.net/manual/en/function.mcrypt-ofb.php">mcrypt_ofb()</a> and will now throw <a href="http://php.net/manual/en/errorfunc.constants.php">E_DEPRECATED</a>.</p>
-
-<p>The mysql extension has finally been deprecated, and deprecation warnings will be generated when connections are established to databases via <a href="http://php.net/manual/en/function.mysql-connect.php">mysql_connect()</a>, <a href="http://php.net/manual/en/function.mysql-pconnect.php">mysql_pconnect()</a></p>
-
-<p>use <a href="http://php.net/manual/en/book.mysqli.php">MySQLi</a> or <a href="http://php.net/manual/en/ref.pdo-mysql.php">PDO_MySQL</a> extensions instead.</p>
-
-<p><strong><em>removed</em></strong></p>
-
-<p>The following (not so useful) functions have been removed from the core <a href="http://php.net/manual/en/function.php-logo-guid.php">php_logo_guid()</a>, php_egg_logo_guid(), php_real_logo_guid(), <a href="http://www.php.net/manual/en/function.zend-logo-guid.php">zend_logo_guid()</a>. And support for the ancient operating systems Windows XP and 2003 has been dropped!</p>
-
-<p><strong><em>Install 5.5 on Ubuntu (experimental)</em></strong></p>
-
-<p>If you want to experience the new version first hand and you work on <a href="http://www.ubuntu.com/">Ubuntu</a>. You can add the experimental PPA and give it a shot.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-sudo add-apt-repository ppa:ondrej/php5-experimental
-sudo apt-get update
-sudo apt-get install php5
-</pre></div>
-</div>
- </figure></notextile></div>
-
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2013/06/php-55-released/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-22T21:56:12+02:00" pubdate data-updated="true">Jun 22<span>nd</span>, 2013</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
-  
 
   <ul class="pager">
     
@@ -1357,6 +1097,8 @@ sudo apt-get install php5
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://blog.lenss.nl/2015/02/composer-install-on-git-clone/">Run Composer on Git clone</a></li>
+		
 		<li><a href="http://blog.lenss.nl/2015/02/octopress-blog-hijacked-by-javascript/">Octopress blog hijacked</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2015/01/using-the-hub-in-github-pull-requests/">Using the hub in Github - pull requests</a></li>
@@ -1374,8 +1116,6 @@ sudo apt-get install php5
 		<li><a href="http://blog.lenss.nl/2013/08/github-and-multiple-ssh-keys/">Github, SSH and multiple repositories</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/">Memory exhaust issue PHP and APM</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2013/06/php-55-released/">PHP 5.5.0 released</a></li>
 		
 	</ul>
 </div>
@@ -1396,7 +1136,7 @@ sudo apt-get install php5
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 120.0%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.625%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(96)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.5%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.25%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.5%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 102.5%'>Git(4)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.875%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 105.0%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.625%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.25%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.25%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 143.125%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.625%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.75%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(96)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 105.0%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 119.79381443298969%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.61855670103093%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 159.3814432989691%'>Code(96)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.47422680412372%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.23711340206185%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.47422680412372%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 102.47422680412372%'>Git(4)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.85567010309278%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.94845360824742%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.61855670103093%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.23711340206185%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.23711340206185%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 142.68041237113403%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.56701030927834%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.71134020618557%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.94845360824742%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>
