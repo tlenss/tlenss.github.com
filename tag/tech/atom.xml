@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tech | Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/tag/tech/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2015-02-27T12:05:53+01:00</updated>
+  <updated>2015-02-27T12:07:07+01:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -53,7 +53,7 @@ $ vi [full path]/hooks/post-checkout
 </div>
  </figure></notextile></div></p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>redirect </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>composer_run </span></figcaption>
  <div class="CodeRay">
   <div class="code"><pre>
 #! /bin/bash
