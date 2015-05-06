@@ -3,15 +3,15 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Compiling PHP v1.0.8 - Thijs Lensselink's Blog</title>
+    <title>Git shell tools - Thijs Lensselink's Blog</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Compiling PHP v1.0.8 Today Rasmus posted on twitter that he just compiled PHP v 1.0.8. And it actually worked. Is that great? :) He was in need of &hellip;">
+    <meta name="description" content="Git Shell Tools Although i work in a nice and fancy IDE with all bells and whistles i ever need. I still do a lot of my day to day work in a shell. &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
-    <link rel="canonical" href="http://blog.lenss.nl/2010/11/compiling-php-v1-0-8/">
+    <link rel="canonical" href="http://blog.lenss.nl/2015/05/git-shell-tools/">
     <link rel="shortcut icon" href="/favicon.ico">
     <link href="http://feeds.feedburner.com/ThijsLensselinksBlog" rel="alternate" title="Thijs Lensselink's Blog" type="application/atom+xml">
 
@@ -61,39 +61,123 @@
 <header>
 	<header>
 	
-	  <h1 class="entry-title">Compiling PHP v1.0.8</h1>
+	  <h1 class="entry-title">Git Shell Tools</h1>
 	
 	</header>
 </header>
 
 
-<div class="articletext"><p>Today <a href="http://lerdorf.com/bio.php">Rasmus</a> posted on <a href="http://twitter.com/#!/rasmus">twitter</a> that he just compiled PHP v 1.0.8. And it actually worked. Is that great? :) He was in need of this for his upcoming talk this week in Paris. But i couldn’t resist and try to compile this ancient piece of work ;)</p>
+<div class="articletext"><p>Although i work in a nice and fancy IDE with all bells and whistles i ever need. I still do a lot of my day to day work in a shell. One of those things is working with Git. </p>
 
-<blockquote>
-  <p>$ wget http://museum.php.net/php1/php-108.tar.gz
-$ tar xfvz php-108.tar.gz
-$ cd php </p>
-</blockquote>
+<p>To make git more fun to work with on the command-line. There are a couple of things i did.</p>
 
-<p>If you need to change any config setting do it now. And hit make!</p>
+<p>Let’s start with auto-complete. It’s great to be able to tab complete branch names, remote files and tree and file paths. To make this happen we only need to download the following bash script from the people at Github.</p>
 
-<blockquote>
-  <p>$ vi config.h
-$ make</p>
-</blockquote>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ cd ~/bin
+$ wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
+</pre></div>
+</div>
+ </figure></notextile></div>
 
-<p>This creates a few .cgi files. So it actually does still build </p>
+<p>And to make this work in your shell add this to your .bashrc or .bash_profile</p>
 
-<blockquote>
-  <p>phpf.cgi
-phpl.cgi
-phplmon.cgi
-phplview.cgi</p>
-</blockquote>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ vi .bash_profile
+</pre></div>
+</div>
+ </figure></notextile></div>
 
-<p>Let’s copy that to my cgi-bin and run it through Apache.</p>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>git-completion </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+if [ -f ~/bin/git-completion.bash ]; then
+    source ~/bin/git-completion.bash
+fi
+</pre></div>
+</div>
+ </figure></notextile></div>
 
-<p><a href="http://blog.lenss.nl/images/2010/11/php-1.0.8.jpg"><img src="http://blog.lenss.nl/images/2010/11/php-1.0.8-300x263.jpg" alt="" /></a></p>
+<p>The only thing we need to do to make TAB completion work is reload the bash profile. We can do this by sourcing the file.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ source ~/.bash_profile
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Another fancy addition to working with git in a shell environment is something my coworkers showed me. It’s called the git-prompt. And is also created by the people at Github.</p>
+
+<p>This script will do a couple of things. One of them is displaying which the current working branch is. More visible enhancements are possible by populating certain variables. </p>
+
+<p><strong>GIT_PS1_SHOWDIRTYSTATE</strong>
+Use the ‘*’ and ‘+’ characters to display unstaged and staged changes</p>
+
+<p><strong>GIT_PS1_SHOWSTASHSTATE</strong>
+Use ‘$’ to display stashed changes</p>
+
+<p><strong>GIT_PS1_SHOWUNTRACKEDFILES</strong>
+Will use ‘%’ to display there are untracked files</p>
+
+<p>And more settings are possible. Check the readme at the beginning of the script for this. But what the script actually does is use the shells PS1 variable to display previously mentioned visible enhancements.</p>
+
+<p>So let’s start by fetching the actual script</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ cd ~/bin
+$ wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Now that we have the script in place. Lets update the bash profile</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>git-prompt </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+if [ -f ~/bin/git-prompt.sh ]; then
+   source ~/bin/git-prompt.sh
+   GIT_PS1_SHOWDIRTYSTATE=true
+   GIT_PS1_SHOWCOLORHINTS=true
+   GIT_PS1_UNTRACKEDFILES=true
+   export PS1='\[\e[31;1m\]\u\[\e[0m\]\[\e[37;1m\]@\[\e[0m\]\[\e[36;1m\]\h\[\e[0m\]$(__git_ps1 &quot; \[\e[32;1m\][%s]\[\e[0m\]&quot;) \[\e[37;1m\]$\[\e[0m\] ' 
+fi
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>In this case my PS1 is a bit more fancy because of the added colors. But the magic comes from adding</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>__git_ps1 </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+$(__git_ps1 &quot;[%s]&quot;)
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>When the profile is sourced once again. You can see what happens when we move to a repository</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ cd path/to/git/repository
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>PS1 </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+username@hostname [branch-name *] $
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>The scripts used in this post can be found in this repository https://github.com/git/git/tree/master/contrib/completion</p>
 </div>
 
 
@@ -114,12 +198,12 @@ phplview.cgi</p>
   
 
 
-<time datetime="2010-11-08T18:47:58+01:00" pubdate data-updated="true">Nov 8<span>th</span>, 2010</time>
+<time datetime="2015-05-06T15:26:04+02:00" pubdate data-updated="true">May 6<span>th</span>, 2015</time>
       
 
 <span class="categories">
   
-    <a class='category' href='http://blog.lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
+    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/git/'>Git</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
   
 </span>
 
@@ -127,10 +211,8 @@ phplview.cgi</p>
     </p>
     <p class="meta">
       
-        <a class="basic-alignment left" href="http://blog.lenss.nl/2010/11/changing-mysql-for-mariadb/" title="Previous Post: Changing Mysql for MariaDB">&laquo; Changing Mysql for MariaDB</a>
+        <a class="basic-alignment left" href="http://blog.lenss.nl/2015/02/composer-install-on-git-clone/" title="Previous Post: Run Composer on Git clone">&laquo; Run Composer on Git clone</a>
       
-      
-        <a class="basic-alignment right" href="http://blog.lenss.nl/2010/11/google-mod_pagespeed-continued/" title="Next Post: Google mod_pagespeed continued">Google mod_pagespeed continued &raquo;</a>
       
     </p>
   </footer>
@@ -144,7 +226,7 @@ phplview.cgi</p>
   
   <script id='fb3vnkm'>(function(i){var f,s=document.getElementById(i);f=document.createElement('iframe');f.src='//api.flattr.com/button/view/?uid=tlenss&button=compact&url='+encodeURIComponent(document.URL);f.title='Flattr';f.height=20;f.width=110;f.style.borderWidth=0;s.parentNode.insertBefore(f,s);})('fb3vnkm');</script>
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.lenss.nl/2010/11/compiling-php-v1-0-8/" data-via="tlenss" data-counturl="http://blog.lenss.nl/2010/11/compiling-php-v1-0-8/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.lenss.nl/2015/05/git-shell-tools/" data-via="tlenss" data-counturl="http://blog.lenss.nl/2015/05/git-shell-tools/" >Tweet</a>
   
 </div>
 

@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="PHP Critical Bug CVE-2012-0830 Ok it’s a bit late But i have been laying under a rock for the last week. And i guess it can’t hurt! Last week a &hellip;">
+    <meta name="description" content="Wordpress Install Compromised Last week i got an email from the Dutch NCSC (Nationaal Cyber Security Centrum). Apparently one of the nodes i manage &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,237 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2012/02/wordpress-install-compromised/">Wordpress Install Compromised</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>Last week i got an email from the Dutch <a href="https://www.ncsc.nl/">NCSC</a> (Nationaal Cyber Security Centrum). Apparently one of the nodes i manage for a customer was part of a <a href="http://en.wikipedia.org/wiki/Botnet">botnet</a>. There were no further demands. They just informed me about the issue. Damn cool! Being part of a <a href="http://en.wikipedia.org/wiki/Botnet">botnet</a> however. Not so cool!</p>
+
+<p>With the email came a small excerpt of a IRC channel log. I recognized the node. So SSH’ed into that specific node. And used <a href="http://linux.die.net/man/8/netstat">netstat</a> to check for any strange connections. A connection on port 20 to the C&amp;C; node of the <a href="http://en.wikipedia.org/wiki/Botnet">botnet</a>. Thats not good.</p>
+
+<blockquote><p>$ netstat -an<br />Active Internet connections (servers and established)<br />Proto Recv-Q Send-Q Local Address           Foreign Address         State<br />tcp        0      0 xxx.xxx.xxx.xx:20       69.162.80.62:20         ESTABLISHED</p></blockquote>
+
+<p>In the email from NCSC it was mentioned to look for files called <strong>wp-rss3.php</strong>. But a search for this file did not return any hits. Hmmm. And i still  had no idea which site it concerned. Since a couple were running on this particular node. The only thing certain. It’s <a href="http://wordpress.org">Wordpress</a> related. So i started searching for recent <a href="http://wordpress.org">Wordpress</a> compromises. And found a lot of hits on Google for the <a href="http://code.google.com/p/timthumb/">timThumb</a> and <a href="http://code.google.com/p/wps3slider/">wps3slider</a> plugins. But checking the log files for these plugins revealed nothing. And for some weird reason i just cleaned up the log partition a couple of days before. So not much luck there.</p>
+
+<p>Some more Googling <a href="http://markmaunder.com/2011/08/01/zero-day-vulnerability-in-many-wordpress-themes/">told</a> me to do a search on the Wordpress installs for the PHP function <a href="http://php.net/manual/en/function.base64-decode.php">base64_decode()</a>. O well. Lets give it a try. Some suspicious files did show up instantly.</p>
+
+<blockquote><p>$ find . -type f -exec grep -l &#8216;base64_decode&#8217; {} \;</p></blockquote>
+
+<p>./uploads/2010/06/wp-rss4.php <a href="http://pastebin.com/rWD1Tfxk">source</a></p>
+
+<p>./uploads/2011/05/alienee.php <a href="http://pastebin.com/LwDaSFUK">source</a></p>
+
+<p>./plugins/wps3slider/temp/34e3a3a74f6e2d0f236bdd3ba70c0c03.php <a href="http://pastebin.com/fG6pDWC2">source</a></p>
+
+<p>./plugins/wps3slider/temp/cf2cdb3ad3249b9692de07290f16f287.php <a href="http://pastebin.com/pRSwG7Ud">encoded</a> <a href="http://pastebin.com/0qQ3Qeut">decoded</a></p>
+
+<p>./plugins/wps3slider/temp/771b821c974131c67e34c83d8d2db725.php <a href="http://pastebin.com/KUP8xBEQ">encoded</a> <a href="http://pastebin.com/Z77iMH1X">decoded</a></p>
+
+<p>./plugins/wps3slider/temp/2b3753ea4769084f2e571737b695b03a.php <a href="http://pastebin.com/RLgsTerk">encoded</a> <a href="http://pastebin.com/KwgqCS8R">decoded</a></p>
+
+<p>./plugins/wps3slider/temp/7228f168d9692eafeafc54dbc3a1ab49.php <a href="http://pastebin.com/HeE3PdnJ">encoded</a> <a href="http://pastebin.com/FzCqSfg6">decoded</a></p>
+
+<p>./plugins/wps3slider/uploads/1.php <a href="http://pastebin.com/YJ17ygSL">source</a></p>
+
+<p>/var/tmp/dc.pl <a href="http://pastebin.com/YTusrVZk">encoded</a> <a href="http://pastebin.com/0WfqZt0R">decoded</a></p>
+
+<p>Interesting. A quick look at the files showed that most of them were obfuscated. But not all. Two of the files were IRC bots written in <a href="http://www.php.net/">PHP</a>. At this moment i couldn’t resist but crack a little smile. But its also a reminder of how fragile the web really is. I quickly moved the files out of the way. And rebooted the machine. When it  came back online i monitored all connections for a while. But the connection to the C&amp;C; node was not restored. So i informed NCSC. And went back to bed!</p>
+
+<p>The Wordpress admin should have kept the sites up to date. Lesson learned i hope! of course i could not resist to come back to it later. And so i did. I started by searching the Apache log files for <strong>wp-rss4.php</strong>. And found a couple of instances where this file was directly called. From a total of 4 different IP addresses.</p>
+
+<blockquote>
+  <p>69.162.80.62</p>
+</blockquote>
+
+<p>This is the IP address of the C&amp;C; server.</p>
+
+<blockquote><p>186.241.16.25<br />201.8.237.18<br />201.8.226.109</p></blockquote>
+
+<p>These IP addresses are all originating from Brasil. No further information is available at this moment. After that i started poking around the trojans / IRC bots found earlier. And as mentioned earlier. There were two bots installed on the server, One was running. The other wasn’t. This is configuration snippet from both bots.</p>
+
+<p>The first bot. And the one i was informed about.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+var $config = array(&quot;server&quot;=&gt;&quot;antesedepois.servegame.com&quot;,^M
+  &quot;port&quot;=&gt;20,^M
+  &quot;pass&quot;=&gt;&quot;depois&quot;,^M
+  &quot;prefix&quot;=&gt;&quot;depois&quot;,^M
+  &quot;maxrand&quot;=&gt;8,^M
+  &quot;chan&quot;=&gt;&quot;#depoiswp&quot;,^M
+  &quot;key&quot;=&gt;&quot;&quot;,^M
+  &quot;modes&quot;=&gt;&quot;+iB-x&quot;,^M
+  &quot;password&quot;=&gt;&quot;depois&quot;,^M
+  &quot;trigger&quot;=&gt;&quot;.&quot;,^M
+  &quot;hostauth&quot;=&gt;&quot;*&quot; // * for any hostname^M
+);
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>And the second one</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+var $config = array(&quot;server&quot;=&gt;&quot;58.225.75.155&quot;,
+  &quot;port&quot;=&gt;9999,
+  &quot;pass&quot;=&gt;&quot;&quot;,
+  &quot;prefix&quot;=&gt;&quot;animal&quot;,
+  &quot;maxrand&quot;=&gt;8,
+  &quot;chan&quot;=&gt;&quot;#animal&quot;,
+  &quot;key&quot;=&gt;&quot;&quot;,
+  &quot;modes&quot;=&gt;&quot;+iB-x&quot;,
+  &quot;password&quot;=&gt;&quot;oishi&quot;,
+  &quot;trigger&quot;=&gt;&quot;.&quot;,
+  &quot;hostauth&quot;=&gt;&quot;*!*@The.Black.Cat&quot; // * for any hostname
+);
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Notice the <strong>^M</strong> characters at the end. Seems like somebody is using windows. So now we have login details for two C&amp;C; servers. Why not take a look. </p>
+
+<blockquote>
+
+  <ul>
+    <li>$ ircii </li>
+    <li>/server antesedepois.servegame.com:20</li>
+  </ul>
+</blockquote>
+
+<p>Some standard IRC stuff</p>
+
+<blockquote><p>*** Connecting to port 20 of server antesedepois.servegame.com<br />*** Welcome to the Internet Relay Chat Network, root (from IRCPRIVATE)<br />*** /etc/irc/script/local V0.5 for Debian finished. Welcome to ircII.<br />*** If you have not already done so, please read the new user information with /HELP NEWUSER<br />*** Your host is IRCPRIVATE, running version 1.2.1546<br />*** This server was created jan 27 2012 at 06: 29:02 HodB (Serial # 00-00-00)<br />*** channel modes available abdefghijklmnopqrstuvwxyzACEFIKLMOPT<br />*** IRCX <br />*** There are 6 users and 362 invisible on 1 servers<br />*** 7 channels have been formed<br />*** This server has 368 clients and 0 servers connected<br />*** Current local users:  368  Max: 989<br />*** Current global users:  368  Max: 989<br />*** MOTD Not Present</p></blockquote>
+
+<p>So let’s check the channels on this thing</p>
+
+<blockquote>
+  <p>/list</p>
+</blockquote>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+*** Channel    Users  Topic
+*** #depoiswp  360    Entrou = Ban :)
+*** #grmteam   6      
+*** #depoisSca 4      Entrou = Ban :)
+*** #depoisSca 4      Entrou = Ban :)
+*** #depoisVul 6      Entrou = Ban :)
+*** #rfi       3      
+*** #sql       1  
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>I entered all of the channels and waited for a while. But no activity took place. The only really interested channel is #depoiswp. This is the channel where all the bots connect. At the time i logged in there were about 360 of them  available. I immediately recognized the log excerpt send to me by the NCSC.</p>
+
+<blockquote><p>*** Topic for #depoiswp: Entrou = Ban :)<br />*** #depoiswp SYSTEM 1327945185<br />(#depoiswp/#depoiswp) Entrou = Ban :)<br />*** [A]depois88802849 (~depois48170648@68.233.238.XX) has joined channel #depoiswp<br />*** #depoiswp 1327653297<br />*** [A]depois13436992 (~depois92951214@212.227.114.XX) has joined channel #depoiswp<br />*** [A]depois18833547 (~depois69088341@184.154.130.XX) has joined channel #depoiswp<br />*** [A]depois80116634 (~depois13242297@213.251.189.XXX) has joined channel #depoiswp<br />*** [A]depois31855907 (~depois23946193@82.85.28.XXX) has joined channel #depoiswp<br />*** [A]depois25458508 (~depois64120008@87.106.214.XX) has joined channel #depoiswp<br />*** [A]depois17803105 (~depois55004207@74.208.16.XX) has joined channel #depoiswp<br />*** [A]depois96800217 (~depois89042073@174.121.216.XXX) has joined channel #depoiswp<br />*** [A]depois17108432 (~depois51961332@209.68.1.XXX) has joined channel #depoiswp<br />*** [A]depois95432403 (~depois13925479@209.68.1.XXX) has joined channel #depoiswp<br />*** [A]depois96515275 (~depois10767943@195.74.38.XXX) has joined channel #depoiswp<br />*** [A]depois73596561 (~depois90562179@69.89.31.XXX) has joined channel #depoiswp<br />*** [A]depois85357227 (~depois31697723@64.191.115.XX) has joined channel #depoiswp<br />*** [A]depois07993697 (~depois40240585@79.96.128.XX) has joined channel #depoiswp<br />*** [A]depois97441253 (~depois19633359@193.189.74.XX) has joined channel #depoiswp<br />*** [A]depois76843389 (~depois55419325@176.9.34.XXX) has joined channel #depoiswp<br />*** [I]depois16679788 (~depois28004829@213.171.218.XXX) has joined channel #depoiswp<br />*** [A]depois88178285 (~depois05296405@74.220.215.XXX) has joined channel #depoiswp</p></blockquote>
+
+<blockquote><p>&lt;[A]depois16231776&gt; [Attack Finalizado!]: 1749605 MB enviados / Pacotes enviados: 14580 MB/s <br />&lt;[I]depois60130568&gt; [Attack Finalizado!]: 75 MB enviados / Pacotes enviados: 1 MB/s <br />&lt;[I]depois48664304&gt; [Attack Finalizado!]: 75 MB enviados / Pacotes enviados: 1 MB/s <br />&lt;[I]depois65415449&gt; [Attack Finalizado!]: 75 MB enviados / Pacotes enviados: 1 MB/s <br />&lt;[I]depois11325010&gt; [Attack Finalizado!]: 75 MB enviados / Pacotes enviados: 1 MB/s <br />*** [A]depois40994506 (~depois72760562@79.98.28.XX) has joined channel #depoiswp<br />&lt;[A]depois07568398&gt; [Attack Finalizado!]: 2187317 MB enviados / Pacotes enviados: 18228 MB/s <br />&lt;[A]depois55402758&gt; [Attack Finalizado!]: 11425 MB enviados / Pacotes enviados: 95 MB/s <br />*** [A]depois03383512 (~depois52457929@74.220.215.XX) has joined channel #depoiswp<br />&lt;[A]depois37064023&gt; [Attack Finalizado!]: 1264043 MB enviados / Pacotes enviados: 10534 MB/s <br />&lt;[A]depois69234369&gt; [Attack Finalizado!]: 2205504 MB enviados / Pacotes enviados: 18379 MB/s <br />*** [A]depois74911768 (~depois04730096@74.220.215.XX) has joined channel #depoiswp<br />*** Signoff: [A]depois31575043 (Connection reset by peer)<br />&lt;[I]depois17710498&gt; [Attack Finalizado!]: 81 MB enviados / Pacotes enviados: 1 MB/s <br />&lt;[I]depois28464134&gt; [Attack Finalizado!]: 81 MB enviados / Pacotes enviados: 1 MB/s</p></blockquote>
+
+<p>Thats fine and all. I disconnected shortly after that. I really have no reason  to be poking around there now do i ;) Besides who want to  interfere with an ongoing investigation. So poking around the files a bit more didnot  reveal  all that information.Except for the fact that besides a IRC bot a backdoor was also installed in the form of a perl script dc.pl installed in /var/tmp. So who knows. The server might be rooted at this point.</p>
+
+<p>I spend some more time on decoding the bot and trojan contents. And posted them on pastebin if you are interested. The server is going to be  decommissioned soon. So i am not going to pay much more attention to it.</p>
+
+<blockquote>
+  <p>1.php and b2dabd0e2c42b55fabf741bcac29f857.php</p>
+</blockquote>
+
+<p>Web Shell by boff</p>
+
+<blockquote>
+  <p>2b3753ea4769084f2e571737b695b03a.php</p>
+</blockquote>
+
+<p>This file was base64 encoded but once decoded reveled to be a simple script by v0pCr3w and nob0dyCr3w to run system commands on the server. Also included was a simple upload form.</p>
+
+<blockquote>
+  <p>34e3a3a74f6e2d0f236bdd3ba70c0c03.php</p>
+</blockquote>
+
+<p>c99 injector v1</p>
+
+<blockquote>
+  <p>771b821c974131c67e34c83d8d2db725.php</p>
+</blockquote>
+
+<p>This script was rot13 and base64 encoded and was trying to cleanup after the hacker. And install a second back door.</p>
+
+<blockquote>
+  <p>7228f168d9692eafeafc54dbc3a1ab49.php and cce0a37ffc138a8908da05977639bed1.php</p>
+</blockquote>
+
+<p>Again rot13 and base64 encoded.But this script contained something that looks like a control panel. The page title was ‘Hacked by Sherif #oishi @ ALLnet’</p>
+
+<blockquote>
+  <p>alienee.php</p>
+</blockquote>
+
+<p>Still working on this one</p>
+
+<blockquote>
+  <p>cf2cdb3ad3249b9692de07290f16f287.php and ded3244749701c4eb5a29b959ad56736.php</p>
+</blockquote>
+
+<p>These files contained a second bot that was connecting to a whole different server. Probably exploited by another crew?</p>
+
+<blockquote>
+  <p>dc.pl</p>
+</blockquote>
+
+<p>This Perl backdoor was created by one  of the IRC bot scripts. And was hiding in /var/tmp after creation.</p>
+
+<ul>
+  <li>And some links i found useful while working on this issue.</li>
+  <li><a href="http://eromang.zataz.com/2012/01/08/gangbang-mytijn-org-malware-spreader-down/">http://eromang.zataz.com/2012/01/08/gangbang-mytijn-org-malware-spreader-down/</a></li>
+  <li><a href="http://www.madirish.net/content/hookworm-stealth-php-backdoor">http://www.madirish.net/content/hookworm-stealth-php-backdoor</a></li>
+  <li><a href="http://markmaunder.com/2011/08/01/zero-day-vulnerability-in-many-wordpress-themes/">http://markmaunder.com/2011/08/01/zero-day-vulnerability-in-many-wordpress-themes/</a></li>
+</ul>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2012/02/wordpress-install-compromised/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-06T22:37:10+01:00" pubdate data-updated="true">Feb 6<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/security/'>Security</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -954,162 +1185,6 @@ Debian 6.0.2 (squeeze): bool(false)</p>
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2011/08/php-locale-dates-adventure/">PHP Locale Dates Adventure</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>About a week ago i was working on a twitter widget for a website. This required some dates to be displayed in Dutch. And i found out the hard way my knowledge on this has faded away over time.</p>
-
-<p>So the code i was working on. Did something like this.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$date</span> = <span class="predefined">date</span>(<span class="string"><span class="delimiter">'</span><span class="content">D M d H:i:s Y</span><span class="delimiter">'</span></span>, <span class="predefined">strtotime</span>(<span class="local-variable">$someVar</span>));
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>My thought was that by setting the correct locale the dates would appear in the correct language. Wrong!</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-date_default_timezone_set(<span class="string"><span class="delimiter">'</span><span class="content">Europe/Amsterdam</span><span class="delimiter">'</span></span>);
-<span class="predefined">setlocale</span>(<span class="predefined-constant">LC_ALL</span>, <span class="string"><span class="delimiter">'</span><span class="content">nl_NL.utf8</span><span class="delimiter">'</span></span>);
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>After a reload i was greeted by the same dates as before. In plain English. Oke no worries. Let’s see what setlocale returns.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="predefined">var_dump</span>(<span class="predefined">setlocale</span>(<span class="predefined-constant">LC_ALL</span>, <span class="string"><span class="delimiter">'</span><span class="content">nl_NL.utf8</span><span class="delimiter">'</span></span>));
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<blockquote>
-
-  <p>bool(false)</p>
-</blockquote>
-
-<p>That’s not good. Seems like we are missing some locales on the server. Let’s check.</p>
-
-<blockquote>
-  <p>locale -a</p>
-</blockquote>
-
-<blockquote>
-  <ul>
-    <li>en_AG</li>
-    <li>en_AG.utf8</li>
-    <li>en_AU.utf8</li>
-    <li>en_BW.utf8</li>
-    <li>en_CA.utf8</li>
-    <li>en_DK.utf8</li>
-    <li>en_GB.utf8</li>
-    <li>en_HK.utf8</li>
-    <li>en_IE.utf8</li>
-    <li>en_IN</li>
-    <li>en_IN.utf8</li>
-    <li>en_NG</li>
-    <li>en_NG.utf8</li>
-    <li>en_NZ.utf8</li>
-    <li>en_PH.utf8</li>
-    <li>en_SG.utf8</li>
-    <li>en_US.utf8</li>
-    <li>en_ZA.utf8</li>
-    <li>en_ZW.utf8</li>
-    <li>…</li>
-  </ul>
-</blockquote>
-
-<p>And some more output after that. But not the one i am looking for. But thankfully aptitude was kind enough to provide the missing language packages.</p>
-
-<blockquote>
-  <ul>
-    <li>nl_NL</li>
-    <li>nl_NL@euro</li>
-    <li>nl_NL.iso88591</li>
-    <li>nl_NL.iso885915@euro</li>
-    <li>nl_NL.utf8</li>
-  </ul>
-</blockquote>
-
-<p>So let’s set the correct locale for this script.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="predefined">setlocale</span>(<span class="predefined-constant">LC_ALL</span>, <span class="string"><span class="delimiter">'</span><span class="content">nl_NL.utf8</span><span class="delimiter">'</span></span>);
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>But still no changes. I must be missing something….. Let’s consult the <a href="http://www.php.net/manual/en/function.date.php">manual</a>. The last line in the <strong>examples</strong> section is what i was looking for</p>
-
-<blockquote>
-  <p>To format dates in other languages, you should use the <a href="http://www.php.net/manual/en/function.setlocale.php">setlocale()</a> and <a href="http://www.php.net/manual/en/function.strftime.php">strftime()</a> functions instead of date(). </p>
-</blockquote>
-
-<p>Duuh! Completely forgot about <a href="http://www.php.net/manual/en/function.strftime.php">strftime</a>. Let’s change the code.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="predefined">strftime</span>(<span class="string"><span class="delimiter">'</span><span class="content">%a %b %d %H:%M:%S %Y</span><span class="delimiter">'</span></span>, <span class="predefined">strtotime</span>(<span class="local-variable">$somevar</span>));
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<blockquote>
-  <p>ma aug 15 14:55:06 2011</p>
-</blockquote>
-
-<p>Perfect. That did it. </p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2011/08/php-locale-dates-adventure/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-08-16T00:54:46+02:00" pubdate data-updated="true">Aug 16<span>th</span>, 2011</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
-  
 
   <ul class="pager">
     
@@ -1153,6 +1228,8 @@ date_default_timezone_set(<span class="string"><span class="delimiter">'</span><
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://blog.lenss.nl/2015/05/git-shell-tools/">Git shell tools</a></li>
+		
 		<li><a href="http://blog.lenss.nl/2015/02/composer-install-on-git-clone/">Run Composer on Git clone</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2015/02/octopress-blog-hijacked-by-javascript/">Octopress blog hijacked</a></li>
@@ -1170,8 +1247,6 @@ date_default_timezone_set(<span class="string"><span class="delimiter">'</span><
 		<li><a href="http://blog.lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/">Fixing the clover forcast for PHP projects in Jenkins</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/08/github-and-multiple-ssh-keys/">Github, SSH and multiple repositories</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/">Memory exhaust issue PHP and APM</a></li>
 		
 	</ul>
 </div>
@@ -1192,7 +1267,7 @@ date_default_timezone_set(<span class="string"><span class="delimiter">'</span><
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 119.79381443298969%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.61855670103093%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(97)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.47422680412372%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.23711340206185%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.47422680412372%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 103.09278350515464%'>Git(5)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.85567010309278%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.94845360824742%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.61855670103093%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.23711340206185%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.23711340206185%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 142.68041237113403%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.56701030927834%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.71134020618557%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.94845360824742%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 119.59183673469389%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.61224489795919%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(98)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.44897959183673%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.22448979591837%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.44897959183673%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 103.6734693877551%'>Git(6)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.83673469387755%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.89795918367346%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.61224489795919%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.22448979591837%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.22448979591837%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 142.24489795918367%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.51020408163265%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.6734693877551%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(98)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.89795918367346%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

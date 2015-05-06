@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tech | Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/tag/tech/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2015-02-27T16:57:52+01:00</updated>
+  <updated>2015-05-06T13:33:29+02:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -12,6 +12,125 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Git shell tools]]></title>
+    <link href="http://blog.lenss.nl/2015/05/git-shell-tools/"/>
+    <updated>2015-05-06T15:26:04+02:00</updated>
+    <id>http://blog.lenss.nl/2015/05/git-shell-tools</id>
+    <content type="html"><![CDATA[<p>Although i work in a nice and fancy IDE with all bells and whistles i ever need. I still do a lot of my day to day work in a shell. One of those things is working with Git. </p>
+
+<p>To make git more fun to work with on the command-line. There are a couple of things i did.</p>
+
+<p>Let’s start with auto-complete. It’s great to be able to tab complete branch names, remote files and tree and file paths. To make this happen we only need to download the following bash script from the people at Github.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ cd ~/bin
+$ wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>And to make this work in your shell add this to your .bashrc or .bash_profile</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ vi .bash_profile
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>git-completion </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+if [ -f ~/bin/git-completion.bash ]; then
+    source ~/bin/git-completion.bash
+fi
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>The only thing we need to do to make TAB completion work is reload the bash profile. We can do this by sourcing the file.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ source ~/.bash_profile
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>Another fancy addition to working with git in a shell environment is something my coworkers showed me. It’s called the git-prompt. And is also created by the people at Github.</p>
+
+<p>This script will do a couple of things. One of them is displaying which the current working branch is. More visible enhancements are possible by populating certain variables. </p>
+
+<p><strong>GIT_PS1_SHOWDIRTYSTATE</strong>
+Use the ‘*’ and ‘+’ characters to display unstaged and staged changes</p>
+
+<p><strong>GIT_PS1_SHOWSTASHSTATE</strong>
+Use ‘$’ to display stashed changes</p>
+
+<p><strong>GIT_PS1_SHOWUNTRACKEDFILES</strong>
+Will use ‘%’ to display there are untracked files</p>
+
+<p>And more settings are possible. Check the readme at the beginning of the script for this. But what the script actually does is use the shells PS1 variable to display previously mentioned visible enhancements.</p>
+
+<p>So let’s start by fetching the actual script</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ cd ~/bin
+$ wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>Now that we have the script in place. Lets update the bash profile</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>git-prompt </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+if [ -f ~/bin/git-prompt.sh ]; then
+   source ~/bin/git-prompt.sh
+   GIT_PS1_SHOWDIRTYSTATE=true
+   GIT_PS1_SHOWCOLORHINTS=true
+   GIT_PS1_UNTRACKEDFILES=true
+   export PS1=’[\e[31;1m]\u[\e[0m][\e[37;1m]@[\e[0m][\e[36;1m]\h[\e[0m]$(__git_ps1 “ [\e[32;1m][%s][\e[0m]”) [\e[37;1m]$[\e[0m] ‘ 
+fi
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>In this case my PS1 is a bit more fancy because of the added colors. But the magic comes from adding</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>__git_ps1 </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+$(__git_ps1 “[%s]”)
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>When the profile is sourced once again. You can see what happens when we move to a repository</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ cd path/to/git/repository
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>PS1 </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+username@hostname [branch-name *] $
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>The scripts used in this post can be found in this repository https://github.com/git/git/tree/master/contrib/completion</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Run Composer on Git clone]]></title>
@@ -509,103 +628,6 @@ sudo apt-get install php5
 </div>
  </figure></notextile></div></p>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Casting weirdness with PHP]]></title>
-    <link href="http://blog.lenss.nl/2013/03/casting-weirdness-with-PHP/"/>
-    <updated>2013-03-28T22:20:34+01:00</updated>
-    <id>http://blog.lenss.nl/2013/03/casting-weirdness-with-PHP</id>
-    <content type="html"><![CDATA[<p>When my coworker today asked if he could cast an array to a object. I couldn’t really answer the question. Don’t think i ever done that. So let’s try. right?</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Cast array to object </span></figcaption>
- <div class="CodeRay">
-  <div class="code"><pre>
-$arr = array(‘foo’ =<span class="entity">&amp;gt;</span> ‘baz’);
-$obj = (object) $arr;<span class="tag">&lt;/p&gt;</span>
-
-<span class="tag">&lt;p&gt;</span>var_dump($obj);
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
-  <div class="code"><pre>
-object(stdClass)#1 (1) {
-  [“foo”]=&amp;gt;
-  string(3) “baz”
-}
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p>Ha that’s cool. It actually works. But wait. What happens when we use a numeric index?</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Cast array to object </span></figcaption>
- <div class="CodeRay">
-  <div class="code"><pre>
-$arr = array(0 =<span class="entity">&amp;gt;</span> ‘bar’, ‘foo’ =<span class="entity">&amp;gt;</span> ‘baz’);
-$obj = (object) $arr;<span class="tag">&lt;/p&gt;</span>
-
-<span class="tag">&lt;p&gt;</span>var_dump($obj);
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
-  <div class="code"><pre>
-object(stdClass)#1 (2) {
-  [0]=&amp;gt;
-  string(3) “bar”
-  [“foo”]=&amp;gt;
-  string(3) “baz”
-}
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p>WTF? We just created <strong><em>$obj-&gt;0</em></strong> which should not be allowed in PHP as far as i know. So let’s make sure i am not mistaking.</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Assign value to numeric class property </span></figcaption>
- <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$foo</span> = <span class="keyword">new</span> <span class="predefined-constant">stdClass</span>();
-<span class="local-variable">$foo</span>-&amp;gt;<span class="integer">0</span> = ‘bar’;
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p><blockquote><p>PHP Parse error:  syntax error, unexpected ‘0’ (T_LNUMBER), expecting identifier (T_STRING) or variable (T_VARIABLE) or ‘{‘ or ‘$’ in foo.php on line 5</p></blockquote></p>
-
-<p>But casting the array didn’t complain about a thing. Can we access this property? Well! Not calling it directly. At least not that i know of. But looping over the object’s properties does seem to work. </p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Loop object properties </span></figcaption>
- <div class="CodeRay">
-  <div class="code"><pre>
-// Parse error
-// var_dump($obj-<span class="entity">&amp;gt;</span>0);<span class="tag">&lt;/p&gt;</span>
-
-<span class="tag">&lt;p&gt;</span>foreach ($obj as $key =<span class="entity">&amp;gt;</span> $val) {
-  var_dump($key);
-  var_dump($obj-<span class="entity">&amp;gt;</span>$key);
-}
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
-  <div class="code"><pre>
-int(0)
-PHP Notice:  Undefined property: stdClass::$0 in foo.php on line 14
-NULL
-string(3) “foo”
-string(3) “baz”
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p>It’s not that i was planning on ever using this. Or advising other people to use it. In the contrary. But i guess it’s not completely useless. But care is required when doing so.</p>
 ]]></content>
   </entry>
   

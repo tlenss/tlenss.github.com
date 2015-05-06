@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/tag/git/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2015-02-27T16:57:52+01:00</updated>
+  <updated>2015-05-06T13:33:29+02:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -12,6 +12,125 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Git shell tools]]></title>
+    <link href="http://blog.lenss.nl/2015/05/git-shell-tools/"/>
+    <updated>2015-05-06T15:26:04+02:00</updated>
+    <id>http://blog.lenss.nl/2015/05/git-shell-tools</id>
+    <content type="html"><![CDATA[<p>Although i work in a nice and fancy IDE with all bells and whistles i ever need. I still do a lot of my day to day work in a shell. One of those things is working with Git. </p>
+
+<p>To make git more fun to work with on the command-line. There are a couple of things i did.</p>
+
+<p>Let’s start with auto-complete. It’s great to be able to tab complete branch names, remote files and tree and file paths. To make this happen we only need to download the following bash script from the people at Github.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ cd ~/bin
+$ wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>And to make this work in your shell add this to your .bashrc or .bash_profile</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ vi .bash_profile
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>git-completion </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+if [ -f ~/bin/git-completion.bash ]; then
+    source ~/bin/git-completion.bash
+fi
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>The only thing we need to do to make TAB completion work is reload the bash profile. We can do this by sourcing the file.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ source ~/.bash_profile
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>Another fancy addition to working with git in a shell environment is something my coworkers showed me. It’s called the git-prompt. And is also created by the people at Github.</p>
+
+<p>This script will do a couple of things. One of them is displaying which the current working branch is. More visible enhancements are possible by populating certain variables. </p>
+
+<p><strong>GIT_PS1_SHOWDIRTYSTATE</strong>
+Use the ‘*’ and ‘+’ characters to display unstaged and staged changes</p>
+
+<p><strong>GIT_PS1_SHOWSTASHSTATE</strong>
+Use ‘$’ to display stashed changes</p>
+
+<p><strong>GIT_PS1_SHOWUNTRACKEDFILES</strong>
+Will use ‘%’ to display there are untracked files</p>
+
+<p>And more settings are possible. Check the readme at the beginning of the script for this. But what the script actually does is use the shells PS1 variable to display previously mentioned visible enhancements.</p>
+
+<p>So let’s start by fetching the actual script</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ cd ~/bin
+$ wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>Now that we have the script in place. Lets update the bash profile</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>git-prompt </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+if [ -f ~/bin/git-prompt.sh ]; then
+   source ~/bin/git-prompt.sh
+   GIT_PS1_SHOWDIRTYSTATE=true
+   GIT_PS1_SHOWCOLORHINTS=true
+   GIT_PS1_UNTRACKEDFILES=true
+   export PS1=’[\e[31;1m]\u[\e[0m][\e[37;1m]@[\e[0m][\e[36;1m]\h[\e[0m]$(__git_ps1 “ [\e[32;1m][%s][\e[0m]”) [\e[37;1m]$[\e[0m] ‘ 
+fi
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>In this case my PS1 is a bit more fancy because of the added colors. But the magic comes from adding</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>__git_ps1 </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+$(__git_ps1 “[%s]”)
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>When the profile is sourced once again. You can see what happens when we move to a repository</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+$ cd path/to/git/repository
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>PS1 </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+username@hostname [branch-name *] $
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>The scripts used in this post can be found in this repository https://github.com/git/git/tree/master/contrib/completion</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Run Composer on Git clone]]></title>
@@ -332,52 +451,6 @@ $ git push
 </pre></div>
 </div>
  </figure></notextile></div></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Github, SSH and multiple repositories]]></title>
-    <link href="http://blog.lenss.nl/2013/08/github-and-multiple-ssh-keys/"/>
-    <updated>2013-08-22T00:02:09+02:00</updated>
-    <id>http://blog.lenss.nl/2013/08/github-and-multiple-ssh-keys</id>
-    <content type="html"><![CDATA[<p>When working with <a href="http://github.com">Github</a>. Setting up SSH key based authentication is easy. You just create a key. Add the public key in the admin panel and voilà. If a new contributor joins your team. You add his / her key and they also have access.</p>
-
-<p>But how does it work when you have need access to multiple repositories using multiple keys yourself? I had to set this up a couple of times. And it turns out to be just as easy. But if for some reason it’s not that obvious these steps might help.</p>
-
-<p>Let’s pretend we need some key first.</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
-  <div class="code"><pre>
-$ ssh-keygen -t rsa -b 4096
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p><blockquote><p>Generating public/private rsa key pair.<br/>Enter file in which to save the key (/home/user/.ssh/id_rsa): repo1_rsa<br/>Enter passphrase (empty for no passphrase):<br/>Enter same passphrase again:</p></p><p><p>Your identification has been saved in repo1_rsa.<br/>Your public key has been saved in repo1_rsa.pub.<br/>The key fingerprint is:<br/>03:b5:da:08:3b:6f:9a:29:3f:f5:4c:ee:5d:14:cb:41 user@host<br/>The key’s randomart image is:<br/>+–[ RSA 4096]—-+<br/>   some output<br/>+—————–+</p></blockquote></p>
-
-<p>This will generate the public and private key for <strong>repo1</strong>. Now repeat the same thing for <strong>repo2</strong>. Make sure the keys reside in <strong>~/.ssh</strong></p>
-
-<p>Now let’s say we have access to two repositories under two different users / companies. We will use <strong>github.com/repo1</strong> and <strong>github.com/repo2</strong> as examples. The only thing we have to do is add some entries to <strong>~/.ssh/config</strong> to make this work. They key is to use the Github sub-domain mappings</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
-  <div class="code"><pre>
-$ vi ~/.ssh/config
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p><blockquote><p>Host    repo1.github.com<br/>    HostName github.com<br/>    PreferredAuthentications publickey<br/>    IdentityFile	~/.ssh/repo1_rsa</p></p><p><p>Host    repo2.github.com<br/>    HostName github.com<br/>    PreferredAuthentications publickey<br/>    IdentityFile	~/.ssh/repo2_rsa</p></blockquote></p>
-
-<p>Save the file and we’re done. Now to checkout a project in one of the repositories. Do the following.</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
-  <div class="code"><pre>
-$ git clone git@repo1.github.com:repo1/project.git
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p><blockquote><p>Cloning into ‘project’…<br/>remote: Counting objects: 86, done.<br/>remote: Compressing objects: 100% (66/66), done.<br/>remote: Total 86 (delta 27), reused 64 (delta 17)<br/>Receiving objects: 100% (86/86), 34.83 KiB, done.<br/>Resolving deltas: 100% (27/27), done.</p></blockquote></p>
 ]]></content>
   </entry>
   

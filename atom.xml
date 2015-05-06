@@ -4,7 +4,7 @@
   <title><![CDATA[Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2015-02-27T16:57:52+01:00</updated>
+  <updated>2015-05-06T13:33:29+02:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -12,6 +12,125 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Git shell tools]]></title>
+    <link href="http://blog.lenss.nl/2015/05/git-shell-tools/"/>
+    <updated>2015-05-06T15:26:04+02:00</updated>
+    <id>http://blog.lenss.nl/2015/05/git-shell-tools</id>
+    <content type="html"><![CDATA[<p>Although i work in a nice and fancy IDE with all bells and whistles i ever need. I still do a lot of my day to day work in a shell. One of those things is working with Git. </p>
+
+<p>To make git more fun to work with on the command-line. There are a couple of things i did.</p>
+
+<p>Let’s start with auto-complete. It’s great to be able to tab complete branch names, remote files and tree and file paths. To make this happen we only need to download the following bash script from the people at Github.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ cd ~/bin
+$ wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>And to make this work in your shell add this to your .bashrc or .bash_profile</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ vi .bash_profile
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>git-completion </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+if [ -f ~/bin/git-completion.bash ]; then
+    source ~/bin/git-completion.bash
+fi
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>The only thing we need to do to make TAB completion work is reload the bash profile. We can do this by sourcing the file.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ source ~/.bash_profile
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Another fancy addition to working with git in a shell environment is something my coworkers showed me. It’s called the git-prompt. And is also created by the people at Github.</p>
+
+<p>This script will do a couple of things. One of them is displaying which the current working branch is. More visible enhancements are possible by populating certain variables. </p>
+
+<p><strong>GIT_PS1_SHOWDIRTYSTATE</strong>
+Use the ‘*’ and ‘+’ characters to display unstaged and staged changes</p>
+
+<p><strong>GIT_PS1_SHOWSTASHSTATE</strong>
+Use ‘$’ to display stashed changes</p>
+
+<p><strong>GIT_PS1_SHOWUNTRACKEDFILES</strong>
+Will use ‘%’ to display there are untracked files</p>
+
+<p>And more settings are possible. Check the readme at the beginning of the script for this. But what the script actually does is use the shells PS1 variable to display previously mentioned visible enhancements.</p>
+
+<p>So let’s start by fetching the actual script</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ cd ~/bin
+$ wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Now that we have the script in place. Lets update the bash profile</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>git-prompt </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+if [ -f ~/bin/git-prompt.sh ]; then
+   source ~/bin/git-prompt.sh
+   GIT_PS1_SHOWDIRTYSTATE=true
+   GIT_PS1_SHOWCOLORHINTS=true
+   GIT_PS1_UNTRACKEDFILES=true
+   export PS1='\[\e[31;1m\]\u\[\e[0m\]\[\e[37;1m\]@\[\e[0m\]\[\e[36;1m\]\h\[\e[0m\]$(__git_ps1 &quot; \[\e[32;1m\][%s]\[\e[0m\]&quot;) \[\e[37;1m\]$\[\e[0m\] ' 
+fi
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>In this case my PS1 is a bit more fancy because of the added colors. But the magic comes from adding</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>__git_ps1 </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+$(__git_ps1 &quot;[%s]&quot;)
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>When the profile is sourced once again. You can see what happens when we move to a repository</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ cd path/to/git/repository
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>PS1 </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+username@hostname [branch-name *] $
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>The scripts used in this post can be found in this repository https://github.com/git/git/tree/master/contrib/completion</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Run Composer on Git clone]]></title>
@@ -1373,104 +1492,6 @@ mysql_options(&amp;mysql, <span class="constant">MYSQL_OPT_RECONNECT</span>, &am
 </div>
  </figure></notextile></div>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Resize a Vagrant VMDK drive]]></title>
-    <link href="http://blog.lenss.nl/2012/09/resize-a-vagrant-vmdk-drive/"/>
-    <updated>2012-09-24T14:17:00+02:00</updated>
-    <id>http://blog.lenss.nl/2012/09/resize-a-vagrant-vmdk-drive</id>
-    <content type="html"><![CDATA[<p>Using <a href="http://vagrantup.com/">Vagrant</a> as a development environment is great. But you have to watch the available disk space when doing some funky database benchmarking. Last Friday i wrote a script to populate a test database with over 60 million records. And left it running over the weekend. With the idea it would be finished when i returned to the office on Monday. Well it actually was still running. But the Vagrant instance was out of disk space when i logged in. Damn. Should have made sure i had a big disk attached to this instance.</p>
-
-<p>O well. My first idea was to just drop the database that i wanted to use for testing. But due to no space available on the system. I could not drop it. I really couldn’t do anything on the system. Even writing config files failed. So where did all the disk space go?</p>
-
-<blockquote><p>$ df -h<br />Filesystem            Size    Used    Avail    Use%    Mounted on<br />/dev/mapper/debian-605-root    10G    9.8G    0.2G    99%    /</p></blockquote>
-
-<p>That’s really not that much space left. And /var/mysql/ibdata1 for the <a href="http://www.innodb.com/">InnoDB</a> tables was taking up 7 GB. And since i have a couple of InnoDB tables i can’t just delete this file. So need to come up with something else. And after a bit of Googling. I came across <a href="http://jjperezaguinaga.wordpress.com/2012/04/03/a-happy-ending-story-with-vagrant-resizing-a-lucid32-vmdk-box/">this</a> post. Which seemed promising. But the most important part is left out. And instead linked to some horrible garbled page. That is completely unreadable. So i had to do some digging to figure this out on my own. For cloning the disks i followed the steps in the article however. The Virtual Box files are located in the user folder in the following path</p>
-
-<blockquote>
-  <p>$ cd ~/VirtualBox VMs/development_*</p>
-</blockquote>
-
-<p>The first thing i did was convert the <a href="http://sanbarrow.com/vmdk-handbook.html">VMDK</a> image to a <a href="http://en.wikipedia.org/wiki/VDI_(file_format)">VDI</a> image so we can actually do some partition resizing.</p>
-
-<blockquote>
-  <p>$ VBoxManage clonehd box-disk1.vmdk box-disk1.vdi –format VDI</p>
-</blockquote>
-
-<p>So now we have a new VDI image. And we need to resize it so it has sufficient space for what we are trying to do. In my case 20 GB is sufficient.</p>
-
-<blockquote>
-  <p>$ VBoxManage modifyhd box-disk1.vdi –resize 20000</p>
-</blockquote>
-
-<p>Now that the new disk is created it needs to be attached to the vagrant virtual machine. This is easily achieved by doing right click on the VM in <a href="https://www.virtualbox.org/">VirtualBox</a> and select Settings</p>
-
-<blockquote>
-  <p>Storage &gt; SATA Controller &gt; Add hard disk (select existing and point to the new VDI image)</p>
-</blockquote>
-
-<p>Now boot the Vagrant image in VirtualBox so we have a screen to work with. When it has booted up. Login.</p>
-
-<p>First create a new Primary partition in the unused space of type Linux LVM (8e) with <a href="http://linux.die.net/man/8/cfdisk">cfdisk</a>. </p>
-
-<blockquote>
-  <p>$ cfdisk /dev/sda</p>
-</blockquote>
-
-<p>When the partition table has been written. It’s time to create a new physical volume on the new partition with the help of <a href="http://linux.about.com/library/cmd/blcmdl8_pvcreate.htm">pvcreate</a></p>
-
-<blockquote><p>$ pvcreate /dev/sda3<br />successfully created</p></blockquote>
-
-<p>For the next steps we will be needing the Volume Group name. We will get this by running <a href="http://linux.about.com/library/cmd/blcmdl8_pvdisplay.htm">pvdisplay</a></p>
-
-<blockquote><p>$ pvdisplay | grep &#8220;VG Name&#8221;<br />VG Name    debian-605</p></blockquote>
-
-<p>So now we have all the bits ready. And its time to extend the root partition with the newly created partition.</p>
-
-<blockquote><p>$ vgextend debian-605 /dev/sda3<br />Volume group &#8220;debian-605&#8221; successfully extended</p></blockquote>
-
-<p>Awesome! next step extending the logical partition</p>
-
-<blockquote><p>$ lvextend /dev/debian-605/root /dev/sda3<br />Extending logical volume root to 18.84 GiB<br />Logical volume root successfully resized</p></blockquote>
-
-<p>Almost there. The last thing left to do is resize the filesystem to make all space available.</p>
-
-<blockquote><p>$ resize2fs /dev/debian-605/root<br />resize2fs 1.41.12 (17-May-2010)<br />Filesystem at /dev/debian-605/root is mounted on /; on-line resizing required old desc_blocks = 1, new_desc_blocks = 2<br />Performing an on-line resize of /dev/debian-605/root to 4937728 (4k) blocks.<br />The filesystem on /dev/debian-605/root is now 4937728 blocks long.</p></blockquote>
-
-<p>It’s that simple really. So let’s check.</p>
-
-<blockquote><p>$ df -h<br />Filesystem            Size    Used    Avail    Use%    Mounted on<br />/dev/mapper/debian-605-root    19G    8.6G    9.1G    49%    /</p></blockquote>
-
-<p>After this i did not bother to convert the VDI image back to a VDMK image. But if you have to for some reason. You could do that with the commands below. And some manual editing of the VirtualBox xml config.</p>
-
-<blockquote><p>$ VBoxManage internalcommands sethduuid box-disk1.vdi<br />$ VBoxManage clonehd box-disk1.vdi box-disk1.vmdk &#8211;format VMDK</p></blockquote>
-
-<p>So that’s it really for resizing the Vagrant hard drive. The only thing left for me was to cleanup the large ibdata1 file. And setup Mysql to use separate ibdata files for InnoDB table.</p>
-
-<blockquote><p>$ vi /etc/mysql/my.cnf<br />[mysqld]<br />innodb_file_per_table</p></blockquote>
-
-<p>Restart Mysql and dump all needed databases except the system tables like (mysql, information_schema).</p>
-
-<blockquote><p>$ /etc/init.d/mysql restart<br />$ echo &#8216;show databases;&#8217; | mysql -uroot -p | grep -v ^Database$ | grep -v ^information_schema$ | grep -v ^mysql$ | xargs mysqldump -uroot -p  &#8211;databases &gt; dump.sql</p></blockquote>
-
-<p>When that’s done. Drop all InnoDB database tables. Remove the ibdata and in_log files from /var/lib/mysql.</p>
-
-<blockquote><p>$ /etc/init.d/mysql stop<br />$ rm /var/mysql/ibdata1* /var/mysql/ib_log*</p></blockquote>
-
-<p>Now we restart Mysql. And reimport the databases.</p>
-
-<blockquote><p>$ /etc/init.d/mysql start<br />$ mysql -uroot -p &lt; dump.sql</p></blockquote>
-
-<ul>
-  <li>Some of the resources i used for solving this issue:</li>
-  <li>[1] <a href="http://www.turnkeylinux.org/blog/extending-lvm">http://www.turnkeylinux.org/blog/extending-lvm</a></li>
-  <li>[2] <a href="http://unix.stackexchange.com/questions/37900/gparted-live-cd-cant-resize-a-partition">http://unix.stackexchange.com/questions/37900/gparted-live-cd-cant-resize-a-partition</a></li>
-  <li>[3] <a href="http://www.my-guides.net/en/guides/general-software/122-how-to-resize-a-virtualbox-disk-partition">http://www.my-guides.net/en/guides/general-software/122-how-to-resize-a-virtualbox-disk-partition</a></li>
-  <li>[4] <a href="http://www.virtualbox.org/manual/ch08.html#vboxmanage-modifyvdi">http://www.virtualbox.org/manual/ch08.html#vboxmanage-modifyvdi</a></li>
-  <li>[5] <a href="http://stackoverflow.com/questions/3456159/how-to-shrink-purge-ibdata1-file-in-mysql">http://stackoverflow.com/questions/3456159/how-to-shrink-purge-ibdata1-file-in-mysql</a></li>
-</ul>
 ]]></content>
   </entry>
   

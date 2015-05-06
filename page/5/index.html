@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Memcached Telnet Interface Commands I was looking for the list of Memcached telnet commands. And couldn’t find much in the docs. So after some &hellip;">
+    <meta name="description" content="PHP Locale Dates Adventure About a week ago i was working on a twitter widget for a website. This required some dates to be displayed in Dutch. And &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,162 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2011/08/php-locale-dates-adventure/">PHP Locale Dates Adventure</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>About a week ago i was working on a twitter widget for a website. This required some dates to be displayed in Dutch. And i found out the hard way my knowledge on this has faded away over time.</p>
+
+<p>So the code i was working on. Did something like this.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$date</span> = <span class="predefined">date</span>(<span class="string"><span class="delimiter">'</span><span class="content">D M d H:i:s Y</span><span class="delimiter">'</span></span>, <span class="predefined">strtotime</span>(<span class="local-variable">$someVar</span>));
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>My thought was that by setting the correct locale the dates would appear in the correct language. Wrong!</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+date_default_timezone_set(<span class="string"><span class="delimiter">'</span><span class="content">Europe/Amsterdam</span><span class="delimiter">'</span></span>);
+<span class="predefined">setlocale</span>(<span class="predefined-constant">LC_ALL</span>, <span class="string"><span class="delimiter">'</span><span class="content">nl_NL.utf8</span><span class="delimiter">'</span></span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>After a reload i was greeted by the same dates as before. In plain English. Oke no worries. Let’s see what setlocale returns.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="predefined">var_dump</span>(<span class="predefined">setlocale</span>(<span class="predefined-constant">LC_ALL</span>, <span class="string"><span class="delimiter">'</span><span class="content">nl_NL.utf8</span><span class="delimiter">'</span></span>));
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<blockquote>
+
+  <p>bool(false)</p>
+</blockquote>
+
+<p>That’s not good. Seems like we are missing some locales on the server. Let’s check.</p>
+
+<blockquote>
+  <p>locale -a</p>
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>en_AG</li>
+    <li>en_AG.utf8</li>
+    <li>en_AU.utf8</li>
+    <li>en_BW.utf8</li>
+    <li>en_CA.utf8</li>
+    <li>en_DK.utf8</li>
+    <li>en_GB.utf8</li>
+    <li>en_HK.utf8</li>
+    <li>en_IE.utf8</li>
+    <li>en_IN</li>
+    <li>en_IN.utf8</li>
+    <li>en_NG</li>
+    <li>en_NG.utf8</li>
+    <li>en_NZ.utf8</li>
+    <li>en_PH.utf8</li>
+    <li>en_SG.utf8</li>
+    <li>en_US.utf8</li>
+    <li>en_ZA.utf8</li>
+    <li>en_ZW.utf8</li>
+    <li>…</li>
+  </ul>
+</blockquote>
+
+<p>And some more output after that. But not the one i am looking for. But thankfully aptitude was kind enough to provide the missing language packages.</p>
+
+<blockquote>
+  <ul>
+    <li>nl_NL</li>
+    <li>nl_NL@euro</li>
+    <li>nl_NL.iso88591</li>
+    <li>nl_NL.iso885915@euro</li>
+    <li>nl_NL.utf8</li>
+  </ul>
+</blockquote>
+
+<p>So let’s set the correct locale for this script.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="predefined">setlocale</span>(<span class="predefined-constant">LC_ALL</span>, <span class="string"><span class="delimiter">'</span><span class="content">nl_NL.utf8</span><span class="delimiter">'</span></span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>But still no changes. I must be missing something….. Let’s consult the <a href="http://www.php.net/manual/en/function.date.php">manual</a>. The last line in the <strong>examples</strong> section is what i was looking for</p>
+
+<blockquote>
+  <p>To format dates in other languages, you should use the <a href="http://www.php.net/manual/en/function.setlocale.php">setlocale()</a> and <a href="http://www.php.net/manual/en/function.strftime.php">strftime()</a> functions instead of date(). </p>
+</blockquote>
+
+<p>Duuh! Completely forgot about <a href="http://www.php.net/manual/en/function.strftime.php">strftime</a>. Let’s change the code.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="predefined">strftime</span>(<span class="string"><span class="delimiter">'</span><span class="content">%a %b %d %H:%M:%S %Y</span><span class="delimiter">'</span></span>, <span class="predefined">strtotime</span>(<span class="local-variable">$somevar</span>));
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<blockquote>
+  <p>ma aug 15 14:55:06 2011</p>
+</blockquote>
+
+<p>Perfect. That did it. </p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2011/08/php-locale-dates-adventure/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-08-16T00:54:46+02:00" pubdate data-updated="true">Aug 16<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -1306,62 +1462,6 @@ $ sudo bash</p>
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2011/03/vmware-workstation-listen-to-voice-of-the-customer/">VMware Workstation Listen to Voice of the Customer</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p><img class="left" src="http://lenss.nl/images/2011/03/zend-vmware.gif" />
-A while back i was contacted by <a href="http://twitter.com/vlaxmi">Vijay Laxmi</a>. Vijay is a Sr Partner Marketing Manager over at Zend Technologies. And she was interested in doing a podcast like interview about the brand new and shiny <a href="http://www.zend.com/en/products/studio/vmware-workstation-deployment">VMWare &amp; Zend Studio</a> integration. And because i am a big fan of this feature. I didn&#8217;t see why not. So we had a few chat sessions. Along the way <a href="http://twitter.com/jsolomin">Joshua Solomin</a> from Zend and Michael Paiko from VMWare joined the party. And after some preparation we recorded the session. Considering i have never been much of a speaker. This was quite fun to do. </p>
-
-<p>Michael send me the end result. And everybody seemed happy with it. After that life resumed and i have been incredibly busy every since. So i kinda forgot about the whole thing. Till Vijay mailed me today (ty! Vijay). VMWare put the <a href="http://blogs.vmware.com/workstation/">recording</a> on their website. And a customer mailing has been transmitted over the wire.  Cool stuff!</p>
-
-<p><a href="http://lenss.nl/images/2011/03/2011-02-07-VMware-Zend-VOC-Podcast.mp3">2011-02-07 VMware-Zend VOC Podcast</a></p>
-
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2011/03/vmware-workstation-listen-to-voice-of-the-customer/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-03-15T23:37:27+01:00" pubdate data-updated="true">Mar 15<span>th</span>, 2011</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/freelance/'>Freelance</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>, <a class='category' href='http://blog.lenss.nl/tag/zend/'>Zend</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
-  
 
   <ul class="pager">
     
@@ -1405,6 +1505,8 @@ A while back i was contacted by <a href="http://twitter.com/vlaxmi">Vijay Laxmi<
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://blog.lenss.nl/2015/05/git-shell-tools/">Git shell tools</a></li>
+		
 		<li><a href="http://blog.lenss.nl/2015/02/composer-install-on-git-clone/">Run Composer on Git clone</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2015/02/octopress-blog-hijacked-by-javascript/">Octopress blog hijacked</a></li>
@@ -1422,8 +1524,6 @@ A while back i was contacted by <a href="http://twitter.com/vlaxmi">Vijay Laxmi<
 		<li><a href="http://blog.lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/">Fixing the clover forcast for PHP projects in Jenkins</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/08/github-and-multiple-ssh-keys/">Github, SSH and multiple repositories</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/">Memory exhaust issue PHP and APM</a></li>
 		
 	</ul>
 </div>
@@ -1444,7 +1544,7 @@ A while back i was contacted by <a href="http://twitter.com/vlaxmi">Vijay Laxmi<
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 119.79381443298969%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.61855670103093%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(97)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.47422680412372%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.23711340206185%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.47422680412372%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 103.09278350515464%'>Git(5)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.85567010309278%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.94845360824742%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.61855670103093%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.23711340206185%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.23711340206185%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 142.68041237113403%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.56701030927834%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.71134020618557%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.94845360824742%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 119.59183673469389%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.61224489795919%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(98)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.44897959183673%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.22448979591837%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.44897959183673%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 103.6734693877551%'>Git(6)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.83673469387755%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.89795918367346%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.61224489795919%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.22448979591837%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.22448979591837%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 142.24489795918367%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.51020408163265%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.6734693877551%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(98)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.89795918367346%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

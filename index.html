@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Run Composer on Git Clone I work on a couple of projects that use Composer to manage the dependencies. And a coworker asked if it was possible to &hellip;">
+    <meta name="description" content="Git Shell Tools Although i work in a nice and fancy IDE with all bells and whistles i ever need. I still do a lot of my day to day work in a shell. &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,166 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2015/05/git-shell-tools/">Git Shell Tools</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>Although i work in a nice and fancy IDE with all bells and whistles i ever need. I still do a lot of my day to day work in a shell. One of those things is working with Git. </p>
+
+<p>To make git more fun to work with on the command-line. There are a couple of things i did.</p>
+
+<p>Let’s start with auto-complete. It’s great to be able to tab complete branch names, remote files and tree and file paths. To make this happen we only need to download the following bash script from the people at Github.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ cd ~/bin
+$ wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>And to make this work in your shell add this to your .bashrc or .bash_profile</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ vi .bash_profile
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>git-completion </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+if [ -f ~/bin/git-completion.bash ]; then
+    source ~/bin/git-completion.bash
+fi
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>The only thing we need to do to make TAB completion work is reload the bash profile. We can do this by sourcing the file.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ source ~/.bash_profile
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Another fancy addition to working with git in a shell environment is something my coworkers showed me. It’s called the git-prompt. And is also created by the people at Github.</p>
+
+<p>This script will do a couple of things. One of them is displaying which the current working branch is. More visible enhancements are possible by populating certain variables. </p>
+
+<p><strong>GIT_PS1_SHOWDIRTYSTATE</strong>
+Use the ‘*’ and ‘+’ characters to display unstaged and staged changes</p>
+
+<p><strong>GIT_PS1_SHOWSTASHSTATE</strong>
+Use ‘$’ to display stashed changes</p>
+
+<p><strong>GIT_PS1_SHOWUNTRACKEDFILES</strong>
+Will use ‘%’ to display there are untracked files</p>
+
+<p>And more settings are possible. Check the readme at the beginning of the script for this. But what the script actually does is use the shells PS1 variable to display previously mentioned visible enhancements.</p>
+
+<p>So let’s start by fetching the actual script</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ cd ~/bin
+$ wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Now that we have the script in place. Lets update the bash profile</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>git-prompt </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+if [ -f ~/bin/git-prompt.sh ]; then
+   source ~/bin/git-prompt.sh
+   GIT_PS1_SHOWDIRTYSTATE=true
+   GIT_PS1_SHOWCOLORHINTS=true
+   GIT_PS1_UNTRACKEDFILES=true
+   export PS1='\[\e[31;1m\]\u\[\e[0m\]\[\e[37;1m\]@\[\e[0m\]\[\e[36;1m\]\h\[\e[0m\]$(__git_ps1 &quot; \[\e[32;1m\][%s]\[\e[0m\]&quot;) \[\e[37;1m\]$\[\e[0m\] ' 
+fi
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>In this case my PS1 is a bit more fancy because of the added colors. But the magic comes from adding</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>__git_ps1 </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+$(__git_ps1 &quot;[%s]&quot;)
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>When the profile is sourced once again. You can see what happens when we move to a repository</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$ cd path/to/git/repository
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>PS1 </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+username@hostname [branch-name *] $
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>The scripts used in this post can be found in this repository https://github.com/git/git/tree/master/contrib/completion</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2015/05/git-shell-tools/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-06T15:26:04+02:00" pubdate data-updated="true">May 6<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/git/'>Git</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -989,75 +1149,6 @@ $ git clone git@repo1.github.com:repo1/project.git
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/">Memory Exhaust Issue PHP and APM</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>A while back i wrote a small data aggregator that would do some background processing and populate a database with it’s calculated results. The main reason to implement this was that running the queries in real-time on the production server was causing memory exhaust issues. Once the new feature was done and deployed. We quickly noticed we were running into the same kind of issues again. And the script would halt almost each time it was executed.</p>
-
-<blockquote><p>Fatal error: Allowed memory size of xxxxxxxxx bytes exhausted (tried toallocate xxxxx bytes) in</p></blockquote>
-
-<p>After some hacking and optimization tricks. The script’s memory consumption seemed stable enough to deploy it to production. However. Each time we deployed it. We were hit by memory exhaust issues almost instantly. Time to do some debugging and code tracing.</p>
-
-<p>And we’re able to narrow it down to a single mysql<em>* (don’t get me started on the mysql</em>* functions, so let’s ignore that for now) call. Namely  <a href="http://php.net/manual/en/function.mysql-fetch-field.php">mysql_fetch_field</a>. Why on earth would this generate a memory exhaust issue on the server you might think. And that’s exactly what we were thinking. </p>
-
-<p>The problem was. That the offset passed in as the field offset was incorrect. And resulted in a notice. These notices however were suppressed with the @ symbol. And therefor never noticeable during development. But that’s no reason for memory exhaust issues… right?</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-@mysql_fetch_field($result, $offset);
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>Right! Further inspection showed that in production PHP’s <a href="http://code.google.com/p/peclapm/">APM</a> extension was loaded and active. And this was the real problem behind the memory exhaust issue. Thousands of queries were executed. And almost all of them were throwing an error notice for the fetch field function. Which was ignored by the @ symbol. But APM was still logging them. And apparently had a very hard time keeping up. </p>
-
-<p>It looks like a bug in APM. But that’s another story. The issue was fixed by passing in the correct offset of course. Another nice example of logging bringing down a production server.</p>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-03T11:57:43+02:00" pubdate data-updated="true">Jul 3<span>rd</span>, 2013</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
-  
 
   <ul class="pager">
     
@@ -1099,6 +1190,8 @@ $ git clone git@repo1.github.com:repo1/project.git
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://blog.lenss.nl/2015/05/git-shell-tools/">Git shell tools</a></li>
+		
 		<li><a href="http://blog.lenss.nl/2015/02/composer-install-on-git-clone/">Run Composer on Git clone</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2015/02/octopress-blog-hijacked-by-javascript/">Octopress blog hijacked</a></li>
@@ -1116,8 +1209,6 @@ $ git clone git@repo1.github.com:repo1/project.git
 		<li><a href="http://blog.lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/">Fixing the clover forcast for PHP projects in Jenkins</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/08/github-and-multiple-ssh-keys/">Github, SSH and multiple repositories</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/">Memory exhaust issue PHP and APM</a></li>
 		
 	</ul>
 </div>
@@ -1138,7 +1229,7 @@ $ git clone git@repo1.github.com:repo1/project.git
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 119.79381443298969%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.61855670103093%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(97)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.47422680412372%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.23711340206185%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.47422680412372%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 103.09278350515464%'>Git(5)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.85567010309278%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.94845360824742%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.61855670103093%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.23711340206185%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.23711340206185%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 142.68041237113403%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.56701030927834%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.71134020618557%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(97)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.94845360824742%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 119.59183673469389%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.61224489795919%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(98)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.44897959183673%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.22448979591837%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.44897959183673%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 103.6734693877551%'>Git(6)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.83673469387755%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.89795918367346%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.61224489795919%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.22448979591837%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.22448979591837%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 142.24489795918367%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.51020408163265%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.6734693877551%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(98)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.89795918367346%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>
