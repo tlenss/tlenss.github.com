@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="VMware Workstation Listen to Voice of the Customer A while back i was contacted by Vijay Laxmi. Vijay is a Sr Partner Marketing Manager over at Zend &hellip;">
+    <meta name="description" content="Moving to Amazon&#8217;s Cloud or Not? Finally back online again. Somewhere today the site went down. And i couldn’t reach the server. Which &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,168 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2011/03/moving-to-amazons-cloud-or-not/">Moving to Amazon&#8217;s Cloud or Not?</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p><img class="left" src="http://lenss.nl/images/2011/03/logo_aws.gif" />
+Finally back online again. Somewhere today the site went down. And i couldn’t reach the server. Which resulted in me jumping the gun and write an pissed off <a href="http://twitter.com/m0s/status/48089219616354304">tweet</a> about Amazon’s EC2 service. Which turned out to be false. After i noticed i tried to login to the AWS dashboard. But instead of my running instance i was presented with a validation screen. I had to validate my account by phone. That’s weird. I came to conclusion to early and thought Amazon had suspended my account for what whatever reason possible. It turns out it’s the annoying Amazon password bug that bit my ass. After poking around i came to the conclusion i have two Amazon accounts on the same email address but with different passwords. One has EC2 enabled the other doesn’t. Good to know. But the site was still down. So on my way home i missed a call from the Amazon support desk (really more companies should act like Amazon does). But got into an email conversation with them later on. After i apologised for the tweet. The Dev at Amazon figured out the server was running out of resources and was swapping. And just couldn’t do much more then that. Only a reboot resolved the issue. Hey! It’s not a micro instance for nothing.</p>
+
+<p>I might as well write a post about the move to the Amazon Cloud late last year. Ever since this website went up in 2008. It has been running on one of my own servers. And this has done the job well for two years. Some people would say if it ain’t broke don’t try to fix it. But i like to try out new things. And running a server isn’t cheap. So if i can find a more affordable way of hosting this site i may be interested enough to move. So where do i move this site too. Some other hosting provider? Let’s try something different and host it from the cloud. I didn’t really want to go over the whole hassle of finding a suitable hosting provider. And i was doing some small project with Amazon Web-services. So my choice was made quite easy. Let’s try the wide array of options Amazon’s Web-services have to offer.</p>
+
+<p>No way i was going to pay a fortune to set something up. So after some reading and some googling of course. I came to the <a href="http://aws.amazon.com/free/">Free Usage Tier</a> page. This basically is a way to get familiar with the AWS system. And it offer quite a nice set of features to use. One year of free usage as long as you don’t go over the limit set for this microsystem.. Read more about the terms <a href="http://aws.amazon.com/free/terms/">here</a> . Some of the highlights are:</p>
+
+<blockquote>
+  <p><strong>AWS Free Usage Tier (Per Month):</strong></p>
+</blockquote>
+
+<blockquote>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>750 hours of <a href="http://aws.amazon.com/ec2">Amazon EC2</a> Linux Micro Instance usage (613 MB of memory and 32-bit and 64-bit  platform support) – enough hours to run continuously each month<code>*</code></li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>750 hours of an <a href="http://aws.amazon.com/elasticloadbalancing/">Elastic Load Balancer</a> plus 15 GB data processing*</li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>10 GB of <a href="http://aws.amazon.com/ebs">Amazon Elastic Block Storage</a>, plus 1 million I/Os, 1 GB of snapshot storage, 10,000 snapshot Get Requests and 1,000 snapshot Put Requests<code>*</code></li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>5 GB of <a href="http://aws.amazon.com/s3">Amazon S3 storage</a>, 20,000 Get Requests, and 2,000 Put Requests<code>*</code></li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>30 GB per of internet data transfer (15 GB of data transfer “in”  and 15 GB of data transfer “out” across all services except Amazon  CloudFront)<code>*</code></li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>25 <a href="http://aws.amazon.com/simpledb">Amazon SimpleDB</a> Machine Hours and 1 GB of Storage<code>**</code></li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>100,000 Requests of <a href="http://aws.amazon.com/sqs">Amazon Simple Queue Service</a><code>**</code></li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>100,000 Requests, 100,000 HTTP notifications and 1,000 email notifications for <a href="http://aws.amazon.com/sns">Amazon Simple Notification Service</a><code>**</code></li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>10 <a href="http://aws.amazon.com/cloudwatch">Amazon Cloudwatch</a> alarms<code>**</code></li>
+  </ul>
+
+</blockquote>
+
+<p>In addition to these services, the <a href="http://aws.amazon.com/console">AWS Management Console</a> is available at no charge to help you build and manage your application on AWS.</p>
+
+<p>So that looks like a pretty nice offer from Amazon. Of course you don’t have to expect some multi core system waiting for you. But maybe it will do. I was interested enough to give it try. After logging in the place to start is the <a href="https://console.aws.amazon.com/ec2">ec2</a> control panel. The first thing i did was create a new instance running Debian.</p>
+
+<p>Make sure the right region is set in the region box. I logged in after creating my first image and couldn’t find it anywhere. Because the default region was not the one i used. From the dashboard i can just click the launch instance button and it gives me a list of different images to use as a virtual instance. There is plenty of flavour to choose from. I picked a community Debian instance.</p>
+
+<p><a href="http://blog.lenss.nl/images/2011/03/request-instance2.png"><img src="http://blog.lenss.nl/images/2011/03/request-instance2-300x195.png" alt="" /></a></p>
+
+<p>The next screen is important because it sets the instance type to use. The Micro (t1.micro) is what i am looking for this time. </p>
+
+<p><a href="http://blog.lenss.nl/images/2011/03/request-instance-micro.png"><img src="http://blog.lenss.nl/images/2011/03/request-instance-micro-300x204.png" alt="" /></a></p>
+
+<p>The rest of the install is quite self explanatory. At the end somewhere download the private key that will be used for setting up an SSH connection to the instance.</p>
+
+<p><a href="http://blog.lenss.nl/images/2011/03/request-instance-key.png"><img src="http://blog.lenss.nl/images/2011/03/request-instance-key-300x204.png" alt="" /></a></p>
+
+<p>The next thing i did was setup a EBS storage volume for .. well .. storage. I made the choice for the EBS volume simply because it scales well. From the ec2 dashboard go to EBS instance and then create instance. Simply select the size and / or load it up with an image.</p>
+
+<p><a href="http://blog.lenss.nl/images/2011/03/ebs-volume.png"><img src="http://blog.lenss.nl/images/2011/03/ebs-volume-300x128.png" alt="" /></a></p>
+
+<p>That pretty much does it. For the ec2 dashboard. The only thing left to do here is setup an elastic IP address so the instance is reachable from the outside world. This is basically assigning a ipv4 address to the instance. Click the elastic IP link and then allocate new address.</p>
+
+<p><a href="http://blog.lenss.nl/images/2011/03/allocatenewaddress.png"><img src="http://blog.lenss.nl/images/2011/03/allocatenewaddress-300x163.png" alt="" /></a></p>
+
+<p>If all is well i should be able to login by SSH.</p>
+
+<blockquote>
+  <p>$ ssh -i [key name].pem ec2-user@[ip address].eu-west-1.compute.amazonaws.com 
+$ sudo bash</p>
+</blockquote>
+
+<p>That’s it. I configured the instance using Zend Server and didn’t even bother to setup an RDS storage engine. I just installed MySQL. And used that for the site. Last but not least. Open port 80 on the firewall. This is easily done from the EC2 dashboard. I also opened up ports 10081 - 10083 bound to my home IP address so i can control Zend Server.</p>
+
+<p>I was quite impressed with the AWS interface and the possibilities. But the cost is pretty high. The first month was nearly free. But while traffic keeps growing the cost keeps rising. This ended up me paying more for a single instance a month then for a complete server on which i can run multiple sites. So while extremely easy to use, flexible and just plain cool to work with. It’s not for this site. I thank Amazon for the available possibilities. And the Support i had today. But i am moving back to my own server as we speak.</p>
+
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2011/03/moving-to-amazons-cloud-or-not/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-17T02:21:06+01:00" pubdate data-updated="true">Mar 17<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -867,430 +1029,6 @@ I finally took the time to read &#8216;<a href="http://www.amazon.com/You-Want-D
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2010/11/moving-from-subversion-to-git/">Moving From Subversion to GIT</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p><img class="left" src="http://lenss.nl/images/2010/11/git.logo_.gif" />
-Last weekend was a <a href="http://pfz.nl">PFZ</a> meeting. And for this day a few interesting <a href="http://www.pfz.nl/activiteit/1-workshopdag-2010/">workshops</a> were planned. I mainly was looking forward to the GIT (Git for Subversion Users) talk by <a href="http://www.leftontheweb.com/">Stefan Koopmanschap</a>. And the Dependency Injection presentation by <a href="http://blog.berryllium.nl/">Berry Langerak</a> I didn&#8217;t make it too the last one. But learned a lot while doing the GIT workshop with Stefan.</p>
-
-<p>For the last few months i have wanted to take a look at git. But it just never really took the time to sit down and do it. So this opportunity was there at the right time. Although my laptop died halfway through the workshop. I still was able to make it through the whole session together with <a href="http://accentinteractive.nl/">Joost van Veen</a>. Thanks man. We had a great time. And it was eye opening. Stefan gave a good talk. Helped out where possible. And besides a small <a href="https://github.com/">Github</a> glitch. It was a successful day.</p>
-
-<p>So successful that i decided to make the switch from <a href="http://subversion.tigris.org/">Subversion</a> to <a href="http://git-scm.com/">GIT</a>. Below are some of the steps i took. </p>
-
-<p>The main reasons for me to make the switch</p>
-
-<ul>
-  <li>
-    <p>Distributed structure make it easy to work from any place. connected or not.</p>
-  </li>
-  <li>
-    <p>Stashing</p>
-  </li>
-  <li>
-    <p>Speed and cleaner folder / file structure</p>
-  </li>
-  <li>
-    <p>Real tags</p>
-  </li>
-</ul>
-
-<p>That&#8217;s all for now. but this list will grow. I am sure!</p>
-
-<h2 id="setting-up-a-git-server">Setting up a GIT server</h2>
-
-<p>I decided to go for my own GIT server instead of Github. That&#8217;s just the way i like it. Full control.</p>
-
-<blockquote>
-  <p><strong>$</strong> aptitude install git-core</p>
-</blockquote>
-
-<p>Now all we have to do is create a user for git operations. And set the correct permissions.</p>
-
-<blockquote>
-
-  <p><strong>$</strong> adduser git
-<strong>$</strong> mkdir /home/git/.ssh
-<strong>$</strong> chown -R git:git /home/git/.ssh
-<strong>$</strong> chmod 700 /home/git</p>
-</blockquote>
-
-<p>If we want to create a new remote repository. We log in on the git server through SSH and setup a new repository like this.</p>
-
-<blockquote>
-
-  <p><strong>$</strong> ssh git@git.domain.tld
-<strong>$</strong> mkdir repository.git
-<strong>$</strong> cd repository.git
-<strong>$</strong> git &#8211;bare init</p>
-</blockquote>
-
-<p>That&#8217;s all. we now have all we need to connect to git remotely and do some work. But now first we need to import the old Subversion repository. I have found two solid methods for getting the job done.</p>
-
-<h2 id="import-a-svn-project-into-git-with-git-svn">Import a SVN project into GIT with git-svn</h2>
-
-<p>First of install git-svn</p>
-
-<blockquote>
-  <p><strong>$</strong> sudo aptitude install git-svn</p>
-</blockquote>
-
-<p>Before we start the importing. It&#8217;s good practice to create an author mapping file. So the SVN commiter names match the GIT ones. This is done by creating a simple text file like so.</p>
-
-<blockquote>
-
-  <p><strong>$</strong> touch authors.txt
-<strong>$</strong> echo &#8220;m0s = Thijs Lensselink <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#101;&#109;&#097;&#105;&#108;&#064;&#108;&#101;&#110;&#115;&#115;&#046;&#110;&#108;">&#101;&#109;&#097;&#105;&#108;&#064;&#108;&#101;&#110;&#115;&#115;&#046;&#110;&#108;</a>&#8221; &gt; authors.txt</p>
-</blockquote>
-
-<p>Importing the existing <em>tags</em> and <em>branches</em> is done by adding the <em>&#8211;stdlayout</em> switch</p>
-
-<blockquote>
-
-  <p><strong>$</strong> git svn clone &#8211;stdlayout -A authors.txt svn+ssh://user@svnhost/repository repository.git</p>
-</blockquote>
-
-<p>The problem with this method is that tags and branches are not created properly. I decided to go for the second method down here.</p>
-
-<h2 id="import-a-svn-project-into-git-with-svn2git">Import a SVN project into GIT with svn2git</h2>
-
-<p>For this to work we first need ruby and some gems packages.</p>
-
-<blockquote>
-
-  <p><strong>$</strong> apt-get install git-svn ruby rubygems
-<strong>$</strong> gem install svn2git &#8211;source http://gemcutter.org</p>
-</blockquote>
-
-<p>Create the local repository and import the files from SVN</p>
-
-<blockquote>
-
-  <p><strong>$</strong> mkdir repository.git
-<strong>$</strong> cd repository.git
-<strong>$</strong> /var/lib/gems/1.8/bin/svn2git svn+ssh://user@svnhost/repository &#8211;authors ../authors.txt</p>
-</blockquote>
-
-<p>Show the current selected branch</p>
-
-<blockquote>
-
-  <p><strong>$</strong> git branch
-* master</p>
-</blockquote>
-
-<p>Show all branches. Notice the <em>trunk</em> branch</p>
-
-<blockquote>
-
-  <p><strong>$</strong> git branch -a
-* master
-  trunk</p>
-</blockquote>
-
-<p>List all tags</p>
-
-<blockquote>
-
-  <p><strong>$</strong> git tag -l
-v1.0
-v2.0</p>
-</blockquote>
-
-<p>That seemed to work pretty good for almost all projects. Some projects didn&#8217;t have the main trunk in SVN. So to import these just add the <em>&#8211;rootistrunk</em> switch.</p>
-
-<p>And while this info is still available in my brain at the moment. I will write down some of the workshop material for future reference.</p>
-
-<h2 id="setup-local-development-environment">Setup local Development environment</h2>
-
-<p>Create directory somewhere that will serve as the local repository. And run <em>init</em> to create the basic git project structure.</p>
-
-<blockquote>
-
-  <p><strong>$</strong> mkdir [project name]
-<strong>$</strong> cd [project name]
-<strong>$</strong> git init</p>
-</blockquote>
-
-<p>Now we have a fully functional git repository. We can do anything with (add, commit, tag, branch, push, etc.)  The first things to do when starting out is setup the user name and email address of the developer using this repository. This is good when looking though the GIT project logs later on. Also handy to set the core editor to the most convenient editor available. </p>
-
-<blockquote>
-
-  <p><strong>$</strong> git config &#8211;global user.name &#8220;Thijs Lensselink&#8221;
-<strong>$</strong> git config &#8211;global user.email &#8220;email@lenss.nl&#8221;
-<strong>$</strong> git config &#8211;global core.editor vi</p>
-</blockquote>
-
-<p>The repository exists out of a <em>origin</em> and a <em>master</em> branch at this moment. The origin refers to the current repository location. And the master refers to the current repository state. Like HEAD in CVS and SVN. Let&#8217;s add a file for testing.</p>
-
-<blockquote>
-
-  <p><strong>$</strong> touch index.php
-<strong>$</strong> git add index.php (or add *)
-<strong>$</strong> git commit -m &#8220;Commit something&#8221;</p>
-</blockquote>
-
-<p>Working on a local repository is nice. but we want to save it on a server of course. For this we need to set a repository location. We can do this in two ways. We can overwrite the origin or add a new location. Let&#8217;s try the first one.</p>
-
-<blockquote>
-  <p><strong>$</strong> git remote add origin git@git.domain.tld:repository.git</p>
-</blockquote>
-
-<h2 id="setting-up-the-remote-git-repository-and-push-the-changes">Setting up the remote git repository and push the changes</h2>
-
-<p>All changes to this repository are made locally so far. Let&#8217;s try and push them to the git server. The only problem here is. I haven&#8217;t found a way to create repositories remotely. So we have to log in to the server here and create the repository.</p>
-
-<blockquote>
-
-  <p><strong>$</strong> ssh git@git.domain.tld
-<strong>$</strong> mkdir repository.git
-<strong>$</strong> cd repository.git
-<strong>$</strong> git &#8211;bare init
-<strong>$</strong> exit</p>
-</blockquote>
-
-<p>Back on the client side we can now do a push an see what happens.</p>
-
-<blockquote>
-
-  <p><strong>$</strong> git push origin master
-Counting objects: 3, done.
-Writing objects: 100% (3/3), 232 bytes, done.
-Total 3 (delta 0), reused 0 (delta 0)
-To git@192.168.178.24:foo.git
- * [new branch]      master -&gt; master</p>
-</blockquote>
-
-<p>if you get this error: </p>
-
-<blockquote>
-  <p>error: src refspec master does not match any.</p>
-</blockquote>
-
-<p>This means there is no master branch yet. This happens when the repository was created with the &#8211;bare switch. You have to commit a change first before you can push anything to the remote repository server.</p>
-
-<p>That&#8217;s all. We now have a working GIT server and local repository. All that is left is to do some serious development work. On the other hand, before i forget. i will use this space to rehash Stefan&#8217;s workshop for future reference.</p>
-
-<h2 id="tagging">Tagging</h2>
-
-<p>Let start by looking at the way git creates tags. First of there are two types of tags <em>lightweight</em> and <em>annotated</em>. The lightweight version is nothing more then a pointer to a specific commit. It&#8217;s like a branch that doesn&#8217;t change. Annotated tags are a bit different then their lightweight version. And for sure different from the tags in Subversion. A tags in git contains the following data</p>
-
-<ul>
-  <li>
-    <p>checksum</p>
-  </li>
-  <li>
-    <p>tagger name</p>
-  </li>
-  <li>
-    <p>email + date</p>
-  </li>
-  <li>
-    <p>tag message</p>
-  </li>
-  <li>
-    <p>GPG signed</p>
-  </li>
-</ul>
-
-<p>Creating an annotated tag for version 1 looks something like this</p>
-
-<blockquote>
-  <p><strong>$</strong> git tag -a v1.0 -m &#8220;Creating a tag&#8221;</p>
-</blockquote>
-
-<p>Dispaly a certain tag</p>
-
-<blockquote>
-  <p><strong>$</strong> git show v1.0</p>
-</blockquote>
-
-<p>I haven&#8217;t had time to look into working with signing of tags. So maybe i will add an entry about that later on.</p>
-
-<h2 id="branching">Branching</h2>
-
-<p>A repository can have multiple branches. And switching between branches is a since in git. Branching is much like
-it is in Subversion.</p>
-
-<p>Create a new branch from master called foo</p>
-
-<blockquote>
-
-  <p><strong>$</strong> git branch foo master</p>
-</blockquote>
-
-<p>Display all branches available. The current branch is highlighted by the * sign</p>
-
-<blockquote>
-
-  <p><strong>$</strong> git branch
-* master
-  foo</p>
-</blockquote>
-
-<p>Changing branches in git is a piece of cake.</p>
-
-<blockquote>
-
-  <p>**
-$** git checkout foo
-Switched to branch &#8216;foo&#8217;</p>
-</blockquote>
-
-<p>There is not much more to branching.</p>
-
-<h2 id="diff-merge-and-delete-branches">diff, merge and delete branches</h2>
-
-<p>When adding a new feature to an existing code base. It&#8217;s good practice to create a branch before you start editing. And after everything is done and the change is stable. The branch can be merged back into the master.</p>
-
-<p>First let&#8217;s check if there is a difference between the newly created branch and the master.</p>
-
-<blockquote>
-
-  <p><strong>$</strong> git diff foo master
-diff &#8211;git a/touch.foo b/touch.foo
-deleted file mode 100644
-index 257cc56..0000000
-&#8212; a/touch.foo
-+++ /dev/null
-@@ -1 +0,0 @@
--foo</p>
-</blockquote>
-
-<p>Some changes have been found so let&#8217;s merge them in the master branch</p>
-
-<blockquote>
-
-  <p><strong>$</strong> git checkout master
-<strong>$</strong> git merge foo master (or git pull foo master)
-Already up-to-date with 12d2f9cebaf71a580b021a8eeddc38f267b69e53
-Trying simple merge with 4d3dff7e0d2a26302a5884e763fd7a48f5ab4437
-Merge made by octopus.
- touch.foo |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
- create mode 100644 touch.foo</p>
-</blockquote>
-
-<p>with <em>git pull</em> it is possible to import branches from other repositories</p>
-
-<p>When done with the changes. And everything is pushed to the remote git server, we can remove the &#8216;foo&#8217; branch</p>
-
-<blockquote>
-
-  <p><strong>$</strong> git branch -d foo
-Deleted branch foo (was d9a8c76).</p>
-</blockquote>
-
-<p>That&#8217;s all for branching right now.</p>
-
-<h2 id="stashing">Stashing</h2>
-
-<p>One of my personal favorite the stash command. Imagine working on a project. And somebody asks you to make a small change. In subversion i needed to do a new checkout and work on that. This can be quite slow and cumbersome. In git this is solved elegantly by using the stash command.</p>
-
-<blockquote>
-
-  <p><strong>$</strong> git stash
-Saved working directory and index state &#8220;WIP on master: 648f347&#8230; foo&#8221;
-(To restore them type &#8220;git stash apply&#8221;)
-HEAD is now at 648f347 foo</p>
-</blockquote>
-
-<p>This saves a copy of the working state and let&#8217;s you do changes on a fresh base. After your done get back to your work by doing </p>
-
-<blockquote>
-
-  <p><strong>$</strong> git stash pop (or apply)</p>
-</blockquote>
-
-<p>With pop you push the stash back to the master. With apply the changes will first be applied to the master before restoring the work state.</p>
-
-<h2 id="working-with-other-repositories">Working with other repositories</h2>
-
-<p>Clone a repository from a remote GIT server</p>
-
-<blockquote>
-  <p><strong>$</strong> git clone git@git.domain.tld:repository.git ./project2</p>
-</blockquote>
-
-<p>Clone a local GIT repository</p>
-
-<blockquote>
-  <p><strong>$</strong> git clone ./project ./project2</p>
-</blockquote>
-
-<p>Now it could be possible a friend or a remote community member without write access made a few changes to his / her remote repository. And wants them on the global remote GIT server. This can be done by pulling the code.</p>
-
-<p>First add the new repository location</p>
-
-<blockquote>
-  <p><strong>$</strong> git remote add friend git://githubaddress</p>
-</blockquote>
-
-<p>And then fetch the remote changes</p>
-
-<blockquote>
-  <p><strong>$</strong> git fetch friend</p>
-</blockquote>
-
-<p>This only fetches the changes. but does not apply them to the master. Apply them</p>
-
-<blockquote>
-  <p><strong>$</strong> git pull friend master</p>
-</blockquote>
-
-<p>updating remote repository</p>
-
-<blockquote>
-  <p><strong>$</strong> git push friend master</p>
-</blockquote>
-
-<p>That&#8217;s all i can remember right now.</p>
-
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2010/11/moving-from-subversion-to-git/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-11-16T22:12:50+01:00" pubdate data-updated="true">Nov 16<span>th</span>, 2010</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
-  
 
   <ul class="pager">
     
@@ -1334,6 +1072,8 @@ HEAD is now at 648f347 foo</p>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://blog.lenss.nl/2015/07/PHP-project-top10-list/">PHP Project Top10 List</a></li>
+		
 		<li><a href="http://blog.lenss.nl/2015/05/git-shell-tools/">Git shell tools</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2015/02/composer-install-on-git-clone/">Run Composer on Git clone</a></li>
@@ -1351,8 +1091,6 @@ HEAD is now at 648f347 foo</p>
 		<li><a href="http://blog.lenss.nl/2013/10/git-move-folder-containing-submodules/">Renaming a folder in git that contains submodules</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/">Fixing the clover forcast for PHP projects in Jenkins</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2013/08/github-and-multiple-ssh-keys/">Github, SSH and multiple repositories</a></li>
 		
 	</ul>
 </div>
@@ -1373,7 +1111,7 @@ HEAD is now at 648f347 foo</p>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 119.59183673469389%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.61224489795919%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(98)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.44897959183673%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.22448979591837%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.44897959183673%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 103.6734693877551%'>Git(6)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.83673469387755%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.89795918367346%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.61224489795919%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.22448979591837%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.22448979591837%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 142.24489795918367%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.51020408163265%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.6734693877551%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(98)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.89795918367346%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 119.39393939393939%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.60606060606061%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(99)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.42424242424242%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.21212121212122%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.42424242424242%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 103.63636363636364%'>Git(6)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.81818181818181%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.84848484848484%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.60606060606061%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.21212121212122%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.21212121212122%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 142.42424242424244%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.45454545454545%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.63636363636364%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(99)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.84848484848484%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

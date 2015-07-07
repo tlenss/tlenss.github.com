@@ -4,7 +4,7 @@
   <title><![CDATA[Category: PHP | Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/tag/php/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2015-05-06T14:01:37+02:00</updated>
+  <updated>2015-07-07T11:28:17+02:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -12,6 +12,28 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[PHP Project Top10 List]]></title>
+    <link href="http://blog.lenss.nl/2015/07/PHP-project-top10-list/"/>
+    <updated>2015-07-07T13:27:34+02:00</updated>
+    <id>http://blog.lenss.nl/2015/07/PHP-project-top10-list</id>
+    <content type="html"><![CDATA[<p>In following of <a href="http://www.dragonbe.com/">Michelangelo van Dam’s</a> <a href="https://gist.github.com/DragonBe/fce82d356d69ec09b417">post</a> about his top10 list of used PHP projects. Below my own Top10.</p>
+
+<p><strong><em>Software projects</em></strong></p>
+
+<p><a href="http://symfony.com/">Symfony</a> Symfony is a set of reusable PHP components and a PHP framework for web projects
+<a href="https://getcomposer.org/">Composer</a> Dependency Manager for PHP 
+<a href="http://silex.sensiolabs.org/">Silex</a> The PHP micro-framework based on the Symfony2 Components
+<a href="https://github.com/Seldaek/monolog">Monolog</a> Logging for PHP
+<a href="https://github.com/guzzle/guzzle">Guzzle</a> PHP HTTP client
+<a href="http://xdebug.org/">Xdebug</a> Debugger for PHP
+<a href="https://phpunit.de/">PHPUnit</a> A programmer-oriented testing framework
+<a href="https://pecl.php.net/package/phar">Phar</a> PHP Archive
+<a href="http://twig.sensiolabs.org/">Twig</a> The flexible, fast, and securetemplate engine for PHP 
+<a href="http://www.doctrine-project.org/">Doctrine</a> Object Relational Mapper and the Database Abstraction Layer</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Get the first weekday of the month in PHP]]></title>
@@ -237,34 +259,6 @@ $ git clone git@repo1.github.com:repo1/project.git
  </figure></notextile></div></p>
 
 <p><blockquote><p>Cloning into ‘project’…<br/>remote: Counting objects: 86, done.<br/>remote: Compressing objects: 100% (66/66), done.<br/>remote: Total 86 (delta 27), reused 64 (delta 17)<br/>Receiving objects: 100% (86/86), 34.83 KiB, done.<br/>Resolving deltas: 100% (27/27), done.</p></blockquote></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Memory exhaust issue PHP and APM]]></title>
-    <link href="http://blog.lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM/"/>
-    <updated>2013-07-03T11:57:43+02:00</updated>
-    <id>http://blog.lenss.nl/2013/07/memory-exhaust-issue-PHP-and-APM</id>
-    <content type="html"><![CDATA[<p>A while back i wrote a small data aggregator that would do some background processing and populate a database with it’s calculated results. The main reason to implement this was that running the queries in real-time on the production server was causing memory exhaust issues. Once the new feature was done and deployed. We quickly noticed we were running into the same kind of issues again. And the script would halt almost each time it was executed.</p>
-
-<p><blockquote><p>Fatal error: Allowed memory size of xxxxxxxxx bytes exhausted (tried toallocate xxxxx bytes) in</p></blockquote></p>
-
-<p>After some hacking and optimization tricks. The script’s memory consumption seemed stable enough to deploy it to production. However. Each time we deployed it. We were hit by memory exhaust issues almost instantly. Time to do some debugging and code tracing.</p>
-
-<p>And we’re able to narrow it down to a single mysql<em>* (don’t get me started on the mysql</em>* functions, so let’s ignore that for now) call. Namely  <a href="http://php.net/manual/en/function.mysql-fetch-field.php">mysql_fetch_field</a>. Why on earth would this generate a memory exhaust issue on the server you might think. And that’s exactly what we were thinking. </p>
-
-<p>The problem was. That the offset passed in as the field offset was incorrect. And resulted in a notice. These notices however were suppressed with the @ symbol. And therefor never noticeable during development. But that’s no reason for memory exhaust issues… right?</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
-  <div class="code"><pre>
-@mysql_fetch_field($result, $offset);
-</pre></div>
-</div>
- </figure></notextile></div></p>
-
-<p>Right! Further inspection showed that in production PHP’s <a href="http://code.google.com/p/peclapm/">APM</a> extension was loaded and active. And this was the real problem behind the memory exhaust issue. Thousands of queries were executed. And almost all of them were throwing an error notice for the fetch field function. Which was ignored by the @ symbol. But APM was still logging them. And apparently had a very hard time keeping up. </p>
-
-<p>It looks like a bug in APM. But that’s another story. The issue was fixed by passing in the correct offset of course. Another nice example of logging bringing down a production server.</p>
 ]]></content>
   </entry>
   

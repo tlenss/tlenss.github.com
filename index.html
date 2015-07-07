@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Git Shell Tools Although i work in a nice and fancy IDE with all bells and whistles i ever need. I still do a lot of my day to day work in a shell. &hellip;">
+    <meta name="description" content="PHP Project Top10 List In following of Michelangelo van Dam’s post about his top10 list of used PHP projects. Below my own Top10. Software projects &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,69 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2015/07/PHP-project-top10-list/">PHP Project Top10 List</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>In following of <a href="http://www.dragonbe.com/">Michelangelo van Dam’s</a> <a href="https://gist.github.com/DragonBe/fce82d356d69ec09b417">post</a> about his top10 list of used PHP projects. Below my own Top10.</p>
+
+<p><strong><em>Software projects</em></strong></p>
+
+<p><a href="http://symfony.com/">Symfony</a> Symfony is a set of reusable PHP components and a PHP framework for web projects
+<a href="https://getcomposer.org/">Composer</a> Dependency Manager for PHP 
+<a href="http://silex.sensiolabs.org/">Silex</a> The PHP micro-framework based on the Symfony2 Components
+<a href="https://github.com/Seldaek/monolog">Monolog</a> Logging for PHP
+<a href="https://github.com/guzzle/guzzle">Guzzle</a> PHP HTTP client
+<a href="http://xdebug.org/">Xdebug</a> Debugger for PHP
+<a href="https://phpunit.de/">PHPUnit</a> A programmer-oriented testing framework
+<a href="https://pecl.php.net/package/phar">Phar</a> PHP Archive
+<a href="http://twig.sensiolabs.org/">Twig</a> The flexible, fast, and securetemplate engine for PHP 
+<a href="http://www.doctrine-project.org/">Doctrine</a> Object Relational Mapper and the Database Abstraction Layer</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2015/07/PHP-project-top10-list/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-07-07T13:27:34+02:00" pubdate data-updated="true">Jul 7<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -1062,93 +1125,6 @@ $ git push
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2013/08/github-and-multiple-ssh-keys/">Github, SSH and Multiple Repositories</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>When working with <a href="http://github.com">Github</a>. Setting up SSH key based authentication is easy. You just create a key. Add the public key in the admin panel and voilà. If a new contributor joins your team. You add his / her key and they also have access.</p>
-
-<p>But how does it work when you have need access to multiple repositories using multiple keys yourself? I had to set this up a couple of times. And it turns out to be just as easy. But if for some reason it’s not that obvious these steps might help.</p>
-
-<p>Let’s pretend we need some key first.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-$ ssh-keygen -t rsa -b 4096
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<blockquote><p>Generating public/private rsa key pair.<br />Enter file in which to save the key (/home/user/.ssh/id_rsa): repo1_rsa<br />Enter passphrase (empty for no passphrase):<br />Enter same passphrase again:</p><p>Your identification has been saved in repo1_rsa.<br />Your public key has been saved in repo1_rsa.pub.<br />The key fingerprint is:<br />03:b5:da:08:3b:6f:9a:29:3f:f5:4c:ee:5d:14:cb:41 user@host<br />The key&#8217;s randomart image is:<br />+&#8211;[ RSA 4096]&#8212;-+<br />   some output<br />+&#8212;&#8212;&#8212;&#8212;&#8212;&#8211;+</p></blockquote>
-
-<p>This will generate the public and private key for <strong>repo1</strong>. Now repeat the same thing for <strong>repo2</strong>. Make sure the keys reside in <strong>~/.ssh</strong></p>
-
-<p>Now let’s say we have access to two repositories under two different users / companies. We will use <strong>github.com/repo1</strong> and <strong>github.com/repo2</strong> as examples. The only thing we have to do is add some entries to <strong>~/.ssh/config</strong> to make this work. They key is to use the Github sub-domain mappings</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-$ vi ~/.ssh/config
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<blockquote><p>Host&nbsp;&nbsp;&nbsp;&nbsp;repo1.github.com<br />&nbsp;&nbsp;&nbsp;&nbsp;HostName github.com<br />&nbsp;&nbsp;&nbsp;&nbsp;PreferredAuthentications publickey<br />&nbsp;&nbsp;&nbsp;&nbsp;IdentityFile	~/.ssh/repo1_rsa</p><p>Host&nbsp;&nbsp;&nbsp;&nbsp;repo2.github.com<br />&nbsp;&nbsp;&nbsp;&nbsp;HostName github.com<br />&nbsp;&nbsp;&nbsp;&nbsp;PreferredAuthentications publickey<br />&nbsp;&nbsp;&nbsp;&nbsp;IdentityFile	~/.ssh/repo2_rsa</p></blockquote>
-
-<p>Save the file and we’re done. Now to checkout a project in one of the repositories. Do the following.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-$ git clone git@repo1.github.com:repo1/project.git
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<blockquote><p>Cloning into &#8216;project&#8217;&#8230;<br />remote: Counting objects: 86, done.<br />remote: Compressing objects: 100% (66/66), done.<br />remote: Total 86 (delta 27), reused 64 (delta 17)<br />Receiving objects: 100% (86/86), 34.83 KiB, done.<br />Resolving deltas: 100% (27/27), done.</p></blockquote>
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2013/08/github-and-multiple-ssh-keys/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-22T00:02:09+02:00" pubdate data-updated="true">Aug 22<span>nd</span>, 2013</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/git/'>Git</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
-  
 
   <ul class="pager">
     
@@ -1190,6 +1166,8 @@ $ git clone git@repo1.github.com:repo1/project.git
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://blog.lenss.nl/2015/07/PHP-project-top10-list/">PHP Project Top10 List</a></li>
+		
 		<li><a href="http://blog.lenss.nl/2015/05/git-shell-tools/">Git shell tools</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2015/02/composer-install-on-git-clone/">Run Composer on Git clone</a></li>
@@ -1207,8 +1185,6 @@ $ git clone git@repo1.github.com:repo1/project.git
 		<li><a href="http://blog.lenss.nl/2013/10/git-move-folder-containing-submodules/">Renaming a folder in git that contains submodules</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/">Fixing the clover forcast for PHP projects in Jenkins</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2013/08/github-and-multiple-ssh-keys/">Github, SSH and multiple repositories</a></li>
 		
 	</ul>
 </div>
@@ -1229,7 +1205,7 @@ $ git clone git@repo1.github.com:repo1/project.git
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 119.59183673469389%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.61224489795919%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(98)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.44897959183673%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.22448979591837%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.44897959183673%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 103.6734693877551%'>Git(6)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.83673469387755%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.89795918367346%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.61224489795919%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.22448979591837%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.22448979591837%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 142.24489795918367%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.51020408163265%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.6734693877551%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(98)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.89795918367346%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 119.39393939393939%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.60606060606061%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(99)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.42424242424242%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.21212121212122%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.42424242424242%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 103.63636363636364%'>Git(6)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.81818181818181%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.84848484848484%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.60606060606061%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.21212121212122%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.21212121212122%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 142.42424242424244%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.45454545454545%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.63636363636364%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(99)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.84848484848484%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

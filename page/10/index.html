@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Mayflower&#8217;s Zend Framework Poster Two or three weeks ago i was reading post from Bjoern Schotte. That the guys at Mayflower created a poster &hellip;">
+    <meta name="description" content="SVN&#8217;s Post-commit Script in PHP I was kinda bored yesterday. And was poking around the SVN hooks scripts. When i noticed the post-commit &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,159 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2009/09/svns-post-commit-script-in-php/">SVN&#8217;s Post-commit Script in PHP</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>I was kinda bored yesterday. And was poking around the SVN hooks scripts. When i noticed the post-commit script i was using was written in Python. Nothing wrong with that. I just wondered how hard it would be to do the same in PHP. So i came up with a little test. Which at this moment lacks error checking and just looks plain ugly. But it does the job. and i only needed a working PHP CLI executable to make it work.</p>
+
+<p>First we set the email address and the location of svnlook. </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+#!/usr/bin/php
+<span class="inline-delimiter">&lt;?php</span>
+<span class="predefined">error_reporting</span>(<span class="exception">E_ALL</span> | <span class="exception">E_STRICT</span>); 
+    
+<span class="local-variable">$address</span> = <span class="string"><span class="delimiter">'</span><span class="content">some email address</span><span class="delimiter">'</span></span>;
+<span class="local-variable">$svnlook</span> = <span class="string"><span class="delimiter">'</span><span class="content">/usr/bin/svnlook</span><span class="delimiter">'</span></span>;
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Use the argv array to get to the commandline parameters and build up a SVN statement to get some basic info.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$repository</span> = <span class="predefined">$_SERVER</span>[<span class="string"><span class="delimiter">'</span><span class="content">argv</span><span class="delimiter">'</span></span>][<span class="integer">1</span>];
+<span class="local-variable">$revision</span> = <span class="predefined">$_SERVER</span>[<span class="string"><span class="delimiter">'</span><span class="content">argv</span><span class="delimiter">'</span></span>][<span class="integer">2</span>];
+
+<span class="local-variable">$cmdInfo</span> = <span class="string"><span class="delimiter">&quot;</span><span class="local-variable">${svnlook}</span><span class="content"> info </span><span class="local-variable">${repository}</span><span class="content"> -r </span><span class="local-variable">${revision}</span><span class="delimiter">&quot;</span></span>;
+
+<span class="local-variable">$output</span> = <span class="predefined">array</span>();
+<span class="predefined">exec</span>(<span class="local-variable">$cmdInfo</span>, <span class="local-variable">$output</span>);
+
+<span class="local-variable">$author</span> = <span class="local-variable">$output</span>[<span class="integer">0</span>];
+<span class="local-variable">$date</span> = <span class="local-variable">$output</span>[<span class="integer">1</span>];
+<span class="local-variable">$comment</span> = <span class="local-variable">$output</span>[<span class="integer">3</span>];
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Now let’s get the changes made in this revisions.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$output</span> = <span class="predefined">array</span>();
+<span class="local-variable">$cmdChanges</span> =<span class="string"><span class="delimiter">&quot;</span><span class="local-variable">${svnlook}</span><span class="content"> diff </span><span class="local-variable">${repository}</span><span class="content"> -r </span><span class="local-variable">${revision}</span><span class="delimiter">&quot;</span></span>;
+<span class="predefined">exec</span>(<span class="local-variable">$cmdChanges</span>, <span class="local-variable">$output</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Once we have the diff contents we can loop through the lines and use some simple regex to highlight the changes. I’ve added a bit more code to add pre tags for a better visual effect.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$patch</span> = <span class="string"><span class="delimiter">'</span><span class="content">&lt;pre class=&quot;codeBlock&quot;&gt;</span><span class="delimiter">'</span></span>;
+<span class="local-variable">$lineCount</span> = <span class="predefined">count</span>(<span class="local-variable">$output</span>);
+<span class="keyword">for</span> (<span class="local-variable">$x</span>=<span class="integer">0</span>; <span class="local-variable">$x</span>&lt;=<span class="local-variable">$lineCount</span>; <span class="local-variable">$x</span>++) {
+
+  <span class="keyword">if</span> (<span class="local-variable">$x</span> &gt; <span class="integer">0</span> &amp;&amp; <span class="predefined">strstr</span>(<span class="local-variable">$output</span>[<span class="local-variable">$x</span>], <span class="string"><span class="delimiter">'</span><span class="content">Modified:</span><span class="delimiter">'</span></span>)) {
+    <span class="local-variable">$patch</span> .= <span class="string"><span class="delimiter">'</span><span class="content">&lt;/pre&gt;&lt;pre class=&quot;codeBlock&quot;&gt;</span><span class="delimiter">'</span></span>;
+  }
+
+  <span class="local-variable">$textColor</span> = <span class="string"><span class="delimiter">'</span><span class="content">normal</span><span class="delimiter">'</span></span>;
+  <span class="keyword">if</span> (<span class="predefined">preg_match</span>(<span class="string"><span class="delimiter">'</span><span class="content">/^</span><span class="content">\+</span><span class="content">/</span><span class="delimiter">'</span></span>, <span class="local-variable">$output</span>[<span class="local-variable">$x</span>])) {
+    <span class="local-variable">$textColor</span> = <span class="string"><span class="delimiter">'</span><span class="content">positive</span><span class="delimiter">'</span></span>;
+  }
+  <span class="keyword">else</span> <span class="keyword">if</span> (<span class="predefined">preg_match</span>(<span class="string"><span class="delimiter">'</span><span class="content">/^-/</span><span class="delimiter">'</span></span>, <span class="local-variable">$output</span>[<span class="local-variable">$x</span>])) {
+    <span class="local-variable">$textColor</span> = <span class="string"><span class="delimiter">'</span><span class="content">negative</span><span class="delimiter">'</span></span>;
+  }
+
+  <span class="local-variable">$patch</span> .= <span class="string"><span class="delimiter">'</span><span class="content">&lt;span class=&quot;</span><span class="delimiter">'</span></span> . <span class="local-variable">$textColor</span> . <span class="string"><span class="delimiter">'</span><span class="content">&quot;&gt;</span><span class="delimiter">'</span></span> . <span class="predefined">htmlentities</span>(<span class="local-variable">$output</span>[<span class="local-variable">$x</span>]) . <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;/span&gt;&lt;br&gt;</span><span class="delimiter">&quot;</span></span>;
+
+  <span class="keyword">if</span> (<span class="local-variable">$x</span> == <span class="local-variable">$lineCount</span>) {
+    <span class="local-variable">$patch</span> .= <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;/pre&gt;</span><span class="delimiter">&quot;</span></span>;
+  }
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Now we can build the body for the email that will be generated.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$body</span> .= <span class="string"><span class="delimiter">&quot;</span><span class="content">Author : </span><span class="delimiter">&quot;</span></span> . <span class="local-variable">$author</span> . <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;br&gt;</span><span class="delimiter">&quot;</span></span>;
+<span class="local-variable">$body</span> .= <span class="string"><span class="delimiter">&quot;</span><span class="content">Date : </span><span class="delimiter">&quot;</span></span> . <span class="local-variable">$date</span> . <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;br&gt;</span><span class="delimiter">&quot;</span></span>;
+<span class="local-variable">$body</span> .= <span class="string"><span class="delimiter">&quot;</span><span class="content">Comment : </span><span class="delimiter">&quot;</span></span> . <span class="local-variable">$comment</span> . <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;br&gt;&lt;br&gt;</span><span class="delimiter">&quot;</span></span>;
+
+<span class="local-variable">$body</span> .= <span class="local-variable">$patch</span>;
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Add a MIME header so my mail client displays it properly. And send it of through the build in mail() function. </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$headers</span>  = <span class="string"><span class="delimiter">'</span><span class="content">MIME-Version: 1.0</span><span class="delimiter">'</span></span> . <span class="string"><span class="delimiter">&quot;</span><span class="char">\r</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>;
+<span class="local-variable">$headers</span> .= <span class="string"><span class="delimiter">'</span><span class="content">Content-type: text/html; charset=iso-8859-1</span><span class="delimiter">'</span></span> . <span class="string"><span class="delimiter">&quot;</span><span class="char">\r</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>;
+
+<span class="local-variable">$bodyHTML</span> = <span class="predefined">file_get_contents</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/path/to/some/HTML/template</span><span class="delimiter">&quot;</span></span>);
+<span class="local-variable">$bodyHTML</span> = <span class="predefined">str_replace</span>(<span class="string"><span class="delimiter">'</span><span class="content">{EMAIL}</span><span class="delimiter">'</span></span>, <span class="local-variable">$body</span>, <span class="local-variable">$bodyHTML</span>);
+
+<span class="predefined">mail</span>(<span class="local-variable">$address</span>, <span class="string"><span class="delimiter">'</span><span class="content">SVN post-commit</span><span class="delimiter">'</span></span>, <span class="local-variable">$bodyHTML</span>, <span class="local-variable">$headers</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2009/09/svns-post-commit-script-in-php/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-09-14T11:07:42+02:00" pubdate data-updated="true">Sep 14<span>th</span>, 2009</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -742,63 +895,6 @@ SET PASSWORD FOR 'user'@'localhost' = OLD_PASSWORD('password');
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2009/06/no-thunderbird-labels-when-using-imap-over-ssl/">No Thunderbird Labels When Using Imap Over SSL</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>Last week i moved one of our domains to a new server. After syncing all the email between two servers i was happy i didn’t had any problems in the process. But a few days later one of the girls in the office noticed she can’t share labels anymore. This is a big problem since we have one mailbox that is shared over 4 people. When somebody works on a newly arrived mail they can tag it so the others can see it’s being worked on.</p>
-
-<p>So after some hour of playing with settings i figured out the problem was SSL. If i disable SSL the labels come through normally. If i enable SSL no labels are being loaded. At this moment i am not sure if it’s a mail server issue, a mis configured SSL certificate or maybe a bug in Thunderbird. Will do some more research when i get back from my well deserved vacation. </p>
-
-<p>There seems to be some sort of <a href="https://addons.mozilla.org/nl/thunderbird/addons/versions/8919">solution</a> available in the form of an extension for Thunderbird. But it’s only available for v3 and up!</p>
-
-<p>So the workaround for now is to disable SSL. I’m not to happy about it. But it will do for now.</p>
-
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2009/06/no-thunderbird-labels-when-using-imap-over-ssl/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-06-09T11:40:50+02:00" pubdate data-updated="true">Jun 9<span>th</span>, 2009</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
-  
 
   <ul class="pager">
     
@@ -842,6 +938,8 @@ SET PASSWORD FOR 'user'@'localhost' = OLD_PASSWORD('password');
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://blog.lenss.nl/2015/07/PHP-project-top10-list/">PHP Project Top10 List</a></li>
+		
 		<li><a href="http://blog.lenss.nl/2015/05/git-shell-tools/">Git shell tools</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2015/02/composer-install-on-git-clone/">Run Composer on Git clone</a></li>
@@ -859,8 +957,6 @@ SET PASSWORD FOR 'user'@'localhost' = OLD_PASSWORD('password');
 		<li><a href="http://blog.lenss.nl/2013/10/git-move-folder-containing-submodules/">Renaming a folder in git that contains submodules</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/">Fixing the clover forcast for PHP projects in Jenkins</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2013/08/github-and-multiple-ssh-keys/">Github, SSH and multiple repositories</a></li>
 		
 	</ul>
 </div>
@@ -881,7 +977,7 @@ SET PASSWORD FOR 'user'@'localhost' = OLD_PASSWORD('password');
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 119.59183673469389%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.61224489795919%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(98)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.44897959183673%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.22448979591837%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.44897959183673%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 103.6734693877551%'>Git(6)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.83673469387755%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.89795918367346%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.61224489795919%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.22448979591837%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.22448979591837%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 142.24489795918367%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.51020408163265%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.6734693877551%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(98)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.89795918367346%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 119.39393939393939%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.60606060606061%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(99)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.42424242424242%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.21212121212122%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.42424242424242%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 103.63636363636364%'>Git(6)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.81818181818181%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.84848484848484%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.60606060606061%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.21212121212122%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.21212121212122%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 142.42424242424244%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.45454545454545%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.63636363636364%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(99)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.84848484848484%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

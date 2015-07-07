@@ -3,15 +3,15 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Change columns data type in sqlite - Thijs Lensselink's Blog</title>
+    <title>PHP Project Top10 List - Thijs Lensselink's Blog</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Change Columns Data Type in Sqlite My coworker Chris yesterday asked me how to change a column data type in a database. He wanted to change the data &hellip;">
+    <meta name="description" content="PHP Project Top10 List In following of Michelangelo van Dam’s post about his top10 list of used PHP projects. Below my own Top10. Software projects &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
-    <link rel="canonical" href="http://blog.lenss.nl/2009/07/change-columns-data-type-in-sqlite/">
+    <link rel="canonical" href="http://blog.lenss.nl/2015/07/PHP-project-top10-list/">
     <link rel="shortcut icon" href="/favicon.ico">
     <link href="http://feeds.feedburner.com/ThijsLensselinksBlog" rel="alternate" title="Thijs Lensselink's Blog" type="application/atom+xml">
 
@@ -61,60 +61,26 @@
 <header>
 	<header>
 	
-	  <h1 class="entry-title">Change Columns Data Type in Sqlite</h1>
+	  <h1 class="entry-title">PHP Project Top10 List</h1>
 	
 	</header>
 </header>
 
 
-<div class="articletext"><p>My coworker Chris yesterday asked me how to change a column data type in a database. He wanted to change the data type from varchar to text. So my first reaction was to shout ALTER TABLE. But i didn’t realize he was using <a href="http://www.sqlite.org/">sqlite</a> at the moment. So after reading the docs for a while. We came to the conclusion sqlite does support the ALTER statement. But it is very limited compared to say MySQL. And it doesn’t provide the option to alter the data types or column names.</p>
+<div class="articletext"><p>In following of <a href="http://www.dragonbe.com/">Michelangelo van Dam’s</a> <a href="https://gist.github.com/DragonBe/fce82d356d69ec09b417">post</a> about his top10 list of used PHP projects. Below my own Top10.</p>
 
-<p>So how should you change a column data type in an sqlite database? Well as far as i can see there is not really a simple solution. But here goes for our work around.</p>
+<p><strong><em>Software projects</em></strong></p>
 
-<p>Let’s start off by creating a test database:</p>
-
-<blockquote>
-  <p>sqlite3 test.db  “create table sync (id INTEGER PRIMARY KEY, data VARCHAR, num double, dateIn DATE);”</p>
-</blockquote>
-
-<p>And insert some test data:</p>
-
-<blockquote>
-
-  <ul>
-    <li>sqlite3 test.db  “insert into sync (data, num) values (‘This is sampledata’, 3);”</li>
-    <li>sqlite3 test.db  “insert into sync (data, num) values (‘More sample data’, 6);”</li>
-    <li>sqlite3 test.db  “insert into sync (data, num) values (‘And a little more’, 9);”</li>
-  </ul>
-</blockquote>
-
-<p>Now comes the trick. We first create a temporary table and populate it with the data from the table we are going to alter.</p>
-
-<blockquote>
-  <p>sqlite3 test.db  “create table temp_table as select * from sync;”</p>
-</blockquote>
-
-<p>Drop the database to alter. And after that recreate it again. But this time with the changes we wanted to make. So we change the VARCHAR field to TEXT.</p>
-
-<blockquote>
-
-  <ul>
-    <li>sqlite3 test.db  “drop table sync;”</li>
-    <li>sqlite3 test.db  “create table sync (id INTEGER PRIMARY KEY, data TEXT, num double, dateIn DATE);”</li>
-  </ul>
-</blockquote>
-
-<p>The only thing left now is to populate the new database with the data from the temporary table. And finally drop the temporary table.</p>
-
-<blockquote>
-
-  <ul>
-    <li>sqlite3 test.db  “insert into sync select * from temp_table;”</li>
-    <li>sqlite3 test.db  “drop table temp_table;”</li>
-  </ul>
-</blockquote>
-
-<p>There must be a cleaner way to do this. But this worked for us!</p>
+<p><a href="http://symfony.com/">Symfony</a> Symfony is a set of reusable PHP components and a PHP framework for web projects
+<a href="https://getcomposer.org/">Composer</a> Dependency Manager for PHP 
+<a href="http://silex.sensiolabs.org/">Silex</a> The PHP micro-framework based on the Symfony2 Components
+<a href="https://github.com/Seldaek/monolog">Monolog</a> Logging for PHP
+<a href="https://github.com/guzzle/guzzle">Guzzle</a> PHP HTTP client
+<a href="http://xdebug.org/">Xdebug</a> Debugger for PHP
+<a href="https://phpunit.de/">PHPUnit</a> A programmer-oriented testing framework
+<a href="https://pecl.php.net/package/phar">Phar</a> PHP Archive
+<a href="http://twig.sensiolabs.org/">Twig</a> The flexible, fast, and securetemplate engine for PHP 
+<a href="http://www.doctrine-project.org/">Doctrine</a> Object Relational Mapper and the Database Abstraction Layer</p>
 </div>
 
 
@@ -135,12 +101,12 @@
   
 
 
-<time datetime="2009-07-23T12:53:17+02:00" pubdate data-updated="true">Jul 23<span>rd</span>, 2009</time>
+<time datetime="2015-07-07T13:27:34+02:00" pubdate data-updated="true">Jul 7<span>th</span>, 2015</time>
       
 
 <span class="categories">
   
-    <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
+    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
   
 </span>
 
@@ -148,10 +114,8 @@
     </p>
     <p class="meta">
       
-        <a class="basic-alignment left" href="http://blog.lenss.nl/2009/07/0pen0wn-c-what-a-joke/" title="Previous Post: 0pen0wn.c what a joke">&laquo; 0pen0wn.c what a joke</a>
+        <a class="basic-alignment left" href="http://blog.lenss.nl/2015/05/git-shell-tools/" title="Previous Post: Git shell tools">&laquo; Git shell tools</a>
       
-      
-        <a class="basic-alignment right" href="http://blog.lenss.nl/2009/07/mayflowers-zend-framework-poster/" title="Next Post: Mayflower's Zend Framework Poster">Mayflower's Zend Framework Poster &raquo;</a>
       
     </p>
   </footer>
@@ -165,7 +129,7 @@
   
   <script id='fb3vnkm'>(function(i){var f,s=document.getElementById(i);f=document.createElement('iframe');f.src='//api.flattr.com/button/view/?uid=tlenss&button=compact&url='+encodeURIComponent(document.URL);f.title='Flattr';f.height=20;f.width=110;f.style.borderWidth=0;s.parentNode.insertBefore(f,s);})('fb3vnkm');</script>
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.lenss.nl/2009/07/change-columns-data-type-in-sqlite/" data-via="tlenss" data-counturl="http://blog.lenss.nl/2009/07/change-columns-data-type-in-sqlite/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.lenss.nl/2015/07/PHP-project-top10-list/" data-via="tlenss" data-counturl="http://blog.lenss.nl/2015/07/PHP-project-top10-list/" >Tweet</a>
   
 </div>
 

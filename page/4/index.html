@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Wordpress Install Compromised Last week i got an email from the Dutch NCSC (Nationaal Cyber Security Centrum). Apparently one of the nodes i manage &hellip;">
+    <meta name="description" content="Recruiter Rant While doing our routine sprint retrospective today. We got interrupted by our office manager Wendy. An important phone call for me. &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,6 +57,64 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
+  
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2012/02/recruiter-rant/">Recruiter Rant</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>While doing our routine <a href="http://sites.google.com/site/agiledevelopmentsite/process/sprint-retrospective">sprint retrospective</a> today. We got interrupted by our office manager Wendy. An important phone call for me. Hmm… Should have known.</p>
+
+<p>I picked up the phone. And the guy (<a href="http://www.amoriabond.com/">Amoria Bond</a>) on the other end immediately started his sales pitch. O shit another one of those nasty recruiters. So after listening to him for a few seconds i quickly interrupted him. Told him i was not interested in a new job at all. And that he was a jerk and extremely unprofessional for calling me at the office. Completely unaware (or maybe intentionally?) what impact this might have if for instance my manager picks up the phone. Besides it’s just plain rude. </p>
+
+<p>Now don’t get me wrong. It’s not a rant for nothing. I don’t hate recruiters. And have worked with some professional ones in the past. I’ve always enjoyed communicating with linda-lotte while she was still working for <a href="http://www.recruit4it.nl/">Recruit4it</a>. And the guys at <a href="http://www.starapple.nl">Starapple</a> are OK as well. But this guy today really pissed me off with his aggressive unmannered approach. It’s a shame i didn’t catch his name while i was in rant mode. But please don’t ever call me again.</p>
+
+<p><strong>Update:</strong></p>
+
+<p>It seems to be some form of new tactic to call developers in the office where they work. This happened a couple of times more after this post. So this is for the next recruiter that calls me in the office. I’ll personally come over and kick your ass!!</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2012/02/recruiter-rant/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-21T23:14:03+01:00" pubdate data-updated="true">Feb 21<span>st</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
   
   
   <article>
@@ -1101,90 +1159,6 @@ Debian 6.0.2 (squeeze): bool(false)</p>
   </footer>
   </article>
   
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2011/08/jquery-unrecognized-expression-error/">Jquery Unrecognized Expression Error</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>While doing some front end work yesterday. I got trapped by a <a href="http://jquery.com/">jQuery</a> issue. Well not JQuery specific. The issue was actually triggered by some other hand crafted code. Every time i would click a link inside my grid view firebug would throw an error.</p>
-
-<blockquote>
-  <p>uncaught exception: Syntax error, unrecognized expression: .</p>
-</blockquote>
-
-<p>And the markup that triggered the error was</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="tag">&lt;a</span> <span class="attribute-name">href</span>=<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">zipDownload</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="tag">&lt;span</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">icon_zipSmall</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="tag">&lt;/span&gt;</span><span class="tag">&lt;/a&gt;</span>
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>Nothing wrong there right? And it actually took my quite some time to figure this one out. It would be nice to have a tool that can tell you there are multiple click events assigned to a element? But for now it was just some manual searching and testing.</p>
-
-<p>The issue was caused by an other snippet of Javascript code inside another .js file. This piece of code attached a click event to every div inside a grid td. Which may be a bit to greedy.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">.admin .gridbg tr td span</span><span class="delimiter">'</span></span>).click(<span class="keyword">function</span>() {
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>And my link was in a nested td inside the grid. And also contained a span tag. So it was actually firing off two click events. From which one failed. Fixing it after that was easy. Either make the first click binding less greedy. Or change the markup of my second grid. I choose the last one.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="tag">&lt;a</span> <span class="attribute-name">href</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://lenss.nl</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">zipDownload icon_zipSmall</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
-</pre></div>
-</div>
- </figure></notextile></div>
-
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2011/08/jquery-unrecognized-expression-error/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-08-20T13:20:59+02:00" pubdate data-updated="true">Aug 20<span>th</span>, 2011</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/design/'>Design</a>, <a class='category' href='http://blog.lenss.nl/tag/javascript/'>Javascript</a>, <a class='category' href='http://blog.lenss.nl/tag/jquery/'>Jquery</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
-  
 
   <ul class="pager">
     
@@ -1228,6 +1202,8 @@ Debian 6.0.2 (squeeze): bool(false)</p>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
+		<li><a href="http://blog.lenss.nl/2015/07/PHP-project-top10-list/">PHP Project Top10 List</a></li>
+		
 		<li><a href="http://blog.lenss.nl/2015/05/git-shell-tools/">Git shell tools</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2015/02/composer-install-on-git-clone/">Run Composer on Git clone</a></li>
@@ -1245,8 +1221,6 @@ Debian 6.0.2 (squeeze): bool(false)</p>
 		<li><a href="http://blog.lenss.nl/2013/10/git-move-folder-containing-submodules/">Renaming a folder in git that contains submodules</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/">Fixing the clover forcast for PHP projects in Jenkins</a></li>
-		
-		<li><a href="http://blog.lenss.nl/2013/08/github-and-multiple-ssh-keys/">Github, SSH and multiple repositories</a></li>
 		
 	</ul>
 </div>
@@ -1267,7 +1241,7 @@ Debian 6.0.2 (squeeze): bool(false)</p>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 119.59183673469389%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.61224489795919%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(98)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.44897959183673%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.22448979591837%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.44897959183673%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 103.6734693877551%'>Git(6)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.83673469387755%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.89795918367346%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.61224489795919%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.22448979591837%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.22448979591837%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 142.24489795918367%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.51020408163265%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.6734693877551%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(98)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.89795918367346%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 119.39393939393939%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.60606060606061%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(99)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.42424242424242%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.21212121212122%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.42424242424242%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 103.63636363636364%'>Git(6)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.81818181818181%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.84848484848484%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.60606060606061%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.21212121212122%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.21212121212122%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 142.42424242424244%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.45454545454545%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.63636363636364%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(99)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.84848484848484%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

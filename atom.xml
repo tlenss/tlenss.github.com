@@ -4,7 +4,7 @@
   <title><![CDATA[Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2015-05-06T14:01:37+02:00</updated>
+  <updated>2015-07-07T11:28:17+02:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -12,6 +12,28 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[PHP Project Top10 List]]></title>
+    <link href="http://blog.lenss.nl/2015/07/PHP-project-top10-list/"/>
+    <updated>2015-07-07T13:27:34+02:00</updated>
+    <id>http://blog.lenss.nl/2015/07/PHP-project-top10-list</id>
+    <content type="html"><![CDATA[<p>In following of <a href="http://www.dragonbe.com/">Michelangelo van Dam’s</a> <a href="https://gist.github.com/DragonBe/fce82d356d69ec09b417">post</a> about his top10 list of used PHP projects. Below my own Top10.</p>
+
+<p><strong><em>Software projects</em></strong></p>
+
+<p><a href="http://symfony.com/">Symfony</a> Symfony is a set of reusable PHP components and a PHP framework for web projects
+<a href="https://getcomposer.org/">Composer</a> Dependency Manager for PHP 
+<a href="http://silex.sensiolabs.org/">Silex</a> The PHP micro-framework based on the Symfony2 Components
+<a href="https://github.com/Seldaek/monolog">Monolog</a> Logging for PHP
+<a href="https://github.com/guzzle/guzzle">Guzzle</a> PHP HTTP client
+<a href="http://xdebug.org/">Xdebug</a> Debugger for PHP
+<a href="https://phpunit.de/">PHPUnit</a> A programmer-oriented testing framework
+<a href="https://pecl.php.net/package/phar">Phar</a> PHP Archive
+<a href="http://twig.sensiolabs.org/">Twig</a> The flexible, fast, and securetemplate engine for PHP 
+<a href="http://www.doctrine-project.org/">Doctrine</a> Object Relational Mapper and the Database Abstraction Layer</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Git shell tools]]></title>
@@ -1454,44 +1476,6 @@ mysql_options(&amp;mysql, <span class="constant">MYSQL_OPT_RECONNECT</span>, &am
 <blockquote><p>$ sudo dpkg-reconfigure package-name</p></blockquote>
 
 <p>It’s probably a better idea to keep the stable kernel for now. But if system crashes are really bugging you. Then this might resolve the issue. Just be careful.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Fixing character replacement in Wordpress]]></title>
-    <link href="http://blog.lenss.nl/2012/09/fixing-character-replacement-in-wordpress/"/>
-    <updated>2012-09-24T21:39:17+02:00</updated>
-    <id>http://blog.lenss.nl/2012/09/fixing-character-replacement-in-wordpress</id>
-    <content type="html"><![CDATA[<p>This has been bugging me for a while. But not enough to actually look into it. And Google searches for <a href="http://wordpress.org/">Wordpress</a> display wrong characters results in a whole forest of threads about UTF-8 encoding. This has nothing to do with that. So what’s the issue here?</p>
-
-<p>Wordpress is replacing characters in my posts. The most annoying being the replacement of – <del>is</del> with - . Which makes no sense at all. Specially when creating code samples. Or command line parameters. My thought is why on earth would you do that? But it probably has something to do with typography…</p>
-
-<p>Anyways. Searching for it today made me stumble onto <a href="http://blog.paulbetts.org/index.php/2007/06/01/stop-wordpress-from-turning-double-dash-into-long-dash/">this</a> post from 2007 by <a href="http://blog.paulbetts.org/">Paul Betts</a>. And believe it or not. Wordpress is still doing that. The code has changed slightly tough. So i created a quick patch as a temporary solution. And need to figure out if this can be circumvented by a plugin or something. If that doesn’t exists already :)</p>
-
-<p>The patch will replace the following lines</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Original replacement arrays </span></figcaption>
- <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$static_characters</span> = <span class="predefined">array_merge</span>( <span class="predefined">array</span>( <span class="string"><span class="delimiter">'</span><span class="content">---</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content"> -- </span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">--</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content"> - </span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">xn-</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">...</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">``</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="char">\'</span><span class="char">\'</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content"> (tm)</span><span class="delimiter">'</span></span> ), <span class="local-variable">$cockney</span> );
-<span class="local-variable">$static_replacements</span> = <span class="predefined">array_merge</span>( <span class="predefined">array</span>( <span class="local-variable">$em_dash</span>, <span class="string"><span class="delimiter">'</span><span class="content"> </span><span class="delimiter">'</span></span> . <span class="local-variable">$em_dash</span> . <span class="string"><span class="delimiter">'</span><span class="content"> </span><span class="delimiter">'</span></span>, <span class="local-variable">$en_dash</span>, <span class="string"><span class="delimiter">'</span><span class="content"> </span><span class="delimiter">'</span></span> . <span class="local-variable">$en_dash</span> . <span class="string"><span class="delimiter">'</span><span class="content"> </span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">xn--</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">…</span><span class="delimiter">'</span></span>, <span class="local-variable">$opening_quote</span>, 
-  <span class="local-variable">$closing_quote</span>, <span class="string"><span class="delimiter">'</span><span class="content"> ™</span><span class="delimiter">'</span></span> ), <span class="local-variable">$cockneyreplace</span> 
-);
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>With</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Updated replacement arrays </span></figcaption>
- <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$static_characters</span> = <span class="local-variable">$cockney</span>;
-<span class="local-variable">$static_replacements</span> = <span class="local-variable">$cockneyreplace</span>;
-</pre></div>
-</div>
- </figure></notextile></div>
-
 ]]></content>
   </entry>
   
