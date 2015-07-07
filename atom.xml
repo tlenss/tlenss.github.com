@@ -4,7 +4,7 @@
   <title><![CDATA[Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2015-07-07T11:32:09+02:00</updated>
+  <updated>2015-07-07T16:34:18+02:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -15,25 +15,23 @@
   
   <entry>
     <title type="html"><![CDATA[PHP Project Top10 List]]></title>
-    <link href="http://blog.lenss.nl/2015/07/PHP-project-top10-list/"/>
+    <link href="http://blog.lenss.nl/2015/07/PHP-project-top10-list.markdown/"/>
     <updated>2015-07-07T13:27:34+02:00</updated>
-    <id>http://blog.lenss.nl/2015/07/PHP-project-top10-list</id>
-    <content type="html"><![CDATA[<p>In following of Michelangelo van Dam’s <a href="https://gist.github.com/DragonBe/fce82d356d69ec09b417">post</a> about his top10 list of used PHP projects. Below my own Top10.</p>
+    <id>http://blog.lenss.nl/2015/07/PHP-project-top10-list.markdown</id>
+    <content type="html"><![CDATA[In following of Michelangelo van Dam's [post](https://gist.github.com/DragonBe/fce82d356d69ec09b417) about his top10 list of used PHP projects. Below my own Top10.
 
-<p><strong><em>Software projects</em></strong></p>
+***Software projects***
 
-<ul>
-  <li><a href="http://symfony.com/">Symfony</a> Symfony is a set of reusable PHP components and a PHP framework for web projects</li>
-  <li><a href="https://getcomposer.org/">Composer</a> Dependency Manager for PHP </li>
-  <li><a href="http://silex.sensiolabs.org/">Silex</a> The PHP micro-framework based on the Symfony2 Components</li>
-  <li><a href="https://github.com/Seldaek/monolog">Monolog</a> Logging for PHP</li>
-  <li><a href="https://github.com/guzzle/guzzle">Guzzle</a> PHP HTTP client</li>
-  <li><a href="http://xdebug.org/">Xdebug</a> Debugger for PHP</li>
-  <li><a href="https://phpunit.de/">PHPUnit</a> A programmer-oriented testing framework</li>
-  <li><a href="https://pecl.php.net/package/phar">Phar</a> PHP Archive</li>
-  <li><a href="http://twig.sensiolabs.org/">Twig</a> The flexible, fast, and securetemplate engine for PHP </li>
-  <li><a href="http://www.doctrine-project.org/">Doctrine</a> Object Relational Mapper and the Database Abstraction Layer</li>
-</ul>
+- [Symfony](http://symfony.com/) Symfony is a set of reusable PHP components and a PHP framework for web projects
+- [Composer](https://getcomposer.org/) Dependency Manager for PHP 
+- [Silex](http://silex.sensiolabs.org/) The PHP micro-framework based on the Symfony2 Components
+- [Monolog](https://github.com/Seldaek/monolog) Logging for PHP
+- [Guzzle](https://github.com/guzzle/guzzle) PHP HTTP client
+- [Xdebug](http://xdebug.org/) Debugger for PHP
+- [PHPUnit](https://phpunit.de/) A programmer-oriented testing framework
+- [Phar](https://pecl.php.net/package/phar) PHP Archive
+- [Twig](http://twig.sensiolabs.org/) The flexible, fast, and securetemplate engine for PHP 
+- [Doctrine](http://www.doctrine-project.org/) Object Relational Mapper and the Database Abstraction Layer
 ]]></content>
   </entry>
   
