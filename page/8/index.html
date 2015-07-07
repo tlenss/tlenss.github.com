@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Recursive Array Filtering note to self .. a nice clean way to do recursive array filters in PHP $arr = array( 'teSt', 'The quick BroWn ...', 'foO', &hellip;">
+    <meta name="description" content="PHP Community Spirit T-Shirt Design Competition I entered a design for the PHP Community Spirit T-Shirt Design Competition. And it got approved &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,80 +57,6 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
-  
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2010/09/recursive-array-filter/">Recursive Array Filtering</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>note to self .. a nice clean way to do recursive array filters in PHP</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="local-variable">$arr</span> = <span class="predefined">array</span>(
-  <span class="string"><span class="delimiter">'</span><span class="content">teSt</span><span class="delimiter">'</span></span>,
-  <span class="string"><span class="delimiter">'</span><span class="content">The quick BroWn ...</span><span class="delimiter">'</span></span>,
-  <span class="string"><span class="delimiter">'</span><span class="content">foO</span><span class="delimiter">'</span></span>,
-  <span class="predefined">array</span>(
-    <span class="string"><span class="delimiter">'</span><span class="content">Test sTring</span><span class="delimiter">'</span></span>
-  )
-);
-    
-<span class="local-variable">$filter</span> = <span class="keyword">function</span>(&amp;<span class="local-variable">$input</span>) <span class="keyword">use</span> (&amp;<span class="local-variable">$filter</span>) {
-  <span class="keyword">if</span> (<span class="predefined">is_array</span>(<span class="local-variable">$input</span>)) <span class="local-variable">$input</span> = <span class="predefined">array_map</span>(<span class="local-variable">$filter</span>, <span class="local-variable">$input</span>);
-  <span class="keyword">else</span> <span class="keyword">if</span> (<span class="predefined">is_string</span>(<span class="local-variable">$input</span>)) <span class="local-variable">$input</span> = <span class="predefined">strtolower</span>(<span class="local-variable">$input</span>);
-  <span class="keyword">return</span> <span class="local-variable">$input</span>;
-};
-    
-<span class="local-variable">$filter</span>(<span class="local-variable">$arr</span>);
-<span class="predefined">var_dump</span>(<span class="local-variable">$arr</span>);
-</pre></div>
-</div>
- </figure></notextile></div>
-
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2010/09/recursive-array-filter/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-09-07T00:15:26+02:00" pubdate data-updated="true">Sep 7<span>th</span>, 2010</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
   
   
   <article>
@@ -834,6 +760,288 @@ I found a (lost it) post by one of the Magento devs that shows a new and more cl
   </footer>
   </article>
   
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2010/02/zend-framework-bootstrapping-modules/">Zend Framework Bootstrapping Modules</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>I am working on a small API for my own backend and i wanted a modular architecture. I have done this before using the Zend Framework. But this time i wanted a bit more control while loading the modules. And adding a <a href="http://framework.zend.com/manual/1.10/en/zend.application.quick-start.html">Bootstrap</a> class would seem like a good option. The only example i could find involved loading all bootstraps on every request. Which doesn’t seem like a good idea. So after reading through the Manual and some blog posts. I decided to give it s shot my self.</p>
+
+<p>The structure i want looks like this.</p>
+
+<p><a href="http://blog.lenss.nl/images/2010/02/module-based.jpg"><img src="http://blog.lenss.nl/images/2010/02/module-based.jpg" alt="" /></a></p>
+
+<p>The application.ini file has the following contents:</p>
+
+<blockquote>
+  <ul>
+    <li>includePaths.library = APPLICATION_PATH “/../library”</li>
+    <li>bootstrap.path = APPLICATION_PATH “/Bootstrap.php”</li>
+    <li>bootstrap.class = “Bootstrap”</li>
+    <li>resources.frontController.moduleDirectory = APPLICATION_PATH “/modules”</li>
+    <li>resources.modules[] = “default”</li>
+    <li>resources.modules[] = “admin”</li>
+  </ul>
+</blockquote>
+
+<p><strong>includePaths</strong>
+This sets the applications local library location. Any shared code for this application goes here.</p>
+
+<p><strong>bootstrap.path &amp; class</strong>
+Define the location and type of the Bootstrap class.</p>
+
+<p><strong>resources</strong>
+Define the modules location and create a list of modules.</p>
+
+<p>The main Bootstrap class</p>
+
+<p><strong>application/Bootstrap.php</strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">class</span> <span class="class">Bootstrap</span> <span class="keyword">extends</span> <span class="constant">Zend_Application_Bootstrap_Bootstrap</span>
+{
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Load the config parameters for this application and set some debugging settings if needed.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">protected</span> <span class="keyword">function</span> <span class="function">_initConfiguration</span>()
+{
+  <span class="local-variable">$app</span> = <span class="local-variable">$this</span>-&gt;getApplication();
+  <span class="local-variable">$config</span> = <span class="local-variable">$app</span>-&gt;getOptions();
+
+  <span class="keyword">if</span> (<span class="constant">APPLICATION_ENV</span> == <span class="string"><span class="delimiter">'</span><span class="content">development</span><span class="delimiter">'</span></span>) {
+    <span class="predefined">error_reporting</span>(<span class="exception">E_ALL</span> &amp; <span class="exception">E_STRICT</span>);
+    <span class="keyword">if</span> (<span class="predefined">isset</span>(<span class="local-variable">$config</span>[<span class="string"><span class="delimiter">'</span><span class="content">phpsettings</span><span class="delimiter">'</span></span>])) {
+      <span class="keyword">foreach</span> (<span class="local-variable">$config</span>[<span class="string"><span class="delimiter">'</span><span class="content">phpsettings</span><span class="delimiter">'</span></span>] <span class="keyword">as</span> <span class="local-variable">$setting</span> =&gt; <span class="local-variable">$value</span>) {
+        ini_set(<span class="local-variable">$setting</span>, <span class="local-variable">$value</span>);
+      }  
+    }
+  }
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>We need autoloading here because we are using a class from the application library. Right now this causes a problem. A notice is thrown </p>
+
+<blockquote>
+  <p>Warning: include_once(FrontController.php) [function.include-once]: failed to open stream: No such file or directory in Zend/Loader.php  on line 147</p>
+</blockquote>
+
+<p>The application responds fine. And this problem seems to be a recurring issue (<a href="http://framework.zend.com/issues/browse/ZF-7224">ZF-7224</a>, <a href="http://framework.zend.com/issues/browse/ZF-7550">ZF-7550</a>) for the framework. Until now i have not find a graceful fix for this. besides a small <a href="http://framework.zend.com/issues/secure/attachment/12131/BootstrapAbstract.patch">patch</a> reversion.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">protected</span> <span class="keyword">function</span> <span class="function">_initAutoload</span>()
+{
+  <span class="local-variable">$autoloader</span> = <span class="constant">Zend_Loader_Autoloader</span>::getInstance();
+  <span class="local-variable">$autoloader</span>-&gt;setFallbackAutoloader(<span class="predefined-constant">true</span>);
+
+  <span class="keyword">return</span> <span class="local-variable">$autoloader</span>;
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Setup the controller to register the <strong>Bluess_Modules_Loader</strong> plug-in. And set the <strong>prefixDefaultModule</strong> parameter so we can prefix the default module controllers as well. Just for the sake of consistency. The <strong>Bluess_</strong> namespace is part of my API. And can be changed at will.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">protected</span> <span class="keyword">function</span> <span class="function">_initController</span>()
+{
+  <span class="local-variable">$this</span>-&gt;bootstrap(<span class="string"><span class="delimiter">'</span><span class="content">FrontController</span><span class="delimiter">'</span></span>); 
+  <span class="local-variable">$controller</span> = <span class="local-variable">$this</span>-&gt;getResource(<span class="string"><span class="delimiter">'</span><span class="content">FrontController</span><span class="delimiter">'</span></span>);
+  <span class="local-variable">$modules</span> = <span class="local-variable">$controller</span>-&gt;getControllerDirectory();
+  <span class="local-variable">$controller</span>-&gt;setParam(<span class="string"><span class="delimiter">'</span><span class="content">prefixDefaultModule</span><span class="delimiter">'</span></span>, <span class="predefined-constant">true</span>);
+        
+  <span class="local-variable">$controller</span>-&gt;registerPlugin(
+    <span class="keyword">new</span> <span class="constant">Bluess_Modules_Loader</span>(<span class="local-variable">$modules</span>)
+  );
+        
+  <span class="keyword">return</span> <span class="local-variable">$controller</span>;
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Now the last method. which is a bit weird. And i am probably missing a key factor here. But if this method <strong>resource</strong> is not declared only the default module functions. When declared empty all modules function as they should. This would indicate that this method could be used to load the modules. But i haven’t found a way to achieve this yet. Except for loading all modules in a row. Which makes no sense for this purpose. So we leave it empty.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">protected</span> <span class="keyword">function</span> <span class="function">_initModules</span>()
+{
+  <span class="comment">// Call to prevent ZF from loading all modules</span>
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>The most important part here is the controller plug-in. This will be the place where module bootstraps are called from.</p>
+
+<p><strong>application/../library/Bluess/Modules/Loader.php</strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">class</span> <span class="class">Bluess_Modules_Loader</span> <span class="keyword">extends</span> <span class="constant">Zend_Controller_Plugin_Abstract</span>
+{
+  <span class="keyword">protected</span> <span class="local-variable">$_modules</span>;
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Setup the plug-in by passing the applications module list.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">public</span> <span class="keyword">function</span> <span class="function">__construct</span>(<span class="predefined">array</span> <span class="local-variable">$modulesList</span>) 
+{
+  <span class="local-variable">$this</span>-&gt;_modules = <span class="local-variable">$modulesList</span>;
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>The <strong>dispatchLoopStartup</strong> method will be called on every request and will do the magic. Based on the current module name we create a new <strong>Zend_Application</strong> with the current modules config file <strong>module.ini</strong>. And we bootstrap it.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">public</span> <span class="keyword">function</span> <span class="function">dispatchLoopStartup</span>(<span class="constant">Zend_Controller_Request_Abstract</span> <span class="local-variable">$request</span>)
+{
+  <span class="local-variable">$module</span> = <span class="local-variable">$request</span>-&gt;getModuleName();
+        
+  <span class="keyword">if</span> (!<span class="predefined">isset</span>(<span class="local-variable">$this</span>-&gt;_modules[<span class="local-variable">$module</span>])) {
+    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="predefined-constant">Exception</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Module does not exist!</span><span class="delimiter">&quot;</span></span>);
+  }
+
+  <span class="local-variable">$bootstrapPath</span> = <span class="local-variable">$this</span>-&gt;_modules[<span class="local-variable">$module</span>];
+        
+  <span class="local-variable">$bootstrapFile</span> = <span class="predefined">dirname</span>(<span class="local-variable">$bootstrapPath</span>) . <span class="string"><span class="delimiter">'</span><span class="content">/Bootstrap.php</span><span class="delimiter">'</span></span>;
+  <span class="local-variable">$class</span>         = <span class="predefined">ucfirst</span>(<span class="local-variable">$module</span>) . <span class="string"><span class="delimiter">'</span><span class="content">_Bootstrap</span><span class="delimiter">'</span></span>;
+  <span class="local-variable">$application</span>   = <span class="keyword">new</span> <span class="constant">Zend_Application</span>(
+    <span class="constant">APPLICATION_ENV</span>,
+    <span class="constant">APPLICATION_PATH</span> . <span class="string"><span class="delimiter">'</span><span class="content">/modules/</span><span class="delimiter">'</span></span> . <span class="local-variable">$module</span> . <span class="string"><span class="delimiter">'</span><span class="content">/configs/module.ini</span><span class="delimiter">'</span></span>
+  );  
+
+  <span class="keyword">if</span> (<span class="constant">Zend_Loader</span>::loadFile(<span class="string"><span class="delimiter">'</span><span class="content">Bootstrap.php</span><span class="delimiter">'</span></span>, <span class="predefined">dirname</span>(<span class="local-variable">$bootstrapPath</span>)) 
+      &amp;&amp; <span class="predefined">class_exists</span>(<span class="local-variable">$class</span>)) {
+    <span class="local-variable">$bootstrap</span> = <span class="keyword">new</span> <span class="local-variable">$class</span>(<span class="local-variable">$application</span>);
+    <span class="local-variable">$bootstrap</span>-&gt;bootstrap();
+  }
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>Now setup the default module. Once this is done it’s a nice example for further modules. Make sure the module has it’s own layout set. </p>
+
+<p><strong>application/modules/default/configs/module.ini</strong></p>
+
+<blockquote>
+  <p>default.resources.layout.layout = “default”
+default.resources.layout.layoutPath = APPLICATION_PATH “/modules/default/layout”</p>
+</blockquote>
+
+<p>Setup the modules bootstrap and use it to set the modules model location.</p>
+
+<p><strong>application/modules/default/Bootstrap.php</strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">class</span> <span class="class">Default_Bootstrap</span> <span class="keyword">extends</span> <span class="constant">Zend_Application_Module_Bootstrap</span> 
+{
+  <span class="keyword">protected</span> <span class="local-variable">$_moduleName</span> = <span class="string"><span class="delimiter">'</span><span class="content">default</span><span class="delimiter">'</span></span>;
+
+  <span class="keyword">protected</span> <span class="keyword">function</span> <span class="function">_initConfiguration</span>()
+  {
+    <span class="local-variable">$options</span> = <span class="local-variable">$this</span>-&gt;getApplication()-&gt;getOptions();
+        
+    <span class="predefined">set_include_path</span>(<span class="predefined">implode</span>(<span class="predefined-constant">PATH_SEPARATOR</span>, <span class="predefined">array</span>(
+      <span class="predefined">realpath</span>(<span class="constant">APPLICATION_PATH</span> . <span class="string"><span class="delimiter">'</span><span class="content">/modules/</span><span class="delimiter">'</span></span> . <span class="local-variable">$this</span>-&gt;_moduleName . <span class="string"><span class="delimiter">'</span><span class="content">/models</span><span class="delimiter">'</span></span>),
+      <span class="predefined">get_include_path</span>(),
+    )));
+        
+    <span class="keyword">return</span> <span class="local-variable">$options</span>;
+  }
+}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>That’s all. Now make sure your layout is set correctly and the controllers are prefixed</p>
+
+<p><strong>application/modules/default/layout/default.phtml</strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="predefined">echo</span> <span class="local-variable">$this</span>-&gt;layout()-&gt;content;
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p><strong>application/modules/default/controllers/IndexController.php</strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="keyword">class</span> <span class="class">Default_IndexController</span> <span class="keyword">extends</span> <span class="constant">Zend_Controller_Action</span>
+{
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>It took me a while to get this working like i had it in my mind. But it’s going the right way. If your interested in a working copy. You can download one <a href="http://lenss.nl/code/ZFBootstrappedModules.tar.gz">here</a>.</p>
+
+<p><strong>UPDATE</strong></p>
+
+<p>Matthew has a nice <a href="http://weierophinney.net/matthew/archives/234-Module-Bootstraps-in-Zend-Framework-Dos-and-Donts.html#extended">post </a>about some do’s and don’ts concerning module based applications</p>
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2010/02/zend-framework-bootstrapping-modules/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-02-06T22:04:38+01:00" pubdate data-updated="true">Feb 6<span>th</span>, 2010</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
+  
 
   <ul class="pager">
     
@@ -877,8 +1085,6 @@ I found a (lost it) post by one of the Magento devs that shows a new and more cl
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
-		<li><a href="http://blog.lenss.nl/2015/07/PHP-project-top10-list.markdown/">PHP Project Top10 List</a></li>
-		
 		<li><a href="http://blog.lenss.nl/2015/05/git-shell-tools/">Git shell tools</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2015/02/composer-install-on-git-clone/">Run Composer on Git clone</a></li>
@@ -896,6 +1102,8 @@ I found a (lost it) post by one of the Magento devs that shows a new and more cl
 		<li><a href="http://blog.lenss.nl/2013/10/git-move-folder-containing-submodules/">Renaming a folder in git that contains submodules</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/">Fixing the clover forcast for PHP projects in Jenkins</a></li>
+		
+		<li><a href="http://blog.lenss.nl/2013/08/github-and-multiple-ssh-keys/">Github, SSH and multiple repositories</a></li>
 		
 	</ul>
 </div>
@@ -916,7 +1124,7 @@ I found a (lost it) post by one of the Magento devs that shows a new and more cl
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 119.39393939393939%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.60606060606061%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(99)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.42424242424242%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.21212121212122%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.42424242424242%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 103.63636363636364%'>Git(6)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.81818181818181%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.84848484848484%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.60606060606061%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.21212121212122%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.21212121212122%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 142.42424242424244%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.45454545454545%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.63636363636364%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(99)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.84848484848484%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 119.59183673469389%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.61224489795919%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(98)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.44897959183673%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.22448979591837%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.44897959183673%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 103.6734693877551%'>Git(6)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.83673469387755%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.89795918367346%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.61224489795919%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.22448979591837%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.22448979591837%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 142.24489795918367%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.51020408163265%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.6734693877551%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(98)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.89795918367346%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Moving From Subversion to GIT Last weekend was a PFZ meeting. And for this day a few interesting workshops were planned. I mainly was looking &hellip;">
+    <meta name="description" content="NSD Unknown Key/algorithm As i was trying to get ready to convert my SVN repository into a GIT repository. I noticed one of my DNS slave servers &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,430 +57,6 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
-  
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2010/11/moving-from-subversion-to-git/">Moving From Subversion to GIT</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p><img class="left" src="http://lenss.nl/images/2010/11/git.logo_.gif" />
-Last weekend was a <a href="http://pfz.nl">PFZ</a> meeting. And for this day a few interesting <a href="http://www.pfz.nl/activiteit/1-workshopdag-2010/">workshops</a> were planned. I mainly was looking forward to the GIT (Git for Subversion Users) talk by <a href="http://www.leftontheweb.com/">Stefan Koopmanschap</a>. And the Dependency Injection presentation by <a href="http://blog.berryllium.nl/">Berry Langerak</a> I didn&#8217;t make it too the last one. But learned a lot while doing the GIT workshop with Stefan.</p>
-
-<p>For the last few months i have wanted to take a look at git. But it just never really took the time to sit down and do it. So this opportunity was there at the right time. Although my laptop died halfway through the workshop. I still was able to make it through the whole session together with <a href="http://accentinteractive.nl/">Joost van Veen</a>. Thanks man. We had a great time. And it was eye opening. Stefan gave a good talk. Helped out where possible. And besides a small <a href="https://github.com/">Github</a> glitch. It was a successful day.</p>
-
-<p>So successful that i decided to make the switch from <a href="http://subversion.tigris.org/">Subversion</a> to <a href="http://git-scm.com/">GIT</a>. Below are some of the steps i took. </p>
-
-<p>The main reasons for me to make the switch</p>
-
-<ul>
-  <li>
-    <p>Distributed structure make it easy to work from any place. connected or not.</p>
-  </li>
-  <li>
-    <p>Stashing</p>
-  </li>
-  <li>
-    <p>Speed and cleaner folder / file structure</p>
-  </li>
-  <li>
-    <p>Real tags</p>
-  </li>
-</ul>
-
-<p>That&#8217;s all for now. but this list will grow. I am sure!</p>
-
-<h2 id="setting-up-a-git-server">Setting up a GIT server</h2>
-
-<p>I decided to go for my own GIT server instead of Github. That&#8217;s just the way i like it. Full control.</p>
-
-<blockquote>
-  <p><strong>$</strong> aptitude install git-core</p>
-</blockquote>
-
-<p>Now all we have to do is create a user for git operations. And set the correct permissions.</p>
-
-<blockquote>
-
-  <p><strong>$</strong> adduser git
-<strong>$</strong> mkdir /home/git/.ssh
-<strong>$</strong> chown -R git:git /home/git/.ssh
-<strong>$</strong> chmod 700 /home/git</p>
-</blockquote>
-
-<p>If we want to create a new remote repository. We log in on the git server through SSH and setup a new repository like this.</p>
-
-<blockquote>
-
-  <p><strong>$</strong> ssh git@git.domain.tld
-<strong>$</strong> mkdir repository.git
-<strong>$</strong> cd repository.git
-<strong>$</strong> git &#8211;bare init</p>
-</blockquote>
-
-<p>That&#8217;s all. we now have all we need to connect to git remotely and do some work. But now first we need to import the old Subversion repository. I have found two solid methods for getting the job done.</p>
-
-<h2 id="import-a-svn-project-into-git-with-git-svn">Import a SVN project into GIT with git-svn</h2>
-
-<p>First of install git-svn</p>
-
-<blockquote>
-  <p><strong>$</strong> sudo aptitude install git-svn</p>
-</blockquote>
-
-<p>Before we start the importing. It&#8217;s good practice to create an author mapping file. So the SVN commiter names match the GIT ones. This is done by creating a simple text file like so.</p>
-
-<blockquote>
-
-  <p><strong>$</strong> touch authors.txt
-<strong>$</strong> echo &#8220;m0s = Thijs Lensselink <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#101;&#109;&#097;&#105;&#108;&#064;&#108;&#101;&#110;&#115;&#115;&#046;&#110;&#108;">&#101;&#109;&#097;&#105;&#108;&#064;&#108;&#101;&#110;&#115;&#115;&#046;&#110;&#108;</a>&#8221; &gt; authors.txt</p>
-</blockquote>
-
-<p>Importing the existing <em>tags</em> and <em>branches</em> is done by adding the <em>&#8211;stdlayout</em> switch</p>
-
-<blockquote>
-
-  <p><strong>$</strong> git svn clone &#8211;stdlayout -A authors.txt svn+ssh://user@svnhost/repository repository.git</p>
-</blockquote>
-
-<p>The problem with this method is that tags and branches are not created properly. I decided to go for the second method down here.</p>
-
-<h2 id="import-a-svn-project-into-git-with-svn2git">Import a SVN project into GIT with svn2git</h2>
-
-<p>For this to work we first need ruby and some gems packages.</p>
-
-<blockquote>
-
-  <p><strong>$</strong> apt-get install git-svn ruby rubygems
-<strong>$</strong> gem install svn2git &#8211;source http://gemcutter.org</p>
-</blockquote>
-
-<p>Create the local repository and import the files from SVN</p>
-
-<blockquote>
-
-  <p><strong>$</strong> mkdir repository.git
-<strong>$</strong> cd repository.git
-<strong>$</strong> /var/lib/gems/1.8/bin/svn2git svn+ssh://user@svnhost/repository &#8211;authors ../authors.txt</p>
-</blockquote>
-
-<p>Show the current selected branch</p>
-
-<blockquote>
-
-  <p><strong>$</strong> git branch
-* master</p>
-</blockquote>
-
-<p>Show all branches. Notice the <em>trunk</em> branch</p>
-
-<blockquote>
-
-  <p><strong>$</strong> git branch -a
-* master
-  trunk</p>
-</blockquote>
-
-<p>List all tags</p>
-
-<blockquote>
-
-  <p><strong>$</strong> git tag -l
-v1.0
-v2.0</p>
-</blockquote>
-
-<p>That seemed to work pretty good for almost all projects. Some projects didn&#8217;t have the main trunk in SVN. So to import these just add the <em>&#8211;rootistrunk</em> switch.</p>
-
-<p>And while this info is still available in my brain at the moment. I will write down some of the workshop material for future reference.</p>
-
-<h2 id="setup-local-development-environment">Setup local Development environment</h2>
-
-<p>Create directory somewhere that will serve as the local repository. And run <em>init</em> to create the basic git project structure.</p>
-
-<blockquote>
-
-  <p><strong>$</strong> mkdir [project name]
-<strong>$</strong> cd [project name]
-<strong>$</strong> git init</p>
-</blockquote>
-
-<p>Now we have a fully functional git repository. We can do anything with (add, commit, tag, branch, push, etc.)  The first things to do when starting out is setup the user name and email address of the developer using this repository. This is good when looking though the GIT project logs later on. Also handy to set the core editor to the most convenient editor available. </p>
-
-<blockquote>
-
-  <p><strong>$</strong> git config &#8211;global user.name &#8220;Thijs Lensselink&#8221;
-<strong>$</strong> git config &#8211;global user.email &#8220;email@lenss.nl&#8221;
-<strong>$</strong> git config &#8211;global core.editor vi</p>
-</blockquote>
-
-<p>The repository exists out of a <em>origin</em> and a <em>master</em> branch at this moment. The origin refers to the current repository location. And the master refers to the current repository state. Like HEAD in CVS and SVN. Let&#8217;s add a file for testing.</p>
-
-<blockquote>
-
-  <p><strong>$</strong> touch index.php
-<strong>$</strong> git add index.php (or add *)
-<strong>$</strong> git commit -m &#8220;Commit something&#8221;</p>
-</blockquote>
-
-<p>Working on a local repository is nice. but we want to save it on a server of course. For this we need to set a repository location. We can do this in two ways. We can overwrite the origin or add a new location. Let&#8217;s try the first one.</p>
-
-<blockquote>
-  <p><strong>$</strong> git remote add origin git@git.domain.tld:repository.git</p>
-</blockquote>
-
-<h2 id="setting-up-the-remote-git-repository-and-push-the-changes">Setting up the remote git repository and push the changes</h2>
-
-<p>All changes to this repository are made locally so far. Let&#8217;s try and push them to the git server. The only problem here is. I haven&#8217;t found a way to create repositories remotely. So we have to log in to the server here and create the repository.</p>
-
-<blockquote>
-
-  <p><strong>$</strong> ssh git@git.domain.tld
-<strong>$</strong> mkdir repository.git
-<strong>$</strong> cd repository.git
-<strong>$</strong> git &#8211;bare init
-<strong>$</strong> exit</p>
-</blockquote>
-
-<p>Back on the client side we can now do a push an see what happens.</p>
-
-<blockquote>
-
-  <p><strong>$</strong> git push origin master
-Counting objects: 3, done.
-Writing objects: 100% (3/3), 232 bytes, done.
-Total 3 (delta 0), reused 0 (delta 0)
-To git@192.168.178.24:foo.git
- * [new branch]      master -&gt; master</p>
-</blockquote>
-
-<p>if you get this error: </p>
-
-<blockquote>
-  <p>error: src refspec master does not match any.</p>
-</blockquote>
-
-<p>This means there is no master branch yet. This happens when the repository was created with the &#8211;bare switch. You have to commit a change first before you can push anything to the remote repository server.</p>
-
-<p>That&#8217;s all. We now have a working GIT server and local repository. All that is left is to do some serious development work. On the other hand, before i forget. i will use this space to rehash Stefan&#8217;s workshop for future reference.</p>
-
-<h2 id="tagging">Tagging</h2>
-
-<p>Let start by looking at the way git creates tags. First of there are two types of tags <em>lightweight</em> and <em>annotated</em>. The lightweight version is nothing more then a pointer to a specific commit. It&#8217;s like a branch that doesn&#8217;t change. Annotated tags are a bit different then their lightweight version. And for sure different from the tags in Subversion. A tags in git contains the following data</p>
-
-<ul>
-  <li>
-    <p>checksum</p>
-  </li>
-  <li>
-    <p>tagger name</p>
-  </li>
-  <li>
-    <p>email + date</p>
-  </li>
-  <li>
-    <p>tag message</p>
-  </li>
-  <li>
-    <p>GPG signed</p>
-  </li>
-</ul>
-
-<p>Creating an annotated tag for version 1 looks something like this</p>
-
-<blockquote>
-  <p><strong>$</strong> git tag -a v1.0 -m &#8220;Creating a tag&#8221;</p>
-</blockquote>
-
-<p>Dispaly a certain tag</p>
-
-<blockquote>
-  <p><strong>$</strong> git show v1.0</p>
-</blockquote>
-
-<p>I haven&#8217;t had time to look into working with signing of tags. So maybe i will add an entry about that later on.</p>
-
-<h2 id="branching">Branching</h2>
-
-<p>A repository can have multiple branches. And switching between branches is a since in git. Branching is much like
-it is in Subversion.</p>
-
-<p>Create a new branch from master called foo</p>
-
-<blockquote>
-
-  <p><strong>$</strong> git branch foo master</p>
-</blockquote>
-
-<p>Display all branches available. The current branch is highlighted by the * sign</p>
-
-<blockquote>
-
-  <p><strong>$</strong> git branch
-* master
-  foo</p>
-</blockquote>
-
-<p>Changing branches in git is a piece of cake.</p>
-
-<blockquote>
-
-  <p>**
-$** git checkout foo
-Switched to branch &#8216;foo&#8217;</p>
-</blockquote>
-
-<p>There is not much more to branching.</p>
-
-<h2 id="diff-merge-and-delete-branches">diff, merge and delete branches</h2>
-
-<p>When adding a new feature to an existing code base. It&#8217;s good practice to create a branch before you start editing. And after everything is done and the change is stable. The branch can be merged back into the master.</p>
-
-<p>First let&#8217;s check if there is a difference between the newly created branch and the master.</p>
-
-<blockquote>
-
-  <p><strong>$</strong> git diff foo master
-diff &#8211;git a/touch.foo b/touch.foo
-deleted file mode 100644
-index 257cc56..0000000
-&#8212; a/touch.foo
-+++ /dev/null
-@@ -1 +0,0 @@
--foo</p>
-</blockquote>
-
-<p>Some changes have been found so let&#8217;s merge them in the master branch</p>
-
-<blockquote>
-
-  <p><strong>$</strong> git checkout master
-<strong>$</strong> git merge foo master (or git pull foo master)
-Already up-to-date with 12d2f9cebaf71a580b021a8eeddc38f267b69e53
-Trying simple merge with 4d3dff7e0d2a26302a5884e763fd7a48f5ab4437
-Merge made by octopus.
- touch.foo |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
- create mode 100644 touch.foo</p>
-</blockquote>
-
-<p>with <em>git pull</em> it is possible to import branches from other repositories</p>
-
-<p>When done with the changes. And everything is pushed to the remote git server, we can remove the &#8216;foo&#8217; branch</p>
-
-<blockquote>
-
-  <p><strong>$</strong> git branch -d foo
-Deleted branch foo (was d9a8c76).</p>
-</blockquote>
-
-<p>That&#8217;s all for branching right now.</p>
-
-<h2 id="stashing">Stashing</h2>
-
-<p>One of my personal favorite the stash command. Imagine working on a project. And somebody asks you to make a small change. In subversion i needed to do a new checkout and work on that. This can be quite slow and cumbersome. In git this is solved elegantly by using the stash command.</p>
-
-<blockquote>
-
-  <p><strong>$</strong> git stash
-Saved working directory and index state &#8220;WIP on master: 648f347&#8230; foo&#8221;
-(To restore them type &#8220;git stash apply&#8221;)
-HEAD is now at 648f347 foo</p>
-</blockquote>
-
-<p>This saves a copy of the working state and let&#8217;s you do changes on a fresh base. After your done get back to your work by doing </p>
-
-<blockquote>
-
-  <p><strong>$</strong> git stash pop (or apply)</p>
-</blockquote>
-
-<p>With pop you push the stash back to the master. With apply the changes will first be applied to the master before restoring the work state.</p>
-
-<h2 id="working-with-other-repositories">Working with other repositories</h2>
-
-<p>Clone a repository from a remote GIT server</p>
-
-<blockquote>
-  <p><strong>$</strong> git clone git@git.domain.tld:repository.git ./project2</p>
-</blockquote>
-
-<p>Clone a local GIT repository</p>
-
-<blockquote>
-  <p><strong>$</strong> git clone ./project ./project2</p>
-</blockquote>
-
-<p>Now it could be possible a friend or a remote community member without write access made a few changes to his / her remote repository. And wants them on the global remote GIT server. This can be done by pulling the code.</p>
-
-<p>First add the new repository location</p>
-
-<blockquote>
-  <p><strong>$</strong> git remote add friend git://githubaddress</p>
-</blockquote>
-
-<p>And then fetch the remote changes</p>
-
-<blockquote>
-  <p><strong>$</strong> git fetch friend</p>
-</blockquote>
-
-<p>This only fetches the changes. but does not apply them to the master. Apply them</p>
-
-<blockquote>
-  <p><strong>$</strong> git pull friend master</p>
-</blockquote>
-
-<p>updating remote repository</p>
-
-<blockquote>
-  <p><strong>$</strong> git push friend master</p>
-</blockquote>
-
-<p>That&#8217;s all i can remember right now.</p>
-
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2010/11/moving-from-subversion-to-git/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-11-16T22:12:50+01:00" pubdate data-updated="true">Nov 16<span>th</span>, 2010</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
   
   
   <article>
@@ -1694,6 +1270,80 @@ Upload 29 MB file results in 0.4 MB memory usage</p>
   </footer>
   </article>
   
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2010/09/recursive-array-filter/">Recursive Array Filtering</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p>note to self .. a nice clean way to do recursive array filters in PHP</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="local-variable">$arr</span> = <span class="predefined">array</span>(
+  <span class="string"><span class="delimiter">'</span><span class="content">teSt</span><span class="delimiter">'</span></span>,
+  <span class="string"><span class="delimiter">'</span><span class="content">The quick BroWn ...</span><span class="delimiter">'</span></span>,
+  <span class="string"><span class="delimiter">'</span><span class="content">foO</span><span class="delimiter">'</span></span>,
+  <span class="predefined">array</span>(
+    <span class="string"><span class="delimiter">'</span><span class="content">Test sTring</span><span class="delimiter">'</span></span>
+  )
+);
+    
+<span class="local-variable">$filter</span> = <span class="keyword">function</span>(&amp;<span class="local-variable">$input</span>) <span class="keyword">use</span> (&amp;<span class="local-variable">$filter</span>) {
+  <span class="keyword">if</span> (<span class="predefined">is_array</span>(<span class="local-variable">$input</span>)) <span class="local-variable">$input</span> = <span class="predefined">array_map</span>(<span class="local-variable">$filter</span>, <span class="local-variable">$input</span>);
+  <span class="keyword">else</span> <span class="keyword">if</span> (<span class="predefined">is_string</span>(<span class="local-variable">$input</span>)) <span class="local-variable">$input</span> = <span class="predefined">strtolower</span>(<span class="local-variable">$input</span>);
+  <span class="keyword">return</span> <span class="local-variable">$input</span>;
+};
+    
+<span class="local-variable">$filter</span>(<span class="local-variable">$arr</span>);
+<span class="predefined">var_dump</span>(<span class="local-variable">$arr</span>);
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2010/09/recursive-array-filter/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-09-07T00:15:26+02:00" pubdate data-updated="true">Sep 7<span>th</span>, 2010</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/php/'>PHP</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
+  
 
   <ul class="pager">
     
@@ -1737,8 +1387,6 @@ Upload 29 MB file results in 0.4 MB memory usage</p>
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
-		<li><a href="http://blog.lenss.nl/2015/07/PHP-project-top10-list.markdown/">PHP Project Top10 List</a></li>
-		
 		<li><a href="http://blog.lenss.nl/2015/05/git-shell-tools/">Git shell tools</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2015/02/composer-install-on-git-clone/">Run Composer on Git clone</a></li>
@@ -1756,6 +1404,8 @@ Upload 29 MB file results in 0.4 MB memory usage</p>
 		<li><a href="http://blog.lenss.nl/2013/10/git-move-folder-containing-submodules/">Renaming a folder in git that contains submodules</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/">Fixing the clover forcast for PHP projects in Jenkins</a></li>
+		
+		<li><a href="http://blog.lenss.nl/2013/08/github-and-multiple-ssh-keys/">Github, SSH and multiple repositories</a></li>
 		
 	</ul>
 </div>
@@ -1776,7 +1426,7 @@ Upload 29 MB file results in 0.4 MB memory usage</p>
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 119.39393939393939%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.60606060606061%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(99)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.42424242424242%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.21212121212122%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.42424242424242%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 103.63636363636364%'>Git(6)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.81818181818181%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.84848484848484%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.60606060606061%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.21212121212122%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.21212121212122%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 142.42424242424244%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.45454545454545%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.63636363636364%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(99)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.84848484848484%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 119.59183673469389%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.61224489795919%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(98)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.44897959183673%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.22448979591837%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.44897959183673%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 103.6734693877551%'>Git(6)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.83673469387755%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.89795918367346%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.61224489795919%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.22448979591837%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.22448979591837%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 142.24489795918367%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.51020408163265%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.6734693877551%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(98)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.89795918367346%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

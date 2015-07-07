@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="Jquery Unrecognized Expression Error While doing some front end work yesterday. I got trapped by a jQuery issue. Well not JQuery specific. The issue &hellip;">
+    <meta name="description" content="PHP Locale Dates Adventure About a week ago i was working on a twitter widget for a website. This required some dates to be displayed in Dutch. And &hellip;">
     
     <meta name="author" content="Thijs Lensselink">
     
@@ -57,90 +57,6 @@
 	      <div class="inner">
 	      <div class="blog-index">
   
-  
-  
-  <article>
-  
-<header>
-	<header>
-	
-	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2011/08/jquery-unrecognized-expression-error/">Jquery Unrecognized Expression Error</a></h1>
-	
-	</header>
-</header>
-
-
-  <div class="articletext"><p>While doing some front end work yesterday. I got trapped by a <a href="http://jquery.com/">jQuery</a> issue. Well not JQuery specific. The issue was actually triggered by some other hand crafted code. Every time i would click a link inside my grid view firebug would throw an error.</p>
-
-<blockquote>
-  <p>uncaught exception: Syntax error, unrecognized expression: .</p>
-</blockquote>
-
-<p>And the markup that triggered the error was</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="tag">&lt;a</span> <span class="attribute-name">href</span>=<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">zipDownload</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="tag">&lt;span</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">icon_zipSmall</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="tag">&lt;/span&gt;</span><span class="tag">&lt;/a&gt;</span>
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>Nothing wrong there right? And it actually took my quite some time to figure this one out. It would be nice to have a tool that can tell you there are multiple click events assigned to a element? But for now it was just some manual searching and testing.</p>
-
-<p>The issue was caused by an other snippet of Javascript code inside another .js file. This piece of code attached a click event to every div inside a grid td. Which may be a bit to greedy.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">.admin .gridbg tr td span</span><span class="delimiter">'</span></span>).click(<span class="keyword">function</span>() {
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>And my link was in a nested td inside the grid. And also contained a span tag. So it was actually firing off two click events. From which one failed. Fixing it after that was easy. Either make the first click binding less greedy. Or change the markup of my second grid. I choose the last one.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-<span class="tag">&lt;a</span> <span class="attribute-name">href</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://lenss.nl</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">zipDownload icon_zipSmall</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
-</pre></div>
-</div>
- </figure></notextile></div>
-
-</div>
-  
-  
-
-
-<div style="clear:both;"></div>
-
-  <footer>
-     <p class="meta">
-      <a href="http://blog.lenss.nl/2011/08/jquery-unrecognized-expression-error/#disqus_thread">Comments</a>
-      
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-08-20T13:20:59+02:00" pubdate data-updated="true">Aug 20<span>th</span>, 2011</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='http://blog.lenss.nl/tag/code/'>Code</a>, <a class='category' href='http://blog.lenss.nl/tag/design/'>Design</a>, <a class='category' href='http://blog.lenss.nl/tag/javascript/'>Javascript</a>, <a class='category' href='http://blog.lenss.nl/tag/jquery/'>Jquery</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
-  
-</span>
-
-
-    </p>
-  </footer>
-  </article>
   
   
   <article>
@@ -1384,6 +1300,168 @@ It’s also a great exercise platform. I myself are not native English speaker. 
   </footer>
   </article>
   
+  
+  <article>
+  
+<header>
+	<header>
+	
+	  <h1 class="entry-title"><a href="http://blog.lenss.nl/2011/03/moving-to-amazons-cloud-or-not/">Moving to Amazon&#8217;s Cloud or Not?</a></h1>
+	
+	</header>
+</header>
+
+
+  <div class="articletext"><p><img class="left" src="http://lenss.nl/images/2011/03/logo_aws.gif" />
+Finally back online again. Somewhere today the site went down. And i couldn’t reach the server. Which resulted in me jumping the gun and write an pissed off <a href="http://twitter.com/m0s/status/48089219616354304">tweet</a> about Amazon’s EC2 service. Which turned out to be false. After i noticed i tried to login to the AWS dashboard. But instead of my running instance i was presented with a validation screen. I had to validate my account by phone. That’s weird. I came to conclusion to early and thought Amazon had suspended my account for what whatever reason possible. It turns out it’s the annoying Amazon password bug that bit my ass. After poking around i came to the conclusion i have two Amazon accounts on the same email address but with different passwords. One has EC2 enabled the other doesn’t. Good to know. But the site was still down. So on my way home i missed a call from the Amazon support desk (really more companies should act like Amazon does). But got into an email conversation with them later on. After i apologised for the tweet. The Dev at Amazon figured out the server was running out of resources and was swapping. And just couldn’t do much more then that. Only a reboot resolved the issue. Hey! It’s not a micro instance for nothing.</p>
+
+<p>I might as well write a post about the move to the Amazon Cloud late last year. Ever since this website went up in 2008. It has been running on one of my own servers. And this has done the job well for two years. Some people would say if it ain’t broke don’t try to fix it. But i like to try out new things. And running a server isn’t cheap. So if i can find a more affordable way of hosting this site i may be interested enough to move. So where do i move this site too. Some other hosting provider? Let’s try something different and host it from the cloud. I didn’t really want to go over the whole hassle of finding a suitable hosting provider. And i was doing some small project with Amazon Web-services. So my choice was made quite easy. Let’s try the wide array of options Amazon’s Web-services have to offer.</p>
+
+<p>No way i was going to pay a fortune to set something up. So after some reading and some googling of course. I came to the <a href="http://aws.amazon.com/free/">Free Usage Tier</a> page. This basically is a way to get familiar with the AWS system. And it offer quite a nice set of features to use. One year of free usage as long as you don’t go over the limit set for this microsystem.. Read more about the terms <a href="http://aws.amazon.com/free/terms/">here</a> . Some of the highlights are:</p>
+
+<blockquote>
+  <p><strong>AWS Free Usage Tier (Per Month):</strong></p>
+</blockquote>
+
+<blockquote>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>750 hours of <a href="http://aws.amazon.com/ec2">Amazon EC2</a> Linux Micro Instance usage (613 MB of memory and 32-bit and 64-bit  platform support) – enough hours to run continuously each month<code>*</code></li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>750 hours of an <a href="http://aws.amazon.com/elasticloadbalancing/">Elastic Load Balancer</a> plus 15 GB data processing*</li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>10 GB of <a href="http://aws.amazon.com/ebs">Amazon Elastic Block Storage</a>, plus 1 million I/Os, 1 GB of snapshot storage, 10,000 snapshot Get Requests and 1,000 snapshot Put Requests<code>*</code></li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>5 GB of <a href="http://aws.amazon.com/s3">Amazon S3 storage</a>, 20,000 Get Requests, and 2,000 Put Requests<code>*</code></li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>30 GB per of internet data transfer (15 GB of data transfer “in”  and 15 GB of data transfer “out” across all services except Amazon  CloudFront)<code>*</code></li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>25 <a href="http://aws.amazon.com/simpledb">Amazon SimpleDB</a> Machine Hours and 1 GB of Storage<code>**</code></li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>100,000 Requests of <a href="http://aws.amazon.com/sqs">Amazon Simple Queue Service</a><code>**</code></li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>100,000 Requests, 100,000 HTTP notifications and 1,000 email notifications for <a href="http://aws.amazon.com/sns">Amazon Simple Notification Service</a><code>**</code></li>
+  </ul>
+
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>10 <a href="http://aws.amazon.com/cloudwatch">Amazon Cloudwatch</a> alarms<code>**</code></li>
+  </ul>
+
+</blockquote>
+
+<p>In addition to these services, the <a href="http://aws.amazon.com/console">AWS Management Console</a> is available at no charge to help you build and manage your application on AWS.</p>
+
+<p>So that looks like a pretty nice offer from Amazon. Of course you don’t have to expect some multi core system waiting for you. But maybe it will do. I was interested enough to give it try. After logging in the place to start is the <a href="https://console.aws.amazon.com/ec2">ec2</a> control panel. The first thing i did was create a new instance running Debian.</p>
+
+<p>Make sure the right region is set in the region box. I logged in after creating my first image and couldn’t find it anywhere. Because the default region was not the one i used. From the dashboard i can just click the launch instance button and it gives me a list of different images to use as a virtual instance. There is plenty of flavour to choose from. I picked a community Debian instance.</p>
+
+<p><a href="http://blog.lenss.nl/images/2011/03/request-instance2.png"><img src="http://blog.lenss.nl/images/2011/03/request-instance2-300x195.png" alt="" /></a></p>
+
+<p>The next screen is important because it sets the instance type to use. The Micro (t1.micro) is what i am looking for this time. </p>
+
+<p><a href="http://blog.lenss.nl/images/2011/03/request-instance-micro.png"><img src="http://blog.lenss.nl/images/2011/03/request-instance-micro-300x204.png" alt="" /></a></p>
+
+<p>The rest of the install is quite self explanatory. At the end somewhere download the private key that will be used for setting up an SSH connection to the instance.</p>
+
+<p><a href="http://blog.lenss.nl/images/2011/03/request-instance-key.png"><img src="http://blog.lenss.nl/images/2011/03/request-instance-key-300x204.png" alt="" /></a></p>
+
+<p>The next thing i did was setup a EBS storage volume for .. well .. storage. I made the choice for the EBS volume simply because it scales well. From the ec2 dashboard go to EBS instance and then create instance. Simply select the size and / or load it up with an image.</p>
+
+<p><a href="http://blog.lenss.nl/images/2011/03/ebs-volume.png"><img src="http://blog.lenss.nl/images/2011/03/ebs-volume-300x128.png" alt="" /></a></p>
+
+<p>That pretty much does it. For the ec2 dashboard. The only thing left to do here is setup an elastic IP address so the instance is reachable from the outside world. This is basically assigning a ipv4 address to the instance. Click the elastic IP link and then allocate new address.</p>
+
+<p><a href="http://blog.lenss.nl/images/2011/03/allocatenewaddress.png"><img src="http://blog.lenss.nl/images/2011/03/allocatenewaddress-300x163.png" alt="" /></a></p>
+
+<p>If all is well i should be able to login by SSH.</p>
+
+<blockquote>
+  <p>$ ssh -i [key name].pem ec2-user@[ip address].eu-west-1.compute.amazonaws.com 
+$ sudo bash</p>
+</blockquote>
+
+<p>That’s it. I configured the instance using Zend Server and didn’t even bother to setup an RDS storage engine. I just installed MySQL. And used that for the site. Last but not least. Open port 80 on the firewall. This is easily done from the EC2 dashboard. I also opened up ports 10081 - 10083 bound to my home IP address so i can control Zend Server.</p>
+
+<p>I was quite impressed with the AWS interface and the possibilities. But the cost is pretty high. The first month was nearly free. But while traffic keeps growing the cost keeps rising. This ended up me paying more for a single instance a month then for a complete server on which i can run multiple sites. So while extremely easy to use, flexible and just plain cool to work with. It’s not for this site. I thank Amazon for the available possibilities. And the Support i had today. But i am moving back to my own server as we speak.</p>
+
+</div>
+  
+  
+
+
+<div style="clear:both;"></div>
+
+  <footer>
+     <p class="meta">
+      <a href="http://blog.lenss.nl/2011/03/moving-to-amazons-cloud-or-not/#disqus_thread">Comments</a>
+      
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-17T02:21:06+01:00" pubdate data-updated="true">Mar 17<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='http://blog.lenss.nl/tag/-home/'>/home</a>, <a class='category' href='http://blog.lenss.nl/tag/tech/'>Tech</a>
+  
+</span>
+
+
+    </p>
+  </footer>
+  </article>
+  
 
   <ul class="pager">
     
@@ -1427,8 +1505,6 @@ It’s also a great exercise platform. I myself are not native English speaker. 
 	<h1>Recent entries</h1>
 	<ul class="linklist">
 		
-		<li><a href="http://blog.lenss.nl/2015/07/PHP-project-top10-list.markdown/">PHP Project Top10 List</a></li>
-		
 		<li><a href="http://blog.lenss.nl/2015/05/git-shell-tools/">Git shell tools</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2015/02/composer-install-on-git-clone/">Run Composer on Git clone</a></li>
@@ -1446,6 +1522,8 @@ It’s also a great exercise platform. I myself are not native English speaker. 
 		<li><a href="http://blog.lenss.nl/2013/10/git-move-folder-containing-submodules/">Renaming a folder in git that contains submodules</a></li>
 		
 		<li><a href="http://blog.lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/">Fixing the clover forcast for PHP projects in Jenkins</a></li>
+		
+		<li><a href="http://blog.lenss.nl/2013/08/github-and-multiple-ssh-keys/">Github, SSH and multiple repositories</a></li>
 		
 	</ul>
 </div>
@@ -1466,7 +1544,7 @@ It’s also a great exercise platform. I myself are not native English speaker. 
 </div>
 <div class="sidebox">
 	<h1>Tags</h1>
-	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 119.39393939393939%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.60606060606061%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(99)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.42424242424242%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.21212121212122%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.42424242424242%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 103.63636363636364%'>Git(6)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.81818181818181%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.84848484848484%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.60606060606061%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.21212121212122%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.21212121212122%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 142.42424242424244%'>PHP(70)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.45454545454545%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.63636363636364%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(99)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.84848484848484%'>Zend(8)</a> </ul>
+	<ul id="tag-cloud" class="blocklist"><a href='http://blog.lenss.nl/tag/-home' style='font-size: 119.59183673469389%'>/home(32)</a> <a href='http://blog.lenss.nl/tag/cloud' style='font-size: 100.61224489795919%'>Cloud(1)</a> <a href='http://blog.lenss.nl/tag/code' style='font-size: 160.0%'>Code(98)</a> <a href='http://blog.lenss.nl/tag/design' style='font-size: 102.44897959183673%'>Design(4)</a> <a href='http://blog.lenss.nl/tag/development' style='font-size: 101.22448979591837%'>Development(2)</a> <a href='http://blog.lenss.nl/tag/freelance' style='font-size: 102.44897959183673%'>Freelance(4)</a> <a href='http://blog.lenss.nl/tag/git' style='font-size: 103.6734693877551%'>Git(6)</a> <a href='http://blog.lenss.nl/tag/google' style='font-size: 101.83673469387755%'>Google(3)</a> <a href='http://blog.lenss.nl/tag/javascript' style='font-size: 104.89795918367346%'>Javascript(8)</a> <a href='http://blog.lenss.nl/tag/jenkins' style='font-size: 100.61224489795919%'>Jenkins(1)</a> <a href='http://blog.lenss.nl/tag/jquery' style='font-size: 101.22448979591837%'>Jquery(2)</a> <a href='http://blog.lenss.nl/tag/magento' style='font-size: 101.22448979591837%'>Magento(2)</a> <a href='http://blog.lenss.nl/tag/php' style='font-size: 142.24489795918367%'>PHP(69)</a> <a href='http://blog.lenss.nl/tag/security' style='font-size: 105.51020408163265%'>Security(9)</a> <a href='http://blog.lenss.nl/tag/sql' style='font-size: 103.6734693877551%'>SQL(6)</a> <a href='http://blog.lenss.nl/tag/tech' style='font-size: 160.0%'>Tech(98)</a> <a href='http://blog.lenss.nl/tag/zend' style='font-size: 104.89795918367346%'>Zend(8)</a> </ul>
 	<div style="clear:both;"></div>
 </div>
 <section>

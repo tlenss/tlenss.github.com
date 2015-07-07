@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Code | Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/tag/code/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2015-07-07T16:37:00+02:00</updated>
+  <updated>2015-07-07T16:38:16+02:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -12,30 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[PHP Project Top10 List]]></title>
-    <link href="http://blog.lenss.nl/2015/07/PHP-project-top10-list.markdown/"/>
-    <updated>2015-07-07T13:27:34+02:00</updated>
-    <id>http://blog.lenss.nl/2015/07/PHP-project-top10-list.markdown</id>
-    <content type="html"><![CDATA[<p>In following of Michelangelo van Dam’s <a href="https://gist.github.com/DragonBe/fce82d356d69ec09b417">post</a> about his top10 list of used PHP projects. Below my own Top10.</p>
-
-<p><strong><em>Software projects</em></strong></p>
-
-<ul>
-  <li><a href="http://symfony.com/">Symfony</a> Symfony is a set of reusable PHP components and a PHP framework for web projects</li>
-  <li><a href="https://getcomposer.org/">Composer</a> Dependency Manager for PHP </li>
-  <li><a href="http://silex.sensiolabs.org/">Silex</a> The PHP micro-framework based on the Symfony2 Components</li>
-  <li><a href="https://github.com/Seldaek/monolog">Monolog</a> Logging for PHP</li>
-  <li><a href="https://github.com/guzzle/guzzle">Guzzle</a> PHP HTTP client</li>
-  <li><a href="http://xdebug.org/">Xdebug</a> Debugger for PHP</li>
-  <li><a href="https://phpunit.de/">PHPUnit</a> A programmer-oriented testing framework</li>
-  <li><a href="https://pecl.php.net/package/phar">Phar</a> PHP Archive</li>
-  <li><a href="http://twig.sensiolabs.org/">Twig</a> The flexible, fast, and securetemplate engine for PHP </li>
-  <li><a href="http://www.doctrine-project.org/">Doctrine</a> Object Relational Mapper and the Database Abstraction Layer</li>
-</ul>
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[Git shell tools]]></title>
@@ -357,6 +333,62 @@ $ git push
 </pre></div>
 </div>
  </figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Fixing the clover forcast for PHP projects in Jenkins]]></title>
+    <link href="http://blog.lenss.nl/2013/10/clover-forcast-for-php-in-jenkins/"/>
+    <updated>2013-10-15T12:26:23+02:00</updated>
+    <id>http://blog.lenss.nl/2013/10/clover-forcast-for-php-in-jenkins</id>
+    <content type="html"><![CDATA[<p>I had the opportunity to play with <a href="http://jenkins-ci.org/">Jenkins</a> again last week. And the setup for our projects went pretty smooth. But the fact that no matter what i tried. The <a href="https://wiki.jenkins-ci.org/display/JENKINS/Clover+PHP+Plugin">clover</a> forecast icon would always show up as rainy <a href="/images/20013/10/health-20to39.png"><img src="/images/2013/10/health-20to39.png" alt="" /></a>. While the build was succeeding without issues. So i spend some time googling and trying out multiple “fixes”. Of which none seemed to actually work. I even reverted back to using the Jenkins clover plugins instead of Clover for PHP. No difference at all.</p>
+
+<p>It seemed as if the settings from the config page were completely ignored when calculating the clover status. This was really bugging me. So i checked out the clover plugin source from <a href="https://github.com/jenkinsci/cloverphp-plugin">github</a>. And browsed through the code for a while. When i found the beauty below inside <strong>CoverageTarget.java</strong></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="directive">public</span> <span class="predefined-type">Set</span>&lt;coveragemetric&gt; getFailingMetrics(AbstractClassMetrics coverage) {
+    <span class="predefined-type">Set</span>&lt;coveragemetric&gt; result = <span class="keyword">new</span> <span class="predefined-type">HashSet</span>&lt;coveragemetric&gt;();&lt;/coveragemetric&gt;&lt;/coveragemetric&gt;&lt;/coveragemetric&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;<span class="keyword">if</span> (methodCoverage != <span class="predefined-constant">null</span> &amp;amp;&amp;amp; coverage.getMethodCoverage().getPercentage() &amp;lt; methodCoverage) {
+    result.add(CoverageMetric.METHOD);
+}
+
+<span class="keyword">if</span> (statementCoverage != <span class="predefined-constant">null</span> &amp;amp;&amp;amp; coverage.getStatementCoverage().getPercentage() &amp;lt; statementCoverage) {
+    result.add(CoverageMetric.STATEMENT);
+}
+
+<span class="keyword">if</span> (elementCoverage != <span class="predefined-constant">null</span> &amp;amp;&amp;amp; coverage.getElementCoverage().getPercentage() &amp;lt; elementCoverage) {
+    result.add(CoverageMetric.ELEMENT);
+}
+
+<span class="keyword">return</span> result; } </pre></div>
+</div>
+ </figure></notextile></div>
+</code></pre>
+
+<p>So it seems as if somewhere in the plugin it’s actually calculating the average of the coverage per setting. The strange thing in the method above however is the <strong>elementCoverage</strong> setting. Which is not available in the Jenkins config interface. And causes issues because we have no influence over this setting.</p>
+
+<p>So i added the setting to the config manually</p>
+
+<p><blockquote><p>$ vi /var/lib/jenkins/jobs/[project]/config.xml</p></blockquote></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+<span class="tag">&lt;org.jenkinsci.plugins.cloverphp.cloverphppublisher</span> <span class="attribute-name">plugin</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">cloverphp@0.3.3</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+...
+      <span class="tag">&lt;healthytarget&gt;</span>
+        <span class="tag">&lt;methodcoverage&gt;</span>20<span class="tag">&lt;/methodcoverage&gt;</span>
+        <span class="tag">&lt;statementcoverage&gt;</span>20<span class="tag">&lt;/statementcoverage&gt;</span>
+        <span class="tag">&lt;elementcoverage&gt;</span>20<span class="tag">&lt;/elementcoverage&gt;</span>
+      <span class="tag">&lt;/healthytarget&gt;</span>
+...
+<span class="tag">&lt;/org.jenkinsci.plugins.cloverphp.cloverphppublisher&gt;</span>
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<p>And voilà. I nice sunny <a href="/images/20013/10/health-80plus.png"><img src="/images/2013/10/health-80plus.png" alt="" /></a> forecast. Now let’s see if i have some time to write a patch for this.</p>
 ]]></content>
   </entry>
   
