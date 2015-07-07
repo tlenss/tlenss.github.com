@@ -4,7 +4,7 @@
   <title><![CDATA[Category: PHP | Thijs Lensselink's Blog]]></title>
   <link href="http://blog.lenss.nl/tag/php/atom.xml" rel="self"/>
   <link href="http://blog.lenss.nl/"/>
-  <updated>2015-07-07T11:28:17+02:00</updated>
+  <updated>2015-07-07T11:31:28+02:00</updated>
   <id>http://blog.lenss.nl/</id>
   <author>
     <name><![CDATA[Thijs Lensselink]]></name>
@@ -22,16 +22,18 @@
 
 <p><strong><em>Software projects</em></strong></p>
 
-<p><a href="http://symfony.com/">Symfony</a> Symfony is a set of reusable PHP components and a PHP framework for web projects
-<a href="https://getcomposer.org/">Composer</a> Dependency Manager for PHP 
-<a href="http://silex.sensiolabs.org/">Silex</a> The PHP micro-framework based on the Symfony2 Components
-<a href="https://github.com/Seldaek/monolog">Monolog</a> Logging for PHP
-<a href="https://github.com/guzzle/guzzle">Guzzle</a> PHP HTTP client
-<a href="http://xdebug.org/">Xdebug</a> Debugger for PHP
-<a href="https://phpunit.de/">PHPUnit</a> A programmer-oriented testing framework
-<a href="https://pecl.php.net/package/phar">Phar</a> PHP Archive
-<a href="http://twig.sensiolabs.org/">Twig</a> The flexible, fast, and securetemplate engine for PHP 
-<a href="http://www.doctrine-project.org/">Doctrine</a> Object Relational Mapper and the Database Abstraction Layer</p>
+<ul>
+  <li><a href="http://symfony.com/">Symfony</a> Symfony is a set of reusable PHP components and a PHP framework for web projects</li>
+  <li><a href="https://getcomposer.org/">Composer</a> Dependency Manager for PHP </li>
+  <li><a href="http://silex.sensiolabs.org/">Silex</a> The PHP micro-framework based on the Symfony2 Components</li>
+  <li><a href="https://github.com/Seldaek/monolog">Monolog</a> Logging for PHP</li>
+  <li><a href="https://github.com/guzzle/guzzle">Guzzle</a> PHP HTTP client</li>
+  <li><a href="http://xdebug.org/">Xdebug</a> Debugger for PHP</li>
+  <li><a href="https://phpunit.de/">PHPUnit</a> A programmer-oriented testing framework</li>
+  <li><a href="https://pecl.php.net/package/phar">Phar</a> PHP Archive</li>
+  <li><a href="http://twig.sensiolabs.org/">Twig</a> The flexible, fast, and securetemplate engine for PHP </li>
+  <li><a href="http://www.doctrine-project.org/">Doctrine</a> Object Relational Mapper and the Database Abstraction Layer</li>
+</ul>
 ]]></content>
   </entry>
   
